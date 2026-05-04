@@ -43,6 +43,19 @@ NENE2 uses a single repository with Composer at the root, PHP framework code in 
 
 See `docs/development/project-layout.md` for the design details and placement rules.
 
+## PHP Tooling
+
+NENE2 targets PHP `>=8.4.1 <9.0`. Composer lives at the repository root and provides the first verification commands:
+
+```bash
+composer validate
+composer test
+composer analyse
+composer check
+```
+
+See `docs/development/php-runtime.md` for runtime and tooling details.
+
 ## Project Workflow
 
 NENE2 uses GitHub Issues as the source of work and local Markdown files as the project memory.

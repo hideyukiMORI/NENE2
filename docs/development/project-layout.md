@@ -32,6 +32,7 @@ This keeps the project natural for Composer, Packagist, static analysis, and tes
 - `src/` is the framework package source.
 - `tests/` is the package test suite.
 - `vendor/` is installed once at the project root.
+- `composer.lock` is committed for reproducible framework development tooling.
 - framework consumers can recognize the repository as a normal Composer package.
 
 Do not place the primary Composer project inside `backend/` unless NENE2 later becomes a multi-package monorepo. If that happens, document the package split before moving Composer files.
