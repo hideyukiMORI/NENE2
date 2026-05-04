@@ -5,8 +5,8 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 ## Status
 
 - Current milestone: `docs/milestones/2026-05-nene2-foundation.md`
-- Current GitHub Issue: `#47`
-- Current branch: `feat/47-typed-config-loader`
+- Current GitHub Issue: none
+- Current branch: `main`
 - Handoff for next chat: `docs/todo/handoff-2026-05-04-implementation-start.md`
 - First implementation task: `docs/todo/first-task-2026-05-04-http-runtime-foundation.md`
 
@@ -43,10 +43,10 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 - [x] Choose concrete PSR-11 container package or adapter strategy. `#45`
 - [x] Write ADR 0002 for concrete container selections. `#45`
 - [x] Add minimal PSR-11 container foundation. `#45`
+- [x] Implement typed config loader and `.env.example`. `#47`
 
 ## Next Candidates
 
-- [ ] Implement typed config loader and `.env.example`. `#47`
 - [ ] Publish or redirect `https://nene2.dev/problems/*` before public error contracts are stable.
 - [ ] Keep self-review checklists updated as new implementation areas are introduced.
 - [ ] Add OpenAPI Problem Details schemas.
