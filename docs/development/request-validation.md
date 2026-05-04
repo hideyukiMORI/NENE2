@@ -97,6 +97,34 @@ DTOs should:
 
 DTO construction may happen in controllers, handlers, or focused mapper/factory classes when mapping becomes non-trivial.
 
+Example mapper shape:
+
+```php
+final readonly class CreateUserInputMapper
+{
+    public function fromArray(array $data): CreateUserInput
+    {
+        $errors = [];
+
+        if (($data['email'] ?? '') === '') {
+            $errors[] = new ValidationError('email', 'Email is required.', 'required');
+        }
+
+        if (($data['name'] ?? '') === '') {
+            $errors[] = new ValidationError('name', 'Name is required.', 'required');
+        }
+
+        if ($errors !== []) {
+            throw new ValidationException($errors);
+        }
+
+        return new CreateUserInput((string) $data['email'], (string) $data['name']);
+    }
+}
+```
+
+`ValidationException` maps to `validation-failed` Problem Details at the HTTP error boundary. Use cases may still throw domain-specific exceptions for business invariants.
+
 ## Use Case Boundary
 
 Use cases validate business invariants.
