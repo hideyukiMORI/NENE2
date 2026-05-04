@@ -32,8 +32,146 @@ paths:
                     name: NENE2
                     description: JSON APIs first, minimal server HTML, frontend ready, AI-readable.
                     status: ok
+        '500':
+          $ref: '#/components/responses/InternalServerError'
 components:
+  responses:
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+          examples:
+            notFound:
+              summary: Resource not found
+              value:
+                type: https://nene2.dev/problems/not-found
+                title: Not Found
+                status: 404
+                detail: The requested resource was not found.
+                instance: /missing
+    MethodNotAllowed:
+      description: The requested resource does not support this HTTP method.
+      headers:
+        Allow:
+          description: Comma-separated list of allowed HTTP methods.
+          schema:
+            type: string
+            example: GET
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+          examples:
+            methodNotAllowed:
+              summary: Method not allowed
+              value:
+                type: https://nene2.dev/problems/method-not-allowed
+                title: Method Not Allowed
+                status: 405
+                detail: The requested resource does not support this HTTP method.
+                instance: /
+    ValidationFailed:
+      description: The request body, query, or path parameters contain invalid values.
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ValidationProblemDetails'
+          examples:
+            validationFailed:
+              summary: Validation failed
+              value:
+                type: https://nene2.dev/problems/validation-failed
+                title: Validation Failed
+                status: 422
+                detail: The request body contains invalid values.
+                errors:
+                  - field: email
+                    message: Email must be a valid email address.
+                    code: invalid_email
+    InternalServerError:
+      description: The server encountered an unexpected condition.
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+          examples:
+            internalServerError:
+              summary: Internal server error
+              value:
+                type: https://nene2.dev/problems/internal-server-error
+                title: Internal Server Error
+                status: 500
+                detail: The server encountered an unexpected condition.
   schemas:
+    ProblemDetails:
+      type: object
+      description: RFC 9457 Problem Details response for NENE2 JSON APIs.
+      required:
+        - type
+        - title
+        - status
+      properties:
+        type:
+          type: string
+          format: uri
+          description: Stable problem type URI.
+          example: https://nene2.dev/problems/not-found
+        title:
+          type: string
+          description: Short, human-readable summary of the problem type.
+          example: Not Found
+        status:
+          type: integer
+          format: int32
+          minimum: 400
+          maximum: 599
+          description: HTTP status code for this occurrence.
+          example: 404
+        detail:
+          type: string
+          description: Safe, human-readable detail for this occurrence.
+          example: The requested resource was not found.
+        instance:
+          type: string
+          description: Request-specific URI or identifier for this occurrence.
+          example: /missing
+      additionalProperties: true
+    ValidationProblemDetails:
+      allOf:
+        - $ref: '#/components/schemas/ProblemDetails'
+        - type: object
+          description: Problem Details response for request validation failures.
+          required:
+            - errors
+          properties:
+            errors:
+              type: array
+              minItems: 1
+              items:
+                $ref: '#/components/schemas/ValidationError'
+    ValidationError:
+      type: object
+      description: A single request validation error.
+      required:
+        - field
+        - message
+        - code
+      properties:
+        field:
+          type: string
+          description: Field name, parameter name, or JSON pointer.
+          example: email
+        message:
+          type: string
+          description: Safe, human-readable validation message.
+          example: Email must be a valid email address.
+        code:
+          type: string
+          description: Stable machine-readable validation code.
+          example: invalid_email
+      additionalProperties: false
     FrameworkSmokeResponse:
       type: object
       required:
