@@ -1,0 +1,14 @@
+---
+description: NENE2 全作業共通の正本と安全方針
+alwaysApply: true
+---
+
+# Project Rules
+
+- 正本は `README.md`、`AGENTS.md`、`docs/CONTRIBUTING.md`、`docs/development/`、`docs/workflow.md`。
+- AI/エージェントは作業前に `AGENTS.md` と関連 docs を確認する。
+- 秘密情報、トークン、パスワード、ローカル `.env`、生成物をコミットしない。
+- 変更は依頼範囲と Issue の目的に留め、無関係な整形やリファクタを混ぜない。
+- NENE2 は API first、薄い HTML、React/Vue optional、AI-readable なモダン PHP フレームワークとして育てる。
+- 実装は疎結合、型安全、テスト容易性、OpenAPI/MCP 境界の明確さを優先する。
+- Cursor ルールと docs が食い違う場合は docs を先に更新し、このルールは短く保つ。

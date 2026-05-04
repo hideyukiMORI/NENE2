@@ -1,0 +1,16 @@
+---
+description: NENE2 PHP 実装時のモダン PHP / API 契約ルール
+globs: "**/*.php"
+alwaysApply: false
+---
+
+# Modern PHP
+
+- 新規 PHP ファイルは `declare(strict_types=1);` を付け、PSR-12 を基本にする。
+- Controller は薄く保ち、入力解釈、UseCase 呼び出し、Response 生成に集中する。
+- UseCase / Domain は HTTP、DB、テンプレート、CLI、frontend build から独立させる。
+- 配列のまま境界を越えず、DTO、value object、enum、readonly property を優先する。
+- OpenAPI で表現する public API 契約と実装のズレを避ける。
+- MCP 連携は DB 直結ではなく、API または application service の明確な境界を通す。
+- テストしにくい static/global state、暗黙の命名 magic、隠れた副作用を増やさない。
+- 正本は `docs/development/coding-standards.md`。
