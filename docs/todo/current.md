@@ -17,12 +17,12 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 - [x] Merge the initial governance PR. `#1`
 - [x] Define standard project layout and create initial directories. `#3`
 - [x] Add root Composer metadata, PHP runtime policy, PHPUnit, and PHPStan. `#5`
+- [x] Add Docker-based PHP development environment and first smoke endpoint. `#7`
 
 ## Next Candidates
 
-- [ ] Create the first runtime skeleton Issue.
 - [ ] Define initial OpenAPI file location.
-- [ ] Add the first PHP runtime skeleton and smoke test.
+- [ ] Expand the HTTP runtime skeleton beyond the smoke endpoint.
 - [ ] Choose the first frontend starter direction or keep both React/Vue documented as optional.
 
 ## Operating Notes

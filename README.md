@@ -45,7 +45,18 @@ See `docs/development/project-layout.md` for the design details and placement ru
 
 ## PHP Tooling
 
-NENE2 targets PHP `>=8.4.1 <9.0`. Composer lives at the repository root and provides the first verification commands:
+NENE2 targets PHP `>=8.4.1 <9.0`. Docker is the standard development runtime, so the host OS does not need to provide that PHP version.
+
+```bash
+docker compose build
+docker compose run --rm app composer install
+docker compose run --rm app composer check
+docker compose up -d app
+```
+
+The web entry point is served from `public_html/` at `http://localhost:8080/`.
+
+Composer lives at the repository root and provides the first verification commands:
 
 ```bash
 composer validate
@@ -54,7 +65,7 @@ composer analyse
 composer check
 ```
 
-See `docs/development/php-runtime.md` for runtime and tooling details.
+See `docs/development/php-runtime.md` and `docs/development/docker.md` for runtime and tooling details.
 
 ## Project Workflow
 
