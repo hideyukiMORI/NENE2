@@ -7,6 +7,8 @@ Source policies:
 - `docs/workflow.md`
 - `docs/development/adr.md`
 - `docs/development/coding-standards.md`
+- `docs/development/language-policy.md`
+- `docs/development/package-selection.md`
 - `docs/development/self-review.md`
 - `docs/todo/current.md`
 - `docs/roadmap.md`
@@ -16,6 +18,8 @@ Source policies:
 - [ ] The source-of-truth policy doc was updated instead of only adding a summary elsewhere.
 - [ ] Related `docs/roadmap.md` or `docs/todo/current.md` state was updated when project state changed.
 - [ ] New major architecture, dependency, public contract, or release decisions considered whether an ADR is needed.
+- [ ] Concrete package selections were recorded in an ADR when applicable.
+- [ ] Public source-of-truth docs, API contracts, and OpenAPI text are in English unless policy allows otherwise.
 - [ ] The change avoids duplicating full policy text across multiple files.
 - [ ] New checklist items link to source policy docs instead of becoming a second source of truth.
 - [ ] Issue and PR references are included where useful.
