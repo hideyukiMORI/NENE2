@@ -27,7 +27,7 @@ NENE2/
 ├── public_html/         # web document root
 │   ├── index.php        # front controller
 │   └── assets/          # built frontend assets
-├── frontend/            # React/Vue/Vite source
+├── frontend/            # React/TypeScript/Vite source for the first starter
 │   ├── package.json
 │   └── src/
 ├── docs/
@@ -127,9 +127,9 @@ The name `public_html` is intentionally compatible with common hosting terminolo
 
 ### `frontend/` Contains Source, Not Public Files
 
-`frontend/` is for optional React, Vue, TypeScript, and Vite source code. Its build output may be written to `public_html/assets/`, but source files and `node_modules/` must stay outside the document root.
+`frontend/` is for optional frontend source code. NENE2's first framework-maintained starter should use React, TypeScript, and Vite. Its build output may be written to `public_html/assets/`, but source files and `node_modules/` must stay outside the document root.
 
-NENE2 should not force React or Vue at the framework level. The first starter may choose one, but this layout keeps the frontend replaceable.
+NENE2 should not force React at the framework consumer level. This layout keeps Vue, Nuxt, Next, plain TypeScript, and other frontend stacks replaceable for applications built with NENE2.
 
 ## Future Extension Points
 

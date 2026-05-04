@@ -26,6 +26,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 - [x] Define typed config and environment policy. `#17`
 - [x] Define RFC 9457 Problem Details API error response policy. `#18`
 - [x] Define middleware and security baseline policy. `#19`
+- [x] Define quality tools and documentation comments policy. `#20`
 
 ## Next Candidates
 
@@ -34,11 +35,13 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 - [ ] Implement typed config loader and `.env.example`.
 - [ ] Add OpenAPI Problem Details schemas.
 - [ ] Add request id, CORS, security headers, and request size middleware skeletons.
+- [ ] Add PHP-CS-Fixer configuration and Composer scripts.
+- [ ] Add React + TypeScript frontend starter and ESLint / Prettier baseline.
 - [ ] Expand the HTTP runtime skeleton beyond the smoke endpoint.
 - [ ] Add OpenAPI contract validation to `composer check`.
 - [ ] Add the first native PHP view renderer and escaping helper.
 - [ ] Choose and wire the migration runner when the database adapter layer starts.
-- [ ] Choose the first frontend starter direction or keep both React/Vue documented as optional.
+- [ ] Define logging and observability policy.
 
 ## Operating Notes
 

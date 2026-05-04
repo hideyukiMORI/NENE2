@@ -7,6 +7,7 @@ NENE2 should feel modern, small, and predictable. These rules are the source of 
 - Target PHP `>=8.4.1 <9.0`. See `docs/development/php-runtime.md`.
 - New PHP files must use `declare(strict_types=1);`.
 - Follow PSR-12 unless a narrower project rule says otherwise.
+- Do not add large file-level copyright or project banners by default.
 - Prefer immutable value objects and readonly properties where they clarify intent.
 - Use native types, enums, and small DTOs instead of unstructured arrays at boundaries.
 - Avoid framework magic that hides control flow from tests, static analysis, or AI tools.
@@ -45,7 +46,8 @@ NENE2 should feel modern, small, and predictable. These rules are the source of 
 - Server HTML should stay minimal and easy to replace with a SPA shell.
 - Native PHP templates are the first standard HTML path; full template engines are optional adapters.
 - Keep server HTML source in `templates/` and view abstractions in `src/View/`.
-- React/Vue integration should be optional and isolated from backend domain logic.
+- React is the first framework-maintained frontend starter direction.
+- React/Vue integration should remain optional for framework consumers and isolated from backend domain logic.
 
 ## Error Handling and Logging
 
@@ -95,10 +97,21 @@ Adopted quality tools:
 
 Planned quality tools:
 
-- PHP-CS-Fixer or PHPCS for style enforcement
+- PHP-CS-Fixer for style enforcement
+- ESLint, TypeScript, and Prettier for the React frontend starter
 - OpenAPI validation for API contracts
 
 When a tool is introduced, document its command and expected level here.
+
+See `docs/development/quality-tools.md`.
+
+## Documentation Comments
+
+- Write PHPDoc for public framework APIs, interfaces, extension points, middleware, typed config objects, and behavior that users depend on.
+- Write TSDoc for exported frontend starter utilities, hooks, types, and API client helpers.
+- Do not use PHPDoc or TSDoc to repeat native types or obvious implementation details.
+- Keep licensing metadata at repository level through `LICENSE`, `composer.json`, and future frontend package metadata.
+- See `docs/development/documentation-comments.md`.
 
 ## AI Readability
 

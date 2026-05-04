@@ -1,14 +1,14 @@
 # NENE2
 
-PHP micro-framework: JSON APIs first, minimal server HTML, easy React/Vue SPA integration, structure friendly to AI tooling.
+PHP micro-framework: JSON APIs first, minimal server HTML, easy React starter integration, structure friendly to AI tooling.
 
-NENE2 is a small, modern PHP framework foundation extracted from the lessons of the original NeNe framework and the 9lick.me modernization work. It is designed for projects that want to ship JSON APIs quickly, keep server-rendered HTML thin, and add React or Vue without turning the backend into frontend build glue.
+NENE2 is a small, modern PHP framework foundation extracted from the lessons of the original NeNe framework and the 9lick.me modernization work. It is designed for projects that want to ship JSON APIs quickly, keep server-rendered HTML thin, and add a React frontend starter without turning the backend into frontend build glue.
 
 ## Theme
 
 - **API first**: define behavior through clear HTTP boundaries and OpenAPI contracts.
 - **Simple HTML**: keep server HTML minimal, predictable, and easy to replace with SPA shells.
-- **Frontend ready**: support React or Vue as optional frontend layers rather than framework lock-in.
+- **Frontend ready**: provide a React + TypeScript starter direction while keeping the frontend layer replaceable.
 - **AI readable**: prefer explicit directories, small classes, typed boundaries, and documented decisions.
 - **Modern PHP**: use strict types, PSR-oriented style, dependency injection, automated tests, and static analysis.
 
@@ -28,7 +28,7 @@ NENE2 optimizes for fast, calm development. The codebase should be easy for a so
 
 ## Repository Layout
 
-NENE2 uses a single repository with Composer at the root, PHP framework code in `src/`, tests in `tests/`, a web document root in `public_html/`, and optional frontend source in `frontend/`.
+NENE2 uses a single repository with Composer at the root, PHP framework code in `src/`, tests in `tests/`, a web document root in `public_html/`, and optional React + TypeScript frontend source in `frontend/`.
 
 ```text
 .
@@ -46,7 +46,7 @@ NENE2 uses a single repository with Composer at the root, PHP framework code in 
 ├── templates/           # native PHP templates and thin server HTML source
 ├── public_html/         # web document root
 │   └── assets/          # built frontend assets
-├── frontend/            # React/Vue/Vite source
+├── frontend/            # React/TypeScript/Vite source
 │   └── src/
 ├── docs/
 ├── LICENSE
@@ -73,7 +73,7 @@ OpenAPI and Swagger UI are available in Docker development:
 - OpenAPI: `http://localhost:8080/openapi.php`
 - Swagger UI: `http://localhost:8080/docs/`
 
-Composer lives at the repository root and provides the first verification commands:
+Composer lives at the repository root and provides the first backend verification commands:
 
 ```bash
 composer validate
@@ -83,6 +83,8 @@ composer check
 ```
 
 See `docs/development/php-runtime.md` and `docs/development/docker.md` for runtime and tooling details.
+
+NENE2's planned quality baseline adds PHP-CS-Fixer for backend style checks and ESLint, TypeScript, and Prettier for the React frontend starter. Framework public APIs should use PHPDoc or TSDoc where comments explain contracts or extension rules. See `docs/development/quality-tools.md` and `docs/development/documentation-comments.md`.
 
 ## Project Workflow
 
