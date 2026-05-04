@@ -10,6 +10,7 @@ NENE2/
 ├── compose.yaml
 ├── docker/              # development containers
 ├── src/                 # NENE2 framework core
+│   ├── Config/          # typed config objects and loaders
 │   ├── DependencyInjection/ # container contracts, providers, and wiring helpers
 │   ├── Error/           # exception to response mapping
 │   ├── Http/            # PSR HTTP helpers and response concerns
@@ -61,6 +62,7 @@ Do not place the primary Composer project inside `backend/` unless NENE2 later b
 - dependency injection and wiring helpers
 - application/service boundaries
 - configuration loading
+- typed configuration objects
 - response rendering
 - view rendering interfaces and adapters
 - integration interfaces
@@ -70,6 +72,8 @@ Application-specific examples can be added later under `examples/` if needed, bu
 HTTP runtime follows PSR-7 / PSR-15 / PSR-17 first. See `docs/development/http-runtime.md`.
 
 Dependency injection follows PSR-11 with explicit wiring first. See `docs/development/dependency-injection.md`.
+
+Configuration uses typed config objects at runtime and keeps raw `.env` access at the loading boundary. See `docs/development/configuration.md`.
 
 ### `tests/` Mirrors Framework Behavior
 
@@ -85,6 +89,8 @@ Test files should make framework behavior safe to refactor. They should not depe
 ### `config/` Is Non-Secret Configuration
 
 `config/` contains default configuration, examples, or framework-level config definitions. Secrets belong in environment variables or ignored local files, never in committed config.
+
+Future typed config objects and loaders belong in `src/Config/`.
 
 ### `database/` Contains Application Schema Work
 
