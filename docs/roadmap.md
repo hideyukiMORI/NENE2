@@ -36,7 +36,7 @@ Goal: create the smallest useful runtime structure.
 - middleware pipeline foundation
 - config loading
 - Composer package metadata
-- dependency injection container or factory policy
+- PSR-11 dependency injection and explicit wiring policy
 - error handling and JSON response shape
 - minimal HTML response support through native PHP templates
 - database migration layout and tool selection policy
