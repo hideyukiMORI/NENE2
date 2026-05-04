@@ -7,6 +7,8 @@ This document defines the standard NENE2 repository layout. It is the source of 
 ```text
 NENE2/
 ├── composer.json
+├── compose.yaml
+├── docker/              # development containers
 ├── src/                 # NENE2 framework core
 ├── tests/               # PHPUnit / architecture / contract tests
 ├── config/              # framework default config or examples
@@ -103,3 +105,9 @@ These directories may be added later when the need is concrete:
 - `packages/` only if NENE2 becomes a true multi-package repository
 
 Add them through Issues and document why they exist before broad use.
+
+## Docker
+
+`docker/` contains development container definitions. Docker is the standard way to run NENE2 with the required PHP version without changing the host OS.
+
+The first container serves `public_html/` through Apache and runs Composer, PHPUnit, and PHPStan in the same PHP runtime.

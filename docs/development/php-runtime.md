@@ -50,3 +50,5 @@ composer check
 ## Local Environment
 
 Use PHP 8.4.1 or newer for local development. Older PHP versions are unsupported even if some non-runtime commands still execute.
+
+Docker is the recommended path when the host OS cannot provide PHP 8.4.1 or newer. See `docs/development/docker.md`.
