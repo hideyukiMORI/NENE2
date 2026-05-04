@@ -7,6 +7,7 @@
     "php": ">=8.4.1 <9.0",
     "nyholm/psr7": "^1.8",
     "nyholm/psr7-server": "^1.1",
+    "psr/container": "^2.0",
     "psr/http-server-handler": "^1.0",
     "psr/http-server-middleware": "^1.0"
   },

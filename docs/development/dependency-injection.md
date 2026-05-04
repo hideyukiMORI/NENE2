@@ -51,6 +51,19 @@ Explicit wiring is the default because it is:
 
 Factories and service providers should show dependency construction directly. Avoid hidden class-name conventions as the primary mechanism.
 
+## Initial Implementation
+
+The first implementation uses `psr/container` as the PSR-11 interface package and a small internal container in `src/DependencyInjection/`.
+
+The internal container is intentionally limited:
+
+- services are registered explicitly with factories or values
+- resolved entries are cached
+- service providers group related registrations
+- missing entries and resolution failures use PSR-11 compatible exceptions
+
+NENE2 does not adopt a full external container package or autowiring as the initial default. If richer container behavior becomes necessary, it should be added through an adapter or a later ADR.
+
 ## Autowiring Policy
 
 Autowiring is optional and not part of the first standard runtime.
