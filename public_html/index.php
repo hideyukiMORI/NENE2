@@ -2,19 +2,23 @@
 
 declare(strict_types=1);
 
-use Nene2\FrameworkInfo;
+use Nene2\Http\ResponseEmitter;
+use Nene2\Http\RuntimeApplicationFactory;
+use Nyholm\Psr7\Factory\Psr17Factory;
+use Nyholm\Psr7Server\ServerRequestCreator;
 
 require dirname(__DIR__) . '/vendor/autoload.php';
 
-$framework = new FrameworkInfo();
-
-header('Content-Type: application/json; charset=utf-8');
-
-echo json_encode(
-    [
-        'name' => $framework->name(),
-        'description' => $framework->description(),
-        'status' => 'ok',
-    ],
-    JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT
+$psr17Factory = new Psr17Factory();
+$serverRequestCreator = new ServerRequestCreator(
+    $psr17Factory,
+    $psr17Factory,
+    $psr17Factory,
+    $psr17Factory,
 );
+
+$request = $serverRequestCreator->fromGlobals();
+$application = (new RuntimeApplicationFactory($psr17Factory, $psr17Factory))->create();
+$response = $application->handle($request);
+
+(new ResponseEmitter())->emit($response);

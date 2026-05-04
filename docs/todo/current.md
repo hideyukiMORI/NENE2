@@ -5,7 +5,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 ## Status
 
 - Current milestone: `docs/milestones/2026-05-nene2-foundation.md`
-- Current GitHub Issue: `#41`
+- Current GitHub Issue: none
 - Current branch: `main`
 - Handoff for next chat: `docs/todo/handoff-2026-05-04-implementation-start.md`
 - First implementation task: `docs/todo/first-task-2026-05-04-http-runtime-foundation.md`
@@ -37,13 +37,14 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 - [x] Define self-review checklist policy. `#37`
 - [x] Define implementation readiness guardrails. `#39`
 - [x] Add implementation-start handoff and first task instructions. `#41`
+- [x] Implement HTTP runtime foundation. `#43`
+- [x] Choose concrete PSR-7 / PSR-17 packages and initial router strategy. `#43`
+- [x] Write ADR 0001 for concrete HTTP runtime and router selections. `#43`
 
 ## Next Candidates
 
-- [ ] Start HTTP runtime foundation from `docs/todo/first-task-2026-05-04-http-runtime-foundation.md`.
-- [ ] Choose concrete PSR-7 / PSR-17 packages and router implementation.
 - [ ] Choose concrete PSR-11 container package or adapter strategy.
-- [ ] Write ADRs for concrete HTTP runtime, router, and container package selections.
+- [ ] Write ADRs for concrete container package selections.
 - [ ] Publish or redirect `https://nene2.dev/problems/*` before public error contracts are stable.
 - [ ] Keep self-review checklists updated as new implementation areas are introduced.
 - [ ] Implement typed config loader and `.env.example`.
