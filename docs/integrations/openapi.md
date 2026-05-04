@@ -60,3 +60,5 @@ Then verify:
 Once runtime code exists, API tests should verify that responses match the documented contract. The first implementation can be lightweight and grow with the framework.
 
 Future OpenAPI work should add shared schemas for `ProblemDetails`, `ValidationProblemDetails`, and `ValidationError`. See `docs/development/api-error-responses.md`.
+
+OpenAPI security schemes should be added only when the matching middleware or authentication adapter is implemented. See `docs/development/middleware-security.md`.

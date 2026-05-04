@@ -34,6 +34,7 @@ Goal: create the smallest useful runtime structure.
 - PSR-7 / PSR-15 / PSR-17 based HTTP runtime policy
 - route dispatch foundation
 - middleware pipeline foundation
+- middleware security baseline policy
 - typed config loading and environment policy
 - Composer package metadata
 - PSR-11 dependency injection and explicit wiring policy

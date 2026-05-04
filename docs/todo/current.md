@@ -25,6 +25,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 - [x] Define PSR-11 DI container and explicit wiring policy. `#16`
 - [x] Define typed config and environment policy. `#17`
 - [x] Define RFC 9457 Problem Details API error response policy. `#18`
+- [x] Define middleware and security baseline policy. `#19`
 
 ## Next Candidates
 
@@ -32,6 +33,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 - [ ] Choose concrete PSR-11 container package or adapter strategy.
 - [ ] Implement typed config loader and `.env.example`.
 - [ ] Add OpenAPI Problem Details schemas.
+- [ ] Add request id, CORS, security headers, and request size middleware skeletons.
 - [ ] Expand the HTTP runtime skeleton beyond the smoke endpoint.
 - [ ] Add OpenAPI contract validation to `composer check`.
 - [ ] Add the first native PHP view renderer and escaping helper.

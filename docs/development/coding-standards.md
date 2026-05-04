@@ -31,9 +31,12 @@ NENE2 should feel modern, small, and predictable. These rules are the source of 
 - Use PSR-15 for middleware and request handlers.
 - Use PSR-17 for factories.
 - Keep routing explicit and route tables readable.
+- Keep middleware order explicit and documented.
+- Treat CORS, security headers, request id, and request size limits as API baseline middleware concerns.
 - Keep `public_html/index.php` as the front controller.
 - Do not introduce controller resolver magic before the DI policy is settled.
 - See `docs/development/http-runtime.md`.
+- See `docs/development/middleware-security.md`.
 
 ## API and HTML
 
