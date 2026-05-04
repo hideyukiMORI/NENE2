@@ -1,0 +1,54 @@
+openapi: 3.1.0
+info:
+  title: NENE2 API
+  version: 0.1.0
+  description: >
+    NENE2 API contract. This file is the source of truth for public JSON APIs.
+servers:
+  - url: http://localhost:8080
+    description: Local Docker development server
+tags:
+  - name: System
+    description: Framework and runtime smoke endpoints.
+paths:
+  /:
+    get:
+      tags:
+        - System
+      summary: Framework smoke endpoint
+      description: Returns a minimal JSON response that confirms the NENE2 public entry point is working.
+      operationId: getFrameworkSmoke
+      responses:
+        '200':
+          description: Framework smoke response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FrameworkSmokeResponse'
+              examples:
+                ok:
+                  summary: Successful smoke response
+                  value:
+                    name: NENE2
+                    description: JSON APIs first, minimal server HTML, frontend ready, AI-readable.
+                    status: ok
+components:
+  schemas:
+    FrameworkSmokeResponse:
+      type: object
+      required:
+        - name
+        - description
+        - status
+      properties:
+        name:
+          type: string
+          example: NENE2
+        description:
+          type: string
+          example: JSON APIs first, minimal server HTML, frontend ready, AI-readable.
+        status:
+          type: string
+          enum:
+            - ok
+          example: ok

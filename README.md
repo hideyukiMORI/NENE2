@@ -56,6 +56,11 @@ docker compose up -d app
 
 The web entry point is served from `public_html/` at `http://localhost:8080/`.
 
+OpenAPI and Swagger UI are available in Docker development:
+
+- OpenAPI: `http://localhost:8080/openapi.php`
+- Swagger UI: `http://localhost:8080/docs/`
+
 Composer lives at the repository root and provides the first verification commands:
 
 ```bash
