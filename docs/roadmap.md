@@ -23,6 +23,7 @@ Goal: make contribution, AI operation, and technical direction unambiguous befor
 - Cursor rules
 - OpenAPI / MCP direction documents
 - standard repository layout
+- ADR operation policy
 
 Tracked by `docs/milestones/2026-05-nene2-foundation.md`.
 

@@ -127,3 +127,4 @@ See `docs/development/quality-tools.md`.
 - Keep functions short enough to inspect without jumping through many layers.
 - Prefer explicit return types and simple data shapes.
 - Record architecture decisions in `docs/` when they affect future implementation.
+- Use ADRs for major decisions that need long-term traceability. See `docs/development/adr.md`.
