@@ -43,8 +43,11 @@ Public release work should happen from `main` tags after required checks pass. D
 - `docs/roadmap.md`: long-lived direction and phases
 - `docs/milestones/`: medium-sized goals and acceptance criteria
 - `docs/todo/current.md`: current task board and handoff notes
+- `docs/adr/`: major architecture decisions that should remain traceable
 
 Do not leave important decisions only in chat. If it changes how the project should be built, record it in `docs/`.
+
+Use ADRs only for decisions that affect architecture, public contracts, dependency choices, release policy, or long-term maintenance. See `docs/development/adr.md`.
 
 ## AI Agent Responsibilities
 
