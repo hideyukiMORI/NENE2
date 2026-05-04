@@ -20,6 +20,7 @@ Goal: make contribution, AI operation, and technical direction unambiguous befor
 - Issue-driven workflow
 - local roadmap, milestone, and TODO board
 - coding standards
+- self-review checklist policy
 - Cursor rules
 - OpenAPI / MCP direction documents
 - standard repository layout
