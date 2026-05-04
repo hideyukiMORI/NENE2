@@ -48,11 +48,15 @@ Optional fields:
 
 Problem `type` values should be stable and documented. They should not be raw exception class names.
 
-Recommended pattern:
+Canonical pattern:
 
 ```text
 https://nene2.dev/problems/{problem-name}
 ```
+
+`nene2.dev` is the canonical NENE2 problem type domain. Before public release, each stable problem type URI should either serve human-readable documentation or redirect to the relevant documentation page.
+
+Do not change canonical problem type URIs after clients depend on them unless the change is treated as a public API compatibility decision.
 
 Examples:
 

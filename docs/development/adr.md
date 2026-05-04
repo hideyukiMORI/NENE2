@@ -108,6 +108,8 @@ Good first candidates when implementation starts:
 - frontend starter implementation strategy
 - first release / Packagist publication decision
 
+Concrete package selections should create ADRs at the same time as the selection PR. Do not defer ADR creation until after implementation unless the PR is explicitly investigative only.
+
 The already documented foundation policies remain valid in `docs/development/` until a concrete decision needs ADR-level traceability.
 
 ## Non-Goals

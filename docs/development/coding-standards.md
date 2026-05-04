@@ -11,11 +11,13 @@ NENE2 should feel modern, small, and predictable. These rules are the source of 
 - Prefer immutable value objects and readonly properties where they clarify intent.
 - Use native types, enums, and small DTOs instead of unstructured arrays at boundaries.
 - Avoid framework magic that hides control flow from tests, static analysis, or AI tools.
+- Keep public project docs, API contracts, OpenAPI text, and public error metadata in English. See `docs/development/language-policy.md`.
 
 ## Architecture
 
 - Keep use cases independent from HTTP, database, templates, CLI, and frontend assets.
 - Depend on interfaces at infrastructure boundaries when it reduces coupling.
+- Select concrete packages using the documented package selection criteria and ADR triggers. See `docs/development/package-selection.md`.
 - Prefer constructor injection for required dependencies.
 - Use typed config objects at runtime instead of passing raw arrays through the application.
 - Use readonly DTOs or command objects for use case input boundaries.

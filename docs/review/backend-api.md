@@ -9,6 +9,7 @@ Source policies:
 - `docs/development/api-error-responses.md`
 - `docs/integrations/openapi.md`
 - `docs/development/coding-standards.md`
+- `docs/development/language-policy.md`
 
 ## Checklist
 
@@ -16,6 +17,8 @@ Source policies:
 - [ ] Controllers or handlers map request data to readonly DTOs or command objects before calling use cases.
 - [ ] Use cases do not receive raw PSR-7 requests, superglobals, or unstructured request arrays.
 - [ ] Request validation failures use Problem Details `validation-failed` with structured `errors`.
+- [ ] Problem Details `type` values use the canonical `https://nene2.dev/problems/{problem-name}` pattern for stable NENE2 errors.
+- [ ] Public API text, Problem Details titles, and validation codes are in English.
 - [ ] Public error responses do not expose stack traces, SQL, file paths, secrets, or private identifiers.
 - [ ] HTTP behavior remains compatible with PSR-7 / PSR-15 / PSR-17 boundaries.
 - [ ] The narrowest useful PHP verification was run, usually `composer check`.
