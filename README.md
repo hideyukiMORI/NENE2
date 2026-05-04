@@ -24,20 +24,24 @@ NENE2 optimizes for fast, calm development. The codebase should be easy for a so
 
 ## Repository Layout
 
-The repository starts with governance documents first. Runtime code will be added in focused Issues.
+NENE2 uses a single repository with Composer at the root, PHP framework code in `src/`, tests in `tests/`, a web document root in `public_html/`, and optional frontend source in `frontend/`.
 
 ```text
 .
+├── composer.json
+├── src/                 # NENE2 framework core
+├── tests/               # PHPUnit / architecture / contract tests
+├── config/              # framework default config or examples
+├── public_html/         # web document root
+│   └── assets/          # built frontend assets
+├── frontend/            # React/Vue/Vite source
+│   └── src/
 ├── docs/
-│   ├── development/     # coding, commit, and implementation standards
-│   ├── integrations/    # AI, OpenAPI, MCP, and external tool policies
-│   ├── milestones/      # local milestones linked to GitHub Issues
-│   └── todo/            # current local work board
-├── .cursor/rules/       # Cursor rules that summarize the docs
-├── AGENTS.md            # AI/agent entry point
 ├── LICENSE
 └── README.md
 ```
+
+See `docs/development/project-layout.md` for the design details and placement rules.
 
 ## Project Workflow
 

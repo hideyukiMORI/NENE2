@@ -22,6 +22,7 @@ Goal: make contribution, AI operation, and technical direction unambiguous befor
 - coding standards
 - Cursor rules
 - OpenAPI / MCP direction documents
+- standard repository layout
 
 Tracked by `docs/milestones/2026-05-nene2-foundation.md`.
 
@@ -32,6 +33,7 @@ Goal: create the smallest useful runtime structure.
 - HTTP request/response abstraction
 - route dispatch foundation
 - config loading
+- Composer package metadata
 - dependency injection container or factory policy
 - error handling and JSON response shape
 - minimal HTML response support
