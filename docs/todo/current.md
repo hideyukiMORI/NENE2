@@ -21,9 +21,11 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 - [x] Add initial OpenAPI contract and Swagger UI. `#9`
 - [x] Define thin HTML view and optional template engine policy. `#11`
 - [x] Define database migration layout and tool selection policy. `#13`
+- [x] Define PSR-first HTTP runtime and routing policy. `#15`
 
 ## Next Candidates
 
+- [ ] Choose concrete PSR-7 / PSR-17 packages and router implementation.
 - [ ] Expand the HTTP runtime skeleton beyond the smoke endpoint.
 - [ ] Add OpenAPI contract validation to `composer check`.
 - [ ] Add the first native PHP view renderer and escaping helper.
