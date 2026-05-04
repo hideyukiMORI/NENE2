@@ -44,6 +44,8 @@ Middleware should follow PSR-15:
 
 This keeps authentication, logging, error handling, CORS, and OpenAPI validation composable.
 
+Middleware and security baseline policy is defined in `docs/development/middleware-security.md`.
+
 ### PSR-17
 
 Response and stream creation should go through factories rather than direct implementation classes. This keeps the concrete PSR-7 implementation replaceable.
