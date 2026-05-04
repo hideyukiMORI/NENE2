@@ -5,8 +5,10 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 ## Status
 
 - Current milestone: `docs/milestones/2026-05-nene2-foundation.md`
-- Current GitHub Issue: none
+- Current GitHub Issue: `#41`
 - Current branch: `main`
+- Handoff for next chat: `docs/todo/handoff-2026-05-04-implementation-start.md`
+- First implementation task: `docs/todo/first-task-2026-05-04-http-runtime-foundation.md`
 
 ## Foundation Completed
 
@@ -34,9 +36,11 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 - [x] Define logging and observability policy. `#33`
 - [x] Define self-review checklist policy. `#37`
 - [x] Define implementation readiness guardrails. `#39`
+- [x] Add implementation-start handoff and first task instructions. `#41`
 
 ## Next Candidates
 
+- [ ] Start HTTP runtime foundation from `docs/todo/first-task-2026-05-04-http-runtime-foundation.md`.
 - [ ] Choose concrete PSR-7 / PSR-17 packages and router implementation.
 - [ ] Choose concrete PSR-11 container package or adapter strategy.
 - [ ] Write ADRs for concrete HTTP runtime, router, and container package selections.
