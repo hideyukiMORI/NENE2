@@ -108,6 +108,8 @@ npm run check --prefix frontend
 
 Docker remains the standard backend runtime. Frontend commands may run on the host or in a future Node container, but the chosen approach must be documented before CI depends on it.
 
+CI should start with backend `composer check` and expand only after each tool has committed configuration and local verification commands. See `docs/development/release-ci.md`.
+
 ## Non-Goals
 
 - Forcing React on framework consumers.

@@ -15,6 +15,8 @@ NENE2 uses GitHub Issues for work tracking and local Markdown files for project 
 9. Merge after review and checks.
 10. Return local `main` to the merged, clean state.
 
+Release, versioning, and CI policy is defined in `docs/development/release-ci.md`.
+
 ## Branch Names
 
 Use Conventional Commit style as the prefix:
@@ -33,6 +35,8 @@ Every PR should include:
 - verification results
 - related Issue, preferably `Closes #number`
 - remaining risks or follow-up work
+
+Public release work should happen from `main` tags after required checks pass. Do not tag unmerged PR branches.
 
 ## Local Project Memory
 
