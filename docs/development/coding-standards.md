@@ -21,6 +21,7 @@ NENE2 should feel modern, small, and predictable. These rules are the source of 
 - Use readonly DTOs or command objects for use case input boundaries.
 - Keep `getenv()`, `$_ENV`, and `$_SERVER` access inside the config loading boundary.
 - Use PSR-11 as the container boundary.
+- Use PSR-3 as the logging boundary when logging is needed.
 - Prefer explicit factories and service providers over autowiring by default.
 - Do not use the container as a service locator inside domain or use-case code.
 - Keep controllers thin: parse input, call a use case, return a response.
@@ -62,9 +63,11 @@ NENE2 should feel modern, small, and predictable. These rules are the source of 
 - Do not leak stack traces, SQL, file paths, secrets, or private identifiers in public error responses.
 - Return request validation failures as `validation-failed` Problem Details with structured `errors`.
 - Prefer structured logs with request context once logging is introduced.
+- Use request ids to correlate responses, logs, error handling, and future metrics.
 - Do not log secrets, tokens, passwords, or private payloads.
 - See `docs/development/api-error-responses.md`.
 - See `docs/development/request-validation.md`.
+- See `docs/development/observability.md`.
 
 ## Testing
 

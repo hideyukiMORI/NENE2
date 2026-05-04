@@ -35,6 +35,7 @@ Goal: create the smallest useful runtime structure.
 - route dispatch foundation
 - middleware pipeline foundation
 - middleware security baseline policy
+- logging and observability policy
 - typed config loading and environment policy
 - Composer package metadata
 - PSR-11 dependency injection and explicit wiring policy
@@ -84,6 +85,7 @@ Goal: let AI tools inspect and operate the app through safe, documented contract
 - API-key or token boundary policy
 - tool definitions derived from OpenAPI where practical
 - safe local development commands
+- request id and structured log context for AI-assisted debugging
 
 ## Phase 5: Quality and Release
 
@@ -93,6 +95,7 @@ Goal: keep the framework small while making changes safe.
 - formatter and linter configuration
 - PHP-CS-Fixer, ESLint, TypeScript, and Prettier check commands
 - dependency update automation such as Dependabot or Renovate
+- logging, metrics, and error tracking adapter policy
 - mutation or architecture tests where useful
 - semantic versioning policy
 - release checklist

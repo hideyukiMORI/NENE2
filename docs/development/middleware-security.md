@@ -60,6 +60,8 @@ Policy:
 - Add it to response headers.
 - Include it in logs once logging is implemented.
 
+Request id logging and observability policy is defined in `docs/development/observability.md`.
+
 Recommended header:
 
 ```text

@@ -29,6 +29,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 - [x] Define quality tools and documentation comments policy. `#20`
 - [x] Define request validation policy. `#21`
 - [x] Define frontend integration and toolchain policy. `#22`
+- [x] Define logging and observability policy. `#33`
 
 ## Next Candidates
 
@@ -38,6 +39,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 - [ ] Add OpenAPI Problem Details schemas.
 - [ ] Add validation error mapping and readonly DTO examples.
 - [ ] Add request id, CORS, security headers, and request size middleware skeletons.
+- [ ] Add PSR-3 logging adapter and request id log context.
 - [ ] Add PHP-CS-Fixer configuration and Composer scripts.
 - [ ] Add React + TypeScript frontend starter and ESLint / Prettier baseline.
 - [ ] Add npm package metadata, Node engines, package lock, and frontend check scripts.
@@ -46,7 +48,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 - [ ] Add OpenAPI contract validation to `composer check`.
 - [ ] Add the first native PHP view renderer and escaping helper.
 - [ ] Choose and wire the migration runner when the database adapter layer starts.
-- [ ] Define logging and observability policy.
+- [ ] Add metrics and error tracking adapter policy details when integrations start.
 
 ## Operating Notes
 
