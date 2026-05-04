@@ -8,7 +8,7 @@ NENE2 should let a developer clone one repository and quickly build:
 
 - JSON APIs with clear contracts
 - thin server HTML when needed
-- React or Vue frontends without backend lock-in
+- React frontend starters without backend lock-in, while allowing applications to choose another frontend stack
 - testable use cases and adapters
 - OpenAPI and MCP integrations through documented boundaries
 
@@ -42,6 +42,7 @@ Goal: create the smallest useful runtime structure.
 - minimal HTML response support through native PHP templates
 - database migration layout and tool selection policy
 - first PHPUnit test suite
+- PHPDoc / TSDoc and quality tools policy
 
 ## Phase 2: API Contract Foundation
 
@@ -65,9 +66,9 @@ Goal: support database-backed applications without making framework core databas
 
 ## Phase 3: Frontend Integration
 
-Goal: make React or Vue easy to adopt without making NENE2 a frontend framework.
+Goal: make the React + TypeScript starter easy to adopt without making NENE2 a frontend framework or blocking other frontend stacks.
 
-- `frontend/` starter policy
+- React + TypeScript `frontend/` starter policy
 - Vite-oriented integration notes
 - API client generation or typed fetch wrapper policy
 - SPA shell and static asset serving guidance
@@ -87,6 +88,7 @@ Goal: keep the framework small while making changes safe.
 
 - static analysis
 - formatter and linter configuration
+- PHP-CS-Fixer, ESLint, TypeScript, and Prettier check commands
 - mutation or architecture tests where useful
 - semantic versioning policy
 - release checklist
