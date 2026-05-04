@@ -19,11 +19,13 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 - [x] Add root Composer metadata, PHP runtime policy, PHPUnit, and PHPStan. `#5`
 - [x] Add Docker-based PHP development environment and first smoke endpoint. `#7`
 - [x] Add initial OpenAPI contract and Swagger UI. `#9`
+- [x] Define thin HTML view and optional template engine policy. `#11`
 
 ## Next Candidates
 
 - [ ] Expand the HTTP runtime skeleton beyond the smoke endpoint.
 - [ ] Add OpenAPI contract validation to `composer check`.
+- [ ] Add the first native PHP view renderer and escaping helper.
 - [ ] Choose the first frontend starter direction or keep both React/Vue documented as optional.
 
 ## Operating Notes

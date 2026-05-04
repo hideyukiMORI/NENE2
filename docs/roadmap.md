@@ -36,7 +36,7 @@ Goal: create the smallest useful runtime structure.
 - Composer package metadata
 - dependency injection container or factory policy
 - error handling and JSON response shape
-- minimal HTML response support
+- minimal HTML response support through native PHP templates
 - first PHPUnit test suite
 
 ## Phase 2: API Contract Foundation
@@ -82,4 +82,5 @@ Goal: keep the framework small while making changes safe.
 - Recreating Laravel or Symfony.
 - Hiding application behavior behind magic conventions.
 - Coupling the framework to one frontend library.
+- Making a full template engine a default dependency.
 - Treating AI integration as direct database or filesystem access.
