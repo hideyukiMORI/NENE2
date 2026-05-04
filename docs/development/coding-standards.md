@@ -18,6 +18,7 @@ NENE2 should feel modern, small, and predictable. These rules are the source of 
 - Depend on interfaces at infrastructure boundaries when it reduces coupling.
 - Prefer constructor injection for required dependencies.
 - Use typed config objects at runtime instead of passing raw arrays through the application.
+- Use readonly DTOs or command objects for use case input boundaries.
 - Keep `getenv()`, `$_ENV`, and `$_SERVER` access inside the config loading boundary.
 - Use PSR-11 as the container boundary.
 - Prefer explicit factories and service providers over autowiring by default.
@@ -25,6 +26,7 @@ NENE2 should feel modern, small, and predictable. These rules are the source of 
 - Keep controllers thin: parse input, call a use case, return a response.
 - Keep persistence details inside repositories or adapters.
 - Treat public API schemas as contracts, not incidental output.
+- Keep request validation layered: middleware for HTTP-wide concerns, controllers or handlers for DTO mapping, and use cases for business invariants.
 
 ## HTTP Runtime
 
@@ -43,6 +45,7 @@ NENE2 should feel modern, small, and predictable. These rules are the source of 
 
 - JSON APIs are the primary product surface.
 - OpenAPI should describe public request, response, and error shapes.
+- Request validation should use layered validation and readonly DTOs before calling use cases.
 - Server HTML should stay minimal and easy to replace with a SPA shell.
 - Native PHP templates are the first standard HTML path; full template engines are optional adapters.
 - Keep server HTML source in `templates/` and view abstractions in `src/View/`.
@@ -57,9 +60,11 @@ NENE2 should feel modern, small, and predictable. These rules are the source of 
 - Use RFC 9457 Problem Details for public JSON API errors.
 - Use `application/problem+json` for Problem Details responses.
 - Do not leak stack traces, SQL, file paths, secrets, or private identifiers in public error responses.
+- Return request validation failures as `validation-failed` Problem Details with structured `errors`.
 - Prefer structured logs with request context once logging is introduced.
 - Do not log secrets, tokens, passwords, or private payloads.
 - See `docs/development/api-error-responses.md`.
+- See `docs/development/request-validation.md`.
 
 ## Testing
 
