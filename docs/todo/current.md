@@ -5,8 +5,8 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 ## Status
 
 - Current milestone: `docs/milestones/2026-05-nene2-foundation.md`
-- Current GitHub Issue: `#45`
-- Current branch: `feat/45-psr11-container-foundation`
+- Current GitHub Issue: none
+- Current branch: `main`
 - Handoff for next chat: `docs/todo/handoff-2026-05-04-implementation-start.md`
 - First implementation task: `docs/todo/first-task-2026-05-04-http-runtime-foundation.md`
 
@@ -40,12 +40,9 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 - [x] Implement HTTP runtime foundation. `#43`
 - [x] Choose concrete PSR-7 / PSR-17 packages and initial router strategy. `#43`
 - [x] Write ADR 0001 for concrete HTTP runtime and router selections. `#43`
-
-## In Progress
-
-- [ ] Choose concrete PSR-11 container package or adapter strategy. `#45`
-- [ ] Write ADR 0002 for concrete container selections. `#45`
-- [ ] Add minimal PSR-11 container foundation. `#45`
+- [x] Choose concrete PSR-11 container package or adapter strategy. `#45`
+- [x] Write ADR 0002 for concrete container selections. `#45`
+- [x] Add minimal PSR-11 container foundation. `#45`
 
 ## Next Candidates
 
