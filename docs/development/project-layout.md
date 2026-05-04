@@ -131,6 +131,8 @@ The name `public_html` is intentionally compatible with common hosting terminolo
 
 NENE2 should not force React at the framework consumer level. This layout keeps Vue, Nuxt, Next, plain TypeScript, and other frontend stacks replaceable for applications built with NENE2.
 
+The official starter uses npm, active Node.js LTS, and committed `package-lock.json` for reproducible frontend development. See `docs/development/frontend-integration.md`.
+
 ## Future Extension Points
 
 These directories may be added later when the need is concrete:

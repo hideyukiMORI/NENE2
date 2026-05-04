@@ -9,7 +9,7 @@ Quality tools are part of the framework design. They should make changes safer w
 The standard direction is:
 
 - Backend framework development uses PHP, Composer, PHPUnit, PHPStan, and PHP-CS-Fixer.
-- Frontend starter development uses React, TypeScript, Vite, ESLint, and Prettier.
+- Frontend starter development uses React, TypeScript, Vite, npm, ESLint, and Prettier.
 - OpenAPI validation should be added as the API contract grows.
 - Commands should be predictable and documented before they become required in CI.
 - Framework users may replace the frontend stack, but NENE2's own starter and examples should use the documented baseline.
@@ -62,9 +62,12 @@ Planned frontend baseline:
 - React for the first official starter.
 - TypeScript for frontend source.
 - Vite for local development and production builds.
+- npm as the official package manager.
+- Active Node.js LTS as the version baseline.
 - ESLint with TypeScript support for linting.
 - Prettier for formatting.
 - `tsc --noEmit` for type checking unless the starter adopts a tool that provides an equivalent check.
+- `package-lock.json` committed for reproducible installs.
 
 Recommended future frontend scripts:
 
@@ -80,7 +83,7 @@ Recommended future frontend scripts:
 }
 ```
 
-The exact package manager should be decided when the frontend starter is implemented.
+See `docs/development/frontend-integration.md` for npm, Node.js, lockfile, build output, and dependency update policy.
 
 ## OpenAPI Validation
 

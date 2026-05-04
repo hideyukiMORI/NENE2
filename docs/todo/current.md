@@ -27,6 +27,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 - [x] Define RFC 9457 Problem Details API error response policy. `#18`
 - [x] Define middleware and security baseline policy. `#19`
 - [x] Define quality tools and documentation comments policy. `#20`
+- [x] Define frontend integration and toolchain policy. `#22`
 
 ## Next Candidates
 
@@ -37,6 +38,8 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 - [ ] Add request id, CORS, security headers, and request size middleware skeletons.
 - [ ] Add PHP-CS-Fixer configuration and Composer scripts.
 - [ ] Add React + TypeScript frontend starter and ESLint / Prettier baseline.
+- [ ] Add npm package metadata, Node engines, package lock, and frontend check scripts.
+- [ ] Add Dependabot or Renovate policy for PHP and frontend dependencies.
 - [ ] Expand the HTTP runtime skeleton beyond the smoke endpoint.
 - [ ] Add OpenAPI contract validation to `composer check`.
 - [ ] Add the first native PHP view renderer and escaping helper.
