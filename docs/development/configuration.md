@@ -69,6 +69,18 @@ Production should rely on real environment variables or platform secrets. Produc
 
 Dotenv loading should happen only during bootstrap. Domain, use-case, and adapter code should receive typed config values rather than reading `.env` directly.
 
+## Initial Implementation
+
+The first implementation uses `vlucas/phpdotenv` for optional local `.env` loading and `src/Config/` for typed config objects.
+
+The initial application config includes:
+
+- `APP_ENV`: `local`, `test`, or `production`
+- `APP_DEBUG`: boolean value
+- `APP_NAME`: non-empty application name
+
+`.env.example` documents safe local defaults. Raw environment access stays inside `ConfigLoader`; application and infrastructure code should receive `AppConfig` or future focused config objects.
+
 ## Secret Policy
 
 Never commit:
