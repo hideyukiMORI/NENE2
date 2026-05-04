@@ -25,6 +25,8 @@ NENE2 should feel modern, small, and predictable. These rules are the source of 
 - JSON APIs are the primary product surface.
 - OpenAPI should describe public request, response, and error shapes.
 - Server HTML should stay minimal and easy to replace with a SPA shell.
+- Native PHP templates are the first standard HTML path; full template engines are optional adapters.
+- Keep server HTML source in `templates/` and view abstractions in `src/View/`.
 - React/Vue integration should be optional and isolated from backend domain logic.
 
 ## Error Handling and Logging

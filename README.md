@@ -19,6 +19,7 @@ NENE2 optimizes for fast, calm development. The codebase should be easy for a so
 - Keep domain and use-case code decoupled from HTTP, database, template, and CLI details.
 - Make behavior testable before adding framework magic.
 - Treat OpenAPI as the public API contract and keep MCP integrations behind the same API boundary.
+- Keep template engines optional; server HTML should stay thin and replaceable.
 - Prefer small, boring primitives over clever abstractions.
 - Record workflow, roadmap, and implementation decisions in `docs/` rather than only in chat.
 
@@ -32,6 +33,7 @@ NENE2 uses a single repository with Composer at the root, PHP framework code in 
 ├── src/                 # NENE2 framework core
 ├── tests/               # PHPUnit / architecture / contract tests
 ├── config/              # framework default config or examples
+├── templates/           # native PHP templates and thin server HTML source
 ├── public_html/         # web document root
 │   └── assets/          # built frontend assets
 ├── frontend/            # React/Vue/Vite source

@@ -10,8 +10,10 @@ NENE2/
 ├── compose.yaml
 ├── docker/              # development containers
 ├── src/                 # NENE2 framework core
+│   └── View/            # view rendering interfaces and adapters
 ├── tests/               # PHPUnit / architecture / contract tests
 ├── config/              # framework default config or examples
+├── templates/           # native PHP templates and thin server HTML source
 ├── public_html/         # web document root
 │   ├── index.php        # front controller
 │   └── assets/          # built frontend assets
@@ -48,6 +50,7 @@ Do not place the primary Composer project inside `backend/` unless NENE2 later b
 - application/service boundaries
 - configuration loading
 - response rendering
+- view rendering interfaces and adapters
 - integration interfaces
 
 Application-specific examples can be added later under `examples/` if needed, but should not be mixed into the framework core.
@@ -66,6 +69,12 @@ Test files should make framework behavior safe to refactor. They should not depe
 ### `config/` Is Non-Secret Configuration
 
 `config/` contains default configuration, examples, or framework-level config definitions. Secrets belong in environment variables or ignored local files, never in committed config.
+
+### `templates/` Contains Thin Server HTML Source
+
+`templates/` contains native PHP templates and thin server-rendered HTML source. It is not part of the document root and should not contain business logic.
+
+Template engines are optional adapters, not default dependencies. See `docs/development/view-rendering.md`.
 
 ### `public_html/` Is the Document Root
 
