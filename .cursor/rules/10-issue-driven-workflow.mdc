@@ -1,0 +1,15 @@
+---
+description: Issue ベース開発と branch / PR / merge 運用
+alwaysApply: true
+---
+
+# Issue Driven Workflow
+
+- コード、ドキュメント、設定変更は GitHub Issue ベースで進める。
+- 作業開始時に `docs/roadmap.md`、`docs/milestones/`、`docs/todo/current.md`、関連 Issue/PR を確認する。
+- `main` へ直接コミットしない。ブランチ名は `type/issue-number-summary` を基本にする。
+- 作業完了時は通常、commit、push、PR 作成、チェック確認、merge、Issue close/update、`main` 同期まで進める。
+- PR には目的、変更点、検証結果、関連 Issue または `Closes #番号` を書く。
+- コミットは Conventional Commits。description/body は日本語、type/scope は英語。
+- ユーザーが「調査だけ」「コミットしない」「PR まで」など範囲を明示した場合は、その指示を優先する。
+- 正本は `docs/workflow.md` と `docs/development/commit-conventions.md`。

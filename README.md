@@ -1,2 +1,56 @@
 # NENE2
+
 PHP micro-framework: JSON APIs first, minimal server HTML, easy React/Vue SPA integration, structure friendly to AI tooling.
+
+NENE2 is a small, modern PHP framework foundation extracted from the lessons of the original NeNe framework and the 9lick.me modernization work. It is designed for projects that want to ship JSON APIs quickly, keep server-rendered HTML thin, and add React or Vue without turning the backend into frontend build glue.
+
+## Theme
+
+- **API first**: define behavior through clear HTTP boundaries and OpenAPI contracts.
+- **Simple HTML**: keep server HTML minimal, predictable, and easy to replace with SPA shells.
+- **Frontend ready**: support React or Vue as optional frontend layers rather than framework lock-in.
+- **AI readable**: prefer explicit directories, small classes, typed boundaries, and documented decisions.
+- **Modern PHP**: use strict types, PSR-oriented style, dependency injection, automated tests, and static analysis.
+
+## Development Principles
+
+NENE2 optimizes for fast, calm development. The codebase should be easy for a solo developer, a team, or an AI agent to understand without hidden conventions.
+
+- Keep domain and use-case code decoupled from HTTP, database, template, and CLI details.
+- Make behavior testable before adding framework magic.
+- Treat OpenAPI as the public API contract and keep MCP integrations behind the same API boundary.
+- Prefer small, boring primitives over clever abstractions.
+- Record workflow, roadmap, and implementation decisions in `docs/` rather than only in chat.
+
+## Repository Layout
+
+The repository starts with governance documents first. Runtime code will be added in focused Issues.
+
+```text
+.
+├── docs/
+│   ├── development/     # coding, commit, and implementation standards
+│   ├── integrations/    # AI, OpenAPI, MCP, and external tool policies
+│   ├── milestones/      # local milestones linked to GitHub Issues
+│   └── todo/            # current local work board
+├── .cursor/rules/       # Cursor rules that summarize the docs
+├── AGENTS.md            # AI/agent entry point
+├── LICENSE
+└── README.md
+```
+
+## Project Workflow
+
+NENE2 uses GitHub Issues as the source of work and local Markdown files as the project memory.
+
+1. Create or reuse a focused GitHub Issue.
+2. Create an Issue-numbered branch from `main`, such as `docs/1-initial-governance`.
+3. Update code and docs together, keeping the change small.
+4. Commit with Conventional Commits and include the Issue number.
+5. Push, open a PR, merge after checks, and return local `main` to a clean state.
+
+See `docs/CONTRIBUTING.md`, `docs/workflow.md`, and `AGENTS.md` before changing the project.
+
+## License
+
+NENE2 is released under the MIT License.
