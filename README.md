@@ -19,6 +19,7 @@ NENE2 optimizes for fast, calm development. The codebase should be easy for a so
 - Keep domain and use-case code decoupled from HTTP, database, template, and CLI details.
 - Use PSR-7 / PSR-15 / PSR-17 as the HTTP runtime direction.
 - Use PSR-11 as the DI boundary, with explicit wiring first.
+- Use typed config objects at runtime; keep `.env` at the loading boundary.
 - Make behavior testable before adding framework magic.
 - Treat OpenAPI as the public API contract and keep MCP integrations behind the same API boundary.
 - Keep template engines optional; server HTML should stay thin and replaceable.
@@ -33,6 +34,7 @@ NENE2 uses a single repository with Composer at the root, PHP framework code in 
 .
 ├── composer.json
 ├── src/                 # NENE2 framework core
+│   ├── Config/
 │   ├── DependencyInjection/
 │   ├── Http/
 │   ├── Routing/

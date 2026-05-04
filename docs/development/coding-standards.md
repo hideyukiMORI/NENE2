@@ -16,6 +16,8 @@ NENE2 should feel modern, small, and predictable. These rules are the source of 
 - Keep use cases independent from HTTP, database, templates, CLI, and frontend assets.
 - Depend on interfaces at infrastructure boundaries when it reduces coupling.
 - Prefer constructor injection for required dependencies.
+- Use typed config objects at runtime instead of passing raw arrays through the application.
+- Keep `getenv()`, `$_ENV`, and `$_SERVER` access inside the config loading boundary.
 - Use PSR-11 as the container boundary.
 - Prefer explicit factories and service providers over autowiring by default.
 - Do not use the container as a service locator inside domain or use-case code.
@@ -68,6 +70,14 @@ Testing is part of the design.
 - Store schema snapshots or generated schema docs in `database/schema/`.
 - Prefer Phinx as the first migration tool candidate, but adopt it only when the database adapter layer is introduced.
 - See `docs/development/database-migrations.md`.
+
+## Configuration
+
+- Commit only non-secret config examples and defaults.
+- Ignore local `.env` files and commit only `.env.example` when environment shape needs documentation.
+- Prefer `vlucas/phpdotenv` as the first local/test dotenv candidate, but adopt it only when the config loader is implemented.
+- Production should use real environment variables or platform secrets.
+- See `docs/development/configuration.md`.
 
 ## Static Analysis and Formatting
 
