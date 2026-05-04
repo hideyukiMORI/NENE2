@@ -31,7 +31,9 @@ Tracked by `docs/milestones/2026-05-nene2-foundation.md`.
 Goal: create the smallest useful runtime structure.
 
 - HTTP request/response abstraction
+- PSR-7 / PSR-15 / PSR-17 based HTTP runtime policy
 - route dispatch foundation
+- middleware pipeline foundation
 - config loading
 - Composer package metadata
 - dependency injection container or factory policy

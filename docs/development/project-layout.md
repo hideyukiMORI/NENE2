@@ -10,6 +10,10 @@ NENE2/
 ├── compose.yaml
 ├── docker/              # development containers
 ├── src/                 # NENE2 framework core
+│   ├── Error/           # exception to response mapping
+│   ├── Http/            # PSR HTTP helpers and response concerns
+│   ├── Middleware/      # PSR-15 middleware pipeline
+│   ├── Routing/         # route definitions and dispatch policy
 │   └── View/            # view rendering interfaces and adapters
 ├── tests/               # PHPUnit / architecture / contract tests
 ├── config/              # framework default config or examples
@@ -51,6 +55,8 @@ Do not place the primary Composer project inside `backend/` unless NENE2 later b
 
 - HTTP abstractions
 - routing and dispatch
+- middleware pipeline
+- exception to response mapping
 - application/service boundaries
 - configuration loading
 - response rendering
@@ -58,6 +64,8 @@ Do not place the primary Composer project inside `backend/` unless NENE2 later b
 - integration interfaces
 
 Application-specific examples can be added later under `examples/` if needed, but should not be mixed into the framework core.
+
+HTTP runtime follows PSR-7 / PSR-15 / PSR-17 first. See `docs/development/http-runtime.md`.
 
 ### `tests/` Mirrors Framework Behavior
 

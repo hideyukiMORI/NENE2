@@ -20,6 +20,16 @@ NENE2 should feel modern, small, and predictable. These rules are the source of 
 - Keep persistence details inside repositories or adapters.
 - Treat public API schemas as contracts, not incidental output.
 
+## HTTP Runtime
+
+- Use PSR-7 for request and response messages.
+- Use PSR-15 for middleware and request handlers.
+- Use PSR-17 for factories.
+- Keep routing explicit and route tables readable.
+- Keep `public_html/index.php` as the front controller.
+- Do not introduce controller resolver magic before the DI policy is settled.
+- See `docs/development/http-runtime.md`.
+
 ## API and HTML
 
 - JSON APIs are the primary product surface.
