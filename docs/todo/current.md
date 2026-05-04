@@ -18,11 +18,12 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 - [x] Define standard project layout and create initial directories. `#3`
 - [x] Add root Composer metadata, PHP runtime policy, PHPUnit, and PHPStan. `#5`
 - [x] Add Docker-based PHP development environment and first smoke endpoint. `#7`
+- [x] Add initial OpenAPI contract and Swagger UI. `#9`
 
 ## Next Candidates
 
-- [ ] Define initial OpenAPI file location.
 - [ ] Expand the HTTP runtime skeleton beyond the smoke endpoint.
+- [ ] Add OpenAPI contract validation to `composer check`.
 - [ ] Choose the first frontend starter direction or keep both React/Vue documented as optional.
 
 ## Operating Notes

@@ -17,15 +17,43 @@ OpenAPI is the contract layer for NENE2 APIs.
 - OpenAPI documents should describe shipped behavior, not aspirational behavior.
 - Contract changes should be reviewed as public API changes.
 
-## Planned Structure
+## Structure
 
-The exact location will be decided with the runtime skeleton, but the expected shape is:
+The source of truth lives in `docs/openapi/`:
 
 ```text
 docs/openapi/
 ├── openapi.yaml
 └── examples/
 ```
+
+`public_html/openapi.php` exposes `docs/openapi/openapi.yaml` to local tools and Swagger UI without duplicating the contract file.
+
+Swagger UI is served from:
+
+```text
+http://localhost:8080/docs/
+```
+
+The raw OpenAPI contract is served from:
+
+```text
+http://localhost:8080/openapi.php
+```
+
+## Local Verification
+
+Start Docker and open Swagger UI:
+
+```bash
+docker compose up -d app
+```
+
+Then verify:
+
+- `http://localhost:8080/` returns the smoke JSON response.
+- `http://localhost:8080/openapi.php` returns the OpenAPI YAML.
+- `http://localhost:8080/docs/` loads Swagger UI.
 
 ## Testing Direction
 

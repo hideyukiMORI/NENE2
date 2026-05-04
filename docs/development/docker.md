@@ -40,6 +40,13 @@ Then open:
 http://localhost:8080/
 ```
 
+API documentation endpoints:
+
+```text
+http://localhost:8080/openapi.php
+http://localhost:8080/docs/
+```
+
 Stop it with:
 
 ```bash
