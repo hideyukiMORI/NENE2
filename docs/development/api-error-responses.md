@@ -89,7 +89,7 @@ Each validation error item should include:
 - `message`: safe human-readable message
 - `code`: stable machine-readable code
 
-The final validation rule mapping belongs to the request validation Issue.
+The final validation rule mapping follows the layered request validation policy. See `docs/development/request-validation.md`.
 
 ## Exception Boundary
 

@@ -47,6 +47,8 @@ Recommended first pipeline:
 
 Error handling should wrap the whole pipeline so every failure can be converted to a stable Problem Details response.
 
+Route-specific request validation should stay in controllers, handlers, DTO mappers, or use cases rather than global middleware. See `docs/development/request-validation.md`.
+
 ## Request ID
 
 Every request should have a request id.
