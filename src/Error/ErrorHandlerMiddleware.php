@@ -6,6 +6,7 @@ namespace Nene2\Error;
 
 use Nene2\Routing\MethodNotAllowedException;
 use Nene2\Routing\RouteNotFoundException;
+use Nene2\Validation\ValidationException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -41,6 +42,17 @@ final readonly class ErrorHandlerMiddleware implements MiddlewareInterface
                     'The requested resource does not support this HTTP method.',
                 )
                 ->withHeader('Allow', implode(', ', $exception->allowedMethods()));
+        } catch (ValidationException $exception) {
+            return $this->problemDetails->create(
+                $request,
+                'validation-failed',
+                'Validation Failed',
+                422,
+                'The request contains invalid values.',
+                [
+                    'errors' => $exception->errorsForResponse(),
+                ],
+            );
         } catch (Throwable) {
             return $this->problemDetails->create(
                 $request,

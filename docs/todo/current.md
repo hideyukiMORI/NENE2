@@ -5,8 +5,8 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 ## Status
 
 - Current milestone: `docs/milestones/2026-05-nene2-foundation.md`
-- Current GitHub Issue: none
-- Current branch: `main`
+- Current GitHub Issue: `#51`
+- Current branch: `feat/51-validation-error-mapping`
 - Handoff for next chat: `docs/todo/handoff-2026-05-04-implementation-start.md`
 - First implementation task: `docs/todo/first-task-2026-05-04-http-runtime-foundation.md`
 
@@ -48,9 +48,9 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 ## Next Candidates
 
+- [ ] Add validation error mapping and readonly DTO examples. `#51`
 - [ ] Publish or redirect `https://nene2.dev/problems/*` before public error contracts are stable.
 - [ ] Keep self-review checklists updated as new implementation areas are introduced.
-- [ ] Add validation error mapping and readonly DTO examples.
 - [ ] Add request id, CORS, security headers, and request size middleware skeletons.
 - [ ] Add PSR-3 logging adapter and request id log context.
 - [ ] Add PHP-CS-Fixer configuration and Composer scripts.
