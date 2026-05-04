@@ -13,6 +13,10 @@ NENE2/
 │   └── View/            # view rendering interfaces and adapters
 ├── tests/               # PHPUnit / architecture / contract tests
 ├── config/              # framework default config or examples
+├── database/            # application migrations, seeds, and schema docs
+│   ├── migrations/
+│   ├── seeds/
+│   └── schema/
 ├── templates/           # native PHP templates and thin server HTML source
 ├── public_html/         # web document root
 │   ├── index.php        # front controller
@@ -69,6 +73,12 @@ Test files should make framework behavior safe to refactor. They should not depe
 ### `config/` Is Non-Secret Configuration
 
 `config/` contains default configuration, examples, or framework-level config definitions. Secrets belong in environment variables or ignored local files, never in committed config.
+
+### `database/` Contains Application Schema Work
+
+`database/` contains migrations, seeds, and schema documentation for applications built with NENE2. Framework core should stay database-independent.
+
+The first migration tool candidate is Phinx, but no runner is adopted until the database adapter layer is introduced. See `docs/development/database-migrations.md`.
 
 ### `templates/` Contains Thin Server HTML Source
 

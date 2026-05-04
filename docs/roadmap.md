@@ -37,6 +37,7 @@ Goal: create the smallest useful runtime structure.
 - dependency injection container or factory policy
 - error handling and JSON response shape
 - minimal HTML response support through native PHP templates
+- database migration layout and tool selection policy
 - first PHPUnit test suite
 
 ## Phase 2: API Contract Foundation
@@ -48,6 +49,16 @@ Goal: make API behavior explicit and client-friendly.
 - error schema
 - contract tests
 - examples for success and failure responses
+
+## Phase 2.5: Database Adapter Foundation
+
+Goal: support database-backed applications without making framework core database-dependent.
+
+- choose migration runner, with Phinx as the first candidate
+- define database config and environment variables
+- add repository / adapter boundaries
+- define test database strategy
+- document migration and seed commands
 
 ## Phase 3: Frontend Integration
 

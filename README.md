@@ -33,6 +33,7 @@ NENE2 uses a single repository with Composer at the root, PHP framework code in 
 ├── src/                 # NENE2 framework core
 ├── tests/               # PHPUnit / architecture / contract tests
 ├── config/              # framework default config or examples
+├── database/            # migrations, seeds, and schema docs
 ├── templates/           # native PHP templates and thin server HTML source
 ├── public_html/         # web document root
 │   └── assets/          # built frontend assets

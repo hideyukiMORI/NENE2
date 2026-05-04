@@ -47,6 +47,15 @@ Testing is part of the design.
 - Keep tests deterministic and small.
 - Prefer test data builders or fixtures over large hidden setup.
 
+## Database
+
+- Keep framework core database-independent.
+- Store application migration files in `database/migrations/`.
+- Store local/dev seed data in `database/seeds/`.
+- Store schema snapshots or generated schema docs in `database/schema/`.
+- Prefer Phinx as the first migration tool candidate, but adopt it only when the database adapter layer is introduced.
+- See `docs/development/database-migrations.md`.
+
 ## Static Analysis and Formatting
 
 Adopted quality tools:
