@@ -40,11 +40,12 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 - [x] Implement HTTP runtime foundation. `#43`
 - [x] Choose concrete PSR-7 / PSR-17 packages and initial router strategy. `#43`
 - [x] Write ADR 0001 for concrete HTTP runtime and router selections. `#43`
+- [x] Choose concrete PSR-11 container package or adapter strategy. `#45`
+- [x] Write ADR 0002 for concrete container selections. `#45`
+- [x] Add minimal PSR-11 container foundation. `#45`
 
 ## Next Candidates
 
-- [ ] Choose concrete PSR-11 container package or adapter strategy.
-- [ ] Write ADRs for concrete container package selections.
 - [ ] Publish or redirect `https://nene2.dev/problems/*` before public error contracts are stable.
 - [ ] Keep self-review checklists updated as new implementation areas are introduced.
 - [ ] Implement typed config loader and `.env.example`.
