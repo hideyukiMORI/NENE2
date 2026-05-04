@@ -84,7 +84,7 @@ composer check
 
 See `docs/development/php-runtime.md` and `docs/development/docker.md` for runtime and tooling details.
 
-NENE2's planned quality baseline adds PHP-CS-Fixer for backend style checks and ESLint, TypeScript, and Prettier for the React frontend starter. Framework public APIs should use PHPDoc or TSDoc where comments explain contracts or extension rules. See `docs/development/quality-tools.md` and `docs/development/documentation-comments.md`.
+NENE2's planned quality baseline adds PHP-CS-Fixer for backend style checks and npm, ESLint, TypeScript, and Prettier for the React frontend starter. The frontend starter targets active Node.js LTS, commits `package-lock.json`, and keeps dependencies modern through update automation. Framework public APIs should use PHPDoc or TSDoc where comments explain contracts or extension rules. See `docs/development/quality-tools.md`, `docs/development/frontend-integration.md`, and `docs/development/documentation-comments.md`.
 
 ## Project Workflow
 

@@ -69,6 +69,7 @@ Goal: support database-backed applications without making framework core databas
 Goal: make the React + TypeScript starter easy to adopt without making NENE2 a frontend framework or blocking other frontend stacks.
 
 - React + TypeScript `frontend/` starter policy
+- npm, active Node.js LTS, and lockfile policy
 - Vite-oriented integration notes
 - API client generation or typed fetch wrapper policy
 - SPA shell and static asset serving guidance
@@ -89,6 +90,7 @@ Goal: keep the framework small while making changes safe.
 - static analysis
 - formatter and linter configuration
 - PHP-CS-Fixer, ESLint, TypeScript, and Prettier check commands
+- dependency update automation such as Dependabot or Renovate
 - mutation or architecture tests where useful
 - semantic versioning policy
 - release checklist
