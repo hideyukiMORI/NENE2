@@ -16,6 +16,9 @@ NENE2 should feel modern, small, and predictable. These rules are the source of 
 - Keep use cases independent from HTTP, database, templates, CLI, and frontend assets.
 - Depend on interfaces at infrastructure boundaries when it reduces coupling.
 - Prefer constructor injection for required dependencies.
+- Use PSR-11 as the container boundary.
+- Prefer explicit factories and service providers over autowiring by default.
+- Do not use the container as a service locator inside domain or use-case code.
 - Keep controllers thin: parse input, call a use case, return a response.
 - Keep persistence details inside repositories or adapters.
 - Treat public API schemas as contracts, not incidental output.

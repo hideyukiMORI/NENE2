@@ -10,6 +10,7 @@ NENE2/
 ├── compose.yaml
 ├── docker/              # development containers
 ├── src/                 # NENE2 framework core
+│   ├── DependencyInjection/ # container contracts, providers, and wiring helpers
 │   ├── Error/           # exception to response mapping
 │   ├── Http/            # PSR HTTP helpers and response concerns
 │   ├── Middleware/      # PSR-15 middleware pipeline
@@ -57,6 +58,7 @@ Do not place the primary Composer project inside `backend/` unless NENE2 later b
 - routing and dispatch
 - middleware pipeline
 - exception to response mapping
+- dependency injection and wiring helpers
 - application/service boundaries
 - configuration loading
 - response rendering
@@ -66,6 +68,8 @@ Do not place the primary Composer project inside `backend/` unless NENE2 later b
 Application-specific examples can be added later under `examples/` if needed, but should not be mixed into the framework core.
 
 HTTP runtime follows PSR-7 / PSR-15 / PSR-17 first. See `docs/development/http-runtime.md`.
+
+Dependency injection follows PSR-11 with explicit wiring first. See `docs/development/dependency-injection.md`.
 
 ### `tests/` Mirrors Framework Behavior
 
