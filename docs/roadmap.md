@@ -37,7 +37,7 @@ Goal: create the smallest useful runtime structure.
 - typed config loading and environment policy
 - Composer package metadata
 - PSR-11 dependency injection and explicit wiring policy
-- error handling and JSON response shape
+- RFC 9457 Problem Details error response policy
 - minimal HTML response support through native PHP templates
 - database migration layout and tool selection policy
 - first PHPUnit test suite
@@ -48,7 +48,7 @@ Goal: make API behavior explicit and client-friendly.
 
 - OpenAPI document location and generation policy
 - request and response schema conventions
-- error schema
+- shared Problem Details error schemas
 - contract tests
 - examples for success and failure responses
 

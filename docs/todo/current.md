@@ -24,12 +24,14 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 - [x] Define PSR-first HTTP runtime and routing policy. `#15`
 - [x] Define PSR-11 DI container and explicit wiring policy. `#16`
 - [x] Define typed config and environment policy. `#17`
+- [x] Define RFC 9457 Problem Details API error response policy. `#18`
 
 ## Next Candidates
 
 - [ ] Choose concrete PSR-7 / PSR-17 packages and router implementation.
 - [ ] Choose concrete PSR-11 container package or adapter strategy.
 - [ ] Implement typed config loader and `.env.example`.
+- [ ] Add OpenAPI Problem Details schemas.
 - [ ] Expand the HTTP runtime skeleton beyond the smoke endpoint.
 - [ ] Add OpenAPI contract validation to `composer check`.
 - [ ] Add the first native PHP view renderer and escaping helper.

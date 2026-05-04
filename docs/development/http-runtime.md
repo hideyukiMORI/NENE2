@@ -92,6 +92,8 @@ The first implementation should distinguish:
 
 The public JSON error shape will be defined in the Problem Details Issue.
 
+NENE2 uses RFC 9457 Problem Details as the standard public JSON API error shape. See `docs/development/api-error-responses.md`.
+
 ## Non-Goals for the First Runtime
 
 - Full controller resolver magic.
