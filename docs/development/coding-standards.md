@@ -4,7 +4,7 @@ NENE2 should feel modern, small, and predictable. These rules are the source of 
 
 ## PHP Baseline
 
-- Target current stable PHP first and keep PHP 8.3/8.4 features in view.
+- Target PHP `>=8.4.1 <9.0`. See `docs/development/php-runtime.md`.
 - New PHP files must use `declare(strict_types=1);`.
 - Follow PSR-12 unless a narrower project rule says otherwise.
 - Prefer immutable value objects and readonly properties where they clarify intent.
@@ -47,10 +47,13 @@ Testing is part of the design.
 
 ## Static Analysis and Formatting
 
-Planned quality tools:
+Adopted quality tools:
 
 - PHPUnit for automated tests
-- PHPStan or Psalm for static analysis
+- PHPStan for static analysis
+
+Planned quality tools:
+
 - PHP-CS-Fixer or PHPCS for style enforcement
 - OpenAPI validation for API contracts
 

@@ -16,13 +16,13 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 - [x] Add Cursor rules that summarize the docs. `#1`
 - [x] Merge the initial governance PR. `#1`
 - [x] Define standard project layout and create initial directories. `#3`
+- [x] Add root Composer metadata, PHP runtime policy, PHPUnit, and PHPStan. `#5`
 
 ## Next Candidates
 
 - [ ] Create the first runtime skeleton Issue.
-- [ ] Decide PHP runtime target and package metadata.
-- [ ] Add root Composer configuration and development dependencies.
 - [ ] Define initial OpenAPI file location.
+- [ ] Add the first PHP runtime skeleton and smoke test.
 - [ ] Choose the first frontend starter direction or keep both React/Vue documented as optional.
 
 ## Operating Notes
