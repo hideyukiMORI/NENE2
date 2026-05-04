@@ -29,6 +29,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 - [x] Define quality tools and documentation comments policy. `#20`
 - [x] Define request validation policy. `#21`
 - [x] Define frontend integration and toolchain policy. `#22`
+- [x] Define release, versioning, and CI policy. `#23`
 - [x] Define logging and observability policy. `#33`
 
 ## Next Candidates
@@ -44,6 +45,8 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 - [ ] Add React + TypeScript frontend starter and ESLint / Prettier baseline.
 - [ ] Add npm package metadata, Node engines, package lock, and frontend check scripts.
 - [ ] Add Dependabot or Renovate policy for PHP and frontend dependencies.
+- [ ] Add first GitHub Actions workflow for backend Composer checks.
+- [ ] Add release checklist and first `v0.x.y` release preparation when runtime surface is useful.
 - [ ] Expand the HTTP runtime skeleton beyond the smoke endpoint.
 - [ ] Add OpenAPI contract validation to `composer check`.
 - [ ] Add the first native PHP view renderer and escaping helper.

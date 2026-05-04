@@ -45,6 +45,7 @@ Goal: create the smallest useful runtime structure.
 - database migration layout and tool selection policy
 - first PHPUnit test suite
 - PHPDoc / TSDoc and quality tools policy
+- release, versioning, and CI policy
 
 ## Phase 2: API Contract Foundation
 
@@ -96,6 +97,7 @@ Goal: keep the framework small while making changes safe.
 - PHP-CS-Fixer, ESLint, TypeScript, and Prettier check commands
 - dependency update automation such as Dependabot or Renovate
 - logging, metrics, and error tracking adapter policy
+- GitHub Actions, SemVer, tags, and release checklist
 - mutation or architecture tests where useful
 - semantic versioning policy
 - release checklist
