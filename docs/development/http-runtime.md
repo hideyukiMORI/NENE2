@@ -48,6 +48,8 @@ Middleware and security baseline policy is defined in `docs/development/middlewa
 
 Request validation uses a layered policy: middleware handles HTTP-wide concerns, controllers or handlers map to DTOs, and use cases protect business invariants. See `docs/development/request-validation.md`.
 
+Logging and observability should use PSR-3, request id propagation, and adapter-driven integrations. See `docs/development/observability.md`.
+
 ### PSR-17
 
 Response and stream creation should go through factories rather than direct implementation classes. This keeps the concrete PSR-7 implementation replaceable.
