@@ -5,8 +5,8 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 ## Status
 
 - Current milestone: `docs/milestones/2026-05-nene2-foundation.md`
-- Current GitHub Issue: none
-- Current branch: `main`
+- Current GitHub Issue: `#47`
+- Current branch: `feat/47-typed-config-loader`
 - Handoff for next chat: `docs/todo/handoff-2026-05-04-implementation-start.md`
 - First implementation task: `docs/todo/first-task-2026-05-04-http-runtime-foundation.md`
 
@@ -46,9 +46,9 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 ## Next Candidates
 
+- [ ] Implement typed config loader and `.env.example`. `#47`
 - [ ] Publish or redirect `https://nene2.dev/problems/*` before public error contracts are stable.
 - [ ] Keep self-review checklists updated as new implementation areas are introduced.
-- [ ] Implement typed config loader and `.env.example`.
 - [ ] Add OpenAPI Problem Details schemas.
 - [ ] Add validation error mapping and readonly DTO examples.
 - [ ] Add request id, CORS, security headers, and request size middleware skeletons.
