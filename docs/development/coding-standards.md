@@ -49,8 +49,12 @@ NENE2 should feel modern, small, and predictable. These rules are the source of 
 - Use explicit domain or application exceptions when callers can act on them.
 - Do not swallow exceptions silently.
 - Keep user-facing error responses stable and documented.
+- Use RFC 9457 Problem Details for public JSON API errors.
+- Use `application/problem+json` for Problem Details responses.
+- Do not leak stack traces, SQL, file paths, secrets, or private identifiers in public error responses.
 - Prefer structured logs with request context once logging is introduced.
 - Do not log secrets, tokens, passwords, or private payloads.
+- See `docs/development/api-error-responses.md`.
 
 ## Testing
 

@@ -12,7 +12,7 @@ OpenAPI is the contract layer for NENE2 APIs.
 ## Principles
 
 - Public JSON APIs should have OpenAPI coverage.
-- Error responses should use shared schemas where possible.
+- Error responses should use RFC 9457 Problem Details and shared schemas where possible.
 - Examples should include at least one success and one failure case for important endpoints.
 - OpenAPI documents should describe shipped behavior, not aspirational behavior.
 - Contract changes should be reviewed as public API changes.
@@ -58,3 +58,5 @@ Then verify:
 ## Testing Direction
 
 Once runtime code exists, API tests should verify that responses match the documented contract. The first implementation can be lightweight and grow with the framework.
+
+Future OpenAPI work should add shared schemas for `ProblemDetails`, `ValidationProblemDetails`, and `ValidationError`. See `docs/development/api-error-responses.md`.
