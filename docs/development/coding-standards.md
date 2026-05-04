@@ -128,3 +128,4 @@ See `docs/development/quality-tools.md`.
 - Prefer explicit return types and simple data shapes.
 - Record architecture decisions in `docs/` when they affect future implementation.
 - Use ADRs for major decisions that need long-term traceability. See `docs/development/adr.md`.
+- Use self-review checklists before push or PR when a task matches a checklist. See `docs/development/self-review.md`.

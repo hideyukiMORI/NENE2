@@ -32,12 +32,14 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 - [x] Define release, versioning, and CI policy. `#23`
 - [x] Define ADR operation policy. `#24`
 - [x] Define logging and observability policy. `#33`
+- [x] Define self-review checklist policy. `#37`
 
 ## Next Candidates
 
 - [ ] Choose concrete PSR-7 / PSR-17 packages and router implementation.
 - [ ] Choose concrete PSR-11 container package or adapter strategy.
 - [ ] Write ADRs for concrete HTTP runtime, router, and container package selections.
+- [ ] Keep self-review checklists updated as new implementation areas are introduced.
 - [ ] Implement typed config loader and `.env.example`.
 - [ ] Add OpenAPI Problem Details schemas.
 - [ ] Add validation error mapping and readonly DTO examples.

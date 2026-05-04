@@ -9,11 +9,12 @@ NENE2 uses GitHub Issues for work tracking and local Markdown files for project 
 3. Create a branch from `main` named like `type/issue-number-summary`.
 4. Implement the smallest useful change.
 5. Update docs, roadmap, milestone, or TODO files when the decision or state changes.
-6. Run the narrowest meaningful verification available.
-7. Commit with Conventional Commits and include the Issue number.
-8. Push the branch and create a PR linked to the Issue.
-9. Merge after review and checks.
-10. Return local `main` to the merged, clean state.
+6. Review the relevant self-review checklist in `docs/review/`.
+7. Run the narrowest meaningful verification available.
+8. Commit with Conventional Commits and include the Issue number.
+9. Push the branch and create a PR linked to the Issue.
+10. Merge after review and checks.
+11. Return local `main` to the merged, clean state.
 
 Release, versioning, and CI policy is defined in `docs/development/release-ci.md`.
 
@@ -33,6 +34,7 @@ Every PR should include:
 - purpose
 - change summary
 - verification results
+- self-review checklist used, when applicable
 - related Issue, preferably `Closes #number`
 - remaining risks or follow-up work
 
@@ -49,6 +51,8 @@ Do not leave important decisions only in chat. If it changes how the project sho
 
 Use ADRs only for decisions that affect architecture, public contracts, dependency choices, release policy, or long-term maintenance. See `docs/development/adr.md`.
 
+Use self-review checklists as task-specific reminders before push or PR. See `docs/development/self-review.md`.
+
 ## AI Agent Responsibilities
 
 AI agents should manage the normal lifecycle when asked to complete work:
@@ -56,6 +60,7 @@ AI agents should manage the normal lifecycle when asked to complete work:
 - create or reuse the Issue
 - create the Issue branch
 - edit only relevant files
+- review relevant self-review checklists
 - verify the change
 - commit, push, open PR, merge, and sync `main`
 - update local docs that describe project state
