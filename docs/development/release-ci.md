@@ -6,6 +6,8 @@ NENE2 uses SemVer, small release steps, and GitHub Actions as the standard CI di
 
 Release and CI policy should keep the framework safe to change while the public API is still forming.
 
+Manual release steps are tracked in `docs/development/release-checklist.md`.
+
 The standard direction is:
 
 - Use Semantic Versioning.
@@ -145,7 +147,7 @@ Dependency update PRs should still run the same CI checks as normal PRs.
 
 ## Release Checklist
 
-Before tagging a release:
+Before tagging a release, use `docs/development/release-checklist.md`. At minimum:
 
 - `main` is up to date.
 - Required CI checks are passing.
