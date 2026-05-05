@@ -61,6 +61,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 - [x] Choose and wire the migration runner when the database adapter layer starts. `#75`
 - [x] Publish or redirect `https://nene2.dev/problems/*` before public error contracts are stable. `#77`
 - [x] Add route path parameters to the internal router. `#79`
+- [x] Wire the HTTP runtime through the PSR-11 container foundation. `#81`
 
 ## Next Candidates
 

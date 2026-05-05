@@ -3,13 +3,16 @@
 declare(strict_types=1);
 
 use Nene2\Http\ResponseEmitter;
-use Nene2\Http\RuntimeApplicationFactory;
+use Nene2\Http\RuntimeContainerFactory;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Nyholm\Psr7Server\ServerRequestCreator;
+use Psr\Http\Server\RequestHandlerInterface;
 
 require dirname(__DIR__) . '/vendor/autoload.php';
 
-$psr17Factory = new Psr17Factory();
+$container = (new RuntimeContainerFactory())->create();
+$psr17Factory = $container->get(Psr17Factory::class);
+assert($psr17Factory instanceof Psr17Factory);
 $serverRequestCreator = new ServerRequestCreator(
     $psr17Factory,
     $psr17Factory,
@@ -18,7 +21,10 @@ $serverRequestCreator = new ServerRequestCreator(
 );
 
 $request = $serverRequestCreator->fromGlobals();
-$application = (new RuntimeApplicationFactory($psr17Factory, $psr17Factory))->create();
+$application = $container->get(RequestHandlerInterface::class);
+assert($application instanceof RequestHandlerInterface);
 $response = $application->handle($request);
 
-(new ResponseEmitter())->emit($response);
+$emitter = $container->get(ResponseEmitter::class);
+assert($emitter instanceof ResponseEmitter);
+$emitter->emit($response);
