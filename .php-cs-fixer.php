@@ -10,6 +10,7 @@ $finder = Finder::create()
         __DIR__ . '/public_html',
         __DIR__ . '/src',
         __DIR__ . '/tests',
+        __DIR__ . '/tools',
     ])
     ->name('*.php');
 

@@ -53,6 +53,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 - [x] Add release checklist and first `v0.x.y` release preparation. `#61`
 - [x] Add Dependabot policy for PHP and GitHub Actions dependencies. `#63`
 - [x] Add metrics and error tracking adapter policy details. `#65`
+- [x] Add OpenAPI contract validation to `composer check`. `#67`
 
 ## Next Candidates
 
@@ -62,7 +63,6 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 - [ ] Add npm package metadata, Node engines, package lock, and frontend check scripts.
 - [ ] Add first GitHub Actions workflow for backend Composer checks.
 - [ ] Expand the HTTP runtime skeleton beyond the smoke endpoint.
-- [ ] Add OpenAPI contract validation to `composer check`.
 - [ ] Choose and wire the migration runner when the database adapter layer starts.
 
 ## Operating Notes
