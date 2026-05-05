@@ -65,6 +65,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 - [x] Add the first frontend-to-backend health API integration path. `#83`
 - [x] Add first GitHub Actions workflow for backend Composer checks. `#85`
 - [x] Add first GitHub Actions workflow for frontend npm checks. `#87`
+- [x] Add lightweight OpenAPI runtime contract tests for shipped JSON endpoints. `#89`
 
 ## Next Candidates
 
