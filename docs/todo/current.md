@@ -55,11 +55,11 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 - [x] Add metrics and error tracking adapter policy details. `#65`
 - [x] Add OpenAPI contract validation to `composer check`. `#67`
 - [x] Expand the HTTP runtime skeleton beyond the smoke endpoint. `#69`
+- [x] Keep self-review checklists updated as new implementation areas are introduced. `#71`
 
 ## Next Candidates
 
 - [ ] Publish or redirect `https://nene2.dev/problems/*` before public error contracts are stable.
-- [ ] Keep self-review checklists updated as new implementation areas are introduced.
 - [ ] Add React + TypeScript frontend starter and ESLint / Prettier baseline.
 - [ ] Add npm package metadata, Node engines, package lock, and frontend check scripts.
 - [ ] Add first GitHub Actions workflow for backend Composer checks.

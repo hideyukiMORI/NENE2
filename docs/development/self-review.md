@@ -54,7 +54,9 @@ docs/review/
 ├── docs-policy.md
 ├── frontend.md
 ├── middleware-security.md
-└── release-ci.md
+├── openapi-contract.md
+├── release-ci.md
+└── view-rendering.md
 ```
 
 Add new checklist files only when a repeated work type has enough unique risk to justify one.
