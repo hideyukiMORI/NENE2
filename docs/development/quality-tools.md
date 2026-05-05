@@ -111,6 +111,8 @@ Docker remains the standard backend runtime. Frontend commands may run on the ho
 
 CI should start with backend `composer check` and expand only after each tool has committed configuration and local verification commands. See `docs/development/release-ci.md`.
 
+Safe local AI and MCP command usage is documented in `docs/integrations/local-ai-commands.md`.
+
 ## Non-Goals
 
 - Forcing React on framework consumers.
