@@ -50,6 +50,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 - [x] Add PSR-3 logging adapter and request id log context. `#55`
 - [x] Add PHP-CS-Fixer configuration and Composer scripts. `#57`
 - [x] Add the first native PHP view renderer and escaping helper. `#59`
+- [x] Add release checklist and first `v0.x.y` release preparation. `#61`
 
 ## Next Candidates
 
@@ -59,7 +60,6 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 - [ ] Add npm package metadata, Node engines, package lock, and frontend check scripts.
 - [ ] Add Dependabot or Renovate policy for PHP and frontend dependencies.
 - [ ] Add first GitHub Actions workflow for backend Composer checks.
-- [ ] Add release checklist and first `v0.x.y` release preparation when runtime surface is useful.
 - [ ] Expand the HTTP runtime skeleton beyond the smoke endpoint.
 - [ ] Add OpenAPI contract validation to `composer check`.
 - [ ] Choose and wire the migration runner when the database adapter layer starts.
