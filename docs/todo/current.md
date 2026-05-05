@@ -52,6 +52,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 - [x] Add the first native PHP view renderer and escaping helper. `#59`
 - [x] Add release checklist and first `v0.x.y` release preparation. `#61`
 - [x] Add Dependabot policy for PHP and GitHub Actions dependencies. `#63`
+- [x] Add metrics and error tracking adapter policy details. `#65`
 
 ## Next Candidates
 
@@ -63,7 +64,6 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 - [ ] Expand the HTTP runtime skeleton beyond the smoke endpoint.
 - [ ] Add OpenAPI contract validation to `composer check`.
 - [ ] Choose and wire the migration runner when the database adapter layer starts.
-- [ ] Add metrics and error tracking adapter policy details when integrations start.
 
 ## Operating Notes
 
