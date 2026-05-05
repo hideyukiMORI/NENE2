@@ -7,6 +7,8 @@ namespace Nene2\Http;
 use LogicException;
 use Nene2\Config\AppConfig;
 use Nene2\Config\ConfigLoader;
+use Nene2\Database\DatabaseConnectionFactoryInterface;
+use Nene2\Database\PdoConnectionFactory;
 use Nene2\DependencyInjection\ContainerBuilder;
 use Nene2\DependencyInjection\ServiceProviderInterface;
 use Nyholm\Psr7\Factory\Psr17Factory;
@@ -46,6 +48,18 @@ final readonly class RuntimeServiceProvider implements ServiceProviderInterface
                     }
 
                     return $loader->load();
+                },
+            )
+            ->set(
+                DatabaseConnectionFactoryInterface::class,
+                static function (ContainerInterface $container): DatabaseConnectionFactoryInterface {
+                    $config = $container->get(AppConfig::class);
+
+                    if (!$config instanceof AppConfig) {
+                        throw new LogicException('Application config service is invalid.');
+                    }
+
+                    return new PdoConnectionFactory($config->database);
                 },
             )
             ->set(Psr17Factory::class, static fn (ContainerInterface $container): Psr17Factory => new Psr17Factory())

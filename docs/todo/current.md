@@ -68,6 +68,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 - [x] Add lightweight OpenAPI runtime contract tests for shipped JSON endpoints. `#89`
 - [x] Add typed database config and align Phinx with the config loader. `#91`
 - [x] Register typed config services in the runtime container. `#93`
+- [x] Add the first database connection adapter boundary. `#95`
 
 ## Next Candidates
 
