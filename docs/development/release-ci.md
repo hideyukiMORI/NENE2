@@ -139,7 +139,7 @@ Initial targets:
 
 - Composer dependencies
 - GitHub Actions
-- npm dependencies once `frontend/` exists
+- npm dependencies
 
 The initial Dependabot configuration is in `.github/dependabot.yml`.
 

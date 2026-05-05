@@ -16,7 +16,7 @@ The standard direction is:
 - Keep frontend source outside `public_html/`.
 - Write built assets to `public_html/assets/` only when they are safe to serve.
 
-This Issue defines the policy only. The actual starter implementation should be added in a focused follow-up Issue.
+The initial starter implementation lives in `frontend/`.
 
 ## Framework Boundary
 
@@ -126,7 +126,7 @@ The default repository policy is:
 
 ## Commands
 
-Recommended future frontend commands:
+Frontend commands:
 
 ```bash
 npm install --prefix frontend
@@ -135,7 +135,7 @@ npm run build --prefix frontend
 npm run check --prefix frontend
 ```
 
-The future `frontend/package.json` should expose:
+`frontend/package.json` exposes:
 
 ```json
 {

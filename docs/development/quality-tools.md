@@ -57,7 +57,7 @@ NENE2's own frontend starter direction is React + TypeScript.
 
 The framework should not force React on applications built with NENE2. Users may choose Vue, Nuxt, Next, plain TypeScript, or another frontend stack. However, framework-maintained examples, starter files, and internal validation should use one default stack to avoid fragmented maintenance.
 
-Planned frontend baseline:
+Adopted frontend baseline:
 
 - React for the first official starter.
 - TypeScript for frontend source.
