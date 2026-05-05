@@ -96,6 +96,7 @@ The HTTP runtime should not require a container for simple route handlers.
 The default front controller builds a PSR-11 container through `RuntimeContainerFactory`.
 `RuntimeServiceProvider` registers HTTP runtime services explicitly:
 
+- project root and typed application config
 - PSR-17 response and stream factories
 - logger fallback
 - runtime application factory

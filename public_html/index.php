@@ -10,7 +10,7 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 require dirname(__DIR__) . '/vendor/autoload.php';
 
-$container = (new RuntimeContainerFactory())->create();
+$container = (new RuntimeContainerFactory(dirname(__DIR__)))->create();
 $psr17Factory = $container->get(Psr17Factory::class);
 assert($psr17Factory instanceof Psr17Factory);
 $serverRequestCreator = new ServerRequestCreator(

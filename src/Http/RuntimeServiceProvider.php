@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Nene2\Http;
 
 use LogicException;
+use Nene2\Config\AppConfig;
+use Nene2\Config\ConfigLoader;
 use Nene2\DependencyInjection\ContainerBuilder;
 use Nene2\DependencyInjection\ServiceProviderInterface;
 use Nyholm\Psr7\Factory\Psr17Factory;
@@ -17,9 +19,35 @@ use Psr\Log\NullLogger;
 
 final readonly class RuntimeServiceProvider implements ServiceProviderInterface
 {
+    public const PROJECT_ROOT = 'nene2.project_root';
+
     public function register(ContainerBuilder $builder): void
     {
         $builder
+            ->set(
+                ConfigLoader::class,
+                static function (ContainerInterface $container): ConfigLoader {
+                    $projectRoot = $container->get(self::PROJECT_ROOT);
+
+                    if (!is_string($projectRoot) || $projectRoot === '') {
+                        throw new LogicException('Project root service is invalid.');
+                    }
+
+                    return new ConfigLoader($projectRoot);
+                },
+            )
+            ->set(
+                AppConfig::class,
+                static function (ContainerInterface $container): AppConfig {
+                    $loader = $container->get(ConfigLoader::class);
+
+                    if (!$loader instanceof ConfigLoader) {
+                        throw new LogicException('Config loader service is invalid.');
+                    }
+
+                    return $loader->load();
+                },
+            )
             ->set(Psr17Factory::class, static fn (ContainerInterface $container): Psr17Factory => new Psr17Factory())
             ->set(
                 ResponseFactoryInterface::class,
