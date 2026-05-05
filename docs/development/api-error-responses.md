@@ -54,7 +54,7 @@ Canonical pattern:
 https://nene2.dev/problems/{problem-name}
 ```
 
-`nene2.dev` is the canonical NENE2 problem type domain. Before public release, each stable problem type URI should either serve human-readable documentation or redirect to the relevant documentation page.
+`nene2.dev` is the canonical NENE2 problem type domain. Stable problem type pages are served from `public_html/problems/{problem-name}/` and should be available at `https://nene2.dev/problems/{problem-name}` when the public domain is deployed.
 
 Do not change canonical problem type URIs after clients depend on them unless the change is treated as a public API compatibility decision.
 
