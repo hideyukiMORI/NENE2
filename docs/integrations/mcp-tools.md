@@ -24,6 +24,18 @@ Preferred sources for tool definitions:
 
 Avoid creating MCP-only behavior that cannot be exercised or verified through normal application boundaries.
 
+## Catalog
+
+The first machine-readable MCP tool catalog lives at `docs/mcp/tools.json`.
+
+It contains read-only tool metadata aligned with shipped OpenAPI operations. The catalog is validated by:
+
+```bash
+docker compose run --rm app composer mcp
+```
+
+`composer check` includes this validation.
+
 ## Safety Levels
 
 Each MCP tool should be classified before implementation:
