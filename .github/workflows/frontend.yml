@@ -1,0 +1,37 @@
+name: Frontend
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  npm-check:
+    name: npm Check
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install npm dependencies
+        run: npm ci --prefix frontend
+
+      - name: Run frontend checks
+        run: npm run check --prefix frontend
+
+      - name: Build frontend
+        run: npm run build --prefix frontend
