@@ -14,3 +14,10 @@ npm run check --prefix frontend
 ```
 
 `npm run check --prefix frontend` runs TypeScript, ESLint, and Prettier checks.
+
+## Backend API
+
+The starter calls the NENE2 `/health` endpoint through `src/api/health.ts`.
+
+During local development, Vite proxies `/api/*` to the Docker backend at `http://localhost:8080`.
+Set `VITE_NENE2_API_BASE_URL` when an application needs a different API base URL.

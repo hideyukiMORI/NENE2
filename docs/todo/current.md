@@ -62,6 +62,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 - [x] Publish or redirect `https://nene2.dev/problems/*` before public error contracts are stable. `#77`
 - [x] Add route path parameters to the internal router. `#79`
 - [x] Wire the HTTP runtime through the PSR-11 container foundation. `#81`
+- [x] Add the first frontend-to-backend health API integration path. `#83`
 
 ## Next Candidates
 
