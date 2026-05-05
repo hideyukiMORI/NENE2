@@ -10,10 +10,12 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
 /**
- * @phpstan-type Route array{method: non-empty-string, path: non-empty-string, handler: callable(ServerRequestInterface): ResponseInterface}
+ * @phpstan-type Route array{method: non-empty-string, path: non-empty-string, pattern: string, parameterNames: list<non-empty-string>, handler: callable(ServerRequestInterface): ResponseInterface}
  */
 final class Router implements RequestHandlerInterface
 {
+    public const PARAMETERS_ATTRIBUTE = 'nene2.route.parameters';
+
     /** @var list<Route> */
     private array $routes = [];
 
@@ -32,12 +34,16 @@ final class Router implements RequestHandlerInterface
         $allowedMethods = [];
 
         foreach ($this->routes as $route) {
-            if ($route['path'] !== $path) {
+            $parameters = $this->match($route, $path);
+
+            if ($parameters === null) {
                 continue;
             }
 
             if ($route['method'] === $method) {
-                return $route['handler']($request);
+                return $route['handler'](
+                    $request->withAttribute(self::PARAMETERS_ATTRIBUTE, $parameters)
+                );
             }
 
             $allowedMethods[] = $route['method'];
@@ -60,12 +66,61 @@ final class Router implements RequestHandlerInterface
             throw new InvalidArgumentException('Route path must start with /.');
         }
 
+        [$pattern, $parameterNames] = $this->compilePath($path);
+
         $this->routes[] = [
             'method' => $method,
             'path' => $path,
+            'pattern' => $pattern,
+            'parameterNames' => $parameterNames,
             'handler' => $handler,
         ];
 
         return $this;
+    }
+
+    /**
+     * @return array{0: string, 1: list<non-empty-string>}
+     */
+    private function compilePath(string $path): array
+    {
+        $parameterNames = [];
+        $segments = explode('/', $path);
+        $patternSegments = [];
+
+        foreach ($segments as $segment) {
+            if (preg_match('/^\{([A-Za-z_][A-Za-z0-9_]*)\}$/', $segment, $matches) === 1) {
+                $parameterNames[] = $matches[1];
+                $patternSegments[] = '([^/]+)';
+                continue;
+            }
+
+            if (str_contains($segment, '{') || str_contains($segment, '}')) {
+                throw new InvalidArgumentException('Route path parameters must occupy a full path segment.');
+            }
+
+            $patternSegments[] = preg_quote($segment, '#');
+        }
+
+        return ['#^' . implode('/', $patternSegments) . '$#', $parameterNames];
+    }
+
+    /**
+     * @param Route $route
+     * @return array<string, string>|null
+     */
+    private function match(array $route, string $path): ?array
+    {
+        if (preg_match($route['pattern'], $path, $matches) !== 1) {
+            return null;
+        }
+
+        $parameters = [];
+
+        foreach ($route['parameterNames'] as $index => $name) {
+            $parameters[$name] = rawurldecode($matches[$index + 1]);
+        }
+
+        return $parameters;
     }
 }

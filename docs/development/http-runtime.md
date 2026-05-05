@@ -60,7 +60,8 @@ Routing should be explicit and small:
 
 - method and path matching are the first required features
 - route handlers should be callables, invokable classes, or request handlers
-- route groups, path parameters, and middleware attachment can be added incrementally
+- path parameters use `{name}` full path segments and are exposed as request attributes
+- route groups and middleware attachment can be added incrementally
 - attribute routing is not a default requirement
 
 NENE2 may adopt a small router implementation later, but the framework should keep the route table readable.
