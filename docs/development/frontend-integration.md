@@ -155,7 +155,10 @@ npm run check --prefix frontend
 
 Generated API clients should be considered after OpenAPI schemas are stable enough to be useful.
 
-The first starter may use a small typed fetch wrapper. Client generation should be introduced only when it reduces maintenance and keeps API contracts clearer.
+The first starter uses a small typed fetch wrapper for the `/health` API under `frontend/src/api/`.
+Vite proxies `/api/*` to the local Docker backend during development, while applications can set `VITE_NENE2_API_BASE_URL` when they need a different API base URL.
+
+Client generation should be introduced only when it reduces maintenance and keeps API contracts clearer.
 
 ## SPA Shell and Server HTML
 

@@ -66,6 +66,36 @@ h1 {
   line-height: 1.7;
 }
 
+.status-panel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  border: 1px solid #dce4f2;
+  border-radius: 1rem;
+  background: #ffffff;
+  margin-top: 1rem;
+  padding: 1.25rem;
+}
+
+.status-panel h2 {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.status-message {
+  border-radius: 999px;
+  background: #edf2fb;
+  margin: 0;
+  padding: 0.75rem 1rem;
+  color: #566174;
+}
+
+.status-message.is-ok {
+  background: #e8f8ef;
+  color: #145a32;
+}
+
 .cards {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -98,5 +128,10 @@ h1 {
 
   .cards {
     grid-template-columns: 1fr;
+  }
+
+  .status-panel {
+    align-items: stretch;
+    flex-direction: column;
   }
 }
