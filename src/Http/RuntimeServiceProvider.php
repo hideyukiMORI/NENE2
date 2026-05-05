@@ -9,8 +9,10 @@ use Nene2\Config\AppConfig;
 use Nene2\Config\ConfigLoader;
 use Nene2\Database\DatabaseConnectionFactoryInterface;
 use Nene2\Database\DatabaseQueryExecutorInterface;
+use Nene2\Database\DatabaseTransactionManagerInterface;
 use Nene2\Database\PdoConnectionFactory;
 use Nene2\Database\PdoDatabaseQueryExecutor;
+use Nene2\Database\PdoDatabaseTransactionManager;
 use Nene2\DependencyInjection\ContainerBuilder;
 use Nene2\DependencyInjection\ServiceProviderInterface;
 use Nyholm\Psr7\Factory\Psr17Factory;
@@ -74,6 +76,18 @@ final readonly class RuntimeServiceProvider implements ServiceProviderInterface
                     }
 
                     return new PdoDatabaseQueryExecutor($connectionFactory);
+                },
+            )
+            ->set(
+                DatabaseTransactionManagerInterface::class,
+                static function (ContainerInterface $container): DatabaseTransactionManagerInterface {
+                    $connectionFactory = $container->get(DatabaseConnectionFactoryInterface::class);
+
+                    if (!$connectionFactory instanceof DatabaseConnectionFactoryInterface) {
+                        throw new LogicException('Database connection factory service is invalid.');
+                    }
+
+                    return new PdoDatabaseTransactionManager($connectionFactory);
                 },
             )
             ->set(Psr17Factory::class, static fn (ContainerInterface $container): Psr17Factory => new Psr17Factory())

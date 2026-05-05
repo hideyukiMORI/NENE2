@@ -18,7 +18,9 @@ final class PdoDatabaseQueryExecutor implements DatabaseQueryExecutorInterface
 
     public function __construct(
         private readonly DatabaseConnectionFactoryInterface $connectionFactory,
+        ?PDO $connection = null,
     ) {
+        $this->connection = $connection;
     }
 
     public function execute(string $sql, array $parameters = []): int
