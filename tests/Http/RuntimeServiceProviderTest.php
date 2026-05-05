@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace Nene2\Tests\Http;
 
+use Nene2\Config\AppConfig;
+use Nene2\Config\ConfigLoader;
 use Nene2\Http\ResponseEmitter;
 use Nene2\Http\RuntimeApplicationFactory;
 use Nene2\Http\RuntimeContainerFactory;
+use Nene2\Http\RuntimeServiceProvider;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseFactoryInterface;
@@ -21,6 +24,9 @@ final class RuntimeServiceProviderTest extends TestCase
         $container = (new RuntimeContainerFactory())->create();
 
         self::assertInstanceOf(Psr17Factory::class, $container->get(Psr17Factory::class));
+        self::assertSame(dirname(__DIR__, 2), $container->get(RuntimeServiceProvider::PROJECT_ROOT));
+        self::assertInstanceOf(ConfigLoader::class, $container->get(ConfigLoader::class));
+        self::assertInstanceOf(AppConfig::class, $container->get(AppConfig::class));
         self::assertInstanceOf(ResponseFactoryInterface::class, $container->get(ResponseFactoryInterface::class));
         self::assertInstanceOf(StreamFactoryInterface::class, $container->get(StreamFactoryInterface::class));
         self::assertInstanceOf(LoggerInterface::class, $container->get(LoggerInterface::class));
@@ -42,5 +48,20 @@ final class RuntimeServiceProviderTest extends TestCase
 
         self::assertSame(200, $response->getStatusCode());
         self::assertSame('application/json; charset=utf-8', $response->getHeaderLine('Content-Type'));
+    }
+
+    public function testRuntimeContainerUsesExplicitProjectRootForConfig(): void
+    {
+        $container = (new RuntimeContainerFactory($this->emptyProjectRoot()))->create();
+        $config = $container->get(AppConfig::class);
+
+        self::assertInstanceOf(AppConfig::class, $config);
+        self::assertSame('NENE2', $config->name);
+        self::assertSame('nene2', $config->database->name);
+    }
+
+    private function emptyProjectRoot(): string
+    {
+        return sys_get_temp_dir();
     }
 }
