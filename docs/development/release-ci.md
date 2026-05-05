@@ -97,7 +97,7 @@ As tooling is implemented, CI should expand in this order:
 4. Dependency update checks after Dependabot or Renovate is configured.
 5. Release workflow after manual release steps are stable.
 
-Recommended future frontend CI steps:
+The initial frontend workflow lives at `.github/workflows/frontend.yml` and runs:
 
 ```text
 1. set up Node.js active LTS
