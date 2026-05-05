@@ -71,6 +71,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 - [x] Add the first database connection adapter boundary. `#95`
 - [x] Add a parameterized database query boundary for repository adapters. `#97`
 - [x] Define the first database test strategy and focused test command. `#99`
+- [x] Add an explicit database transaction boundary. `#101`
 
 ## Next Candidates
 

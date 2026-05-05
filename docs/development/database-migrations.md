@@ -103,10 +103,10 @@ Generated schema files should be reproducible. If a schema file is too noisy to 
 The first database adapter boundary is `DatabaseConnectionFactoryInterface`, with `PdoConnectionFactory` as the initial PDO implementation.
 It builds connections from `DatabaseConfig`, so application infrastructure does not read raw environment variables directly.
 Repository adapters should depend on `DatabaseQueryExecutorInterface` for parameterized SQL reads and writes instead of using raw PDO directly.
+Use `DatabaseTransactionManagerInterface` when a use case or adapter operation needs commit/rollback behavior across multiple queries.
 
 The database adapter milestone should continue with:
 
-- transaction policy
 - test database strategy, documented in `docs/development/test-database-strategy.md`
 
 Until that milestone, the directories are placeholders and the docs are the source of truth.
