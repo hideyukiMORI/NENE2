@@ -2,7 +2,11 @@
 
 declare(strict_types=1);
 
-$databaseUrl = getenv('DATABASE_URL');
+use Nene2\Config\ConfigLoader;
+
+require_once __DIR__ . '/vendor/autoload.php';
+
+$database = (new ConfigLoader(__DIR__))->load()->database;
 
 return [
     'paths' => [
@@ -10,17 +14,17 @@ return [
         'seeds' => 'database/seeds',
     ],
     'environments' => [
-        'default_environment' => getenv('DB_ENV') ?: 'local',
-        'local' => $databaseUrl !== false && $databaseUrl !== ''
-            ? ['url' => $databaseUrl]
+        'default_environment' => $database->environment,
+        $database->environment => $database->usesUrl()
+            ? ['url' => $database->url]
             : [
-                'adapter' => getenv('DB_ADAPTER') ?: 'mysql',
-                'host' => getenv('DB_HOST') ?: '127.0.0.1',
-                'name' => getenv('DB_NAME') ?: 'nene2',
-                'user' => getenv('DB_USER') ?: 'nene2',
-                'pass' => getenv('DB_PASSWORD') ?: '',
-                'port' => (int) (getenv('DB_PORT') ?: 3306),
-                'charset' => getenv('DB_CHARSET') ?: 'utf8mb4',
+                'adapter' => $database->adapter,
+                'host' => $database->host,
+                'name' => $database->name,
+                'user' => $database->user,
+                'pass' => $database->password,
+                'port' => $database->port,
+                'charset' => $database->charset,
             ],
     ],
     'version_order' => 'creation',

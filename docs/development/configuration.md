@@ -78,8 +78,10 @@ The initial application config includes:
 - `APP_ENV`: `local`, `test`, or `production`
 - `APP_DEBUG`: boolean value
 - `APP_NAME`: non-empty application name
+- database config values used by Phinx and future database adapters:
+  `DATABASE_URL`, `DB_ENV`, `DB_ADAPTER`, `DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER`, `DB_PASSWORD`, and `DB_CHARSET`
 
-`.env.example` documents safe local defaults. Raw environment access stays inside `ConfigLoader`; application and infrastructure code should receive `AppConfig` or future focused config objects.
+`.env.example` documents safe local defaults. Raw environment access stays inside `ConfigLoader`; application and infrastructure code should receive `AppConfig` and focused nested config objects such as `DatabaseConfig`.
 
 ## Secret Policy
 

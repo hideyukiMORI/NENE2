@@ -18,6 +18,15 @@ final class ConfigLoaderTest extends TestCase
         self::assertSame(AppEnvironment::Local, $config->environment);
         self::assertFalse($config->debug);
         self::assertSame('NENE2', $config->name);
+        self::assertFalse($config->database->usesUrl());
+        self::assertSame('local', $config->database->environment);
+        self::assertSame('mysql', $config->database->adapter);
+        self::assertSame('127.0.0.1', $config->database->host);
+        self::assertSame(3306, $config->database->port);
+        self::assertSame('nene2', $config->database->name);
+        self::assertSame('nene2', $config->database->user);
+        self::assertSame('', $config->database->password);
+        self::assertSame('utf8mb4', $config->database->charset);
     }
 
     public function testExplicitOverridesWinOverDefaults(): void
@@ -26,11 +35,29 @@ final class ConfigLoaderTest extends TestCase
             'APP_ENV' => 'test',
             'APP_DEBUG' => 'true',
             'APP_NAME' => 'NENE2 Test',
+            'DATABASE_URL' => 'sqlite:///:memory:',
+            'DB_ENV' => 'test',
+            'DB_ADAPTER' => 'sqlite',
+            'DB_HOST' => 'localhost',
+            'DB_PORT' => '1',
+            'DB_NAME' => 'nene2_test',
+            'DB_USER' => 'tester',
+            'DB_PASSWORD' => 'secret',
+            'DB_CHARSET' => 'utf8',
         ]);
 
         self::assertSame(AppEnvironment::Test, $config->environment);
         self::assertTrue($config->debug);
         self::assertSame('NENE2 Test', $config->name);
+        self::assertSame('sqlite:///:memory:', $config->database->url);
+        self::assertSame('test', $config->database->environment);
+        self::assertSame('sqlite', $config->database->adapter);
+        self::assertSame('localhost', $config->database->host);
+        self::assertSame(1, $config->database->port);
+        self::assertSame('nene2_test', $config->database->name);
+        self::assertSame('tester', $config->database->user);
+        self::assertSame('secret', $config->database->password);
+        self::assertSame('utf8', $config->database->charset);
     }
 
     public function testInvalidEnvironmentFailsFast(): void
@@ -60,6 +87,36 @@ final class ConfigLoaderTest extends TestCase
 
         (new ConfigLoader($this->emptyProjectRoot()))->load([
             'APP_NAME' => '   ',
+        ]);
+    }
+
+    public function testInvalidDatabasePortFailsFast(): void
+    {
+        $this->expectException(ConfigException::class);
+        $this->expectExceptionMessage('DB_PORT must be an integer.');
+
+        (new ConfigLoader($this->emptyProjectRoot()))->load([
+            'DB_PORT' => 'mysql',
+        ]);
+    }
+
+    public function testOutOfRangeDatabasePortFailsFast(): void
+    {
+        $this->expectException(ConfigException::class);
+        $this->expectExceptionMessage('DB_PORT must be between 1 and 65535.');
+
+        (new ConfigLoader($this->emptyProjectRoot()))->load([
+            'DB_PORT' => '65536',
+        ]);
+    }
+
+    public function testEmptyDatabaseNameFailsFast(): void
+    {
+        $this->expectException(ConfigException::class);
+        $this->expectExceptionMessage('DB_NAME must not be empty.');
+
+        (new ConfigLoader($this->emptyProjectRoot()))->load([
+            'DB_NAME' => '   ',
         ]);
     }
 

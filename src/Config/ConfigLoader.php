@@ -17,6 +17,15 @@ final readonly class ConfigLoader
             'APP_ENV' => 'local',
             'APP_DEBUG' => 'false',
             'APP_NAME' => 'NENE2',
+            'DATABASE_URL' => '',
+            'DB_ENV' => 'local',
+            'DB_ADAPTER' => 'mysql',
+            'DB_HOST' => '127.0.0.1',
+            'DB_PORT' => '3306',
+            'DB_NAME' => 'nene2',
+            'DB_USER' => 'nene2',
+            'DB_PASSWORD' => '',
+            'DB_CHARSET' => 'utf8mb4',
         ],
     ) {
     }
@@ -38,6 +47,17 @@ final readonly class ConfigLoader
             AppEnvironment::fromConfigValue($values['APP_ENV']),
             $this->parseBoolean('APP_DEBUG', $values['APP_DEBUG']),
             trim($values['APP_NAME']),
+            new DatabaseConfig(
+                $this->optionalString($values['DATABASE_URL']),
+                trim($values['DB_ENV']),
+                trim($values['DB_ADAPTER']),
+                trim($values['DB_HOST']),
+                $this->parsePort($values['DB_PORT']),
+                trim($values['DB_NAME']),
+                trim($values['DB_USER']),
+                $values['DB_PASSWORD'],
+                trim($values['DB_CHARSET']),
+            ),
         );
     }
 
@@ -76,5 +96,23 @@ final readonly class ConfigLoader
             '0', 'false', 'no', 'off' => false,
             default => throw new ConfigException(sprintf('%s must be a boolean value.', $key)),
         };
+    }
+
+    private function optionalString(string $value): ?string
+    {
+        $value = trim($value);
+
+        return $value === '' ? null : $value;
+    }
+
+    private function parsePort(string $value): int
+    {
+        $value = trim($value);
+
+        if (preg_match('/\A\d+\z/', $value) !== 1) {
+            throw new ConfigException('DB_PORT must be an integer.');
+        }
+
+        return (int) $value;
     }
 }
