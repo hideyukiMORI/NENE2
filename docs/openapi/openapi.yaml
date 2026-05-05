@@ -36,6 +36,30 @@ paths:
           $ref: '#/components/responses/PayloadTooLarge'
         '500':
           $ref: '#/components/responses/InternalServerError'
+  /health:
+    get:
+      tags:
+        - System
+      summary: Health endpoint
+      description: Returns a minimal JSON response for local operational health checks.
+      operationId: getHealth
+      responses:
+        '200':
+          description: Health response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+              examples:
+                ok:
+                  summary: Healthy response
+                  value:
+                    status: ok
+                    service: NENE2
+        '413':
+          $ref: '#/components/responses/PayloadTooLarge'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
 components:
   responses:
     NotFound:
@@ -208,3 +232,17 @@ components:
           enum:
             - ok
           example: ok
+    HealthResponse:
+      type: object
+      required:
+        - status
+        - service
+      properties:
+        status:
+          type: string
+          enum:
+            - ok
+          example: ok
+        service:
+          type: string
+          example: NENE2

@@ -36,14 +36,22 @@ final readonly class RuntimeApplicationFactory
         $problemDetails = new ProblemDetailsResponseFactory($this->responseFactory, $this->streamFactory);
         $framework = new FrameworkInfo();
 
-        $router = (new Router())->get(
-            '/',
-            static fn (ServerRequestInterface $request) => $jsonResponses->create([
-                'name' => $framework->name(),
-                'description' => $framework->description(),
-                'status' => 'ok',
-            ]),
-        );
+        $router = (new Router())
+            ->get(
+                '/',
+                static fn (ServerRequestInterface $request) => $jsonResponses->create([
+                    'name' => $framework->name(),
+                    'description' => $framework->description(),
+                    'status' => 'ok',
+                ]),
+            )
+            ->get(
+                '/health',
+                static fn (ServerRequestInterface $request) => $jsonResponses->create([
+                    'status' => 'ok',
+                    'service' => $framework->name(),
+                ]),
+            );
 
         return new MiddlewareDispatcher(
             [
