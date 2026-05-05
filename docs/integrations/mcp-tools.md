@@ -59,6 +59,8 @@ The first MCP tools should be `read` tools.
 
 Local-only MCP tools may help agents inspect the development app, but they must stay clearly scoped.
 
+Safe local commands are documented in `docs/integrations/local-ai-commands.md`.
+
 Local tools may:
 
 - call local HTTP APIs
