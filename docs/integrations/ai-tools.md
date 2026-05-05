@@ -39,5 +39,6 @@ For normal code or documentation work, an AI agent should:
 - MCP tool design should follow `docs/integrations/mcp-tools.md`.
 - Machine-readable MCP tool metadata is tracked in `docs/mcp/tools.json`.
 - Safe local AI and MCP commands are documented in `docs/integrations/local-ai-commands.md`.
+- AI-assisted debugging should follow `docs/integrations/ai-debugging.md`.
 - Destructive operations must require explicit user approval.
 - Production access rules must be documented before production tooling is added.

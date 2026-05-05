@@ -80,6 +80,8 @@ X-Request-Id
 
 Request ids are correlation identifiers, not authentication credentials.
 
+AI-assisted debugging should use request ids as the first HTTP correlation value. See `docs/integrations/ai-debugging.md`.
+
 ## Error Tracking
 
 Error tracking tools such as Sentry should be adapters.

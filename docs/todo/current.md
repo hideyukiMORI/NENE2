@@ -75,10 +75,10 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 - [x] Define MCP tool integration safety policy. `#103`
 - [x] Add a read-only MCP tool catalog aligned with OpenAPI. `#105`
 - [x] Document safe local AI/MCP development commands. `#107`
+- [x] Add request-id based AI debugging guide. `#109`
 
 ## Next Candidates
 
-- [ ] Add request-id based AI debugging guide.
 - [ ] Add generated OpenAPI-to-MCP catalog direction once the catalog grows.
 
 ## Operating Notes

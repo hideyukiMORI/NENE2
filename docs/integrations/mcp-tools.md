@@ -96,6 +96,8 @@ When a tool maps to an HTTP API operation:
 - preserve Problem Details error behavior
 - include request id in logs and returned metadata where useful
 
+AI-assisted debugging guidance for request id handling lives in `docs/integrations/ai-debugging.md`.
+
 If a tool needs a shape that does not fit the current API, update the API contract first or document why an internal service boundary is better.
 
 ## Non-Goals
