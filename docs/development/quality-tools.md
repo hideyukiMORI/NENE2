@@ -37,6 +37,7 @@ Composer scripts:
 {
   "scripts": {
     "test": "phpunit",
+    "test:database": "phpunit --testsuite Database",
     "analyse": "phpstan analyse",
     "cs": "php-cs-fixer fix --dry-run --diff",
     "cs:fix": "php-cs-fixer fix",

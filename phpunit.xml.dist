@@ -7,6 +7,10 @@
   <testsuites>
     <testsuite name="NENE2">
       <directory>tests</directory>
+      <exclude>tests/Database</exclude>
+    </testsuite>
+    <testsuite name="Database">
+      <directory>tests/Database</directory>
     </testsuite>
   </testsuites>
   <source>
