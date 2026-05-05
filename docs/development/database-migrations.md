@@ -47,6 +47,7 @@ docker compose run --rm app composer migrations:seed
 ## Configuration
 
 Phinx configuration lives in `phinx.php`.
+It is wired through `ConfigLoader` and `DatabaseConfig` so migration tooling and future database adapters share the same typed environment boundary.
 
 Supported environment variables:
 

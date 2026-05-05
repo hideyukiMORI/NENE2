@@ -66,6 +66,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 - [x] Add first GitHub Actions workflow for backend Composer checks. `#85`
 - [x] Add first GitHub Actions workflow for frontend npm checks. `#87`
 - [x] Add lightweight OpenAPI runtime contract tests for shipped JSON endpoints. `#89`
+- [x] Add typed database config and align Phinx with the config loader. `#91`
 
 ## Next Candidates
 
