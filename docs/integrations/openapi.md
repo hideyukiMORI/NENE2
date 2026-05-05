@@ -55,6 +55,14 @@ Then verify:
 - `http://localhost:8080/openapi.php` returns the OpenAPI YAML.
 - `http://localhost:8080/docs/` loads Swagger UI.
 
+Validate the contract file locally:
+
+```bash
+docker compose run --rm app composer openapi
+```
+
+`composer check` includes this OpenAPI validation step.
+
 ## Testing Direction
 
 Once runtime code exists, API tests should verify that responses match the documented contract. The first implementation can be lightweight and grow with the framework.

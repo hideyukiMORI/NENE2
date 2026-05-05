@@ -28,10 +28,12 @@
     "analyse": "phpstan analyse",
     "cs": "php-cs-fixer fix --dry-run --diff --config=.php-cs-fixer.php",
     "cs:fix": "php-cs-fixer fix --config=.php-cs-fixer.php",
+    "openapi": "php tools/validate-openapi.php",
     "check": [
       "@test",
       "@analyse",
-      "@cs"
+      "@cs",
+      "@openapi"
     ]
   },
   "config": {
@@ -40,6 +42,7 @@
   "require-dev": {
     "friendsofphp/php-cs-fixer": "^3.95",
     "phpstan/phpstan": "^2.1",
-    "phpunit/phpunit": "^13.1"
+    "phpunit/phpunit": "^13.1",
+    "symfony/yaml": "^8.0"
   }
 }
