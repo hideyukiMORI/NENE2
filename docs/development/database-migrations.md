@@ -100,7 +100,10 @@ Generated schema files should be reproducible. If a schema file is too noisy to 
 
 ## Future Implementation
 
-The database adapter milestone should decide:
+The first database adapter boundary is `DatabaseConnectionFactoryInterface`, with `PdoConnectionFactory` as the initial PDO implementation.
+It builds connections from `DatabaseConfig`, so application infrastructure does not read raw environment variables directly.
+
+The database adapter milestone should continue with:
 
 - transaction policy
 - test database strategy

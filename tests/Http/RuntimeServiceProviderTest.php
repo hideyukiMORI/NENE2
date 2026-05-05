@@ -6,6 +6,7 @@ namespace Nene2\Tests\Http;
 
 use Nene2\Config\AppConfig;
 use Nene2\Config\ConfigLoader;
+use Nene2\Database\DatabaseConnectionFactoryInterface;
 use Nene2\Http\ResponseEmitter;
 use Nene2\Http\RuntimeApplicationFactory;
 use Nene2\Http\RuntimeContainerFactory;
@@ -27,6 +28,10 @@ final class RuntimeServiceProviderTest extends TestCase
         self::assertSame(dirname(__DIR__, 2), $container->get(RuntimeServiceProvider::PROJECT_ROOT));
         self::assertInstanceOf(ConfigLoader::class, $container->get(ConfigLoader::class));
         self::assertInstanceOf(AppConfig::class, $container->get(AppConfig::class));
+        self::assertInstanceOf(
+            DatabaseConnectionFactoryInterface::class,
+            $container->get(DatabaseConnectionFactoryInterface::class),
+        );
         self::assertInstanceOf(ResponseFactoryInterface::class, $container->get(ResponseFactoryInterface::class));
         self::assertInstanceOf(StreamFactoryInterface::class, $container->get(StreamFactoryInterface::class));
         self::assertInstanceOf(LoggerInterface::class, $container->get(LoggerInterface::class));
