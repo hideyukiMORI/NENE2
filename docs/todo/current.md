@@ -59,10 +59,10 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 - [x] Add React + TypeScript frontend starter and ESLint / Prettier baseline. `#73`
 - [x] Add npm package metadata, Node engines, package lock, and frontend check scripts. `#73`
 - [x] Choose and wire the migration runner when the database adapter layer starts. `#75`
+- [x] Publish or redirect `https://nene2.dev/problems/*` before public error contracts are stable. `#77`
 
 ## Next Candidates
 
-- [ ] Publish or redirect `https://nene2.dev/problems/*` before public error contracts are stable.
 - [ ] Add first GitHub Actions workflow for backend Composer checks.
 
 ## Operating Notes
