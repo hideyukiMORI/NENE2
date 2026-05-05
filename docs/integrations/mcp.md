@@ -2,6 +2,8 @@
 
 MCP support should make NENE2 easy for AI tools to operate without bypassing application boundaries.
 
+Concrete MCP tool integration rules live in `docs/integrations/mcp-tools.md`.
+
 ## Goals
 
 - Expose safe, documented application capabilities to AI tools.

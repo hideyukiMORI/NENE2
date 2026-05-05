@@ -72,6 +72,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 - [x] Add a parameterized database query boundary for repository adapters. `#97`
 - [x] Define the first database test strategy and focused test command. `#99`
 - [x] Add an explicit database transaction boundary. `#101`
+- [x] Define MCP tool integration safety policy. `#103`
 
 ## Next Candidates
 
