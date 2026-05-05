@@ -10,7 +10,7 @@ The standard NENE2 approach is:
 
 - Keep framework core database-independent.
 - Provide predictable directories for application schema work.
-- Choose a migration tool when the database adapter layer is introduced.
+- Use Phinx as the first migration tool.
 - Prefer an existing migration tool over a custom runner.
 - Keep migration history readable to humans and AI agents.
 
@@ -25,11 +25,42 @@ database/
 
 ## Tool Direction
 
-Phinx is the first candidate for NENE2 because it is small, framework-independent, and easy to understand.
+Phinx is the first migration runner for NENE2 because it is small, framework-independent, and easy to understand. This decision is recorded in `docs/adr/0004-use-phinx-migration-runner.md`.
 
 Doctrine Migrations remains a valid option if NENE2 later adopts Doctrine DBAL or needs stronger schema abstraction.
 
 Do not build a custom migration runner first. Migration ordering, rollback, multi-environment state, and failed deployments are easy places to create long-term risk.
+
+## Commands
+
+Migration commands are exposed through Composer:
+
+```bash
+docker compose run --rm app composer migrations:status
+docker compose run --rm app composer migrations:migrate
+docker compose run --rm app composer migrations:rollback
+docker compose run --rm app composer migrations:seed
+```
+
+`composer check` does not run migrations because it should not require a configured database.
+
+## Configuration
+
+Phinx configuration lives in `phinx.php`.
+
+Supported environment variables:
+
+- `DATABASE_URL`
+- `DB_ENV`
+- `DB_ADAPTER`
+- `DB_HOST`
+- `DB_PORT`
+- `DB_NAME`
+- `DB_USER`
+- `DB_PASSWORD`
+- `DB_CHARSET`
+
+Production credentials must come from environment variables or platform secrets. Do not commit local `.env` files with database credentials.
 
 ## Naming
 
@@ -70,10 +101,6 @@ Generated schema files should be reproducible. If a schema file is too noisy to 
 
 The database adapter milestone should decide:
 
-- migration tool
-- migration command names
-- config format
-- environment variable names
 - transaction policy
 - test database strategy
 
