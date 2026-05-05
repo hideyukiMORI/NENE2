@@ -71,6 +71,7 @@ Manual release notes are acceptable at first. Automated release note generation 
 ## CI Baseline
 
 The first GitHub Actions workflow should verify backend quality.
+The initial backend workflow lives at `.github/workflows/backend.yml`.
 
 Recommended first CI steps:
 

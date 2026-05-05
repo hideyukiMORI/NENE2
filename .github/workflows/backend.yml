@@ -1,0 +1,37 @@
+name: Backend
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  composer-check:
+    name: Composer Check
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          coverage: none
+          tools: composer:v2
+
+      - name: Validate Composer metadata
+        run: composer validate --strict
+
+      - name: Install Composer dependencies
+        run: composer install --no-interaction --no-progress --prefer-dist
+
+      - name: Run backend checks
+        run: composer check
