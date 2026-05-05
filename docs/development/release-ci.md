@@ -141,6 +141,8 @@ Initial targets:
 - GitHub Actions
 - npm dependencies once `frontend/` exists
 
+The initial Dependabot configuration is in `.github/dependabot.yml`.
+
 Renovate can be considered later if grouping, scheduling, or advanced dependency policies become important.
 
 Dependency update PRs should still run the same CI checks as normal PRs.

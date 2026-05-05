@@ -51,6 +51,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 - [x] Add PHP-CS-Fixer configuration and Composer scripts. `#57`
 - [x] Add the first native PHP view renderer and escaping helper. `#59`
 - [x] Add release checklist and first `v0.x.y` release preparation. `#61`
+- [x] Add Dependabot policy for PHP and GitHub Actions dependencies. `#63`
 
 ## Next Candidates
 
@@ -58,7 +59,6 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 - [ ] Keep self-review checklists updated as new implementation areas are introduced.
 - [ ] Add React + TypeScript frontend starter and ESLint / Prettier baseline.
 - [ ] Add npm package metadata, Node engines, package lock, and frontend check scripts.
-- [ ] Add Dependabot or Renovate policy for PHP and frontend dependencies.
 - [ ] Add first GitHub Actions workflow for backend Composer checks.
 - [ ] Expand the HTTP runtime skeleton beyond the smoke endpoint.
 - [ ] Add OpenAPI contract validation to `composer check`.
