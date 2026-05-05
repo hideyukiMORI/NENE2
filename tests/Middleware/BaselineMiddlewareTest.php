@@ -7,6 +7,7 @@ namespace Nene2\Tests\Middleware;
 use Nene2\Error\ProblemDetailsResponseFactory;
 use Nene2\Middleware\CorsMiddleware;
 use Nene2\Middleware\RequestIdMiddleware;
+use Nene2\Middleware\RequestLoggingMiddleware;
 use Nene2\Middleware\RequestSizeLimitMiddleware;
 use Nene2\Middleware\SecurityHeadersMiddleware;
 use Nyholm\Psr7\Factory\Psr17Factory;
@@ -14,6 +15,8 @@ use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use Psr\Log\AbstractLogger;
+use Stringable;
 
 final class BaselineMiddlewareTest extends TestCase
 {
@@ -131,6 +134,44 @@ final class BaselineMiddlewareTest extends TestCase
         self::assertSame(413, $response->getStatusCode());
         self::assertSame('https://nene2.dev/problems/payload-too-large', $payload['type']);
         self::assertSame(10, $payload['max_body_bytes']);
+    }
+
+    public function testRequestLoggingIncludesSafeRequestContext(): void
+    {
+        $factory = new Psr17Factory();
+        $logger = new class () extends AbstractLogger {
+            /** @var list<array{level: mixed, message: string, context: array<string, mixed>}> */
+            public array $records = [];
+
+            /**
+             * @param array<string, mixed> $context
+             */
+            public function log($level, Stringable|string $message, array $context = []): void
+            {
+                $this->records[] = [
+                    'level' => $level,
+                    'message' => (string) $message,
+                    'context' => $context,
+                ];
+            }
+        };
+        $middleware = new RequestLoggingMiddleware($logger);
+        $request = $factory
+            ->createServerRequest('GET', 'https://example.test/health')
+            ->withHeader('Authorization', 'Bearer secret')
+            ->withAttribute(RequestIdMiddleware::ATTRIBUTE, 'request-123');
+
+        $middleware->process($request, $this->okHandler($factory));
+
+        self::assertCount(1, $logger->records);
+        self::assertSame('info', $logger->records[0]['level']);
+        self::assertSame('HTTP request handled.', $logger->records[0]['message']);
+        self::assertSame('request-123', $logger->records[0]['context']['request_id']);
+        self::assertSame('GET', $logger->records[0]['context']['method']);
+        self::assertSame('/health', $logger->records[0]['context']['path']);
+        self::assertSame(200, $logger->records[0]['context']['status']);
+        self::assertArrayHasKey('duration_ms', $logger->records[0]['context']);
+        self::assertArrayNotHasKey('Authorization', $logger->records[0]['context']);
     }
 
     private function okHandler(Psr17Factory $factory): RequestHandlerInterface
