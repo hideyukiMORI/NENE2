@@ -93,7 +93,16 @@ Provider execution order must be explicit if ordering matters.
 
 The HTTP runtime should not require a container for simple route handlers.
 
-Container integration can be added at these edges:
+The default front controller builds a PSR-11 container through `RuntimeContainerFactory`.
+`RuntimeServiceProvider` registers HTTP runtime services explicitly:
+
+- PSR-17 response and stream factories
+- logger fallback
+- runtime application factory
+- PSR-15 request handler
+- response emitter
+
+Container integration can continue to grow at these edges:
 
 - route handler resolution
 - middleware construction
