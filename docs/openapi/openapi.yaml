@@ -32,6 +32,8 @@ paths:
                     name: NENE2
                     description: JSON APIs first, minimal server HTML, frontend ready, AI-readable.
                     status: ok
+        '413':
+          $ref: '#/components/responses/PayloadTooLarge'
         '500':
           $ref: '#/components/responses/InternalServerError'
 components:
@@ -90,6 +92,22 @@ components:
                   - field: email
                     message: Email must be a valid email address.
                     code: invalid_email
+    PayloadTooLarge:
+      description: The request body exceeds the configured size limit.
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+          examples:
+            payloadTooLarge:
+              summary: Payload too large
+              value:
+                type: https://nene2.dev/problems/payload-too-large
+                title: Payload Too Large
+                status: 413
+                detail: The request body exceeds the configured size limit.
+                instance: /upload
+                max_body_bytes: 1048576
     InternalServerError:
       description: The server encountered an unexpected condition.
       content:
