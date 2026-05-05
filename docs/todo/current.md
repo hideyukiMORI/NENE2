@@ -69,6 +69,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 - [x] Add typed database config and align Phinx with the config loader. `#91`
 - [x] Register typed config services in the runtime container. `#93`
 - [x] Add the first database connection adapter boundary. `#95`
+- [x] Add a parameterized database query boundary for repository adapters. `#97`
 
 ## Next Candidates
 
