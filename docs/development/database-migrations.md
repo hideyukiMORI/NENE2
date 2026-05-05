@@ -107,6 +107,6 @@ Repository adapters should depend on `DatabaseQueryExecutorInterface` for parame
 The database adapter milestone should continue with:
 
 - transaction policy
-- test database strategy
+- test database strategy, documented in `docs/development/test-database-strategy.md`
 
 Until that milestone, the directories are placeholders and the docs are the source of truth.
