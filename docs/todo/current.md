@@ -73,10 +73,13 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 - [x] Define the first database test strategy and focused test command. `#99`
 - [x] Add an explicit database transaction boundary. `#101`
 - [x] Define MCP tool integration safety policy. `#103`
+- [x] Add a read-only MCP tool catalog aligned with OpenAPI. `#105`
 
 ## Next Candidates
 
-No active candidates. Choose the next Issue from `docs/roadmap.md` and current project direction.
+- [ ] Document safe local AI/MCP development commands.
+- [ ] Add request-id based AI debugging guide.
+- [ ] Add generated OpenAPI-to-MCP catalog direction once the catalog grows.
 
 ## Operating Notes
 

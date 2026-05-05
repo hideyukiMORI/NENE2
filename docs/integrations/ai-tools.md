@@ -37,5 +37,6 @@ For normal code or documentation work, an AI agent should:
 - AI tools must not commit secrets.
 - MCP tools should interact with the application through documented APIs, not direct database access.
 - MCP tool design should follow `docs/integrations/mcp-tools.md`.
+- Machine-readable MCP tool metadata is tracked in `docs/mcp/tools.json`.
 - Destructive operations must require explicit user approval.
 - Production access rules must be documented before production tooling is added.

@@ -1,0 +1,42 @@
+{
+  "version": 1,
+  "source": "docs/openapi/openapi.yaml",
+  "tools": [
+    {
+      "name": "getFrameworkSmoke",
+      "title": "Framework Smoke",
+      "description": "Read the framework smoke endpoint through the documented public API.",
+      "safety": "read",
+      "source": {
+        "type": "openapi",
+        "operationId": "getFrameworkSmoke",
+        "method": "GET",
+        "path": "/"
+      },
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {}
+      },
+      "responseSchemaRef": "#/components/schemas/FrameworkSmokeResponse"
+    },
+    {
+      "name": "getHealth",
+      "title": "Health",
+      "description": "Read the health endpoint through the documented public API.",
+      "safety": "read",
+      "source": {
+        "type": "openapi",
+        "operationId": "getHealth",
+        "method": "GET",
+        "path": "/health"
+      },
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {}
+      },
+      "responseSchemaRef": "#/components/schemas/HealthResponse"
+    }
+  ]
+}
