@@ -21,6 +21,8 @@ final class HttpRuntimeTest extends TestCase
 
         self::assertSame(200, $response->getStatusCode());
         self::assertSame('application/json; charset=utf-8', $response->getHeaderLine('Content-Type'));
+        self::assertMatchesRegularExpression('/\A[a-f0-9]{32}\z/', $response->getHeaderLine('X-Request-Id'));
+        self::assertSame('nosniff', $response->getHeaderLine('X-Content-Type-Options'));
         self::assertSame('NENE2', $payload['name']);
         self::assertSame('ok', $payload['status']);
     }
@@ -35,6 +37,8 @@ final class HttpRuntimeTest extends TestCase
 
         self::assertSame(404, $response->getStatusCode());
         self::assertSame('application/problem+json; charset=utf-8', $response->getHeaderLine('Content-Type'));
+        self::assertMatchesRegularExpression('/\A[a-f0-9]{32}\z/', $response->getHeaderLine('X-Request-Id'));
+        self::assertSame('nosniff', $response->getHeaderLine('X-Content-Type-Options'));
         self::assertSame('https://nene2.dev/problems/not-found', $payload['type']);
         self::assertSame('Not Found', $payload['title']);
     }
@@ -50,6 +54,23 @@ final class HttpRuntimeTest extends TestCase
         self::assertSame(405, $response->getStatusCode());
         self::assertSame('GET', $response->getHeaderLine('Allow'));
         self::assertSame('https://nene2.dev/problems/method-not-allowed', $payload['type']);
+    }
+
+    public function testOversizedRequestReturnsProblemDetails(): void
+    {
+        $factory = new Psr17Factory();
+        $application = (new RuntimeApplicationFactory($factory, $factory))->create();
+
+        $response = $application->handle(
+            $factory
+                ->createServerRequest('POST', 'https://example.test/')
+                ->withHeader('Content-Length', '1048577'),
+        );
+        $payload = $this->decodeJson($response);
+
+        self::assertSame(413, $response->getStatusCode());
+        self::assertMatchesRegularExpression('/\A[a-f0-9]{32}\z/', $response->getHeaderLine('X-Request-Id'));
+        self::assertSame('https://nene2.dev/problems/payload-too-large', $payload['type']);
     }
 
     /**

@@ -7,7 +7,11 @@ namespace Nene2\Http;
 use Nene2\Error\ErrorHandlerMiddleware;
 use Nene2\Error\ProblemDetailsResponseFactory;
 use Nene2\FrameworkInfo;
+use Nene2\Middleware\CorsMiddleware;
 use Nene2\Middleware\MiddlewareDispatcher;
+use Nene2\Middleware\RequestIdMiddleware;
+use Nene2\Middleware\RequestSizeLimitMiddleware;
+use Nene2\Middleware\SecurityHeadersMiddleware;
 use Nene2\Routing\Router;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -39,7 +43,11 @@ final readonly class RuntimeApplicationFactory
 
         return new MiddlewareDispatcher(
             [
+                new RequestIdMiddleware(),
+                new SecurityHeadersMiddleware(),
+                new CorsMiddleware($this->responseFactory),
                 new ErrorHandlerMiddleware($problemDetails),
+                new RequestSizeLimitMiddleware($problemDetails),
             ],
             $router,
         );
