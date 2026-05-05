@@ -22,16 +22,16 @@ Adopted tools:
 
 - PHPUnit for automated tests.
 - PHPStan for static analysis.
+- PHP-CS-Fixer for PSR-12 oriented formatting and style checks.
 
 Planned tools:
 
-- `friendsofphp/php-cs-fixer` for PSR-12 oriented formatting and style checks.
 - OpenAPI validation for public API contracts.
 - Rector for modernization only when a focused migration need exists.
 
 PHP-CS-Fixer is the preferred first formatter because it gives a simple check/fix workflow and fits the project's "easy to repair" development style.
 
-Recommended future Composer scripts:
+Composer scripts:
 
 ```json
 {

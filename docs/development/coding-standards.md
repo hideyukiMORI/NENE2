@@ -104,10 +104,10 @@ Adopted quality tools:
 
 - PHPUnit for automated tests
 - PHPStan for static analysis
+- PHP-CS-Fixer for formatting and style checks
 
 Planned quality tools:
 
-- PHP-CS-Fixer for style enforcement
 - ESLint, TypeScript, and Prettier for the React frontend starter
 - OpenAPI validation for API contracts
 

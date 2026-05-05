@@ -5,6 +5,7 @@ composer.phar
 !.env.example
 .phpunit.cache/
 .phpstan.cache/
+.php-cs-fixer.cache
 coverage/
 clover.xml
 /frontend/node_modules/
