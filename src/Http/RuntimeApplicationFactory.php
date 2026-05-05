@@ -10,6 +10,7 @@ use Nene2\FrameworkInfo;
 use Nene2\Middleware\CorsMiddleware;
 use Nene2\Middleware\MiddlewareDispatcher;
 use Nene2\Middleware\RequestIdMiddleware;
+use Nene2\Middleware\RequestLoggingMiddleware;
 use Nene2\Middleware\RequestSizeLimitMiddleware;
 use Nene2\Middleware\SecurityHeadersMiddleware;
 use Nene2\Routing\Router;
@@ -17,12 +18,15 @@ use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 
 final readonly class RuntimeApplicationFactory
 {
     public function __construct(
         private ResponseFactoryInterface $responseFactory,
         private StreamFactoryInterface $streamFactory,
+        private ?LoggerInterface $logger = null,
     ) {
     }
 
@@ -44,6 +48,7 @@ final readonly class RuntimeApplicationFactory
         return new MiddlewareDispatcher(
             [
                 new RequestIdMiddleware(),
+                new RequestLoggingMiddleware($this->logger ?? new NullLogger()),
                 new SecurityHeadersMiddleware(),
                 new CorsMiddleware($this->responseFactory),
                 new ErrorHandlerMiddleware($problemDetails),

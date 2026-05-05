@@ -47,12 +47,12 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 - [x] Add OpenAPI Problem Details schemas. `#49`
 - [x] Add validation error mapping and readonly DTO examples. `#51`
 - [x] Add request id, CORS, security headers, and request size middleware skeletons. `#53`
+- [x] Add PSR-3 logging adapter and request id log context. `#55`
 
 ## Next Candidates
 
 - [ ] Publish or redirect `https://nene2.dev/problems/*` before public error contracts are stable.
 - [ ] Keep self-review checklists updated as new implementation areas are introduced.
-- [ ] Add PSR-3 logging adapter and request id log context.
 - [ ] Add PHP-CS-Fixer configuration and Composer scripts.
 - [ ] Add React + TypeScript frontend starter and ESLint / Prettier baseline.
 - [ ] Add npm package metadata, Node engines, package lock, and frontend check scripts.
