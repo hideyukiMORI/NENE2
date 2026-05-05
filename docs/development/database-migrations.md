@@ -102,6 +102,7 @@ Generated schema files should be reproducible. If a schema file is too noisy to 
 
 The first database adapter boundary is `DatabaseConnectionFactoryInterface`, with `PdoConnectionFactory` as the initial PDO implementation.
 It builds connections from `DatabaseConfig`, so application infrastructure does not read raw environment variables directly.
+Repository adapters should depend on `DatabaseQueryExecutorInterface` for parameterized SQL reads and writes instead of using raw PDO directly.
 
 The database adapter milestone should continue with:
 
