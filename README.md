@@ -136,6 +136,7 @@ Start with these docs when adapting NENE2 for a small client-style API:
 - Client project start guide: `docs/development/client-project-start.md`
 - Endpoint workflow: `docs/development/endpoint-scaffold.md`
 - Local MCP server: `docs/integrations/local-mcp-server.md`
+- Local MCP client configuration: `docs/integrations/local-mcp-client-configuration.md`
 - MCP tool policy: `docs/integrations/mcp-tools.md`
 - Authentication boundary: `docs/development/authentication-boundary.md`
 - Database test strategy: `docs/development/test-database-strategy.md`
