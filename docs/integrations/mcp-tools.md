@@ -6,6 +6,8 @@ NENE2 MCP tools should expose application capabilities through documented bounda
 
 MCP integration is an API-facing integration layer.
 
+NENE2's LLM-assisted delivery direction is documented in `docs/integrations/llm-delivery-starter.md`.
+
 The default direction is:
 
 - derive tool shape from OpenAPI where practical

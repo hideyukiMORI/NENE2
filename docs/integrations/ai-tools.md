@@ -5,6 +5,7 @@ NENE2 is designed to be easy for AI agents to inspect, change, and verify withou
 ## Source of Truth
 
 - Project direction: `README.md` and `docs/roadmap.md`
+- LLM-assisted delivery direction: `docs/integrations/llm-delivery-starter.md`
 - Workflow: `docs/workflow.md`
 - Coding rules: `docs/development/coding-standards.md`
 - Current state: `docs/todo/current.md`
