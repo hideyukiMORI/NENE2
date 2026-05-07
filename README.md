@@ -143,6 +143,8 @@ Start with these docs when adapting NENE2 for a small client-style API:
 - Database test strategy: `docs/development/test-database-strategy.md`
 - Patch release policy: `docs/development/release-v0.1.x-policy.md`
 
+**Public field trial reference (optional):** [`hideyukiMORI/sakura-exhibition-nene2-field-trial`](https://github.com/hideyukiMORI/sakura-exhibition-nene2-field-trial) — client-style demo forked from **`v0.1.1`** with exhibition-shaped read-only APIs, OpenAPI, tests, local MCP, and field-trial reports. **Not affiliated with any real event;** see that repository’s `README.md`.
+
 ## Project Workflow
 
 NENE2 uses GitHub Issues as the source of work and local Markdown files as the project memory.
