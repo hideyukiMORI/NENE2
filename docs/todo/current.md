@@ -89,6 +89,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 - [x] Define the next milestone for post-foundation release readiness. `#125`
 - [x] Draft concrete `v0.1.0` GitHub Release notes after release readiness is confirmed. `#129`
 - [x] Decide whether to enable branch protection settings for `main`. `#127`
+- [x] Run and record final `v0.1.0` release verification. `#131`
 
 ## Operating Notes
 

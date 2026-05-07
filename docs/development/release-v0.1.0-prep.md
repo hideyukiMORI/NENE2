@@ -3,6 +3,7 @@
 This document prepares the first `v0.1.0` release. It is not a release announcement and does not tag the repository.
 
 Concrete draft release notes live in `docs/development/release-v0.1.0-notes.md`.
+Final release-candidate verification is recorded in `docs/development/release-v0.1.0-verification.md`.
 
 ## Release Intent
 
