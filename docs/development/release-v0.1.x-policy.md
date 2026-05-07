@@ -35,6 +35,8 @@ The first post-`v0.1.0` patch release can include the completed LLM Delivery Sta
 
 These changes are useful together as a delivery-starter checkpoint, but they do not require an immediate release tag.
 
+The `v0.1.1` checkpoint decision and candidate scope are recorded in `docs/development/release-v0.1.1-prep.md`.
+
 ## Before Tagging
 
 Before tagging a `v0.1.x` release:
@@ -58,6 +60,7 @@ The tag must point to an up-to-date `main` commit and use the `vX.Y.Z` format.
 
 - Release policy: `docs/development/release-ci.md`
 - Release checklist: `docs/development/release-checklist.md`
+- `v0.1.1` checkpoint preparation: `docs/development/release-v0.1.1-prep.md`
 - LLM Delivery Starter milestone: `docs/milestones/2026-05-llm-delivery-starter.md`
 - Current TODO: `docs/todo/current.md`
 - GitHub Issue: `#146`

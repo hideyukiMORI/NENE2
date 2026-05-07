@@ -4,6 +4,7 @@ Use this checklist for manual `v0.x.y` releases until release automation is intr
 
 Preparation notes for the first `v0.1.0` release live in `docs/development/release-v0.1.0-prep.md`.
 Patch release criteria for `v0.1.x` live in `docs/development/release-v0.1.x-policy.md`.
+Preparation notes for the `v0.1.1` checkpoint candidate live in `docs/development/release-v0.1.1-prep.md`.
 
 ## Preconditions
 
