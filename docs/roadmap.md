@@ -1,6 +1,6 @@
 # Roadmap
 
-This roadmap keeps NENE2 focused on a small, modern, AI-readable PHP framework foundation.
+This roadmap keeps NENE2 focused on a small, modern, AI-readable PHP framework foundation and delivery starter.
 
 ## North Star
 
@@ -107,6 +107,21 @@ Goal: keep the framework small while making changes safe.
 - mutation or architecture tests where useful
 - semantic versioning policy
 - release checklist
+
+Tracked by `docs/milestones/2026-05-v0.1.0-release-readiness.md` for the first foundation release.
+
+## Phase 6: LLM Delivery Starter
+
+Goal: make the released foundation useful for real LLM-assisted client delivery.
+
+- local MCP server that clients can connect to
+- read-only MCP tools aligned with OpenAPI and Problem Details behavior
+- API-key authentication middleware for machine clients
+- endpoint scaffold workflow that keeps PHP code, OpenAPI, and tests aligned
+- real service database verification through Docker Compose
+- small `v0.1.x` patch releases when delivery-starter increments are worth tagging
+
+Tracked by `docs/milestones/2026-05-llm-delivery-starter.md`.
 
 ## Non-Goals
 

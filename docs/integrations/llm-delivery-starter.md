@@ -69,6 +69,7 @@ This direction is working when a new client-style project can quickly produce:
 ## Related Documents
 
 - Roadmap: `docs/roadmap.md`
+- Current milestone: `docs/milestones/2026-05-llm-delivery-starter.md`
 - AI tooling policy: `docs/integrations/ai-tools.md`
 - MCP tool policy: `docs/integrations/mcp-tools.md`
 - Local MCP server guidance: `docs/integrations/local-mcp-server.md`
