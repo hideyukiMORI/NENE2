@@ -36,6 +36,8 @@ docker compose run --rm app composer mcp
 
 `composer check` includes this validation.
 
+Generated catalog direction is documented in `docs/integrations/openapi-to-mcp-catalog.md`.
+
 ## Safety Levels
 
 Each MCP tool should be classified before implementation:
