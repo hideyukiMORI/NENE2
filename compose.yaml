@@ -10,6 +10,7 @@ services:
       - composer-cache:/tmp/composer-cache
     environment:
       COMPOSER_CACHE_DIR: /tmp/composer-cache
+      NENE2_MACHINE_API_KEY: ${NENE2_MACHINE_API_KEY:-}
 
 volumes:
   composer-cache:

@@ -122,6 +122,7 @@ final readonly class RuntimeServiceProvider implements ServiceProviderInterface
                     $responseFactory = $container->get(ResponseFactoryInterface::class);
                     $streamFactory = $container->get(StreamFactoryInterface::class);
                     $logger = $container->get(LoggerInterface::class);
+                    $config = $container->get(AppConfig::class);
 
                     if (!$responseFactory instanceof ResponseFactoryInterface) {
                         throw new LogicException('Response factory service is invalid.');
@@ -135,7 +136,11 @@ final readonly class RuntimeServiceProvider implements ServiceProviderInterface
                         throw new LogicException('Logger service is invalid.');
                     }
 
-                    return new RuntimeApplicationFactory($responseFactory, $streamFactory, $logger);
+                    if (!$config instanceof AppConfig) {
+                        throw new LogicException('Application config service is invalid.');
+                    }
+
+                    return new RuntimeApplicationFactory($responseFactory, $streamFactory, $logger, $config->machineApiKey);
                 },
             )
             ->set(

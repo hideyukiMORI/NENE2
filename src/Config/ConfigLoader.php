@@ -17,6 +17,7 @@ final readonly class ConfigLoader
             'APP_ENV' => 'local',
             'APP_DEBUG' => 'false',
             'APP_NAME' => 'NENE2',
+            'NENE2_MACHINE_API_KEY' => '',
             'DATABASE_URL' => '',
             'DB_ENV' => 'local',
             'DB_ADAPTER' => 'mysql',
@@ -58,6 +59,7 @@ final readonly class ConfigLoader
                 $values['DB_PASSWORD'],
                 trim($values['DB_CHARSET']),
             ),
+            $this->optionalString($values['NENE2_MACHINE_API_KEY']),
         );
     }
 

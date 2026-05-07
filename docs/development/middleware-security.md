@@ -118,6 +118,8 @@ Planned schemes:
 - bearer token for user or service authentication
 - session-based auth for applications that need server sessions
 
+The first implemented API-key path uses `X-NENE2-API-Key` and protects `/machine/health` when `NENE2_MACHINE_API_KEY` is configured.
+
 OpenAPI security schemes should be added when a scheme is implemented.
 
 ## CSRF

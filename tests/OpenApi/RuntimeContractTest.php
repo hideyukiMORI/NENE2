@@ -16,6 +16,7 @@ final class RuntimeContractTest extends TestCase
     /**
      * @param array<string, mixed> $expectedPayload
      * @param array<string, mixed> $schema
+     * @param array<string, string> $headers
      */
     #[DataProvider('successEndpointProvider')]
     public function testRuntimeSuccessResponsesMatchOpenApiExamples(
@@ -24,11 +25,17 @@ final class RuntimeContractTest extends TestCase
         int $expectedStatus,
         array $expectedPayload,
         array $schema,
+        array $headers = [],
     ): void {
         $factory = new Psr17Factory();
-        $application = (new RuntimeApplicationFactory($factory, $factory))->create();
+        $application = (new RuntimeApplicationFactory($factory, $factory, machineApiKey: 'test-key'))->create();
+        $request = $factory->createServerRequest($method, 'https://example.test' . $path);
 
-        $response = $application->handle($factory->createServerRequest($method, 'https://example.test' . $path));
+        foreach ($headers as $name => $value) {
+            $request = $request->withHeader($name, $value);
+        }
+
+        $response = $application->handle($request);
         $payload = $this->decodeJson($response);
 
         self::assertSame($expectedStatus, $response->getStatusCode());
@@ -39,7 +46,7 @@ final class RuntimeContractTest extends TestCase
     }
 
     /**
-     * @return iterable<string, array{0: string, 1: string, 2: int, 3: array<string, mixed>, 4: array<string, mixed>}>
+     * @return iterable<string, array{0: string, 1: string, 2: int, 3: array<string, mixed>, 4: array<string, mixed>, 5: array<string, string>}>
      */
     public static function successEndpointProvider(): iterable
     {
@@ -80,6 +87,7 @@ final class RuntimeContractTest extends TestCase
                     200,
                     $example,
                     self::schemaForReference($openApi, $schemaRef),
+                    self::headersForOperation($operation),
                 ];
             }
         }
@@ -109,6 +117,27 @@ final class RuntimeContractTest extends TestCase
         self::assertIsArray($schema, sprintf('Schema "%s" must exist.', $schemaName));
 
         return $schema;
+    }
+
+    /**
+     * @param array<string, mixed> $operation
+     * @return array<string, string>
+     */
+    private static function headersForOperation(array $operation): array
+    {
+        $security = $operation['security'] ?? null;
+
+        if (!is_array($security)) {
+            return [];
+        }
+
+        foreach ($security as $requirement) {
+            if (is_array($requirement) && array_key_exists('ApiKeyAuth', $requirement)) {
+                return ['X-NENE2-API-Key' => 'test-key'];
+            }
+        }
+
+        return [];
     }
 
     /**

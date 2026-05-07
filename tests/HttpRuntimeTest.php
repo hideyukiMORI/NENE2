@@ -58,6 +58,37 @@ final class HttpRuntimeTest extends TestCase
         self::assertSame('NENE2', $payload['service']);
     }
 
+    public function testMachineHealthRequiresApiKey(): void
+    {
+        $factory = new Psr17Factory();
+        $application = (new RuntimeApplicationFactory($factory, $factory, machineApiKey: 'test-key'))->create();
+
+        $response = $application->handle($factory->createServerRequest('GET', 'https://example.test/machine/health'));
+        $payload = $this->decodeJson($response);
+
+        self::assertSame(401, $response->getStatusCode());
+        self::assertSame('application/problem+json; charset=utf-8', $response->getHeaderLine('Content-Type'));
+        self::assertSame('https://nene2.dev/problems/unauthorized', $payload['type']);
+    }
+
+    public function testMachineHealthAcceptsConfiguredApiKey(): void
+    {
+        $factory = new Psr17Factory();
+        $application = (new RuntimeApplicationFactory($factory, $factory, machineApiKey: 'test-key'))->create();
+
+        $response = $application->handle(
+            $factory
+                ->createServerRequest('GET', 'https://example.test/machine/health')
+                ->withHeader('X-NENE2-API-Key', 'test-key'),
+        );
+        $payload = $this->decodeJson($response);
+
+        self::assertSame(200, $response->getStatusCode());
+        self::assertSame('ok', $payload['status']);
+        self::assertSame('NENE2', $payload['service']);
+        self::assertSame('api_key', $payload['credential_type']);
+    }
+
     public function testUnsupportedMethodReturnsProblemDetailsWithAllowHeader(): void
     {
         $factory = new Psr17Factory();
