@@ -107,7 +107,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 - [x] Close out the LLM Delivery Starter milestone and improve README entry points. `#148`
 - [x] Add a client project start guide for adapting the foundation. `#150`
 - [x] Document a local MCP client configuration example. `#152`
-- [ ] Add a protected machine-client smoke workflow.
+- [x] Add a protected machine-client smoke workflow. `#154`
 - [ ] Decide whether to tag `v0.1.1` as a delivery-starter checkpoint.
 
 ## Operating Notes

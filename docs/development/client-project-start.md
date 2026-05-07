@@ -123,6 +123,7 @@ curl -i -H 'X-NENE2-API-Key: local-dev-key' http://localhost:8080/machine/health
 Do not commit real API keys, generated secrets, or local `.env` files.
 
 Authentication policy lives in `docs/development/authentication-boundary.md`.
+The local protected route smoke workflow lives in `docs/development/machine-client-smoke.md`.
 
 ## Verify Database Behavior
 
@@ -158,6 +159,7 @@ Before handing off a client-style project, confirm:
 - Local MCP client configuration: `docs/integrations/local-mcp-client-configuration.md`
 - MCP tool policy: `docs/integrations/mcp-tools.md`
 - Authentication boundary: `docs/development/authentication-boundary.md`
+- Machine-client smoke workflow: `docs/development/machine-client-smoke.md`
 - Database test strategy: `docs/development/test-database-strategy.md`
 - Release policy: `docs/development/release-v0.1.x-policy.md`
 - Current milestone: `docs/milestones/2026-05-client-delivery-hardening.md`

@@ -34,7 +34,7 @@ The next work should make the existing foundation easier to explain, repeat, and
 - `docs/todo/current.md` points at this milestone and lists concrete next candidates. `#148`
 - A new project start guide exists for adapting NENE2 to a small client-style API. `#150`
 - Local MCP usage can be followed from committed docs without relying on chat history. `#152`
-- Protected machine-client API smoke checks are documented with safe local credentials.
+- Protected machine-client API smoke checks are documented with safe local credentials. `#154`
 - Any `v0.1.1` tag decision uses `docs/development/release-v0.1.x-policy.md`.
 
 ## Candidate Issues
@@ -42,7 +42,7 @@ The next work should make the existing foundation easier to explain, repeat, and
 - Close out the LLM Delivery Starter milestone and improve README entry points. `#148`
 - Add a client project start guide for adapting the foundation. `#150`
 - Document a local MCP client configuration example. `#152`
-- Add a protected machine-client smoke workflow.
+- Add a protected machine-client smoke workflow. `#154`
 - Decide whether to tag `v0.1.1` as a delivery-starter checkpoint.
 
 ## Non-Goals
@@ -63,6 +63,7 @@ The next work should make the existing foundation easier to explain, repeat, and
 - Local MCP server guidance: `docs/integrations/local-mcp-server.md`
 - Local MCP client configuration: `docs/integrations/local-mcp-client-configuration.md`
 - Authentication boundary: `docs/development/authentication-boundary.md`
+- Machine-client smoke workflow: `docs/development/machine-client-smoke.md`
 - Database test strategy: `docs/development/test-database-strategy.md`
 - `v0.1.x` patch release policy: `docs/development/release-v0.1.x-policy.md`
 - GitHub Issue: `#148`
