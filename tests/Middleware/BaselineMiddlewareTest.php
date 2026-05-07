@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Nene2\Tests\Middleware;
 
 use Nene2\Error\ProblemDetailsResponseFactory;
+use Nene2\Middleware\ApiKeyAuthenticationMiddleware;
 use Nene2\Middleware\CorsMiddleware;
 use Nene2\Middleware\RequestIdMiddleware;
 use Nene2\Middleware\RequestLoggingMiddleware;
@@ -172,6 +173,43 @@ final class BaselineMiddlewareTest extends TestCase
         self::assertSame(200, $logger->records[0]['context']['status']);
         self::assertArrayHasKey('duration_ms', $logger->records[0]['context']);
         self::assertArrayNotHasKey('Authorization', $logger->records[0]['context']);
+    }
+
+    public function testApiKeyAuthenticationAllowsConfiguredMachineKey(): void
+    {
+        $factory = new Psr17Factory();
+        $middleware = new ApiKeyAuthenticationMiddleware(
+            new ProblemDetailsResponseFactory($factory, $factory),
+            'test-key',
+            ['/machine/health'],
+        );
+        $request = $factory
+            ->createServerRequest('GET', 'https://example.test/machine/health')
+            ->withHeader('X-NENE2-API-Key', 'test-key');
+
+        $response = $middleware->process($request, $this->okHandler($factory));
+
+        self::assertSame(200, $response->getStatusCode());
+    }
+
+    public function testApiKeyAuthenticationReturnsProblemDetailsForMissingKey(): void
+    {
+        $factory = new Psr17Factory();
+        $middleware = new ApiKeyAuthenticationMiddleware(
+            new ProblemDetailsResponseFactory($factory, $factory),
+            'test-key',
+            ['/machine/health'],
+        );
+        $request = $factory->createServerRequest('GET', 'https://example.test/machine/health');
+
+        $response = $middleware->process($request, $this->okHandler($factory));
+        $payload = json_decode((string) $response->getBody(), true, 512, JSON_THROW_ON_ERROR);
+
+        self::assertIsArray($payload);
+        self::assertSame(401, $response->getStatusCode());
+        self::assertSame('application/problem+json; charset=utf-8', $response->getHeaderLine('Content-Type'));
+        self::assertSame('ApiKey realm="NENE2", header="X-NENE2-API-Key"', $response->getHeaderLine('WWW-Authenticate'));
+        self::assertSame('https://nene2.dev/problems/unauthorized', $payload['type']);
     }
 
     private function okHandler(Psr17Factory $factory): RequestHandlerInterface

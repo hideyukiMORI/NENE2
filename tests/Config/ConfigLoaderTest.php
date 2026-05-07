@@ -18,6 +18,7 @@ final class ConfigLoaderTest extends TestCase
         self::assertSame(AppEnvironment::Local, $config->environment);
         self::assertFalse($config->debug);
         self::assertSame('NENE2', $config->name);
+        self::assertNull($config->machineApiKey);
         self::assertFalse($config->database->usesUrl());
         self::assertSame('local', $config->database->environment);
         self::assertSame('mysql', $config->database->adapter);
@@ -35,6 +36,7 @@ final class ConfigLoaderTest extends TestCase
             'APP_ENV' => 'test',
             'APP_DEBUG' => 'true',
             'APP_NAME' => 'NENE2 Test',
+            'NENE2_MACHINE_API_KEY' => 'test-machine-key',
             'DATABASE_URL' => 'sqlite:///:memory:',
             'DB_ENV' => 'test',
             'DB_ADAPTER' => 'sqlite',
@@ -49,6 +51,7 @@ final class ConfigLoaderTest extends TestCase
         self::assertSame(AppEnvironment::Test, $config->environment);
         self::assertTrue($config->debug);
         self::assertSame('NENE2 Test', $config->name);
+        self::assertSame('test-machine-key', $config->machineApiKey);
         self::assertSame('sqlite:///:memory:', $config->database->url);
         self::assertSame('test', $config->database->environment);
         self::assertSame('sqlite', $config->database->adapter);

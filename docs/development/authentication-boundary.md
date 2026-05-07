@@ -6,7 +6,7 @@ This policy defines the first API-key and token direction for machine clients, M
 
 ## Position
 
-Authentication and authorization are extension points until concrete middleware is implemented.
+Authentication and authorization are explicit middleware boundaries.
 
 The default direction is:
 
@@ -15,6 +15,14 @@ The default direction is:
 - Session authentication belongs to applications that need server-side browser sessions.
 - OpenAPI security schemes should be added only when matching middleware behavior exists.
 - Secrets must never be committed, logged, or exposed through MCP metadata.
+
+The first implemented middleware path is an API-key check for machine-client endpoints using:
+
+```text
+X-NENE2-API-Key
+```
+
+The key value is loaded from `NENE2_MACHINE_API_KEY` when configured. Leave it unset for public-only local development, and set it outside the repository when testing protected routes.
 
 ## API Keys
 
@@ -119,7 +127,7 @@ Logs must not include:
 
 ## OpenAPI and MCP
 
-OpenAPI security schemes should wait until matching middleware is implemented.
+OpenAPI security schemes should match implemented middleware.
 
 When added, OpenAPI should describe:
 

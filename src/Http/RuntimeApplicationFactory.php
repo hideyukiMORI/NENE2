@@ -7,6 +7,7 @@ namespace Nene2\Http;
 use Nene2\Error\ErrorHandlerMiddleware;
 use Nene2\Error\ProblemDetailsResponseFactory;
 use Nene2\FrameworkInfo;
+use Nene2\Middleware\ApiKeyAuthenticationMiddleware;
 use Nene2\Middleware\CorsMiddleware;
 use Nene2\Middleware\MiddlewareDispatcher;
 use Nene2\Middleware\RequestIdMiddleware;
@@ -27,6 +28,7 @@ final readonly class RuntimeApplicationFactory
         private ResponseFactoryInterface $responseFactory,
         private StreamFactoryInterface $streamFactory,
         private ?LoggerInterface $logger = null,
+        private ?string $machineApiKey = null,
     ) {
     }
 
@@ -51,6 +53,14 @@ final readonly class RuntimeApplicationFactory
                     'status' => 'ok',
                     'service' => $framework->name(),
                 ]),
+            )
+            ->get(
+                '/machine/health',
+                static fn (ServerRequestInterface $request) => $jsonResponses->create([
+                    'status' => 'ok',
+                    'service' => $framework->name(),
+                    'credential_type' => $request->getAttribute('nene2.auth.credential_type'),
+                ]),
             );
 
         return new MiddlewareDispatcher(
@@ -61,6 +71,7 @@ final readonly class RuntimeApplicationFactory
                 new CorsMiddleware($this->responseFactory),
                 new ErrorHandlerMiddleware($problemDetails),
                 new RequestSizeLimitMiddleware($problemDetails),
+                new ApiKeyAuthenticationMiddleware($problemDetails, $this->machineApiKey, ['/machine/health']),
             ],
             $router,
         );

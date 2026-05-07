@@ -60,8 +60,65 @@ paths:
           $ref: '#/components/responses/PayloadTooLarge'
         '500':
           $ref: '#/components/responses/InternalServerError'
+  /machine/health:
+    get:
+      tags:
+        - System
+      summary: Protected machine health endpoint
+      description: Returns health information for machine clients that provide a configured API key.
+      operationId: getMachineHealth
+      security:
+        - ApiKeyAuth:
+            - read:health
+      responses:
+        '200':
+          description: Machine health response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MachineHealthResponse'
+              examples:
+                ok:
+                  summary: Authenticated machine health response
+                  value:
+                    status: ok
+                    service: NENE2
+                    credential_type: api_key
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '413':
+          $ref: '#/components/responses/PayloadTooLarge'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
 components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-NENE2-API-Key
+      description: API key for machine clients. Do not commit real key values.
   responses:
+    Unauthorized:
+      description: A valid API key is required for this endpoint.
+      headers:
+        WWW-Authenticate:
+          description: API-key challenge for machine clients.
+          schema:
+            type: string
+            example: ApiKey realm="NENE2", header="X-NENE2-API-Key"
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+          examples:
+            unauthorized:
+              summary: Missing or invalid API key
+              value:
+                type: https://nene2.dev/problems/unauthorized
+                title: Unauthorized
+                status: 401
+                detail: A valid API key is required for this endpoint.
+                instance: /machine/health
     NotFound:
       description: The requested resource was not found.
       content:
@@ -246,3 +303,23 @@ components:
         service:
           type: string
           example: NENE2
+    MachineHealthResponse:
+      type: object
+      required:
+        - status
+        - service
+        - credential_type
+      properties:
+        status:
+          type: string
+          enum:
+            - ok
+          example: ok
+        service:
+          type: string
+          example: NENE2
+        credential_type:
+          type: string
+          enum:
+            - api_key
+          example: api_key
