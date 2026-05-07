@@ -2,6 +2,8 @@
 
 Use this checklist for manual `v0.x.y` releases until release automation is introduced.
 
+Preparation notes for the first `v0.1.0` release live in `docs/development/release-v0.1.0-prep.md`.
+
 ## Preconditions
 
 - The release is created from `main`.
