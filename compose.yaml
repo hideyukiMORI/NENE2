@@ -12,5 +12,23 @@ services:
       COMPOSER_CACHE_DIR: /tmp/composer-cache
       NENE2_MACHINE_API_KEY: ${NENE2_MACHINE_API_KEY:-}
 
+  mysql:
+    image: mysql:8.4
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-nene2_root}
+      MYSQL_DATABASE: ${DB_NAME:-nene2}
+      MYSQL_USER: ${DB_USER:-nene2}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-nene2}
+    volumes:
+      - mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
 volumes:
   composer-cache:
+  mysql-data:

@@ -44,6 +44,15 @@ docker compose run --rm app composer migrations:seed
 
 `composer check` does not run migrations because it should not require a configured database.
 
+For real MySQL adapter verification without running migrations:
+
+```bash
+docker compose up -d mysql
+docker compose run --rm app composer test:database:mysql
+```
+
+This opt-in check is documented in `docs/development/test-database-strategy.md`.
+
 ## Configuration
 
 Phinx configuration lives in `phinx.php`.

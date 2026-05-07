@@ -11,6 +11,10 @@
     </testsuite>
     <testsuite name="Database">
       <directory>tests/Database</directory>
+      <exclude>tests/Database/MySql</exclude>
+    </testsuite>
+    <testsuite name="DatabaseMySQL">
+      <directory>tests/Database/MySql</directory>
     </testsuite>
   </testsuites>
   <source>
