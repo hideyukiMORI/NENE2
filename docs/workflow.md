@@ -17,6 +17,7 @@ NENE2 uses GitHub Issues for work tracking and local Markdown files for project 
 11. Return local `main` to the merged, clean state.
 
 Release, versioning, and CI policy is defined in `docs/development/release-ci.md`.
+Branch protection readiness is tracked in `docs/development/branch-protection-readiness.md`.
 
 ## Branch Names
 

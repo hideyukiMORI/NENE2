@@ -110,6 +110,8 @@ The initial frontend workflow lives at `.github/workflows/frontend.yml` and runs
 
 `main` should be protected before releases become public.
 
+Readiness details and the current required check candidates live in `docs/development/branch-protection-readiness.md`.
+
 Recommended branch protection:
 
 - require PRs before merging
