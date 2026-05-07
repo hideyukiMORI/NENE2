@@ -35,9 +35,20 @@ Database adapter tests should:
 
 ## External Databases
 
-MySQL or PostgreSQL integration tests can be added later when they prove an adapter behavior that SQLite cannot cover.
+MySQL verification is available through Docker Compose for adapter behavior that SQLite cannot cover.
 
-External database tests should be opt-in until CI has a documented service container and safe credentials. They should not block the default local `composer check` path before that setup exists.
+Start the service and run the opt-in command:
+
+```bash
+docker compose up -d mysql
+docker compose run --rm app composer test:database:mysql
+```
+
+This path verifies PDO MySQL connection creation, parameterized query execution, and transaction rollback against a real MySQL service.
+
+External database tests stay opt-in until CI has a documented service container and safe credentials. They do not block the default local `composer check` path.
+
+The Docker Compose defaults are local-only development credentials. Override them through environment variables when needed, and do not commit real database secrets.
 
 ## Migration Tests
 

@@ -24,8 +24,9 @@
     }
   },
   "scripts": {
-    "test": "phpunit",
+    "test": "phpunit --testsuite NENE2,Database",
     "test:database": "phpunit --testsuite Database",
+    "test:database:mysql": "phpunit --testsuite DatabaseMySQL",
     "analyse": "phpstan analyse",
     "cs": "php-cs-fixer fix --dry-run --diff --config=.php-cs-fixer.php",
     "cs:fix": "php-cs-fixer fix --config=.php-cs-fixer.php",
