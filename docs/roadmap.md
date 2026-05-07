@@ -12,6 +12,8 @@ NENE2 should let a developer clone one repository and quickly build:
 - testable use cases and adapters
 - OpenAPI and MCP integrations through documented boundaries
 
+The first practical delivery target is documented in `docs/integrations/llm-delivery-starter.md`: NENE2 should help its maintainer start LLM-assisted client work with a working API, clear OpenAPI handoff, and safe MCP integration path.
+
 ## Phase 0: Project Foundation
 
 Goal: make contribution, AI operation, and technical direction unambiguous before runtime code grows.
@@ -85,6 +87,7 @@ Goal: make the React + TypeScript starter easy to adopt without making NENE2 a f
 
 Goal: let AI tools inspect and operate the app through safe, documented contracts.
 
+- LLM-assisted delivery starter direction
 - MCP server integration guidance
 - API-key or token boundary policy
 - tool definitions derived from OpenAPI where practical

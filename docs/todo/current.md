@@ -4,7 +4,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 ## Status
 
-- Current milestone: `docs/milestones/2026-05-v0.1.0-release-readiness.md`
+- Current milestone: choose next milestone after `v0.1.0`
 - Current GitHub Issue: none
 - Current branch: `main`
 - Handoff for next chat: `docs/todo/handoff-2026-05-04-implementation-start.md`
@@ -90,6 +90,8 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 - [x] Draft concrete `v0.1.0` GitHub Release notes after release readiness is confirmed. `#129`
 - [x] Decide whether to enable branch protection settings for `main`. `#127`
 - [x] Run and record final `v0.1.0` release verification. `#131`
+- [x] Publish the first `v0.1.0` foundation release. `#133`
+- [x] Record LLM-assisted delivery starter direction from review notes. `#134`
 
 ## Operating Notes
 
