@@ -87,7 +87,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 - [x] Refresh the foundation milestone with completed implementation scope. `#123`
 - [x] Define the next milestone for post-foundation release readiness. `#125`
-- [ ] Draft concrete `v0.1.0` GitHub Release notes after release readiness is confirmed.
+- [x] Draft concrete `v0.1.0` GitHub Release notes after release readiness is confirmed. `#129`
 - [x] Decide whether to enable branch protection settings for `main`. `#127`
 
 ## Operating Notes
