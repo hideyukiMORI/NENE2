@@ -4,7 +4,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 ## Status
 
-- Current milestone: `docs/milestones/2026-05-client-delivery-hardening.md`
+- Current milestone: `docs/milestones/2026-05-field-trial.md`
 - Current GitHub Issue: none
 - Current branch: `main`
 - Handoff for next chat: `docs/todo/handoff-2026-05-04-implementation-start.md`
@@ -109,6 +109,14 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 - [x] Document a local MCP client configuration example. `#152`
 - [x] Add a protected machine-client smoke workflow. `#154`
 - [x] Decide whether to tag `v0.1.1` as a delivery-starter checkpoint. `#156`
+
+## First LLM Field Trial Candidates
+
+- [x] Record the first LLM field-trial direction and next milestone. `#158`
+- [ ] Add a field-trial report template.
+- [ ] Run the first `v0.1.1` client-style field trial.
+- [ ] Convert field-trial friction into focused follow-up Issues.
+- [ ] Decide whether any repeated field-trial step justifies a helper script or generator.
 
 ## Operating Notes
 
