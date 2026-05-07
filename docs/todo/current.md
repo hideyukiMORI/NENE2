@@ -100,7 +100,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 - [x] Add API-key authentication middleware for machine-client requests. `#140`
 - [x] Create endpoint scaffold documentation and the first example endpoint workflow. `#142`
 - [x] Add Docker Compose real database service verification. `#144`
-- [ ] Review whether `v0.1.x` should include patch releases for milestone increments.
+- [x] Review whether `v0.1.x` should include patch releases for milestone increments. `#146`
 
 ## Operating Notes
 

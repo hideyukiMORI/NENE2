@@ -33,6 +33,7 @@ NENE2 should become useful first as the maintainer's own delivery base:
 - The first protected JSON API path can require an API key and return Problem Details on authentication failure. `#140`
 - A documented endpoint creation workflow exists and is exercised by at least one small example endpoint. `#142`
 - Docker-based database verification covers at least one real service database in addition to SQLite adapter tests. `#144`
+- `v0.1.x` patch release criteria are reviewed and documented before tagging any delivery-starter checkpoint. `#146`
 - `docs/todo/current.md` points at this milestone and lists concrete next candidates.
 - Follow-up work remains split into small GitHub Issues and PRs.
 
@@ -42,7 +43,7 @@ NENE2 should become useful first as the maintainer's own delivery base:
 - Add API-key authentication middleware for machine-client requests. `#140`
 - Create endpoint scaffold documentation and the first example endpoint workflow. `#142`
 - Add Docker Compose real database service verification. `#144`
-- Review whether `v0.1.x` should include patch releases for milestone increments.
+- Review whether `v0.1.x` should include patch releases for milestone increments. `#146`
 
 ## Non-Goals
 
@@ -61,4 +62,5 @@ NENE2 should become useful first as the maintainer's own delivery base:
 - Authentication boundary: `docs/development/authentication-boundary.md`
 - Endpoint scaffold workflow: `docs/development/endpoint-scaffold.md`
 - Database test strategy: `docs/development/test-database-strategy.md`
+- `v0.1.x` patch release policy: `docs/development/release-v0.1.x-policy.md`
 - GitHub Issue: `#136`

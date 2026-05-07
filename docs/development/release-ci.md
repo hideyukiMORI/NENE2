@@ -8,6 +8,7 @@ Release and CI policy should keep the framework safe to change while the public 
 
 Manual release steps are tracked in `docs/development/release-checklist.md`.
 The first release preparation notes live in `docs/development/release-v0.1.0-prep.md`.
+Post-`v0.1.0` patch release criteria live in `docs/development/release-v0.1.x-policy.md`.
 
 The standard direction is:
 
@@ -30,6 +31,7 @@ During early framework development, use `0.x.y` versions:
 - `0.x.y` means public contracts are still forming.
 - Minor releases may include meaningful framework surface changes.
 - Patch releases should be small fixes or documentation corrections.
+- `v0.1.x` patch releases can also bundle small completed LLM Delivery Starter increments when they improve the existing foundation without broadening the public framework surface.
 - Avoid `1.0.0` until HTTP runtime, DI, config, validation, error responses, and OpenAPI contract conventions are stable enough for users.
 
 After `1.0.0`, these changes are breaking changes and require a major version:

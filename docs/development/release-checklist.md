@@ -3,6 +3,7 @@
 Use this checklist for manual `v0.x.y` releases until release automation is introduced.
 
 Preparation notes for the first `v0.1.0` release live in `docs/development/release-v0.1.0-prep.md`.
+Patch release criteria for `v0.1.x` live in `docs/development/release-v0.1.x-policy.md`.
 
 ## Preconditions
 
@@ -31,6 +32,7 @@ If Docker is unavailable, run the equivalent Composer commands in a PHP `8.4` en
 - Use `0.x.y` while public contracts are still forming.
 - Use a minor version for meaningful framework surface changes.
 - Use a patch version for small fixes or documentation corrections.
+- Use a `v0.1.x` patch version for small completed delivery-starter increments only when they do not broaden the public framework surface.
 - Do not describe `0.x.y` releases as long-term public API stability promises.
 
 ## Tagging
