@@ -32,7 +32,7 @@ The next work should make the existing foundation easier to explain, repeat, and
 
 - README explains the current starter capabilities and links to the most useful docs. `#148`
 - `docs/todo/current.md` points at this milestone and lists concrete next candidates. `#148`
-- A new project start guide exists for adapting NENE2 to a small client-style API.
+- A new project start guide exists for adapting NENE2 to a small client-style API. `#150`
 - Local MCP usage can be followed from committed docs without relying on chat history.
 - Protected machine-client API smoke checks are documented with safe local credentials.
 - Any `v0.1.1` tag decision uses `docs/development/release-v0.1.x-policy.md`.
@@ -40,7 +40,7 @@ The next work should make the existing foundation easier to explain, repeat, and
 ## Candidate Issues
 
 - Close out the LLM Delivery Starter milestone and improve README entry points. `#148`
-- Add a client project start guide for adapting the foundation.
+- Add a client project start guide for adapting the foundation. `#150`
 - Document a local MCP client configuration example.
 - Add a protected machine-client smoke workflow.
 - Decide whether to tag `v0.1.1` as a delivery-starter checkpoint.
@@ -58,6 +58,7 @@ The next work should make the existing foundation easier to explain, repeat, and
 
 - Previous milestone: `docs/milestones/2026-05-llm-delivery-starter.md`
 - Delivery direction: `docs/integrations/llm-delivery-starter.md`
+- Client project start guide: `docs/development/client-project-start.md`
 - Endpoint scaffold workflow: `docs/development/endpoint-scaffold.md`
 - Local MCP server guidance: `docs/integrations/local-mcp-server.md`
 - Authentication boundary: `docs/development/authentication-boundary.md`
