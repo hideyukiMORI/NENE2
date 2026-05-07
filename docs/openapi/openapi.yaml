@@ -90,6 +90,30 @@ paths:
           $ref: '#/components/responses/PayloadTooLarge'
         '500':
           $ref: '#/components/responses/InternalServerError'
+  /examples/ping:
+    get:
+      tags:
+        - System
+      summary: Example ping endpoint
+      description: Returns a minimal response used to exercise the endpoint scaffold workflow.
+      operationId: getExamplePing
+      responses:
+        '200':
+          description: Example ping response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExamplePingResponse'
+              examples:
+                ok:
+                  summary: Successful example ping response
+                  value:
+                    message: pong
+                    status: ok
+        '413':
+          $ref: '#/components/responses/PayloadTooLarge'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
 components:
   securitySchemes:
     ApiKeyAuth:
@@ -323,3 +347,19 @@ components:
           enum:
             - api_key
           example: api_key
+    ExamplePingResponse:
+      type: object
+      required:
+        - message
+        - status
+      properties:
+        message:
+          type: string
+          enum:
+            - pong
+          example: pong
+        status:
+          type: string
+          enum:
+            - ok
+          example: ok

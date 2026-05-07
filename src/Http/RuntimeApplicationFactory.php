@@ -61,6 +61,13 @@ final readonly class RuntimeApplicationFactory
                     'service' => $framework->name(),
                     'credential_type' => $request->getAttribute('nene2.auth.credential_type'),
                 ]),
+            )
+            ->get(
+                '/examples/ping',
+                static fn (ServerRequestInterface $request) => $jsonResponses->create([
+                    'message' => 'pong',
+                    'status' => 'ok',
+                ]),
             );
 
         return new MiddlewareDispatcher(

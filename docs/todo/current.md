@@ -98,7 +98,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 - [x] Implement the first local MCP server for read-only OpenAPI-aligned tools. `#138`
 - [x] Add API-key authentication middleware for machine-client requests. `#140`
-- [ ] Create endpoint scaffold documentation and the first example endpoint workflow.
+- [x] Create endpoint scaffold documentation and the first example endpoint workflow. `#142`
 - [ ] Add Docker Compose real database service verification.
 - [ ] Review whether `v0.1.x` should include patch releases for milestone increments.
 
