@@ -85,7 +85,10 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 ## Next Candidates
 
-No active candidates. Choose the next Issue from `docs/roadmap.md` and current project direction.
+- [x] Refresh the foundation milestone with completed implementation scope. `#123`
+- [ ] Define the next milestone for post-foundation release readiness.
+- [ ] Draft concrete `v0.1.0` GitHub Release notes after release readiness is confirmed.
+- [ ] Decide whether to enable branch protection settings for `main`.
 
 ## Operating Notes
 
