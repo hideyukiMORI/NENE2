@@ -155,6 +155,7 @@ Before handing off a client-style project, confirm:
 
 - Endpoint scaffold workflow: `docs/development/endpoint-scaffold.md`
 - Local MCP server guidance: `docs/integrations/local-mcp-server.md`
+- Local MCP client configuration: `docs/integrations/local-mcp-client-configuration.md`
 - MCP tool policy: `docs/integrations/mcp-tools.md`
 - Authentication boundary: `docs/development/authentication-boundary.md`
 - Database test strategy: `docs/development/test-database-strategy.md`
