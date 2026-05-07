@@ -110,6 +110,8 @@ The exact defaults belong to the config implementation Issue.
 
 Authentication and authorization are extension points, not mandatory core behavior.
 
+API-key and token boundary policy is defined in `docs/development/authentication-boundary.md`.
+
 Planned schemes:
 
 - API key for machine clients and MCP tools

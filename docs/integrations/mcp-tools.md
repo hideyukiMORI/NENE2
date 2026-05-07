@@ -57,6 +57,8 @@ The first MCP tools should be `read` tools.
 - explicit confirmation behavior for destructive actions
 - tests that cover failure and permission boundaries
 
+API-key and token boundaries are defined in `docs/development/authentication-boundary.md`.
+
 ## Local Development Tools
 
 Local-only MCP tools may help agents inspect the development app, but they must stay clearly scoped.
