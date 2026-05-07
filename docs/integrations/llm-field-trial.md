@@ -93,6 +93,7 @@ Prefer claims like:
 
 ## Related Work
 
+- Public reference sandbox (`v0.1.1` fork, read-only demo): [`sakura-exhibition-nene2-field-trial`](https://github.com/hideyukiMORI/sakura-exhibition-nene2-field-trial) — see its `README.md` for affiliation and data disclaimers.
 - Field-trial report skeleton: `docs/templates/field-trial-report.md`
 - Roadmap: `docs/roadmap.md`
 - Current milestone: `docs/milestones/2026-05-field-trial.md`

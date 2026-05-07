@@ -115,8 +115,11 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 - [x] Record the first LLM field-trial direction and next milestone. `#158`
 - [x] Add a field-trial report template. `#160`
 - [x] Run the first `v0.1.1` client-style field trial. `#164`
-- [ ] Convert field-trial friction into focused follow-up Issues.
+- [x] Link public field-trial sandbox from core docs. `#166`
+- [x] Convert field-trial friction into focused follow-up Issues. `#167` `#168`
 - [ ] Decide whether any repeated field-trial step justifies a helper script or generator.
+
+_Friction follow-ups (docs): Issues `#167` (MCP JSON integers for path params), `#168` (Cursor GitHub MCP PAT vs `gh` CLI)._
 
 ## Operating Notes
 

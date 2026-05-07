@@ -18,6 +18,15 @@ Use this guide when a project needs:
 
 NENE2 is still a `0.x` foundation. Treat public contracts as useful but still forming.
 
+## Public field trial reference sandbox (optional)
+
+After the first local milestone, it can help to inspect a **completed public demo** that stayed on the documented scaffold path:
+
+- Repository: [`hideyukiMORI/sakura-exhibition-nene2-field-trial`](https://github.com/hideyukiMORI/sakura-exhibition-nene2-field-trial) (based on NENE2 **`v0.1.1`**).
+- Contents: read-only exhibition-shaped JSON APIs, OpenAPI, PHPUnit, local MCP tools, and Markdown field-trial notes.
+
+It is **not** an official product repository and **does not imply endorsement** of any real exhibition. **Fictional sandbox data** — read that project’s `README.md` and `SECURITY.md` before treating names or years as facts.
+
 ## First Local Setup
 
 Start from a clean checkout:

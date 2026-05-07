@@ -26,7 +26,8 @@ The next work should gather practical evidence:
 - run or document the first field trial against `v0.1.1` (`#164`)
 - record a local MCP client connection and tool call without secrets
 - record endpoint, OpenAPI, test, and handoff friction
-- create follow-up Issues from the field trial
+- link the public sandbox from core NENE2 docs (`#166`)
+- create focused follow-up Issues from friction (`#167`, `#168`)
 
 ## Acceptance Criteria
 
@@ -41,7 +42,8 @@ The next work should gather practical evidence:
 - Record the first LLM field-trial direction and next milestone. `#158`
 - Add a field-trial report template. `#160`
 - Run the first `v0.1.1` client-style field trial. `#164`
-- Convert field-trial friction into focused follow-up Issues.
+- Link the public reference sandbox from core NENE2 docs. `#166`
+- Convert field-trial friction into focused follow-up Issues (`#167`, `#168`).
 - Decide whether any repeated field-trial step justifies a helper script or generator.
 
 ## Non-Goals
@@ -55,6 +57,7 @@ The next work should gather practical evidence:
 
 ## Related Work
 
+- Public reference sandbox: [`hideyukiMORI/sakura-exhibition-nene2-field-trial`](https://github.com/hideyukiMORI/sakura-exhibition-nene2-field-trial) (`v0.1.1`-based demo; disclaimers in upstream `README.md`).
 - Field-trial direction: `docs/integrations/llm-field-trial.md`
 - Client project start guide: `docs/development/client-project-start.md`
 - Endpoint scaffold workflow: `docs/development/endpoint-scaffold.md`
