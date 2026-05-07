@@ -93,6 +93,7 @@ Prefer claims like:
 
 ## Related Work
 
+- Field-trial report skeleton: `docs/templates/field-trial-report.md`
 - Roadmap: `docs/roadmap.md`
 - Current milestone: `docs/milestones/2026-05-field-trial.md`
 - Client project start guide: `docs/development/client-project-start.md`

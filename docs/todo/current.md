@@ -113,7 +113,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 ## First LLM Field Trial Candidates
 
 - [x] Record the first LLM field-trial direction and next milestone. `#158`
-- [ ] Add a field-trial report template.
+- [ ] Add a field-trial report template. `#160`
 - [ ] Run the first `v0.1.1` client-style field trial.
 - [ ] Convert field-trial friction into focused follow-up Issues.
 - [ ] Decide whether any repeated field-trial step justifies a helper script or generator.
