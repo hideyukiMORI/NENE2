@@ -70,6 +70,7 @@ This direction is working when a new client-style project can quickly produce:
 
 - Roadmap: `docs/roadmap.md`
 - Current milestone: `docs/milestones/2026-05-llm-delivery-starter.md`
+- Endpoint scaffold workflow: `docs/development/endpoint-scaffold.md`
 - AI tooling policy: `docs/integrations/ai-tools.md`
 - MCP tool policy: `docs/integrations/mcp-tools.md`
 - Local MCP server guidance: `docs/integrations/local-mcp-server.md`

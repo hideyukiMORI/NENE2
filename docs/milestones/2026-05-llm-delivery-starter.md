@@ -31,7 +31,7 @@ NENE2 should become useful first as the maintainer's own delivery base:
 
 - A local MCP client can connect to a documented NENE2 MCP server and call at least one read-only tool. `#138`
 - The first protected JSON API path can require an API key and return Problem Details on authentication failure. `#140`
-- A documented endpoint creation workflow exists and is exercised by at least one small example endpoint.
+- A documented endpoint creation workflow exists and is exercised by at least one small example endpoint. `#142`
 - Docker-based database verification covers at least one real service database in addition to SQLite adapter tests.
 - `docs/todo/current.md` points at this milestone and lists concrete next candidates.
 - Follow-up work remains split into small GitHub Issues and PRs.
@@ -40,7 +40,7 @@ NENE2 should become useful first as the maintainer's own delivery base:
 
 - Implement the first local MCP server for read-only OpenAPI-aligned tools. `#138`
 - Add API-key authentication middleware for machine-client requests. `#140`
-- Create endpoint scaffold documentation and the first example endpoint workflow.
+- Create endpoint scaffold documentation and the first example endpoint workflow. `#142`
 - Add Docker Compose real database service verification.
 - Review whether `v0.1.x` should include patch releases for milestone increments.
 
@@ -59,5 +59,6 @@ NENE2 should become useful first as the maintainer's own delivery base:
 - MCP tool policy: `docs/integrations/mcp-tools.md`
 - Local MCP server guidance: `docs/integrations/local-mcp-server.md`
 - Authentication boundary: `docs/development/authentication-boundary.md`
+- Endpoint scaffold workflow: `docs/development/endpoint-scaffold.md`
 - Database test strategy: `docs/development/test-database-strategy.md`
 - GitHub Issue: `#136`

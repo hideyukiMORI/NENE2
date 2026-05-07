@@ -89,6 +89,19 @@ final class HttpRuntimeTest extends TestCase
         self::assertSame('api_key', $payload['credential_type']);
     }
 
+    public function testExamplePingEndpointRunsThroughRuntime(): void
+    {
+        $factory = new Psr17Factory();
+        $application = (new RuntimeApplicationFactory($factory, $factory))->create();
+
+        $response = $application->handle($factory->createServerRequest('GET', 'https://example.test/examples/ping'));
+        $payload = $this->decodeJson($response);
+
+        self::assertSame(200, $response->getStatusCode());
+        self::assertSame('pong', $payload['message']);
+        self::assertSame('ok', $payload['status']);
+    }
+
     public function testUnsupportedMethodReturnsProblemDetailsWithAllowHeader(): void
     {
         $factory = new Psr17Factory();
