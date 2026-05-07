@@ -78,10 +78,10 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 - [x] Add request-id based AI debugging guide. `#109`
 - [x] Add generated OpenAPI-to-MCP catalog direction. `#111`
 - [x] Define API-key and token boundary policy. `#113`
+- [x] Add local MCP server integration guidance. `#115`
 
 ## Next Candidates
 
-- [ ] Add local MCP server integration guidance.
 - [ ] Expand OpenAPI runtime contract tests toward schema validation.
 - [ ] Add branch protection readiness checklist.
 - [ ] Refresh first `v0.1.0` release preparation notes.

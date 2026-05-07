@@ -39,6 +39,7 @@ For normal code or documentation work, an AI agent should:
 - MCP tool design should follow `docs/integrations/mcp-tools.md`.
 - Machine-readable MCP tool metadata is tracked in `docs/mcp/tools.json`.
 - OpenAPI-to-MCP catalog generation direction is documented in `docs/integrations/openapi-to-mcp-catalog.md`.
+- Local MCP server integration guidance is documented in `docs/integrations/local-mcp-server.md`.
 - API-key and token boundaries are documented in `docs/development/authentication-boundary.md`.
 - Safe local AI and MCP commands are documented in `docs/integrations/local-ai-commands.md`.
 - AI-assisted debugging should follow `docs/integrations/ai-debugging.md`.

@@ -63,6 +63,7 @@ API-key and token boundaries are defined in `docs/development/authentication-bou
 
 Local-only MCP tools may help agents inspect the development app, but they must stay clearly scoped.
 
+Local MCP server integration guidance lives in `docs/integrations/local-mcp-server.md`.
 Safe local commands are documented in `docs/integrations/local-ai-commands.md`.
 
 Local tools may:
