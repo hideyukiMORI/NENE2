@@ -133,6 +133,7 @@ Start with these docs when adapting NENE2 for a small client-style API:
 
 - Direction: `docs/integrations/llm-delivery-starter.md`
 - Current milestone: `docs/milestones/2026-05-client-delivery-hardening.md`
+- Client project start guide: `docs/development/client-project-start.md`
 - Endpoint workflow: `docs/development/endpoint-scaffold.md`
 - Local MCP server: `docs/integrations/local-mcp-server.md`
 - MCP tool policy: `docs/integrations/mcp-tools.md`

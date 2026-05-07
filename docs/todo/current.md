@@ -105,7 +105,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 ## Client Delivery Hardening Candidates
 
 - [x] Close out the LLM Delivery Starter milestone and improve README entry points. `#148`
-- [ ] Add a client project start guide for adapting the foundation.
+- [x] Add a client project start guide for adapting the foundation. `#150`
 - [ ] Document a local MCP client configuration example.
 - [ ] Add a protected machine-client smoke workflow.
 - [ ] Decide whether to tag `v0.1.1` as a delivery-starter checkpoint.
