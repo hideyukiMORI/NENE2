@@ -74,7 +74,9 @@ None for existing released users.
 
 ## Verification
 
-Before publishing this release, verify:
+Release-candidate verification is recorded in `docs/development/release-v0.1.0-verification.md`.
+
+Before publishing this release, verify or reuse the recorded result:
 
 ```bash
 git switch main
