@@ -81,10 +81,11 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 - [x] Add local MCP server integration guidance. `#115`
 - [x] Expand OpenAPI runtime contract tests toward schema validation. `#117`
 - [x] Add branch protection readiness checklist. `#119`
+- [x] Refresh first `v0.1.0` release preparation notes. `#121`
 
 ## Next Candidates
 
-- [ ] Refresh first `v0.1.0` release preparation notes.
+No active candidates. Choose the next Issue from `docs/roadmap.md` and current project direction.
 
 ## Operating Notes
 

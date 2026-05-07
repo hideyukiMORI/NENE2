@@ -7,6 +7,7 @@ NENE2 uses SemVer, small release steps, and GitHub Actions as the standard CI di
 Release and CI policy should keep the framework safe to change while the public API is still forming.
 
 Manual release steps are tracked in `docs/development/release-checklist.md`.
+The first release preparation notes live in `docs/development/release-v0.1.0-prep.md`.
 
 The standard direction is:
 
