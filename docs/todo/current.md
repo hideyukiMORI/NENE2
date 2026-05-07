@@ -4,7 +4,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 ## Status
 
-- Current milestone: `docs/milestones/2026-05-nene2-foundation.md`
+- Current milestone: `docs/milestones/2026-05-v0.1.0-release-readiness.md`
 - Current GitHub Issue: none
 - Current branch: `main`
 - Handoff for next chat: `docs/todo/handoff-2026-05-04-implementation-start.md`
@@ -86,7 +86,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 ## Next Candidates
 
 - [x] Refresh the foundation milestone with completed implementation scope. `#123`
-- [ ] Define the next milestone for post-foundation release readiness.
+- [x] Define the next milestone for post-foundation release readiness. `#125`
 - [ ] Draft concrete `v0.1.0` GitHub Release notes after release readiness is confirmed.
 - [ ] Decide whether to enable branch protection settings for `main`.
 
