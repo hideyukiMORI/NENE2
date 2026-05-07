@@ -22,7 +22,7 @@ The next work should gather practical evidence:
 
 ## Scope
 
-- create a field-trial report template
+- create a field-trial report template (`#160`)
 - run or document the first field trial against `v0.1.1`
 - record a local MCP client connection and tool call without secrets
 - record endpoint, OpenAPI, test, and handoff friction
@@ -39,7 +39,7 @@ The next work should gather practical evidence:
 ## Candidate Issues
 
 - Record the first LLM field-trial direction and next milestone. `#158`
-- Add a field-trial report template.
+- Add a field-trial report template. `#160`
 - Run the first `v0.1.1` client-style field trial.
 - Convert field-trial friction into focused follow-up Issues.
 - Decide whether any repeated field-trial step justifies a helper script or generator.
