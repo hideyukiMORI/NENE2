@@ -66,7 +66,8 @@ docker compose run --rm app composer openapi
 ## Testing Direction
 
 Runtime contract tests should verify shipped JSON responses against documented examples and required schema fields.
-The first lightweight checks live in `tests/OpenApi/RuntimeContractTest.php` and should grow toward fuller JSON Schema validation only when that extra precision reduces maintenance risk.
+The first lightweight checks live in `tests/OpenApi/RuntimeContractTest.php` and verify examples plus basic schema rules for object responses: required fields, documented property types, enum values, and `additionalProperties` when present.
+Full JSON Schema validation should be added only when that extra precision reduces maintenance risk.
 
 Shared schemas for `ProblemDetails`, `ValidationProblemDetails`, and `ValidationError` live in `docs/openapi/openapi.yaml`. Stable endpoints should reference these schemas for non-2xx JSON responses where the behavior is implemented. See `docs/development/api-error-responses.md`.
 

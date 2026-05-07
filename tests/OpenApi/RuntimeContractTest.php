@@ -15,7 +15,7 @@ final class RuntimeContractTest extends TestCase
 {
     /**
      * @param array<string, mixed> $expectedPayload
-     * @param list<string> $requiredFields
+     * @param array<string, mixed> $schema
      */
     #[DataProvider('successEndpointProvider')]
     public function testRuntimeSuccessResponsesMatchOpenApiExamples(
@@ -23,7 +23,7 @@ final class RuntimeContractTest extends TestCase
         string $path,
         int $expectedStatus,
         array $expectedPayload,
-        array $requiredFields,
+        array $schema,
     ): void {
         $factory = new Psr17Factory();
         $application = (new RuntimeApplicationFactory($factory, $factory))->create();
@@ -35,13 +35,11 @@ final class RuntimeContractTest extends TestCase
         self::assertSame('application/json; charset=utf-8', $response->getHeaderLine('Content-Type'));
         self::assertSame($expectedPayload, $payload);
 
-        foreach ($requiredFields as $requiredField) {
-            self::assertArrayHasKey($requiredField, $payload);
-        }
+        self::assertMatchesSchema($schema, $payload);
     }
 
     /**
-     * @return iterable<string, array{0: string, 1: string, 2: int, 3: array<string, mixed>, 4: list<string>}>
+     * @return iterable<string, array{0: string, 1: string, 2: int, 3: array<string, mixed>, 4: array<string, mixed>}>
      */
     public static function successEndpointProvider(): iterable
     {
@@ -81,7 +79,7 @@ final class RuntimeContractTest extends TestCase
                     $path,
                     200,
                     $example,
-                    self::requiredFieldsForSchema($openApi, $schemaRef),
+                    self::schemaForReference($openApi, $schemaRef),
                 ];
             }
         }
@@ -101,20 +99,82 @@ final class RuntimeContractTest extends TestCase
 
     /**
      * @param array<string, mixed> $openApi
-     * @return list<string>
+     * @return array<string, mixed>
      */
-    private static function requiredFieldsForSchema(array $openApi, string $schemaRef): array
+    private static function schemaForReference(array $openApi, string $schemaRef): array
     {
         $schemaName = str_replace('#/components/schemas/', '', $schemaRef);
         $schema = $openApi['components']['schemas'][$schemaName] ?? null;
 
         self::assertIsArray($schema, sprintf('Schema "%s" must exist.', $schemaName));
 
+        return $schema;
+    }
+
+    /**
+     * @param array<string, mixed> $schema
+     * @param array<string, mixed> $payload
+     */
+    private static function assertMatchesSchema(array $schema, array $payload): void
+    {
+        self::assertSame('object', $schema['type'] ?? null, 'Runtime contract success schemas must be objects.');
+
         $required = $schema['required'] ?? [];
 
-        self::assertIsArray($required, sprintf('Schema "%s" required fields must be a list.', $schemaName));
+        self::assertIsArray($required, 'Schema required fields must be a list.');
 
-        return array_values(array_filter($required, static fn (mixed $field): bool => is_string($field)));
+        foreach ($required as $requiredField) {
+            self::assertIsString($requiredField);
+            self::assertArrayHasKey($requiredField, $payload);
+        }
+
+        $properties = $schema['properties'] ?? [];
+
+        self::assertIsArray($properties, 'Schema properties must be a map.');
+
+        foreach ($payload as $field => $value) {
+            if (!array_key_exists($field, $properties)) {
+                self::assertNotFalse(
+                    $schema['additionalProperties'] ?? true,
+                    sprintf('Unexpected response field "%s".', $field),
+                );
+
+                continue;
+            }
+
+            $property = $properties[$field];
+
+            self::assertIsArray($property, sprintf('Schema property "%s" must be a map.', $field));
+            self::assertValueMatchesPropertySchema($field, $property, $value);
+        }
+    }
+
+    /**
+     * @param array<string, mixed> $property
+     */
+    private static function assertValueMatchesPropertySchema(string $field, array $property, mixed $value): void
+    {
+        $type = $property['type'] ?? null;
+
+        if ($type === 'string') {
+            self::assertIsString($value, sprintf('Field "%s" must be a string.', $field));
+        } elseif ($type === 'integer') {
+            self::assertIsInt($value, sprintf('Field "%s" must be an integer.', $field));
+        } elseif ($type === 'number') {
+            self::assertIsNumeric($value, sprintf('Field "%s" must be numeric.', $field));
+        } elseif ($type === 'boolean') {
+            self::assertIsBool($value, sprintf('Field "%s" must be a boolean.', $field));
+        } elseif ($type === 'array') {
+            self::assertIsArray($value, sprintf('Field "%s" must be an array.', $field));
+        } elseif ($type !== null) {
+            self::fail(sprintf('Unsupported schema type "%s" for field "%s".', (string) $type, $field));
+        }
+
+        $enum = $property['enum'] ?? null;
+
+        if (is_array($enum)) {
+            self::assertContains($value, $enum, sprintf('Field "%s" must match a documented enum value.', $field));
+        }
     }
 
     /**
