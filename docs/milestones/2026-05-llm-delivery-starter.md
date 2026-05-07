@@ -4,6 +4,10 @@
 
 May 2026 and after `v0.1.0`
 
+## Status
+
+Completed as the first post-`v0.1.0` delivery-starter checkpoint.
+
 ## Goal
 
 Turn the `v0.1.0` foundation into a practical starter kit for LLM-assisted client delivery.
@@ -45,6 +49,18 @@ NENE2 should become useful first as the maintainer's own delivery base:
 - Add Docker Compose real database service verification. `#144`
 - Review whether `v0.1.x` should include patch releases for milestone increments. `#146`
 
+## Completion Summary
+
+This milestone turned the released foundation into a practical local starter for LLM-assisted delivery:
+
+- local MCP clients can call read-only tools through documented API boundaries
+- machine clients can use the first API-key protected JSON path
+- endpoint additions have a documented PHP/OpenAPI/test workflow
+- real MySQL verification is available through Docker Compose as an opt-in check
+- `v0.1.x` checkpoint release criteria are documented before any follow-up tag is created
+
+The next milestone is `docs/milestones/2026-05-client-delivery-hardening.md`.
+
 ## Non-Goals
 
 - Production MCP deployment before local behavior is proven.
@@ -63,4 +79,5 @@ NENE2 should become useful first as the maintainer's own delivery base:
 - Endpoint scaffold workflow: `docs/development/endpoint-scaffold.md`
 - Database test strategy: `docs/development/test-database-strategy.md`
 - `v0.1.x` patch release policy: `docs/development/release-v0.1.x-policy.md`
+- Next milestone: `docs/milestones/2026-05-client-delivery-hardening.md`
 - GitHub Issue: `#136`

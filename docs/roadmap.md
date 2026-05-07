@@ -123,6 +123,18 @@ Goal: make the released foundation useful for real LLM-assisted client delivery.
 
 Tracked by `docs/milestones/2026-05-llm-delivery-starter.md`.
 
+## Phase 7: Client Delivery Hardening
+
+Goal: make the delivery-starter foundation easier to reuse for small client-style API projects.
+
+- README entry points for setup, verification, and current capabilities
+- new project start guidance for adapting the foundation
+- local MCP client configuration examples
+- protected machine-client API smoke workflows
+- `v0.1.x` checkpoint release decisions after useful delivery-starter increments
+
+Tracked by `docs/milestones/2026-05-client-delivery-hardening.md`.
+
 ## Non-Goals
 
 - Recreating Laravel or Symfony.

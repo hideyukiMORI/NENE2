@@ -4,7 +4,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 ## Status
 
-- Current milestone: `docs/milestones/2026-05-llm-delivery-starter.md`
+- Current milestone: `docs/milestones/2026-05-client-delivery-hardening.md`
 - Current GitHub Issue: none
 - Current branch: `main`
 - Handoff for next chat: `docs/todo/handoff-2026-05-04-implementation-start.md`
@@ -101,6 +101,14 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 - [x] Create endpoint scaffold documentation and the first example endpoint workflow. `#142`
 - [x] Add Docker Compose real database service verification. `#144`
 - [x] Review whether `v0.1.x` should include patch releases for milestone increments. `#146`
+
+## Client Delivery Hardening Candidates
+
+- [x] Close out the LLM Delivery Starter milestone and improve README entry points. `#148`
+- [ ] Add a client project start guide for adapting the foundation.
+- [ ] Document a local MCP client configuration example.
+- [ ] Add a protected machine-client smoke workflow.
+- [ ] Decide whether to tag `v0.1.1` as a delivery-starter checkpoint.
 
 ## Operating Notes
 
