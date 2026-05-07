@@ -39,6 +39,24 @@ Before enabling or tightening branch protection:
 - [ ] `docs/todo/current.md` does not list an incomplete CI setup task as complete.
 - [ ] The team agrees whether merge commits remain the default.
 
+## Current Decision
+
+As of the `v0.1.0` release readiness milestone, `main` is not protected in GitHub repository settings.
+
+Decision:
+
+- Do not enable branch protection as an incidental documentation change.
+- Treat `main` as ready for the smallest recommended protection once the release owner explicitly approves the repository setting change.
+- Keep merge commits as the default history policy.
+- Use `Composer Check` and `npm Check` as the initial required status checks when protection is enabled.
+- Reconfirm the exact required check names from a fresh `main` run immediately before changing repository settings.
+
+Reason:
+
+- The workflows are passing on pull requests and `main` pushes.
+- Enabling repository protection is an operational setting change, not a source-code change.
+- The first `v0.1.0` release can still be prepared while this remains a documented pre-tag decision.
+
 ## Rollout Notes
 
 Start with the smallest effective protection:
