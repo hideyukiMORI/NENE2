@@ -76,10 +76,11 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 - [x] Add a read-only MCP tool catalog aligned with OpenAPI. `#105`
 - [x] Document safe local AI/MCP development commands. `#107`
 - [x] Add request-id based AI debugging guide. `#109`
+- [x] Add generated OpenAPI-to-MCP catalog direction. `#111`
 
 ## Next Candidates
 
-- [ ] Add generated OpenAPI-to-MCP catalog direction once the catalog grows.
+No active candidates. Choose the next Issue from `docs/roadmap.md` and current project direction.
 
 ## Operating Notes
 
