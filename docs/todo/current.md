@@ -4,7 +4,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 ## Status
 
-- Current milestone: choose next milestone after `v0.1.0`
+- Current milestone: `docs/milestones/2026-05-llm-delivery-starter.md`
 - Current GitHub Issue: none
 - Current branch: `main`
 - Handoff for next chat: `docs/todo/handoff-2026-05-04-implementation-start.md`
@@ -92,6 +92,15 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 - [x] Run and record final `v0.1.0` release verification. `#131`
 - [x] Publish the first `v0.1.0` foundation release. `#133`
 - [x] Record LLM-assisted delivery starter direction from review notes. `#134`
+- [x] Define the post-`v0.1.0` LLM delivery starter milestone. `#136`
+
+## LLM Delivery Starter Candidates
+
+- [ ] Implement the first local MCP server for read-only OpenAPI-aligned tools.
+- [ ] Add API-key authentication middleware for machine-client requests.
+- [ ] Create endpoint scaffold documentation and the first example endpoint workflow.
+- [ ] Add Docker Compose real database service verification.
+- [ ] Review whether `v0.1.x` should include patch releases for milestone increments.
 
 ## Operating Notes
 
