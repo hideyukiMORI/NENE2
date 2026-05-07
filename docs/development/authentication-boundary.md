@@ -24,6 +24,8 @@ X-NENE2-API-Key
 
 The key value is loaded from `NENE2_MACHINE_API_KEY` when configured. Leave it unset for public-only local development, and set it outside the repository when testing protected routes.
 
+Local smoke workflow for the first protected path is documented in `docs/development/machine-client-smoke.md`.
+
 ## API Keys
 
 API keys are long-lived credentials for non-human clients.

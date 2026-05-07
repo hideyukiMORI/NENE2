@@ -139,6 +139,7 @@ Start with these docs when adapting NENE2 for a small client-style API:
 - Local MCP client configuration: `docs/integrations/local-mcp-client-configuration.md`
 - MCP tool policy: `docs/integrations/mcp-tools.md`
 - Authentication boundary: `docs/development/authentication-boundary.md`
+- Machine-client smoke workflow: `docs/development/machine-client-smoke.md`
 - Database test strategy: `docs/development/test-database-strategy.md`
 - Patch release policy: `docs/development/release-v0.1.x-policy.md`
 
