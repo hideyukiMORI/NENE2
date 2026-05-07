@@ -29,7 +29,7 @@ NENE2 should become useful first as the maintainer's own delivery base:
 
 ## Acceptance Criteria
 
-- A local MCP client can connect to a documented NENE2 MCP server and call at least one read-only tool.
+- A local MCP client can connect to a documented NENE2 MCP server and call at least one read-only tool. `#138`
 - The first protected JSON API path can require an API key and return Problem Details on authentication failure.
 - A documented endpoint creation workflow exists and is exercised by at least one small example endpoint.
 - Docker-based database verification covers at least one real service database in addition to SQLite adapter tests.
@@ -38,7 +38,7 @@ NENE2 should become useful first as the maintainer's own delivery base:
 
 ## Candidate Issues
 
-- Implement the first local MCP server for read-only OpenAPI-aligned tools.
+- Implement the first local MCP server for read-only OpenAPI-aligned tools. `#138`
 - Add API-key authentication middleware for machine-client requests.
 - Create endpoint scaffold documentation and the first example endpoint workflow.
 - Add Docker Compose real database service verification.

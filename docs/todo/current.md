@@ -96,7 +96,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 ## LLM Delivery Starter Candidates
 
-- [ ] Implement the first local MCP server for read-only OpenAPI-aligned tools.
+- [x] Implement the first local MCP server for read-only OpenAPI-aligned tools. `#138`
 - [ ] Add API-key authentication middleware for machine-client requests.
 - [ ] Create endpoint scaffold documentation and the first example endpoint workflow.
 - [ ] Add Docker Compose real database service verification.

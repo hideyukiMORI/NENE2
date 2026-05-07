@@ -15,6 +15,36 @@ It should use:
 - `docs/mcp/tools.json`
 - documented safe local commands
 
+## First Local Server
+
+NENE2 includes a first local-only stdio MCP server:
+
+```bash
+docker compose run --rm app php tools/local-mcp-server.php
+```
+
+By default it calls the local API at `http://localhost:8080`. Override the base URL outside the repository when needed:
+
+```bash
+NENE2_LOCAL_API_BASE_URL=http://localhost:8080 docker compose run --rm app php tools/local-mcp-server.php
+```
+
+When running the server inside Docker against the Compose `app` service, use the service name as the API base URL:
+
+```bash
+NENE2_LOCAL_API_BASE_URL=http://app docker compose run --rm app php tools/local-mcp-server.php
+```
+
+The first server supports:
+
+- `initialize`
+- `tools/list`
+- `tools/call`
+
+Tools are loaded from `docs/mcp/tools.json`. The first supported calls are read-only OpenAPI-aligned HTTP GET tools such as `getHealth` and `getFrameworkSmoke`.
+
+The server communicates over newline-delimited JSON-RPC messages on stdio. It is intended for local MCP clients and development smoke checks, not direct browser use.
+
 It must not use:
 
 - direct production database access
