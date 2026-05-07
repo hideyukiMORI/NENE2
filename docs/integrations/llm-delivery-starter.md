@@ -66,10 +66,15 @@ This direction is working when a new client-style project can quickly produce:
 - basic machine-client authentication
 - clear handoff docs that explain what exists and what is deferred
 
+After the `v0.1.1` checkpoint, the next stronger signal is a first field trial: use NENE2 in a real or realistic client-style project and record an LLM/MCP tool call through the documented API boundary.
+
+Field-trial guidance lives in `docs/integrations/llm-field-trial.md`.
+
 ## Related Documents
 
 - Roadmap: `docs/roadmap.md`
 - Current milestone: `docs/milestones/2026-05-llm-delivery-starter.md`
+- Field-trial direction: `docs/integrations/llm-field-trial.md`
 - Endpoint scaffold workflow: `docs/development/endpoint-scaffold.md`
 - AI tooling policy: `docs/integrations/ai-tools.md`
 - MCP tool policy: `docs/integrations/mcp-tools.md`

@@ -135,6 +135,18 @@ Goal: make the delivery-starter foundation easier to reuse for small client-styl
 
 Tracked by `docs/milestones/2026-05-client-delivery-hardening.md`.
 
+## Phase 8: First LLM Field Trial
+
+Goal: prove the delivery-starter workflow in a real or realistic client-style project.
+
+- start from the `v0.1.1` checkpoint release
+- add a small endpoint using the documented scaffold workflow
+- connect a local LLM/MCP client through the documented stdio configuration
+- record at least one MCP tool call through the API boundary
+- turn observed friction into focused follow-up Issues
+
+Tracked by `docs/milestones/2026-05-field-trial.md`.
+
 ## Non-Goals
 
 - Recreating Laravel or Symfony.
