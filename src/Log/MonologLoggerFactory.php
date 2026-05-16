@@ -12,12 +12,14 @@ use Psr\Log\LoggerInterface;
 
 final readonly class MonologLoggerFactory
 {
-    public function create(string $channel, bool $debug = false): LoggerInterface
+    public function create(string $channel, bool $debug = false, ?RequestIdHolder $requestIdHolder = null): LoggerInterface
     {
         $level = $debug ? Level::Debug : Level::Warning;
         $handler = new StreamHandler('php://stderr', $level);
         $handler->setFormatter(new JsonFormatter());
 
-        return new Logger($channel, [$handler]);
+        $processors = $requestIdHolder !== null ? [new RequestIdProcessor($requestIdHolder)] : [];
+
+        return new Logger($channel, [$handler], $processors);
     }
 }

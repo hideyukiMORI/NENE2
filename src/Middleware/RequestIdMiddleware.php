@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Nene2\Middleware;
 
+use Nene2\Log\RequestIdHolder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -15,12 +16,14 @@ final readonly class RequestIdMiddleware implements MiddlewareInterface
 
     public function __construct(
         private string $headerName = 'X-Request-Id',
+        private ?RequestIdHolder $requestIdHolder = null,
     ) {
     }
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $requestId = $this->safeRequestId($request->getHeaderLine($this->headerName)) ?? $this->generateRequestId();
+        $this->requestIdHolder?->set($requestId);
         $response = $handler->handle($request->withAttribute(self::ATTRIBUTE, $requestId));
 
         return $response->withHeader($this->headerName, $requestId);

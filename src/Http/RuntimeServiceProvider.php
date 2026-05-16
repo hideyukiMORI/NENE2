@@ -24,6 +24,7 @@ use Nene2\Example\Note\NoteNotFoundExceptionHandler;
 use Nene2\Example\Note\NoteServiceProvider;
 use Nene2\Example\Note\UpdateNoteHandler;
 use Nene2\Log\MonologLoggerFactory;
+use Nene2\Log\RequestIdHolder;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
@@ -159,13 +160,15 @@ final readonly class RuntimeServiceProvider implements ServiceProviderInterface
                     return $factory;
                 },
             )
+            ->set(RequestIdHolder::class, static fn (ContainerInterface $container): RequestIdHolder => new RequestIdHolder())
             ->set(
                 LoggerInterface::class,
                 static function (ContainerInterface $container): LoggerInterface {
                     $config = $container->get(AppConfig::class);
                     $debug = $config instanceof AppConfig && $config->debug;
+                    $holder = $container->get(RequestIdHolder::class);
 
-                    return (new MonologLoggerFactory())->create('nene2', $debug);
+                    return (new MonologLoggerFactory())->create('nene2', $debug, $holder instanceof RequestIdHolder ? $holder : null);
                 },
             )
             ->set(
@@ -198,6 +201,7 @@ final readonly class RuntimeServiceProvider implements ServiceProviderInterface
                     $listNotesHandler = $container->get(ListNotesHandler::class);
                     $updateNoteHandler = $container->get(UpdateNoteHandler::class);
                     $noteNotFoundHandler = $container->get(NoteNotFoundExceptionHandler::class);
+                    $requestIdHolder = $container->get(RequestIdHolder::class);
 
                     if (!$getNoteByIdHandler instanceof GetNoteByIdHandler) {
                         throw new LogicException('GetNoteById handler service is invalid.');
@@ -223,7 +227,11 @@ final readonly class RuntimeServiceProvider implements ServiceProviderInterface
                         throw new LogicException('NoteNotFoundException handler service is invalid.');
                     }
 
-                    return new RuntimeApplicationFactory($responseFactory, $streamFactory, $logger, $config->machineApiKey, $getNoteByIdHandler, $createNoteHandler, $deleteNoteHandler, [$noteNotFoundHandler], $listNotesHandler, $updateNoteHandler);
+                    if (!$requestIdHolder instanceof RequestIdHolder) {
+                        throw new LogicException('RequestIdHolder service is invalid.');
+                    }
+
+                    return new RuntimeApplicationFactory($responseFactory, $streamFactory, $logger, $config->machineApiKey, $getNoteByIdHandler, $createNoteHandler, $deleteNoteHandler, [$noteNotFoundHandler], $listNotesHandler, $updateNoteHandler, $requestIdHolder);
                 },
             )
             ->set(
