@@ -11,6 +11,11 @@ services:
     environment:
       COMPOSER_CACHE_DIR: /tmp/composer-cache
       NENE2_MACHINE_API_KEY: ${NENE2_MACHINE_API_KEY:-}
+      DB_HOST: ${DB_HOST:-mysql}
+      DB_PORT: ${DB_PORT:-3306}
+      DB_NAME: ${DB_NAME:-nene2}
+      DB_USER: ${DB_USER:-nene2}
+      DB_PASSWORD: ${DB_PASSWORD:-nene2}
 
   mysql:
     image: mysql:8.4
