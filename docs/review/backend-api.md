@@ -7,6 +7,7 @@ Source policies:
 - `docs/development/http-runtime.md`
 - `docs/development/request-validation.md`
 - `docs/development/api-error-responses.md`
+- `docs/development/domain-layer.md`
 - `docs/integrations/openapi.md`
 - `docs/development/coding-standards.md`
 - `docs/development/language-policy.md`
@@ -16,6 +17,10 @@ Source policies:
 - [ ] Public request or response behavior is reflected in OpenAPI when it is stable behavior.
 - [ ] Controllers or handlers map request data to readonly DTOs or command objects before calling use cases.
 - [ ] Use cases do not receive raw PSR-7 requests, superglobals, or unstructured request arrays.
+- [ ] Business logic (invariants, state rules, ownership checks) lives in use cases, not in handlers or middleware.
+- [ ] Repository adapters are injected through interfaces; use cases do not call the container or PDO directly.
+- [ ] All SQL is confined to repository adapter classes; no SQL in use cases, handlers, or domain objects.
+- [ ] Domain exceptions are mapped to Problem Details at the HTTP error boundary, not inside use cases.
 - [ ] Request validation failures use Problem Details `validation-failed` with structured `errors`.
 - [ ] Problem Details `type` values use the canonical `https://nene2.dev/problems/{problem-name}` pattern for stable NENE2 errors.
 - [ ] Public API text, Problem Details titles, and validation codes are in English.

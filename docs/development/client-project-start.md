@@ -82,7 +82,7 @@ For the first client endpoint:
 5. Let `tests/OpenApi/RuntimeContractTest.php` verify documented success examples.
 6. Run a local HTTP smoke check through Docker.
 
-Keep early endpoints thin. Move behavior toward use cases or small services once a route grows beyond simple runtime demonstration.
+Keep early endpoints thin. Move behavior toward use cases or small services once a route grows beyond simple runtime demonstration. See `docs/development/domain-layer.md` for the UseCase → RepositoryInterface → PDO adapter convention and container wiring pattern.
 
 ## Keep OpenAPI as the Handoff Contract
 
@@ -163,6 +163,7 @@ Before handing off a client-style project, confirm:
 
 ## Useful Next Documents
 
+- Domain layer policy: `docs/development/domain-layer.md`
 - Endpoint scaffold workflow: `docs/development/endpoint-scaffold.md`
 - Local MCP server guidance: `docs/integrations/local-mcp-server.md`
 - Local MCP client configuration: `docs/integrations/local-mcp-client-configuration.md`

@@ -127,7 +127,7 @@ _Friction follow-ups (docs): Issues `#167` (MCP JSON integers for path params), 
 ## Domain Layer Starter Candidates
 
 - [x] Define the Phase 9 milestone for Domain Layer Starter. `#180`
-- [ ] Write the domain layer policy doc (`docs/development/domain-layer.md`).
+- [x] Write the domain layer policy doc (`docs/development/domain-layer.md`). `#182`
 - [ ] Add a minimal UseCase interface and example use case in `src/`.
 - [ ] Add a RepositoryInterface convention and example PDO adapter.
 - [ ] Add an example handler that delegates to the use case.
