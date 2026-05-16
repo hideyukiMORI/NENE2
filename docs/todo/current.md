@@ -4,8 +4,8 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 ## Status
 
-- Current milestone: `docs/milestones/2026-05-domain-layer-starter.md`
-- Current GitHub Issue: `#180`
+- Current milestone: `docs/milestones/2026-05-write-operations-pattern.md`
+- Current GitHub Issue: `#188`
 - Current branch: `main`
 - Handoff for next chat: `docs/todo/handoff-2026-05-04-implementation-start.md`
 - First implementation task: `docs/todo/first-task-2026-05-04-http-runtime-foundation.md`
@@ -138,6 +138,17 @@ _Friction follow-ups (docs): Issues `#167` (MCP JSON integers for path params), 
 - [x] Update `docs/development/client-project-start.md` to reference the domain layer doc. `#182`
 - [x] Update self-review checklists with domain layer checkpoints. `#182`
 - [x] Decide whether Phase 9 warrants a `v0.1.2` patch release. `#186` → yes, see `docs/development/release-v0.1.2-prep.md`
+
+## Write Operations Pattern Candidates
+
+- [x] Define the Phase 10 milestone for Write Operations Pattern. `#188`
+- [ ] Add `post()` and `delete()` to `Router` and `lastInsertId()` to `DatabaseQueryExecutorInterface`.
+- [ ] Add write methods to `NoteRepositoryInterface` and `PdoNoteRepository`.
+- [ ] Add `CreateNoteUseCase` and `DeleteNoteUseCase` with readonly DTOs.
+- [ ] Add `CreateNoteHandler` (201 + Location) and `DeleteNoteHandler` (204).
+- [ ] Add body validation with `ValidationException` → 422.
+- [ ] Add OpenAPI schemas for POST and DELETE operations.
+- [ ] Add PHPUnit unit and integration tests for write paths.
 
 ## Operating Notes
 
