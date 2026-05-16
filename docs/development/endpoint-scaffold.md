@@ -44,7 +44,18 @@ It returns:
 }
 ```
 
-This endpoint exists to exercise the workflow. Application endpoints should move toward thin handlers or use cases as behavior grows.
+This endpoint exists to exercise the workflow. Application endpoints should move toward thin handlers that delegate to use cases as behavior grows. See `docs/development/domain-layer.md` for the UseCase → Repository → Handler pattern.
+
+### When to introduce a use case
+
+Add a use case when the handler would otherwise contain business logic:
+
+- filtering by ownership or account
+- checking uniqueness or preconditions
+- applying state transition rules
+- coordinating more than one repository
+
+Keep smoke and health endpoints as simple handlers without a use case.
 
 ## OpenAPI Requirements
 
@@ -100,4 +111,5 @@ If a new endpoint should become an MCP tool:
 - OpenAPI: `docs/openapi/openapi.yaml`
 - Runtime contract tests: `tests/OpenApi/RuntimeContractTest.php`
 - Request validation policy: `docs/development/request-validation.md`
+- Domain layer policy: `docs/development/domain-layer.md`
 - MCP tool policy: `docs/integrations/mcp-tools.md`
