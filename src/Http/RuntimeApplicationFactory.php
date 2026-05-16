@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Nene2\Http;
 
+use Nene2\Error\DomainExceptionHandlerInterface;
 use Nene2\Error\ErrorHandlerMiddleware;
 use Nene2\Error\ProblemDetailsResponseFactory;
 use Nene2\Example\Note\CreateNoteHandler;
@@ -27,6 +28,7 @@ use Psr\Log\NullLogger;
 
 final readonly class RuntimeApplicationFactory
 {
+    /** @param list<DomainExceptionHandlerInterface> $domainExceptionHandlers */
     public function __construct(
         private ResponseFactoryInterface $responseFactory,
         private StreamFactoryInterface $streamFactory,
@@ -35,6 +37,7 @@ final readonly class RuntimeApplicationFactory
         private ?GetNoteByIdHandler $getNoteByIdHandler = null,
         private ?CreateNoteHandler $createNoteHandler = null,
         private ?DeleteNoteHandler $deleteNoteHandler = null,
+        private array $domainExceptionHandlers = [],
     ) {
     }
 
@@ -107,7 +110,7 @@ final readonly class RuntimeApplicationFactory
                 new RequestLoggingMiddleware($this->logger ?? new NullLogger()),
                 new SecurityHeadersMiddleware(),
                 new CorsMiddleware($this->responseFactory),
-                new ErrorHandlerMiddleware($problemDetails),
+                new ErrorHandlerMiddleware($problemDetails, $this->domainExceptionHandlers),
                 new RequestSizeLimitMiddleware($problemDetails),
                 new ApiKeyAuthenticationMiddleware($problemDetails, $this->machineApiKey, ['/machine/health']),
             ],

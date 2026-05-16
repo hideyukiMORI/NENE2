@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Nene2\Example\Note;
 
-use Nene2\Error\ProblemDetailsResponseFactory;
 use Nene2\Routing\Router;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -15,7 +14,6 @@ final readonly class DeleteNoteHandler
     public function __construct(
         private DeleteNoteUseCaseInterface $useCase,
         private ResponseFactoryInterface $responseFactory,
-        private ProblemDetailsResponseFactory $problemDetails,
     ) {
     }
 
@@ -25,26 +23,10 @@ final readonly class DeleteNoteHandler
         $id = (int) ($parameters['id'] ?? 0);
 
         if ($id <= 0) {
-            return $this->problemDetails->create(
-                $request,
-                'not-found',
-                'Not Found',
-                404,
-                'The requested note was not found.',
-            );
+            throw new NoteNotFoundException($id);
         }
 
-        try {
-            $this->useCase->execute(new DeleteNoteByIdInput($id));
-        } catch (NoteNotFoundException) {
-            return $this->problemDetails->create(
-                $request,
-                'not-found',
-                'Not Found',
-                404,
-                'The requested note was not found.',
-            );
-        }
+        $this->useCase->execute(new DeleteNoteByIdInput($id));
 
         return $this->responseFactory->createResponse(204);
     }

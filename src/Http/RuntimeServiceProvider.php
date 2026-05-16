@@ -19,6 +19,7 @@ use Nene2\Error\ProblemDetailsResponseFactory;
 use Nene2\Example\Note\CreateNoteHandler;
 use Nene2\Example\Note\DeleteNoteHandler;
 use Nene2\Example\Note\GetNoteByIdHandler;
+use Nene2\Example\Note\NoteNotFoundExceptionHandler;
 use Nene2\Example\Note\NoteServiceProvider;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Psr\Container\ContainerInterface;
@@ -184,6 +185,7 @@ final readonly class RuntimeServiceProvider implements ServiceProviderInterface
                     $getNoteByIdHandler = $container->get(GetNoteByIdHandler::class);
                     $createNoteHandler = $container->get(CreateNoteHandler::class);
                     $deleteNoteHandler = $container->get(DeleteNoteHandler::class);
+                    $noteNotFoundHandler = $container->get(NoteNotFoundExceptionHandler::class);
 
                     if (!$getNoteByIdHandler instanceof GetNoteByIdHandler) {
                         throw new LogicException('GetNoteById handler service is invalid.');
@@ -197,7 +199,11 @@ final readonly class RuntimeServiceProvider implements ServiceProviderInterface
                         throw new LogicException('DeleteNote handler service is invalid.');
                     }
 
-                    return new RuntimeApplicationFactory($responseFactory, $streamFactory, $logger, $config->machineApiKey, $getNoteByIdHandler, $createNoteHandler, $deleteNoteHandler);
+                    if (!$noteNotFoundHandler instanceof NoteNotFoundExceptionHandler) {
+                        throw new LogicException('NoteNotFoundException handler service is invalid.');
+                    }
+
+                    return new RuntimeApplicationFactory($responseFactory, $streamFactory, $logger, $config->machineApiKey, $getNoteByIdHandler, $createNoteHandler, $deleteNoteHandler, [$noteNotFoundHandler]);
                 },
             )
             ->set(
