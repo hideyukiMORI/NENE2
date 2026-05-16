@@ -183,11 +183,14 @@ _Friction follow-ups (docs): Issues `#167` (MCP JSON integers for path params), 
 ## Current Phase
 
 - [x] **Phase 19**: v0.3.0 readiness — ADR 0007・Packagist 基準確認・v0.3.0 タグ. `#222`
+- [x] **Field Trial 3**: v0.3.0 観察レポート + Packagist Go 判断. `#225`
 
 ## Next Candidates
 
-- Packagist 登録 — v0.3.0 タグ打ち後、公開基準を満たしていることを確認して実施
-- Phase 20: 次のフィールドトライアルまたは機能追加フェーズ
+- **Packagist 登録前準備**: `composer.json` type `"project"` → `"library"` + README インストール手順. `#226`
+- docs(setup): RequestIdProcessor 動作確認手順. `#227`
+- feat(mcp): Note write operations MCP ツール追加. `#228`
+- Packagist 登録 (上記 #226 完了後)
 
 ## Operating Notes
 
