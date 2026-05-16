@@ -182,12 +182,12 @@ _Friction follow-ups (docs): Issues `#167` (MCP JSON integers for path params), 
 
 ## Current Phase
 
-- **Phase 19**: v0.3.0 readiness — ADR 0007 (PUT/PATCH)・Packagist 基準確認. `#222`
+- [x] **Phase 19**: v0.3.0 readiness — ADR 0007・Packagist 基準確認・v0.3.0 タグ. `#222`
 
 ## Next Candidates
 
-- v0.3.0 タグ + Packagist 登録 (Phase 19 完了後)
-- ADR 0007: PUT vs PATCH ポリシー. `#218` (Phase 19 に含む)
+- Packagist 登録 — v0.3.0 タグ打ち後、公開基準を満たしていることを確認して実施
+- Phase 20: 次のフィールドトライアルまたは機能追加フェーズ
 
 ## Operating Notes
 

@@ -11,13 +11,16 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+---
+
+## [0.3.0] — 2026-05-17
+
 ### Added
 - Monolog `RequestIdProcessor`: attaches `X-Request-Id` as `extra.request_id` to every log record (#216)
   - `RequestIdHolder` (mutable singleton) — middleware writes the ID, processor reads it
   - `RequestIdMiddleware` accepts optional `RequestIdHolder` injection
-- `Router::put()` method (shipped with v0.2.0)
 - ADR 0007: PUT vs PATCH policy for resource update operations (#218)
-- v0.3.0 readiness milestone document (#222)
+- v0.3.0 readiness milestone with Packagist publication criteria review (#222)
 
 ### Changed
 - README: added Domain Layer Example section linking `src/Example/Note/` as canonical reference (#217)
@@ -108,7 +111,8 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Governance docs: workflow, coding standards, ADR policy, review checklists (#1)
 - ADR 0001–0004: HTTP runtime, DI container, phpdotenv, Phinx
 
-[Unreleased]: https://github.com/hideyukiMORI/NENE2/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/hideyukiMORI/NENE2/compare/v0.3.0...HEAD
+[0.3.0]: https://github.com/hideyukiMORI/NENE2/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/hideyukiMORI/NENE2/compare/v0.1.3...v0.2.0
 [0.1.3]: https://github.com/hideyukiMORI/NENE2/compare/v0.1.2...v0.1.3
 [0.1.2]: https://github.com/hideyukiMORI/NENE2/compare/v0.1.1...v0.1.2
