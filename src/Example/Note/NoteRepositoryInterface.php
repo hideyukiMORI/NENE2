@@ -13,5 +13,7 @@ interface NoteRepositoryInterface
 
     public function save(Note $note): int;
 
+    public function update(Note $note): void;
+
     public function delete(int $id): void;
 }

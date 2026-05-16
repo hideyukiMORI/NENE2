@@ -147,6 +147,35 @@ final readonly class NoteServiceProvider implements ServiceProviderInterface
                 },
             )
             ->set(
+                UpdateNoteUseCaseInterface::class,
+                static function (ContainerInterface $c): UpdateNoteUseCaseInterface {
+                    $repository = $c->get(NoteRepositoryInterface::class);
+
+                    if (!$repository instanceof NoteRepositoryInterface) {
+                        throw new LogicException('Note repository service is invalid.');
+                    }
+
+                    return new UpdateNoteUseCase($repository);
+                },
+            )
+            ->set(
+                UpdateNoteHandler::class,
+                static function (ContainerInterface $c): UpdateNoteHandler {
+                    $useCase = $c->get(UpdateNoteUseCaseInterface::class);
+                    $response = $c->get(JsonResponseFactory::class);
+
+                    if (!$useCase instanceof UpdateNoteUseCaseInterface) {
+                        throw new LogicException('UpdateNote use case service is invalid.');
+                    }
+
+                    if (!$response instanceof JsonResponseFactory) {
+                        throw new LogicException('JSON response factory service is invalid.');
+                    }
+
+                    return new UpdateNoteHandler($useCase, $response);
+                },
+            )
+            ->set(
                 NoteNotFoundExceptionHandler::class,
                 static function (ContainerInterface $c): NoteNotFoundExceptionHandler {
                     $problemDetails = $c->get(ProblemDetailsResponseFactory::class);

@@ -13,6 +13,18 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [0.2.0] — TBD
+
+### Added
+- `PUT /examples/notes/{id}` update endpoint — completes full Note CRUD (#212)
+  - `UpdateNoteUseCase`, `UpdateNoteHandler`, `UpdateNoteInput/Output`, `UpdateNoteUseCaseInterface`
+  - `NoteRepositoryInterface::update(Note): void` + PDO and in-memory implementations
+  - `Router::put()` method
+  - OpenAPI path with 200/404/422/500 responses
+  - HTTP-level and use-case unit tests
+
+---
+
 ## [0.1.3] — 2026-05-17
 
 ### Added
@@ -84,7 +96,8 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Governance docs: workflow, coding standards, ADR policy, review checklists (#1)
 - ADR 0001–0004: HTTP runtime, DI container, phpdotenv, Phinx
 
-[Unreleased]: https://github.com/hideyukiMORI/NENE2/compare/v0.1.3...HEAD
+[Unreleased]: https://github.com/hideyukiMORI/NENE2/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/hideyukiMORI/NENE2/compare/v0.1.3...v0.2.0
 [0.1.3]: https://github.com/hideyukiMORI/NENE2/compare/v0.1.2...v0.1.3
 [0.1.2]: https://github.com/hideyukiMORI/NENE2/compare/v0.1.1...v0.1.2
 [0.1.1]: https://github.com/hideyukiMORI/NENE2/compare/v0.1.0...v0.1.1

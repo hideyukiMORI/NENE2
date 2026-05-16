@@ -219,6 +219,56 @@ paths:
           $ref: '#/components/responses/PayloadTooLarge'
         '500':
           $ref: '#/components/responses/InternalServerError'
+    put:
+      tags:
+        - Examples
+      summary: Update example note
+      description: Updates a note by id. Replaces title and body. Returns 200 with the updated note on success.
+      operationId: updateExampleNoteById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Note id.
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+          example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateNoteRequest'
+            examples:
+              update:
+                summary: Update note request
+                value:
+                  title: Updated Title
+                  body: Updated body content.
+      responses:
+        '200':
+          description: Note updated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExampleNoteResponse'
+              examples:
+                ok:
+                  summary: Successful update response
+                  value:
+                    id: 1
+                    title: Updated Title
+                    body: Updated body content.
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '413':
+          $ref: '#/components/responses/PayloadTooLarge'
+        '422':
+          $ref: '#/components/responses/ValidationFailed'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
     delete:
       tags:
         - Examples

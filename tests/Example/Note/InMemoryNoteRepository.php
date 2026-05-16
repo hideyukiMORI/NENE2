@@ -49,6 +49,13 @@ final class InMemoryNoteRepository implements NoteRepositoryInterface
         return $id;
     }
 
+    public function update(Note $note): void
+    {
+        if (isset($this->notes[$note->id])) {
+            $this->notes[$note->id] = $note;
+        }
+    }
+
     public function delete(int $id): void
     {
         unset($this->notes[$id]);
