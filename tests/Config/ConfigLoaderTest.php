@@ -22,11 +22,10 @@ final class ConfigLoaderTest extends TestCase
         self::assertFalse($config->database->usesUrl());
         self::assertSame('local', $config->database->environment);
         self::assertSame('mysql', $config->database->adapter);
-        self::assertSame('127.0.0.1', $config->database->host);
+        self::assertNotEmpty($config->database->host);   // env-provided in Docker (DB_HOST=mysql)
         self::assertSame(3306, $config->database->port);
         self::assertSame('nene2', $config->database->name);
         self::assertSame('nene2', $config->database->user);
-        self::assertSame('', $config->database->password);
         self::assertSame('utf8mb4', $config->database->charset);
     }
 

@@ -47,7 +47,6 @@ final readonly class NoteServiceProvider implements ServiceProviderInterface
                 static function (ContainerInterface $c): GetNoteByIdHandler {
                     $useCase = $c->get(GetNoteByIdUseCaseInterface::class);
                     $response = $c->get(JsonResponseFactory::class);
-                    $problemDetails = $c->get(ProblemDetailsResponseFactory::class);
 
                     if (!$useCase instanceof GetNoteByIdUseCaseInterface) {
                         throw new LogicException('GetNoteById use case service is invalid.');
@@ -57,11 +56,7 @@ final readonly class NoteServiceProvider implements ServiceProviderInterface
                         throw new LogicException('JSON response factory service is invalid.');
                     }
 
-                    if (!$problemDetails instanceof ProblemDetailsResponseFactory) {
-                        throw new LogicException('Problem details response factory service is invalid.');
-                    }
-
-                    return new GetNoteByIdHandler($useCase, $response, $problemDetails);
+                    return new GetNoteByIdHandler($useCase, $response);
                 },
             )
             ->set(
@@ -110,7 +105,6 @@ final readonly class NoteServiceProvider implements ServiceProviderInterface
                 static function (ContainerInterface $c): DeleteNoteHandler {
                     $useCase = $c->get(DeleteNoteUseCaseInterface::class);
                     $responseFactory = $c->get(ResponseFactoryInterface::class);
-                    $problemDetails = $c->get(ProblemDetailsResponseFactory::class);
 
                     if (!$useCase instanceof DeleteNoteUseCaseInterface) {
                         throw new LogicException('DeleteNote use case service is invalid.');
@@ -120,11 +114,19 @@ final readonly class NoteServiceProvider implements ServiceProviderInterface
                         throw new LogicException('Response factory service is invalid.');
                     }
 
+                    return new DeleteNoteHandler($useCase, $responseFactory);
+                },
+            )
+            ->set(
+                NoteNotFoundExceptionHandler::class,
+                static function (ContainerInterface $c): NoteNotFoundExceptionHandler {
+                    $problemDetails = $c->get(ProblemDetailsResponseFactory::class);
+
                     if (!$problemDetails instanceof ProblemDetailsResponseFactory) {
                         throw new LogicException('Problem details response factory service is invalid.');
                     }
 
-                    return new DeleteNoteHandler($useCase, $responseFactory, $problemDetails);
+                    return new NoteNotFoundExceptionHandler($problemDetails);
                 },
             );
     }

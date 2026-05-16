@@ -15,8 +15,10 @@ use Throwable;
 
 final readonly class ErrorHandlerMiddleware implements MiddlewareInterface
 {
+    /** @param list<DomainExceptionHandlerInterface> $domainHandlers */
     public function __construct(
         private ProblemDetailsResponseFactory $problemDetails,
+        private array $domainHandlers = [],
     ) {
     }
 
@@ -53,7 +55,13 @@ final readonly class ErrorHandlerMiddleware implements MiddlewareInterface
                     'errors' => $exception->errorsForResponse(),
                 ],
             );
-        } catch (Throwable) {
+        } catch (Throwable $exception) {
+            foreach ($this->domainHandlers as $domainHandler) {
+                if ($domainHandler->supports($exception)) {
+                    return $domainHandler->handle($exception, $request);
+                }
+            }
+
             return $this->problemDetails->create(
                 $request,
                 'internal-server-error',
