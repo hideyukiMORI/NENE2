@@ -62,6 +62,24 @@ docker compose up -d mysql
 docker compose run --rm app composer test:database:mysql
 ```
 
+## Domain Layer Example
+
+`src/Example/Note/` is the canonical reference for how each framework layer works together end-to-end. It implements a full Note CRUD with:
+
+| Layer | File(s) |
+|---|---|
+| Route + handler | `GetNoteByIdHandler`, `CreateNoteHandler`, `UpdateNoteHandler`, `DeleteNoteHandler`, `ListNotesHandler` |
+| Use case (domain) | `GetNoteByIdUseCase`, `CreateNoteUseCase`, `UpdateNoteUseCase`, `DeleteNoteUseCase`, `ListNotesUseCase` |
+| Repository interface | `NoteRepositoryInterface` |
+| PDO adapter | `PdoNoteRepository` |
+| Exception mapping | `NoteNotFoundException` → `NoteNotFoundExceptionHandler` → 404 Problem Details |
+| OpenAPI | `docs/openapi/openapi.yaml` — `GET/POST/PUT/DELETE /examples/notes` paths |
+| Tests | `tests/Example/Note/` — unit, HTTP-level, PDO integration |
+
+All Note endpoints are live at `http://localhost:8080/examples/notes` after `docker compose up -d app`.
+
+---
+
 ## Development Principles
 
 NENE2 optimizes for fast, calm development. The codebase should be easy for a solo developer, a team, or an AI agent to understand without hidden conventions.
@@ -87,9 +105,11 @@ NENE2 uses a single repository with Composer at the root, PHP framework code in 
 │   ├── Config/
 │   ├── DependencyInjection/
 │   ├── Http/
+│   ├── Log/
 │   ├── Routing/
 │   ├── Middleware/
-│   └── Error/
+│   ├── Error/
+│   └── Example/Note/    # canonical domain layer example (full CRUD)
 ├── tests/               # PHPUnit / architecture / contract tests
 ├── config/              # framework default config or examples
 ├── database/            # migrations, seeds, and schema docs
