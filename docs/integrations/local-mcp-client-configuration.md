@@ -55,26 +55,40 @@ Do not put secrets in committed MCP client configuration. If a future local tool
 
 ## Local Smoke Check
 
-You can smoke test the server without a full MCP client by piping newline-delimited JSON-RPC messages.
+Use the smoke helper script to run a full JSON-RPC sequence without boilerplate.
 
-Start with `initialize`:
+The app service must be running first:
 
 ```bash
-printf '%s\n' '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2024-11-05","capabilities":{},"clientInfo":{"name":"local-smoke","version":"0.0.0"}}}' \
-  | docker compose run --rm -e NENE2_LOCAL_API_BASE_URL=http://app app php tools/local-mcp-server.php
+docker compose up -d app
 ```
 
-List tools:
+Then run the helper:
 
 ```bash
-printf '%s\n' '{"jsonrpc":"2.0","id":2,"method":"tools/list","params":{}}' \
-  | docker compose run --rm -e NENE2_LOCAL_API_BASE_URL=http://app app php tools/local-mcp-server.php
+# initialize + tools/list only
+bash tools/mcp-smoke.sh
+
+# call a specific tool
+bash tools/mcp-smoke.sh getHealth '{}'
+
+# call a tool with path parameters (use JSON numbers for integer fields)
+bash tools/mcp-smoke.sh getExhibitionWorkByYearAndId '{"year":2026,"workId":20260101}'
 ```
 
-Call the health tool:
+The script pipes the messages to the stdio MCP server, which calls the running `app` service at `http://app` on the Compose network. Override the API base URL when needed:
 
 ```bash
-printf '%s\n' '{"jsonrpc":"2.0","id":3,"method":"tools/call","params":{"name":"getHealth","arguments":{}}}' \
+NENE2_LOCAL_API_BASE_URL=http://my-api bash tools/mcp-smoke.sh getHealth '{}'
+```
+
+**Manual alternative** — pipe raw JSON-RPC lines when finer control is needed:
+
+```bash
+printf '%s\n' \
+  '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2024-11-05","capabilities":{},"clientInfo":{"name":"local-smoke","version":"0.0.0"}}}' \
+  '{"jsonrpc":"2.0","id":2,"method":"tools/list","params":{}}' \
+  '{"jsonrpc":"2.0","id":3,"method":"tools/call","params":{"name":"getHealth","arguments":{}}}' \
   | docker compose run --rm -e NENE2_LOCAL_API_BASE_URL=http://app app php tools/local-mcp-server.php
 ```
 

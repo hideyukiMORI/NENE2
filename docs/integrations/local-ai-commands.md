@@ -26,6 +26,15 @@ curl -fsS http://localhost:8080/health
 curl -fsS http://localhost:8080/openapi.php
 ```
 
+MCP smoke checks may use the helper script (requires `docker compose up -d app` first):
+
+```bash
+bash tools/mcp-smoke.sh
+bash tools/mcp-smoke.sh getHealth '{}'
+```
+
+The script runs `initialize` and `tools/list` (plus an optional `tools/call`) against the running `app` service. See `docs/integrations/local-mcp-client-configuration.md` for details.
+
 ## Boundaries
 
 Local AI and MCP commands must:
