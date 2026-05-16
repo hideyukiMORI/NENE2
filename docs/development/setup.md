@@ -121,6 +121,28 @@ docker compose run --rm -e NENE2_LOCAL_API_BASE_URL=http://app app php tools/loc
 
 See `docs/integrations/local-mcp-server.md` for MCP client configuration.
 
+## Optional: Verify Request ID in Logs
+
+Every request generates an `X-Request-Id` that is echoed in the response header and attached to every Monolog log record as `extra.request_id`. To verify this is working:
+
+1. Start the app: `docker compose up -d app`
+2. Send a request:
+   ```bash
+   curl -i http://localhost:8080/health
+   # Look for X-Request-Id in the response headers
+   ```
+3. Watch the structured log output:
+   ```bash
+   docker compose logs app
+   # Each JSON log line includes "extra":{"request_id":"<id>"}
+   ```
+
+You can also supply your own ID:
+```bash
+curl -i -H 'X-Request-Id: my-trace-id' http://localhost:8080/health
+# The same id appears in the response header and in docker compose logs
+```
+
 ## Troubleshooting
 
 **`composer check` fails on a clean clone**

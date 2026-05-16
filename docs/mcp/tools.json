@@ -37,6 +37,162 @@
         "properties": {}
       },
       "responseSchemaRef": "#/components/schemas/HealthResponse"
+    },
+    {
+      "name": "getExamplePing",
+      "title": "Example Ping",
+      "description": "Read the example ping endpoint through the documented public API.",
+      "safety": "read",
+      "source": {
+        "type": "openapi",
+        "operationId": "getExamplePing",
+        "method": "GET",
+        "path": "/examples/ping"
+      },
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {}
+      },
+      "responseSchemaRef": "#/components/schemas/ExamplePingResponse"
+    },
+    {
+      "name": "listExampleNotes",
+      "title": "List Example Notes",
+      "description": "List example notes with optional limit and offset pagination.",
+      "safety": "read",
+      "source": {
+        "type": "openapi",
+        "operationId": "listExampleNotes",
+        "method": "GET",
+        "path": "/examples/notes"
+      },
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "limit": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100,
+            "default": 20
+          },
+          "offset": {
+            "type": "integer",
+            "minimum": 0,
+            "default": 0
+          }
+        }
+      },
+      "responseSchemaRef": "#/components/schemas/ExampleNoteListResponse"
+    },
+    {
+      "name": "getExampleNoteById",
+      "title": "Get Example Note",
+      "description": "Read an example note by ID through the documented public API.",
+      "safety": "read",
+      "source": {
+        "type": "openapi",
+        "operationId": "getExampleNoteById",
+        "method": "GET",
+        "path": "/examples/notes/{id}"
+      },
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id"],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "minimum": 1
+          }
+        }
+      },
+      "responseSchemaRef": "#/components/schemas/ExampleNoteResponse"
+    },
+    {
+      "name": "createExampleNote",
+      "title": "Create Example Note",
+      "description": "Create a new example note. Returns 201 with the created note and a Location header.",
+      "safety": "write",
+      "source": {
+        "type": "openapi",
+        "operationId": "createExampleNote",
+        "method": "POST",
+        "path": "/examples/notes"
+      },
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["title", "body"],
+        "properties": {
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "body": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "responseSchemaRef": null
+    },
+    {
+      "name": "updateExampleNoteById",
+      "title": "Update Example Note",
+      "description": "Replace an existing example note (full replacement — all fields required).",
+      "safety": "write",
+      "source": {
+        "type": "openapi",
+        "operationId": "updateExampleNoteById",
+        "method": "PUT",
+        "path": "/examples/notes/{id}"
+      },
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "title", "body"],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "body": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "responseSchemaRef": "#/components/schemas/ExampleNoteResponse"
+    },
+    {
+      "name": "deleteExampleNoteById",
+      "title": "Delete Example Note",
+      "description": "Delete an example note by ID. Returns 204 on success.",
+      "safety": "write",
+      "source": {
+        "type": "openapi",
+        "operationId": "deleteExampleNoteById",
+        "method": "DELETE",
+        "path": "/examples/notes/{id}"
+      },
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id"],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "minimum": 1
+          }
+        }
+      },
+      "responseSchemaRef": null
     }
   ]
 }
