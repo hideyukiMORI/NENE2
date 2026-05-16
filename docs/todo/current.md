@@ -128,12 +128,12 @@ _Friction follow-ups (docs): Issues `#167` (MCP JSON integers for path params), 
 
 - [x] Define the Phase 9 milestone for Domain Layer Starter. `#180`
 - [x] Write the domain layer policy doc (`docs/development/domain-layer.md`). `#182`
-- [ ] Add a minimal UseCase interface and example use case in `src/`.
-- [ ] Add a RepositoryInterface convention and example PDO adapter.
-- [ ] Add an example handler that delegates to the use case.
-- [ ] Add OpenAPI schema entries for the example domain endpoint.
-- [ ] Add PHPUnit unit tests for the example use case.
-- [ ] Add PHPUnit integration tests for the example PDO adapter.
+- [x] Add a minimal UseCase interface and example use case in `src/`. `#184`
+- [x] Add a RepositoryInterface convention and example PDO adapter. `#184`
+- [x] Add an example handler that delegates to the use case. `#184`
+- [x] Add OpenAPI schema entries for the example domain endpoint. `#184`
+- [x] Add PHPUnit unit tests for the example use case. `#184`
+- [x] Add PHPUnit integration tests for the example PDO adapter. `#184`
 - [ ] Update `docs/development/endpoint-scaffold.md` to reference domain layer patterns.
 - [ ] Update `docs/development/client-project-start.md` to reference the domain layer doc.
 - [ ] Update self-review checklists with domain layer checkpoints.

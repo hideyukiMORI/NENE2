@@ -62,6 +62,11 @@ final class RuntimeContractTest extends TestCase
                     continue;
                 }
 
+                // Skip parameterized paths: they require specific request data and are covered by integration tests.
+                if (str_contains($path, '{')) {
+                    continue;
+                }
+
                 $successResponse = $operation['responses']['200'] ?? null;
 
                 if (!is_array($successResponse)) {

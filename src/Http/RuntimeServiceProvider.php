@@ -15,6 +15,9 @@ use Nene2\Database\PdoDatabaseQueryExecutor;
 use Nene2\Database\PdoDatabaseTransactionManager;
 use Nene2\DependencyInjection\ContainerBuilder;
 use Nene2\DependencyInjection\ServiceProviderInterface;
+use Nene2\Error\ProblemDetailsResponseFactory;
+use Nene2\Example\Note\GetNoteByIdHandler;
+use Nene2\Example\Note\NoteServiceProvider;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
@@ -29,6 +32,8 @@ final readonly class RuntimeServiceProvider implements ServiceProviderInterface
 
     public function register(ContainerBuilder $builder): void
     {
+        $builder->addProvider(new NoteServiceProvider());
+
         $builder
             ->set(
                 ConfigLoader::class,
@@ -92,6 +97,40 @@ final readonly class RuntimeServiceProvider implements ServiceProviderInterface
             )
             ->set(Psr17Factory::class, static fn (ContainerInterface $container): Psr17Factory => new Psr17Factory())
             ->set(
+                JsonResponseFactory::class,
+                static function (ContainerInterface $container): JsonResponseFactory {
+                    $responseFactory = $container->get(ResponseFactoryInterface::class);
+                    $streamFactory = $container->get(StreamFactoryInterface::class);
+
+                    if (!$responseFactory instanceof ResponseFactoryInterface) {
+                        throw new LogicException('Response factory service is invalid.');
+                    }
+
+                    if (!$streamFactory instanceof StreamFactoryInterface) {
+                        throw new LogicException('Stream factory service is invalid.');
+                    }
+
+                    return new JsonResponseFactory($responseFactory, $streamFactory);
+                },
+            )
+            ->set(
+                ProblemDetailsResponseFactory::class,
+                static function (ContainerInterface $container): ProblemDetailsResponseFactory {
+                    $responseFactory = $container->get(ResponseFactoryInterface::class);
+                    $streamFactory = $container->get(StreamFactoryInterface::class);
+
+                    if (!$responseFactory instanceof ResponseFactoryInterface) {
+                        throw new LogicException('Response factory service is invalid.');
+                    }
+
+                    if (!$streamFactory instanceof StreamFactoryInterface) {
+                        throw new LogicException('Stream factory service is invalid.');
+                    }
+
+                    return new ProblemDetailsResponseFactory($responseFactory, $streamFactory);
+                },
+            )
+            ->set(
                 ResponseFactoryInterface::class,
                 static function (ContainerInterface $container): ResponseFactoryInterface {
                     $factory = $container->get(Psr17Factory::class);
@@ -140,7 +179,13 @@ final readonly class RuntimeServiceProvider implements ServiceProviderInterface
                         throw new LogicException('Application config service is invalid.');
                     }
 
-                    return new RuntimeApplicationFactory($responseFactory, $streamFactory, $logger, $config->machineApiKey);
+                    $getNoteByIdHandler = $container->get(GetNoteByIdHandler::class);
+
+                    if (!$getNoteByIdHandler instanceof GetNoteByIdHandler) {
+                        throw new LogicException('GetNoteById handler service is invalid.');
+                    }
+
+                    return new RuntimeApplicationFactory($responseFactory, $streamFactory, $logger, $config->machineApiKey, $getNoteByIdHandler);
                 },
             )
             ->set(

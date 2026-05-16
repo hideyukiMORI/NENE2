@@ -6,6 +6,7 @@ namespace Nene2\Http;
 
 use Nene2\Error\ErrorHandlerMiddleware;
 use Nene2\Error\ProblemDetailsResponseFactory;
+use Nene2\Example\Note\GetNoteByIdHandler;
 use Nene2\FrameworkInfo;
 use Nene2\Middleware\ApiKeyAuthenticationMiddleware;
 use Nene2\Middleware\CorsMiddleware;
@@ -29,6 +30,7 @@ final readonly class RuntimeApplicationFactory
         private StreamFactoryInterface $streamFactory,
         private ?LoggerInterface $logger = null,
         private ?string $machineApiKey = null,
+        private ?GetNoteByIdHandler $getNoteByIdHandler = null,
     ) {
     }
 
@@ -37,6 +39,7 @@ final readonly class RuntimeApplicationFactory
         $jsonResponses = new JsonResponseFactory($this->responseFactory, $this->streamFactory);
         $problemDetails = new ProblemDetailsResponseFactory($this->responseFactory, $this->streamFactory);
         $framework = new FrameworkInfo();
+        $getNoteHandler = $this->getNoteByIdHandler;
 
         $router = (new Router())
             ->get(
@@ -68,7 +71,15 @@ final readonly class RuntimeApplicationFactory
                     'message' => 'pong',
                     'status' => 'ok',
                 ]),
+            )
+        ;
+
+        if ($getNoteHandler !== null) {
+            $router->get(
+                '/examples/notes/{id}',
+                static fn (ServerRequestInterface $request) => $getNoteHandler->handle($request),
             );
+        }
 
         return new MiddlewareDispatcher(
             [
