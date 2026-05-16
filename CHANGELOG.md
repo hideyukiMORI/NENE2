@@ -11,6 +11,18 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Added
+- Monolog `RequestIdProcessor`: attaches `X-Request-Id` as `extra.request_id` to every log record (#216)
+  - `RequestIdHolder` (mutable singleton) — middleware writes the ID, processor reads it
+  - `RequestIdMiddleware` accepts optional `RequestIdHolder` injection
+- `Router::put()` method (shipped with v0.2.0)
+- ADR 0007: PUT vs PATCH policy for resource update operations (#218)
+- v0.3.0 readiness milestone document (#222)
+
+### Changed
+- README: added Domain Layer Example section linking `src/Example/Note/` as canonical reference (#217)
+- README: Repository Layout updated with `src/Log/` and `src/Example/Note/`
+
 ---
 
 ## [0.2.0] — 2026-05-17
