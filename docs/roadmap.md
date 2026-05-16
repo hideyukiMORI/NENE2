@@ -161,6 +161,21 @@ Goal: add a minimal, conventional domain layer pattern so that application code 
 
 Tracked by `docs/milestones/2026-05-domain-layer-starter.md`.
 
+## Phase 10: Write Operations Pattern
+
+Goal: complete the CRUD template by adding POST and DELETE endpoints to the domain layer example so that client projects have a concrete, tested write-operation reference to copy and adapt.
+
+- `post()` and `delete()` methods on the Router
+- `lastInsertId()` on `DatabaseQueryExecutorInterface`
+- write methods on `NoteRepositoryInterface` and `PdoNoteRepository`
+- `CreateNoteUseCase` and `DeleteNoteUseCase` with readonly DTOs
+- `CreateNoteHandler` (201 Created + Location) and `DeleteNoteHandler` (204 No Content)
+- body validation with `ValidationException` → 422 Problem Details
+- OpenAPI schemas for write operations
+- PHPUnit unit and integration tests for write paths
+
+Tracked by `docs/milestones/2026-05-write-operations-pattern.md`.
+
 ## Non-Goals
 
 - Recreating Laravel or Symfony.
