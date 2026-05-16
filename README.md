@@ -107,6 +107,8 @@ See `docs/development/project-layout.md` for the design details and placement ru
 
 ## Development Commands
 
+For a full step-by-step walkthrough from clone to running API, see `docs/development/setup.md`.
+
 NENE2 targets PHP `>=8.4.1 <9.0`. Docker is the standard development runtime, so the host OS does not need to provide that PHP version.
 
 ```bash
