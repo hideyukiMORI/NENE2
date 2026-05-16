@@ -179,9 +179,11 @@ _Friction follow-ups (docs): Issues `#167` (MCP JSON integers for path params), 
 
 ## Next Candidates
 
-- Field Trial 2 session — run sandbox against v0.2.0 and record observations in `docs/field-trials/`
-- Phase 18: Monolog RequestIdProcessor — `X-Request-Id` を全ログレコードに付与
-- Phase 18+: v0.3.0 readiness — Packagist 公開判断前の安定化フェーズ
+- [x] Field Trial 2 session — v0.2.0 観察記録、フリクション Issue 作成. `#215`
+- Phase 18: Monolog RequestIdProcessor — `X-Request-Id` を全ログレコードに付与. `#216`
+- Phase 19: v0.3.0 readiness — Packagist 公開判断前の安定化フェーズ
+- docs: README に src/Example/Note/ を正規ドメイン層例として明記. `#217`
+- ADR: PUT vs PATCH ポリシー. `#218`
 
 ## Operating Notes
 
