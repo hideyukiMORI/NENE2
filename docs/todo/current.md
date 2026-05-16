@@ -176,14 +176,18 @@ _Friction follow-ups (docs): Issues `#167` (MCP JSON integers for path params), 
 ## Completed
 
 - [x] **Phase 17**: `PUT /examples/notes/{id}` で Note full CRUD + v0.2.0 タグ. `#212`
+- [x] **Field Trial 2**: v0.2.0 観察レポート + フリクション Issue 作成. `#215`
+- [x] **Phase 18**: Monolog RequestIdProcessor — `X-Request-Id` を全ログレコードに付与. `#216`
+- [x] **docs**: README に src/Example/Note/ を正規ドメイン層例として明記. `#217`
+
+## Current Phase
+
+- **Phase 19**: v0.3.0 readiness — ADR 0007 (PUT/PATCH)・Packagist 基準確認. `#222`
 
 ## Next Candidates
 
-- [x] Field Trial 2 session — v0.2.0 観察記録、フリクション Issue 作成. `#215`
-- Phase 18: Monolog RequestIdProcessor — `X-Request-Id` を全ログレコードに付与. `#216`
-- Phase 19: v0.3.0 readiness — Packagist 公開判断前の安定化フェーズ
-- docs: README に src/Example/Note/ を正規ドメイン層例として明記. `#217`
-- ADR: PUT vs PATCH ポリシー. `#218`
+- v0.3.0 タグ + Packagist 登録 (Phase 19 完了後)
+- ADR 0007: PUT vs PATCH ポリシー. `#218` (Phase 19 に含む)
 
 ## Operating Notes
 

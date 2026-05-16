@@ -239,6 +239,31 @@ Goal: stabilize the public surface enough to make an intentional `v0.2.0` decisi
 - [x] create `CHANGELOG.md` covering v0.1.0–v0.1.3
 - [x] tag `v0.1.3` as stable checkpoint before v0.2.0 work begins
 
+## Phase 17: Full Note CRUD + v0.2.0 ✓
+
+Goal: complete the Note CRUD example and cut v0.2.0.
+
+- [x] `PUT /examples/notes/{id}` update endpoint
+- [x] `Router::put()` method
+- [x] v0.2.0 tag
+
+## Phase 18: Structured Logging with Request Correlation ✓
+
+Goal: attach `X-Request-Id` to every Monolog log record for request-level traceability.
+
+- [x] `RequestIdHolder` + `RequestIdProcessor`
+- [x] `RequestIdMiddleware` populates the holder
+- [x] `MonologLoggerFactory` wires the processor
+
+## Phase 19: v0.3.0 Readiness
+
+Goal: consolidate v0.2.x patterns, resolve Field Trial 2 friction, and prepare for Packagist publication.
+
+- ADR 0007: PUT vs PATCH policy (#218)
+- v0.3.0 milestone and Packagist criteria review
+- CHANGELOG.md [Unreleased] prepared
+- v0.3.0 tag + Packagist registration (if criteria met)
+
 ## Non-Goals
 
 - Recreating Laravel or Symfony.
