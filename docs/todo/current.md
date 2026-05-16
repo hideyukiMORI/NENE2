@@ -170,11 +170,13 @@ _Friction follow-ups (docs): Issues `#167` (MCP JSON integers for path params), 
 
 ## Current Phase
 
-- **Phase 15**: Field Trial 2 — v0.1.3 tag + field trial session. `#208`
+- [x] **Phase 15**: Field Trial 2 milestone doc + v0.1.3 tag. `#208`
+- [x] **Phase 16**: v0.2.0 readiness — ADR 0006 (src/Example + Packagist)、CHANGELOG.md 作成. `#210`
 
-## Planned Phases
+## Next Candidates
 
-- **Phase 16**: v0.2.0 readiness — `src/Example/` の位置付け、Packagist 公開判断、SemVer 方針、CHANGELOG.md
+- Phase 17: v0.2.0 cut — implement API surface changes identified in ADR 0006 follow-up
+- Field Trial 2 session — run sandbox against v0.1.3 and record observations
 
 ## Operating Notes
 

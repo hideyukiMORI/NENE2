@@ -230,14 +230,14 @@ Goal: validate the full CRUD domain layer pattern in a second client-style proje
 - connect local MCP client and verify tool calls against new endpoints
 - record friction and open follow-up Issues
 
-## Phase 16: v0.2.0 Readiness
+## Phase 16: v0.2.0 Readiness ✓
 
 Goal: stabilize the public surface enough to make an intentional `v0.2.0` decision, covering API stability, Packagist publication readiness, and the boundary between framework core and example code.
 
-- decide whether `src/Example/` stays in core or ships as a separate repository
-- review `DatabaseQueryExecutorInterface` and `DatabaseTransactionManagerInterface` for public API stability
-- decide Packagist publication timeline
-- update `CHANGELOG.md` and SemVer policy for `v0.2.x`
+- [x] decide whether `src/Example/` stays in core or ships as a separate repository → stays in core through v0.2.x (ADR 0006)
+- [x] decide Packagist publication timeline → deferred to v0.3.0+ (ADR 0006)
+- [x] create `CHANGELOG.md` covering v0.1.0–v0.1.3
+- [x] tag `v0.1.3` as stable checkpoint before v0.2.0 work begins
 
 ## Non-Goals
 
