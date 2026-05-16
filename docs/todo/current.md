@@ -134,10 +134,10 @@ _Friction follow-ups (docs): Issues `#167` (MCP JSON integers for path params), 
 - [x] Add OpenAPI schema entries for the example domain endpoint. `#184`
 - [x] Add PHPUnit unit tests for the example use case. `#184`
 - [x] Add PHPUnit integration tests for the example PDO adapter. `#184`
-- [ ] Update `docs/development/endpoint-scaffold.md` to reference domain layer patterns.
-- [ ] Update `docs/development/client-project-start.md` to reference the domain layer doc.
-- [ ] Update self-review checklists with domain layer checkpoints.
-- [ ] Decide whether Phase 9 warrants a `v0.1.2` patch release.
+- [x] Update `docs/development/endpoint-scaffold.md` to reference domain layer patterns. `#182`
+- [x] Update `docs/development/client-project-start.md` to reference the domain layer doc. `#182`
+- [x] Update self-review checklists with domain layer checkpoints. `#182`
+- [x] Decide whether Phase 9 warrants a `v0.1.2` patch release. `#186` → yes, see `docs/development/release-v0.1.2-prep.md`
 
 ## Operating Notes
 

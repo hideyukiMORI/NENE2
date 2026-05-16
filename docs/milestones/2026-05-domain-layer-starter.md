@@ -73,6 +73,22 @@ The next work should add a domain layer convention without making NENE2 a full-s
 - Production deployment patterns.
 - Full test coverage of all infrastructure boundaries (only the example domain path).
 
+## Completion Record
+
+All acceptance criteria were met by the end of May 2026.
+
+- `docs/development/domain-layer.md` defines the UseCase/RepositoryInterface/DTO conventions. `#182`
+- `GET /examples/notes/{id}` demonstrates the full UseCase → Repository → Handler path. `#184`
+- `GetNoteByIdUseCaseTest` covers the use case with an in-memory repository. `#184`
+- `PdoNoteRepositoryTest` covers the PDO adapter with SQLite in-memory. `#184`
+- OpenAPI schema for the example endpoint is present and passes `composer openapi`. `#184`
+- `docs/development/endpoint-scaffold.md` references domain layer patterns. `#182`
+- `docs/development/client-project-start.md` references the domain layer policy. `#182`
+- Self-review checklists include domain layer checkpoints. `#182`
+- `docs/todo/current.md` is up to date. `#186`
+
+`v0.1.2` patch release preparation is recorded in `docs/development/release-v0.1.2-prep.md`.
+
 ## Related Work
 
 - Previous milestone: `docs/milestones/2026-05-field-trial.md`
