@@ -13,6 +13,7 @@ use Nene2\Example\Note\GetNoteByIdHandler;
 use Nene2\Example\Note\ListNotesHandler;
 use Nene2\Example\Note\UpdateNoteHandler;
 use Nene2\FrameworkInfo;
+use Nene2\Log\RequestIdHolder;
 use Nene2\Middleware\ApiKeyAuthenticationMiddleware;
 use Nene2\Middleware\CorsMiddleware;
 use Nene2\Middleware\MiddlewareDispatcher;
@@ -42,6 +43,7 @@ final readonly class RuntimeApplicationFactory
         private array $domainExceptionHandlers = [],
         private ?ListNotesHandler $listNotesHandler = null,
         private ?UpdateNoteHandler $updateNoteHandler = null,
+        private ?RequestIdHolder $requestIdHolder = null,
     ) {
     }
 
@@ -127,7 +129,7 @@ final readonly class RuntimeApplicationFactory
 
         return new MiddlewareDispatcher(
             [
-                new RequestIdMiddleware(),
+                new RequestIdMiddleware('X-Request-Id', $this->requestIdHolder),
                 new RequestLoggingMiddleware($this->logger ?? new NullLogger()),
                 new SecurityHeadersMiddleware(),
                 new CorsMiddleware($this->responseFactory),
