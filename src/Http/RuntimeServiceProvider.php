@@ -22,13 +22,13 @@ use Nene2\Example\Note\GetNoteByIdHandler;
 use Nene2\Example\Note\ListNotesHandler;
 use Nene2\Example\Note\NoteNotFoundExceptionHandler;
 use Nene2\Example\Note\NoteServiceProvider;
+use Nene2\Log\MonologLoggerFactory;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Log\LoggerInterface;
-use Psr\Log\NullLogger;
 
 final readonly class RuntimeServiceProvider implements ServiceProviderInterface
 {
@@ -158,7 +158,15 @@ final readonly class RuntimeServiceProvider implements ServiceProviderInterface
                     return $factory;
                 },
             )
-            ->set(LoggerInterface::class, static fn (ContainerInterface $container): LoggerInterface => new NullLogger())
+            ->set(
+                LoggerInterface::class,
+                static function (ContainerInterface $container): LoggerInterface {
+                    $config = $container->get(AppConfig::class);
+                    $debug = $config instanceof AppConfig && $config->debug;
+
+                    return (new MonologLoggerFactory())->create('nene2', $debug);
+                },
+            )
             ->set(
                 RuntimeApplicationFactory::class,
                 static function (ContainerInterface $container): RuntimeApplicationFactory {
