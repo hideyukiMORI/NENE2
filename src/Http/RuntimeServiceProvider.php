@@ -22,6 +22,7 @@ use Nene2\Example\Note\GetNoteByIdHandler;
 use Nene2\Example\Note\ListNotesHandler;
 use Nene2\Example\Note\NoteNotFoundExceptionHandler;
 use Nene2\Example\Note\NoteServiceProvider;
+use Nene2\Example\Note\UpdateNoteHandler;
 use Nene2\Log\MonologLoggerFactory;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Psr\Container\ContainerInterface;
@@ -195,6 +196,7 @@ final readonly class RuntimeServiceProvider implements ServiceProviderInterface
                     $createNoteHandler = $container->get(CreateNoteHandler::class);
                     $deleteNoteHandler = $container->get(DeleteNoteHandler::class);
                     $listNotesHandler = $container->get(ListNotesHandler::class);
+                    $updateNoteHandler = $container->get(UpdateNoteHandler::class);
                     $noteNotFoundHandler = $container->get(NoteNotFoundExceptionHandler::class);
 
                     if (!$getNoteByIdHandler instanceof GetNoteByIdHandler) {
@@ -213,11 +215,15 @@ final readonly class RuntimeServiceProvider implements ServiceProviderInterface
                         throw new LogicException('ListNotes handler service is invalid.');
                     }
 
+                    if (!$updateNoteHandler instanceof UpdateNoteHandler) {
+                        throw new LogicException('UpdateNote handler service is invalid.');
+                    }
+
                     if (!$noteNotFoundHandler instanceof NoteNotFoundExceptionHandler) {
                         throw new LogicException('NoteNotFoundException handler service is invalid.');
                     }
 
-                    return new RuntimeApplicationFactory($responseFactory, $streamFactory, $logger, $config->machineApiKey, $getNoteByIdHandler, $createNoteHandler, $deleteNoteHandler, [$noteNotFoundHandler], $listNotesHandler);
+                    return new RuntimeApplicationFactory($responseFactory, $streamFactory, $logger, $config->machineApiKey, $getNoteByIdHandler, $createNoteHandler, $deleteNoteHandler, [$noteNotFoundHandler], $listNotesHandler, $updateNoteHandler);
                 },
             )
             ->set(

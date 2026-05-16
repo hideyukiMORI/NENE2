@@ -15,6 +15,8 @@ use Nene2\Example\Note\ListNotesHandler;
 use Nene2\Example\Note\ListNotesUseCase;
 use Nene2\Example\Note\Note;
 use Nene2\Example\Note\NoteNotFoundExceptionHandler;
+use Nene2\Example\Note\UpdateNoteHandler;
+use Nene2\Example\Note\UpdateNoteUseCase;
 use Nene2\Http\JsonResponseFactory;
 use Nene2\Http\RuntimeApplicationFactory;
 use Nyholm\Psr7\Factory\Psr17Factory;
@@ -54,6 +56,10 @@ final class NoteHttpTest extends TestCase
             domainExceptionHandlers: [new NoteNotFoundExceptionHandler($problemDetails)],
             listNotesHandler: new ListNotesHandler(
                 new ListNotesUseCase($this->repository),
+                $jsonResponse,
+            ),
+            updateNoteHandler: new UpdateNoteHandler(
+                new UpdateNoteUseCase($this->repository),
                 $jsonResponse,
             ),
         ))->create();
@@ -223,6 +229,53 @@ final class NoteHttpTest extends TestCase
 
         self::assertSame(404, $response->getStatusCode());
         self::assertSame('https://nene2.dev/problems/not-found', $payload['type']);
+    }
+
+    public function testPutNoteUpdatesNoteAndReturns200(): void
+    {
+        $id = $this->repository->save(new Note(title: 'Original', body: 'Old body'));
+
+        $body = $this->factory->createStream(json_encode(['title' => 'Updated', 'body' => 'New body'], JSON_THROW_ON_ERROR));
+        $response = $this->application->handle(
+            $this->factory->createServerRequest('PUT', "https://example.test/examples/notes/{$id}")->withBody($body),
+        );
+        $payload = $this->decodeJson($response);
+
+        self::assertSame(200, $response->getStatusCode());
+        self::assertSame($id, $payload['id']);
+        self::assertSame('Updated', $payload['title']);
+        self::assertSame('New body', $payload['body']);
+
+        $stored = $this->repository->findById($id);
+        self::assertNotNull($stored);
+        self::assertSame('Updated', $stored->title);
+    }
+
+    public function testPutNoteReturns404WhenNoteIsAbsent(): void
+    {
+        $body = $this->factory->createStream(json_encode(['title' => 'X', 'body' => 'Y'], JSON_THROW_ON_ERROR));
+        $response = $this->application->handle(
+            $this->factory->createServerRequest('PUT', 'https://example.test/examples/notes/99')->withBody($body),
+        );
+        $payload = $this->decodeJson($response);
+
+        self::assertSame(404, $response->getStatusCode());
+        self::assertSame('https://nene2.dev/problems/not-found', $payload['type']);
+    }
+
+    public function testPutNoteReturns422WhenTitleIsMissing(): void
+    {
+        $id = $this->repository->save(new Note(title: 'A', body: 'B'));
+        $body = $this->factory->createStream(json_encode(['body' => 'Only body'], JSON_THROW_ON_ERROR));
+        $response = $this->application->handle(
+            $this->factory->createServerRequest('PUT', "https://example.test/examples/notes/{$id}")->withBody($body),
+        );
+        $payload = $this->decodeJson($response);
+
+        self::assertSame(422, $response->getStatusCode());
+        self::assertSame('https://nene2.dev/problems/validation-failed', $payload['type']);
+        $fields = array_column($payload['errors'], 'field');
+        self::assertContains('title', $fields);
     }
 
     /**

@@ -74,6 +74,19 @@ final class PdoNoteRepositoryTest extends TestCase
         self::assertSame('World', $note->body);
     }
 
+    public function testUpdateChangesNoteFields(): void
+    {
+        $repository = new PdoNoteRepository($this->executor);
+        $id = $repository->save(new Note(title: 'Original', body: 'Old body'));
+
+        $repository->update(new Note(title: 'Updated', body: 'New body', id: $id));
+        $note = $repository->findById($id);
+
+        self::assertNotNull($note);
+        self::assertSame('Updated', $note->title);
+        self::assertSame('New body', $note->body);
+    }
+
     public function testDeleteRemovesNote(): void
     {
         $repository = new PdoNoteRepository($this->executor);

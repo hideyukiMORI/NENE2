@@ -59,6 +59,14 @@ final readonly class PdoNoteRepository implements NoteRepositoryInterface
         return $this->query->lastInsertId();
     }
 
+    public function update(Note $note): void
+    {
+        $this->query->execute(
+            'UPDATE notes SET title = ?, body = ? WHERE id = ?',
+            [$note->title, $note->body, $note->id],
+        );
+    }
+
     public function delete(int $id): void
     {
         $this->query->execute('DELETE FROM notes WHERE id = ?', [$id]);
