@@ -10,6 +10,8 @@ servers:
 tags:
   - name: System
     description: Framework and runtime smoke endpoints.
+  - name: Examples
+    description: Domain layer example endpoints demonstrating the UseCase → Repository → Handler pattern.
 paths:
   /:
     get:
@@ -86,6 +88,43 @@ paths:
                     credential_type: api_key
         '401':
           $ref: '#/components/responses/Unauthorized'
+        '413':
+          $ref: '#/components/responses/PayloadTooLarge'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /examples/notes/{id}:
+    get:
+      tags:
+        - Examples
+      summary: Example note endpoint
+      description: Returns a single note by id. Demonstrates the UseCase → Repository → Handler domain layer pattern.
+      operationId: getExampleNoteById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Note id.
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+          example: 1
+      responses:
+        '200':
+          description: Note response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExampleNoteResponse'
+              examples:
+                ok:
+                  summary: Successful note response
+                  value:
+                    id: 1
+                    title: Example Note
+                    body: This is the body of an example note.
+        '404':
+          $ref: '#/components/responses/NotFound'
         '413':
           $ref: '#/components/responses/PayloadTooLarge'
         '500':
@@ -363,3 +402,20 @@ components:
           enum:
             - ok
           example: ok
+    ExampleNoteResponse:
+      type: object
+      required:
+        - id
+        - title
+        - body
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        title:
+          type: string
+          example: Example Note
+        body:
+          type: string
+          example: This is the body of an example note.
