@@ -120,7 +120,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 - [x] Resolve friction follow-up: document MCP integer path parameters. `#167`
 - [x] Resolve friction follow-up: document Cursor GitHub MCP PAT vs `gh` CLI. `#168`
 - [x] Decide whether any repeated field-trial step justifies a helper script or generator. → MCP スモークコマンドをスクリプト化する（`tools/mcp-smoke.sh`）。
-- [ ] Add local MCP smoke helper script (`tools/mcp-smoke.sh`). ← **進行中**
+- [x] Add local MCP smoke helper script (`tools/mcp-smoke.sh`). `#178`
 
 _Friction follow-ups (docs): Issues `#167` (MCP JSON integers for path params), `#168` (Cursor GitHub MCP PAT vs `gh` CLI)._
 
