@@ -187,10 +187,10 @@ _Friction follow-ups (docs): Issues `#167` (MCP JSON integers for path params), 
 
 ## Next Candidates
 
-- **Packagist 登録前準備**: `composer.json` type `"project"` → `"library"` + README インストール手順. `#226`
-- docs(setup): RequestIdProcessor 動作確認手順. `#227`
-- feat(mcp): Note write operations MCP ツール追加. `#228`
-- Packagist 登録 (上記 #226 完了後)
+- [x] **Packagist 登録前準備**: `composer.json` type `"library"` + README インストール手順. `#226`
+- [x] docs(setup): RequestIdProcessor 動作確認手順. `#227`
+- [x] feat(mcp): Note write operations MCP ツール追加. `#228`
+- Packagist 登録 (`#226` 完了済み — 手動登録が残り)
 
 ## Operating Notes
 
