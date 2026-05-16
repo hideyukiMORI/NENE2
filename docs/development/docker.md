@@ -4,15 +4,15 @@ NENE2 uses Docker as the standard development runtime so contributors do not nee
 
 ## Services
 
-`compose.yaml` defines one service:
+`compose.yaml` defines two services:
 
-- `app`: PHP 8.4 Apache container with Composer installed
-
-Apache serves `public_html/` as the document root.
+- `app`: PHP 8.4 Apache container with Composer installed. Apache serves `public_html/` as the document root.
+- `mysql`: MySQL 8.4 container for real database adapter verification. Not required for normal development or CI — SQLite covers the default test path.
 
 ## First Setup
 
 ```bash
+cp .env.example .env
 docker compose build
 docker compose run --rm app composer install
 ```
@@ -52,6 +52,40 @@ Stop it with:
 ```bash
 docker compose down
 ```
+
+## MySQL (Optional)
+
+The `app` service connects to SQLite by default. The `mysql` service exists for verifying real database adapter behavior — migrations, write operations, and `lastInsertId()` across adapters.
+
+Start MySQL and run migrations:
+
+```bash
+docker compose up -d mysql
+docker compose run --rm app composer migrations:migrate
+```
+
+Verify the MySQL adapter:
+
+```bash
+docker compose run --rm app composer test:database:mysql
+```
+
+Stop MySQL when done:
+
+```bash
+docker compose stop mysql
+```
+
+### SQLite vs MySQL
+
+| | SQLite | MySQL |
+|---|---|---|
+| When to use | Default development and CI | Adapter verification, production-like schema testing |
+| Requires separate container | No | Yes (`docker compose up -d mysql`) |
+| Migration needed | No (in-memory per test) | Yes (`composer migrations:migrate`) |
+| Test command | `composer test:database` | `composer test:database:mysql` |
+
+The framework's lazy PDO connection means starting the `app` service without MySQL does not cause errors — a connection is only opened when the first query runs.
 
 ## Runtime Boundary
 
