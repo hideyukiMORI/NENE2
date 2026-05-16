@@ -96,6 +96,12 @@ Recommended metadata:
 
 Mutation, admin, and destructive tools are out of scope for the first local MCP server guidance.
 
+### Integer Path Parameters
+
+When a tool maps to an OpenAPI path with integer parameters such as `{year}` or `{id}`, declare them as `"type": "integer"` in the tool's `inputSchema` and pass them as JSON numbers in `tools/call` arguments.
+
+String values such as `"2026"` will be rejected by adapter validation when the schema specifies an integer type. See `docs/integrations/mcp-tools.md` for the full path parameter policy.
+
 ## HTTP Behavior
 
 When a local MCP tool calls an HTTP API:

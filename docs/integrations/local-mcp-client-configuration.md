@@ -95,6 +95,24 @@ Validate the catalog with:
 docker compose run --rm app composer mcp
 ```
 
+### Path Parameter Types
+
+Tools that map to OpenAPI paths with integer parameters (e.g., `{year}`, `{id}`) require JSON number values in `tools/call` arguments, not strings.
+
+Correct:
+
+```json
+{"name": "getItemsByYear", "arguments": {"year": 2026}}
+```
+
+Incorrect (will be rejected when the schema specifies `integer`):
+
+```json
+{"name": "getItemsByYear", "arguments": {"year": "2026"}}
+```
+
+Check the tool's `inputSchema` in `docs/mcp/tools.json` to confirm the expected type for each parameter.
+
 ## Safety Rules
 
 Local MCP clients may:

@@ -107,6 +107,28 @@ AI-assisted debugging guidance for request id handling lives in `docs/integratio
 
 If a tool needs a shape that does not fit the current API, update the API contract first or document why an internal service boundary is better.
 
+### Path Parameter Types
+
+When an OpenAPI path parameter is typed as `integer` (e.g., `{year}`, `{id}`), the tool's `inputSchema` must reflect that type:
+
+```json
+"inputSchema": {
+  "type": "object",
+  "properties": {
+    "year": { "type": "integer" }
+  },
+  "required": ["year"]
+}
+```
+
+LLM clients must send integer path parameters as JSON numbers, not strings:
+
+```json
+{"name": "getItemsByYear", "arguments": {"year": 2026}}
+```
+
+Sending a string (`"2026"`) will be rejected by adapter validation when the schema specifies `"type": "integer"`. This applies to any path parameter whose OpenAPI schema uses `type: integer` or `type: number`.
+
 ## Non-Goals
 
 - Direct production database tools as the first MCP milestone.
