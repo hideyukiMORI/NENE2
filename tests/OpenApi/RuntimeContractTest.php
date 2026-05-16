@@ -67,6 +67,12 @@ final class RuntimeContractTest extends TestCase
                     continue;
                 }
 
+                // Skip Note domain paths: they require optional domain handlers (ListNotesHandler etc.)
+                // and are covered by NoteHttpTest with InMemoryNoteRepository.
+                if (str_starts_with($path, '/examples/notes')) {
+                    continue;
+                }
+
                 $successResponse = $operation['responses']['200'] ?? null;
 
                 if (!is_array($successResponse)) {

@@ -10,6 +10,7 @@ use Nene2\Error\ProblemDetailsResponseFactory;
 use Nene2\Example\Note\CreateNoteHandler;
 use Nene2\Example\Note\DeleteNoteHandler;
 use Nene2\Example\Note\GetNoteByIdHandler;
+use Nene2\Example\Note\ListNotesHandler;
 use Nene2\FrameworkInfo;
 use Nene2\Middleware\ApiKeyAuthenticationMiddleware;
 use Nene2\Middleware\CorsMiddleware;
@@ -38,6 +39,7 @@ final readonly class RuntimeApplicationFactory
         private ?CreateNoteHandler $createNoteHandler = null,
         private ?DeleteNoteHandler $deleteNoteHandler = null,
         private array $domainExceptionHandlers = [],
+        private ?ListNotesHandler $listNotesHandler = null,
     ) {
     }
 
@@ -49,6 +51,7 @@ final readonly class RuntimeApplicationFactory
         $getNoteHandler = $this->getNoteByIdHandler;
         $createNoteHandler = $this->createNoteHandler;
         $deleteNoteHandler = $this->deleteNoteHandler;
+        $listNotesHandler = $this->listNotesHandler;
 
         $router = (new Router())
             ->get(
@@ -82,6 +85,13 @@ final readonly class RuntimeApplicationFactory
                 ]),
             )
         ;
+
+        if ($listNotesHandler !== null) {
+            $router->get(
+                '/examples/notes',
+                static fn (ServerRequestInterface $request) => $listNotesHandler->handle($request),
+            );
+        }
 
         if ($getNoteHandler !== null) {
             $router->get(

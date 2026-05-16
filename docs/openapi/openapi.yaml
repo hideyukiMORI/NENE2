@@ -93,6 +93,51 @@ paths:
         '500':
           $ref: '#/components/responses/InternalServerError'
   /examples/notes:
+    get:
+      tags:
+        - Examples
+      summary: List example notes
+      description: Returns a paginated list of notes. Demonstrates the collection endpoint pattern with limit/offset query parameters.
+      operationId: listExampleNotes
+      parameters:
+        - name: limit
+          in: query
+          description: Maximum number of notes to return (1–100).
+          required: false
+          schema:
+            type: integer
+            default: 20
+            minimum: 1
+            maximum: 100
+        - name: offset
+          in: query
+          description: Number of notes to skip before returning results.
+          required: false
+          schema:
+            type: integer
+            default: 0
+            minimum: 0
+      responses:
+        '200':
+          description: List of notes.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExampleNoteListResponse'
+              examples:
+                ok:
+                  summary: Successful list notes response
+                  value:
+                    items:
+                      - id: 1
+                        title: Example Note
+                        body: This is the body of an example note.
+                    limit: 20
+                    offset: 0
+        '422':
+          $ref: '#/components/responses/ValidationFailed'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
     post:
       tags:
         - Examples
@@ -502,3 +547,20 @@ components:
         body:
           type: string
           example: This is the body of an example note.
+    ExampleNoteListResponse:
+      type: object
+      required:
+        - items
+        - limit
+        - offset
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ExampleNoteResponse'
+        limit:
+          type: integer
+          example: 20
+        offset:
+          type: integer
+          example: 0

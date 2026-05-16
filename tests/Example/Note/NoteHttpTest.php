@@ -11,6 +11,8 @@ use Nene2\Example\Note\DeleteNoteHandler;
 use Nene2\Example\Note\DeleteNoteUseCase;
 use Nene2\Example\Note\GetNoteByIdHandler;
 use Nene2\Example\Note\GetNoteByIdUseCase;
+use Nene2\Example\Note\ListNotesHandler;
+use Nene2\Example\Note\ListNotesUseCase;
 use Nene2\Example\Note\Note;
 use Nene2\Example\Note\NoteNotFoundExceptionHandler;
 use Nene2\Http\JsonResponseFactory;
@@ -50,6 +52,10 @@ final class NoteHttpTest extends TestCase
                 $this->factory,
             ),
             domainExceptionHandlers: [new NoteNotFoundExceptionHandler($problemDetails)],
+            listNotesHandler: new ListNotesHandler(
+                new ListNotesUseCase($this->repository),
+                $jsonResponse,
+            ),
         ))->create();
     }
 
@@ -149,6 +155,63 @@ final class NoteHttpTest extends TestCase
         self::assertSame(204, $response->getStatusCode());
         self::assertSame('', (string) $response->getBody());
         self::assertNull($this->repository->findById($id));
+    }
+
+    public function testListNotesReturnsEmptyItems(): void
+    {
+        $response = $this->application->handle(
+            $this->factory->createServerRequest('GET', 'https://example.test/examples/notes'),
+        );
+        $payload = $this->decodeJson($response);
+
+        self::assertSame(200, $response->getStatusCode());
+        self::assertSame([], $payload['items']);
+        self::assertSame(20, $payload['limit']);
+        self::assertSame(0, $payload['offset']);
+    }
+
+    public function testListNotesReturnsCreatedNotes(): void
+    {
+        $this->repository->save(new Note(title: 'First', body: 'A'));
+        $this->repository->save(new Note(title: 'Second', body: 'B'));
+
+        $response = $this->application->handle(
+            $this->factory->createServerRequest('GET', 'https://example.test/examples/notes'),
+        );
+        $payload = $this->decodeJson($response);
+
+        self::assertSame(200, $response->getStatusCode());
+        self::assertCount(2, $payload['items']);
+        self::assertSame('First', $payload['items'][0]['title']);
+    }
+
+    public function testListNotesRespectsLimitAndOffset(): void
+    {
+        for ($i = 1; $i <= 5; $i++) {
+            $this->repository->save(new Note(title: "Note {$i}", body: 'Body'));
+        }
+
+        $response = $this->application->handle(
+            $this->factory->createServerRequest('GET', 'https://example.test/examples/notes?limit=2&offset=1'),
+        );
+        $payload = $this->decodeJson($response);
+
+        self::assertSame(200, $response->getStatusCode());
+        self::assertCount(2, $payload['items']);
+        self::assertSame('Note 2', $payload['items'][0]['title']);
+        self::assertSame(2, $payload['limit']);
+        self::assertSame(1, $payload['offset']);
+    }
+
+    public function testListNotesReturns422ForInvalidLimit(): void
+    {
+        $response = $this->application->handle(
+            $this->factory->createServerRequest('GET', 'https://example.test/examples/notes?limit=0'),
+        );
+        $payload = $this->decodeJson($response);
+
+        self::assertSame(422, $response->getStatusCode());
+        self::assertSame('https://nene2.dev/problems/validation-failed', $payload['type']);
     }
 
     public function testDeleteNoteReturns404WhenNoteIsAbsent(): void
