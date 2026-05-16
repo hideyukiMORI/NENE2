@@ -38,7 +38,9 @@ final readonly class LocalMcpToolCatalog
             throw new LocalMcpException('MCP tool catalog must contain a tools array.');
         }
 
-        return array_map($this->tool(...), array_values($tools));
+        $readTools = array_values(array_filter($tools, static fn (mixed $t) => is_array($t) && ($t['safety'] ?? null) === 'read'));
+
+        return array_map($this->tool(...), $readTools);
     }
 
     /**
