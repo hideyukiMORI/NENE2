@@ -4,8 +4,8 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 ## Status
 
-- Current milestone: `docs/milestones/2026-05-test-coverage-hardening.md` (Phase 12)
-- Current GitHub Issue: `#201`
+- Current milestone: `docs/milestones/2026-05-field-trial-2.md` (Phase 15)
+- Current GitHub Issue: `#208`
 - Current branch: `main`
 
 ## Foundation Completed
@@ -163,12 +163,18 @@ _Friction follow-ups (docs): Issues `#167` (MCP JSON integers for path params), 
 - [x] Define Phase 12 milestone and update roadmap. `#200`
 - [x] Add HTTP-level tests for Note endpoints (GET/POST/DELETE × success + error paths). `#201`
 
-## Planned Phases (rough)
+## Completed Phases
 
-- **Phase 13**: Collection endpoint — `GET /examples/notes` with list use case and OpenAPI schema
-- **Phase 14**: Logger integration decision — Monolog 統合 or 明示的な PSR-3 open policy を ADR に記録
-- **Phase 15**: Field Trial 2 — 最新 v0.1.x から新クライアントプロジェクト、CRUD フル活用
-- **Phase 16**: v0.2.0 readiness — `src/Example/` の位置付け、Packagist 公開判断、SemVer 方針
+- [x] **Phase 13**: Collection endpoint — `GET /examples/notes` with list use case and OpenAPI schema. `#204`
+- [x] **Phase 14**: Monolog structured logging (stderr JSON, debug/warning level via APP_DEBUG). `#206`
+
+## Current Phase
+
+- **Phase 15**: Field Trial 2 — v0.1.3 tag + field trial session. `#208`
+
+## Planned Phases
+
+- **Phase 16**: v0.2.0 readiness — `src/Example/` の位置付け、Packagist 公開判断、SemVer 方針、CHANGELOG.md
 
 ## Operating Notes
 
