@@ -16,6 +16,8 @@ interface DatabaseQueryExecutorInterface
      */
     public function execute(string $sql, array $parameters = []): int;
 
+    public function lastInsertId(): int;
+
     /**
      * @param SqlParameters $parameters
      * @return SqlRow|null

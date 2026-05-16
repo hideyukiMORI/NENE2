@@ -27,6 +27,22 @@ final class Router implements RequestHandlerInterface
         return $this->add('GET', $path, $handler);
     }
 
+    /**
+     * @param callable(ServerRequestInterface): ResponseInterface $handler
+     */
+    public function post(string $path, callable $handler): self
+    {
+        return $this->add('POST', $path, $handler);
+    }
+
+    /**
+     * @param callable(ServerRequestInterface): ResponseInterface $handler
+     */
+    public function delete(string $path, callable $handler): self
+    {
+        return $this->add('DELETE', $path, $handler);
+    }
+
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
         $method = strtoupper($request->getMethod());

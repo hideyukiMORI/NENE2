@@ -92,6 +92,51 @@ paths:
           $ref: '#/components/responses/PayloadTooLarge'
         '500':
           $ref: '#/components/responses/InternalServerError'
+  /examples/notes:
+    post:
+      tags:
+        - Examples
+      summary: Create example note
+      description: Creates a new note. Demonstrates the POST → UseCase → Repository write path with body validation.
+      operationId: createExampleNote
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateNoteRequest'
+            examples:
+              valid:
+                summary: Valid create note request
+                value:
+                  title: Example Note
+                  body: This is the body of an example note.
+      responses:
+        '201':
+          description: Note created.
+          headers:
+            Location:
+              description: URI of the created note.
+              schema:
+                type: string
+                example: /examples/notes/1
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExampleNoteResponse'
+              examples:
+                created:
+                  summary: Successful create note response
+                  value:
+                    id: 1
+                    title: Example Note
+                    body: This is the body of an example note.
+        '413':
+          $ref: '#/components/responses/PayloadTooLarge'
+        '422':
+          $ref: '#/components/responses/ValidationFailed'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
   /examples/notes/{id}:
     get:
       tags:
@@ -127,6 +172,29 @@ paths:
           $ref: '#/components/responses/NotFound'
         '413':
           $ref: '#/components/responses/PayloadTooLarge'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      tags:
+        - Examples
+      summary: Delete example note
+      description: Deletes a note by id. Returns 204 on success, 404 if the note does not exist.
+      operationId: deleteExampleNoteById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Note id.
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+          example: 1
+      responses:
+        '204':
+          description: Note deleted.
+        '404':
+          $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/InternalServerError'
   /examples/ping:
@@ -402,6 +470,21 @@ components:
           enum:
             - ok
           example: ok
+    CreateNoteRequest:
+      type: object
+      required:
+        - title
+        - body
+      properties:
+        title:
+          type: string
+          minLength: 1
+          example: Example Note
+        body:
+          type: string
+          minLength: 1
+          example: This is the body of an example note.
+      additionalProperties: false
     ExampleNoteResponse:
       type: object
       required:
