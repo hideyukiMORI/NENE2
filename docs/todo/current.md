@@ -4,8 +4,8 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 ## Status
 
-- Current milestone: `docs/milestones/2026-05-field-trial.md`
-- Current GitHub Issue: none
+- Current milestone: `docs/milestones/2026-05-domain-layer-starter.md`
+- Current GitHub Issue: `#180`
 - Current branch: `main`
 - Handoff for next chat: `docs/todo/handoff-2026-05-04-implementation-start.md`
 - First implementation task: `docs/todo/first-task-2026-05-04-http-runtime-foundation.md`
@@ -123,6 +123,21 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 - [x] Add local MCP smoke helper script (`tools/mcp-smoke.sh`). `#178`
 
 _Friction follow-ups (docs): Issues `#167` (MCP JSON integers for path params), `#168` (Cursor GitHub MCP PAT vs `gh` CLI)._
+
+## Domain Layer Starter Candidates
+
+- [x] Define the Phase 9 milestone for Domain Layer Starter. `#180`
+- [ ] Write the domain layer policy doc (`docs/development/domain-layer.md`).
+- [ ] Add a minimal UseCase interface and example use case in `src/`.
+- [ ] Add a RepositoryInterface convention and example PDO adapter.
+- [ ] Add an example handler that delegates to the use case.
+- [ ] Add OpenAPI schema entries for the example domain endpoint.
+- [ ] Add PHPUnit unit tests for the example use case.
+- [ ] Add PHPUnit integration tests for the example PDO adapter.
+- [ ] Update `docs/development/endpoint-scaffold.md` to reference domain layer patterns.
+- [ ] Update `docs/development/client-project-start.md` to reference the domain layer doc.
+- [ ] Update self-review checklists with domain layer checkpoints.
+- [ ] Decide whether Phase 9 warrants a `v0.1.2` patch release.
 
 ## Operating Notes
 
