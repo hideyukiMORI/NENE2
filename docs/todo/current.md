@@ -4,8 +4,8 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 ## Status
 
-- Current milestone: `docs/milestones/2026-05-field-trial-2.md` (Phase 15)
-- Current GitHub Issue: `#208`
+- Current milestone: `docs/milestones/2026-05-field-trial-2.md` (Field Trial 2)
+- Latest release: `v0.2.0` (Phase 17 complete)
 - Current branch: `main`
 
 ## Foundation Completed
@@ -173,10 +173,15 @@ _Friction follow-ups (docs): Issues `#167` (MCP JSON integers for path params), 
 - [x] **Phase 15**: Field Trial 2 milestone doc + v0.1.3 tag. `#208`
 - [x] **Phase 16**: v0.2.0 readiness — ADR 0006 (src/Example + Packagist)、CHANGELOG.md 作成. `#210`
 
+## Completed
+
+- [x] **Phase 17**: `PUT /examples/notes/{id}` で Note full CRUD + v0.2.0 タグ. `#212`
+
 ## Next Candidates
 
-- Phase 17: v0.2.0 cut — implement API surface changes identified in ADR 0006 follow-up
-- Field Trial 2 session — run sandbox against v0.1.3 and record observations
+- Field Trial 2 session — run sandbox against v0.2.0 and record observations in `docs/field-trials/`
+- Phase 18: Monolog RequestIdProcessor — `X-Request-Id` を全ログレコードに付与
+- Phase 18+: v0.3.0 readiness — Packagist 公開判断前の安定化フェーズ
 
 ## Operating Notes
 
