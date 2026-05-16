@@ -176,6 +176,69 @@ Goal: complete the CRUD template by adding POST and DELETE endpoints to the doma
 
 Tracked by `docs/milestones/2026-05-write-operations-pattern.md`.
 
+## Phase 11: Error Handler Systemization
+
+Goal: centralize domain exception → HTTP response mapping in the middleware layer so handlers stay thin and new domain exceptions do not require handler changes.
+
+- `DomainExceptionHandlerInterface` with `supports()` and `handle()`
+- `ErrorHandlerMiddleware` accepts `list<DomainExceptionHandlerInterface>`
+- `NoteNotFoundExceptionHandler` as the first registered domain mapper
+- handlers (`GetNoteByIdHandler`, `DeleteNoteHandler`) no longer catch domain exceptions
+- `RuntimeServiceProvider` wires domain handlers explicitly
+
+Tracked by `docs/milestones/2026-05-error-handler-systemization.md`.
+
+## Phase 12: Test Coverage Hardening
+
+Goal: close the gap between unit-level use case tests and HTTP-level integration by adding end-to-end tests for the Note endpoints through the middleware stack.
+
+- `HttpRuntimeTest` (or dedicated `NoteHttpTest`) covers all Note endpoint behaviors
+- GET with valid id → 200
+- GET with missing note → 404 via `DomainExceptionHandlerInterface`
+- GET with invalid id (≤ 0) → 404 via `DomainExceptionHandlerInterface`
+- POST with valid body → 201 + Location header
+- POST with invalid body → 422 Problem Details
+- DELETE with valid id → 204
+- DELETE with missing note → 404 via `DomainExceptionHandlerInterface`
+
+Tracked by `docs/milestones/2026-05-test-coverage-hardening.md`.
+
+## Phase 13: Collection Endpoint Pattern
+
+Goal: complete the CRUD example set by adding a list endpoint that demonstrates collection response shape and introduces a basic pagination design decision.
+
+- `GET /examples/notes` returning an array of notes
+- `ListNotesUseCase` with optional limit/offset or cursor parameters
+- `findAll()` on `NoteRepositoryInterface` and `PdoNoteRepository`
+- OpenAPI schema for collection response
+- PHPUnit unit and integration tests for the list path
+
+## Phase 14: Logger Integration Decision
+
+Goal: resolve the `NullLogger` placeholder by either wiring a real structured logger or explicitly documenting that the logger is the application owner's responsibility.
+
+- ADR recording the decision: embed Monolog vs leave PSR-3 open for the caller
+- if embedded: `RequestLoggingMiddleware` emits structured fields (`request_id`, `method`, `path`, `status`, `duration_ms`)
+- if caller-provided: update setup guide and service provider examples
+
+## Phase 15: Field Trial 2
+
+Goal: validate the full CRUD domain layer pattern in a second client-style project, exercising GET/POST/DELETE and the collection endpoint in a realistic scenario.
+
+- start from the latest `v0.1.x` checkpoint
+- scaffold at least one new domain entity using documented patterns
+- connect local MCP client and verify tool calls against new endpoints
+- record friction and open follow-up Issues
+
+## Phase 16: v0.2.0 Readiness
+
+Goal: stabilize the public surface enough to make an intentional `v0.2.0` decision, covering API stability, Packagist publication readiness, and the boundary between framework core and example code.
+
+- decide whether `src/Example/` stays in core or ships as a separate repository
+- review `DatabaseQueryExecutorInterface` and `DatabaseTransactionManagerInterface` for public API stability
+- decide Packagist publication timeline
+- update `CHANGELOG.md` and SemVer policy for `v0.2.x`
+
 ## Non-Goals
 
 - Recreating Laravel or Symfony.

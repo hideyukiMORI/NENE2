@@ -4,11 +4,9 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 ## Status
 
-- Current milestone: `docs/milestones/2026-05-write-operations-pattern.md`
-- Current GitHub Issue: `#188`
+- Current milestone: `docs/milestones/2026-05-test-coverage-hardening.md` (Phase 12)
+- Current GitHub Issue: `#201`
 - Current branch: `main`
-- Handoff for next chat: `docs/todo/handoff-2026-05-04-implementation-start.md`
-- First implementation task: `docs/todo/first-task-2026-05-04-http-runtime-foundation.md`
 
 ## Foundation Completed
 
@@ -149,6 +147,28 @@ _Friction follow-ups (docs): Issues `#167` (MCP JSON integers for path params), 
 - [x] Add body validation with `ValidationException` → 422. `#190`
 - [x] Add OpenAPI schemas for POST and DELETE operations. `#190`
 - [x] Add PHPUnit unit and integration tests for write paths. `#190`
+
+## Error Handler Systemization Candidates
+
+- [x] Add `DomainExceptionHandlerInterface` to `src/Error/`. `#197`
+- [x] Add `list<DomainExceptionHandlerInterface>` to `ErrorHandlerMiddleware`. `#197`
+- [x] Add `NoteNotFoundExceptionHandler` and wire it in `RuntimeServiceProvider`. `#197`
+- [x] Remove `ProblemDetailsResponseFactory` from `GetNoteByIdHandler` and `DeleteNoteHandler`. `#197`
+- [x] Add MySQL write operations verification and `compose.yaml` DB env defaults. `#194`
+- [x] Add `docs/development/setup.md` getting-started guide. `#196`
+- [x] Update `docs/development/docker.md` with MySQL service section. `#196`
+
+## Test Coverage Hardening Candidates (Phase 12)
+
+- [x] Define Phase 12 milestone and update roadmap. `#200`
+- [ ] Add HTTP-level tests for Note endpoints (GET/POST/DELETE × success + error paths). `#201`
+
+## Planned Phases (rough)
+
+- **Phase 13**: Collection endpoint — `GET /examples/notes` with list use case and OpenAPI schema
+- **Phase 14**: Logger integration decision — Monolog 統合 or 明示的な PSR-3 open policy を ADR に記録
+- **Phase 15**: Field Trial 2 — 最新 v0.1.x から新クライアントプロジェクト、CRUD フル活用
+- **Phase 16**: v0.2.0 readiness — `src/Example/` の位置付け、Packagist 公開判断、SemVer 方針
 
 ## Operating Notes
 
