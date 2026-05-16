@@ -161,7 +161,7 @@ _Friction follow-ups (docs): Issues `#167` (MCP JSON integers for path params), 
 ## Test Coverage Hardening Candidates (Phase 12)
 
 - [x] Define Phase 12 milestone and update roadmap. `#200`
-- [ ] Add HTTP-level tests for Note endpoints (GET/POST/DELETE × success + error paths). `#201`
+- [x] Add HTTP-level tests for Note endpoints (GET/POST/DELETE × success + error paths). `#201`
 
 ## Planned Phases (rough)
 

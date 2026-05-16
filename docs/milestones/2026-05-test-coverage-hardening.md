@@ -36,6 +36,8 @@ the complete middleware → router → handler → middleware (error) path for N
 
 ## Completion Record
 
-- [ ] All test cases above pass under `composer check`
-- [ ] No new PHPStan errors
-- [ ] `docs/todo/current.md` updated
+- [x] All test cases above pass under `composer check` — 90 tests / 347 assertions
+- [x] No new PHPStan errors
+- [x] `docs/todo/current.md` updated
+
+Merged via PR #203. Closes #201.
