@@ -34,6 +34,7 @@ The foundation currently includes:
 Build the PHP runtime, install dependencies, and run the standard backend checks:
 
 ```bash
+cp .env.example .env
 docker compose build
 docker compose run --rm app composer install
 docker compose run --rm app composer check
