@@ -31,6 +31,24 @@ final readonly class PdoNoteRepository implements NoteRepositoryInterface
         );
     }
 
+    /** @return list<Note> */
+    public function findAll(int $limit, int $offset): array
+    {
+        $rows = $this->query->fetchAll(
+            'SELECT id, title, body FROM notes ORDER BY id ASC LIMIT ? OFFSET ?',
+            [$limit, $offset],
+        );
+
+        return array_map(
+            static fn (array $row) => new Note(
+                title: (string) $row['title'],
+                body: (string) $row['body'],
+                id: (int) $row['id'],
+            ),
+            $rows,
+        );
+    }
+
     public function save(Note $note): int
     {
         $this->query->execute(

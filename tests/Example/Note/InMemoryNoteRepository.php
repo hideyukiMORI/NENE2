@@ -33,6 +33,14 @@ final class InMemoryNoteRepository implements NoteRepositoryInterface
         return $this->notes[$id] ?? null;
     }
 
+    /** @return list<Note> */
+    public function findAll(int $limit, int $offset): array
+    {
+        $notes = array_values($this->notes);
+
+        return array_slice($notes, $offset, $limit);
+    }
+
     public function save(Note $note): int
     {
         $id = $this->nextId++;

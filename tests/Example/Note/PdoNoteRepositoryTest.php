@@ -82,4 +82,32 @@ final class PdoNoteRepositoryTest extends TestCase
 
         self::assertNull($repository->findById($id));
     }
+
+    public function testFindAllReturnsAllNotes(): void
+    {
+        $repository = new PdoNoteRepository($this->executor);
+        $repository->save(new Note(title: 'First', body: 'A'));
+        $repository->save(new Note(title: 'Second', body: 'B'));
+
+        $notes = $repository->findAll(10, 0);
+
+        self::assertCount(2, $notes);
+        self::assertSame('First', $notes[0]->title);
+        self::assertSame('Second', $notes[1]->title);
+    }
+
+    public function testFindAllRespectsLimitAndOffset(): void
+    {
+        $repository = new PdoNoteRepository($this->executor);
+
+        for ($i = 1; $i <= 5; $i++) {
+            $repository->save(new Note(title: "Note {$i}", body: 'Body'));
+        }
+
+        $notes = $repository->findAll(2, 2);
+
+        self::assertCount(2, $notes);
+        self::assertSame('Note 3', $notes[0]->title);
+        self::assertSame('Note 4', $notes[1]->title);
+    }
 }
