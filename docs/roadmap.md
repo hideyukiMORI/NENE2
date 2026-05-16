@@ -147,6 +147,20 @@ Goal: prove the delivery-starter workflow in a real or realistic client-style pr
 
 Tracked by `docs/milestones/2026-05-field-trial.md`.
 
+## Phase 9: Domain Layer Starter
+
+Goal: add a minimal, conventional domain layer pattern so that application code has a clear, documented path from HTTP handler to use case to repository adapter.
+
+- UseCase interface and single-responsibility invocation convention
+- RepositoryInterface convention for database-backed adapters
+- readonly input and output DTOs for cross-layer data passing
+- at least one working example endpoint demonstrating the full UseCase → Repository → Handler path
+- PHPUnit unit tests for the use case and integration tests for the PDO adapter
+- updated endpoint scaffold workflow and client project start guide referencing domain patterns
+- self-review checklist entries for domain layer concerns
+
+Tracked by `docs/milestones/2026-05-domain-layer-starter.md`.
+
 ## Non-Goals
 
 - Recreating Laravel or Symfony.
