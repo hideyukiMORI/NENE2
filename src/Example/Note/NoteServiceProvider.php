@@ -11,6 +11,7 @@ use Nene2\DependencyInjection\ServiceProviderInterface;
 use Nene2\Error\ProblemDetailsResponseFactory;
 use Nene2\Http\JsonResponseFactory;
 use Psr\Container\ContainerInterface;
+use Psr\Http\Message\ResponseFactoryInterface;
 
 final readonly class NoteServiceProvider implements ServiceProviderInterface
 {
@@ -61,6 +62,69 @@ final readonly class NoteServiceProvider implements ServiceProviderInterface
                     }
 
                     return new GetNoteByIdHandler($useCase, $response, $problemDetails);
+                },
+            )
+            ->set(
+                CreateNoteUseCaseInterface::class,
+                static function (ContainerInterface $c): CreateNoteUseCaseInterface {
+                    $repository = $c->get(NoteRepositoryInterface::class);
+
+                    if (!$repository instanceof NoteRepositoryInterface) {
+                        throw new LogicException('Note repository service is invalid.');
+                    }
+
+                    return new CreateNoteUseCase($repository);
+                },
+            )
+            ->set(
+                CreateNoteHandler::class,
+                static function (ContainerInterface $c): CreateNoteHandler {
+                    $useCase = $c->get(CreateNoteUseCaseInterface::class);
+                    $response = $c->get(JsonResponseFactory::class);
+
+                    if (!$useCase instanceof CreateNoteUseCaseInterface) {
+                        throw new LogicException('CreateNote use case service is invalid.');
+                    }
+
+                    if (!$response instanceof JsonResponseFactory) {
+                        throw new LogicException('JSON response factory service is invalid.');
+                    }
+
+                    return new CreateNoteHandler($useCase, $response);
+                },
+            )
+            ->set(
+                DeleteNoteUseCaseInterface::class,
+                static function (ContainerInterface $c): DeleteNoteUseCaseInterface {
+                    $repository = $c->get(NoteRepositoryInterface::class);
+
+                    if (!$repository instanceof NoteRepositoryInterface) {
+                        throw new LogicException('Note repository service is invalid.');
+                    }
+
+                    return new DeleteNoteUseCase($repository);
+                },
+            )
+            ->set(
+                DeleteNoteHandler::class,
+                static function (ContainerInterface $c): DeleteNoteHandler {
+                    $useCase = $c->get(DeleteNoteUseCaseInterface::class);
+                    $responseFactory = $c->get(ResponseFactoryInterface::class);
+                    $problemDetails = $c->get(ProblemDetailsResponseFactory::class);
+
+                    if (!$useCase instanceof DeleteNoteUseCaseInterface) {
+                        throw new LogicException('DeleteNote use case service is invalid.');
+                    }
+
+                    if (!$responseFactory instanceof ResponseFactoryInterface) {
+                        throw new LogicException('Response factory service is invalid.');
+                    }
+
+                    if (!$problemDetails instanceof ProblemDetailsResponseFactory) {
+                        throw new LogicException('Problem details response factory service is invalid.');
+                    }
+
+                    return new DeleteNoteHandler($useCase, $responseFactory, $problemDetails);
                 },
             );
     }

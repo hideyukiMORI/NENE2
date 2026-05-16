@@ -28,6 +28,11 @@ final class PdoDatabaseQueryExecutor implements DatabaseQueryExecutorInterface
         return $this->statement($sql, $parameters)->rowCount();
     }
 
+    public function lastInsertId(): int
+    {
+        return (int) $this->connection()->lastInsertId();
+    }
+
     public function fetchOne(string $sql, array $parameters = []): ?array
     {
         $row = $this->statement($sql, $parameters)->fetch(PDO::FETCH_ASSOC);

@@ -7,6 +7,7 @@ namespace Nene2\Tests\Example\Note;
 use Nene2\Config\DatabaseConfig;
 use Nene2\Database\PdoConnectionFactory;
 use Nene2\Database\PdoDatabaseQueryExecutor;
+use Nene2\Example\Note\Note;
 use Nene2\Example\Note\PdoNoteRepository;
 use PHPUnit\Framework\TestCase;
 
@@ -52,5 +53,33 @@ final class PdoNoteRepositoryTest extends TestCase
         $note = $repository->findById(99);
 
         self::assertNull($note);
+    }
+
+    public function testSaveReturnsNewId(): void
+    {
+        $repository = new PdoNoteRepository($this->executor);
+        $id = $repository->save(new Note(title: 'Hello', body: 'World'));
+
+        self::assertSame(1, $id);
+    }
+
+    public function testSavedNoteIsRetrievableById(): void
+    {
+        $repository = new PdoNoteRepository($this->executor);
+        $id = $repository->save(new Note(title: 'Hello', body: 'World'));
+        $note = $repository->findById($id);
+
+        self::assertNotNull($note);
+        self::assertSame('Hello', $note->title);
+        self::assertSame('World', $note->body);
+    }
+
+    public function testDeleteRemovesNote(): void
+    {
+        $repository = new PdoNoteRepository($this->executor);
+        $id = $repository->save(new Note(title: 'To delete', body: 'Body'));
+        $repository->delete($id);
+
+        self::assertNull($repository->findById($id));
     }
 }

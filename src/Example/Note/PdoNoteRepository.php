@@ -30,4 +30,19 @@ final readonly class PdoNoteRepository implements NoteRepositoryInterface
             id: (int) $row['id'],
         );
     }
+
+    public function save(Note $note): int
+    {
+        $this->query->execute(
+            'INSERT INTO notes (title, body) VALUES (?, ?)',
+            [$note->title, $note->body],
+        );
+
+        return $this->query->lastInsertId();
+    }
+
+    public function delete(int $id): void
+    {
+        $this->query->execute('DELETE FROM notes WHERE id = ?', [$id]);
+    }
 }

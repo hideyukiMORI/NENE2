@@ -142,13 +142,13 @@ _Friction follow-ups (docs): Issues `#167` (MCP JSON integers for path params), 
 ## Write Operations Pattern Candidates
 
 - [x] Define the Phase 10 milestone for Write Operations Pattern. `#188`
-- [ ] Add `post()` and `delete()` to `Router` and `lastInsertId()` to `DatabaseQueryExecutorInterface`.
-- [ ] Add write methods to `NoteRepositoryInterface` and `PdoNoteRepository`.
-- [ ] Add `CreateNoteUseCase` and `DeleteNoteUseCase` with readonly DTOs.
-- [ ] Add `CreateNoteHandler` (201 + Location) and `DeleteNoteHandler` (204).
-- [ ] Add body validation with `ValidationException` → 422.
-- [ ] Add OpenAPI schemas for POST and DELETE operations.
-- [ ] Add PHPUnit unit and integration tests for write paths.
+- [x] Add `post()` and `delete()` to `Router` and `lastInsertId()` to `DatabaseQueryExecutorInterface`. `#190`
+- [x] Add write methods to `NoteRepositoryInterface` and `PdoNoteRepository`. `#190`
+- [x] Add `CreateNoteUseCase` and `DeleteNoteUseCase` with readonly DTOs. `#190`
+- [x] Add `CreateNoteHandler` (201 + Location) and `DeleteNoteHandler` (204). `#190`
+- [x] Add body validation with `ValidationException` → 422. `#190`
+- [x] Add OpenAPI schemas for POST and DELETE operations. `#190`
+- [x] Add PHPUnit unit and integration tests for write paths. `#190`
 
 ## Operating Notes
 

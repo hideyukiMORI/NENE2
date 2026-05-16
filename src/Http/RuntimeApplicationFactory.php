@@ -6,6 +6,8 @@ namespace Nene2\Http;
 
 use Nene2\Error\ErrorHandlerMiddleware;
 use Nene2\Error\ProblemDetailsResponseFactory;
+use Nene2\Example\Note\CreateNoteHandler;
+use Nene2\Example\Note\DeleteNoteHandler;
 use Nene2\Example\Note\GetNoteByIdHandler;
 use Nene2\FrameworkInfo;
 use Nene2\Middleware\ApiKeyAuthenticationMiddleware;
@@ -31,6 +33,8 @@ final readonly class RuntimeApplicationFactory
         private ?LoggerInterface $logger = null,
         private ?string $machineApiKey = null,
         private ?GetNoteByIdHandler $getNoteByIdHandler = null,
+        private ?CreateNoteHandler $createNoteHandler = null,
+        private ?DeleteNoteHandler $deleteNoteHandler = null,
     ) {
     }
 
@@ -40,6 +44,8 @@ final readonly class RuntimeApplicationFactory
         $problemDetails = new ProblemDetailsResponseFactory($this->responseFactory, $this->streamFactory);
         $framework = new FrameworkInfo();
         $getNoteHandler = $this->getNoteByIdHandler;
+        $createNoteHandler = $this->createNoteHandler;
+        $deleteNoteHandler = $this->deleteNoteHandler;
 
         $router = (new Router())
             ->get(
@@ -78,6 +84,20 @@ final readonly class RuntimeApplicationFactory
             $router->get(
                 '/examples/notes/{id}',
                 static fn (ServerRequestInterface $request) => $getNoteHandler->handle($request),
+            );
+        }
+
+        if ($createNoteHandler !== null) {
+            $router->post(
+                '/examples/notes',
+                static fn (ServerRequestInterface $request) => $createNoteHandler->handle($request),
+            );
+        }
+
+        if ($deleteNoteHandler !== null) {
+            $router->delete(
+                '/examples/notes/{id}',
+                static fn (ServerRequestInterface $request) => $deleteNoteHandler->handle($request),
             );
         }
 
