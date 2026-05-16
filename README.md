@@ -4,7 +4,7 @@ PHP micro-framework: JSON APIs first, minimal server HTML, easy React starter in
 
 NENE2 is a small, modern PHP framework foundation extracted from the lessons of the original NeNe framework and the 9lick.me modernization work. It is designed for projects that want to ship JSON APIs quickly, keep server-rendered HTML thin, and add a React frontend starter without turning the backend into frontend build glue.
 
-The current `v0.1.x` direction is a practical starter for LLM-assisted client delivery: a maintainer can clone the repository, run a local API, share an OpenAPI contract, expose safe read-only MCP tools through the API boundary, and verify database behavior in Docker.
+The current `v0.3.x` direction is a practical starter for LLM-assisted client delivery: a maintainer can clone the repository, run a local API, share an OpenAPI contract, expose safe read-only MCP tools through the API boundary, and verify database behavior in Docker.
 
 ## Theme
 
@@ -28,6 +28,28 @@ The foundation currently includes:
 - API-key middleware for the first protected machine-client path.
 - Local MCP server support for read-only OpenAPI-aligned tools.
 - React + TypeScript + Vite starter kept optional and decoupled from backend runtime behavior.
+
+## Installation
+
+NENE2 is available on [Packagist](https://packagist.org/packages/hideyukimori/nene2).
+
+The recommended way to start a new project is to clone the repository directly — it ships with Docker, `.env.example`, and all configuration you need out of the box:
+
+```bash
+git clone https://github.com/hideyukiMORI/NENE2.git my-project
+cd my-project
+```
+
+If you want to use NENE2 as a Composer dependency in an existing project:
+
+```bash
+composer require hideyukimori/nene2
+```
+
+> **Note:** NENE2 is currently `0.x.y`. The public API is still stabilising.
+> Expect breaking changes between minor versions until `v1.0.0`.
+
+---
 
 ## Quick Start
 
