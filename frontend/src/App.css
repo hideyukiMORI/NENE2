@@ -121,6 +121,152 @@ h1 {
   line-height: 1.6;
 }
 
+/* Notes section */
+.notes-section {
+  border: 1px solid #dce4f2;
+  border-radius: 1rem;
+  background: #ffffff;
+  margin-top: 1rem;
+  padding: 1.5rem;
+}
+
+.section-title {
+  margin: 0 0 0.25rem;
+  font-size: 1.25rem;
+}
+
+.section-desc {
+  margin: 0 0 1.25rem;
+  color: #566174;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+}
+
+.note-list {
+  list-style: none;
+  margin: 0 0 1.5rem;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.note-item {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  border: 1px solid #edf2fb;
+  border-radius: 0.75rem;
+  padding: 0.875rem 1rem;
+}
+
+.note-id {
+  flex-shrink: 0;
+  color: #4d63ff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding-top: 0.125rem;
+}
+
+.note-content {
+  min-width: 0;
+}
+
+.note-title {
+  display: block;
+  font-size: 0.9375rem;
+}
+
+.note-body {
+  margin: 0.25rem 0 0;
+  color: #566174;
+  font-size: 0.875rem;
+  line-height: 1.55;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.note-loading,
+.note-empty {
+  margin: 0 0 1.5rem;
+  color: #566174;
+  font-size: 0.9375rem;
+}
+
+.note-error {
+  margin: 0 0 1rem;
+  color: #c0392b;
+  font-size: 0.9375rem;
+}
+
+/* Note form */
+.note-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  border-top: 1px solid #edf2fb;
+  padding-top: 1.25rem;
+}
+
+.note-form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.note-form-field label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #2d3a50;
+}
+
+.note-form-field input,
+.note-form-field textarea {
+  border: 1px solid #c8d3e8;
+  border-radius: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.9375rem;
+  font-family: inherit;
+  color: #172033;
+  background: #f7f9fc;
+  resize: vertical;
+  transition: border-color 0.15s;
+}
+
+.note-form-field input:focus,
+.note-form-field textarea:focus {
+  outline: none;
+  border-color: #4d63ff;
+  background: #ffffff;
+}
+
+.note-form-field input:disabled,
+.note-form-field textarea:disabled {
+  opacity: 0.6;
+}
+
+.note-submit {
+  align-self: flex-start;
+  border: none;
+  border-radius: 0.5rem;
+  background: #4d63ff;
+  color: #ffffff;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  padding: 0.625rem 1.25rem;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.note-submit:hover:not(:disabled) {
+  background: #3a4fe0;
+}
+
+.note-submit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 @media (max-width: 720px) {
   .hero {
     padding: 2rem;

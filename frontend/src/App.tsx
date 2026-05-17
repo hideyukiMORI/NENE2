@@ -2,16 +2,13 @@ import { useEffect, useState } from 'react';
 
 import './App.css';
 import { fetchHealth, type HealthResponse } from './api/health';
-
-const apiHighlights = [
-  'JSON APIs first',
-  'PSR-first PHP runtime',
-  'OpenAPI contract ready',
-] as const;
+import { NoteList } from './components/NoteList';
+import { NoteForm } from './components/NoteForm';
 
 export function App() {
   const [health, setHealth] = useState<HealthResponse | null>(null);
   const [healthError, setHealthError] = useState<string | null>(null);
+  const [noteRefresh, setNoteRefresh] = useState(0);
 
   useEffect(() => {
     let isActive = true;
@@ -36,6 +33,10 @@ export function App() {
       isActive = false;
     };
   }, []);
+
+  function handleNoteCreated() {
+    setNoteRefresh((n) => n + 1);
+  }
 
   return (
     <main className="app-shell">
@@ -66,16 +67,16 @@ export function App() {
         )}
       </section>
 
-      <section className="cards" aria-label="Starter highlights">
-        {apiHighlights.map((highlight) => (
-          <article className="card" key={highlight}>
-            <h2>{highlight}</h2>
-            <p>
-              Ready for thin integration with NENE2 without coupling application
-              code to React.
-            </p>
-          </article>
-        ))}
+      <section className="notes-section" aria-labelledby="notes-title">
+        <h2 id="notes-title" className="section-title">
+          Notes
+        </h2>
+        <p className="section-desc">
+          Live data from <code>GET /examples/notes</code>. Create a note with
+          the form below to see the list update.
+        </p>
+        <NoteList refresh={noteRefresh} />
+        <NoteForm onCreated={handleNoteCreated} />
       </section>
     </main>
   );

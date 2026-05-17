@@ -264,9 +264,9 @@ _Friction follow-ups (docs): Issues `#167` (MCP JSON integers for path params), 
 
 ## Phase 27: フロントエンドスターターコンテンツ
 
-- [ ] feat(frontend): API 接続済みコンポーネント（`NoteList` 等）を追加する.
-- [ ] feat(frontend): `frontend/src/api/` に Note エンドポイント向け型付き fetch ラッパーを追加する.
-- [ ] feat(frontend): `npm run dev` で Note データが表示される動作デモを完成させる.
+- [x] feat(frontend): API 接続済みコンポーネント（`NoteList`、`NoteForm`）を追加する. `#280`
+- [x] feat(frontend): `frontend/src/api/notes.ts` に Note エンドポイント向け型付き fetch ラッパーを追加する. `#280`
+- [x] feat(frontend): `npm run dev` で Note データが表示される動作デモを完成させる. `#280`
 
 ## Phase 28: 認証拡張
 
