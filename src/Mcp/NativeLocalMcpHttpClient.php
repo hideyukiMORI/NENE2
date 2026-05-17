@@ -32,6 +32,11 @@ final readonly class NativeLocalMcpHttpClient implements LocalMcpHttpClientInter
         return $this->request('DELETE', $baseUrl, $path, null);
     }
 
+    public function hasAuthentication(): bool
+    {
+        return $this->bearerToken !== null;
+    }
+
     /**
      * @param array<string, mixed>|null $body
      */
