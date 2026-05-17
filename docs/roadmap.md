@@ -424,6 +424,26 @@ Goal: restore Note/Tag symmetry by completing Tag full CRUD and closing the MCP 
 - 5 Tag MCP tools added to `docs/mcp/tools.json` (list / get / create / update / delete)
 - TagHttpTest expanded with PUT/DELETE coverage (158 tests total)
 
+## Phase 36: Field Trial 7 (#306)
+
+Goal: validate Tag CRUD and MCP write auth guard end-to-end, record friction.
+
+- All Tag CRUD HTTP endpoints verified against MySQL
+- MCP write auth guard confirmed (blocks writes without JWT secret)
+- All 5 Tag MCP tools validated
+- Missing migration discovered and fixed (`CreateTagsTable`)
+- Scaffold checklist updated with migration step
+
+## Phase 37: v0.7.0 Release
+
+Goal: consolidate Phase 35–36 changes into a tagged release.
+
+- CHANGELOG v0.7.0 section (Tag CRUD, migrations, scaffold fix)
+- CHANGELOG footer links corrected for v0.5.0 / v0.6.0 (previously missing)
+- `add-second-entity.md` Tag endpoint table corrected to full CRUD (en/ja)
+- VitePress version badge updated to v0.7.0
+- `v0.7.0` tag
+
 ## Non-Goals
 
 - Recreating Laravel or Symfony.

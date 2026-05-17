@@ -129,7 +129,7 @@ return new RuntimeApplicationFactory(
 | エンティティ | ソース | エンドポイント |
 |---|---|---|
 | `Note` | `src/Example/Note/` | GET/POST `/examples/notes`、GET/PUT/DELETE `/examples/notes/{id}` |
-| `Tag` | `src/Example/Tag/` | GET/POST `/examples/tags`、GET `/examples/tags/{id}` |
+| `Tag` | `src/Example/Tag/` | GET/POST `/examples/tags`、GET/PUT/DELETE `/examples/tags/{id}` |
 
 ---
 

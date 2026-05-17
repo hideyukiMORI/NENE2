@@ -11,6 +11,10 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+---
+
+## [0.7.0] — 2026-05-18
+
 ### Added
 - `PUT /examples/tags/{id}` — full tag update endpoint; replaces `name` field (#304)
 - `DELETE /examples/tags/{id}` — tag delete endpoint; returns 204 (#304)
@@ -18,10 +22,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - `DeleteTagUseCase`, `DeleteTagHandler`, `DeleteTagByIdInput`, `DeleteTagUseCaseInterface` (#304)
 - `TagRepositoryInterface::update(Tag): void` and `delete(int): void` implemented in `PdoTagRepository` and `InMemoryTagRepository` (#304)
 - 5 Tag MCP tools in `docs/mcp/tools.json`: `listExampleTags`, `getExampleTagById`, `createExampleTag`, `updateExampleTagById`, `deleteExampleTagById` — Tag/Note MCP parity restored (#304)
+- `database/migrations/20260516000001_create_tags_table.php` — Phinx migration for the `tags` table (#306)
+- `database/schema/tags.sql` — schema snapshot for the `tags` table (#306)
+- Endpoint scaffold checklist: added "create migration" step for new entity tables (#307)
 
 ### Changed
 - `TagRouteRegistrar` extended from 3 to 5 routes and constructor params (#304)
 - `TagServiceProvider` registers `UpdateTagHandler`, `DeleteTagHandler`, and their use cases; registrar closure updated (#304)
+- `docs/howto/add-second-entity.md` — Tag endpoint table corrected to reflect full CRUD
 
 ---
 
@@ -181,7 +189,10 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Governance docs: workflow, coding standards, ADR policy, review checklists (#1)
 - ADR 0001–0004: HTTP runtime, DI container, phpdotenv, Phinx
 
-[Unreleased]: https://github.com/hideyukiMORI/NENE2/compare/v0.4.0...HEAD
+[Unreleased]: https://github.com/hideyukiMORI/NENE2/compare/v0.7.0...HEAD
+[0.7.0]: https://github.com/hideyukiMORI/NENE2/compare/v0.6.0...v0.7.0
+[0.6.0]: https://github.com/hideyukiMORI/NENE2/compare/v0.5.0...v0.6.0
+[0.5.0]: https://github.com/hideyukiMORI/NENE2/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/hideyukiMORI/NENE2/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/hideyukiMORI/NENE2/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/hideyukiMORI/NENE2/compare/v0.1.3...v0.2.0

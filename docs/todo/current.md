@@ -331,6 +331,13 @@ _Friction follow-ups (docs): Issues `#167` (MCP JSON integers for path params), 
 - [x] chore(db): `database/schema/tags.sql` スキーマスナップショット追加. `#308`
 - [x] docs(scaffold): エンドポイントスキャフォールドチェックリストにマイグレーション作成ステップ追加. `#307`
 
+## Phase 37: v0.7.0 リリース
+
+- [x] chore(changelog): v0.7.0 セクション確定・リンク修正（v0.5.0/v0.6.0 欠落を補完）.
+- [x] docs(howto): `add-second-entity.md` Tag エンドポイントテーブルを full CRUD に更新（en/ja）.
+- [x] chore(vitepress): バージョンバッジ v0.6.0 → v0.7.0.
+- [x] chore(release): `v0.7.0` タグを打つ.
+
 ## Operating Notes
 
 - Keep this file short.
