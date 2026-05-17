@@ -287,6 +287,19 @@ Goal: validate that the MCP write tools added in v0.4.0 work end-to-end through 
 
 Tracked by `docs/milestones/2026-05-phase21-field-trial-5.md`.
 
+## Phase 22: Diátaxis Documentation
+
+Goal: make NENE2 accessible to developers who know JavaScript or Python but have not used PHP before, by producing Markdown documentation structured around the Diátaxis framework.
+
+- Tutorial: "Your first API in 10 minutes" — `composer require` to running JSON endpoint
+- HOWTO: "Add a custom route" — registrar pattern with path parameters
+- HOWTO: "Add a database-backed endpoint" — UseCase → Repository → Handler walkthrough
+- `docs/` index updated to surface the new entry points
+
+HTML generation is deferred to a later phase.
+
+Tracked by `docs/milestones/2026-05-phase22-diataxis-docs.md`.
+
 ## Non-Goals
 
 - Recreating Laravel or Symfony.

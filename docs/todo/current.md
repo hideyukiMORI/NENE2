@@ -220,6 +220,14 @@ _Friction follow-ups (docs): Issues `#167` (MCP JSON integers for path params), 
 - [x] docs(mcp-smoke): write 操作の DB 前提条件を `mcp-smoke.sh` に追記する. `#245`
 - [x] docs(local-mcp): write 操作の DB 前提条件をローカル MCP サーバーガイドに追記する. `#246`
 
+## Phase 22: Diátaxis ドキュメント整備
+
+- [x] マイルストーン定義・ロードマップ追記. `#249`
+- [ ] Tutorial: 最初の API を動かす (`docs/tutorial/first-api.md`). `#250`
+- [ ] HOWTO: カスタムルートを追加する (`docs/howto/add-custom-route.md`). `#251`
+- [ ] HOWTO: DB 付きエンドポイントを追加する (`docs/howto/add-database-endpoint.md`). `#252`
+- [ ] `docs/` インデックス更新. `#253`
+
 ## Operating Notes
 
 - Keep this file short.
