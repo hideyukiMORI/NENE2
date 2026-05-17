@@ -202,7 +202,7 @@ _Friction follow-ups (docs): Issues `#167` (MCP JSON integers for path params), 
 
 - [ ] docs(scaffold): `Router::PARAMETERS_ATTRIBUTE` 取得例を追加する. `#234`
 - [ ] docs(client-start): `composer require` 起点ワイヤリング手順を追加する. `#235`
-- [ ] feat: `RuntimeApplicationFactory` 外部ルート注入を検討する (Phase 21 候補). `#236`
+- [x] feat: `RuntimeApplicationFactory` に `$routeRegistrars` を追加して外部ルート注入を可能にする. `#236`
 
 ## Operating Notes
 

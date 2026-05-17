@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace Nene2\Tests;
 
+use Nene2\Http\JsonResponseFactory;
 use Nene2\Http\RuntimeApplicationFactory;
+use Nene2\Routing\Router;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 final class HttpRuntimeTest extends TestCase
 {
@@ -130,6 +133,60 @@ final class HttpRuntimeTest extends TestCase
         self::assertSame(413, $response->getStatusCode());
         self::assertMatchesRegularExpression('/\A[a-f0-9]{32}\z/', $response->getHeaderLine('X-Request-Id'));
         self::assertSame('https://nene2.dev/problems/payload-too-large', $payload['type']);
+    }
+
+    public function testRouteRegistrarAddsCustomRoute(): void
+    {
+        $factory = new Psr17Factory();
+        $json = new JsonResponseFactory($factory, $factory);
+
+        $application = (new RuntimeApplicationFactory(
+            $factory,
+            $factory,
+            routeRegistrars: [
+                static function (Router $router) use ($json): void {
+                    $router->get(
+                        '/custom',
+                        static fn (ServerRequestInterface $req) => $json->create(['custom' => true]),
+                    );
+                },
+            ],
+        ))->create();
+
+        $response = $application->handle($factory->createServerRequest('GET', 'https://example.test/custom'));
+        $payload = $this->decodeJson($response);
+
+        self::assertSame(200, $response->getStatusCode());
+        self::assertTrue($payload['custom']);
+    }
+
+    public function testRouteRegistrarCanAccessPathParameters(): void
+    {
+        $factory = new Psr17Factory();
+        $json = new JsonResponseFactory($factory, $factory);
+
+        $application = (new RuntimeApplicationFactory(
+            $factory,
+            $factory,
+            routeRegistrars: [
+                static function (Router $router) use ($json): void {
+                    $router->get(
+                        '/greet/{name}',
+                        static function (ServerRequestInterface $req) use ($json): ResponseInterface {
+                            $params = $req->getAttribute(Router::PARAMETERS_ATTRIBUTE, []);
+
+                            return $json->create(['message' => 'Hello, ' . ($params['name'] ?? '') . '!']);
+                        },
+                    );
+                },
+            ],
+        ))->create();
+
+        $response = $application->handle($factory->createServerRequest('GET', 'https://example.test/greet/NENE2'));
+        $payload = $this->decodeJson($response);
+
+        self::assertSame(200, $response->getStatusCode());
+        self::assertSame('Hello, NENE2!', $payload['message']);
     }
 
     /**
