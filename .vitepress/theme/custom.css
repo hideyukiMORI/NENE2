@@ -1,0 +1,28 @@
+/* NENE2 brand colours — overrides VitePress defaults */
+:root {
+  --vp-c-brand-1:        #3b82f6;  /* blue-500 */
+  --vp-c-brand-2:        #2563eb;  /* blue-600 */
+  --vp-c-brand-3:        #1d4ed8;  /* blue-700 */
+  --vp-c-brand-soft:     rgba(59, 130, 246, 0.12);
+
+  --vp-home-hero-name-color:       transparent;
+  --vp-home-hero-name-background:  linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+  --vp-home-hero-image-background-image: radial-gradient(ellipse at 50% 50%, rgba(59,130,246,0.15) 0%, transparent 70%);
+}
+
+.dark {
+  --vp-c-brand-1:    #60a5fa;  /* blue-400 — brighter on dark */
+  --vp-c-brand-2:    #3b82f6;
+  --vp-c-brand-3:    #2563eb;
+  --vp-c-brand-soft: rgba(96, 165, 250, 0.12);
+}
+
+/* Slightly wider content area */
+.VPDoc .container {
+  max-width: 1152px !important;
+}
+
+/* Subtle code block styling */
+.vp-code-group .tabs label {
+  font-size: 0.8rem;
+}

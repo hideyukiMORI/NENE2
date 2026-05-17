@@ -227,6 +227,7 @@ _Friction follow-ups (docs): Issues `#167` (MCP JSON integers for path params), 
 - [x] HOWTO: カスタムルートを追加する (`docs/howto/add-custom-route.md`). `#253`
 - [x] HOWTO: DB 付きエンドポイントを追加する (`docs/howto/add-database-endpoint.md`). `#254`
 - [x] `docs/` インデックス更新 (`docs/README.md`). `#256`
+- [x] VitePress ドキュメントサイト構築 (`npm run docs:build`). `#258`
 
 ## Operating Notes
 
