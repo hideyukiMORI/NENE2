@@ -324,6 +324,13 @@ _Friction follow-ups (docs): Issues `#167` (MCP JSON integers for path params), 
 - [x] feat(mcp): Tag 全 5 MCP ツール追加（list / get / create / update / delete）. `#304`
 - [x] test: TagHttpTest に PUT/DELETE カバレッジ追加（158 テスト）. `#304`
 
+## Phase 36: Field Trial 7
+
+- [x] docs(field-trial): Field Trial 7 観察レポートを記録する（Tag CRUD + MCP write auth guard）. `#306`
+- [x] chore(db): `database/migrations/20260516000001_create_tags_table.php` 欠落マイグレーション追加. `#306`
+- [x] chore(db): `database/schema/tags.sql` スキーマスナップショット追加. `#308`
+- [x] docs(scaffold): エンドポイントスキャフォールドチェックリストにマイグレーション作成ステップ追加. `#307`
+
 ## Operating Notes
 
 - Keep this file short.
