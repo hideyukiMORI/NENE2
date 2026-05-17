@@ -397,6 +397,23 @@ Goal: validate `BearerTokenMiddleware` + `LocalBearerTokenVerifier` in a realist
 - Issue a local JWT and verify the tool call succeeds
 - Record friction and open follow-up Issues
 
+## Phase 33: Architecture Quality (#298 #300)
+
+Goal: make the framework easier to extend by eliminating the growing-constructor problem and closing the MCP authentication policy gap.
+
+- `NoteRouteRegistrar` / `TagRouteRegistrar` — move entity route registration out of `RuntimeApplicationFactory` into `__invoke`-able classes
+- `RuntimeApplicationFactory` constructor reduced from 16 to 8 parameters; adding a new entity requires no change to the factory
+- `LocalMcpHttpClientInterface::hasAuthentication()` — write tools are gated behind bearer authentication; calling a write tool without `NENE2_LOCAL_JWT_SECRET` set returns a clear error
+
+## Phase 34: v0.6.0 Release
+
+Goal: consolidate Phase 33 changes and complete the multi-entity documentation started in Phase 25.
+
+- `docs/howto/add-second-entity.md` — HOWTO for adding a second domain entity using the RouteRegistrar pattern, in 6 languages
+- VitePress HOWTO sidebar updated with fourth entry
+- CHANGELOG.md v0.6.0 section
+- `v0.6.0` tag
+
 ## Non-Goals
 
 - Recreating Laravel or Symfony.

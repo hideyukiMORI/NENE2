@@ -9,7 +9,7 @@ function nav(t: {
     { text: t.explanation, link: 'explanation/why-psr',           activeMatch: 'explanation/' },
     { text: t.reference,   link: 'development/endpoint-scaffold', activeMatch: 'development/' },
     {
-      text: 'v0.4.0',
+      text: 'v0.6.0',
       items: [
         { text: 'Changelog',  link: 'https://github.com/hideyukiMORI/NENE2/blob/main/CHANGELOG.md' },
         { text: 'Releases',   link: 'https://github.com/hideyukiMORI/NENE2/releases' },
@@ -21,7 +21,7 @@ function nav(t: {
 
 function sidebar(t: {
   tutorialGroup: string; firstApi: string
-  howtoGroup: string; addRoute: string; addDb: string; deploy: string
+  howtoGroup: string; addRoute: string; addDb: string; addEntity: string; deploy: string
   explGroup: string; whyPsr: string; whyDi: string; whyPd: string; whyMcp: string
   devGroup: string; intGroup: string
 }) {
@@ -30,9 +30,10 @@ function sidebar(t: {
     '/howto/': [{
       text: t.howtoGroup,
       items: [
-        { text: t.addRoute, link: 'howto/add-custom-route' },
-        { text: t.addDb,    link: 'howto/add-database-endpoint' },
-        { text: t.deploy,   link: 'howto/deploy-production' },
+        { text: t.addRoute,  link: 'howto/add-custom-route' },
+        { text: t.addDb,     link: 'howto/add-database-endpoint' },
+        { text: t.addEntity, link: 'howto/add-second-entity' },
+        { text: t.deploy,    link: 'howto/deploy-production' },
       ],
     }],
     '/explanation/': [{
@@ -87,7 +88,7 @@ export default defineConfig({
         nav: nav({ tutorial: 'Tutorial', howto: 'HOWTO', explanation: 'Explanation', reference: 'Reference' }),
         sidebar: sidebar({
           tutorialGroup: 'Tutorial', firstApi: 'Your first API',
-          howtoGroup: 'HOWTO', addRoute: 'Add a custom route', addDb: 'Add a database-backed endpoint', deploy: 'Deploy to production',
+          howtoGroup: 'HOWTO', addRoute: 'Add a custom route', addDb: 'Add a database-backed endpoint', addEntity: 'Add a second entity', deploy: 'Deploy to production',
           explGroup: 'Explanation', whyPsr: 'Why PSR standards?', whyDi: 'Why explicit wiring?', whyPd: 'Why Problem Details?', whyMcp: 'Why MCP?',
           devGroup: 'Development', intGroup: 'Integrations',
         }),
@@ -103,7 +104,7 @@ export default defineConfig({
         nav: nav({ tutorial: 'チュートリアル', howto: 'HOWTO', explanation: '解説', reference: 'リファレンス' }),
         sidebar: sidebar({
           tutorialGroup: 'チュートリアル', firstApi: '最初の API を動かす',
-          howtoGroup: 'HOWTO', addRoute: 'カスタムルートを追加する', addDb: 'DB 付きエンドポイントを追加する', deploy: '本番環境へデプロイする',
+          howtoGroup: 'HOWTO', addRoute: 'カスタムルートを追加する', addDb: 'DB 付きエンドポイントを追加する', addEntity: '2 つ目のエンティティを追加する', deploy: '本番環境へデプロイする',
           explGroup: '解説', whyPsr: 'なぜ PSR 標準？', whyDi: 'なぜ明示的 DI？', whyPd: 'なぜ Problem Details？', whyMcp: 'なぜ MCP？',
           devGroup: '開発ガイド', intGroup: 'インテグレーション',
         }),
@@ -124,7 +125,7 @@ export default defineConfig({
         nav: nav({ tutorial: 'Tutoriel', howto: 'Guides', explanation: 'Explication', reference: 'Référence' }),
         sidebar: sidebar({
           tutorialGroup: 'Tutoriel', firstApi: 'Votre première API',
-          howtoGroup: 'Guides pratiques', addRoute: 'Ajouter une route', addDb: 'Ajouter un endpoint avec BDD', deploy: 'Déployer en production',
+          howtoGroup: 'Guides pratiques', addRoute: 'Ajouter une route', addDb: 'Ajouter un endpoint avec BDD', addEntity: 'Ajouter une deuxième entité', deploy: 'Déployer en production',
           explGroup: 'Explication', whyPsr: 'Pourquoi PSR ?', whyDi: 'Pourquoi le câblage explicite ?', whyPd: 'Pourquoi Problem Details ?', whyMcp: 'Pourquoi MCP ?',
           devGroup: 'Développement', intGroup: 'Intégrations',
         }),
@@ -143,7 +144,7 @@ export default defineConfig({
         nav: nav({ tutorial: '教程', howto: '操作指南', explanation: '说明', reference: '参考' }),
         sidebar: sidebar({
           tutorialGroup: '教程', firstApi: '创建您的第一个 API',
-          howtoGroup: '操作指南', addRoute: '添加自定义路由', addDb: '添加数据库端点', deploy: '部署到生产环境',
+          howtoGroup: '操作指南', addRoute: '添加自定义路由', addDb: '添加数据库端点', addEntity: '添加第二个实体', deploy: '部署到生产环境',
           explGroup: '说明', whyPsr: '为什么选择 PSR？', whyDi: '为什么显式依赖注入？', whyPd: '为什么使用 Problem Details？', whyMcp: '为什么选择 MCP？',
           devGroup: '开发指南', intGroup: '集成',
         }),
@@ -164,7 +165,7 @@ export default defineConfig({
         nav: nav({ tutorial: 'Tutorial', howto: 'Guias', explanation: 'Explicação', reference: 'Referência' }),
         sidebar: sidebar({
           tutorialGroup: 'Tutorial', firstApi: 'Sua primeira API',
-          howtoGroup: 'Guias práticos', addRoute: 'Adicionar uma rota', addDb: 'Adicionar endpoint com banco de dados', deploy: 'Implantar em produção',
+          howtoGroup: 'Guias práticos', addRoute: 'Adicionar uma rota', addDb: 'Adicionar endpoint com banco de dados', addEntity: 'Adicionar segunda entidade', deploy: 'Implantar em produção',
           explGroup: 'Explicação', whyPsr: 'Por que PSR?', whyDi: 'Por que injeção explícita?', whyPd: 'Por que Problem Details?', whyMcp: 'Por que MCP?',
           devGroup: 'Desenvolvimento', intGroup: 'Integrações',
         }),
@@ -183,7 +184,7 @@ export default defineConfig({
         nav: nav({ tutorial: 'Tutorial', howto: 'Anleitungen', explanation: 'Erklärung', reference: 'Referenz' }),
         sidebar: sidebar({
           tutorialGroup: 'Tutorial', firstApi: 'Ihre erste API',
-          howtoGroup: 'Anleitungen', addRoute: 'Route hinzufügen', addDb: 'Datenbankendpunkt hinzufügen', deploy: 'In Produktion deployen',
+          howtoGroup: 'Anleitungen', addRoute: 'Route hinzufügen', addDb: 'Datenbankendpunkt hinzufügen', addEntity: 'Zweite Entität hinzufügen', deploy: 'In Produktion deployen',
           explGroup: 'Erklärung', whyPsr: 'Warum PSR?', whyDi: 'Warum explizites Wiring?', whyPd: 'Warum Problem Details?', whyMcp: 'Warum MCP?',
           devGroup: 'Entwicklung', intGroup: 'Integrationen',
         }),
