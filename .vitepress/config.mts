@@ -1,12 +1,13 @@
 import { defineConfig } from 'vitepress'
 
 function nav(t: {
-  tutorial: string; howto: string; reference: string
+  tutorial: string; howto: string; explanation: string; reference: string
 }) {
   return [
-    { text: t.tutorial,  link: 'tutorial/first-api',            activeMatch: 'tutorial/' },
-    { text: t.howto,     link: 'howto/add-custom-route',        activeMatch: 'howto/' },
-    { text: t.reference, link: 'development/endpoint-scaffold', activeMatch: 'development/' },
+    { text: t.tutorial,    link: 'tutorial/first-api',            activeMatch: 'tutorial/' },
+    { text: t.howto,       link: 'howto/add-custom-route',        activeMatch: 'howto/' },
+    { text: t.explanation, link: 'explanation/why-psr',           activeMatch: 'explanation/' },
+    { text: t.reference,   link: 'development/endpoint-scaffold', activeMatch: 'development/' },
     {
       text: 'v0.4.0',
       items: [
@@ -21,6 +22,7 @@ function nav(t: {
 function sidebar(t: {
   tutorialGroup: string; firstApi: string
   howtoGroup: string; addRoute: string; addDb: string
+  explGroup: string; whyPsr: string; whyDi: string; whyPd: string; whyMcp: string
   devGroup: string; intGroup: string
 }) {
   return {
@@ -30,6 +32,15 @@ function sidebar(t: {
       items: [
         { text: t.addRoute, link: 'howto/add-custom-route' },
         { text: t.addDb,    link: 'howto/add-database-endpoint' },
+      ],
+    }],
+    '/explanation/': [{
+      text: t.explGroup,
+      items: [
+        { text: t.whyPsr,  link: 'explanation/why-psr' },
+        { text: t.whyDi,   link: 'explanation/why-explicit-wiring' },
+        { text: t.whyPd,   link: 'explanation/why-problem-details' },
+        { text: t.whyMcp,  link: 'explanation/why-mcp' },
       ],
     }],
     '/development/': [
@@ -72,10 +83,11 @@ export default defineConfig({
       label: 'English',
       lang: 'en',
       themeConfig: {
-        nav: nav({ tutorial: 'Tutorial', howto: 'HOWTO', reference: 'Reference' }),
+        nav: nav({ tutorial: 'Tutorial', howto: 'HOWTO', explanation: 'Explanation', reference: 'Reference' }),
         sidebar: sidebar({
           tutorialGroup: 'Tutorial', firstApi: 'Your first API',
           howtoGroup: 'HOWTO', addRoute: 'Add a custom route', addDb: 'Add a database-backed endpoint',
+          explGroup: 'Explanation', whyPsr: 'Why PSR standards?', whyDi: 'Why explicit wiring?', whyPd: 'Why Problem Details?', whyMcp: 'Why MCP?',
           devGroup: 'Development', intGroup: 'Integrations',
         }),
         editLink: { pattern: 'https://github.com/hideyukiMORI/NENE2/edit/main/docs/:path', text: 'Edit this page on GitHub' },
@@ -87,10 +99,11 @@ export default defineConfig({
       label: '日本語',
       lang: 'ja',
       themeConfig: {
-        nav: nav({ tutorial: 'チュートリアル', howto: 'HOWTO', reference: 'リファレンス' }),
+        nav: nav({ tutorial: 'チュートリアル', howto: 'HOWTO', explanation: '解説', reference: 'リファレンス' }),
         sidebar: sidebar({
           tutorialGroup: 'チュートリアル', firstApi: '最初の API を動かす',
           howtoGroup: 'HOWTO', addRoute: 'カスタムルートを追加する', addDb: 'DB 付きエンドポイントを追加する',
+          explGroup: '解説', whyPsr: 'なぜ PSR 標準？', whyDi: 'なぜ明示的 DI？', whyPd: 'なぜ Problem Details？', whyMcp: 'なぜ MCP？',
           devGroup: '開発ガイド', intGroup: 'インテグレーション',
         }),
         editLink: { pattern: 'https://github.com/hideyukiMORI/NENE2/edit/main/docs/:path', text: 'GitHub でこのページを編集' },
@@ -107,10 +120,11 @@ export default defineConfig({
       label: 'Français',
       lang: 'fr',
       themeConfig: {
-        nav: nav({ tutorial: 'Tutoriel', howto: 'Guides', reference: 'Référence' }),
+        nav: nav({ tutorial: 'Tutoriel', howto: 'Guides', explanation: 'Explication', reference: 'Référence' }),
         sidebar: sidebar({
           tutorialGroup: 'Tutoriel', firstApi: 'Votre première API',
           howtoGroup: 'Guides pratiques', addRoute: 'Ajouter une route', addDb: 'Ajouter un endpoint avec BDD',
+          explGroup: 'Explication', whyPsr: 'Pourquoi PSR ?', whyDi: 'Pourquoi le câblage explicite ?', whyPd: 'Pourquoi Problem Details ?', whyMcp: 'Pourquoi MCP ?',
           devGroup: 'Développement', intGroup: 'Intégrations',
         }),
         editLink: { pattern: 'https://github.com/hideyukiMORI/NENE2/edit/main/docs/:path', text: 'Modifier cette page sur GitHub' },
@@ -125,10 +139,11 @@ export default defineConfig({
       label: '中文',
       lang: 'zh-Hans',
       themeConfig: {
-        nav: nav({ tutorial: '教程', howto: '操作指南', reference: '参考' }),
+        nav: nav({ tutorial: '教程', howto: '操作指南', explanation: '说明', reference: '参考' }),
         sidebar: sidebar({
           tutorialGroup: '教程', firstApi: '创建您的第一个 API',
           howtoGroup: '操作指南', addRoute: '添加自定义路由', addDb: '添加数据库端点',
+          explGroup: '说明', whyPsr: '为什么选择 PSR？', whyDi: '为什么显式依赖注入？', whyPd: '为什么使用 Problem Details？', whyMcp: '为什么选择 MCP？',
           devGroup: '开发指南', intGroup: '集成',
         }),
         editLink: { pattern: 'https://github.com/hideyukiMORI/NENE2/edit/main/docs/:path', text: '在 GitHub 上编辑此页' },
@@ -145,10 +160,11 @@ export default defineConfig({
       label: 'Português (Brasil)',
       lang: 'pt-BR',
       themeConfig: {
-        nav: nav({ tutorial: 'Tutorial', howto: 'Guias', reference: 'Referência' }),
+        nav: nav({ tutorial: 'Tutorial', howto: 'Guias', explanation: 'Explicação', reference: 'Referência' }),
         sidebar: sidebar({
           tutorialGroup: 'Tutorial', firstApi: 'Sua primeira API',
           howtoGroup: 'Guias práticos', addRoute: 'Adicionar uma rota', addDb: 'Adicionar endpoint com banco de dados',
+          explGroup: 'Explicação', whyPsr: 'Por que PSR?', whyDi: 'Por que injeção explícita?', whyPd: 'Por que Problem Details?', whyMcp: 'Por que MCP?',
           devGroup: 'Desenvolvimento', intGroup: 'Integrações',
         }),
         editLink: { pattern: 'https://github.com/hideyukiMORI/NENE2/edit/main/docs/:path', text: 'Editar esta página no GitHub' },
@@ -163,10 +179,11 @@ export default defineConfig({
       label: 'Deutsch',
       lang: 'de',
       themeConfig: {
-        nav: nav({ tutorial: 'Tutorial', howto: 'Anleitungen', reference: 'Referenz' }),
+        nav: nav({ tutorial: 'Tutorial', howto: 'Anleitungen', explanation: 'Erklärung', reference: 'Referenz' }),
         sidebar: sidebar({
           tutorialGroup: 'Tutorial', firstApi: 'Ihre erste API',
           howtoGroup: 'Anleitungen', addRoute: 'Route hinzufügen', addDb: 'Datenbankendpunkt hinzufügen',
+          explGroup: 'Erklärung', whyPsr: 'Warum PSR?', whyDi: 'Warum explizites Wiring?', whyPd: 'Warum Problem Details?', whyMcp: 'Warum MCP?',
           devGroup: 'Entwicklung', intGroup: 'Integrationen',
         }),
         editLink: { pattern: 'https://github.com/hideyukiMORI/NENE2/edit/main/docs/:path', text: 'Diese Seite auf GitHub bearbeiten' },
