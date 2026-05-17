@@ -48,6 +48,19 @@ final class PdoNoteRepositoryMySqlTest extends TestCase
         self::assertGreaterThan(0, $id2);
     }
 
+    public function testUpdateChangesNoteFields(): void
+    {
+        $repository = new PdoNoteRepository($this->executor);
+        $id = $repository->save(new Note(title: 'Original', body: 'First body'));
+
+        $repository->update(new Note(id: $id, title: 'Updated', body: 'Second body'));
+
+        $note = $repository->findById($id);
+        self::assertNotNull($note);
+        self::assertSame('Updated', $note->title);
+        self::assertSame('Second body', $note->body);
+    }
+
     public function testDeleteRemovesNote(): void
     {
         $repository = new PdoNoteRepository($this->executor);
