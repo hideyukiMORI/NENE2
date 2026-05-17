@@ -171,6 +171,24 @@
       "responseSchemaRef": "#/components/schemas/ExampleNoteResponse"
     },
     {
+      "name": "getProtected",
+      "title": "Protected Example",
+      "description": "Call the Bearer-protected example endpoint and return JWT claims. Requires NENE2_LOCAL_JWT_SECRET to be set in the MCP server environment.",
+      "safety": "read",
+      "source": {
+        "type": "openapi",
+        "operationId": "getProtected",
+        "method": "GET",
+        "path": "/examples/protected"
+      },
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {}
+      },
+      "responseSchemaRef": "#/components/schemas/ProtectedResponse"
+    },
+    {
       "name": "deleteExampleNoteById",
       "title": "Delete Example Note",
       "description": "Delete an example note by ID. Returns 204 on success.",

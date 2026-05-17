@@ -299,11 +299,11 @@ _Friction follow-ups (docs): Issues `#167` (MCP JSON integers for path params), 
 - [x] fix(config): `.env.example` に `NENE2_LOCAL_JWT_SECRET` を追加する. `#291`
 - [x] chore(issues): 摩擦から生まれたフォローアップ Issue を作成する. `#292` `#293` `#294`
 
-## フォローアップ（未着手）
+## フォローアップ（実装済み #296）
 
-- [ ] feat: `tools/issue-jwt.php` ローカル JWT 発行スクリプト. `#292`
-- [ ] feat: `NativeLocalMcpHttpClient` に Bearer トークン送信サポートを追加する. `#293`
-- [ ] feat: 起動ログにオプション機能の有効状態を出力する. `#294`
+- [x] feat: `tools/issue-jwt.php` ローカル JWT 発行スクリプト. `#292`
+- [x] feat: `NativeLocalMcpHttpClient` に Bearer トークン送信サポートを追加 + `getProtected` MCP ツール追加. `#293`
+- [x] feat: 起動ログにオプション機能の有効状態を出力する. `#294`
 
 ## Operating Notes
 
