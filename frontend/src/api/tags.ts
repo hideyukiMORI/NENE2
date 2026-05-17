@@ -23,13 +23,13 @@ export type UpdateTagRequest = {
   readonly name: string;
 };
 
-function isTag(value: unknown): value is Tag {
+export function isTag(value: unknown): value is Tag {
   if (typeof value !== 'object' || value === null) return false;
   const c = value as Record<string, unknown>;
   return typeof c.id === 'number' && typeof c.name === 'string';
 }
 
-function isTagListResponse(value: unknown): value is TagListResponse {
+export function isTagListResponse(value: unknown): value is TagListResponse {
   if (typeof value !== 'object' || value === null) return false;
   const c = value as Record<string, unknown>;
   return (
