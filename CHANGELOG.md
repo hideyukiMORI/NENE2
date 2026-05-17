@@ -11,6 +11,18 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Added
+- `PUT /examples/tags/{id}` — full tag update endpoint; replaces `name` field (#304)
+- `DELETE /examples/tags/{id}` — tag delete endpoint; returns 204 (#304)
+- `UpdateTagUseCase`, `UpdateTagHandler`, `UpdateTagInput/Output`, `UpdateTagUseCaseInterface` (#304)
+- `DeleteTagUseCase`, `DeleteTagHandler`, `DeleteTagByIdInput`, `DeleteTagUseCaseInterface` (#304)
+- `TagRepositoryInterface::update(Tag): void` and `delete(int): void` implemented in `PdoTagRepository` and `InMemoryTagRepository` (#304)
+- 5 Tag MCP tools in `docs/mcp/tools.json`: `listExampleTags`, `getExampleTagById`, `createExampleTag`, `updateExampleTagById`, `deleteExampleTagById` — Tag/Note MCP parity restored (#304)
+
+### Changed
+- `TagRouteRegistrar` extended from 3 to 5 routes and constructor params (#304)
+- `TagServiceProvider` registers `UpdateTagHandler`, `DeleteTagHandler`, and their use cases; registrar closure updated (#304)
+
 ---
 
 ## [0.6.0] — 2026-05-17

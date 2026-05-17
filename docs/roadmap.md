@@ -414,6 +414,16 @@ Goal: consolidate Phase 33 changes and complete the multi-entity documentation s
 - CHANGELOG.md v0.6.0 section
 - `v0.6.0` tag
 
+## Phase 35: Tag CRUD Completion (#304)
+
+Goal: restore Note/Tag symmetry by completing Tag full CRUD and closing the MCP tool coverage gap.
+
+- `PUT /examples/tags/{id}` and `DELETE /examples/tags/{id}` endpoints
+- `UpdateTagUseCase`, `UpdateTagHandler`, `DeleteTagUseCase`, `DeleteTagHandler` + supporting DTOs and interfaces
+- `TagRepositoryInterface` extended with `update()` and `delete()`
+- 5 Tag MCP tools added to `docs/mcp/tools.json` (list / get / create / update / delete)
+- TagHttpTest expanded with PUT/DELETE coverage (158 tests total)
+
 ## Non-Goals
 
 - Recreating Laravel or Symfony.

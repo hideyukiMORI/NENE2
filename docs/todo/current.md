@@ -318,6 +318,12 @@ _Friction follow-ups (docs): Issues `#167` (MCP JSON integers for path params), 
 - [x] chore(changelog): v0.6.0 セクション（Phase 33 変更を記録）. `#302`
 - [x] chore(release): `v0.6.0` タグを打つ. `#302`
 
+## Phase 35: Tag CRUD 完成
+
+- [x] feat(tag): `PUT /examples/tags/{id}` / `DELETE /examples/tags/{id}` — Tag full CRUD. `#304`
+- [x] feat(mcp): Tag 全 5 MCP ツール追加（list / get / create / update / delete）. `#304`
+- [x] test: TagHttpTest に PUT/DELETE カバレッジ追加（158 テスト）. `#304`
+
 ## Operating Notes
 
 - Keep this file short.
