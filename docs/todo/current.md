@@ -251,8 +251,8 @@ _Friction follow-ups (docs): Issues `#167` (MCP JSON integers for path params), 
 
 ## Phase 25: 2 つ目のドメインエンティティ例
 
-- [ ] feat(example): `src/Example/Tag/` — 2 つ目のドメインエンティティ例を追加する.
-- [ ] feat(example): `GET/POST /examples/tags` および `GET /examples/tags/{id}` エンドポイント追加.
+- [x] feat(example): `src/Example/Tag/` — 2 つ目のドメインエンティティ例を追加する. `#276`
+- [x] feat(example): `GET/POST /examples/tags` および `GET /examples/tags/{id}` エンドポイント追加. `#276`
 - [ ] docs(howto): 多エンティティパターンを HOWTO または Explanation に追記する.
 
 ## Phase 26: 本番デプロイガイド
