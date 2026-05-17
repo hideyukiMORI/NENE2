@@ -178,7 +178,7 @@ That is all — `RuntimeApplicationFactory` itself does not change.
 | Entity | Source | Endpoints |
 |---|---|---|
 | `Note` | `src/Example/Note/` | GET/POST `/examples/notes`, GET/PUT/DELETE `/examples/notes/{id}` |
-| `Tag` | `src/Example/Tag/` | GET/POST `/examples/tags`, GET `/examples/tags/{id}` |
+| `Tag` | `src/Example/Tag/` | GET/POST `/examples/tags`, GET/PUT/DELETE `/examples/tags/{id}` |
 
 Both follow this exact pattern. Copy the structure that fits your endpoint set.
 

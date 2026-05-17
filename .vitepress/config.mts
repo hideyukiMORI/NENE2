@@ -9,7 +9,7 @@ function nav(t: {
     { text: t.explanation, link: 'explanation/why-psr',           activeMatch: 'explanation/' },
     { text: t.reference,   link: 'development/endpoint-scaffold', activeMatch: 'development/' },
     {
-      text: 'v0.6.0',
+      text: 'v0.7.0',
       items: [
         { text: 'Changelog',  link: 'https://github.com/hideyukiMORI/NENE2/blob/main/CHANGELOG.md' },
         { text: 'Releases',   link: 'https://github.com/hideyukiMORI/NENE2/releases' },
