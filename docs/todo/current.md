@@ -229,6 +229,8 @@ _Friction follow-ups (docs): Issues `#167` (MCP JSON integers for path params), 
 - [x] `docs/` インデックス更新 (`docs/README.md`). `#256`
 - [x] VitePress ドキュメントサイト構築 (`npm run docs:build`). `#258`
 - [x] i18n: 日本語・フランス語・中国語・ブラジルポルトガル語・ドイツ語翻訳追加. `#260`
+- [x] theme: ダークモードをリッチなテックデザインに刷新（深い青黒背景・グロー・ドットグリッド）. `#262`
+- [x] fix(i18n): 言語切り替え時の 404 修正 — 絶対パス・locale link・404ページ. `#264`
 
 ## Operating Notes
 
