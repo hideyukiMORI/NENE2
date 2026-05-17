@@ -337,6 +337,13 @@ _Friction follow-ups (docs): Issues `#167` (MCP JSON integers for path params), 
 - [x] docs(howto): `add-second-entity.md` Tag エンドポイントテーブルを full CRUD に更新（en/ja）.
 - [x] chore(vitepress): バージョンバッジ v0.6.0 → v0.7.0.
 - [x] chore(release): `v0.7.0` タグを打つ.
+- [x] Packagist: v0.7.0 自動反映確認済み.
+
+## Phase 38: カバレッジ補完
+
+- [x] test(tag): `UpdateTagUseCase` / `DeleteTagUseCase` ユニットテスト追加（+4）. `#311`
+- [x] test(tag): `PdoTagRepository::update()` / `delete()` アダプターテスト追加（+2）. `#311`
+- 164 tests, 545 assertions に到達。
 
 ## Operating Notes
 
