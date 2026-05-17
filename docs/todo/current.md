@@ -278,7 +278,7 @@ _Friction follow-ups (docs): Issues `#167` (MCP JSON integers for path params), 
 
 - [x] docs(roadmap): Phase 29-32 をロードマップに追加する. `#284`
 - [x] chore(changelog): v0.5.0 セクション（Phase 23-28）を追記する. `#284`
-- [ ] chore(release): `v0.5.0` タグを打つ. `#284`
+- [x] chore(release): `v0.5.0` タグを打つ. `#284`
 
 ## Operating Notes
 
