@@ -288,6 +288,11 @@ _Friction follow-ups (docs): Issues `#167` (MCP JSON integers for path params), 
 - [x] feat(http): `GET /examples/protected` ルートと BearerTokenMiddleware 注入を追加する. `#287`
 - [x] docs(openapi): `bearerAuth` securityScheme と `/examples/protected` パスを追加する. `#287`
 
+## Phase 31: セルフレビューチェックリスト — Auth チェックポイント
+
+- [x] docs(review): `middleware-security.md` に API キー・Bearer トークンチェック項目を追加する. `#289`
+- [x] docs(review): `openapi-contract.md` に securityScheme チェック項目を追加する. `#289`
+
 ## Operating Notes
 
 - Keep this file short.
