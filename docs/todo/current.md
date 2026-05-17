@@ -253,7 +253,7 @@ _Friction follow-ups (docs): Issues `#167` (MCP JSON integers for path params), 
 
 - [x] feat(example): `src/Example/Tag/` — 2 つ目のドメインエンティティ例を追加する. `#276`
 - [x] feat(example): `GET/POST /examples/tags` および `GET /examples/tags/{id}` エンドポイント追加. `#276`
-- [ ] docs(howto): 多エンティティパターンを HOWTO または Explanation に追記する.
+- [x] docs(howto): 多エンティティパターンを HOWTO または Explanation に追記する. `#302`
 
 ## Phase 26: 本番デプロイガイド
 
@@ -309,6 +309,14 @@ _Friction follow-ups (docs): Issues `#167` (MCP JSON integers for path params), 
 
 - [x] refactor(http): `RuntimeApplicationFactory` コンストラクタを 16 引数から 8 引数に削減 — `NoteRouteRegistrar` / `TagRouteRegistrar` 分離. `#298`
 - [x] feat(mcp): write ツール呼び出し時の Bearer 認証ガードを `LocalMcpServer` に追加する. `#300`
+
+## Phase 34: v0.6.0 リリース
+
+- [x] docs(howto): `add-second-entity.md` — RouteRegistrar パターンを使った 2 つ目のエンティティ追加 HOWTO（6 言語）. `#302`
+- [x] docs(vitepress): HOWTO サイドバーに 4 番目のエントリ追加（6 ロケール）. `#302`
+- [x] docs(roadmap): Phase 33-34 をロードマップに追加する. `#302`
+- [x] chore(changelog): v0.6.0 セクション（Phase 33 変更を記録）. `#302`
+- [x] chore(release): `v0.6.0` タグを打つ. `#302`
 
 ## Operating Notes
 
