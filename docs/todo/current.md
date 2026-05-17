@@ -211,9 +211,14 @@ _Friction follow-ups (docs): Issues `#167` (MCP JSON integers for path params), 
 ## Phase 21: Field Trial 5 — MCP Write Tools
 
 - [x] マイルストーン定義・ロードマップ追記. `#242`
-- [ ] ローカル MCP サーバーを起動し write tools を操作する
-- [ ] 観察レポートを `docs/field-trials/2026-05-field-trial-5.md` に記録する
-- [ ] 摩擦を follow-up Issue に変換する
+- [x] ローカル MCP サーバーを起動し write tools を操作する. `#244`
+- [x] 観察レポートを `docs/field-trials/2026-05-field-trial-5.md` に記録する. `#244`
+- [x] 摩擦を follow-up Issue に変換する (#245 #246). `#244`
+
+## Phase 21 フォローアップ
+
+- [ ] docs(mcp-smoke): write 操作の DB 前提条件を `mcp-smoke.sh` に追記する. `#245`
+- [ ] docs(local-mcp): write 操作の DB 前提条件をローカル MCP サーバーガイドに追記する. `#246`
 
 ## Operating Notes
 
