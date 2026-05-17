@@ -264,6 +264,18 @@ Goal: consolidate v0.2.x patterns, resolve Field Trial 2 friction, and prepare f
 - CHANGELOG.md [Unreleased] prepared
 - v0.3.0 tag + Packagist registration (if criteria met)
 
+## Phase 20: Packagist Field Trial
+
+Goal: validate the `composer require hideyukimori/nene2` path as a real starting point for new projects, distinct from the git-clone-based workflow used in all prior field trials.
+
+- start a new project directory with `composer require hideyukimori/nene2`
+- build the minimum front controller, `.env`, and server setup manually
+- add a working endpoint following the documented scaffold workflow
+- record friction that only appears when using the framework as a library dependency
+- convert friction into follow-up Issues
+
+Tracked by `docs/milestones/2026-05-phase20-packagist-field-trial.md`.
+
 ## Non-Goals
 
 - Recreating Laravel or Symfony.
