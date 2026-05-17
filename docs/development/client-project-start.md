@@ -27,6 +27,107 @@ After the first local milestone, it can help to inspect a **completed public dem
 
 It is **not** an official product repository and **does not imply endorsement** of any real exhibition. **Fictional sandbox data** — read that project’s `README.md` and `SECURITY.md` before treating names or years as facts.
 
+## Starting from `composer require`
+
+If you are starting a new project from scratch rather than forking the NENE2 repository, install NENE2 as a Composer dependency:
+
+```bash
+mkdir my-project && cd my-project
+composer init --name="vendor/my-project" --no-interaction
+composer require hideyukimori/nene2:^0.3
+```
+
+Then create the minimum files manually:
+
+**`.env`**
+```dotenv
+APP_ENV=local
+APP_DEBUG=true
+APP_NAME="My Project"
+DB_ADAPTER=sqlite
+```
+
+**`public/index.php`** — front controller using the built-in container:
+```php
+<?php
+declare(strict_types=1);
+
+use Nene2\Http\ResponseEmitter;
+use Nene2\Http\RuntimeContainerFactory;
+use Nyholm\Psr7\Factory\Psr17Factory;
+use Nyholm\Psr7Server\ServerRequestCreator;
+use Psr\Http\Server\RequestHandlerInterface;
+
+require dirname(__DIR__) . '/vendor/autoload.php';
+
+$container = (new RuntimeContainerFactory(dirname(__DIR__)))->create();
+$psr17     = $container->get(Psr17Factory::class);
+$request   = (new ServerRequestCreator($psr17, $psr17, $psr17, $psr17))->fromGlobals();
+$response  = $container->get(RequestHandlerInterface::class)->handle($request);
+$container->get(ResponseEmitter::class)->emit($response);
+```
+
+> **Note:** `RuntimeContainerFactory` wires the full NENE2 runtime including the Note CRUD example routes (`/examples/notes/*`). These are harmless but visible. To use only your own routes, wire the stack manually (see below).
+
+Serve locally with PHP's built-in server:
+```bash
+php -S localhost:8080 -t public
+```
+
+### Adding custom routes without git clone
+
+When custom routes are needed and you are not using the full NENE2 repository, bypass `RuntimeApplicationFactory` (which is `final`) and wire `Router` and `MiddlewareDispatcher` directly:
+
+```php
+<?php
+declare(strict_types=1);
+
+use Nene2\Config\ConfigLoader;
+use Nene2\Error\ErrorHandlerMiddleware;
+use Nene2\Error\ProblemDetailsResponseFactory;
+use Nene2\Http\JsonResponseFactory;
+use Nene2\Log\MonologLoggerFactory;
+use Nene2\Log\RequestIdHolder;
+use Nene2\Middleware\CorsMiddleware;
+use Nene2\Middleware\MiddlewareDispatcher;
+use Nene2\Middleware\RequestIdMiddleware;
+use Nene2\Middleware\RequestLoggingMiddleware;
+use Nene2\Middleware\SecurityHeadersMiddleware;
+use Nene2\Routing\Router;
+use Nyholm\Psr7\Factory\Psr17Factory;
+use Psr\Http\Message\ServerRequestInterface;
+
+require dirname(__DIR__) . '/vendor/autoload.php';
+
+$root   = dirname(__DIR__);
+$psr17  = new Psr17Factory();
+$config = (new ConfigLoader($root))->load();
+$holder = new RequestIdHolder();
+$logger = (new MonologLoggerFactory())->create('app', $config->debug, $holder);
+$json   = new JsonResponseFactory($psr17, $psr17);
+
+$router = (new Router())
+    ->get('/health', static fn (ServerRequestInterface $req) => $json->create(['status' => 'ok']))
+    ->get('/items/{id}', static function (ServerRequestInterface $req) use ($json) {
+        // Path parameters are stored under Router::PARAMETERS_ATTRIBUTE, not as individual attributes.
+        $params = $req->getAttribute(Router::PARAMETERS_ATTRIBUTE, []);
+        return $json->create(['id' => (int) ($params['id'] ?? 0)]);
+    });
+
+$app = new MiddlewareDispatcher(
+    [
+        new RequestIdMiddleware('X-Request-Id', $holder),
+        new RequestLoggingMiddleware($logger),
+        new SecurityHeadersMiddleware(),
+        new CorsMiddleware($psr17),
+        new ErrorHandlerMiddleware(new ProblemDetailsResponseFactory($psr17, $psr17), []),
+    ],
+    $router,
+);
+```
+
+For path parameter access, always read from `Router::PARAMETERS_ATTRIBUTE`. See `docs/development/endpoint-scaffold.md` for details.
+
 ## First Local Setup
 
 Start from a clean checkout:

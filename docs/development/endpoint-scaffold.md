@@ -46,6 +46,26 @@ It returns:
 
 This endpoint exists to exercise the workflow. Application endpoints should move toward thin handlers that delegate to use cases as behavior grows. See `docs/development/domain-layer.md` for the UseCase → Repository → Handler pattern.
 
+### Path parameters
+
+The router stores matched path parameters under `Router::PARAMETERS_ATTRIBUTE` as a named array — they are **not** set as individual PSR-7 request attributes.
+
+```php
+use Nene2\Routing\Router;
+
+$router->get('/items/{id}', static function (ServerRequestInterface $request) use ($json): ResponseInterface {
+    $params = $request->getAttribute(Router::PARAMETERS_ATTRIBUTE, []);
+    $id = (int) ($params['id'] ?? 0);
+
+    // $id is now the matched value from the URL segment
+    return $json->create(['id' => $id]);
+});
+```
+
+Writing `$request->getAttribute('id')` returns `null`. Always read from `Router::PARAMETERS_ATTRIBUTE`.
+
+See `src/Example/Note/GetNoteByIdHandler.php` for a complete usage example.
+
 ### When to introduce a use case
 
 Add a use case when the handler would otherwise contain business logic:
