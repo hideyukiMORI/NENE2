@@ -59,6 +59,7 @@ function sidebar(t: {
 export default defineConfig({
   title: 'NENE2',
   description: 'Minimal PHP 8.4 JSON API Framework — with MCP and OpenAPI built in.',
+  base: process.env.GITHUB_ACTIONS ? '/NENE2/' : '/',
   srcDir: './docs',
   outDir: './.vitepress/dist',
   cleanUrls: true,
