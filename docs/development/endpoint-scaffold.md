@@ -21,9 +21,10 @@ An endpoint is complete only when its behavior is visible in all relevant places
 2. Add or update the runtime route in the smallest appropriate handler boundary.
 3. Add the OpenAPI path with `operationId`, examples, success schema, and Problem Details responses.
 4. Add or update tests close to the behavior.
-5. Run the focused tests first, then `docker compose run --rm app composer check`.
-6. Run a local HTTP smoke check when the endpoint is reachable through Docker.
-7. Update `docs/todo/current.md`, milestone docs, or MCP catalog only when the endpoint affects current work.
+5. **When a new entity introduces a new database table**: add a Phinx migration in `database/migrations/` and a schema snapshot in `database/schema/`. Run `composer migrations:migrate` before HTTP smoke tests.
+6. Run the focused tests first, then `docker compose run --rm app composer check`.
+7. Run a local HTTP smoke check when the endpoint is reachable through Docker.
+8. Update `docs/todo/current.md`, milestone docs, or MCP catalog only when the endpoint affects current work.
 
 ## Runtime Route
 
