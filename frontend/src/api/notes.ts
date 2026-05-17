@@ -24,7 +24,7 @@ export type CreateNoteRequest = {
   readonly body: string;
 };
 
-function isNote(value: unknown): value is Note {
+export function isNote(value: unknown): value is Note {
   if (typeof value !== 'object' || value === null) return false;
   const c = value as Record<string, unknown>;
   return (
@@ -34,7 +34,7 @@ function isNote(value: unknown): value is Note {
   );
 }
 
-function isNoteListResponse(value: unknown): value is NoteListResponse {
+export function isNoteListResponse(value: unknown): value is NoteListResponse {
   if (typeof value !== 'object' || value === null) return false;
   const c = value as Record<string, unknown>;
   return (
