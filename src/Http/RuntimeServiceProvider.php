@@ -18,17 +18,11 @@ use Nene2\Database\PdoDatabaseTransactionManager;
 use Nene2\DependencyInjection\ContainerBuilder;
 use Nene2\DependencyInjection\ServiceProviderInterface;
 use Nene2\Error\ProblemDetailsResponseFactory;
-use Nene2\Example\Note\CreateNoteHandler;
-use Nene2\Example\Note\DeleteNoteHandler;
-use Nene2\Example\Note\GetNoteByIdHandler;
-use Nene2\Example\Note\ListNotesHandler;
 use Nene2\Example\Note\NoteNotFoundExceptionHandler;
+use Nene2\Example\Note\NoteRouteRegistrar;
 use Nene2\Example\Note\NoteServiceProvider;
-use Nene2\Example\Note\UpdateNoteHandler;
-use Nene2\Example\Tag\CreateTagHandler;
-use Nene2\Example\Tag\GetTagByIdHandler;
-use Nene2\Example\Tag\ListTagsHandler;
 use Nene2\Example\Tag\TagNotFoundExceptionHandler;
+use Nene2\Example\Tag\TagRouteRegistrar;
 use Nene2\Example\Tag\TagServiceProvider;
 use Nene2\Log\MonologLoggerFactory;
 use Nene2\Log\RequestIdHolder;
@@ -186,6 +180,11 @@ final readonly class RuntimeServiceProvider implements ServiceProviderInterface
                     $streamFactory = $container->get(StreamFactoryInterface::class);
                     $logger = $container->get(LoggerInterface::class);
                     $config = $container->get(AppConfig::class);
+                    $noteNotFoundHandler = $container->get(NoteNotFoundExceptionHandler::class);
+                    $tagNotFoundHandler = $container->get(TagNotFoundExceptionHandler::class);
+                    $noteRegistrar = $container->get('nene2.route_registrar.note');
+                    $tagRegistrar = $container->get('nene2.route_registrar.tag');
+                    $requestIdHolder = $container->get(RequestIdHolder::class);
 
                     if (!$responseFactory instanceof ResponseFactoryInterface) {
                         throw new LogicException('Response factory service is invalid.');
@@ -203,56 +202,20 @@ final readonly class RuntimeServiceProvider implements ServiceProviderInterface
                         throw new LogicException('Application config service is invalid.');
                     }
 
-                    $getNoteByIdHandler = $container->get(GetNoteByIdHandler::class);
-                    $createNoteHandler = $container->get(CreateNoteHandler::class);
-                    $deleteNoteHandler = $container->get(DeleteNoteHandler::class);
-                    $listNotesHandler = $container->get(ListNotesHandler::class);
-                    $updateNoteHandler = $container->get(UpdateNoteHandler::class);
-                    $noteNotFoundHandler = $container->get(NoteNotFoundExceptionHandler::class);
-                    $listTagsHandler = $container->get(ListTagsHandler::class);
-                    $getTagByIdHandler = $container->get(GetTagByIdHandler::class);
-                    $createTagHandler = $container->get(CreateTagHandler::class);
-                    $tagNotFoundHandler = $container->get(TagNotFoundExceptionHandler::class);
-                    $requestIdHolder = $container->get(RequestIdHolder::class);
-
-                    if (!$getNoteByIdHandler instanceof GetNoteByIdHandler) {
-                        throw new LogicException('GetNoteById handler service is invalid.');
-                    }
-
-                    if (!$createNoteHandler instanceof CreateNoteHandler) {
-                        throw new LogicException('CreateNote handler service is invalid.');
-                    }
-
-                    if (!$deleteNoteHandler instanceof DeleteNoteHandler) {
-                        throw new LogicException('DeleteNote handler service is invalid.');
-                    }
-
-                    if (!$listNotesHandler instanceof ListNotesHandler) {
-                        throw new LogicException('ListNotes handler service is invalid.');
-                    }
-
-                    if (!$updateNoteHandler instanceof UpdateNoteHandler) {
-                        throw new LogicException('UpdateNote handler service is invalid.');
-                    }
-
                     if (!$noteNotFoundHandler instanceof NoteNotFoundExceptionHandler) {
                         throw new LogicException('NoteNotFoundException handler service is invalid.');
                     }
 
-                    if (!$listTagsHandler instanceof ListTagsHandler) {
-                        throw new LogicException('ListTags handler service is invalid.');
-                    }
-
-                    if (!$getTagByIdHandler instanceof GetTagByIdHandler) {
-                        throw new LogicException('GetTagById handler service is invalid.');
-                    }
-
-                    if (!$createTagHandler instanceof CreateTagHandler) {
-                        throw new LogicException('CreateTag handler service is invalid.');
-                    }
-
                     if (!$tagNotFoundHandler instanceof TagNotFoundExceptionHandler) {
                         throw new LogicException('TagNotFoundException handler service is invalid.');
+                    }
+
+                    if (!$noteRegistrar instanceof NoteRouteRegistrar) {
+                        throw new LogicException('Note route registrar service is invalid.');
+                    }
+
+                    if (!$tagRegistrar instanceof TagRouteRegistrar) {
+                        throw new LogicException('Tag route registrar service is invalid.');
                     }
 
                     if (!$requestIdHolder instanceof RequestIdHolder) {
@@ -275,7 +238,16 @@ final readonly class RuntimeServiceProvider implements ServiceProviderInterface
                         );
                     }
 
-                    return new RuntimeApplicationFactory($responseFactory, $streamFactory, $logger, $config->machineApiKey, $getNoteByIdHandler, $createNoteHandler, $deleteNoteHandler, [$noteNotFoundHandler, $tagNotFoundHandler], $listNotesHandler, $updateNoteHandler, $requestIdHolder, [], $listTagsHandler, $getTagByIdHandler, $createTagHandler, $bearerMiddleware);
+                    return new RuntimeApplicationFactory(
+                        $responseFactory,
+                        $streamFactory,
+                        $logger,
+                        $config->machineApiKey,
+                        [$noteNotFoundHandler, $tagNotFoundHandler],
+                        $requestIdHolder,
+                        [$noteRegistrar, $tagRegistrar],
+                        $bearerMiddleware,
+                    );
                 },
             )
             ->set(

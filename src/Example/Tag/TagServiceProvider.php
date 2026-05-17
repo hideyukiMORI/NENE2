@@ -127,6 +127,28 @@ final readonly class TagServiceProvider implements ServiceProviderInterface
 
                     return new TagNotFoundExceptionHandler($problemDetails);
                 },
+            )
+            ->set(
+                'nene2.route_registrar.tag',
+                static function (ContainerInterface $c): TagRouteRegistrar {
+                    $list = $c->get(ListTagsHandler::class);
+                    $get = $c->get(GetTagByIdHandler::class);
+                    $create = $c->get(CreateTagHandler::class);
+
+                    if (!$list instanceof ListTagsHandler) {
+                        throw new LogicException('ListTags handler service is invalid.');
+                    }
+
+                    if (!$get instanceof GetTagByIdHandler) {
+                        throw new LogicException('GetTagById handler service is invalid.');
+                    }
+
+                    if (!$create instanceof CreateTagHandler) {
+                        throw new LogicException('CreateTag handler service is invalid.');
+                    }
+
+                    return new TagRouteRegistrar($list, $get, $create);
+                },
             );
     }
 }
