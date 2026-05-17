@@ -92,6 +92,34 @@ paths:
           $ref: '#/components/responses/PayloadTooLarge'
         '500':
           $ref: '#/components/responses/InternalServerError'
+  /examples/protected:
+    get:
+      tags:
+        - Examples
+      summary: Protected example endpoint
+      description: Demonstrates BearerTokenMiddleware. Returns the authenticated user's JWT claims. Requires NENE2_LOCAL_JWT_SECRET to be set in the environment.
+      operationId: getProtected
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Authenticated response with JWT claims.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProtectedResponse'
+              examples:
+                ok:
+                  summary: Successful authenticated response
+                  value:
+                    message: Welcome, authenticated user.
+                    claims:
+                      sub: user-42
+                      scope: read:system
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
   /examples/tags:
     get:
       tags:
@@ -443,6 +471,11 @@ components:
       in: header
       name: X-NENE2-API-Key
       description: API key for machine clients. Do not commit real key values.
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: HS256 JWT for user or service authentication. Wire a TokenVerifierInterface implementation to enable.
   responses:
     Unauthorized:
       description: A valid API key is required for this endpoint.
@@ -757,6 +790,21 @@ components:
         offset:
           type: integer
           example: 0
+    ProtectedResponse:
+      type: object
+      required:
+        - message
+        - claims
+      properties:
+        message:
+          type: string
+          example: Welcome, authenticated user.
+        claims:
+          type: object
+          additionalProperties: true
+          example:
+            sub: user-42
+            scope: read:system
     ExampleNoteListResponse:
       type: object
       required:

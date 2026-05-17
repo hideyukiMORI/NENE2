@@ -68,8 +68,8 @@ final class RuntimeContractTest extends TestCase
                 }
 
                 // Skip domain example paths: they require optional domain handlers and are covered
-                // by NoteHttpTest / TagHttpTest with in-memory repositories.
-                if (str_starts_with($path, '/examples/notes') || str_starts_with($path, '/examples/tags')) {
+                // by NoteHttpTest / TagHttpTest / ProtectedEndpointHttpTest with in-memory repositories.
+                if (str_starts_with($path, '/examples/notes') || str_starts_with($path, '/examples/tags') || $path === '/examples/protected') {
                     continue;
                 }
 

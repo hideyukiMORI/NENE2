@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Nene2\Http;
 
 use LogicException;
+use Nene2\Auth\BearerTokenMiddleware;
+use Nene2\Auth\LocalBearerTokenVerifier;
 use Nene2\Config\AppConfig;
 use Nene2\Config\ConfigLoader;
 use Nene2\Database\DatabaseConnectionFactoryInterface;
@@ -257,7 +259,23 @@ final readonly class RuntimeServiceProvider implements ServiceProviderInterface
                         throw new LogicException('RequestIdHolder service is invalid.');
                     }
 
-                    return new RuntimeApplicationFactory($responseFactory, $streamFactory, $logger, $config->machineApiKey, $getNoteByIdHandler, $createNoteHandler, $deleteNoteHandler, [$noteNotFoundHandler, $tagNotFoundHandler], $listNotesHandler, $updateNoteHandler, $requestIdHolder, [], $listTagsHandler, $getTagByIdHandler, $createTagHandler);
+                    $bearerMiddleware = null;
+
+                    if ($config->localJwtSecret !== null) {
+                        $problemDetails = $container->get(ProblemDetailsResponseFactory::class);
+
+                        if (!$problemDetails instanceof ProblemDetailsResponseFactory) {
+                            throw new LogicException('ProblemDetailsResponseFactory service is invalid.');
+                        }
+
+                        $bearerMiddleware = new BearerTokenMiddleware(
+                            $problemDetails,
+                            new LocalBearerTokenVerifier($config->localJwtSecret),
+                            ['/examples/protected'],
+                        );
+                    }
+
+                    return new RuntimeApplicationFactory($responseFactory, $streamFactory, $logger, $config->machineApiKey, $getNoteByIdHandler, $createNoteHandler, $deleteNoteHandler, [$noteNotFoundHandler, $tagNotFoundHandler], $listNotesHandler, $updateNoteHandler, $requestIdHolder, [], $listTagsHandler, $getTagByIdHandler, $createTagHandler, $bearerMiddleware);
                 },
             )
             ->set(

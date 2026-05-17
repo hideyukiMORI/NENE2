@@ -12,14 +12,22 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 final readonly class BearerTokenMiddleware implements MiddlewareInterface
 {
+    /**
+     * @param list<string> $protectedPaths Restrict protection to these paths. Empty list protects all paths.
+     */
     public function __construct(
         private ProblemDetailsResponseFactory $problemDetails,
         private TokenVerifierInterface $verifier,
+        private array $protectedPaths = [],
     ) {
     }
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
+        if (!$this->requiresAuthentication($request)) {
+            return $handler->handle($request);
+        }
+
         $authorization = $request->getHeaderLine('Authorization');
 
         if ($authorization === '') {
@@ -43,6 +51,17 @@ final readonly class BearerTokenMiddleware implements MiddlewareInterface
                 ->withAttribute('nene2.auth.credential_type', 'bearer')
                 ->withAttribute('nene2.auth.claims', $claims),
         );
+    }
+
+    private function requiresAuthentication(ServerRequestInterface $request): bool
+    {
+        if ($this->protectedPaths === []) {
+            return true;
+        }
+
+        $path = $request->getUri()->getPath() ?: '/';
+
+        return in_array($path, $this->protectedPaths, true);
     }
 
     private function unauthorized(ServerRequestInterface $request, string $error, string $description): ResponseInterface

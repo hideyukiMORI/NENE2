@@ -280,6 +280,14 @@ _Friction follow-ups (docs): Issues `#167` (MCP JSON integers for path params), 
 - [x] chore(changelog): v0.5.0 セクション（Phase 23-28）を追記する. `#284`
 - [x] chore(release): `v0.5.0` タグを打つ. `#284`
 
+## Phase 30: OpenAPI bearerAuth スキームと LocalBearerTokenVerifier
+
+- [x] feat(auth): `LocalBearerTokenVerifier`（HMAC-HS256、外部ライブラリ不要）を追加する. `#287`
+- [x] feat(auth): `BearerTokenMiddleware` に `$protectedPaths` を追加する. `#287`
+- [x] feat(config): `NENE2_LOCAL_JWT_SECRET` を AppConfig / ConfigLoader に追加する. `#287`
+- [x] feat(http): `GET /examples/protected` ルートと BearerTokenMiddleware 注入を追加する. `#287`
+- [x] docs(openapi): `bearerAuth` securityScheme と `/examples/protected` パスを追加する. `#287`
+
 ## Operating Notes
 
 - Keep this file short.
