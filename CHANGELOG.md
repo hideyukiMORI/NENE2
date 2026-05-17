@@ -11,6 +11,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Added
+- Local MCP server now executes write operations (`POST`, `PUT`, `DELETE`) through the documented API boundary (#228)
+  - `LocalMcpHttpClientInterface` extended with `post()`, `put()`, `delete()` methods
+  - `NativeLocalMcpHttpClient` implements the new methods with JSON body support
+  - `LocalMcpServer` routes tools to the correct HTTP method; path parameters are interpolated from arguments; GET query arguments are appended as a query string
+  - `LocalMcpToolCatalog` now exposes all tools (not only `read`); `responseSchemaRef` is nullable
+
 ---
 
 ## [0.3.0] — 2026-05-17

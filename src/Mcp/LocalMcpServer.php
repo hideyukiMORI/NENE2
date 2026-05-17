@@ -119,34 +119,37 @@ final readonly class LocalMcpServer
             throw new LocalMcpException('tools/call params.arguments must be an object when provided.');
         }
 
-        if ($arguments !== []) {
-            throw new LocalMcpException('The first NENE2 local MCP tools do not accept arguments.');
-        }
-
         $tool = $this->catalog->find($name);
 
         if ($tool === null) {
             throw new LocalMcpException(sprintf('MCP tool "%s" was not found.', $name));
         }
 
-        if ($tool['safety'] !== 'read') {
-            throw new LocalMcpException(sprintf('MCP tool "%s" is not read-only.', $name));
+        if ($tool['source']['type'] !== 'openapi') {
+            throw new LocalMcpException(sprintf('MCP tool "%s" does not map to a local OpenAPI operation.', $name));
         }
 
-        if ($tool['source']['type'] !== 'openapi' || $tool['source']['method'] !== 'GET') {
-            throw new LocalMcpException(sprintf('MCP tool "%s" does not map to a local GET API operation.', $name));
-        }
-
-        return $this->httpToolResult($tool);
+        return $this->httpToolResult($tool, $arguments);
     }
 
     /**
      * @param McpTool $tool
+     * @param array<string, mixed> $arguments
      * @return array<string, mixed>
      */
-    private function httpToolResult(array $tool): array
+    private function httpToolResult(array $tool, array $arguments): array
     {
-        $response = $this->httpClient->get($this->apiBaseUrl, $tool['source']['path']);
+        [$path, $remainingArgs] = $this->interpolatePath($tool['source']['path'], $arguments);
+        $method = $tool['source']['method'];
+
+        $response = match ($method) {
+            'GET'    => $this->httpClient->get($this->apiBaseUrl, $this->appendQuery($path, $remainingArgs)),
+            'POST'   => $this->httpClient->post($this->apiBaseUrl, $path, $remainingArgs),
+            'PUT'    => $this->httpClient->put($this->apiBaseUrl, $path, $remainingArgs),
+            'DELETE' => $this->httpClient->delete($this->apiBaseUrl, $path),
+            default  => throw new LocalMcpException(sprintf('HTTP method "%s" is not supported.', $method)),
+        };
+
         $body = $this->decodeBody($response->body);
 
         $structuredContent = [
@@ -167,6 +170,44 @@ final readonly class LocalMcpServer
             'structuredContent' => $structuredContent,
             'isError' => !$response->isSuccessful(),
         ];
+    }
+
+    /**
+     * Splits path parameters from arguments, returning the interpolated path
+     * and the remaining arguments (for body or query string).
+     *
+     * @param array<string, mixed> $arguments
+     * @return array{string, array<string, mixed>}
+     */
+    private function interpolatePath(string $path, array $arguments): array
+    {
+        preg_match_all('/\{([^}]+)\}/', $path, $matches);
+        $pathParams = $matches[1];
+
+        $remaining = $arguments;
+
+        foreach ($pathParams as $param) {
+            if (!array_key_exists($param, $arguments)) {
+                throw new LocalMcpException(sprintf('Required path parameter "%s" was not provided.', $param));
+            }
+
+            $path = str_replace('{' . $param . '}', (string) $arguments[$param], $path);
+            unset($remaining[$param]);
+        }
+
+        return [$path, $remaining];
+    }
+
+    /**
+     * @param array<string, mixed> $queryArgs
+     */
+    private function appendQuery(string $path, array $queryArgs): string
+    {
+        if ($queryArgs === []) {
+            return $path;
+        }
+
+        return $path . '?' . http_build_query($queryArgs);
     }
 
     private function decodeBody(string $body): mixed

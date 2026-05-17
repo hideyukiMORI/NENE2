@@ -35,13 +35,17 @@ When running the server inside Docker against the Compose `app` service, use the
 docker compose run --rm -e NENE2_LOCAL_API_BASE_URL=http://app app php tools/local-mcp-server.php
 ```
 
-The first server supports:
+The server supports:
 
 - `initialize`
 - `tools/list`
 - `tools/call`
 
-Tools are loaded from `docs/mcp/tools.json`. The first supported calls are read-only OpenAPI-aligned HTTP GET tools such as `getHealth` and `getFrameworkSmoke`.
+Tools are loaded from `docs/mcp/tools.json`. Both read-only (`safety: read`) and write (`safety: write`) OpenAPI-aligned tools are exposed.
+
+Read tools (`getHealth`, `getFrameworkSmoke`, `listExampleNotes`, `getExampleNoteById`) map to HTTP GET. Arguments become path parameters or query string values.
+
+Write tools (`createExampleNote`, `updateExampleNoteById`, `deleteExampleNoteById`) map to HTTP POST, PUT, and DELETE respectively. Path parameters are interpolated from arguments; remaining arguments are sent as a JSON request body.
 
 The server communicates over newline-delimited JSON-RPC messages on stdio. It is intended for local MCP clients and development smoke checks, not direct browser use.
 
@@ -83,18 +87,18 @@ Local tools that do not need authentication should not pretend to require creden
 
 ## Tool Shape
 
-Read-only local tools should map to existing catalog or OpenAPI operations when practical.
+Local tools should map to existing catalog or OpenAPI operations when practical.
 
 Recommended metadata:
 
 - tool name
-- safety level
+- safety level (`read`, `write`, `admin`, or `destructive`)
 - source operation or command
 - required scopes, if any
 - whether the tool calls HTTP
 - whether the tool returns request id metadata
 
-Mutation, admin, and destructive tools are out of scope for the first local MCP server guidance.
+`admin` and `destructive` tools are out of scope for the current local MCP server guidance.
 
 ### Integer Path Parameters
 

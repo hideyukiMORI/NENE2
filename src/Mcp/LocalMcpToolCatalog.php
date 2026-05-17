@@ -6,7 +6,7 @@ namespace Nene2\Mcp;
 
 /**
  * @phpstan-type McpToolSource array{type: string, operationId: string, method: string, path: string}
- * @phpstan-type McpTool array{name: string, title: string, description: string, safety: string, source: McpToolSource, inputSchema: array<string, mixed>, responseSchemaRef: string}
+ * @phpstan-type McpTool array{name: string, title: string, description: string, safety: string, source: McpToolSource, inputSchema: array<string, mixed>, responseSchemaRef: string|null}
  */
 final readonly class LocalMcpToolCatalog
 {
@@ -38,9 +38,9 @@ final readonly class LocalMcpToolCatalog
             throw new LocalMcpException('MCP tool catalog must contain a tools array.');
         }
 
-        $readTools = array_values(array_filter($tools, static fn (mixed $t) => is_array($t) && ($t['safety'] ?? null) === 'read'));
+        $validTools = array_values(array_filter($tools, static fn (mixed $t) => is_array($t)));
 
-        return array_map($this->tool(...), $readTools);
+        return array_map($this->tool(...), $validTools);
     }
 
     /**
@@ -86,7 +86,7 @@ final readonly class LocalMcpToolCatalog
                 'path' => $this->stringValue($source, 'path'),
             ],
             'inputSchema' => $inputSchema,
-            'responseSchemaRef' => $this->stringValue($value, 'responseSchemaRef'),
+            'responseSchemaRef' => $this->nullableStringValue($value, 'responseSchemaRef'),
         ];
     }
 
@@ -99,6 +99,24 @@ final readonly class LocalMcpToolCatalog
 
         if (!is_string($value) || $value === '') {
             throw new LocalMcpException(sprintf('MCP catalog field "%s" must be a non-empty string.', $key));
+        }
+
+        return $value;
+    }
+
+    /**
+     * @param array<string, mixed> $values
+     */
+    private function nullableStringValue(array $values, string $key): ?string
+    {
+        $value = $values[$key] ?? null;
+
+        if ($value === null) {
+            return null;
+        }
+
+        if (!is_string($value) || $value === '') {
+            throw new LocalMcpException(sprintf('MCP catalog field "%s" must be a non-empty string or null.', $key));
         }
 
         return $value;
