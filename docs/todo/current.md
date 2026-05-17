@@ -345,6 +345,11 @@ _Friction follow-ups (docs): Issues `#167` (MCP JSON integers for path params), 
 - [x] test(tag): `PdoTagRepository::update()` / `delete()` アダプターテスト追加（+2）. `#311`
 - 164 tests, 545 assertions に到達。
 
+## Phase 39: MySQL Tag 統合テスト + フロントエンド Tag 対応
+
+- [x] test(tag): `PdoTagRepositoryMySqlTest` 追加（save/findAll/update/delete 7 ケース）. `#312`
+- [x] feat(frontend): `api/tags.ts` + `TagList` + `TagForm` — Tag CRUD をブラウザから操作可能に. `#314`
+
 ## Operating Notes
 
 - Keep this file short.
