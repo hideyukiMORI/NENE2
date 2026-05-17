@@ -23,6 +23,11 @@ use Nene2\Example\Note\ListNotesHandler;
 use Nene2\Example\Note\NoteNotFoundExceptionHandler;
 use Nene2\Example\Note\NoteServiceProvider;
 use Nene2\Example\Note\UpdateNoteHandler;
+use Nene2\Example\Tag\CreateTagHandler;
+use Nene2\Example\Tag\GetTagByIdHandler;
+use Nene2\Example\Tag\ListTagsHandler;
+use Nene2\Example\Tag\TagNotFoundExceptionHandler;
+use Nene2\Example\Tag\TagServiceProvider;
 use Nene2\Log\MonologLoggerFactory;
 use Nene2\Log\RequestIdHolder;
 use Nyholm\Psr7\Factory\Psr17Factory;
@@ -39,6 +44,7 @@ final readonly class RuntimeServiceProvider implements ServiceProviderInterface
     public function register(ContainerBuilder $builder): void
     {
         $builder->addProvider(new NoteServiceProvider());
+        $builder->addProvider(new TagServiceProvider());
 
         $builder
             ->set(
@@ -201,6 +207,10 @@ final readonly class RuntimeServiceProvider implements ServiceProviderInterface
                     $listNotesHandler = $container->get(ListNotesHandler::class);
                     $updateNoteHandler = $container->get(UpdateNoteHandler::class);
                     $noteNotFoundHandler = $container->get(NoteNotFoundExceptionHandler::class);
+                    $listTagsHandler = $container->get(ListTagsHandler::class);
+                    $getTagByIdHandler = $container->get(GetTagByIdHandler::class);
+                    $createTagHandler = $container->get(CreateTagHandler::class);
+                    $tagNotFoundHandler = $container->get(TagNotFoundExceptionHandler::class);
                     $requestIdHolder = $container->get(RequestIdHolder::class);
 
                     if (!$getNoteByIdHandler instanceof GetNoteByIdHandler) {
@@ -227,11 +237,27 @@ final readonly class RuntimeServiceProvider implements ServiceProviderInterface
                         throw new LogicException('NoteNotFoundException handler service is invalid.');
                     }
 
+                    if (!$listTagsHandler instanceof ListTagsHandler) {
+                        throw new LogicException('ListTags handler service is invalid.');
+                    }
+
+                    if (!$getTagByIdHandler instanceof GetTagByIdHandler) {
+                        throw new LogicException('GetTagById handler service is invalid.');
+                    }
+
+                    if (!$createTagHandler instanceof CreateTagHandler) {
+                        throw new LogicException('CreateTag handler service is invalid.');
+                    }
+
+                    if (!$tagNotFoundHandler instanceof TagNotFoundExceptionHandler) {
+                        throw new LogicException('TagNotFoundException handler service is invalid.');
+                    }
+
                     if (!$requestIdHolder instanceof RequestIdHolder) {
                         throw new LogicException('RequestIdHolder service is invalid.');
                     }
 
-                    return new RuntimeApplicationFactory($responseFactory, $streamFactory, $logger, $config->machineApiKey, $getNoteByIdHandler, $createNoteHandler, $deleteNoteHandler, [$noteNotFoundHandler], $listNotesHandler, $updateNoteHandler, $requestIdHolder);
+                    return new RuntimeApplicationFactory($responseFactory, $streamFactory, $logger, $config->machineApiKey, $getNoteByIdHandler, $createNoteHandler, $deleteNoteHandler, [$noteNotFoundHandler, $tagNotFoundHandler], $listNotesHandler, $updateNoteHandler, $requestIdHolder, [], $listTagsHandler, $getTagByIdHandler, $createTagHandler);
                 },
             )
             ->set(

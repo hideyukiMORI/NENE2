@@ -12,6 +12,9 @@ use Nene2\Example\Note\DeleteNoteHandler;
 use Nene2\Example\Note\GetNoteByIdHandler;
 use Nene2\Example\Note\ListNotesHandler;
 use Nene2\Example\Note\UpdateNoteHandler;
+use Nene2\Example\Tag\CreateTagHandler;
+use Nene2\Example\Tag\GetTagByIdHandler;
+use Nene2\Example\Tag\ListTagsHandler;
 use Nene2\FrameworkInfo;
 use Nene2\Log\RequestIdHolder;
 use Nene2\Middleware\ApiKeyAuthenticationMiddleware;
@@ -48,6 +51,9 @@ final readonly class RuntimeApplicationFactory
         private ?UpdateNoteHandler $updateNoteHandler = null,
         private ?RequestIdHolder $requestIdHolder = null,
         private array $routeRegistrars = [],
+        private ?ListTagsHandler $listTagsHandler = null,
+        private ?GetTagByIdHandler $getTagByIdHandler = null,
+        private ?CreateTagHandler $createTagHandler = null,
     ) {
     }
 
@@ -128,6 +134,30 @@ final readonly class RuntimeApplicationFactory
             $router->delete(
                 '/examples/notes/{id}',
                 static fn (ServerRequestInterface $request) => $deleteNoteHandler->handle($request),
+            );
+        }
+
+        if ($this->listTagsHandler !== null) {
+            $listTagsHandler = $this->listTagsHandler;
+            $router->get(
+                '/examples/tags',
+                static fn (ServerRequestInterface $request) => $listTagsHandler->handle($request),
+            );
+        }
+
+        if ($this->getTagByIdHandler !== null) {
+            $getTagByIdHandler = $this->getTagByIdHandler;
+            $router->get(
+                '/examples/tags/{id}',
+                static fn (ServerRequestInterface $request) => $getTagByIdHandler->handle($request),
+            );
+        }
+
+        if ($this->createTagHandler !== null) {
+            $createTagHandler = $this->createTagHandler;
+            $router->post(
+                '/examples/tags',
+                static fn (ServerRequestInterface $request) => $createTagHandler->handle($request),
             );
         }
 
