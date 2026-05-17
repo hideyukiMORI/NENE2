@@ -237,9 +237,9 @@ _Friction follow-ups (docs): Issues `#167` (MCP JSON integers for path params), 
 ## Phase 23: CI Hardening + Node.js Upgrade
 
 - [x] docs(roadmap): Phase 23+ マイルストーン追加・ロードマップ更新. `#270`
-- [ ] ci: `actions/setup-node` を Node.js 22 LTS に更新し Node.js 20 deprecation を解消する.
-- [ ] ci: バックエンド `composer check` を実行する `backend.yml` ワークフローを追加する.
-- [ ] ci: フロントエンド `npm run check` を実行する `frontend.yml` ワークフローを追加する.
+- [x] ci: `actions/setup-node` を Node.js 22 LTS に更新し Node.js 20 deprecation を解消する.
+- [x] ci: バックエンド `composer check` を実行する `backend.yml` ワークフローを追加する.
+- [x] ci: フロントエンド `npm run check` を実行する `frontend.yml` ワークフローを追加する.
 
 ## Phase 24: Diátaxis Explanation Pages
 
