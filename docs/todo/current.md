@@ -243,11 +243,11 @@ _Friction follow-ups (docs): Issues `#167` (MCP JSON integers for path params), 
 
 ## Phase 24: Diátaxis Explanation Pages
 
-- [ ] docs(explanation): `docs/explanation/why-psr.md` — PSR 選択理由.
-- [ ] docs(explanation): `docs/explanation/why-explicit-wiring.md` — 明示的 DI の理由.
-- [ ] docs(explanation): `docs/explanation/why-problem-details.md` — RFC 9457 選択理由.
-- [ ] docs(explanation): `docs/explanation/why-mcp.md` — MCP 境界の理由.
-- [ ] docs(vitepress): Explanation セクションを nav/sidebar に追加する.
+- [x] docs(explanation): `docs/explanation/why-psr.md` — PSR 選択理由. `#274`
+- [x] docs(explanation): `docs/explanation/why-explicit-wiring.md` — 明示的 DI の理由. `#274`
+- [x] docs(explanation): `docs/explanation/why-problem-details.md` — RFC 9457 選択理由. `#274`
+- [x] docs(explanation): `docs/explanation/why-mcp.md` — MCP 境界の理由. `#274`
+- [x] docs(vitepress): Explanation セクションを nav/sidebar に追加する. `#274`
 
 ## Phase 25: 2 つ目のドメインエンティティ例
 
