@@ -189,8 +189,8 @@ _Friction follow-ups (docs): Issues `#167` (MCP JSON integers for path params), 
 
 - [x] **Packagist 登録前準備**: `composer.json` type `"library"` + README インストール手順. `#226`
 - [x] docs(setup): RequestIdProcessor 動作確認手順. `#227`
-- [x] feat(mcp): Note write operations MCP ツール追加. `#228`
-- Packagist 登録 (`#226` 完了済み — 手動登録が残り)
+- [x] feat(mcp): Note write operations MCP ツール追加 — catalog + LocalMcpServer 実装. `#228`
+- Packagist 登録 (`#226` 完了済み — 手動登録が残り、#228 マージ後に実施)
 
 ## Operating Notes
 
