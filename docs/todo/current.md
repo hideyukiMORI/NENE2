@@ -217,8 +217,8 @@ _Friction follow-ups (docs): Issues `#167` (MCP JSON integers for path params), 
 
 ## Phase 21 フォローアップ
 
-- [ ] docs(mcp-smoke): write 操作の DB 前提条件を `mcp-smoke.sh` に追記する. `#245`
-- [ ] docs(local-mcp): write 操作の DB 前提条件をローカル MCP サーバーガイドに追記する. `#246`
+- [x] docs(mcp-smoke): write 操作の DB 前提条件を `mcp-smoke.sh` に追記する. `#245`
+- [x] docs(local-mcp): write 操作の DB 前提条件をローカル MCP サーバーガイドに追記する. `#246`
 
 ## Operating Notes
 

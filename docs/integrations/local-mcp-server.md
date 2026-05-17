@@ -35,6 +35,19 @@ When running the server inside Docker against the Compose `app` service, use the
 docker compose run --rm -e NENE2_LOCAL_API_BASE_URL=http://app app php tools/local-mcp-server.php
 ```
 
+### Database precondition for write tools
+
+Read tools (`getHealth`, `listExampleNotes`, `getExampleNoteById`, etc.) require only the `app` container.
+
+Write tools (`createExampleNote`, `updateExampleNoteById`, `deleteExampleNoteById`) call endpoints that persist to the database. Before calling write tools, start MySQL and apply migrations:
+
+```bash
+docker compose up -d mysql
+docker compose run --rm app composer migrations:migrate
+```
+
+Without this step, write tool calls return HTTP 500 with no further detail. If a write tool returns 500, confirm that MySQL is running and migrations are applied before investigating further.
+
 The server supports:
 
 - `initialize`
