@@ -305,6 +305,11 @@ _Friction follow-ups (docs): Issues `#167` (MCP JSON integers for path params), 
 - [x] feat: `NativeLocalMcpHttpClient` に Bearer トークン送信サポートを追加 + `getProtected` MCP ツール追加. `#293`
 - [x] feat: 起動ログにオプション機能の有効状態を出力する. `#294`
 
+## Phase 33: アーキテクチャ品質改善
+
+- [x] refactor(http): `RuntimeApplicationFactory` コンストラクタを 16 引数から 8 引数に削減 — `NoteRouteRegistrar` / `TagRouteRegistrar` 分離. `#298`
+- [x] feat(mcp): write ツール呼び出し時の Bearer 認証ガードを `LocalMcpServer` に追加する. `#300`
+
 ## Operating Notes
 
 - Keep this file short.
