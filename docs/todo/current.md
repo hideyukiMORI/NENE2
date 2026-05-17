@@ -208,9 +208,12 @@ _Friction follow-ups (docs): Issues `#167` (MCP JSON integers for path params), 
 
 - [x] chore(release): v0.4.0 CHANGELOG 確定・todo 更新. `#240`
 
-## Next Candidates
+## Phase 21: Field Trial 5 — MCP Write Tools
 
-- [ ] Phase 21 定義 — 次フェーズ方向を決定する
+- [x] マイルストーン定義・ロードマップ追記. `#242`
+- [ ] ローカル MCP サーバーを起動し write tools を操作する
+- [ ] 観察レポートを `docs/field-trials/2026-05-field-trial-5.md` に記録する
+- [ ] 摩擦を follow-up Issue に変換する
 
 ## Operating Notes
 
