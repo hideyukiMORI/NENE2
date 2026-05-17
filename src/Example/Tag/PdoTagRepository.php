@@ -47,4 +47,14 @@ final readonly class PdoTagRepository implements TagRepositoryInterface
 
         return $this->query->lastInsertId();
     }
+
+    public function update(Tag $tag): void
+    {
+        $this->query->execute('UPDATE tags SET name = ? WHERE id = ?', [$tag->name, $tag->id]);
+    }
+
+    public function delete(int $id): void
+    {
+        $this->query->execute('DELETE FROM tags WHERE id = ?', [$id]);
+    }
 }

@@ -240,6 +240,73 @@ paths:
           $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/InternalServerError'
+    put:
+      tags:
+        - Examples
+      summary: Update example tag
+      description: Updates a tag by ID. Replaces the name. Returns 200 with the updated tag on success.
+      operationId: updateExampleTagById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Tag ID.
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTagRequest'
+            examples:
+              update:
+                summary: Update tag request
+                value:
+                  name: php8
+      responses:
+        '200':
+          description: Tag updated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExampleTagResponse'
+              examples:
+                ok:
+                  summary: Successful update response
+                  value:
+                    id: 1
+                    name: php8
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/ValidationFailed'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      tags:
+        - Examples
+      summary: Delete example tag
+      description: Deletes a tag by ID. Returns 204 on success, 404 if the tag does not exist.
+      operationId: deleteExampleTagById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Tag ID.
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      responses:
+        '204':
+          description: Tag deleted.
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
   /examples/notes:
     get:
       tags:

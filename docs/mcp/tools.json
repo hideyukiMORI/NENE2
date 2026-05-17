@@ -211,6 +211,136 @@
         }
       },
       "responseSchemaRef": null
+    },
+    {
+      "name": "listExampleTags",
+      "title": "List Example Tags",
+      "description": "List example tags with optional limit and offset pagination.",
+      "safety": "read",
+      "source": {
+        "type": "openapi",
+        "operationId": "listExampleTags",
+        "method": "GET",
+        "path": "/examples/tags"
+      },
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "limit": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100,
+            "default": 20
+          },
+          "offset": {
+            "type": "integer",
+            "minimum": 0,
+            "default": 0
+          }
+        }
+      },
+      "responseSchemaRef": "#/components/schemas/ExampleTagListResponse"
+    },
+    {
+      "name": "getExampleTagById",
+      "title": "Get Example Tag",
+      "description": "Read an example tag by ID through the documented public API.",
+      "safety": "read",
+      "source": {
+        "type": "openapi",
+        "operationId": "getExampleTagById",
+        "method": "GET",
+        "path": "/examples/tags/{id}"
+      },
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id"],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "minimum": 1
+          }
+        }
+      },
+      "responseSchemaRef": "#/components/schemas/ExampleTagResponse"
+    },
+    {
+      "name": "createExampleTag",
+      "title": "Create Example Tag",
+      "description": "Create a new example tag. Returns 201 with the created tag and a Location header.",
+      "safety": "write",
+      "source": {
+        "type": "openapi",
+        "operationId": "createExampleTag",
+        "method": "POST",
+        "path": "/examples/tags"
+      },
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "responseSchemaRef": null
+    },
+    {
+      "name": "updateExampleTagById",
+      "title": "Update Example Tag",
+      "description": "Replace an existing example tag (full replacement — name required).",
+      "safety": "write",
+      "source": {
+        "type": "openapi",
+        "operationId": "updateExampleTagById",
+        "method": "PUT",
+        "path": "/examples/tags/{id}"
+      },
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "name"],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "responseSchemaRef": "#/components/schemas/ExampleTagResponse"
+    },
+    {
+      "name": "deleteExampleTagById",
+      "title": "Delete Example Tag",
+      "description": "Delete an example tag by ID. Returns 204 on success.",
+      "safety": "write",
+      "source": {
+        "type": "openapi",
+        "operationId": "deleteExampleTagById",
+        "method": "DELETE",
+        "path": "/examples/tags/{id}"
+      },
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id"],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "minimum": 1
+          }
+        }
+      },
+      "responseSchemaRef": null
     }
   ]
 }

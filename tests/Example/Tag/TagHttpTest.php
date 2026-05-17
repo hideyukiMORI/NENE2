@@ -7,6 +7,8 @@ namespace Nene2\Tests\Example\Tag;
 use Nene2\Error\ProblemDetailsResponseFactory;
 use Nene2\Example\Tag\CreateTagHandler;
 use Nene2\Example\Tag\CreateTagUseCase;
+use Nene2\Example\Tag\DeleteTagHandler;
+use Nene2\Example\Tag\DeleteTagUseCase;
 use Nene2\Example\Tag\GetTagByIdHandler;
 use Nene2\Example\Tag\GetTagByIdUseCase;
 use Nene2\Example\Tag\ListTagsHandler;
@@ -14,6 +16,8 @@ use Nene2\Example\Tag\ListTagsUseCase;
 use Nene2\Example\Tag\Tag;
 use Nene2\Example\Tag\TagNotFoundExceptionHandler;
 use Nene2\Example\Tag\TagRouteRegistrar;
+use Nene2\Example\Tag\UpdateTagHandler;
+use Nene2\Example\Tag\UpdateTagUseCase;
 use Nene2\Http\JsonResponseFactory;
 use Nene2\Http\RuntimeApplicationFactory;
 use Nyholm\Psr7\Factory\Psr17Factory;
@@ -39,6 +43,8 @@ final class TagHttpTest extends TestCase
             new ListTagsHandler(new ListTagsUseCase($this->repository), $jsonResponse),
             new GetTagByIdHandler(new GetTagByIdUseCase($this->repository), $jsonResponse),
             new CreateTagHandler(new CreateTagUseCase($this->repository), $jsonResponse),
+            new UpdateTagHandler(new UpdateTagUseCase($this->repository), $jsonResponse),
+            new DeleteTagHandler(new DeleteTagUseCase($this->repository), $this->factory),
         );
 
         $this->application = (new RuntimeApplicationFactory(
@@ -120,6 +126,57 @@ final class TagHttpTest extends TestCase
         self::assertSame(422, $response->getStatusCode());
         self::assertStringContainsString('application/problem+json', $response->getHeaderLine('Content-Type'));
         self::assertNotEmpty($payload['errors']);
+    }
+
+    public function testUpdateTagReturns200(): void
+    {
+        $id = $this->repository->save(new Tag(name: 'php'));
+
+        $response = $this->request('PUT', "/examples/tags/{$id}", ['name' => 'php8']);
+        $payload = $this->decode($response);
+
+        self::assertSame(200, $response->getStatusCode());
+        self::assertSame($id, $payload['id']);
+        self::assertSame('php8', $payload['name']);
+    }
+
+    public function testUpdateTagReturns404WhenAbsent(): void
+    {
+        $response = $this->request('PUT', '/examples/tags/99', ['name' => 'php8']);
+        $payload = $this->decode($response);
+
+        self::assertSame(404, $response->getStatusCode());
+        self::assertStringContainsString('application/problem+json', $response->getHeaderLine('Content-Type'));
+    }
+
+    public function testUpdateTagReturns422WhenNameMissing(): void
+    {
+        $id = $this->repository->save(new Tag(name: 'php'));
+
+        $response = $this->request('PUT', "/examples/tags/{$id}", ['name' => '']);
+        $payload = $this->decode($response);
+
+        self::assertSame(422, $response->getStatusCode());
+        self::assertNotEmpty($payload['errors']);
+    }
+
+    public function testDeleteTagReturns204(): void
+    {
+        $id = $this->repository->save(new Tag(name: 'php'));
+
+        $response = $this->request('DELETE', "/examples/tags/{$id}");
+
+        self::assertSame(204, $response->getStatusCode());
+        self::assertNull($this->repository->findById($id));
+    }
+
+    public function testDeleteTagReturns404WhenAbsent(): void
+    {
+        $response = $this->request('DELETE', '/examples/tags/99');
+        $payload = $this->decode($response);
+
+        self::assertSame(404, $response->getStatusCode());
+        self::assertStringContainsString('application/problem+json', $response->getHeaderLine('Content-Type'));
     }
 
     /** @param array<string, mixed>|null $body */
