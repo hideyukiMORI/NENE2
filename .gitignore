@@ -11,6 +11,9 @@ coverage/
 clover.xml
 /frontend/node_modules/
 /frontend/dist/
+/node_modules/
+/.vitepress/dist/
+/.vitepress/cache/
 /public_html/assets/*
 !/public_html/assets/.gitkeep
 
