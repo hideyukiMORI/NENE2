@@ -226,7 +226,7 @@ _Friction follow-ups (docs): Issues `#167` (MCP JSON integers for path params), 
 - [x] Tutorial: 最初の API を動かす (`docs/tutorial/first-api.md`). `#251`
 - [x] HOWTO: カスタムルートを追加する (`docs/howto/add-custom-route.md`). `#253`
 - [x] HOWTO: DB 付きエンドポイントを追加する (`docs/howto/add-database-endpoint.md`). `#254`
-- [ ] `docs/` インデックス更新. `#255`
+- [x] `docs/` インデックス更新 (`docs/README.md`). `#256`
 
 ## Operating Notes
 
