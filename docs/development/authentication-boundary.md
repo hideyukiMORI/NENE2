@@ -61,6 +61,56 @@ Bearer tokens should be treated as secrets even when they are short-lived.
 
 The framework should not prescribe one token format before an authentication adapter exists. JWT, opaque tokens, or external identity provider tokens can be supported by adapters later.
 
+## JWT Authentication (ADR 0008)
+
+NENE2 provides `BearerTokenMiddleware` as a PSR-15 middleware that reads `Authorization: Bearer <token>` and delegates verification to a `TokenVerifierInterface`.
+
+The framework ships **no concrete JWT verifier**. Applications wire their preferred library through the interface. The recommended starting point is `firebase/php-jwt`:
+
+```bash
+composer require firebase/php-jwt
+```
+
+### Wiring example
+
+```php
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
+use Nene2\Auth\BearerTokenMiddleware;
+use Nene2\Auth\TokenVerificationException;
+use Nene2\Auth\TokenVerifierInterface;
+
+$verifier = new class ($secret) implements TokenVerifierInterface {
+    public function __construct(private readonly string $secret) {}
+
+    public function verify(string $token): array
+    {
+        try {
+            $decoded = JWT::decode($token, new Key($this->secret, 'HS256'));
+            return (array) $decoded;
+        } catch (\Exception $e) {
+            throw new TokenVerificationException($e->getMessage(), previous: $e);
+        }
+    }
+};
+
+// Pipeline position 6 — after CORS, before routing
+$pipeline->pipe(new BearerTokenMiddleware($problemDetails, $verifier));
+```
+
+### Request attributes set on success
+
+| Attribute | Value |
+|-----------|-------|
+| `nene2.auth.credential_type` | `"bearer"` |
+| `nene2.auth.claims` | `array<string, mixed>` — decoded JWT payload |
+
+### Failure responses
+
+Missing or invalid tokens return HTTP 401 with `application/problem+json` and a `WWW-Authenticate: Bearer` challenge header (RFC 6750).
+
+See `docs/adr/0008-jwt-authentication.md` for the full decision record.
+
 ## Scopes
 
 Scopes describe allowed capabilities.

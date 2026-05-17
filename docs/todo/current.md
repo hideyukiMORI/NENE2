@@ -270,9 +270,9 @@ _Friction follow-ups (docs): Issues `#167` (MCP JSON integers for path params), 
 
 ## Phase 28: 認証拡張
 
-- [ ] docs(adr): ADR 0008 — JWT 認証方向（ライブラリ選定・トークン検証境界・PSR-15 ミドルウェア配置）.
-- [ ] feat(auth): `BearerTokenMiddleware` スタブと検証用インターフェースを追加する.
-- [ ] docs(auth): `authentication-boundary.md` を JWT/OAuth2 セクションで拡張する.
+- [x] docs(adr): ADR 0008 — JWT 認証方向（ライブラリ選定・トークン検証境界・PSR-15 ミドルウェア配置）. `#282`
+- [x] feat(auth): `BearerTokenMiddleware` スタブと `TokenVerifierInterface` を追加する. `#282`
+- [x] docs(auth): `authentication-boundary.md` を JWT セクションで拡張する. `#282`
 
 ## Operating Notes
 

@@ -13,6 +13,7 @@ Architecture decisions are recorded here as lightweight ADRs. Each record captur
 | [0005](0005-use-monolog-for-structured-logging.md) | Use Monolog for structured logging |
 | [0006](0006-v0.2.0-scope-and-packagist-policy.md) | v0.2.0 scope and Packagist policy |
 | [0007](0007-put-vs-patch-policy.md) | PUT vs PATCH policy |
+| [0008](0008-jwt-authentication.md) | JWT authentication direction |
 
 ## Template
 
