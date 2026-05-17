@@ -200,9 +200,17 @@ _Friction follow-ups (docs): Issues `#167` (MCP JSON integers for path params), 
 
 ## Phase 20 フォローアップ
 
-- [ ] docs(scaffold): `Router::PARAMETERS_ATTRIBUTE` 取得例を追加する. `#234`
-- [ ] docs(client-start): `composer require` 起点ワイヤリング手順を追加する. `#235`
+- [x] docs(scaffold): `Router::PARAMETERS_ATTRIBUTE` 取得例を追加する. `#234`
+- [x] docs(client-start): `composer require` 起点ワイヤリング手順を追加する. `#235`
 - [x] feat: `RuntimeApplicationFactory` に `$routeRegistrars` を追加して外部ルート注入を可能にする. `#236`
+
+## Phase 21: v0.4.0 リリース
+
+- [x] chore(release): v0.4.0 CHANGELOG 確定・todo 更新. `#240`
+
+## Next Candidates
+
+- [ ] Phase 21 定義 — 次フェーズ方向を決定する
 
 ## Operating Notes
 
