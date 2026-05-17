@@ -12,6 +12,7 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ## [Unreleased]
 
 ### Added
+- `RuntimeApplicationFactory` accepts `$routeRegistrars` — an optional `list<callable(Router): void>` for injecting custom routes without subclassing (#236)
 - Local MCP server now executes write operations (`POST`, `PUT`, `DELETE`) through the documented API boundary (#228)
   - `LocalMcpHttpClientInterface` extended with `post()`, `put()`, `delete()` methods
   - `NativeLocalMcpHttpClient` implements the new methods with JSON body support

@@ -31,7 +31,10 @@ use Psr\Log\NullLogger;
 
 final readonly class RuntimeApplicationFactory
 {
-    /** @param list<DomainExceptionHandlerInterface> $domainExceptionHandlers */
+    /**
+     * @param list<DomainExceptionHandlerInterface> $domainExceptionHandlers
+     * @param list<callable(Router): void> $routeRegistrars
+     */
     public function __construct(
         private ResponseFactoryInterface $responseFactory,
         private StreamFactoryInterface $streamFactory,
@@ -44,6 +47,7 @@ final readonly class RuntimeApplicationFactory
         private ?ListNotesHandler $listNotesHandler = null,
         private ?UpdateNoteHandler $updateNoteHandler = null,
         private ?RequestIdHolder $requestIdHolder = null,
+        private array $routeRegistrars = [],
     ) {
     }
 
@@ -125,6 +129,10 @@ final readonly class RuntimeApplicationFactory
                 '/examples/notes/{id}',
                 static fn (ServerRequestInterface $request) => $deleteNoteHandler->handle($request),
             );
+        }
+
+        foreach ($this->routeRegistrars as $registrar) {
+            $registrar($router);
         }
 
         return new MiddlewareDispatcher(

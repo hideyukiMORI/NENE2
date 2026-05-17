@@ -74,59 +74,36 @@ Serve locally with PHP's built-in server:
 php -S localhost:8080 -t public
 ```
 
-### Adding custom routes without git clone
+### Adding custom routes
 
-When custom routes are needed and you are not using the full NENE2 repository, bypass `RuntimeApplicationFactory` (which is `final`) and wire `Router` and `MiddlewareDispatcher` directly:
+Pass custom routes via `$routeRegistrars` — an optional `list<callable(Router): void>` accepted by `RuntimeApplicationFactory`:
 
 ```php
-<?php
-declare(strict_types=1);
-
-use Nene2\Config\ConfigLoader;
-use Nene2\Error\ErrorHandlerMiddleware;
-use Nene2\Error\ProblemDetailsResponseFactory;
 use Nene2\Http\JsonResponseFactory;
-use Nene2\Log\MonologLoggerFactory;
-use Nene2\Log\RequestIdHolder;
-use Nene2\Middleware\CorsMiddleware;
-use Nene2\Middleware\MiddlewareDispatcher;
-use Nene2\Middleware\RequestIdMiddleware;
-use Nene2\Middleware\RequestLoggingMiddleware;
-use Nene2\Middleware\SecurityHeadersMiddleware;
+use Nene2\Http\RuntimeApplicationFactory;
 use Nene2\Routing\Router;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Psr\Http\Message\ServerRequestInterface;
 
-require dirname(__DIR__) . '/vendor/autoload.php';
+$psr17 = new Psr17Factory();
+$json  = new JsonResponseFactory($psr17, $psr17);
 
-$root   = dirname(__DIR__);
-$psr17  = new Psr17Factory();
-$config = (new ConfigLoader($root))->load();
-$holder = new RequestIdHolder();
-$logger = (new MonologLoggerFactory())->create('app', $config->debug, $holder);
-$json   = new JsonResponseFactory($psr17, $psr17);
-
-$router = (new Router())
-    ->get('/health', static fn (ServerRequestInterface $req) => $json->create(['status' => 'ok']))
-    ->get('/items/{id}', static function (ServerRequestInterface $req) use ($json) {
-        // Path parameters are stored under Router::PARAMETERS_ATTRIBUTE, not as individual attributes.
-        $params = $req->getAttribute(Router::PARAMETERS_ATTRIBUTE, []);
-        return $json->create(['id' => (int) ($params['id'] ?? 0)]);
-    });
-
-$app = new MiddlewareDispatcher(
-    [
-        new RequestIdMiddleware('X-Request-Id', $holder),
-        new RequestLoggingMiddleware($logger),
-        new SecurityHeadersMiddleware(),
-        new CorsMiddleware($psr17),
-        new ErrorHandlerMiddleware(new ProblemDetailsResponseFactory($psr17, $psr17), []),
+$app = (new RuntimeApplicationFactory(
+    $psr17,
+    $psr17,
+    routeRegistrars: [
+        static function (Router $router) use ($json): void {
+            $router->get('/items/{id}', static function (ServerRequestInterface $req) use ($json) {
+                // Path parameters are stored under Router::PARAMETERS_ATTRIBUTE, not as individual attributes.
+                $params = $req->getAttribute(Router::PARAMETERS_ATTRIBUTE, []);
+                return $json->create(['id' => (int) ($params['id'] ?? 0)]);
+            });
+        },
     ],
-    $router,
-);
+))->create();
 ```
 
-For path parameter access, always read from `Router::PARAMETERS_ATTRIBUTE`. See `docs/development/endpoint-scaffold.md` for details.
+Route registrars run after the built-in framework routes are registered. For path parameter access, always read from `Router::PARAMETERS_ATTRIBUTE`. See `docs/development/endpoint-scaffold.md` for details.
 
 ## First Local Setup
 
