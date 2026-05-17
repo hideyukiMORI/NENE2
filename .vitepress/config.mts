@@ -7,7 +7,7 @@ function nav(t: {
     { text: t.tutorial,    link: 'tutorial/first-api',            activeMatch: 'tutorial/' },
     { text: t.howto,       link: 'howto/add-custom-route',        activeMatch: 'howto/' },
     { text: t.explanation, link: 'explanation/why-psr',           activeMatch: 'explanation/' },
-    { text: t.reference,   link: 'development/endpoint-scaffold', activeMatch: 'development/' },
+    { text: t.reference,   link: 'reference/index',               activeMatch: 'reference/' },
     {
       text: 'v0.7.0',
       items: [
@@ -24,6 +24,7 @@ function sidebar(t: {
   howtoGroup: string; addRoute: string; addDb: string; addEntity: string; deploy: string
   explGroup: string; whyPsr: string; whyDi: string; whyPd: string; whyMcp: string
   devGroup: string; intGroup: string
+  refGroup: string; envVars: string; endpoints: string; problemTypes: string
 }) {
   return {
     '/tutorial/': [{ text: t.tutorialGroup, items: [{ text: t.firstApi, link: 'tutorial/first-api' }] }],
@@ -43,6 +44,14 @@ function sidebar(t: {
         { text: t.whyDi,   link: 'explanation/why-explicit-wiring' },
         { text: t.whyPd,   link: 'explanation/why-problem-details' },
         { text: t.whyMcp,  link: 'explanation/why-mcp' },
+      ],
+    }],
+    '/reference/': [{
+      text: t.refGroup,
+      items: [
+        { text: t.envVars,      link: 'reference/environment-variables' },
+        { text: t.endpoints,    link: 'reference/http-endpoints' },
+        { text: t.problemTypes, link: 'reference/problem-details-types' },
       ],
     }],
     '/development/': [
@@ -91,6 +100,7 @@ export default defineConfig({
           howtoGroup: 'HOWTO', addRoute: 'Add a custom route', addDb: 'Add a database-backed endpoint', addEntity: 'Add a second entity', deploy: 'Deploy to production',
           explGroup: 'Explanation', whyPsr: 'Why PSR standards?', whyDi: 'Why explicit wiring?', whyPd: 'Why Problem Details?', whyMcp: 'Why MCP?',
           devGroup: 'Development', intGroup: 'Integrations',
+          refGroup: 'Reference', envVars: 'Environment variables', endpoints: 'HTTP endpoints', problemTypes: 'Problem Details types',
         }),
         editLink: { pattern: 'https://github.com/hideyukiMORI/NENE2/edit/main/docs/:path', text: 'Edit this page on GitHub' },
         footer: { message: 'Released under the MIT License.', copyright: 'Copyright © 2026 hideyukiMORI' },
@@ -107,6 +117,7 @@ export default defineConfig({
           howtoGroup: 'HOWTO', addRoute: 'カスタムルートを追加する', addDb: 'DB 付きエンドポイントを追加する', addEntity: '2 つ目のエンティティを追加する', deploy: '本番環境へデプロイする',
           explGroup: '解説', whyPsr: 'なぜ PSR 標準？', whyDi: 'なぜ明示的 DI？', whyPd: 'なぜ Problem Details？', whyMcp: 'なぜ MCP？',
           devGroup: '開発ガイド', intGroup: 'インテグレーション',
+          refGroup: 'リファレンス', envVars: '環境変数', endpoints: 'HTTP エンドポイント', problemTypes: 'Problem Details タイプ',
         }),
         editLink: { pattern: 'https://github.com/hideyukiMORI/NENE2/edit/main/docs/:path', text: 'GitHub でこのページを編集' },
         footer: { message: 'MIT ライセンスの下で公開されています。', copyright: 'Copyright © 2026 hideyukiMORI' },
@@ -128,6 +139,7 @@ export default defineConfig({
           howtoGroup: 'Guides pratiques', addRoute: 'Ajouter une route', addDb: 'Ajouter un endpoint avec BDD', addEntity: 'Ajouter une deuxième entité', deploy: 'Déployer en production',
           explGroup: 'Explication', whyPsr: 'Pourquoi PSR ?', whyDi: 'Pourquoi le câblage explicite ?', whyPd: 'Pourquoi Problem Details ?', whyMcp: 'Pourquoi MCP ?',
           devGroup: 'Développement', intGroup: 'Intégrations',
+          refGroup: 'Référence', envVars: "Variables d'environnement", endpoints: 'Endpoints HTTP', problemTypes: 'Types Problem Details',
         }),
         editLink: { pattern: 'https://github.com/hideyukiMORI/NENE2/edit/main/docs/:path', text: 'Modifier cette page sur GitHub' },
         footer: { message: 'Publié sous licence MIT.', copyright: 'Copyright © 2026 hideyukiMORI' },
@@ -147,6 +159,7 @@ export default defineConfig({
           howtoGroup: '操作指南', addRoute: '添加自定义路由', addDb: '添加数据库端点', addEntity: '添加第二个实体', deploy: '部署到生产环境',
           explGroup: '说明', whyPsr: '为什么选择 PSR？', whyDi: '为什么显式依赖注入？', whyPd: '为什么使用 Problem Details？', whyMcp: '为什么选择 MCP？',
           devGroup: '开发指南', intGroup: '集成',
+          refGroup: '参考', envVars: '环境变量', endpoints: 'HTTP 端点', problemTypes: 'Problem Details 类型',
         }),
         editLink: { pattern: 'https://github.com/hideyukiMORI/NENE2/edit/main/docs/:path', text: '在 GitHub 上编辑此页' },
         footer: { message: '基于 MIT 许可证发布。', copyright: 'Copyright © 2026 hideyukiMORI' },
@@ -168,6 +181,7 @@ export default defineConfig({
           howtoGroup: 'Guias práticos', addRoute: 'Adicionar uma rota', addDb: 'Adicionar endpoint com banco de dados', addEntity: 'Adicionar segunda entidade', deploy: 'Implantar em produção',
           explGroup: 'Explicação', whyPsr: 'Por que PSR?', whyDi: 'Por que injeção explícita?', whyPd: 'Por que Problem Details?', whyMcp: 'Por que MCP?',
           devGroup: 'Desenvolvimento', intGroup: 'Integrações',
+          refGroup: 'Referência', envVars: 'Variáveis de ambiente', endpoints: 'Endpoints HTTP', problemTypes: 'Tipos Problem Details',
         }),
         editLink: { pattern: 'https://github.com/hideyukiMORI/NENE2/edit/main/docs/:path', text: 'Editar esta página no GitHub' },
         footer: { message: 'Publicado sob a licença MIT.', copyright: 'Copyright © 2026 hideyukiMORI' },
@@ -187,6 +201,7 @@ export default defineConfig({
           howtoGroup: 'Anleitungen', addRoute: 'Route hinzufügen', addDb: 'Datenbankendpunkt hinzufügen', addEntity: 'Zweite Entität hinzufügen', deploy: 'In Produktion deployen',
           explGroup: 'Erklärung', whyPsr: 'Warum PSR?', whyDi: 'Warum explizites Wiring?', whyPd: 'Warum Problem Details?', whyMcp: 'Warum MCP?',
           devGroup: 'Entwicklung', intGroup: 'Integrationen',
+          refGroup: 'Referenz', envVars: 'Umgebungsvariablen', endpoints: 'HTTP-Endpunkte', problemTypes: 'Problem Details-Typen',
         }),
         editLink: { pattern: 'https://github.com/hideyukiMORI/NENE2/edit/main/docs/:path', text: 'Diese Seite auf GitHub bearbeiten' },
         footer: { message: 'Veröffentlicht unter der MIT-Lizenz.', copyright: 'Copyright © 2026 hideyukiMORI' },
