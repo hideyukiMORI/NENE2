@@ -15,4 +15,6 @@ interface LocalMcpHttpClientInterface
     public function put(string $baseUrl, string $path, array $body): LocalMcpHttpResponse;
 
     public function delete(string $baseUrl, string $path): LocalMcpHttpResponse;
+
+    public function hasAuthentication(): bool;
 }

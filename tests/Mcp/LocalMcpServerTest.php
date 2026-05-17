@@ -137,6 +137,31 @@ final class LocalMcpServerTest extends TestCase
         self::assertSame('/examples/notes?limit=10&offset=5', $client->path);
     }
 
+    public function testWriteToolWithoutAuthReturnsError(): void
+    {
+        $client = new RecordingLocalMcpHttpClient(
+            new LocalMcpHttpResponse(201, [], '{}'),
+            authenticated: false,
+        );
+        $server = $this->server($client);
+
+        $response = $server->handle([
+            'jsonrpc' => '2.0',
+            'id' => 10,
+            'method' => 'tools/call',
+            'params' => [
+                'name' => 'createExampleNote',
+                'arguments' => ['title' => 'Test', 'body' => 'Body'],
+            ],
+        ]);
+
+        self::assertIsArray($response);
+        self::assertArrayHasKey('error', $response);
+        self::assertIsArray($response['error']);
+        self::assertStringContainsString('NENE2_LOCAL_JWT_SECRET', $response['error']['message']);
+        self::assertNull($client->lastMethod);
+    }
+
     public function testToolsCallPostWriteToolSendsBodyArguments(): void
     {
         $client = new RecordingLocalMcpHttpClient(new LocalMcpHttpResponse(
@@ -239,7 +264,13 @@ final class RecordingLocalMcpHttpClient implements LocalMcpHttpClientInterface
 
     public function __construct(
         private readonly LocalMcpHttpResponse $response,
+        private readonly bool $authenticated = true,
     ) {
+    }
+
+    public function hasAuthentication(): bool
+    {
+        return $this->authenticated;
     }
 
     public function get(string $baseUrl, string $path): LocalMcpHttpResponse

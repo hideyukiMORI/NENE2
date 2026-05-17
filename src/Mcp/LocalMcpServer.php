@@ -125,6 +125,15 @@ final readonly class LocalMcpServer
             throw new LocalMcpException(sprintf('MCP tool "%s" was not found.', $name));
         }
 
+        if ($tool['safety'] !== 'read' && !$this->httpClient->hasAuthentication()) {
+            throw new LocalMcpException(
+                sprintf(
+                    'Write tool "%s" requires bearer authentication. Set NENE2_LOCAL_JWT_SECRET in the MCP server environment.',
+                    $name,
+                ),
+            );
+        }
+
         if ($tool['source']['type'] !== 'openapi') {
             throw new LocalMcpException(sprintf('MCP tool "%s" does not map to a local OpenAPI operation.', $name));
         }

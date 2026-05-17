@@ -22,7 +22,7 @@ $jwtSecret = getenv('NENE2_LOCAL_JWT_SECRET');
 
 if (is_string($jwtSecret) && $jwtSecret !== '') {
     $v = new LocalBearerTokenVerifier($jwtSecret);
-    $bearerToken = $v->issue(['sub' => 'mcp-server', 'scope' => 'read:system', 'iat' => time(), 'exp' => time() + 86400]);
+    $bearerToken = $v->issue(['sub' => 'mcp-server', 'scope' => 'read:system write:example', 'iat' => time(), 'exp' => time() + 86400]);
 }
 
 $server = new LocalMcpServer(
