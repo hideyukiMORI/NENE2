@@ -2,12 +2,20 @@
 # Local MCP smoke helper.
 # Pipes JSON-RPC messages to the stdio MCP server against the running app service.
 #
-# Precondition: docker compose up -d app
+# Preconditions:
+#   Read tools (getHealth, listExampleNotes, getExampleNoteById, ...):
+#     docker compose up -d app
+#
+#   Write tools (createExampleNote, updateExampleNoteById, deleteExampleNoteById):
+#     docker compose up -d app mysql
+#     docker compose run --rm app composer migrations:migrate
 #
 # Usage:
 #   bash tools/mcp-smoke.sh
 #   bash tools/mcp-smoke.sh getHealth '{}'
-#   bash tools/mcp-smoke.sh getExhibitionWorkByYearAndId '{"year":2026,"workId":20260101}'
+#   bash tools/mcp-smoke.sh createExampleNote '{"title":"hello","body":"world"}'
+#   bash tools/mcp-smoke.sh updateExampleNoteById '{"id":1,"title":"updated","body":"body"}'
+#   bash tools/mcp-smoke.sh deleteExampleNoteById '{"id":1}'
 #
 # Environment:
 #   NENE2_LOCAL_API_BASE_URL  override API base URL (default: http://app)
