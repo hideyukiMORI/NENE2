@@ -27,7 +27,7 @@ src/Example/YourEntity/
 
 ## Step-by-step: a `Product` resource
 
-We will build `GET /examples/products/{id}` and `GET /examples/products` as a concrete example.
+We will build full CRUD for `/examples/products` — the same pattern used by `Note` and `Tag`.
 
 ### 1 — Domain entity
 
@@ -103,17 +103,26 @@ use Psr\Http\Message\ServerRequestInterface;
 final readonly class ProductRouteRegistrar
 {
     public function __construct(
-        private GetProductByIdHandler $getHandler,
-        private ListProductsHandler $listHandler,
+        private ListProductsHandler      $listHandler,
+        private GetProductByIdHandler    $getHandler,
+        private CreateProductHandler     $createHandler,
+        private UpdateProductHandler     $updateHandler,
+        private DeleteProductHandler     $deleteHandler,
     ) {}
 
     public function __invoke(Router $router): void
     {
-        $getHandler  = $this->getHandler;
-        $listHandler = $this->listHandler;
+        $list   = $this->listHandler;
+        $get    = $this->getHandler;
+        $create = $this->createHandler;
+        $update = $this->updateHandler;
+        $delete = $this->deleteHandler;
 
-        $router->get('/examples/products', static fn (ServerRequestInterface $r) => $listHandler->handle($r));
-        $router->get('/examples/products/{id}', static fn (ServerRequestInterface $r) => $getHandler->handle($r));
+        $router->get('/examples/products',      static fn (ServerRequestInterface $r) => $list->handle($r));
+        $router->post('/examples/products',     static fn (ServerRequestInterface $r) => $create->handle($r));
+        $router->get('/examples/products/{id}', static fn (ServerRequestInterface $r) => $get->handle($r));
+        $router->put('/examples/products/{id}', static fn (ServerRequestInterface $r) => $update->handle($r));
+        $router->delete('/examples/products/{id}', static fn (ServerRequestInterface $r) => $delete->handle($r));
     }
 }
 ```
@@ -136,12 +145,20 @@ final readonly class ProductServiceProvider implements ServiceProviderInterface
     {
         $builder
             ->set(ProductRepositoryInterface::class, static function ($c) { /* ... */ })
-            ->set(GetProductByIdHandler::class, static function ($c) { /* ... */ })
-            ->set(ListProductsHandler::class, static function ($c) { /* ... */ })
+            ->set(ListProductsHandler::class,         static function ($c) { /* ... */ })
+            ->set(GetProductByIdHandler::class,       static function ($c) { /* ... */ })
+            ->set(CreateProductHandler::class,        static function ($c) { /* ... */ })
+            ->set(UpdateProductHandler::class,        static function ($c) { /* ... */ })
+            ->set(DeleteProductHandler::class,        static function ($c) { /* ... */ })
             ->set(ProductNotFoundExceptionHandler::class, static function ($c) { /* ... */ })
             ->set('nene2.route_registrar.product', static function ($c): ProductRouteRegistrar {
-                // resolve handlers from container
-                return new ProductRouteRegistrar($get, $list);
+                return new ProductRouteRegistrar(
+                    $c->get(ListProductsHandler::class),
+                    $c->get(GetProductByIdHandler::class),
+                    $c->get(CreateProductHandler::class),
+                    $c->get(UpdateProductHandler::class),
+                    $c->get(DeleteProductHandler::class),
+                );
             });
     }
 }
@@ -189,7 +206,9 @@ Both follow this exact pattern. Copy the structure that fits your endpoint set.
 Follow the same approach as `NoteHttpTest`:
 
 ```php
-$registrar = new ProductRouteRegistrar($getHandler, $listHandler);
+$registrar = new ProductRouteRegistrar(
+    $listHandler, $getHandler, $createHandler, $updateHandler, $deleteHandler,
+);
 
 $application = (new RuntimeApplicationFactory(
     $factory, $factory,
