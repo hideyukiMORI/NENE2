@@ -223,7 +223,7 @@ _Friction follow-ups (docs): Issues `#167` (MCP JSON integers for path params), 
 ## Phase 22: Diátaxis ドキュメント整備
 
 - [x] マイルストーン定義・ロードマップ追記. `#249`
-- [ ] Tutorial: 最初の API を動かす (`docs/tutorial/first-api.md`). `#250`
+- [x] Tutorial: 最初の API を動かす (`docs/tutorial/first-api.md`). `#251`
 - [ ] HOWTO: カスタムルートを追加する (`docs/howto/add-custom-route.md`). `#251`
 - [ ] HOWTO: DB 付きエンドポイントを追加する (`docs/howto/add-database-endpoint.md`). `#252`
 - [ ] `docs/` インデックス更新. `#253`
