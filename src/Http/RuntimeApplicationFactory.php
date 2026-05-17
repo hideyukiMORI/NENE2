@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Nene2\Http;
 
+use Nene2\Auth\BearerTokenMiddleware;
 use Nene2\Error\DomainExceptionHandlerInterface;
 use Nene2\Error\ErrorHandlerMiddleware;
 use Nene2\Error\ProblemDetailsResponseFactory;
@@ -54,6 +55,7 @@ final readonly class RuntimeApplicationFactory
         private ?ListTagsHandler $listTagsHandler = null,
         private ?GetTagByIdHandler $getTagByIdHandler = null,
         private ?CreateTagHandler $createTagHandler = null,
+        private ?BearerTokenMiddleware $bearerTokenMiddleware = null,
     ) {
     }
 
@@ -161,21 +163,34 @@ final readonly class RuntimeApplicationFactory
             );
         }
 
+        if ($this->bearerTokenMiddleware !== null) {
+            $router->get(
+                '/examples/protected',
+                static fn (ServerRequestInterface $request) => $jsonResponses->create([
+                    'message' => 'Welcome, authenticated user.',
+                    'claims' => $request->getAttribute('nene2.auth.claims') ?? [],
+                ]),
+            );
+        }
+
         foreach ($this->routeRegistrars as $registrar) {
             $registrar($router);
         }
 
-        return new MiddlewareDispatcher(
-            [
-                new RequestIdMiddleware('X-Request-Id', $this->requestIdHolder),
-                new RequestLoggingMiddleware($this->logger ?? new NullLogger()),
-                new SecurityHeadersMiddleware(),
-                new CorsMiddleware($this->responseFactory),
-                new ErrorHandlerMiddleware($problemDetails, $this->domainExceptionHandlers),
-                new RequestSizeLimitMiddleware($problemDetails),
-                new ApiKeyAuthenticationMiddleware($problemDetails, $this->machineApiKey, ['/machine/health']),
-            ],
-            $router,
-        );
+        $middlewareStack = [
+            new RequestIdMiddleware('X-Request-Id', $this->requestIdHolder),
+            new RequestLoggingMiddleware($this->logger ?? new NullLogger()),
+            new SecurityHeadersMiddleware(),
+            new CorsMiddleware($this->responseFactory),
+            new ErrorHandlerMiddleware($problemDetails, $this->domainExceptionHandlers),
+            new RequestSizeLimitMiddleware($problemDetails),
+            new ApiKeyAuthenticationMiddleware($problemDetails, $this->machineApiKey, ['/machine/health']),
+        ];
+
+        if ($this->bearerTokenMiddleware !== null) {
+            $middlewareStack[] = $this->bearerTokenMiddleware;
+        }
+
+        return new MiddlewareDispatcher($middlewareStack, $router);
     }
 }

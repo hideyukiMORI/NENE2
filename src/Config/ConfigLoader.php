@@ -18,6 +18,7 @@ final readonly class ConfigLoader
             'APP_DEBUG' => 'false',
             'APP_NAME' => 'NENE2',
             'NENE2_MACHINE_API_KEY' => '',
+            'NENE2_LOCAL_JWT_SECRET' => '',
             'DATABASE_URL' => '',
             'DB_ENV' => 'local',
             'DB_ADAPTER' => 'mysql',
@@ -60,6 +61,7 @@ final readonly class ConfigLoader
                 trim($values['DB_CHARSET']),
             ),
             $this->optionalString($values['NENE2_MACHINE_API_KEY']),
+            $this->optionalString($values['NENE2_LOCAL_JWT_SECRET']),
         );
     }
 

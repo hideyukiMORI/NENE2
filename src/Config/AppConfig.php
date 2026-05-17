@@ -12,6 +12,7 @@ final readonly class AppConfig
         public string $name,
         public DatabaseConfig $database,
         public ?string $machineApiKey,
+        public ?string $localJwtSecret = null,
     ) {
         if ($this->name === '') {
             throw new ConfigException('APP_NAME must not be empty.');
