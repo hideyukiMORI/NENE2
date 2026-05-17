@@ -4,9 +4,10 @@ function nav(t: {
   tutorial: string; howto: string; reference: string
 }) {
   return [
-    { text: t.tutorial,  link: 'tutorial/first-api',        activeMatch: 'tutorial/' },
-    { text: t.howto,     link: 'howto/add-custom-route',    activeMatch: 'howto/' },
-    { text: t.reference, link: 'development/endpoint-scaffold', activeMatch: 'development/' },
+    { text: t.tutorial,  link: 'tutorial/first-api',            activeMatch: 'tutorial/' },
+    { text: t.howto,     link: 'howto/add-custom-route',        activeMatch: 'howto/' },
+    // Absolute path — development pages are English-only; non-root locales must not get /ja/development/...
+    { text: t.reference, link: '/development/endpoint-scaffold', activeMatch: '/development/' },
     {
       text: 'v0.4.0',
       items: [
@@ -32,24 +33,26 @@ function sidebar(t: {
         { text: t.addDb,    link: 'howto/add-database-endpoint' },
       ],
     }],
+    // Development & Integration pages are English-only — use absolute paths so
+    // VitePress never expands them to /ja/development/... etc.
     '/development/': [
       {
         text: t.devGroup,
         items: [
-          { text: 'Setup',                  link: 'development/setup' },
-          { text: 'Endpoint scaffold',      link: 'development/endpoint-scaffold' },
-          { text: 'Domain layer',           link: 'development/domain-layer' },
-          { text: 'Authentication',         link: 'development/authentication-boundary' },
-          { text: 'Test database strategy', link: 'development/test-database-strategy' },
-          { text: 'Client project start',   link: 'development/client-project-start' },
+          { text: 'Setup',                  link: '/development/setup' },
+          { text: 'Endpoint scaffold',      link: '/development/endpoint-scaffold' },
+          { text: 'Domain layer',           link: '/development/domain-layer' },
+          { text: 'Authentication',         link: '/development/authentication-boundary' },
+          { text: 'Test database strategy', link: '/development/test-database-strategy' },
+          { text: 'Client project start',   link: '/development/client-project-start' },
         ],
       },
       {
         text: t.intGroup,
         items: [
-          { text: 'Local MCP server',       link: 'integrations/local-mcp-server' },
-          { text: 'MCP client config',      link: 'integrations/local-mcp-client-configuration' },
-          { text: 'MCP tools policy',       link: 'integrations/mcp-tools' },
+          { text: 'Local MCP server',       link: '/integrations/local-mcp-server' },
+          { text: 'MCP client config',      link: '/integrations/local-mcp-client-configuration' },
+          { text: 'MCP tools policy',       link: '/integrations/mcp-tools' },
         ],
       },
     ],
@@ -85,6 +88,9 @@ export default defineConfig({
     ja: {
       label: '日本語',
       lang: 'ja',
+      // link: always navigate to the locale home when switching — avoids 404
+      // on pages that exist only in English (development/, integrations/).
+      link: '/ja/',
       themeConfig: {
         nav: nav({ tutorial: 'チュートリアル', howto: 'HOWTO', reference: 'リファレンス' }),
         sidebar: sidebar({
@@ -105,6 +111,7 @@ export default defineConfig({
     fr: {
       label: 'Français',
       lang: 'fr',
+      link: '/fr/',
       themeConfig: {
         nav: nav({ tutorial: 'Tutoriel', howto: 'Guides', reference: 'Référence' }),
         sidebar: sidebar({
@@ -123,6 +130,7 @@ export default defineConfig({
     zh: {
       label: '中文',
       lang: 'zh-Hans',
+      link: '/zh/',
       themeConfig: {
         nav: nav({ tutorial: '教程', howto: '操作指南', reference: '参考' }),
         sidebar: sidebar({
@@ -143,6 +151,7 @@ export default defineConfig({
     'pt-br': {
       label: 'Português (Brasil)',
       lang: 'pt-BR',
+      link: '/pt-br/',
       themeConfig: {
         nav: nav({ tutorial: 'Tutorial', howto: 'Guias', reference: 'Referência' }),
         sidebar: sidebar({
@@ -161,6 +170,7 @@ export default defineConfig({
     de: {
       label: 'Deutsch',
       lang: 'de',
+      link: '/de/',
       themeConfig: {
         nav: nav({ tutorial: 'Tutorial', howto: 'Anleitungen', reference: 'Referenz' }),
         sidebar: sidebar({
