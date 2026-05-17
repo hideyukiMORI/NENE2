@@ -300,6 +300,69 @@ HTML generation is deferred to a later phase.
 
 Tracked by `docs/milestones/2026-05-phase22-diataxis-docs.md`.
 
+## Phase 23: CI Hardening + Node.js Upgrade
+
+Goal: close the Node.js 20 deprecation gap in CI before June 2026 EOL, and strengthen automated checks so regressions surface earlier.
+
+- Upgrade `actions/setup-node` to Node.js 22 LTS in `docs.yml`
+- Add a dedicated `backend.yml` CI workflow running `composer check` (PHPUnit + PHPStan + CS + OpenAPI + MCP)
+- Add a `frontend.yml` CI workflow running `npm run check`
+- Confirm all workflows pass on clean `main` push
+
+## Phase 24: Diátaxis Explanation Pages
+
+Goal: add the missing fourth Diátaxis pillar — Explanation — so developers understand *why* NENE2 makes the choices it does, not just *how* to use it.
+
+- `docs/explanation/why-psr.md` — why PSR-7/15/17 instead of custom HTTP abstractions
+- `docs/explanation/why-explicit-wiring.md` — why explicit DI over autowiring or Laravel-style magic
+- `docs/explanation/why-problem-details.md` — why RFC 9457 for API errors
+- `docs/explanation/why-mcp.md` — why MCP as the AI integration boundary
+- Update `docs/README.md` index to surface Explanation section
+- Add Explanation nav/sidebar entry to VitePress config
+
+## Phase 25: Second Domain Entity Example
+
+Goal: prove that the UseCase → Repository → Handler pattern scales beyond a single Note entity by introducing a second, minimally related domain object.
+
+- Choose a lightweight second entity (e.g. `Tag`) that can relate to `Note`
+- Add `src/Example/Tag/` mirroring the Note domain layer structure
+- Add `GET/POST /examples/tags` and `GET /examples/tags/{id}` endpoints
+- Add OpenAPI schemas for the new entity
+- Add PHPUnit unit and integration tests for the Tag use cases
+- Update endpoint scaffold docs to reference the two-entity example
+- Document the multi-entity pattern in `docs/explanation/` or a new HOWTO
+
+## Phase 26: Production Deployment Guide
+
+Goal: document a minimal, secure path from development Docker Compose to a production-grade deployment so that client projects adopting NENE2 have a reference starting point.
+
+- `docs/howto/deploy-production.md` — Docker production image, env file management, secret injection
+- Nginx / Caddy reverse proxy configuration example
+- Security checklist: disable debug mode, set `APP_ENV=production`, remove dev endpoints
+- Health endpoint verification in production context
+- Note on `nene2.dev` Problem Details type URIs — confirm or replace placeholder domain before production use
+
+## Phase 27: Frontend Starter Content
+
+Goal: move the React + TypeScript starter beyond a skeleton so adopters have a working, styled example to reference or delete.
+
+- At least one real API-connected component (`NoteList`, `NoteForm`, or equivalent)
+- Typed fetch wrapper in `frontend/src/api/` for Note endpoints
+- Basic CSS or Tailwind baseline (adopter can replace)
+- `npm run dev` demo that renders live Note data from the backend
+- Update frontend HOWTO or Tutorial section to reference the working example
+- Score target: frontend evaluation ≥ 70/100
+
+## Phase 28: Authentication Expansion
+
+Goal: document the JWT and OAuth2 direction so client projects adopting NENE2 have a clear path beyond the current API-key-only machine client.
+
+- ADR 0008: JWT authentication direction (library selection, token validation boundary, PSR-15 middleware placement)
+- `docs/development/authentication-boundary.md` extended with JWT and OAuth2 sections
+- Example `BearerTokenMiddleware` stub with interface for pluggable validation
+- Decision on whether `nene2.dev` domain will be registered or replaced in Problem Details type URIs
+- Update self-review checklist with JWT/OAuth2 checkpoints
+
 ## Non-Goals
 
 - Recreating Laravel or Symfony.

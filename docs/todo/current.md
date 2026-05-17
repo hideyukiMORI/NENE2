@@ -234,6 +234,46 @@ _Friction follow-ups (docs): Issues `#167` (MCP JSON integers for path params), 
 - [x] feat(i18n): 全 9 リファレンスページを 5 言語（ja/fr/zh/pt-br/de）に翻訳する. `#266`
 - [x] ci: GitHub Pages に VitePress ドキュメントを自動デプロイする. `#268`
 
+## Phase 23: CI Hardening + Node.js Upgrade
+
+- [ ] docs(roadmap): Phase 23+ マイルストーン追加・ロードマップ更新. `#270`
+- [ ] ci: `actions/setup-node` を Node.js 22 LTS に更新し Node.js 20 deprecation を解消する.
+- [ ] ci: バックエンド `composer check` を実行する `backend.yml` ワークフローを追加する.
+- [ ] ci: フロントエンド `npm run check` を実行する `frontend.yml` ワークフローを追加する.
+
+## Phase 24: Diátaxis Explanation Pages
+
+- [ ] docs(explanation): `docs/explanation/why-psr.md` — PSR 選択理由.
+- [ ] docs(explanation): `docs/explanation/why-explicit-wiring.md` — 明示的 DI の理由.
+- [ ] docs(explanation): `docs/explanation/why-problem-details.md` — RFC 9457 選択理由.
+- [ ] docs(explanation): `docs/explanation/why-mcp.md` — MCP 境界の理由.
+- [ ] docs(vitepress): Explanation セクションを nav/sidebar に追加する.
+
+## Phase 25: 2 つ目のドメインエンティティ例
+
+- [ ] feat(example): `src/Example/Tag/` — 2 つ目のドメインエンティティ例を追加する.
+- [ ] feat(example): `GET/POST /examples/tags` および `GET /examples/tags/{id}` エンドポイント追加.
+- [ ] docs(howto): 多エンティティパターンを HOWTO または Explanation に追記する.
+
+## Phase 26: 本番デプロイガイド
+
+- [ ] docs(howto): `docs/howto/deploy-production.md` — Docker 本番イメージ・env 管理・シークレット注入.
+- [ ] docs(howto): Nginx / Caddy リバースプロキシ設定例.
+- [ ] docs(howto): 本番セキュリティチェックリスト（デバッグ無効・`APP_ENV=production`・dev エンドポイント削除）.
+- [ ] chore: `nene2.dev` Problem Details type URI プレースホルダーの方針を決定する.
+
+## Phase 27: フロントエンドスターターコンテンツ
+
+- [ ] feat(frontend): API 接続済みコンポーネント（`NoteList` 等）を追加する.
+- [ ] feat(frontend): `frontend/src/api/` に Note エンドポイント向け型付き fetch ラッパーを追加する.
+- [ ] feat(frontend): `npm run dev` で Note データが表示される動作デモを完成させる.
+
+## Phase 28: 認証拡張
+
+- [ ] docs(adr): ADR 0008 — JWT 認証方向（ライブラリ選定・トークン検証境界・PSR-15 ミドルウェア配置）.
+- [ ] feat(auth): `BearerTokenMiddleware` スタブと検証用インターフェースを追加する.
+- [ ] docs(auth): `authentication-boundary.md` を JWT/OAuth2 セクションで拡張する.
+
 ## Operating Notes
 
 - Keep this file short.
