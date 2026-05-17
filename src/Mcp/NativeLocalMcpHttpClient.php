@@ -6,6 +6,10 @@ namespace Nene2\Mcp;
 
 final readonly class NativeLocalMcpHttpClient implements LocalMcpHttpClientInterface
 {
+    public function __construct(private ?string $bearerToken = null)
+    {
+    }
+
     public function get(string $baseUrl, string $path): LocalMcpHttpResponse
     {
         return $this->request('GET', $baseUrl, $path, null);
@@ -34,6 +38,11 @@ final readonly class NativeLocalMcpHttpClient implements LocalMcpHttpClientInter
     private function request(string $method, string $baseUrl, string $path, ?array $body): LocalMcpHttpResponse
     {
         $headers = ['Accept: application/json'];
+
+        if ($this->bearerToken !== null) {
+            $headers[] = 'Authorization: Bearer ' . $this->bearerToken;
+        }
+
         $content = null;
 
         if ($body !== null) {

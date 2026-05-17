@@ -61,6 +61,13 @@ final readonly class RuntimeApplicationFactory
 
     public function create(): RequestHandlerInterface
     {
+        $logger = $this->logger ?? new NullLogger();
+
+        $logger->info('NENE2 runtime started.', [
+            'machine_api_key' => $this->machineApiKey !== null,
+            'bearer_middleware' => $this->bearerTokenMiddleware !== null,
+        ]);
+
         $jsonResponses = new JsonResponseFactory($this->responseFactory, $this->streamFactory);
         $problemDetails = new ProblemDetailsResponseFactory($this->responseFactory, $this->streamFactory);
         $framework = new FrameworkInfo();
@@ -179,7 +186,7 @@ final readonly class RuntimeApplicationFactory
 
         $middlewareStack = [
             new RequestIdMiddleware('X-Request-Id', $this->requestIdHolder),
-            new RequestLoggingMiddleware($this->logger ?? new NullLogger()),
+            new RequestLoggingMiddleware($logger),
             new SecurityHeadersMiddleware(),
             new CorsMiddleware($this->responseFactory),
             new ErrorHandlerMiddleware($problemDetails, $this->domainExceptionHandlers),

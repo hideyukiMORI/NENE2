@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Nene2\Auth\LocalBearerTokenVerifier;
 use Nene2\Mcp\LocalMcpException;
 use Nene2\Mcp\LocalMcpServer;
 use Nene2\Mcp\LocalMcpToolCatalog;
@@ -16,9 +17,17 @@ if (!is_string($apiBaseUrl) || $apiBaseUrl === '') {
     $apiBaseUrl = 'http://localhost:8080';
 }
 
+$bearerToken = null;
+$jwtSecret = getenv('NENE2_LOCAL_JWT_SECRET');
+
+if (is_string($jwtSecret) && $jwtSecret !== '') {
+    $v = new LocalBearerTokenVerifier($jwtSecret);
+    $bearerToken = $v->issue(['sub' => 'mcp-server', 'scope' => 'read:system', 'iat' => time(), 'exp' => time() + 86400]);
+}
+
 $server = new LocalMcpServer(
     new LocalMcpToolCatalog($root . '/docs/mcp/tools.json'),
-    new NativeLocalMcpHttpClient(),
+    new NativeLocalMcpHttpClient($bearerToken),
     $apiBaseUrl,
 );
 
