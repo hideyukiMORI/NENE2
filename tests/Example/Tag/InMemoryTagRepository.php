@@ -46,4 +46,16 @@ final class InMemoryTagRepository implements TagRepositoryInterface
 
         return $id;
     }
+
+    public function update(Tag $tag): void
+    {
+        if ($tag->id !== null) {
+            $this->tags[$tag->id] = $tag;
+        }
+    }
+
+    public function delete(int $id): void
+    {
+        unset($this->tags[$id]);
+    }
 }

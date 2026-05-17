@@ -12,4 +12,8 @@ interface TagRepositoryInterface
     public function findAll(int $limit, int $offset): array;
 
     public function save(Tag $tag): int;
+
+    public function update(Tag $tag): void;
+
+    public function delete(int $id): void;
 }

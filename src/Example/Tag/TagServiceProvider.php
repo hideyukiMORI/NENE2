@@ -11,6 +11,7 @@ use Nene2\DependencyInjection\ServiceProviderInterface;
 use Nene2\Error\ProblemDetailsResponseFactory;
 use Nene2\Http\JsonResponseFactory;
 use Psr\Container\ContainerInterface;
+use Psr\Http\Message\ResponseFactoryInterface;
 
 final readonly class TagServiceProvider implements ServiceProviderInterface
 {
@@ -117,6 +118,64 @@ final readonly class TagServiceProvider implements ServiceProviderInterface
                 },
             )
             ->set(
+                UpdateTagUseCaseInterface::class,
+                static function (ContainerInterface $c): UpdateTagUseCaseInterface {
+                    $repository = $c->get(TagRepositoryInterface::class);
+
+                    if (!$repository instanceof TagRepositoryInterface) {
+                        throw new LogicException('Tag repository service is invalid.');
+                    }
+
+                    return new UpdateTagUseCase($repository);
+                },
+            )
+            ->set(
+                UpdateTagHandler::class,
+                static function (ContainerInterface $c): UpdateTagHandler {
+                    $useCase = $c->get(UpdateTagUseCaseInterface::class);
+                    $response = $c->get(JsonResponseFactory::class);
+
+                    if (!$useCase instanceof UpdateTagUseCaseInterface) {
+                        throw new LogicException('UpdateTag use case service is invalid.');
+                    }
+
+                    if (!$response instanceof JsonResponseFactory) {
+                        throw new LogicException('JSON response factory service is invalid.');
+                    }
+
+                    return new UpdateTagHandler($useCase, $response);
+                },
+            )
+            ->set(
+                DeleteTagUseCaseInterface::class,
+                static function (ContainerInterface $c): DeleteTagUseCaseInterface {
+                    $repository = $c->get(TagRepositoryInterface::class);
+
+                    if (!$repository instanceof TagRepositoryInterface) {
+                        throw new LogicException('Tag repository service is invalid.');
+                    }
+
+                    return new DeleteTagUseCase($repository);
+                },
+            )
+            ->set(
+                DeleteTagHandler::class,
+                static function (ContainerInterface $c): DeleteTagHandler {
+                    $useCase = $c->get(DeleteTagUseCaseInterface::class);
+                    $responseFactory = $c->get(ResponseFactoryInterface::class);
+
+                    if (!$useCase instanceof DeleteTagUseCaseInterface) {
+                        throw new LogicException('DeleteTag use case service is invalid.');
+                    }
+
+                    if (!$responseFactory instanceof ResponseFactoryInterface) {
+                        throw new LogicException('Response factory service is invalid.');
+                    }
+
+                    return new DeleteTagHandler($useCase, $responseFactory);
+                },
+            )
+            ->set(
                 TagNotFoundExceptionHandler::class,
                 static function (ContainerInterface $c): TagNotFoundExceptionHandler {
                     $problemDetails = $c->get(ProblemDetailsResponseFactory::class);
@@ -134,6 +193,8 @@ final readonly class TagServiceProvider implements ServiceProviderInterface
                     $list = $c->get(ListTagsHandler::class);
                     $get = $c->get(GetTagByIdHandler::class);
                     $create = $c->get(CreateTagHandler::class);
+                    $update = $c->get(UpdateTagHandler::class);
+                    $delete = $c->get(DeleteTagHandler::class);
 
                     if (!$list instanceof ListTagsHandler) {
                         throw new LogicException('ListTags handler service is invalid.');
@@ -147,7 +208,15 @@ final readonly class TagServiceProvider implements ServiceProviderInterface
                         throw new LogicException('CreateTag handler service is invalid.');
                     }
 
-                    return new TagRouteRegistrar($list, $get, $create);
+                    if (!$update instanceof UpdateTagHandler) {
+                        throw new LogicException('UpdateTag handler service is invalid.');
+                    }
+
+                    if (!$delete instanceof DeleteTagHandler) {
+                        throw new LogicException('DeleteTag handler service is invalid.');
+                    }
+
+                    return new TagRouteRegistrar($list, $get, $create, $update, $delete);
                 },
             );
     }
