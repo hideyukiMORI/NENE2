@@ -4,11 +4,14 @@ import './App.css';
 import { fetchHealth, type HealthResponse } from './api/health';
 import { NoteList } from './components/NoteList';
 import { NoteForm } from './components/NoteForm';
+import { TagList } from './components/TagList';
+import { TagForm } from './components/TagForm';
 
 export function App() {
   const [health, setHealth] = useState<HealthResponse | null>(null);
   const [healthError, setHealthError] = useState<string | null>(null);
   const [noteRefresh, setNoteRefresh] = useState(0);
+  const [tagRefresh, setTagRefresh] = useState(0);
 
   useEffect(() => {
     let isActive = true;
@@ -36,6 +39,10 @@ export function App() {
 
   function handleNoteCreated() {
     setNoteRefresh((n) => n + 1);
+  }
+
+  function handleTagChanged() {
+    setTagRefresh((n) => n + 1);
   }
 
   return (
@@ -77,6 +84,18 @@ export function App() {
         </p>
         <NoteList refresh={noteRefresh} />
         <NoteForm onCreated={handleNoteCreated} />
+      </section>
+
+      <section className="tags-section" aria-labelledby="tags-title">
+        <h2 id="tags-title" className="section-title">
+          Tags
+        </h2>
+        <p className="section-desc">
+          Live data from <code>GET /examples/tags</code>. Create, rename, or
+          delete tags. Demonstrates full CRUD from the frontend.
+        </p>
+        <TagList refresh={tagRefresh} onChanged={handleTagChanged} />
+        <TagForm onCreated={handleTagChanged} />
       </section>
     </main>
   );
