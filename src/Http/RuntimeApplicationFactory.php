@@ -8,14 +8,6 @@ use Nene2\Auth\BearerTokenMiddleware;
 use Nene2\Error\DomainExceptionHandlerInterface;
 use Nene2\Error\ErrorHandlerMiddleware;
 use Nene2\Error\ProblemDetailsResponseFactory;
-use Nene2\Example\Note\CreateNoteHandler;
-use Nene2\Example\Note\DeleteNoteHandler;
-use Nene2\Example\Note\GetNoteByIdHandler;
-use Nene2\Example\Note\ListNotesHandler;
-use Nene2\Example\Note\UpdateNoteHandler;
-use Nene2\Example\Tag\CreateTagHandler;
-use Nene2\Example\Tag\GetTagByIdHandler;
-use Nene2\Example\Tag\ListTagsHandler;
 use Nene2\FrameworkInfo;
 use Nene2\Log\RequestIdHolder;
 use Nene2\Middleware\ApiKeyAuthenticationMiddleware;
@@ -44,17 +36,9 @@ final readonly class RuntimeApplicationFactory
         private StreamFactoryInterface $streamFactory,
         private ?LoggerInterface $logger = null,
         private ?string $machineApiKey = null,
-        private ?GetNoteByIdHandler $getNoteByIdHandler = null,
-        private ?CreateNoteHandler $createNoteHandler = null,
-        private ?DeleteNoteHandler $deleteNoteHandler = null,
         private array $domainExceptionHandlers = [],
-        private ?ListNotesHandler $listNotesHandler = null,
-        private ?UpdateNoteHandler $updateNoteHandler = null,
         private ?RequestIdHolder $requestIdHolder = null,
         private array $routeRegistrars = [],
-        private ?ListTagsHandler $listTagsHandler = null,
-        private ?GetTagByIdHandler $getTagByIdHandler = null,
-        private ?CreateTagHandler $createTagHandler = null,
         private ?BearerTokenMiddleware $bearerTokenMiddleware = null,
     ) {
     }
@@ -71,12 +55,6 @@ final readonly class RuntimeApplicationFactory
         $jsonResponses = new JsonResponseFactory($this->responseFactory, $this->streamFactory);
         $problemDetails = new ProblemDetailsResponseFactory($this->responseFactory, $this->streamFactory);
         $framework = new FrameworkInfo();
-        $getNoteHandler = $this->getNoteByIdHandler;
-        $createNoteHandler = $this->createNoteHandler;
-        $deleteNoteHandler = $this->deleteNoteHandler;
-        $listNotesHandler = $this->listNotesHandler;
-
-        $updateNoteHandler = $this->updateNoteHandler;
 
         $router = (new Router())
             ->get(
@@ -110,65 +88,6 @@ final readonly class RuntimeApplicationFactory
                 ]),
             )
         ;
-
-        if ($listNotesHandler !== null) {
-            $router->get(
-                '/examples/notes',
-                static fn (ServerRequestInterface $request) => $listNotesHandler->handle($request),
-            );
-        }
-
-        if ($getNoteHandler !== null) {
-            $router->get(
-                '/examples/notes/{id}',
-                static fn (ServerRequestInterface $request) => $getNoteHandler->handle($request),
-            );
-        }
-
-        if ($createNoteHandler !== null) {
-            $router->post(
-                '/examples/notes',
-                static fn (ServerRequestInterface $request) => $createNoteHandler->handle($request),
-            );
-        }
-
-        if ($updateNoteHandler !== null) {
-            $router->put(
-                '/examples/notes/{id}',
-                static fn (ServerRequestInterface $request) => $updateNoteHandler->handle($request),
-            );
-        }
-
-        if ($deleteNoteHandler !== null) {
-            $router->delete(
-                '/examples/notes/{id}',
-                static fn (ServerRequestInterface $request) => $deleteNoteHandler->handle($request),
-            );
-        }
-
-        if ($this->listTagsHandler !== null) {
-            $listTagsHandler = $this->listTagsHandler;
-            $router->get(
-                '/examples/tags',
-                static fn (ServerRequestInterface $request) => $listTagsHandler->handle($request),
-            );
-        }
-
-        if ($this->getTagByIdHandler !== null) {
-            $getTagByIdHandler = $this->getTagByIdHandler;
-            $router->get(
-                '/examples/tags/{id}',
-                static fn (ServerRequestInterface $request) => $getTagByIdHandler->handle($request),
-            );
-        }
-
-        if ($this->createTagHandler !== null) {
-            $createTagHandler = $this->createTagHandler;
-            $router->post(
-                '/examples/tags',
-                static fn (ServerRequestInterface $request) => $createTagHandler->handle($request),
-            );
-        }
 
         if ($this->bearerTokenMiddleware !== null) {
             $router->get(

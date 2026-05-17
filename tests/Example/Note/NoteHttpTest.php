@@ -15,6 +15,7 @@ use Nene2\Example\Note\ListNotesHandler;
 use Nene2\Example\Note\ListNotesUseCase;
 use Nene2\Example\Note\Note;
 use Nene2\Example\Note\NoteNotFoundExceptionHandler;
+use Nene2\Example\Note\NoteRouteRegistrar;
 use Nene2\Example\Note\UpdateNoteHandler;
 use Nene2\Example\Note\UpdateNoteUseCase;
 use Nene2\Http\JsonResponseFactory;
@@ -38,30 +39,19 @@ final class NoteHttpTest extends TestCase
         $jsonResponse = new JsonResponseFactory($this->factory, $this->factory);
         $problemDetails = new ProblemDetailsResponseFactory($this->factory, $this->factory);
 
+        $registrar = new NoteRouteRegistrar(
+            new GetNoteByIdHandler(new GetNoteByIdUseCase($this->repository), $jsonResponse),
+            new CreateNoteHandler(new CreateNoteUseCase($this->repository), $jsonResponse),
+            new UpdateNoteHandler(new UpdateNoteUseCase($this->repository), $jsonResponse),
+            new DeleteNoteHandler(new DeleteNoteUseCase($this->repository), $this->factory),
+            new ListNotesHandler(new ListNotesUseCase($this->repository), $jsonResponse),
+        );
+
         $this->application = (new RuntimeApplicationFactory(
             $this->factory,
             $this->factory,
-            getNoteByIdHandler: new GetNoteByIdHandler(
-                new GetNoteByIdUseCase($this->repository),
-                $jsonResponse,
-            ),
-            createNoteHandler: new CreateNoteHandler(
-                new CreateNoteUseCase($this->repository),
-                $jsonResponse,
-            ),
-            deleteNoteHandler: new DeleteNoteHandler(
-                new DeleteNoteUseCase($this->repository),
-                $this->factory,
-            ),
             domainExceptionHandlers: [new NoteNotFoundExceptionHandler($problemDetails)],
-            listNotesHandler: new ListNotesHandler(
-                new ListNotesUseCase($this->repository),
-                $jsonResponse,
-            ),
-            updateNoteHandler: new UpdateNoteHandler(
-                new UpdateNoteUseCase($this->repository),
-                $jsonResponse,
-            ),
+            routeRegistrars: [$registrar],
         ))->create();
     }
 

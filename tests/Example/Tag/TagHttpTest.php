@@ -13,6 +13,7 @@ use Nene2\Example\Tag\ListTagsHandler;
 use Nene2\Example\Tag\ListTagsUseCase;
 use Nene2\Example\Tag\Tag;
 use Nene2\Example\Tag\TagNotFoundExceptionHandler;
+use Nene2\Example\Tag\TagRouteRegistrar;
 use Nene2\Http\JsonResponseFactory;
 use Nene2\Http\RuntimeApplicationFactory;
 use Nyholm\Psr7\Factory\Psr17Factory;
@@ -34,22 +35,17 @@ final class TagHttpTest extends TestCase
         $jsonResponse = new JsonResponseFactory($this->factory, $this->factory);
         $problemDetails = new ProblemDetailsResponseFactory($this->factory, $this->factory);
 
+        $registrar = new TagRouteRegistrar(
+            new ListTagsHandler(new ListTagsUseCase($this->repository), $jsonResponse),
+            new GetTagByIdHandler(new GetTagByIdUseCase($this->repository), $jsonResponse),
+            new CreateTagHandler(new CreateTagUseCase($this->repository), $jsonResponse),
+        );
+
         $this->application = (new RuntimeApplicationFactory(
             $this->factory,
             $this->factory,
             domainExceptionHandlers: [new TagNotFoundExceptionHandler($problemDetails)],
-            listTagsHandler: new ListTagsHandler(
-                new ListTagsUseCase($this->repository),
-                $jsonResponse,
-            ),
-            getTagByIdHandler: new GetTagByIdHandler(
-                new GetTagByIdUseCase($this->repository),
-                $jsonResponse,
-            ),
-            createTagHandler: new CreateTagHandler(
-                new CreateTagUseCase($this->repository),
-                $jsonResponse,
-            ),
+            routeRegistrars: [$registrar],
         ))->create();
     }
 

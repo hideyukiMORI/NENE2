@@ -186,6 +186,38 @@ final readonly class NoteServiceProvider implements ServiceProviderInterface
 
                     return new NoteNotFoundExceptionHandler($problemDetails);
                 },
+            )
+            ->set(
+                'nene2.route_registrar.note',
+                static function (ContainerInterface $c): NoteRouteRegistrar {
+                    $get = $c->get(GetNoteByIdHandler::class);
+                    $create = $c->get(CreateNoteHandler::class);
+                    $update = $c->get(UpdateNoteHandler::class);
+                    $delete = $c->get(DeleteNoteHandler::class);
+                    $list = $c->get(ListNotesHandler::class);
+
+                    if (!$get instanceof GetNoteByIdHandler) {
+                        throw new LogicException('GetNoteById handler service is invalid.');
+                    }
+
+                    if (!$create instanceof CreateNoteHandler) {
+                        throw new LogicException('CreateNote handler service is invalid.');
+                    }
+
+                    if (!$update instanceof UpdateNoteHandler) {
+                        throw new LogicException('UpdateNote handler service is invalid.');
+                    }
+
+                    if (!$delete instanceof DeleteNoteHandler) {
+                        throw new LogicException('DeleteNote handler service is invalid.');
+                    }
+
+                    if (!$list instanceof ListNotesHandler) {
+                        throw new LogicException('ListNotes handler service is invalid.');
+                    }
+
+                    return new NoteRouteRegistrar($get, $create, $update, $delete, $list);
+                },
             );
     }
 }
