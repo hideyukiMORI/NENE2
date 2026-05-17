@@ -192,6 +192,18 @@ _Friction follow-ups (docs): Issues `#167` (MCP JSON integers for path params), 
 - [x] feat(mcp): Note write operations MCP ツール追加 — catalog + LocalMcpServer 実装. `#228`
 - [x] Packagist 登録: `hideyukimori/nene2` 公開済み (`composer require hideyukimori/nene2`)
 
+## Phase 20: Packagist Field Trial
+
+- [x] composer require からの新規プロジェクト構築を実施する. `#233`
+- [x] 観察レポートを `docs/field-trials/` に記録する (`docs/field-trials/2026-05-field-trial-4.md`). `#233`
+- [x] 摩擦を follow-up Issue に変換する (#234 #235 #236). `#233`
+
+## Phase 20 フォローアップ
+
+- [ ] docs(scaffold): `Router::PARAMETERS_ATTRIBUTE` 取得例を追加する. `#234`
+- [ ] docs(client-start): `composer require` 起点ワイヤリング手順を追加する. `#235`
+- [ ] feat: `RuntimeApplicationFactory` 外部ルート注入を検討する (Phase 21 候補). `#236`
+
 ## Operating Notes
 
 - Keep this file short.
