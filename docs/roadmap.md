@@ -276,6 +276,17 @@ Goal: validate the `composer require hideyukimori/nene2` path as a real starting
 
 Tracked by `docs/milestones/2026-05-phase20-packagist-field-trial.md`.
 
+## Phase 21: Field Trial 5 — MCP Write Tools
+
+Goal: validate that the MCP write tools added in v0.4.0 work end-to-end through the local MCP server, covering `POST`, `PUT`, and `DELETE` operations against the Note endpoints.
+
+- start the local MCP server against a running NENE2 app container
+- call `create_note`, `update_note`, and `delete_note` tools through an MCP client
+- confirm path parameter interpolation (`{id}` → actual id) works correctly
+- record friction and open follow-up Issues
+
+Tracked by `docs/milestones/2026-05-phase21-field-trial-5.md`.
+
 ## Non-Goals
 
 - Recreating Laravel or Symfony.
