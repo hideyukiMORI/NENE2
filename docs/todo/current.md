@@ -257,10 +257,10 @@ _Friction follow-ups (docs): Issues `#167` (MCP JSON integers for path params), 
 
 ## Phase 26: 本番デプロイガイド
 
-- [ ] docs(howto): `docs/howto/deploy-production.md` — Docker 本番イメージ・env 管理・シークレット注入.
-- [ ] docs(howto): Nginx / Caddy リバースプロキシ設定例.
-- [ ] docs(howto): 本番セキュリティチェックリスト（デバッグ無効・`APP_ENV=production`・dev エンドポイント削除）.
-- [ ] chore: `nene2.dev` Problem Details type URI プレースホルダーの方針を決定する.
+- [x] docs(howto): `docs/howto/deploy-production.md` — Docker 本番イメージ・env 管理・シークレット注入. `#278`
+- [x] docs(howto): Nginx / Caddy リバースプロキシ設定例. `#278`
+- [x] docs(howto): 本番セキュリティチェックリスト（デバッグ無効・`APP_ENV=production`・dev エンドポイント削除）. `#278`
+- [x] chore: `nene2.dev` Problem Details type URI プレースホルダーの方針を決定する（Option A/B をガイドに明記）. `#278`
 
 ## Phase 27: フロントエンドスターターコンテンツ
 
