@@ -87,4 +87,25 @@ final class PdoTagRepositoryTest extends TestCase
         self::assertSame('api', $tags[0]->name);
         self::assertSame('mcp', $tags[1]->name);
     }
+
+    public function testUpdateChangesTagName(): void
+    {
+        $repository = new PdoTagRepository($this->executor);
+        $id = $repository->save(new Tag(name: 'php'));
+
+        $repository->update(new Tag(name: 'php8', id: $id));
+        $tag = $repository->findById($id);
+
+        self::assertNotNull($tag);
+        self::assertSame('php8', $tag->name);
+    }
+
+    public function testDeleteRemovesTag(): void
+    {
+        $repository = new PdoTagRepository($this->executor);
+        $id = $repository->save(new Tag(name: 'php'));
+        $repository->delete($id);
+
+        self::assertNull($repository->findById($id));
+    }
 }
