@@ -363,6 +363,40 @@ Goal: document the JWT and OAuth2 direction so client projects adopting NENE2 ha
 - Decision on whether `nene2.dev` domain will be registered or replaced in Problem Details type URIs
 - Update self-review checklist with JWT/OAuth2 checkpoints
 
+## Phase 29: v0.5.0 Readiness
+
+Goal: consolidate Phase 23–28 additions into a versioned release so adopters get a stable checkpoint covering documentation, second domain entity, frontend starter, production guide, and JWT auth stub.
+
+- CHANGELOG.md v0.5.0 section (Phases 23–28)
+- `v0.5.0` tag on main
+- Roadmap and TODO updated
+
+## Phase 30: OpenAPI Bearer Security Scheme
+
+Goal: make the `BearerTokenMiddleware` fully integrated into the OpenAPI contract with a concrete local demo.
+
+- Add `bearerAuth` `securitySchemes` entry to OpenAPI document
+- Add `LocalBearerTokenVerifier` (HMAC-HS256) for local development wiring
+- Wire `BearerTokenMiddleware` + `LocalBearerTokenVerifier` to a new `GET /examples/protected` endpoint
+- Add `security: [bearerAuth]` to the protected endpoint's OpenAPI path
+- Add HTTP-level tests for 200 (valid token) and 401 (missing/invalid) cases
+
+## Phase 31: Self-Review Checklist — Auth Checkpoints
+
+Goal: add JWT/OAuth2 checkpoints to `docs/review/middleware-security.md` so PRs that touch authentication are reviewed consistently.
+
+- Add Bearer token checklist items: interface injection, WWW-Authenticate header, no secret logging
+- Add OpenAPI security scheme checklist: `bearerAuth` present, 401 response documented
+- Add ADR 0008 compliance reminder
+
+## Phase 32: Field Trial 6 — JWT End-to-End
+
+Goal: validate `BearerTokenMiddleware` + `LocalBearerTokenVerifier` in a realistic project scenario.
+
+- Start MCP client against NENE2 with a protected endpoint
+- Issue a local JWT and verify the tool call succeeds
+- Record friction and open follow-up Issues
+
 ## Non-Goals
 
 - Recreating Laravel or Symfony.

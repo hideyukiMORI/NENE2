@@ -13,6 +13,34 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [0.5.0] — 2026-05-17
+
+### Added
+- Diátaxis Explanation pages in 6 languages (English, Japanese, French, Chinese, Portuguese, German): `why-psr`, `why-explicit-wiring`, `why-problem-details`, `why-mcp` (#275)
+- Second domain entity example: `src/Example/Tag/` with full CRUD (#277)
+  - `GET /examples/tags`, `POST /examples/tags`, `GET /examples/tags/{id}`
+  - `ListTagsUseCase`, `GetTagByIdUseCase`, `CreateTagUseCase` with readonly DTOs
+  - `PdoTagRepository`, `InMemoryTagRepository`, `TagServiceProvider`
+  - OpenAPI schemas and 8 HTTP-level tests
+- Production deployment guide (`docs/howto/deploy-production.md`) with multi-stage `Dockerfile.prod`, env management, Nginx/Caddy reverse proxy examples, security checklist, and post-deploy verification in 6 languages (#279)
+- Frontend starter content: `NoteList` and `NoteForm` React components with live API integration (#281)
+  - Typed fetch wrapper `frontend/src/api/notes.ts` for all Note endpoints
+  - `LoadState` union type pattern for loading / error / ok states
+  - `App.tsx` wired to refresh the list on note creation
+- `src/Auth/BearerTokenMiddleware` — PSR-15 middleware for `Authorization: Bearer` tokens; returns RFC 6750-compliant 401 Problem Details on failure (#283)
+- `src/Auth/TokenVerifierInterface` — pluggable token verifier; framework ships no concrete JWT library dependency (#283)
+- `src/Auth/TokenVerificationException` — thrown by verifier implementations on any failure (#283)
+- ADR 0008: JWT authentication direction — library-agnostic design, `firebase/php-jwt` as recommended starting point (#283)
+- VitePress 1.6.4 multilingual documentation site with 6 locales, Explanation nav/sidebar, and production deployment sidebar entry (#275)
+
+### Changed
+- CI `backend.yml`: explicit PHP extensions (`pdo`, `pdo_sqlite`, `pdo_mysql`) and Composer dependency cache (#273)
+- CI `docs.yml`: `cache-dependency-path: package-lock.json` added to setup-node step (#273)
+- `docs/development/authentication-boundary.md`: JWT section with `firebase/php-jwt` wiring example, request attribute table, and failure response specification (#283)
+- `docs/adr/index.md`: ADR 0008 entry added (#283)
+
+---
+
 ## [0.4.0] — 2026-05-17
 
 ### Added

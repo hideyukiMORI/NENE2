@@ -274,6 +274,12 @@ _Friction follow-ups (docs): Issues `#167` (MCP JSON integers for path params), 
 - [x] feat(auth): `BearerTokenMiddleware` スタブと `TokenVerifierInterface` を追加する. `#282`
 - [x] docs(auth): `authentication-boundary.md` を JWT セクションで拡張する. `#282`
 
+## Phase 29: v0.5.0 リリース準備
+
+- [x] docs(roadmap): Phase 29-32 をロードマップに追加する. `#284`
+- [x] chore(changelog): v0.5.0 セクション（Phase 23-28）を追記する. `#284`
+- [ ] chore(release): `v0.5.0` タグを打つ. `#284`
+
 ## Operating Notes
 
 - Keep this file short.
