@@ -232,6 +232,7 @@ _Friction follow-ups (docs): Issues `#167` (MCP JSON integers for path params), 
 - [x] theme: ダークモードをリッチなテックデザインに刷新（深い青黒背景・グロー・ドットグリッド）. `#262`
 - [x] fix(i18n): 言語切り替え時の 404 修正 — 絶対パス・locale link・404ページ. `#264`
 - [x] feat(i18n): 全 9 リファレンスページを 5 言語（ja/fr/zh/pt-br/de）に翻訳する. `#266`
+- [x] ci: GitHub Pages に VitePress ドキュメントを自動デプロイする. `#268`
 
 ## Operating Notes
 
