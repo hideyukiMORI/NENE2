@@ -13,6 +13,11 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - `RuntimeApplicationFactory` extended with `list<HealthCheckInterface> $healthChecks = []`; `GET /health` returns `checks` map and 503 when any check reports `error` (#346)
 - `DatabaseHealthCheck` reference implementation in `src/Example/Health/` (#346)
 - OpenAPI `HealthResponse` schema extended with optional `checks` field; `503` response added to `/health` path (#346)
+- ADR 0010: rate limiting design — fixed window, IP-keyed by default, `RateLimitStorageInterface` as storage abstraction (#348)
+- `RateLimitStorageInterface` — stable public interface for rate limit counter storage (`Nene2\Middleware`) (#348)
+- `InMemoryRateLimitStorage` (`@internal`) — fixed-window in-memory storage for local development and testing (#348)
+- `ThrottleMiddleware` — PSR-15 middleware; 429 Problem Details + `Retry-After` + `X-RateLimit-*` headers; position 8 after Auth (#348)
+- `RuntimeApplicationFactory` extended with optional `ThrottleMiddleware $throttleMiddleware = null` (#348)
 
 ---
 
