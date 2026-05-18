@@ -20,6 +20,7 @@ final readonly class ConfigLoader
             'APP_NAME' => 'NENE2',
             'NENE2_MACHINE_API_KEY' => '',
             'NENE2_LOCAL_JWT_SECRET' => '',
+            'PROBLEM_DETAILS_BASE_URL' => 'https://nene2.dev/problems/',
             'DATABASE_URL' => '',
             'DB_ENV' => 'local',
             'DB_ADAPTER' => 'mysql',
@@ -63,6 +64,7 @@ final readonly class ConfigLoader
             ),
             $this->optionalString($values['NENE2_MACHINE_API_KEY']),
             $this->optionalString($values['NENE2_LOCAL_JWT_SECRET']),
+            trim($values['PROBLEM_DETAILS_BASE_URL']),
         );
     }
 

@@ -122,6 +122,32 @@ final class ConfigLoaderTest extends TestCase
         ]);
     }
 
+    public function testDefaultProblemDetailsBaseUrl(): void
+    {
+        $config = (new ConfigLoader($this->emptyProjectRoot()))->load();
+
+        self::assertSame('https://nene2.dev/problems/', $config->problemDetailsBaseUrl);
+    }
+
+    public function testCustomProblemDetailsBaseUrlOverride(): void
+    {
+        $config = (new ConfigLoader($this->emptyProjectRoot()))->load([
+            'PROBLEM_DETAILS_BASE_URL' => 'https://api.example.com/problems/',
+        ]);
+
+        self::assertSame('https://api.example.com/problems/', $config->problemDetailsBaseUrl);
+    }
+
+    public function testEmptyProblemDetailsBaseUrlFailsFast(): void
+    {
+        $this->expectException(ConfigException::class);
+        $this->expectExceptionMessage('PROBLEM_DETAILS_BASE_URL must not be empty.');
+
+        (new ConfigLoader($this->emptyProjectRoot()))->load([
+            'PROBLEM_DETAILS_BASE_URL' => '   ',
+        ]);
+    }
+
     private function emptyProjectRoot(): string
     {
         return sys_get_temp_dir();
