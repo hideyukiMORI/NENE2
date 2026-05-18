@@ -133,7 +133,7 @@ All checks pass. **Friction F-1**: `composer check` fails with OOM inside Docker
 
 ### 10. Packagist v1.3.0 reflection
 
-GitHub Releases for v1.3.0 was created during this trial (the previous session had only pushed the git tag, not created a GitHub Release). The Packagist webhook was manually triggered via the API update endpoint. At time of writing, v1.3.0 and v1.2.0 are not yet reflected on Packagist — the update job was queued (`"status":"success"`). Final confirmation pending.
+GitHub Releases for v1.3.0 was created during this trial (the previous session had only pushed the git tag, not created a GitHub Release). The Packagist webhook was manually triggered via the API update endpoint. After creating the GitHub Release and triggering the Packagist update API, v1.3.0 and v1.2.0 were confirmed on Packagist within the session. A fresh request (bypassing the CDN cache) confirmed both versions are available.
 
 ---
 
@@ -158,7 +158,7 @@ GitHub Releases for v1.3.0 was created during this trial (the previous session h
 | PHP-CS-Fixer | 0 fixable | ✓ | Pass |
 | OpenAPI contract valid | valid | ✓ | Pass |
 | PHPStan (with `--memory-limit 512M`) | no errors | ✓ | Pass |
-| Packagist v1.3.0 | reflected | ⏳ pending | — |
+| Packagist v1.3.0 | reflected | ✓ (v1.2.0 also confirmed) | Pass |
 
 ---
 
