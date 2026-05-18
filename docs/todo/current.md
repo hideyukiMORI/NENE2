@@ -6,6 +6,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 - Latest release: `v1.3.0` (Phase 53 complete — Packagist 反映済み)
 - Field Trial 9 完了 (Phase 56)
+- Post-v1.0 ドキュメント整合性クリーンアップ完了 (#388, PR #389)
 
 ## Foundation Completed
 
