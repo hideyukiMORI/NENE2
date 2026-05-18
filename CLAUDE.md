@@ -196,15 +196,17 @@ UseCase     : ビジネス不変条件、認可ルール、状態依存ルール
 ## 5. ミドルウェア順序
 
 ```
-1. Error handling
-2. Request id
+1. Request id
+2. Request logging
 3. Security headers
 4. CORS
-5. Request size limit
-6. Authentication / authorization
-7. OpenAPI or request validation
+5. Error handling
+6. Request size limit
+7. Authentication / authorization
 8. Routing / handler dispatch
 ```
+
+> **順序の意図**: RequestId と Security headers は Error handling より外側に置くことで、エラーレスポンスにも `X-Request-Id` やセキュリティヘッダーが付く。CORS も同様に外側に置き、エラーレスポンスにも `Access-Control-Allow-Origin` が返る。
 
 - CORS は config 駆動。本番ではオリジンを明示的に allowlist に入れる。
 - ログにシークレット・トークン・Cookie・Authorization ヘッダー・生リクエストボディを含めない。

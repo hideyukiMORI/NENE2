@@ -30,16 +30,16 @@ The options evaluated:
 3. Ship **no concrete JWT verifier** in the framework core. Applications wire their preferred library through the interface.
 4. Add a `firebase/php-jwt` integration note to `authentication-boundary.md` as the recommended starting point.
 
-### Middleware placement (pipeline position 6)
+### Middleware placement (pipeline position 7)
 
 ```
-1. Error handling
-2. Request id
+1. Request id
+2. Request logging
 3. Security headers
 4. CORS
-5. Request size limit
-6. Authentication / authorization  ← BearerTokenMiddleware or ApiKeyAuthenticationMiddleware
-7. OpenAPI or request validation
+5. Error handling
+6. Request size limit
+7. Authentication / authorization  ← BearerTokenMiddleware or ApiKeyAuthenticationMiddleware
 8. Routing / handler dispatch
 ```
 
