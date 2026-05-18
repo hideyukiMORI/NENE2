@@ -8,8 +8,10 @@ NENE2 的所有错误响应均返回 `application/problem+json`，遵循 [RFC 94
 |---|---|---|---|
 | `…/not-found` | 404 | Not Found | 路由未找到；指定 id 的 Note 或 Tag 不存在 |
 | `…/method-not-allowed` | 405 | Method Not Allowed | 已知路由的错误 HTTP 方法 |
+| `…/invalid-json` | 400 | Invalid JSON | 请求体为空、JSON 无效或非 JSON 对象 |
 | `…/validation-failed` | 422 | Validation Failed | 请求体无效或缺少必填字段 |
 | `…/unauthorized` | 401 | Unauthorized | Bearer 令牌缺失或无效 |
+| `…/too-many-requests` | 429 | Too Many Requests | 超出速率限制（`ThrottleMiddleware`）；包含 `Retry-After` 响应头 |
 | `…/payload-too-large` | 413 | Payload Too Large | 请求体超过配置的大小限制 |
 | `…/internal-server-error` | 500 | Internal Server Error | 未处理异常 |
 

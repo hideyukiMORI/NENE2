@@ -7,7 +7,7 @@ Every JSON response follows the schemas in `docs/openapi/openapi.yaml`.
 
 | Method | Path | Auth | Response |
 |---|---|---|---|
-| `GET` | `/health` | None | `200` `{ service, status, timestamp }` |
+| `GET` | `/health` | None | `200` `{ service, status, timestamp[, checks] }` · `503` when any check fails |
 | `GET` | `/examples/ping` | None | `200` `{ message }` |
 | `GET` | `/` | None | `200` HTML welcome page |
 
@@ -16,9 +16,9 @@ Every JSON response follows the schemas in `docs/openapi/openapi.yaml`.
 | Method | Path | Auth | Success | Errors |
 |---|---|---|---|---|
 | `GET` | `/examples/notes` | None | `200` list | — |
-| `POST` | `/examples/notes` | None | `201` note | `422` |
+| `POST` | `/examples/notes` | None | `201` note | `400`, `422` |
 | `GET` | `/examples/notes/{id}` | None | `200` note | `404` |
-| `PUT` | `/examples/notes/{id}` | None | `200` note | `404`, `422` |
+| `PUT` | `/examples/notes/{id}` | None | `200` note | `400`, `404`, `422` |
 | `DELETE` | `/examples/notes/{id}` | None | `204` | `404` |
 
 ## Tags
@@ -26,9 +26,9 @@ Every JSON response follows the schemas in `docs/openapi/openapi.yaml`.
 | Method | Path | Auth | Success | Errors |
 |---|---|---|---|---|
 | `GET` | `/examples/tags` | None | `200` list | — |
-| `POST` | `/examples/tags` | None | `201` tag | `422` |
+| `POST` | `/examples/tags` | None | `201` tag | `400`, `422` |
 | `GET` | `/examples/tags/{id}` | None | `200` tag | `404` |
-| `PUT` | `/examples/tags/{id}` | None | `200` tag | `404`, `422` |
+| `PUT` | `/examples/tags/{id}` | None | `200` tag | `400`, `404`, `422` |
 | `DELETE` | `/examples/tags/{id}` | None | `204` | `404` |
 
 ## Protected (machine client)

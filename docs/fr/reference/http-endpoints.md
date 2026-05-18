@@ -7,7 +7,7 @@ Chaque réponse JSON suit les schémas définis dans `docs/openapi/openapi.yaml`
 
 | Méthode | Chemin | Auth | Réponse |
 |---|---|---|---|
-| `GET` | `/health` | Aucune | `200` `{ service, status, timestamp }` |
+| `GET` | `/health` | Aucune | `200` `{ service, status, timestamp [, checks] }` ou `503` si dégradé |
 | `GET` | `/examples/ping` | Aucune | `200` `{ message }` |
 | `GET` | `/` | Aucune | `200` Page HTML d'accueil |
 
@@ -16,9 +16,9 @@ Chaque réponse JSON suit les schémas définis dans `docs/openapi/openapi.yaml`
 | Méthode | Chemin | Auth | Succès | Erreurs |
 |---|---|---|---|---|
 | `GET` | `/examples/notes` | Aucune | `200` liste | — |
-| `POST` | `/examples/notes` | Aucune | `201` note | `422` |
+| `POST` | `/examples/notes` | Aucune | `201` note | `400`, `422` |
 | `GET` | `/examples/notes/{id}` | Aucune | `200` note | `404` |
-| `PUT` | `/examples/notes/{id}` | Aucune | `200` note | `404`, `422` |
+| `PUT` | `/examples/notes/{id}` | Aucune | `200` note | `400`, `404`, `422` |
 | `DELETE` | `/examples/notes/{id}` | Aucune | `204` | `404` |
 
 ## Tags
@@ -26,9 +26,9 @@ Chaque réponse JSON suit les schémas définis dans `docs/openapi/openapi.yaml`
 | Méthode | Chemin | Auth | Succès | Erreurs |
 |---|---|---|---|---|
 | `GET` | `/examples/tags` | Aucune | `200` liste | — |
-| `POST` | `/examples/tags` | Aucune | `201` tag | `422` |
+| `POST` | `/examples/tags` | Aucune | `201` tag | `400`, `422` |
 | `GET` | `/examples/tags/{id}` | Aucune | `200` tag | `404` |
-| `PUT` | `/examples/tags/{id}` | Aucune | `200` tag | `404`, `422` |
+| `PUT` | `/examples/tags/{id}` | Aucune | `200` tag | `400`, `404`, `422` |
 | `DELETE` | `/examples/tags/{id}` | Aucune | `204` | `404` |
 
 ## Protégé (client machine)
