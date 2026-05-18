@@ -17,6 +17,8 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 - **#388 / PR #389**: Post-v1.0 ドキュメント整合性クリーンアップ
   (README v0.3.x → v1.x、src/ レイアウト補完、milestones 完了チェック、openapi-to-md prose 修正、dependabot root npm 追加)
 - **#394 / PR #395**: openapi-to-md health/root 表記修正 + README MCP read/write・9lick.me 削除
+- **#398 / PR #399**: v1.1.0 milestone 未チェック修正・README opt-in 表現・composer.json SPA 統一
+- **#400 / PR #401**: 5 locale health/root 同期・README middleware→opt-in・env-vars JWT 説明・roadmap 順序修正
 
 ## Next Candidates
 
