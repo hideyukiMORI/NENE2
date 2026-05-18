@@ -8,6 +8,10 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+---
+
+## [1.4.0] — 2026-05-18
+
 ### Added
 - `AppConfig::$problemDetailsBaseUrl` — configurable base URL for Problem Details `type` URIs (`Nene2\Config`); defaults to `https://nene2.dev/problems/` (#409)
 - `PROBLEM_DETAILS_BASE_URL` environment variable — override the base URL per project without touching framework code (#409)
@@ -266,7 +270,8 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Governance docs: workflow, coding standards, ADR policy, review checklists (#1)
 - ADR 0001–0004: HTTP runtime, DI container, phpdotenv, Phinx
 
-[Unreleased]: https://github.com/hideyukiMORI/NENE2/compare/v1.3.0...HEAD
+[Unreleased]: https://github.com/hideyukiMORI/NENE2/compare/v1.4.0...HEAD
+[1.4.0]: https://github.com/hideyukiMORI/NENE2/compare/v1.3.0...v1.4.0
 [1.3.0]: https://github.com/hideyukiMORI/NENE2/compare/v1.2.0...v1.3.0
 [1.2.0]: https://github.com/hideyukiMORI/NENE2/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/hideyukiMORI/NENE2/compare/v1.0.0...v1.1.0
