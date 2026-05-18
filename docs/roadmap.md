@@ -579,6 +579,24 @@ Goal: consolidate Phase 51–52 additions into a versioned release.
 - CHANGELOG.md v1.3.0 section
 - `v1.3.0` tag
 
+## Phase 55: Dependabot Dependency Updates
+
+Goal: merge pending Dependabot PRs to keep dependencies current.
+
+- 10 Dependabot PRs merged (#324–#333): phpunit, symfony/yaml, php-cs-fixer, GitHub Actions
+  (cache/upload-pages-artifact/deploy-pages), typescript-eslint, eslint, @vitejs/plugin-react, vite
+- All PRs verified CI green before merging
+
+## Phase 56: Field Trial 9 — v1.3.0 Validation
+
+Goal: validate v1.3.0 new features in Docker environment.
+
+- `PaginationQueryParser` — default, explicit limit/offset, and all 422 error paths
+- `JsonRequestBodyParser` — 400/422 distinction confirmed
+- `composer openapi:docs` — runs clean, no diff against committed file
+- Full test suite passes (199 tests, 630 assertions)
+- Friction found: PHPStan OOM in Docker (#371), GitHub Release missing from release flow (#372)
+
 ## Non-Goals
 
 - Recreating Laravel or Symfony.
