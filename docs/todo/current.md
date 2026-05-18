@@ -359,11 +359,19 @@ _Friction follow-ups (docs): Issues `#167` (MCP JSON integers for path params), 
 - [x] test: `JsonRequestBodyParserTest` 7 ケース（正常・空・不正・非オブジェクト各種）
 - [x] test: `NoteHttpTest` に 400 パス 3 ケース追加
 
+## Phase 49: v1.2.0 リリース (#356)
+
+- [x] docs(roadmap): Phase 48-49 エントリを追加する
+- [x] docs(todo): current.md を更新する
+- [x] chore(changelog): `[Unreleased]` → `[1.2.0] — 2026-05-18` に確定する
+- [ ] chore(release): `v1.2.0` タグを打つ
+- [ ] chore(release): Packagist v1.2.0 自動反映確認
+
 ## Phase 47: v1.1.0 リリース
 
 - [x] chore(changelog): v1.1.0 セクション確定
 - [x] docs(adr): ADR 0010 最終化
-- [ ] chore(release): Packagist v1.1.0 自動反映確認
+- [x] chore(release): Packagist v1.1.0 自動反映確認
 - [x] chore(release): `v1.1.0` タグを打つ
 
 ## Phase 46: Field Trial 8 — v1.0 Stable Validation

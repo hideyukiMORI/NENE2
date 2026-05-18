@@ -520,6 +520,27 @@ Goal: consolidate Phase 44–46 additions into a versioned release.
 
 Tracked by `docs/milestones/2026-05-v1.1.md`.
 
+## Phase 48: JsonRequestBodyParser — 400/422 分離 (#354)
+
+Goal: make the boundary between malformed JSON (400) and structurally valid but semantically
+invalid JSON (422) explicit, so clients can distinguish parse errors from validation errors.
+
+- `JsonBodyParseException` added to stable `Nene2\Http` surface
+- `JsonRequestBodyParser::parse()` — throws on empty body, syntactically invalid JSON, or
+  non-object JSON (array / string / number / null)
+- `ErrorHandlerMiddleware` maps `JsonBodyParseException` → `400 invalid-json` Problem Details
+- `CreateNoteHandler`, `UpdateNoteHandler`, `CreateTagHandler`, `UpdateTagHandler` migrated to
+  use `JsonRequestBodyParser::parse()` instead of raw `json_decode`
+- 7 unit tests in `JsonRequestBodyParserTest`; 3 new 400-path cases in `NoteHttpTest`
+
+## Phase 49: v1.2.0 Release (#356)
+
+Goal: consolidate Phase 48 additions into a versioned release.
+
+- CHANGELOG.md v1.2.0 section (Phase 48 — JsonRequestBodyParser)
+- Roadmap and TODO updated
+- `v1.2.0` tag
+
 ## Non-Goals
 
 - Recreating Laravel or Symfony.
