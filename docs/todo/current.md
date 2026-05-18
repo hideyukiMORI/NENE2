@@ -4,9 +4,9 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 ## Status
 
-- Current milestone: `docs/milestones/2026-05-field-trial-2.md` (Field Trial 2)
-- Latest release: `v0.2.0` (Phase 17 complete)
-- Current branch: `main`
+- Current milestone: `docs/milestones/2026-05-v1.1.md` (v1.1 — Production Readiness)
+- Latest release: `v1.0.0` (Phase 43 complete)
+- Current branch: `docs/344-v1.1-roadmap`
 
 ## Foundation Completed
 
@@ -349,6 +349,39 @@ _Friction follow-ups (docs): Issues `#167` (MCP JSON integers for path params), 
 
 - [x] test(tag): `PdoTagRepositoryMySqlTest` 追加（save/findAll/update/delete 7 ケース）. `#312`
 - [x] feat(frontend): `api/tags.ts` + `TagList` + `TagForm` — Tag CRUD をブラウザから操作可能に. `#314`
+
+## Phase 47: v1.1.0 リリース
+
+- [ ] chore(changelog): v1.1.0 セクション確定
+- [ ] docs(adr): ADR 0010 最終化
+- [ ] chore(release): Packagist v1.1.0 自動反映確認
+- [ ] chore(release): `v1.1.0` タグを打つ
+
+## Phase 46: Field Trial 8 — v1.0 Stable Validation
+
+- [ ] `composer require hideyukimori/nene2:^1.0` から新規プロジェクト開始
+- [ ] `DatabaseHealthCheck` を使って degraded パスを確認
+- [ ] `ThrottleMiddleware` を使って 429 パスを確認
+- [ ] 摩擦メモを Issue 化する
+
+## Phase 45: Rate Limiting (#344)
+
+- [ ] docs(adr): ADR 0010 — Rate Limiting 設計方針を記録する
+- [ ] feat: `RateLimitStorageInterface` を追加する（stable surface）
+- [ ] feat: `InMemoryRateLimitStorage` を追加する（`@internal`、開発・テスト用）
+- [ ] feat: `ThrottleMiddleware` を追加する（429 Problem Details、`Retry-After`、`X-RateLimit-*`）
+- [ ] test: under / at / over limit、reset after window のテスト
+- [ ] docs: CLAUDE.md ミドルウェア順を更新（position 8、Auth 後）
+- [ ] docs: セルフレビューチェックリストに rate limit チェックポイントを追加
+
+## Phase 44: DB Health Check (#344)
+
+- [ ] feat: `HealthCheckInterface` を追加する（stable surface）
+- [ ] feat: `RuntimeApplicationFactory` に `list<HealthCheckInterface> $healthChecks = []` を追加する
+- [ ] feat: `GET /health` レスポンスを拡張する（checks フィールド、503 degraded）
+- [ ] feat: `DatabaseHealthCheck` 参照実装を `src/Example/` に追加する
+- [ ] docs(openapi): health エンドポイントのスキーマを更新する
+- [ ] test: healthy / degraded / no-checks パスのテスト
 
 ## Phase 43: v1.0 readiness (#340)
 
