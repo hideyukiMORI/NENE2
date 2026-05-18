@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Nene2\Log;
 
+/** @internal */
 final class RequestIdHolder
 {
     private string $requestId = '';

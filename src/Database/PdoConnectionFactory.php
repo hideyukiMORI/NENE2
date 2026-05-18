@@ -8,6 +8,7 @@ use Nene2\Config\DatabaseConfig;
 use PDO;
 use PDOException;
 
+/** @internal */
 final readonly class PdoConnectionFactory implements DatabaseConnectionFactoryInterface
 {
     public function __construct(

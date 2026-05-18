@@ -9,6 +9,7 @@ use PDOException;
 use PDOStatement;
 
 /**
+ * @internal
  * @phpstan-import-type SqlParameters from DatabaseQueryExecutorInterface
  * @phpstan-import-type SqlRow from DatabaseQueryExecutorInterface
  */

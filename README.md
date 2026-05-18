@@ -86,7 +86,9 @@ docker compose run --rm app composer test:database:mysql
 
 ## Domain Layer Example
 
-`src/Example/Note/` is the canonical reference for how each framework layer works together end-to-end. It implements a full Note CRUD with:
+`src/Example/Note/` and `src/Example/Tag/` are **reference implementations** — they demonstrate how to use the framework, but are not part of the public API stability guarantee (see [ADR 0009](docs/adr/0009-v1.0-public-api-scope.md)). Copy and adapt the patterns into your own application; do not import these classes as library dependencies.
+
+`src/Example/Note/` implements a full Note CRUD with:
 
 | Layer | File(s) |
 |---|---|

@@ -33,6 +33,7 @@ use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Log\LoggerInterface;
 
+/** @internal */
 final readonly class RuntimeServiceProvider implements ServiceProviderInterface
 {
     public const PROJECT_ROOT = 'nene2.project_root';

@@ -7,6 +7,7 @@ namespace Nene2\Database;
 use PDOException;
 use Throwable;
 
+/** @internal */
 final readonly class PdoDatabaseTransactionManager implements DatabaseTransactionManagerInterface
 {
     public function __construct(

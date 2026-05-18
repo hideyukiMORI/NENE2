@@ -444,6 +444,26 @@ Goal: consolidate Phase 35–36 changes into a tagged release.
 - VitePress version badge updated to v0.7.0
 - `v0.7.0` tag
 
+## Phase 38–39: Coverage and Frontend Parity
+
+Goal: close test coverage gaps and bring the frontend to feature parity with the backend.
+
+- `UpdateTagUseCase` / `DeleteTagUseCase` unit tests (+4)
+- `PdoTagRepository::update()` / `delete()` adapter tests (+2)
+- `PdoTagRepositoryMySqlTest` — MySQL integration (7 cases)
+- `frontend/src/api/tags.ts` typed fetch wrapper
+- `TagList` and `TagForm` React components with live API integration
+
+## Phase 40: v1.0 Public API Scope
+
+Goal: declare the stable public API surface before cutting v1.0, so adopters know which interfaces and classes NENE2 commits not to break across major versions.
+
+- ADR 0009: `src/Example/` stays in core as reference implementation, explicitly outside the stability guarantee
+- Stable surface documented: `Routing`, `Http`, `DependencyInjection`, `Config`, `Database` interfaces, `Error`, `Auth`, `Middleware`, `Validation`, `View`, `Mcp`
+- `@internal` annotations added to implementation-detail classes (`ConfigLoader`, PDO adapters, `Log/*`, `RuntimeServiceProvider`, `LocalMcpToolCatalog`)
+- README updated to note `src/Example/` is a reference implementation, not a dependency target
+- Roadmap updated with Phase 40 entry
+
 ## Non-Goals
 
 - Recreating Laravel or Symfony.
