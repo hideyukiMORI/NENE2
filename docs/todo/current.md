@@ -375,6 +375,14 @@ _Friction follow-ups (docs): Issues `#167` (MCP JSON integers for path params), 
 - [x] `composer.json` に `openapi:docs` スクリプトを追加する
 - [x] CI グリーン確認・PR マージ (#363)
 
+## Phase 54: VitePress v1.3.0 対応 (#366)
+
+- [x] config.mts バージョンバッジ v1.2.0 → v1.3.0
+- [x] config.mts サイドバーに addPagination 追加（6 ロケール）
+- [x] docs/howto/add-pagination.md + 5 ロケール翻訳追加
+- [x] .github/workflows/backend.yml に openapi:docs 同期チェック追加
+- [ ] CI グリーン確認・PR マージ
+
 ## Phase 53: v1.3.0 リリース
 
 - [x] Issue 作成・ブランチ作成

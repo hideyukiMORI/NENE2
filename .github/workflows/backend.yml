@@ -47,3 +47,8 @@ jobs:
 
       - name: Run backend checks
         run: composer check
+
+      - name: Verify OpenAPI docs are up to date
+        run: |
+          composer openapi:docs
+          git diff --exit-code docs/reference/http-endpoints.md
