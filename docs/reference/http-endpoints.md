@@ -37,7 +37,7 @@ Every JSON response follows the schemas in `docs/openapi/openapi.yaml`.
 |---|---|---|---|---|
 | `GET` | `/examples/protected` | `Bearer` token | `200` | `401` |
 
-Requests to protected endpoints must include either the `X-NENE2-API-Key` header or a valid `Authorization: Bearer <token>` header.
+Requests to the protected endpoint must include a valid `Authorization: Bearer <token>` header with a JWT signed with `NENE2_LOCAL_JWT_SECRET`.
 
 ## Response shapes
 

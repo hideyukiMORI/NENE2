@@ -29,6 +29,20 @@ updates:
       - github-actions
 
   - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: "10:00"
+      timezone: Asia/Tokyo
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: build(deps)
+    labels:
+      - dependencies
+      - docs
+
+  - package-ecosystem: npm
     directory: /frontend
     schedule:
       interval: weekly
