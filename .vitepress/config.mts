@@ -9,7 +9,7 @@ function nav(t: {
     { text: t.explanation, link: `${p}/explanation/why-psr`,    activeMatch: 'explanation/' },
     { text: t.reference,   link: `${p}/reference/index`,        activeMatch: 'reference/' },
     {
-      text: 'v1.3.0',
+      text: 'v1.4.0',
       items: [
         { text: 'Changelog',  link: 'https://github.com/hideyukiMORI/NENE2/blob/main/CHANGELOG.md' },
         { text: 'Releases',   link: 'https://github.com/hideyukiMORI/NENE2/releases' },
