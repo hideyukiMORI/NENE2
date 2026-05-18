@@ -129,7 +129,7 @@ final class RedisRateLimitStorage implements RateLimitStorageInterface
 
 ## Designentscheidungen
 
-Siehe [ADR 0010](../adr/0010-rate-limiting.md) für die Begründung hinter:
+Siehe [ADR 0010](/adr/0010-rate-limiting) für die Begründung hinter:
 - Wahl des Fixed-Window-Algorithmus
 - IP-basierter Standardschlüssel
 - Header-Konventionen (`X-RateLimit-*`, `Retry-After`)

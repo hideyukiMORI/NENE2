@@ -2,12 +2,12 @@ import { defineConfig } from 'vitepress'
 
 function nav(t: {
   tutorial: string; howto: string; explanation: string; reference: string
-}) {
+}, p: string = '') {
   return [
-    { text: t.tutorial,    link: 'tutorial/first-api',            activeMatch: 'tutorial/' },
-    { text: t.howto,       link: 'howto/add-custom-route',        activeMatch: 'howto/' },
-    { text: t.explanation, link: 'explanation/why-psr',           activeMatch: 'explanation/' },
-    { text: t.reference,   link: 'reference/index',               activeMatch: 'reference/' },
+    { text: t.tutorial,    link: `${p}/tutorial/first-api`,     activeMatch: 'tutorial/' },
+    { text: t.howto,       link: `${p}/howto/add-custom-route`, activeMatch: 'howto/' },
+    { text: t.explanation, link: `${p}/explanation/why-psr`,    activeMatch: 'explanation/' },
+    { text: t.reference,   link: `${p}/reference/index`,        activeMatch: 'reference/' },
     {
       text: 'v1.3.0',
       items: [
@@ -25,56 +25,56 @@ function sidebar(t: {
   explGroup: string; whyPsr: string; whyDi: string; whyPd: string; whyMcp: string
   devGroup: string; intGroup: string
   refGroup: string; envVars: string; endpoints: string; problemTypes: string
-}) {
+}, p: string = '') {
   return {
-    '/tutorial/': [{ text: t.tutorialGroup, items: [{ text: t.firstApi, link: 'tutorial/first-api' }] }],
+    '/tutorial/': [{ text: t.tutorialGroup, items: [{ text: t.firstApi, link: `${p}/tutorial/first-api` }] }],
     '/howto/': [{
       text: t.howtoGroup,
       items: [
-        { text: t.addRoute,       link: 'howto/add-custom-route' },
-        { text: t.addDb,          link: 'howto/add-database-endpoint' },
-        { text: t.addEntity,      link: 'howto/add-second-entity' },
-        { text: t.deploy,         link: 'howto/deploy-production' },
-        { text: t.addRateLimit,   link: 'howto/add-rate-limiting' },
-        { text: t.addHealthCheck, link: 'howto/add-health-check' },
-        { text: t.addPagination,  link: 'howto/add-pagination' },
+        { text: t.addRoute,       link: `${p}/howto/add-custom-route` },
+        { text: t.addDb,          link: `${p}/howto/add-database-endpoint` },
+        { text: t.addEntity,      link: `${p}/howto/add-second-entity` },
+        { text: t.deploy,         link: `${p}/howto/deploy-production` },
+        { text: t.addRateLimit,   link: `${p}/howto/add-rate-limiting` },
+        { text: t.addHealthCheck, link: `${p}/howto/add-health-check` },
+        { text: t.addPagination,  link: `${p}/howto/add-pagination` },
       ],
     }],
     '/explanation/': [{
       text: t.explGroup,
       items: [
-        { text: t.whyPsr,  link: 'explanation/why-psr' },
-        { text: t.whyDi,   link: 'explanation/why-explicit-wiring' },
-        { text: t.whyPd,   link: 'explanation/why-problem-details' },
-        { text: t.whyMcp,  link: 'explanation/why-mcp' },
+        { text: t.whyPsr,  link: `${p}/explanation/why-psr` },
+        { text: t.whyDi,   link: `${p}/explanation/why-explicit-wiring` },
+        { text: t.whyPd,   link: `${p}/explanation/why-problem-details` },
+        { text: t.whyMcp,  link: `${p}/explanation/why-mcp` },
       ],
     }],
     '/reference/': [{
       text: t.refGroup,
       items: [
-        { text: t.envVars,      link: 'reference/environment-variables' },
-        { text: t.endpoints,    link: 'reference/http-endpoints' },
-        { text: t.problemTypes, link: 'reference/problem-details-types' },
+        { text: t.envVars,      link: `${p}/reference/environment-variables` },
+        { text: t.endpoints,    link: `${p}/reference/http-endpoints` },
+        { text: t.problemTypes, link: `${p}/reference/problem-details-types` },
       ],
     }],
     '/development/': [
       {
         text: t.devGroup,
         items: [
-          { text: 'Setup',                  link: 'development/setup' },
-          { text: 'Endpoint scaffold',      link: 'development/endpoint-scaffold' },
-          { text: 'Domain layer',           link: 'development/domain-layer' },
-          { text: 'Authentication',         link: 'development/authentication-boundary' },
-          { text: 'Test database strategy', link: 'development/test-database-strategy' },
-          { text: 'Client project start',   link: 'development/client-project-start' },
+          { text: 'Setup',                  link: `${p}/development/setup` },
+          { text: 'Endpoint scaffold',      link: `${p}/development/endpoint-scaffold` },
+          { text: 'Domain layer',           link: `${p}/development/domain-layer` },
+          { text: 'Authentication',         link: `${p}/development/authentication-boundary` },
+          { text: 'Test database strategy', link: `${p}/development/test-database-strategy` },
+          { text: 'Client project start',   link: `${p}/development/client-project-start` },
         ],
       },
       {
         text: t.intGroup,
         items: [
-          { text: 'Local MCP server',       link: 'integrations/local-mcp-server' },
-          { text: 'MCP client config',      link: 'integrations/local-mcp-client-configuration' },
-          { text: 'MCP tools policy',       link: 'integrations/mcp-tools' },
+          { text: 'Local MCP server',       link: `${p}/integrations/local-mcp-server` },
+          { text: 'MCP client config',      link: `${p}/integrations/local-mcp-client-configuration` },
+          { text: 'MCP tools policy',       link: `${p}/integrations/mcp-tools` },
         ],
       },
     ],
@@ -104,7 +104,7 @@ export default defineConfig({
           explGroup: 'Explanation', whyPsr: 'Why PSR standards?', whyDi: 'Why explicit wiring?', whyPd: 'Why Problem Details?', whyMcp: 'Why MCP?',
           devGroup: 'Development', intGroup: 'Integrations',
           refGroup: 'Reference', envVars: 'Environment variables', endpoints: 'HTTP endpoints', problemTypes: 'Problem Details types',
-        }),
+        }, ''),
         editLink: { pattern: 'https://github.com/hideyukiMORI/NENE2/edit/main/docs/:path', text: 'Edit this page on GitHub' },
         footer: { message: 'Released under the MIT License.', copyright: 'Copyright © 2026 hideyukiMORI' },
       },
@@ -114,14 +114,14 @@ export default defineConfig({
       label: '日本語',
       lang: 'ja',
       themeConfig: {
-        nav: nav({ tutorial: 'チュートリアル', howto: 'HOWTO', explanation: '解説', reference: 'リファレンス' }),
+        nav: nav({ tutorial: 'チュートリアル', howto: 'HOWTO', explanation: '解説', reference: 'リファレンス' }, '/ja'),
         sidebar: sidebar({
           tutorialGroup: 'チュートリアル', firstApi: '最初の API を動かす',
           howtoGroup: 'HOWTO', addRoute: 'カスタムルートを追加する', addDb: 'DB 付きエンドポイントを追加する', addEntity: '2 つ目のエンティティを追加する', deploy: '本番環境へデプロイする', addRateLimit: 'レート制限を追加する', addHealthCheck: 'ヘルスチェックを追加する', addPagination: 'ページネーションを追加する',
           explGroup: '解説', whyPsr: 'なぜ PSR 標準？', whyDi: 'なぜ明示的 DI？', whyPd: 'なぜ Problem Details？', whyMcp: 'なぜ MCP？',
           devGroup: '開発ガイド', intGroup: 'インテグレーション',
           refGroup: 'リファレンス', envVars: '環境変数', endpoints: 'HTTP エンドポイント', problemTypes: 'Problem Details タイプ',
-        }),
+        }, '/ja'),
         editLink: { pattern: 'https://github.com/hideyukiMORI/NENE2/edit/main/docs/:path', text: 'GitHub でこのページを編集' },
         footer: { message: 'MIT ライセンスの下で公開されています。', copyright: 'Copyright © 2026 hideyukiMORI' },
         docFooter: { prev: '前のページ', next: '次のページ' },
@@ -136,14 +136,14 @@ export default defineConfig({
       label: 'Français',
       lang: 'fr',
       themeConfig: {
-        nav: nav({ tutorial: 'Tutoriel', howto: 'Guides', explanation: 'Explication', reference: 'Référence' }),
+        nav: nav({ tutorial: 'Tutoriel', howto: 'Guides', explanation: 'Explication', reference: 'Référence' }, '/fr'),
         sidebar: sidebar({
           tutorialGroup: 'Tutoriel', firstApi: 'Votre première API',
           howtoGroup: 'Guides pratiques', addRoute: 'Ajouter une route', addDb: 'Ajouter un endpoint avec BDD', addEntity: 'Ajouter une deuxième entité', deploy: 'Déployer en production', addRateLimit: 'Ajouter la limitation de débit', addHealthCheck: 'Ajouter un contrôle de santé', addPagination: 'Ajouter la pagination',
           explGroup: 'Explication', whyPsr: 'Pourquoi PSR ?', whyDi: 'Pourquoi le câblage explicite ?', whyPd: 'Pourquoi Problem Details ?', whyMcp: 'Pourquoi MCP ?',
           devGroup: 'Développement', intGroup: 'Intégrations',
           refGroup: 'Référence', envVars: "Variables d'environnement", endpoints: 'Endpoints HTTP', problemTypes: 'Types Problem Details',
-        }),
+        }, '/fr'),
         editLink: { pattern: 'https://github.com/hideyukiMORI/NENE2/edit/main/docs/:path', text: 'Modifier cette page sur GitHub' },
         footer: { message: 'Publié sous licence MIT.', copyright: 'Copyright © 2026 hideyukiMORI' },
         docFooter: { prev: 'Page précédente', next: 'Page suivante' },
@@ -156,14 +156,14 @@ export default defineConfig({
       label: '中文',
       lang: 'zh-Hans',
       themeConfig: {
-        nav: nav({ tutorial: '教程', howto: '操作指南', explanation: '说明', reference: '参考' }),
+        nav: nav({ tutorial: '教程', howto: '操作指南', explanation: '说明', reference: '参考' }, '/zh'),
         sidebar: sidebar({
           tutorialGroup: '教程', firstApi: '创建您的第一个 API',
           howtoGroup: '操作指南', addRoute: '添加自定义路由', addDb: '添加数据库端点', addEntity: '添加第二个实体', deploy: '部署到生产环境', addRateLimit: '添加速率限制', addHealthCheck: '添加健康检查', addPagination: '添加分页',
           explGroup: '说明', whyPsr: '为什么选择 PSR？', whyDi: '为什么显式依赖注入？', whyPd: '为什么使用 Problem Details？', whyMcp: '为什么选择 MCP？',
           devGroup: '开发指南', intGroup: '集成',
           refGroup: '参考', envVars: '环境变量', endpoints: 'HTTP 端点', problemTypes: 'Problem Details 类型',
-        }),
+        }, '/zh'),
         editLink: { pattern: 'https://github.com/hideyukiMORI/NENE2/edit/main/docs/:path', text: '在 GitHub 上编辑此页' },
         footer: { message: '基于 MIT 许可证发布。', copyright: 'Copyright © 2026 hideyukiMORI' },
         docFooter: { prev: '上一页', next: '下一页' },
@@ -178,14 +178,14 @@ export default defineConfig({
       label: 'Português (Brasil)',
       lang: 'pt-BR',
       themeConfig: {
-        nav: nav({ tutorial: 'Tutorial', howto: 'Guias', explanation: 'Explicação', reference: 'Referência' }),
+        nav: nav({ tutorial: 'Tutorial', howto: 'Guias', explanation: 'Explicação', reference: 'Referência' }, '/pt-br'),
         sidebar: sidebar({
           tutorialGroup: 'Tutorial', firstApi: 'Sua primeira API',
           howtoGroup: 'Guias práticos', addRoute: 'Adicionar uma rota', addDb: 'Adicionar endpoint com banco de dados', addEntity: 'Adicionar segunda entidade', deploy: 'Implantar em produção', addRateLimit: 'Adicionar limitação de taxa', addHealthCheck: 'Adicionar verificação de saúde', addPagination: 'Adicionar paginação',
           explGroup: 'Explicação', whyPsr: 'Por que PSR?', whyDi: 'Por que injeção explícita?', whyPd: 'Por que Problem Details?', whyMcp: 'Por que MCP?',
           devGroup: 'Desenvolvimento', intGroup: 'Integrações',
           refGroup: 'Referência', envVars: 'Variáveis de ambiente', endpoints: 'Endpoints HTTP', problemTypes: 'Tipos Problem Details',
-        }),
+        }, '/pt-br'),
         editLink: { pattern: 'https://github.com/hideyukiMORI/NENE2/edit/main/docs/:path', text: 'Editar esta página no GitHub' },
         footer: { message: 'Publicado sob a licença MIT.', copyright: 'Copyright © 2026 hideyukiMORI' },
         docFooter: { prev: 'Página anterior', next: 'Próxima página' },
@@ -198,14 +198,14 @@ export default defineConfig({
       label: 'Deutsch',
       lang: 'de',
       themeConfig: {
-        nav: nav({ tutorial: 'Tutorial', howto: 'Anleitungen', explanation: 'Erklärung', reference: 'Referenz' }),
+        nav: nav({ tutorial: 'Tutorial', howto: 'Anleitungen', explanation: 'Erklärung', reference: 'Referenz' }, '/de'),
         sidebar: sidebar({
           tutorialGroup: 'Tutorial', firstApi: 'Ihre erste API',
           howtoGroup: 'Anleitungen', addRoute: 'Route hinzufügen', addDb: 'Datenbankendpunkt hinzufügen', addEntity: 'Zweite Entität hinzufügen', deploy: 'In Produktion deployen', addRateLimit: 'Rate Limiting hinzufügen', addHealthCheck: 'Health Check hinzufügen', addPagination: 'Paginierung hinzufügen',
           explGroup: 'Erklärung', whyPsr: 'Warum PSR?', whyDi: 'Warum explizites Wiring?', whyPd: 'Warum Problem Details?', whyMcp: 'Warum MCP?',
           devGroup: 'Entwicklung', intGroup: 'Integrationen',
           refGroup: 'Referenz', envVars: 'Umgebungsvariablen', endpoints: 'HTTP-Endpunkte', problemTypes: 'Problem Details-Typen',
-        }),
+        }, '/de'),
         editLink: { pattern: 'https://github.com/hideyukiMORI/NENE2/edit/main/docs/:path', text: 'Diese Seite auf GitHub bearbeiten' },
         footer: { message: 'Veröffentlicht unter der MIT-Lizenz.', copyright: 'Copyright © 2026 hideyukiMORI' },
         docFooter: { prev: 'Vorherige Seite', next: 'Nächste Seite' },

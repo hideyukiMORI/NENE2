@@ -138,7 +138,7 @@ $throttle = new ThrottleMiddleware(
 
 ## 設計の判断について
 
-固定ウィンドウアルゴリズムの選択、IP キーのデフォルト、ヘッダー規約、`RateLimitStorageInterface` 抽象境界の根拠は [ADR 0010](../adr/0010-rate-limiting.md) を参照してください。
+固定ウィンドウアルゴリズムの選択、IP キーのデフォルト、ヘッダー規約、`RateLimitStorageInterface` 抽象境界の根拠は [ADR 0010](/adr/0010-rate-limiting) を参照してください。
 
 ---
 
