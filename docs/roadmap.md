@@ -464,6 +464,62 @@ Goal: declare the stable public API surface before cutting v1.0, so adopters kno
 - README updated to note `src/Example/` is a reference implementation, not a dependency target
 - Roadmap updated with Phase 40 entry
 
+## Phase 41: v1.0.0 Tagging and Readiness
+
+Goal: complete the v1.0.0 release criteria and tag the first stable release.
+
+- ADR 0009 gap fixes: `HtmlResponseFactory` and `TemplateNotFoundException` moved to correct `Nene2\View` namespace in the stable list; `ResponseEmitter` added
+- PHPDoc on all public interfaces and extension points in the stable surface
+- `docs/milestones/2026-05-v1.0.md` — v1.0 tagging criteria documented
+- CHANGELOG heading note ("Breaking changes may occur until v1.0.0") removed
+- `v1.0.0` tag
+
+Tracked by Issue `#340`.
+
+## Phase 44: DB Health Check
+
+Goal: extend the `GET /health` endpoint with an optional, dependency-injected database connectivity check so operators can verify that the application can reach its database, without coupling the framework core to any specific adapter.
+
+- `HealthCheckInterface { name(): string; check(): bool; }` — stable public interface in `Nene2\Http` or a new `Nene2\Health` namespace
+- `RuntimeApplicationFactory` accepts `list<HealthCheckInterface> $healthChecks = []` (default empty → current behavior unchanged)
+- `GET /health` response extended: `{"status":"ok","checks":{"database":"ok"}}` (503 + `"degraded"` when any check fails)
+- `DatabaseHealthCheck` example in `src/Example/` as a reference implementation
+- OpenAPI schema for the extended health response
+- PHPUnit tests: healthy path, degraded path, empty checks
+
+## Phase 45: Rate Limiting
+
+Goal: add production-grade rate limiting to the middleware pipeline with a storage-backend abstraction so adopters can swap from in-memory to Redis or another store without touching framework code.
+
+- ADR 0010: rate limiting design decisions (algorithm, header conventions, storage abstraction)
+- `RateLimitStorageInterface` — stable public interface; get / increment / ttl operations
+- `InMemoryRateLimitStorage` — `@internal` default for local development and testing
+- `ThrottleMiddleware` — PSR-15 middleware; position 8 (after Auth, before routing)
+  - 429 Problem Details response with `type: https://nene2.dev/problems/too-many-requests`
+  - `Retry-After`, `X-RateLimit-Limit`, `X-RateLimit-Remaining`, `X-RateLimit-Reset` headers
+- `RuntimeApplicationFactory` accepts an optional `ThrottleMiddleware` (not wired by default)
+- PHPUnit tests: under limit, at limit, over limit, reset after window
+
+## Phase 46: Field Trial 8 — v1.0 Stable Validation
+
+Goal: validate the v1.0 stable API contract and the new production features in a realistic project scenario starting from `composer require hideyukimori/nene2:^1.0`.
+
+- Start a new project directory with `composer require hideyukimori/nene2:^1.0`
+- Verify the stable surface (Router, RuntimeApplicationFactory, interfaces) works as documented
+- Wire `DatabaseHealthCheck` into `GET /health` and confirm the degraded path
+- Wire `ThrottleMiddleware` + `InMemoryRateLimitStorage` and trigger the 429 path
+- Record friction and open follow-up Issues
+
+## Phase 47: v1.1.0 Release
+
+Goal: consolidate Phase 44–46 additions into a versioned release.
+
+- CHANGELOG.md v1.1.0 section (DB Health Check, Rate Limiting, Field Trial 8 findings)
+- ADR 0010 finalized
+- `v1.1.0` tag
+
+Tracked by `docs/milestones/2026-05-v1.1.md`.
+
 ## Non-Goals
 
 - Recreating Laravel or Symfony.
