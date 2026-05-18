@@ -365,6 +365,13 @@ _Friction follow-ups (docs): Issues `#167` (MCP JSON integers for path params), 
 - [x] feat: `PaginationQueryParser::parse()` を `Nene2\Http` に追加する（`ValidationException` スロー）
 - [x] refactor: `ListNotesHandler` / `ListTagsHandler` を `PaginationQueryParser` に移行する
 - [x] test: `PaginationQueryParserTest` 9 ケース追加
+- [x] CI グリーン確認・PR マージ
+
+## Phase 52: OpenAPI → Markdown 生成スクリプト
+
+- [ ] Issue 作成・ブランチ作成
+- [ ] `tools/openapi-to-md.php` — openapi.yaml から英語リファレンス Markdown を生成する
+- [ ] `composer.json` に `openapi:docs` スクリプトを追加する
 - [ ] CI グリーン確認・PR マージ
 
 ## Phase 50: VitePress v1.2.0 対応ドキュメント (#358)
