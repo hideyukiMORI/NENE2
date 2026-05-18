@@ -7,6 +7,7 @@ namespace Nene2\Http;
 use Nene2\DependencyInjection\ContainerBuilder;
 use Psr\Container\ContainerInterface;
 
+/** @internal */
 final readonly class RuntimeContainerFactory
 {
     public function __construct(

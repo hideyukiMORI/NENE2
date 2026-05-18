@@ -353,9 +353,9 @@ _Friction follow-ups (docs): Issues `#167` (MCP JSON integers for path params), 
 ## Phase 40: v1.0 公開 API スコープ定義
 
 - [x] docs(adr): ADR 0009 — v1.0 公開 API スコープと安定性保証を記録する. `#334`
-- [ ] docs(readme): `src/Example/` が参照実装（安定保証外）である旨を README に追記する. `#334`
-- [ ] chore(phpdoc): 安定保証外クラスに `@internal` アノテーションを追加する. `#334`
-- [ ] docs(roadmap): Phase 40 をロードマップに追加する. `#334`
+- [x] docs(readme): `src/Example/` が参照実装（安定保証外）である旨を README に追記する. `#334`
+- [x] chore(phpdoc): 安定保証外クラスに `@internal` アノテーションを追加する. `#334`
+- [x] docs(roadmap): Phase 40 をロードマップに追加する. `#334`
 
 ## Operating Notes
 

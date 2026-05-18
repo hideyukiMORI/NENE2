@@ -6,6 +6,7 @@ namespace Nene2\Config;
 
 use Dotenv\Dotenv;
 
+/** @internal */
 final readonly class ConfigLoader
 {
     /**

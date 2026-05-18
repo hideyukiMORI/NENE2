@@ -10,6 +10,7 @@ use Monolog\Level;
 use Monolog\Logger;
 use Psr\Log\LoggerInterface;
 
+/** @internal */
 final readonly class MonologLoggerFactory
 {
     public function create(string $channel, bool $debug = false, ?RequestIdHolder $requestIdHolder = null): LoggerInterface

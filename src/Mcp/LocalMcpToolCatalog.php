@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Nene2\Mcp;
 
 /**
+ * @internal
  * @phpstan-type McpToolSource array{type: string, operationId: string, method: string, path: string}
  * @phpstan-type McpTool array{name: string, title: string, description: string, safety: string, source: McpToolSource, inputSchema: array<string, mixed>, responseSchemaRef: string|null}
  */

@@ -6,6 +6,7 @@ namespace Nene2\Log;
 
 use Monolog\LogRecord;
 
+/** @internal */
 final readonly class RequestIdProcessor
 {
     public function __construct(
