@@ -350,6 +350,16 @@ _Friction follow-ups (docs): Issues `#167` (MCP JSON integers for path params), 
 - [x] test(tag): `PdoTagRepositoryMySqlTest` 追加（save/findAll/update/delete 7 ケース）. `#312`
 - [x] feat(frontend): `api/tags.ts` + `TagList` + `TagForm` — Tag CRUD をブラウザから操作可能に. `#314`
 
+## Phase 43: v1.0 readiness (#340)
+
+- [x] docs(adr): ADR 0009 namespace 修正（HtmlResponseFactory を View へ・ResponseEmitter・TemplateNotFoundException 追加）
+- [x] chore(phpdoc): ServiceProviderInterface / DomainExceptionHandlerInterface / DatabaseConnectionFactoryInterface に PHPDoc 追加
+- [x] chore(phpdoc): ResponseEmitter に stable である旨の PHPDoc 追加
+- [x] docs(milestone): v1.0 マイルストーン文書を追加（docs/milestones/2026-05-v1.0.md）
+- [ ] chore(release): v1.0.0 GitHub Release notes を草稿する
+- [ ] chore(changelog): v1.0.0 タグ後に冒頭注記を削除する
+- [ ] chore(release): `v1.0.0` タグを打つ（マイルストーン文書の全チェックが完了してから）
+
 ## Phase 42: v0.8.0 リリース
 
 - [x] chore(changelog): v0.8.0 セクション確定
