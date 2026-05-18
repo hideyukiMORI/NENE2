@@ -364,7 +364,7 @@ _Friction follow-ups (docs): Issues `#167` (MCP JSON integers for path params), 
 - [x] docs(roadmap): Phase 48-49 エントリを追加する
 - [x] docs(todo): current.md を更新する
 - [x] chore(changelog): `[Unreleased]` → `[1.2.0] — 2026-05-18` に確定する
-- [ ] chore(release): `v1.2.0` タグを打つ
+- [x] chore(release): `v1.2.0` タグを打つ
 - [ ] chore(release): Packagist v1.2.0 自動反映確認
 
 ## Phase 47: v1.1.0 リリース
