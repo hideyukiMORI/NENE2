@@ -1,6 +1,6 @@
 {
   "name": "hideyukimori/nene2",
-  "description": "PHP micro-framework: JSON APIs first, minimal server HTML, easy React/Vue SPA integration, structure friendly to AI tooling.",
+  "description": "PHP micro-framework: JSON APIs first, minimal server HTML, easy React/SPA integration, structure friendly to AI tooling.",
   "type": "library",
   "license": "MIT",
   "require": {
