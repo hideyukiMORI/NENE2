@@ -552,20 +552,20 @@ reusable `PaginationQuery` / `PaginationQueryParser` pair in the stable `Nene2\H
 - `ListNotesHandler` and `ListTagsHandler` migrated to use the parser (duplicate logic removed)
 - 9 unit tests in `PaginationQueryParserTest`
 
-## Phase 52: OpenAPI 3.1 Upgrade
+## Phase 52: OpenAPI → Markdown Generation (#362)
 
-Goal: upgrade the OpenAPI document from 3.0.x to 3.1 to gain JSON Schema alignment and
-deprecate `nullable: true` in favour of type arrays.
+Goal: add a CLI script (`tools/openapi-to-md.php`) that reads `docs/openapi/openapi.yaml` and
+generates `docs/reference/http-endpoints.md`, keeping the English Reference page in sync with the
+API contract automatically.
 
-## Phase 53: OpenAPI → Markdown Generation
+- `tools/openapi-to-md.php` — reads YAML, outputs Markdown endpoint tables grouped by domain
+- `composer openapi:docs` script added
+- `openapi.yaml` extended with `InvalidJson` (400) and `TooManyRequests` (429) response components
+- POST/PUT endpoints reference the new `InvalidJson` response (Phase 48 alignment)
 
-Goal: add a CLI script (`tools/openapi-to-md.php` or `composer openapi:docs`) that reads
-`docs/openapi/openapi.yaml` and writes the Reference section Markdown pages, keeping them
-in sync with the API contract.
+## Phase 53: v1.3.0 Release
 
-## Phase 54: v1.3.0 Release
-
-Goal: consolidate Phase 51–53 additions into a versioned release.
+Goal: consolidate Phase 51–52 additions into a versioned release.
 
 - CHANGELOG.md v1.3.0 section
 - `v1.3.0` tag

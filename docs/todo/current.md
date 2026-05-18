@@ -367,12 +367,13 @@ _Friction follow-ups (docs): Issues `#167` (MCP JSON integers for path params), 
 - [x] test: `PaginationQueryParserTest` 9 ケース追加
 - [x] CI グリーン確認・PR マージ
 
-## Phase 52: OpenAPI → Markdown 生成スクリプト
+## Phase 52: OpenAPI → Markdown 生成スクリプト (#362)
 
-- [ ] Issue 作成・ブランチ作成
-- [ ] `tools/openapi-to-md.php` — openapi.yaml から英語リファレンス Markdown を生成する
-- [ ] `composer.json` に `openapi:docs` スクリプトを追加する
-- [ ] CI グリーン確認・PR マージ
+- [x] Issue 作成・ブランチ作成
+- [x] `tools/openapi-to-md.php` — openapi.yaml から英語リファレンス Markdown を生成する
+- [x] `openapi.yaml` に InvalidJson/TooManyRequests レスポンス追加・POST/PUT に 400 を追加
+- [x] `composer.json` に `openapi:docs` スクリプトを追加する
+- [ ] CI グリーン確認・PR マージ (#363)
 
 ## Phase 50: VitePress v1.2.0 対応ドキュメント (#358)
 
