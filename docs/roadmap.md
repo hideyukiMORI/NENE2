@@ -597,6 +597,18 @@ Goal: validate v1.3.0 new features in Docker environment.
 - Full test suite passes (199 tests, 630 assertions)
 - Friction found: PHPStan OOM in Docker (#371), GitHub Release missing from release flow (#372)
 
+## Phase 57: VitePress i18n Link Fix (#380)
+
+Goal: fix nav/sidebar links returning to English when navigating from a non-English locale.
+
+- Root cause: VitePress does not auto-prefix locale path on relative `link:` values in nav/sidebar; the
+  links were resolving to root (English) instead of the active locale
+- `nav()` and `sidebar()` functions extended with a `p: string = ''` locale-prefix parameter
+- All `link:` values rewritten as absolute paths using `${p}/...`
+- Each locale call passes its prefix (`'/ja'`, `'/fr'`, `'/zh'`, `'/pt-br'`, `'/de'`); English uses `''`
+- ADR cross-references in 5 locale `add-rate-limiting.md` files changed from broken relative path
+  `../adr/0010-rate-limiting.md` to absolute `/adr/0010-rate-limiting` (ADRs are English-only per language policy)
+
 ## Non-Goals
 
 - Recreating Laravel or Symfony.
