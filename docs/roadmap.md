@@ -541,6 +541,35 @@ Goal: consolidate Phase 48 additions into a versioned release.
 - Roadmap and TODO updated
 - `v1.2.0` tag
 
+## Phase 51: Pagination Helper (#360)
+
+Goal: extract the duplicated `?limit=&offset=` parsing logic from collection handlers into a
+reusable `PaginationQuery` / `PaginationQueryParser` pair in the stable `Nene2\Http` surface.
+
+- `PaginationQuery` — readonly DTO holding `limit: int` and `offset: int`
+- `PaginationQueryParser::parse()` — parses and validates query params, throws `ValidationException` on
+  out-of-range values; accepts `$defaultLimit` and `$maxLimit` parameters
+- `ListNotesHandler` and `ListTagsHandler` migrated to use the parser (duplicate logic removed)
+- 9 unit tests in `PaginationQueryParserTest`
+
+## Phase 52: OpenAPI 3.1 Upgrade
+
+Goal: upgrade the OpenAPI document from 3.0.x to 3.1 to gain JSON Schema alignment and
+deprecate `nullable: true` in favour of type arrays.
+
+## Phase 53: OpenAPI → Markdown Generation
+
+Goal: add a CLI script (`tools/openapi-to-md.php` or `composer openapi:docs`) that reads
+`docs/openapi/openapi.yaml` and writes the Reference section Markdown pages, keeping them
+in sync with the API contract.
+
+## Phase 54: v1.3.0 Release
+
+Goal: consolidate Phase 51–53 additions into a versioned release.
+
+- CHANGELOG.md v1.3.0 section
+- `v1.3.0` tag
+
 ## Non-Goals
 
 - Recreating Laravel or Symfony.

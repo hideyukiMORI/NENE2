@@ -359,6 +359,14 @@ _Friction follow-ups (docs): Issues `#167` (MCP JSON integers for path params), 
 - [x] test: `JsonRequestBodyParserTest` 7 ケース（正常・空・不正・非オブジェクト各種）
 - [x] test: `NoteHttpTest` に 400 パス 3 ケース追加
 
+## Phase 51: Pagination Helper (#360)
+
+- [x] feat: `PaginationQuery` readonly DTO を `Nene2\Http` に追加する
+- [x] feat: `PaginationQueryParser::parse()` を `Nene2\Http` に追加する（`ValidationException` スロー）
+- [x] refactor: `ListNotesHandler` / `ListTagsHandler` を `PaginationQueryParser` に移行する
+- [x] test: `PaginationQueryParserTest` 9 ケース追加
+- [ ] CI グリーン確認・PR マージ
+
 ## Phase 50: VitePress v1.2.0 対応ドキュメント (#358)
 
 - [x] docs(vitepress): HOWTO add-rate-limiting (6 言語) を追加する
