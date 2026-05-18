@@ -381,7 +381,7 @@ _Friction follow-ups (docs): Issues `#167` (MCP JSON integers for path params), 
 - [x] config.mts サイドバーに addPagination 追加（6 ロケール）
 - [x] docs/howto/add-pagination.md + 5 ロケール翻訳追加
 - [x] .github/workflows/backend.yml に openapi:docs 同期チェック追加
-- [ ] CI グリーン確認・PR マージ
+- [x] CI グリーン確認・PR マージ
 
 ## Phase 53: v1.3.0 リリース
 
