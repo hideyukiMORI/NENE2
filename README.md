@@ -4,7 +4,7 @@ PHP micro-framework: JSON APIs first, minimal server HTML, easy React starter in
 
 NENE2 is a small, modern PHP framework foundation designed for projects that want to ship JSON APIs quickly, keep server-rendered HTML thin, and add a React frontend starter without turning the backend into frontend build glue.
 
-The `v1.x` foundation covers full Note/Tag CRUD, rate limiting, health checks, Bearer JWT auth, pagination helpers, and a six-language VitePress documentation site. A maintainer can clone the repository, run a local API, share an OpenAPI contract, expose safe MCP tools through the API boundary, and verify database behavior in Docker Compose.
+The `v1.x` foundation covers full Note/Tag CRUD, Bearer JWT auth, pagination helpers, and a six-language VitePress documentation site, with opt-in rate limiting and database health checks available as production-ready middleware. A maintainer can clone the repository, run a local API, share an OpenAPI contract, expose safe MCP tools through the API boundary, and verify database behavior in Docker Compose.
 
 ## Theme
 
