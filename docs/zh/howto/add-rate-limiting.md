@@ -127,7 +127,7 @@ final class RedisRateLimitStorage implements RateLimitStorageInterface
 
 ## 设计决策
 
-参见 [ADR 0010](../adr/0010-rate-limiting.md) 了解以下决策的依据：
+参见 [ADR 0010](/adr/0010-rate-limiting) 了解以下决策的依据：
 - 固定时间窗口算法的选择
 - 基于 IP 的默认键
 - 响应头约定（`X-RateLimit-*`、`Retry-After`）
