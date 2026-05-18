@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Nene2\Example\Note;
 
+use Nene2\Http\JsonRequestBodyParser;
 use Nene2\Http\JsonResponseFactory;
 use Nene2\Routing\Router;
 use Nene2\Validation\ValidationError;
@@ -28,7 +29,7 @@ final readonly class UpdateNoteHandler
             throw new NoteNotFoundException($id);
         }
 
-        $body = (array) json_decode((string) $request->getBody(), associative: true);
+        $body = JsonRequestBodyParser::parse($request);
 
         $errors = [];
 

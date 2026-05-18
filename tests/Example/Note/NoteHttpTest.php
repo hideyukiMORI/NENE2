@@ -268,6 +268,42 @@ final class NoteHttpTest extends TestCase
         self::assertContains('title', $fields);
     }
 
+    public function testPostNoteReturns400WhenBodyIsInvalidJson(): void
+    {
+        $body = $this->factory->createStream('{not valid json');
+        $response = $this->application->handle(
+            $this->factory->createServerRequest('POST', 'https://example.test/examples/notes')->withBody($body),
+        );
+        $payload = $this->decodeJson($response);
+
+        self::assertSame(400, $response->getStatusCode());
+        self::assertSame('https://nene2.dev/problems/invalid-json', $payload['type']);
+        self::assertSame('Invalid JSON', $payload['title']);
+    }
+
+    public function testPostNoteReturns400WhenBodyIsEmpty(): void
+    {
+        $response = $this->application->handle(
+            $this->factory->createServerRequest('POST', 'https://example.test/examples/notes'),
+        );
+        $payload = $this->decodeJson($response);
+
+        self::assertSame(400, $response->getStatusCode());
+        self::assertSame('https://nene2.dev/problems/invalid-json', $payload['type']);
+    }
+
+    public function testPostNoteReturns400WhenBodyIsJsonString(): void
+    {
+        $body = $this->factory->createStream('"just a string"');
+        $response = $this->application->handle(
+            $this->factory->createServerRequest('POST', 'https://example.test/examples/notes')->withBody($body),
+        );
+        $payload = $this->decodeJson($response);
+
+        self::assertSame(400, $response->getStatusCode());
+        self::assertSame('https://nene2.dev/problems/invalid-json', $payload['type']);
+    }
+
     /**
      * @return array<string, mixed>
      */

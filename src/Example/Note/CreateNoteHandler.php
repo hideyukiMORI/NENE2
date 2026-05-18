@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Nene2\Example\Note;
 
+use Nene2\Http\JsonRequestBodyParser;
 use Nene2\Http\JsonResponseFactory;
 use Nene2\Validation\ValidationError;
 use Nene2\Validation\ValidationException;
@@ -20,7 +21,7 @@ final readonly class CreateNoteHandler
 
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        $body = (array) json_decode((string) $request->getBody(), associative: true);
+        $body = JsonRequestBodyParser::parse($request);
 
         $errors = [];
 
