@@ -374,14 +374,14 @@ _Friction follow-ups (docs): Issues `#167` (MCP JSON integers for path params), 
 - [ ] docs: CLAUDE.md ミドルウェア順を更新（position 8、Auth 後）
 - [ ] docs: セルフレビューチェックリストに rate limit チェックポイントを追加
 
-## Phase 44: DB Health Check (#344)
+## Phase 44: DB Health Check (#346)
 
-- [ ] feat: `HealthCheckInterface` を追加する（stable surface）
-- [ ] feat: `RuntimeApplicationFactory` に `list<HealthCheckInterface> $healthChecks = []` を追加する
-- [ ] feat: `GET /health` レスポンスを拡張する（checks フィールド、503 degraded）
-- [ ] feat: `DatabaseHealthCheck` 参照実装を `src/Example/` に追加する
-- [ ] docs(openapi): health エンドポイントのスキーマを更新する
-- [ ] test: healthy / degraded / no-checks パスのテスト
+- [x] feat: `HealthCheckInterface` を追加する（stable surface）
+- [x] feat: `RuntimeApplicationFactory` に `list<HealthCheckInterface> $healthChecks = []` を追加する
+- [x] feat: `GET /health` レスポンスを拡張する（checks フィールド、503 degraded）
+- [x] feat: `DatabaseHealthCheck` 参照実装を `src/Example/Health/` に追加する
+- [x] docs(openapi): health エンドポイントのスキーマを更新する
+- [x] test: healthy / degraded / throws パスのテスト
 
 ## Phase 43: v1.0 readiness (#340)
 

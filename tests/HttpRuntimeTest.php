@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Nene2\Tests;
 
+use Nene2\Http\HealthCheckInterface;
+use Nene2\Http\HealthStatus;
 use Nene2\Http\JsonResponseFactory;
 use Nene2\Http\RuntimeApplicationFactory;
 use Nene2\Routing\Router;
@@ -187,6 +189,77 @@ final class HttpRuntimeTest extends TestCase
 
         self::assertSame(200, $response->getStatusCode());
         self::assertSame('Hello, NENE2!', $payload['message']);
+    }
+
+    public function testHealthEndpointWithHealthyCheck(): void
+    {
+        $factory = new Psr17Factory();
+
+        $check = new class implements HealthCheckInterface {
+            public function name(): string { return 'database'; }
+            public function check(): HealthStatus { return HealthStatus::Ok; }
+        };
+
+        $application = (new RuntimeApplicationFactory(
+            $factory,
+            $factory,
+            healthChecks: [$check],
+        ))->create();
+
+        $response = $application->handle($factory->createServerRequest('GET', 'https://example.test/health'));
+        $payload = $this->decodeJson($response);
+
+        self::assertSame(200, $response->getStatusCode());
+        self::assertSame('ok', $payload['status']);
+        self::assertSame('NENE2', $payload['service']);
+        self::assertSame(['database' => 'ok'], $payload['checks']);
+    }
+
+    public function testHealthEndpointWithDegradedCheck(): void
+    {
+        $factory = new Psr17Factory();
+
+        $check = new class implements HealthCheckInterface {
+            public function name(): string { return 'database'; }
+            public function check(): HealthStatus { return HealthStatus::Error; }
+        };
+
+        $application = (new RuntimeApplicationFactory(
+            $factory,
+            $factory,
+            healthChecks: [$check],
+        ))->create();
+
+        $response = $application->handle($factory->createServerRequest('GET', 'https://example.test/health'));
+        $payload = $this->decodeJson($response);
+
+        self::assertSame(503, $response->getStatusCode());
+        self::assertSame('degraded', $payload['status']);
+        self::assertSame('NENE2', $payload['service']);
+        self::assertSame(['database' => 'error'], $payload['checks']);
+    }
+
+    public function testHealthEndpointWithCheckThatThrows(): void
+    {
+        $factory = new Psr17Factory();
+
+        $check = new class implements HealthCheckInterface {
+            public function name(): string { return 'external'; }
+            public function check(): HealthStatus { throw new \RuntimeException('connection refused'); }
+        };
+
+        $application = (new RuntimeApplicationFactory(
+            $factory,
+            $factory,
+            healthChecks: [$check],
+        ))->create();
+
+        $response = $application->handle($factory->createServerRequest('GET', 'https://example.test/health'));
+        $payload = $this->decodeJson($response);
+
+        self::assertSame(503, $response->getStatusCode());
+        self::assertSame('degraded', $payload['status']);
+        self::assertSame(['external' => 'error'], $payload['checks']);
     }
 
     /**

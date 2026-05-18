@@ -43,21 +43,46 @@ paths:
       tags:
         - System
       summary: Health endpoint
-      description: Returns a minimal JSON response for local operational health checks.
+      description: >
+        Returns a JSON response for operational health checks.
+        When no health checks are configured the response is always 200.
+        When health checks are configured the response includes a `checks` map;
+        if any check fails the status is `degraded` and the HTTP status code is 503.
       operationId: getHealth
       responses:
         '200':
-          description: Health response.
+          description: All configured checks passed (or no checks configured).
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/HealthResponse'
               examples:
                 ok:
-                  summary: Healthy response
+                  summary: Healthy response (no checks)
                   value:
                     status: ok
                     service: NENE2
+                ok_with_checks:
+                  summary: Healthy response (with checks)
+                  value:
+                    status: ok
+                    service: NENE2
+                    checks:
+                      database: ok
+        '503':
+          description: One or more health checks failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+              examples:
+                degraded:
+                  summary: Degraded response
+                  value:
+                    status: degraded
+                    service: NENE2
+                    checks:
+                      database: error
         '413':
           $ref: '#/components/responses/PayloadTooLarge'
         '500':
@@ -745,10 +770,23 @@ components:
           type: string
           enum:
             - ok
+            - degraded
           example: ok
         service:
           type: string
           example: NENE2
+        checks:
+          type: object
+          description: >
+            Present only when health checks are configured.
+            Each key is a check name; each value is "ok" or "error".
+          additionalProperties:
+            type: string
+            enum:
+              - ok
+              - error
+          example:
+            database: ok
     MachineHealthResponse:
       type: object
       required:

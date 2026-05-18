@@ -8,6 +8,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Added
+- `HealthCheckInterface` and `HealthStatus` — stable public interface for dependency health checks (`Nene2\Http`) (#346)
+- `RuntimeApplicationFactory` extended with `list<HealthCheckInterface> $healthChecks = []`; `GET /health` returns `checks` map and 503 when any check reports `error` (#346)
+- `DatabaseHealthCheck` reference implementation in `src/Example/Health/` (#346)
+- OpenAPI `HealthResponse` schema extended with optional `checks` field; `503` response added to `/health` path (#346)
+
 ---
 
 ## [1.0.0] — 2026-05-18

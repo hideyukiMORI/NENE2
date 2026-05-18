@@ -24,12 +24,14 @@ use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
+use Throwable;
 
 final readonly class RuntimeApplicationFactory
 {
     /**
      * @param list<DomainExceptionHandlerInterface> $domainExceptionHandlers
      * @param list<callable(Router): void> $routeRegistrars
+     * @param list<HealthCheckInterface> $healthChecks
      */
     public function __construct(
         private ResponseFactoryInterface $responseFactory,
@@ -40,6 +42,7 @@ final readonly class RuntimeApplicationFactory
         private ?RequestIdHolder $requestIdHolder = null,
         private array $routeRegistrars = [],
         private ?BearerTokenMiddleware $bearerTokenMiddleware = null,
+        private array $healthChecks = [],
     ) {
     }
 
@@ -67,10 +70,40 @@ final readonly class RuntimeApplicationFactory
             )
             ->get(
                 '/health',
-                static fn (ServerRequestInterface $request) => $jsonResponses->create([
-                    'status' => 'ok',
-                    'service' => $framework->name(),
-                ]),
+                function (ServerRequestInterface $request) use ($jsonResponses, $framework) {
+                    if ($this->healthChecks === []) {
+                        return $jsonResponses->create([
+                            'status' => 'ok',
+                            'service' => $framework->name(),
+                        ]);
+                    }
+
+                    $checks = [];
+                    $degraded = false;
+
+                    foreach ($this->healthChecks as $check) {
+                        try {
+                            $status = $check->check();
+                        } catch (Throwable) {
+                            $status = HealthStatus::Error;
+                        }
+
+                        $checks[$check->name()] = $status->value;
+
+                        if ($status === HealthStatus::Error) {
+                            $degraded = true;
+                        }
+                    }
+
+                    return $jsonResponses->create(
+                        [
+                            'status' => $degraded ? 'degraded' : 'ok',
+                            'service' => $framework->name(),
+                            'checks' => $checks,
+                        ],
+                        $degraded ? 503 : 200,
+                    );
+                },
             )
             ->get(
                 '/machine/health',
