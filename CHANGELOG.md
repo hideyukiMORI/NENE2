@@ -11,6 +11,10 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+---
+
+## [0.8.0] — 2026-05-18
+
 ### Added
 - ADR 0009: v1.0 public API scope and stability guarantee — `src/Example/` declared as reference implementation outside the stability promise (#334)
 - `@internal` annotations on implementation-detail classes: `ConfigLoader`, `PdoConnectionFactory`, `PdoDatabaseQueryExecutor`, `PdoDatabaseTransactionManager`, `RuntimeServiceProvider`, `RuntimeContainerFactory`, `MonologLoggerFactory`, `RequestIdHolder`, `RequestIdProcessor`, `LocalMcpToolCatalog`, `LocalBearerTokenVerifier`, `NativeLocalMcpHttpClient`, `LocalMcpHttpResponse` (#334 #337)
@@ -23,7 +27,7 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - README: `src/Example/` documented as reference implementation not covered by the stability guarantee (#334)
 - CLAUDE.md § 5 middleware order corrected to match `RuntimeApplicationFactory` implementation: `RequestId → Logging → Security → CORS → Error → RequestSize → Auth` (#337)
 - ADR 0008 middleware placement table corrected to match implementation (#337)
-- Roadmap: Phase 38–39–40 entries added (#334)
+- Roadmap: Phase 38–39–40–41 entries added (#334 #337)
 
 ---
 
@@ -203,7 +207,8 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Governance docs: workflow, coding standards, ADR policy, review checklists (#1)
 - ADR 0001–0004: HTTP runtime, DI container, phpdotenv, Phinx
 
-[Unreleased]: https://github.com/hideyukiMORI/NENE2/compare/v0.7.0...HEAD
+[Unreleased]: https://github.com/hideyukiMORI/NENE2/compare/v0.8.0...HEAD
+[0.8.0]: https://github.com/hideyukiMORI/NENE2/compare/v0.7.0...v0.8.0
 [0.7.0]: https://github.com/hideyukiMORI/NENE2/compare/v0.6.0...v0.7.0
 [0.6.0]: https://github.com/hideyukiMORI/NENE2/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/hideyukiMORI/NENE2/compare/v0.4.0...v0.5.0

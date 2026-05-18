@@ -350,6 +350,12 @@ _Friction follow-ups (docs): Issues `#167` (MCP JSON integers for path params), 
 - [x] test(tag): `PdoTagRepositoryMySqlTest` 追加（save/findAll/update/delete 7 ケース）. `#312`
 - [x] feat(frontend): `api/tags.ts` + `TagList` + `TagForm` — Tag CRUD をブラウザから操作可能に. `#314`
 
+## Phase 42: v0.8.0 リリース
+
+- [x] chore(changelog): v0.8.0 セクション確定
+- [x] chore(release): `v0.8.0` タグを打つ
+- [ ] Packagist: v0.8.0 自動反映確認
+
 ## Phase 41: v1.0 ギャップ補完 (#337)
 
 - [x] chore: `@internal` 漏れ補完 — `LocalBearerTokenVerifier` / `NativeLocalMcpHttpClient` / `LocalMcpHttpResponse`
