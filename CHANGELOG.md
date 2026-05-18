@@ -10,6 +10,20 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.3.0] — 2026-05-18
+
+### Added
+- `PaginationQuery` readonly DTO — holds validated `limit` and `offset` values (`Nene2\Http`) (#360)
+- `PaginationQueryParser::parse()` — parses and validates `?limit=&offset=` query parameters; throws `ValidationException` on out-of-range values; accepts `$defaultLimit` and `$maxLimit` parameters (`Nene2\Http`) (#360)
+- `tools/openapi-to-md.php` — generates `docs/reference/http-endpoints.md` from `docs/openapi/openapi.yaml`; runnable via `composer openapi:docs` (#362)
+- `InvalidJson` and `TooManyRequests` response components added to `openapi.yaml`; POST/PUT endpoints now reference the 400 `InvalidJson` response (#362)
+- `public_html/problems/invalid-json/` and `public_html/problems/too-many-requests/` human-readable Problem Details type pages (#362)
+
+### Changed
+- `ListNotesHandler` and `ListTagsHandler` — replaced duplicated limit/offset parsing logic with `PaginationQueryParser::parse()` (#360)
+
+---
+
 ## [1.2.0] — 2026-05-18
 
 ### Added
@@ -244,6 +258,7 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - ADR 0001–0004: HTTP runtime, DI container, phpdotenv, Phinx
 
 [Unreleased]: https://github.com/hideyukiMORI/NENE2/compare/v1.2.0...HEAD
+[1.3.0]: https://github.com/hideyukiMORI/NENE2/compare/v1.2.0...v1.3.0
 [1.2.0]: https://github.com/hideyukiMORI/NENE2/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/hideyukiMORI/NENE2/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/hideyukiMORI/NENE2/compare/v0.8.0...v1.0.0
