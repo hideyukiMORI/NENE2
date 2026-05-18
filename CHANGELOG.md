@@ -8,6 +8,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Added
+- `JsonRequestBodyParser` and `JsonBodyParseException` — parse request body as JSON object; throws on empty body, invalid JSON, or non-object JSON (`Nene2\Http`) (#354)
+- `ErrorHandlerMiddleware` maps `JsonBodyParseException` → `400 invalid-json` Problem Details, distinct from `422 validation-failed` (#354)
+
+### Changed
+- `CreateNoteHandler`, `UpdateNoteHandler`, `CreateTagHandler`, `UpdateTagHandler` — replaced `(array) json_decode(...)` with `JsonRequestBodyParser::parse()` (#354)
+
 ---
 
 ## [1.1.0] — 2026-05-18

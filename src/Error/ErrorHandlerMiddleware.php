@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Nene2\Error;
 
+use Nene2\Http\JsonBodyParseException;
 use Nene2\Routing\MethodNotAllowedException;
 use Nene2\Routing\RouteNotFoundException;
 use Nene2\Validation\ValidationException;
@@ -44,6 +45,14 @@ final readonly class ErrorHandlerMiddleware implements MiddlewareInterface
                     'The requested resource does not support this HTTP method.',
                 )
                 ->withHeader('Allow', implode(', ', $exception->allowedMethods()));
+        } catch (JsonBodyParseException $exception) {
+            return $this->problemDetails->create(
+                $request,
+                'invalid-json',
+                'Invalid JSON',
+                400,
+                $exception->getMessage(),
+            );
         } catch (ValidationException $exception) {
             return $this->problemDetails->create(
                 $request,

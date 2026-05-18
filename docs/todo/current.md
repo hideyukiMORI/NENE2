@@ -350,6 +350,15 @@ _Friction follow-ups (docs): Issues `#167` (MCP JSON integers for path params), 
 - [x] test(tag): `PdoTagRepositoryMySqlTest` 追加（save/findAll/update/delete 7 ケース）. `#312`
 - [x] feat(frontend): `api/tags.ts` + `TagList` + `TagForm` — Tag CRUD をブラウザから操作可能に. `#314`
 
+## Phase 48: JsonRequestBodyParser — 400/422 分離 (#354)
+
+- [x] feat: `JsonBodyParseException` を追加する（Nene2\Http、stable surface）
+- [x] feat: `JsonRequestBodyParser::parse()` を追加する（空/不正/非オブジェクト JSON → 例外）
+- [x] fix: `ErrorHandlerMiddleware` に `JsonBodyParseException → 400 invalid-json` を追加
+- [x] fix: 4 ハンドラーで `JsonRequestBodyParser::parse()` に差し替え
+- [x] test: `JsonRequestBodyParserTest` 7 ケース（正常・空・不正・非オブジェクト各種）
+- [x] test: `NoteHttpTest` に 400 パス 3 ケース追加
+
 ## Phase 47: v1.1.0 リリース
 
 - [x] chore(changelog): v1.1.0 セクション確定
