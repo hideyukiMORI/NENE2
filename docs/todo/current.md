@@ -375,6 +375,15 @@ _Friction follow-ups (docs): Issues `#167` (MCP JSON integers for path params), 
 - [x] `composer.json` に `openapi:docs` スクリプトを追加する
 - [x] CI グリーン確認・PR マージ (#363)
 
+## Phase 55: Dependabot 依存関係更新 (D メンテナンス)
+
+- [x] Dependabot PR #324-#333 (10件) を CI グリーン確認後マージ
+  - phpunit/phpunit 13.1.8→13.1.10, symfony/yaml 8.0.10→8.0.11
+  - friendsofphp/php-cs-fixer 3.95.1→3.95.2
+  - actions/cache 4→5, actions/upload-pages-artifact 3→5, actions/deploy-pages 4→5
+  - typescript-eslint 8.59.2→8.59.3, eslint 10.3.0→10.4.0
+  - @vitejs/plugin-react 6.0.1→6.0.2, vite 8.0.11→8.0.13
+
 ## Phase 54: VitePress v1.3.0 対応 (#366)
 
 - [x] config.mts バージョンバッジ v1.2.0 → v1.3.0
