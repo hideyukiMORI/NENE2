@@ -381,6 +381,9 @@ _Friction follow-ups (docs): Issues `#167` (MCP JSON integers for path params), 
 - [x] 全 5 言語の `add-rate-limiting.md` の ADR リンクを `/adr/0010-rate-limiting` に修正
 - [x] ビルド後 HTML で全ロケールのリンクが正しいプレフィックス付きであることを確認
 - [x] CI グリーン確認・PR マージ (#381)
+- [x] ロケール同期監査: 5 言語の `http-endpoints.md` に 413 / 422 の欠落を発見 (#384)
+- [x] ja・fr・zh・pt-br・de の `http-endpoints.md` を英語版 (composer openapi:docs 生成) と同期 (#384, PR #385)
+- [x] `docs/roadmap.md` に Phase 57 (VitePress i18n リンク修正) を追記 (#384, PR #385)
 
 ## Phase 56: Field Trial 9 — v1.3.0 検証 (#370)
 
