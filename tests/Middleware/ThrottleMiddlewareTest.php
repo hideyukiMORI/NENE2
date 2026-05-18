@@ -35,8 +35,7 @@ final class ThrottleMiddlewareTest extends TestCase
         $problemDetails = new ProblemDetailsResponseFactory($factory, $factory);
         $middleware = new ThrottleMiddleware($problemDetails, $storage, limit: 5, windowSeconds: 60);
 
-        $request = $factory->createServerRequest('GET', 'https://example.test/health')
-            ->withServerParams(['REMOTE_ADDR' => '127.0.0.1']);
+        $request = $factory->createServerRequest('GET', 'https://example.test/health', ['REMOTE_ADDR' => '127.0.0.1']);
 
         $response = $middleware->process($request, $this->makeHandler());
 
@@ -53,8 +52,7 @@ final class ThrottleMiddlewareTest extends TestCase
         $problemDetails = new ProblemDetailsResponseFactory($factory, $factory);
         $middleware = new ThrottleMiddleware($problemDetails, $storage, limit: 3, windowSeconds: 60);
 
-        $request = $factory->createServerRequest('GET', 'https://example.test/health')
-            ->withServerParams(['REMOTE_ADDR' => '127.0.0.1']);
+        $request = $factory->createServerRequest('GET', 'https://example.test/health', ['REMOTE_ADDR' => '127.0.0.1']);
 
         $response = null;
 
@@ -75,8 +73,7 @@ final class ThrottleMiddlewareTest extends TestCase
         $problemDetails = new ProblemDetailsResponseFactory($factory, $factory);
         $middleware = new ThrottleMiddleware($problemDetails, $storage, limit: 2, windowSeconds: 60);
 
-        $request = $factory->createServerRequest('GET', 'https://example.test/health')
-            ->withServerParams(['REMOTE_ADDR' => '127.0.0.1']);
+        $request = $factory->createServerRequest('GET', 'https://example.test/health', ['REMOTE_ADDR' => '127.0.0.1']);
 
         for ($i = 0; $i < 2; $i++) {
             $middleware->process($request, $this->makeHandler());
@@ -103,10 +100,8 @@ final class ThrottleMiddlewareTest extends TestCase
         $problemDetails = new ProblemDetailsResponseFactory($factory, $factory);
         $middleware = new ThrottleMiddleware($problemDetails, $storage, limit: 1, windowSeconds: 60);
 
-        $request1 = $factory->createServerRequest('GET', 'https://example.test/health')
-            ->withServerParams(['REMOTE_ADDR' => '10.0.0.1']);
-        $request2 = $factory->createServerRequest('GET', 'https://example.test/health')
-            ->withServerParams(['REMOTE_ADDR' => '10.0.0.2']);
+        $request1 = $factory->createServerRequest('GET', 'https://example.test/health', ['REMOTE_ADDR' => '10.0.0.1']);
+        $request2 = $factory->createServerRequest('GET', 'https://example.test/health', ['REMOTE_ADDR' => '10.0.0.2']);
 
         $middleware->process($request1, $this->makeHandler());
         $response2 = $middleware->process($request2, $this->makeHandler());
