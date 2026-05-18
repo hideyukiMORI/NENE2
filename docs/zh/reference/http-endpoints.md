@@ -7,9 +7,9 @@ NENE2 示例应用公开的所有端点。
 
 | 方法 | 路径 | 认证 | 响应 |
 |---|---|---|---|
-| `GET` | `/health` | 无 | `200` `{ service, status, timestamp [, checks] }` 或降级时 `503` |
+| `GET` | `/health` | 无 | `200` `{ service, status[, checks] }` 或降级时 `503` |
 | `GET` | `/examples/ping` | 无 | `200` `{ message }` |
-| `GET` | `/` | 无 | `200` HTML 欢迎页面 |
+| `GET` | `/` | 无 | `200` `{ name, description, status }` JSON 响应 |
 
 ## Notes（笔记）
 

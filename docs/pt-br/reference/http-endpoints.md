@@ -7,9 +7,9 @@ Cada resposta JSON segue os esquemas definidos em `docs/openapi/openapi.yaml`.
 
 | Método | Caminho | Auth | Resposta |
 |---|---|---|---|
-| `GET` | `/health` | Nenhuma | `200` `{ service, status, timestamp [, checks] }` ou `503` se degradado |
+| `GET` | `/health` | Nenhuma | `200` `{ service, status[, checks] }` ou `503` se degradado |
 | `GET` | `/examples/ping` | Nenhuma | `200` `{ message }` |
-| `GET` | `/` | Nenhuma | `200` Página HTML de boas-vindas |
+| `GET` | `/` | Nenhuma | `200` `{ name, description, status }` resposta JSON |
 
 ## Notes (Notas)
 

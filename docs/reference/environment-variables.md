@@ -16,7 +16,7 @@ Set them in `.env` (loaded by phpdotenv) or export them before starting the serv
 | Variable | Type | Default | Description |
 |---|---|---|---|
 | `NENE2_MACHINE_API_KEY` | string | *(empty — disabled)* | API key expected in the `X-NENE2-API-Key` request header for machine client endpoints. Leave empty to disable the machine key path entirely. |
-| `NENE2_LOCAL_JWT_SECRET` | string | *(empty — disabled)* | HMAC-HS256 secret used by the local MCP server to gate write tools. Leave empty to allow read-only tool access without a token. |
+| `NENE2_LOCAL_JWT_SECRET` | string | *(empty — disabled)* | HMAC-HS256 secret used by `LocalBearerTokenVerifier`. Enables Bearer JWT validation for `GET /examples/protected` and gates write tools in the local MCP server. Leave empty to disable JWT auth and allow read-only MCP access only. |
 
 ## Local MCP server
 
