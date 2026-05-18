@@ -563,6 +563,15 @@ API contract automatically.
 - `openapi.yaml` extended with `InvalidJson` (400) and `TooManyRequests` (429) response components
 - POST/PUT endpoints reference the new `InvalidJson` response (Phase 48 alignment)
 
+## Phase 54: VitePress v1.3.0 Update (#366)
+
+Goal: update the VitePress documentation site for the v1.3.0 release.
+
+- Version badge updated to `v1.3.0`
+- `add-pagination` HOWTO page added in 6 languages (covers `PaginationQueryParser` usage)
+- `backend.yml` CI step added: `composer openapi:docs && git diff --exit-code` ensures
+  `http-endpoints.md` stays in sync with `openapi.yaml`
+
 ## Phase 53: v1.3.0 Release
 
 Goal: consolidate Phase 51–52 additions into a versioned release.
