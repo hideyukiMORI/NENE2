@@ -15,18 +15,18 @@ NENE2 示例应用公开的所有端点。
 
 | 方法 | 路径 | 认证 | 成功 | 错误 |
 |---|---|---|---|---|
-| `GET` | `/examples/notes` | 无 | `200` 列表 | — |
-| `POST` | `/examples/notes` | 无 | `201` 笔记 | `400`、`422` |
-| `GET` | `/examples/notes/{id}` | 无 | `200` 笔记 | `404` |
-| `PUT` | `/examples/notes/{id}` | 无 | `200` 笔记 | `400`、`404`、`422` |
+| `GET` | `/examples/notes` | 无 | `200` 列表 | `422` |
+| `POST` | `/examples/notes` | 无 | `201` 笔记 | `400`、`413`、`422` |
+| `GET` | `/examples/notes/{id}` | 无 | `200` 笔记 | `404`、`413` |
+| `PUT` | `/examples/notes/{id}` | 无 | `200` 笔记 | `400`、`404`、`413`、`422` |
 | `DELETE` | `/examples/notes/{id}` | 无 | `204` | `404` |
 
 ## Tags（标签）
 
 | 方法 | 路径 | 认证 | 成功 | 错误 |
 |---|---|---|---|---|
-| `GET` | `/examples/tags` | 无 | `200` 列表 | — |
-| `POST` | `/examples/tags` | 无 | `201` 标签 | `400`、`422` |
+| `GET` | `/examples/tags` | 无 | `200` 列表 | `422` |
+| `POST` | `/examples/tags` | 无 | `201` 标签 | `400`、`413`、`422` |
 | `GET` | `/examples/tags/{id}` | 无 | `200` 标签 | `404` |
 | `PUT` | `/examples/tags/{id}` | 无 | `200` 标签 | `400`、`404`、`422` |
 | `DELETE` | `/examples/tags/{id}` | 无 | `204` | `404` |

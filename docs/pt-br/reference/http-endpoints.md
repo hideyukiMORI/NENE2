@@ -15,18 +15,18 @@ Cada resposta JSON segue os esquemas definidos em `docs/openapi/openapi.yaml`.
 
 | Método | Caminho | Auth | Sucesso | Erros |
 |---|---|---|---|---|
-| `GET` | `/examples/notes` | Nenhuma | `200` lista | — |
-| `POST` | `/examples/notes` | Nenhuma | `201` nota | `400`, `422` |
-| `GET` | `/examples/notes/{id}` | Nenhuma | `200` nota | `404` |
-| `PUT` | `/examples/notes/{id}` | Nenhuma | `200` nota | `400`, `404`, `422` |
+| `GET` | `/examples/notes` | Nenhuma | `200` lista | `422` |
+| `POST` | `/examples/notes` | Nenhuma | `201` nota | `400`, `413`, `422` |
+| `GET` | `/examples/notes/{id}` | Nenhuma | `200` nota | `404`, `413` |
+| `PUT` | `/examples/notes/{id}` | Nenhuma | `200` nota | `400`, `404`, `413`, `422` |
 | `DELETE` | `/examples/notes/{id}` | Nenhuma | `204` | `404` |
 
 ## Tags (Etiquetas)
 
 | Método | Caminho | Auth | Sucesso | Erros |
 |---|---|---|---|---|
-| `GET` | `/examples/tags` | Nenhuma | `200` lista | — |
-| `POST` | `/examples/tags` | Nenhuma | `201` tag | `400`, `422` |
+| `GET` | `/examples/tags` | Nenhuma | `200` lista | `422` |
+| `POST` | `/examples/tags` | Nenhuma | `201` tag | `400`, `413`, `422` |
 | `GET` | `/examples/tags/{id}` | Nenhuma | `200` tag | `404` |
 | `PUT` | `/examples/tags/{id}` | Nenhuma | `200` tag | `400`, `404`, `422` |
 | `DELETE` | `/examples/tags/{id}` | Nenhuma | `204` | `404` |
