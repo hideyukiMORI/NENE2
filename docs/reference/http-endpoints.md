@@ -7,9 +7,9 @@ Every JSON response follows the schemas in `docs/openapi/openapi.yaml`.
 
 | Method | Path | Auth | Response |
 |---|---|---|---|
-| `GET` | `/health` | None | `200` `{ service, status, timestamp[, checks] }` · `503` when any check fails |
+| `GET` | `/health` | None | `200` `{ service, status[, checks] }` · `503` when any check fails |
 | `GET` | `/examples/ping` | None | `200` `{ message }` |
-| `GET` | `/` | None | `200` HTML welcome page |
+| `GET` | `/` | None | `200` `{ name, description, status }` JSON smoke response |
 
 ## Notes
 

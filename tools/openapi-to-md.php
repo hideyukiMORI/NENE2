@@ -172,9 +172,9 @@ function buildHealthTable(array $entries, array $doc): string
 
         // Describe response inline for health/ping/root
         $desc = match ($e['path']) {
-            '/health'        => '`200` `{ service, status, timestamp[, checks] }` · `503` when any check fails',
+            '/health'        => '`200` `{ service, status[, checks] }` · `503` when any check fails',
             '/examples/ping' => '`200` `{ message }`',
-            '/'              => '`200` HTML welcome page',
+            '/'              => '`200` `{ name, description, status }` JSON smoke response',
             default          => $split['success'],
         };
 
