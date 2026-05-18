@@ -375,6 +375,16 @@ _Friction follow-ups (docs): Issues `#167` (MCP JSON integers for path params), 
 - [x] `composer.json` に `openapi:docs` スクリプトを追加する
 - [x] CI グリーン確認・PR マージ (#363)
 
+## Phase 56: Field Trial 9 — v1.3.0 検証 (#370)
+
+- [x] `PaginationQueryParser` — デフォルト・明示的パラメーター・422 全エラーパス確認
+- [x] `JsonRequestBodyParser` — 400/422 分離確認（v1.2.0 キャリーオーバー）
+- [x] `composer openapi:docs` — クリーン実行・diff なし確認
+- [x] PHPUnit 199 tests, 630 assertions パス確認
+- [x] 観察レポート `docs/field-trials/2026-05-field-trial-9.md` 記録
+- [x] 摩擦 follow-up Issue 作成 (#371 PHPStan OOM、#372 リリースチェックリスト)
+- [ ] Packagist v1.3.0 反映確認
+
 ## Phase 55: Dependabot 依存関係更新 (D メンテナンス)
 
 - [x] Dependabot PR #324-#333 (10件) を CI グリーン確認後マージ
