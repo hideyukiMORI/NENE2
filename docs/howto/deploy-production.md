@@ -202,15 +202,12 @@ NENE2 error responses include a `type` URI such as:
 https://nene2.dev/problems/validation-failed
 ```
 
-`nene2.dev` is a placeholder domain. Before going to production, choose one of:
+`nene2.dev` is the registered NENE2 framework domain. Built-in error type pages resolve there automatically — no configuration needed for the standard error set.
 
-**Option A — register nene2.dev**: If you maintain the framework, register the domain and host problem documentation there.
+If your project defines **custom problem types** (e.g. `payment-failed`) and you want those URIs to resolve under your own domain, set `PROBLEM_DETAILS_BASE_URL` in `.env`:
 
-**Option B — use your own domain**: Replace the base URL in `ProblemDetailsResponseFactory`:
-
-```php
-// src/Error/ProblemDetailsResponseFactory.php
-private const string TYPE_BASE = 'https://problems.example.com/';
+```ini
+PROBLEM_DETAILS_BASE_URL=https://problems.example.com/
 ```
 
 The `type` URI should be stable. Changing it after launch breaks clients that switch on the `type` value.

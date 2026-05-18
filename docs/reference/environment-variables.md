@@ -10,6 +10,7 @@ Set them in `.env` (loaded by phpdotenv) or export them before starting the serv
 | `APP_ENV` | string | `local` | Runtime environment. Accepted: `local`, `test`, `production`. |
 | `APP_DEBUG` | boolean | `false` | Enable debug output. Use `true` only in development. |
 | `APP_NAME` | string | `NENE2` | Application name used in log output. Must not be empty. |
+| `PROBLEM_DETAILS_BASE_URL` | string | `https://nene2.dev/problems/` | Base URL prepended to Problem Details `type` identifiers. Override when deploying custom problem types under your own domain. |
 
 ## Authentication
 

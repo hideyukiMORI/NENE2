@@ -127,4 +127,10 @@ curl -fsS -H 'X-NENE2-API-Key: <key>' https://api.example.com/machine/health
 
 ## 6. Problem Details Typ-URIs
 
-NENE2 verwendet `https://nene2.dev/problems/...` als Platzhalter-Domain. Vor dem Produktionseinsatz registrieren Sie diese Domain oder ersetzen Sie die Basis-URL in `ProblemDetailsResponseFactory`.
+NENE2 verwendet `https://nene2.dev/problems/...` als offizielle Framework-Domain. Die eingebauten Fehlertyp-Seiten werden dort automatisch aufgelöst — für den Standardfehlerumfang ist keine Konfiguration erforderlich.
+
+Wenn Ihr Projekt **eigene Problemtypen** definiert (z.B. `payment-failed`) und diese URIs unter Ihrer eigenen Domain auflösen sollen, setzen Sie `PROBLEM_DETAILS_BASE_URL` in `.env`:
+
+```ini
+PROBLEM_DETAILS_BASE_URL=https://problems.example.com/
+```

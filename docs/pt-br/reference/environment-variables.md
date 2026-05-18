@@ -10,6 +10,7 @@ Defina-as no arquivo `.env` (carregado pelo phpdotenv) ou exporte-as antes de in
 | `APP_ENV` | string | `local` | Ambiente de execução. Valores aceitos: `local`, `test`, `production`. |
 | `APP_DEBUG` | boolean | `false` | Ativa a saída de depuração. Use `true` apenas em desenvolvimento. |
 | `APP_NAME` | string | `NENE2` | Nome da aplicação usado nos logs. Não pode ser vazio. |
+| `PROBLEM_DETAILS_BASE_URL` | string | `https://nene2.dev/problems/` | URL base adicionada aos identificadores `type` de Problem Details. Substitua ao usar tipos de problema personalizados em seu próprio domínio. |
 
 ## Autenticação
 

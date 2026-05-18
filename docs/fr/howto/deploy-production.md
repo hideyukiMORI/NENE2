@@ -127,4 +127,10 @@ curl -fsS -H 'X-NENE2-API-Key: <key>' https://api.example.com/machine/health
 
 ## 6. URIs de type Problem Details
 
-NENE2 utilise `https://nene2.dev/problems/...` comme domaine de substitution. Avant la mise en production, enregistrez ce domaine ou remplacez l'URL de base dans `ProblemDetailsResponseFactory`.
+NENE2 utilise `https://nene2.dev/problems/...` comme domaine officiel du framework. Les pages des types d'erreurs intégrés se résolvent automatiquement sur ce domaine — aucune configuration requise pour l'ensemble d'erreurs standard.
+
+Si votre projet définit des **types de problèmes personnalisés** (ex. `payment-failed`) et que vous souhaitez que ces URIs se résolvent sur votre propre domaine, définissez `PROBLEM_DETAILS_BASE_URL` dans `.env` :
+
+```ini
+PROBLEM_DETAILS_BASE_URL=https://problems.example.com/
+```

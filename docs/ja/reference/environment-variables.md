@@ -10,6 +10,7 @@ NENE2 が認識するすべての環境変数です。
 | `APP_ENV` | string | `local` | 実行環境。使用可能な値: `local`, `test`, `production`。 |
 | `APP_DEBUG` | boolean | `false` | デバッグ出力を有効化。開発環境のみ `true` を設定してください。 |
 | `APP_NAME` | string | `NENE2` | ログ出力に使用するアプリケーション名。空にできません。 |
+| `PROBLEM_DETAILS_BASE_URL` | string | `https://nene2.dev/problems/` | Problem Details の `type` URI に先頭に付けるベース URL。独自ドメインでカスタム問題型を提供する場合に上書きしてください。 |
 
 ## 認証
 

@@ -10,6 +10,7 @@ NENE2 识别的所有环境变量。
 | `APP_ENV` | string | `local` | 运行环境。可选值：`local`、`test`、`production`。 |
 | `APP_DEBUG` | boolean | `false` | 启用调试输出。仅在开发环境设为 `true`。 |
 | `APP_NAME` | string | `NENE2` | 日志输出中使用的应用名称。不能为空。 |
+| `PROBLEM_DETAILS_BASE_URL` | string | `https://nene2.dev/problems/` | 拼接到 Problem Details `type` 标识符前缀的基础 URL。在自定义域名下提供自定义问题类型时覆盖此值。 |
 
 ## 认证
 

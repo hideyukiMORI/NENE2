@@ -10,6 +10,7 @@ Définissez-les dans `.env` (chargé par phpdotenv) ou exportez-les avant de dé
 | `APP_ENV` | string | `local` | Environnement d'exécution. Valeurs acceptées : `local`, `test`, `production`. |
 | `APP_DEBUG` | boolean | `false` | Active la sortie de débogage. Utilisez `true` uniquement en développement. |
 | `APP_NAME` | string | `NENE2` | Nom de l'application utilisé dans les logs. Ne peut pas être vide. |
+| `PROBLEM_DETAILS_BASE_URL` | string | `https://nene2.dev/problems/` | URL de base ajoutée aux identifiants `type` de Problem Details. À remplacer pour les types de problèmes personnalisés sur votre propre domaine. |
 
 ## Authentification
 
