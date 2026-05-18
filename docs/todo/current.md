@@ -4,7 +4,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 ## Status
 
-- Latest release: `v1.4.0` (Packagist 反映待ち)
+- Latest release: `v1.4.0`
 - v1.4.0: PROBLEM_DETAILS_BASE_URL 設定化 (#409) + ドキュメント整合 (#413)
 - Current branch: `main` — clean
 
@@ -15,6 +15,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 - **#409**: ProblemDetailsResponseFactory base URL 設定化
 - **#413**: #409 実装後のドキュメント整合（deploy-production 6言語・ADR 0009・env-vars 6言語・CLAUDE.md）
 - **v1.4.0**: タグ・GitHub Release 作成、Packagist 反映確認
+- **#417 #418**: FrameworkInfo::VERSION 定数追加・LocalMcpServer バージョン修正・安定 API 全クラス PHPDoc 追加 (#419)
 
 ## Next Candidates
 
