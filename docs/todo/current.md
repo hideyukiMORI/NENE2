@@ -4,9 +4,8 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 ## Status
 
-- Current milestone: `docs/milestones/2026-05-v1.1.md` (v1.1 — Production Readiness)
-- Latest release: `v1.0.0` (Phase 43 complete)
-- Current branch: `docs/344-v1.1-roadmap`
+- Latest release: `v1.3.0` (Phase 53 complete — Packagist 反映済み)
+- Field Trial 9 完了 (Phase 56)
 
 ## Foundation Completed
 
@@ -383,7 +382,7 @@ _Friction follow-ups (docs): Issues `#167` (MCP JSON integers for path params), 
 - [x] PHPUnit 199 tests, 630 assertions パス確認
 - [x] 観察レポート `docs/field-trials/2026-05-field-trial-9.md` 記録
 - [x] 摩擦 follow-up Issue 作成 (#371 PHPStan OOM、#372 リリースチェックリスト)
-- [ ] Packagist v1.3.0 反映確認
+- [x] Packagist v1.3.0 反映確認（v1.2.0 も同時反映）
 
 ## Phase 55: Dependabot 依存関係更新 (D メンテナンス)
 
@@ -408,7 +407,7 @@ _Friction follow-ups (docs): Issues `#167` (MCP JSON integers for path params), 
 - [x] chore(changelog): v1.3.0 セクション確定
 - [x] chore(release): `v1.3.0` タグを打つ
 - [x] CI グリーン確認・PR マージ
-- [ ] chore(release): Packagist v1.3.0 自動反映確認
+- [x] chore(release): Packagist v1.3.0 自動反映確認
 
 ## Phase 50: VitePress v1.2.0 対応ドキュメント (#358)
 
@@ -425,7 +424,7 @@ _Friction follow-ups (docs): Issues `#167` (MCP JSON integers for path params), 
 - [x] docs(todo): current.md を更新する
 - [x] chore(changelog): `[Unreleased]` → `[1.2.0] — 2026-05-18` に確定する
 - [x] chore(release): `v1.2.0` タグを打つ
-- [ ] chore(release): Packagist v1.2.0 自動反映確認
+- [x] chore(release): Packagist v1.2.0 自動反映確認
 
 ## Phase 47: v1.1.0 リリース
 
