@@ -390,7 +390,9 @@ tools/                バリデーションスクリプト
 | `DATABASE_URL` | DB URL |
 | `DB_ADAPTER` | `sqlite` / `mysql` / `pgsql` |
 | `NENE2_MACHINE_API_KEY` | マシンクライアント API キー（未設定でパブリックのみ） |
+| `NENE2_LOCAL_JWT_SECRET` | HMAC-HS256 シークレット（Bearer JWT / MCP 書き込みツール保護） |
 | `NENE2_LOCAL_API_BASE_URL` | ローカル MCP サーバーの API ベース URL |
+| `PROBLEM_DETAILS_BASE_URL` | Problem Details type URI のベース URL（デフォルト: `https://nene2.dev/problems/`） |
 
 コミット禁止: `.env` / `.env.local` / `.env.*.local` / パスワード / トークン / 本番認証情報。
 

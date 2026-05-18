@@ -127,4 +127,10 @@ curl -fsS -H 'X-NENE2-API-Key: <key>' https://api.example.com/machine/health
 
 ## 6. Problem Details 类型 URI
 
-NENE2 使用 `https://nene2.dev/problems/...` 作为占位域名。在投产前，请注册该域名或在 `ProblemDetailsResponseFactory` 中替换基础 URL。
+NENE2 使用 `https://nene2.dev/problems/...` 作为框架官方域名。内置错误类型页面会自动解析到该域名，标准错误集无需任何配置。
+
+如果您的项目定义了**自定义问题类型**（例如 `payment-failed`），并希望这些 URI 解析到您自己的域名，请在 `.env` 中设置 `PROBLEM_DETAILS_BASE_URL`：
+
+```ini
+PROBLEM_DETAILS_BASE_URL=https://problems.example.com/
+```
