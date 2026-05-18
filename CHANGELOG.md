@@ -8,6 +8,9 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Added
+- `FrameworkInfo::VERSION` — public string constant exposing the current framework version (`Nene2\FrameworkInfo`) (#417)
+
 ---
 
 ## [1.4.0] — 2026-05-18
