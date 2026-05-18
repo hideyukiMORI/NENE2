@@ -379,8 +379,9 @@ _Friction follow-ups (docs): Issues `#167` (MCP JSON integers for path params), 
 
 - [x] Issue 作成・ブランチ作成
 - [x] chore(changelog): v1.3.0 セクション確定
-- [ ] chore(release): `v1.3.0` タグを打つ
-- [ ] CI グリーン確認・PR マージ
+- [x] chore(release): `v1.3.0` タグを打つ
+- [x] CI グリーン確認・PR マージ
+- [ ] chore(release): Packagist v1.3.0 自動反映確認
 
 ## Phase 50: VitePress v1.2.0 対応ドキュメント (#358)
 
