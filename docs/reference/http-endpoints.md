@@ -15,27 +15,27 @@ Every JSON response follows the schemas in `docs/openapi/openapi.yaml`.
 
 | Method | Path | Auth | Success | Errors |
 |---|---|---|---|---|
-| `GET` | `/examples/notes` | None | `200` list | — |
-| `POST` | `/examples/notes` | None | `201` note | `400`, `422` |
-| `GET` | `/examples/notes/{id}` | None | `200` note | `404` |
-| `PUT` | `/examples/notes/{id}` | None | `200` note | `400`, `404`, `422` |
+| `GET` | `/examples/notes` | None | `200` | `422` |
+| `POST` | `/examples/notes` | None | `201` | `400`, `413`, `422` |
+| `GET` | `/examples/notes/{id}` | None | `200` | `404`, `413` |
+| `PUT` | `/examples/notes/{id}` | None | `200` | `400`, `404`, `413`, `422` |
 | `DELETE` | `/examples/notes/{id}` | None | `204` | `404` |
 
 ## Tags
 
 | Method | Path | Auth | Success | Errors |
 |---|---|---|---|---|
-| `GET` | `/examples/tags` | None | `200` list | — |
-| `POST` | `/examples/tags` | None | `201` tag | `400`, `422` |
-| `GET` | `/examples/tags/{id}` | None | `200` tag | `404` |
-| `PUT` | `/examples/tags/{id}` | None | `200` tag | `400`, `404`, `422` |
+| `GET` | `/examples/tags` | None | `200` | `422` |
+| `POST` | `/examples/tags` | None | `201` | `400`, `413`, `422` |
+| `GET` | `/examples/tags/{id}` | None | `200` | `404` |
+| `PUT` | `/examples/tags/{id}` | None | `200` | `400`, `404`, `422` |
 | `DELETE` | `/examples/tags/{id}` | None | `204` | `404` |
 
 ## Protected (machine client)
 
 | Method | Path | Auth | Success | Errors |
 |---|---|---|---|---|
-| `GET` | `/examples/protected` | `X-NENE2-API-Key` or `Bearer` token | `200` JSON | `401` |
+| `GET` | `/examples/protected` | `Bearer` token | `200` | `401` |
 
 Requests to protected endpoints must include either the `X-NENE2-API-Key` header or a valid `Authorization: Bearer <token>` header.
 

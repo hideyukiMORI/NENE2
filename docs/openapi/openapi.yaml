@@ -226,6 +226,8 @@ paths:
                   value:
                     id: 1
                     name: php
+        '400':
+          $ref: '#/components/responses/InvalidJson'
         '413':
           $ref: '#/components/responses/PayloadTooLarge'
         '422':
@@ -304,6 +306,8 @@ paths:
                   value:
                     id: 1
                     name: php8
+        '400':
+          $ref: '#/components/responses/InvalidJson'
         '404':
           $ref: '#/components/responses/NotFound'
         '422':
@@ -416,6 +420,8 @@ paths:
                     id: 1
                     title: Example Note
                     body: This is the body of an example note.
+        '400':
+          $ref: '#/components/responses/InvalidJson'
         '413':
           $ref: '#/components/responses/PayloadTooLarge'
         '422':
@@ -501,6 +507,8 @@ paths:
                     id: 1
                     title: Updated Title
                     body: Updated body content.
+        '400':
+          $ref: '#/components/responses/InvalidJson'
         '404':
           $ref: '#/components/responses/NotFound'
         '413':
@@ -569,6 +577,57 @@ components:
       bearerFormat: JWT
       description: HS256 JWT for user or service authentication. Wire a TokenVerifierInterface implementation to enable.
   responses:
+    InvalidJson:
+      description: Request body is empty, syntactically invalid, or not a JSON object.
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+          examples:
+            invalidJson:
+              summary: Invalid JSON body
+              value:
+                type: https://nene2.dev/problems/invalid-json
+                title: Invalid JSON
+                status: 400
+                detail: Request body contains invalid JSON.
+                instance: /examples/notes
+    TooManyRequests:
+      description: Rate limit exceeded.
+      headers:
+        Retry-After:
+          description: Seconds until the rate limit window resets.
+          schema:
+            type: integer
+            example: 60
+        X-RateLimit-Limit:
+          description: Maximum requests allowed in the current window.
+          schema:
+            type: integer
+            example: 60
+        X-RateLimit-Remaining:
+          description: Requests remaining in the current window.
+          schema:
+            type: integer
+            example: 0
+        X-RateLimit-Reset:
+          description: Unix timestamp when the rate limit window resets.
+          schema:
+            type: integer
+            example: 1716048060
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+          examples:
+            tooManyRequests:
+              summary: Rate limit exceeded
+              value:
+                type: https://nene2.dev/problems/too-many-requests
+                title: Too Many Requests
+                status: 429
+                detail: Rate limit exceeded. Please retry after 60 seconds.
+                instance: /examples/notes
     Unauthorized:
       description: A valid API key is required for this endpoint.
       headers:
