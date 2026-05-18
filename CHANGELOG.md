@@ -4,12 +4,22 @@ All notable changes to NENE2 are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-> **Note:** NENE2 is currently in `0.x.y`. Public contracts are still forming.
-> Breaking changes may occur between minor versions until `v1.0.0`.
-
 ---
 
 ## [Unreleased]
+
+---
+
+## [1.0.0] — 2026-05-18
+
+### Added
+- ADR 0009 v1.0 readiness: `ResponseEmitter` added to stable surface; `HtmlResponseFactory` and `TemplateNotFoundException` moved to correct `Nene2\View` namespace in stable list (#340)
+- PHPDoc on stable public interfaces: `ServiceProviderInterface`, `DomainExceptionHandlerInterface`, `DatabaseConnectionFactoryInterface`, `ResponseEmitter` (#340)
+- `docs/milestones/2026-05-v1.0.md` — v1.0 tagging criteria documented (#340)
+
+### Changed
+- Public API stability contract in effect: surfaces listed in ADR 0009 will not have breaking changes without a major version bump
+- `src/Example/` explicitly outside the stability guarantee (reference implementation)
 
 ---
 
@@ -207,7 +217,8 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Governance docs: workflow, coding standards, ADR policy, review checklists (#1)
 - ADR 0001–0004: HTTP runtime, DI container, phpdotenv, Phinx
 
-[Unreleased]: https://github.com/hideyukiMORI/NENE2/compare/v0.8.0...HEAD
+[Unreleased]: https://github.com/hideyukiMORI/NENE2/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/hideyukiMORI/NENE2/compare/v0.8.0...v1.0.0
 [0.8.0]: https://github.com/hideyukiMORI/NENE2/compare/v0.7.0...v0.8.0
 [0.7.0]: https://github.com/hideyukiMORI/NENE2/compare/v0.6.0...v0.7.0
 [0.6.0]: https://github.com/hideyukiMORI/NENE2/compare/v0.5.0...v0.6.0

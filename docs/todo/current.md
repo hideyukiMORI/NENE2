@@ -356,9 +356,9 @@ _Friction follow-ups (docs): Issues `#167` (MCP JSON integers for path params), 
 - [x] chore(phpdoc): ServiceProviderInterface / DomainExceptionHandlerInterface / DatabaseConnectionFactoryInterface に PHPDoc 追加
 - [x] chore(phpdoc): ResponseEmitter に stable である旨の PHPDoc 追加
 - [x] docs(milestone): v1.0 マイルストーン文書を追加（docs/milestones/2026-05-v1.0.md）
-- [ ] chore(release): v1.0.0 GitHub Release notes を草稿する
-- [ ] chore(changelog): v1.0.0 タグ後に冒頭注記を削除する
-- [ ] chore(release): `v1.0.0` タグを打つ（マイルストーン文書の全チェックが完了してから）
+- [x] chore(release): v1.0.0 GitHub Release notes を草稿する
+- [x] chore(changelog): v1.0.0 タグ後に冒頭注記を削除する
+- [x] chore(release): `v1.0.0` タグを打つ
 
 ## Phase 42: v0.8.0 リリース
 
