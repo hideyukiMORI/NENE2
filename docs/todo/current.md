@@ -366,7 +366,7 @@ _Friction follow-ups (docs): Issues `#167` (MCP JSON integers for path params), 
 - [x] docs(vitepress): Reference/problem-details-types に 400/429 を追加する (6 言語)
 - [x] docs(vitepress): Reference/http-endpoints を更新する (6 言語)
 - [x] docs(vitepress): config.mts バージョンバッジ・サイドバー更新
-- [ ] CI グリーン確認・PR マージ
+- [x] CI グリーン確認・PR マージ
 
 ## Phase 49: v1.2.0 リリース (#356)
 
