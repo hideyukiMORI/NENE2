@@ -624,18 +624,22 @@ from scratch without referencing the existing Note/Tag implementation as a codeb
 
 Tracked by `docs/milestones/2026-05-field-trial-10.md`.
 
-## Phase 59: Problem Details Domain Policy (#405)
+## Phase 59: Problem Details Base URL Configurability (#409)
 
-Goal: resolve the `nene2.dev` placeholder domain used in Problem Details `type` URIs so that
-client projects adopting NENE2 have a clear, production-safe path for error type identification.
+Goal: allow client projects to use their own domain for custom Problem Details `type` URIs,
+while keeping `nene2.dev` as the default for all framework built-in error types.
 
-- Decide between registering `nene2.dev` as the framework's official documentation domain
-  (Option A) or treating it as a placeholder that clients must replace (Option B)
-- Record the decision in an ADR or a dedicated section in `docs/development/authentication-boundary.md`
-- Update `docs/development/client-project-start.md` and `docs/howto/deploy-production.md`
-  with concrete steps for whichever option is chosen
-- If Option B: consider adding `problemDetailsBaseUrl` to `AppConfig` so the base URI is
-  configurable without touching framework code
+Background: `nene2.dev` is the registered framework domain (confirmed). Framework-built-in
+problem types (`not-found`, `validation-failed`, etc.) resolve correctly under this domain.
+The remaining gap is that `ProblemDetailsResponseFactory` hardcodes the base URL, so
+client-specific custom problem types also point to `nene2.dev`.
+
+- Add `problemDetailsBaseUrl` to `AppConfig` (default: `https://nene2.dev/problems/`)
+- `ProblemDetailsResponseFactory` receives the base URL via constructor injection
+- `RuntimeServiceProvider` wires the value from `AppConfig`
+- `.env.example` gets a commented-out `PROBLEM_DETAILS_BASE_URL` entry
+- `docs/development/client-project-start.md` or `docs/howto/deploy-production.md` documents
+  how to override the base URL for a client project's custom problem types
 
 ## Non-Goals
 
