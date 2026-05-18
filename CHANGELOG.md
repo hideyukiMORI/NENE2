@@ -8,6 +8,10 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+---
+
+## [1.1.0] — 2026-05-18
+
 ### Added
 - `HealthCheckInterface` and `HealthStatus` — stable public interface for dependency health checks (`Nene2\Http`) (#346)
 - `RuntimeApplicationFactory` extended with `list<HealthCheckInterface> $healthChecks = []`; `GET /health` returns `checks` map and 503 when any check reports `error` (#346)
@@ -228,7 +232,8 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Governance docs: workflow, coding standards, ADR policy, review checklists (#1)
 - ADR 0001–0004: HTTP runtime, DI container, phpdotenv, Phinx
 
-[Unreleased]: https://github.com/hideyukiMORI/NENE2/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/hideyukiMORI/NENE2/compare/v1.1.0...HEAD
+[1.1.0]: https://github.com/hideyukiMORI/NENE2/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/hideyukiMORI/NENE2/compare/v0.8.0...v1.0.0
 [0.8.0]: https://github.com/hideyukiMORI/NENE2/compare/v0.7.0...v0.8.0
 [0.7.0]: https://github.com/hideyukiMORI/NENE2/compare/v0.6.0...v0.7.0

@@ -352,17 +352,17 @@ _Friction follow-ups (docs): Issues `#167` (MCP JSON integers for path params), 
 
 ## Phase 47: v1.1.0 リリース
 
-- [ ] chore(changelog): v1.1.0 セクション確定
-- [ ] docs(adr): ADR 0010 最終化
+- [x] chore(changelog): v1.1.0 セクション確定
+- [x] docs(adr): ADR 0010 最終化
 - [ ] chore(release): Packagist v1.1.0 自動反映確認
-- [ ] chore(release): `v1.1.0` タグを打つ
+- [x] chore(release): `v1.1.0` タグを打つ
 
 ## Phase 46: Field Trial 8 — v1.0 Stable Validation
 
-- [ ] `composer require hideyukimori/nene2:^1.0` から新規プロジェクト開始
-- [ ] `DatabaseHealthCheck` を使って degraded パスを確認
-- [ ] `ThrottleMiddleware` を使って 429 パスを確認
-- [ ] 摩擦メモを Issue 化する
+- [x] `composer require hideyukimori/nene2:dev-main` から新規プロジェクト開始（Ubuntu 24.04 + PHP 8.4）
+- [x] `HealthCheckInterface` healthy → 200、degraded → 503 を確認
+- [x] `ThrottleMiddleware` 429 + `Retry-After` + `X-RateLimit-*` ヘッダーを確認
+- [x] `InMemoryRateLimitStorage` カウンター動作を確認
 
 ## Phase 45: Rate Limiting (#348)
 
