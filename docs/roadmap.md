@@ -609,6 +609,34 @@ Goal: fix nav/sidebar links returning to English when navigating from a non-Engl
 - ADR cross-references in 5 locale `add-rate-limiting.md` files changed from broken relative path
   `../adr/0010-rate-limiting.md` to absolute `/adr/0010-rate-limiting` (ADRs are English-only per language policy)
 
+## Phase 58: Field Trial 10 — New Domain Entity from Scratch (#404)
+
+Goal: validate that the v1.3.0 scaffold workflow is sufficient to build a third domain entity
+from scratch without referencing the existing Note/Tag implementation as a codebase crutch.
+
+- Choose a new domain entity distinct from Note and Tag (e.g. Task, Event, Product)
+- Follow `docs/development/endpoint-scaffold.md` as the only procedural guide
+- Implement full CRUD (GET / POST / PUT / DELETE) + list with pagination
+- Add OpenAPI paths and `docs/mcp/tools.json` entries for the new entity
+- Connect a local MCP client and verify tool calls against the new endpoints
+- Record friction in `docs/field-trials/2026-05-field-trial-10.md`
+- Open follow-up Issues for each friction point
+
+Tracked by `docs/milestones/2026-05-field-trial-10.md`.
+
+## Phase 59: Problem Details Domain Policy (#405)
+
+Goal: resolve the `nene2.dev` placeholder domain used in Problem Details `type` URIs so that
+client projects adopting NENE2 have a clear, production-safe path for error type identification.
+
+- Decide between registering `nene2.dev` as the framework's official documentation domain
+  (Option A) or treating it as a placeholder that clients must replace (Option B)
+- Record the decision in an ADR or a dedicated section in `docs/development/authentication-boundary.md`
+- Update `docs/development/client-project-start.md` and `docs/howto/deploy-production.md`
+  with concrete steps for whichever option is chosen
+- If Option B: consider adding `problemDetailsBaseUrl` to `AppConfig` so the base URI is
+  configurable without touching framework code
+
 ## Non-Goals
 
 - Recreating Laravel or Symfony.

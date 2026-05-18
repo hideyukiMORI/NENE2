@@ -5,8 +5,8 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 ## Status
 
 - Latest release: `v1.3.0` (Phase 53 — Packagist 反映済み)
-- Field Trial 9 完了 (Phase 56)
-- Post-v1.0 ドキュメント整合性クリーンアップ完了 (#388, PR #389)
+- Field Trial 9 完了 (Phase 56) — #371・#372 フォローアップ済み
+- レビュー所見反映 (#407) — FT8 stub 作成・ロードマップ Phase 58–59 追加
 - Current branch: `main` — clean
 
 ## Recently Completed
@@ -15,14 +15,13 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 - **Phase 56**: Field Trial 9 — v1.3.0 検証 (PaginationQueryParser / openapi:docs / 400/422 分離)
 - **Phase 57**: VitePress i18n リンク修正 (#380); locale http-endpoints.md 同期 (#384, PR #385)
 - **#388 / PR #389**: Post-v1.0 ドキュメント整合性クリーンアップ
-  (README v0.3.x → v1.x、src/ レイアウト補完、milestones 完了チェック、openapi-to-md prose 修正、dependabot root npm 追加)
-- **#394 / PR #395**: openapi-to-md health/root 表記修正 + README MCP read/write・9lick.me 削除
-- **#398 / PR #399**: v1.1.0 milestone 未チェック修正・README opt-in 表現・composer.json SPA 統一
-- **#400 / PR #401**: 5 locale health/root 同期・README middleware→opt-in・env-vars JWT 説明・roadmap 順序修正
+- **#400 / PR #401**: 5 locale 同期・README・env-vars・roadmap 修正
+- **#407**: レビュー所見反映 — FT8 stub・FT10 マイルストーン・ロードマップ Phase 58–59
 
 ## Next Candidates
 
-- **Field Trial 10**: v1.3.0 を起点にした次の hands-on フィールドトライアル（ユーザー手作業必須）
+- **Phase 58 / Field Trial 10** (#404): v1.3.0 を起点に Note/Tag 以外の新ドメインをスクラッチ実装（ユーザー手作業必須）
+- **Phase 59 / nene2.dev 方針** (#405): Problem Details type URI のドメイン方針を決定し client-project-start.md に反映
 
 ## Operating Notes
 
