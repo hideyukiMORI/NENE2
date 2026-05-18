@@ -8,6 +8,15 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Added
+- `AppConfig::$problemDetailsBaseUrl` — configurable base URL for Problem Details `type` URIs (`Nene2\Config`); defaults to `https://nene2.dev/problems/` (#409)
+- `PROBLEM_DETAILS_BASE_URL` environment variable — override the base URL per project without touching framework code (#409)
+- `.env.example` entry for `PROBLEM_DETAILS_BASE_URL` (commented out) (#409)
+
+### Changed
+- `ProblemDetailsResponseFactory` — accepts `string $problemDetailsBaseUrl` as a third constructor parameter; existing call sites that omit it continue to use the `nene2.dev` default (#409)
+- `RuntimeServiceProvider` — wires `AppConfig::$problemDetailsBaseUrl` into `ProblemDetailsResponseFactory` (#409)
+
 ---
 
 ## [1.3.0] — 2026-05-18
@@ -257,7 +266,7 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Governance docs: workflow, coding standards, ADR policy, review checklists (#1)
 - ADR 0001–0004: HTTP runtime, DI container, phpdotenv, Phinx
 
-[Unreleased]: https://github.com/hideyukiMORI/NENE2/compare/v1.2.0...HEAD
+[Unreleased]: https://github.com/hideyukiMORI/NENE2/compare/v1.3.0...HEAD
 [1.3.0]: https://github.com/hideyukiMORI/NENE2/compare/v1.2.0...v1.3.0
 [1.2.0]: https://github.com/hideyukiMORI/NENE2/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/hideyukiMORI/NENE2/compare/v1.0.0...v1.1.0
