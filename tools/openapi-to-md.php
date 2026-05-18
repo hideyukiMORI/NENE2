@@ -116,7 +116,7 @@ function splitCodes(array $codes): array
     }
     return [
         'success' => implode(', ', $success) ?: '—',
-        'errors'  => implode(', ', $errors)  ?: '—',
+        'errors'  => implode(', ', $errors) ?: '—',
     ];
 }
 
