@@ -54,13 +54,10 @@ final class ThrottleMiddlewareTest extends TestCase
 
         $request = $factory->createServerRequest('GET', 'https://example.test/health', ['REMOTE_ADDR' => '127.0.0.1']);
 
-        $response = null;
+        $middleware->process($request, $this->makeHandler()); // hit 1
+        $middleware->process($request, $this->makeHandler()); // hit 2
+        $response = $middleware->process($request, $this->makeHandler()); // hit 3 — at limit, still 200
 
-        for ($i = 0; $i < 3; $i++) {
-            $response = $middleware->process($request, $this->makeHandler());
-        }
-
-        self::assertNotNull($response);
         self::assertSame(200, $response->getStatusCode());
         self::assertSame('3', $response->getHeaderLine('X-RateLimit-Limit'));
         self::assertSame('0', $response->getHeaderLine('X-RateLimit-Remaining'));
