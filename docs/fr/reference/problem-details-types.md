@@ -8,8 +8,10 @@ NENE2 retourne `application/problem+json` pour toutes les réponses d'erreur, co
 |---|---|---|---|
 | `…/not-found` | 404 | Not Found | Route introuvable ; Note ou Tag avec l'id donné introuvable |
 | `…/method-not-allowed` | 405 | Method Not Allowed | Mauvaise méthode HTTP pour une route connue |
+| `…/invalid-json` | 400 | Invalid JSON | Corps de requête vide, JSON invalide ou non-objet JSON |
 | `…/validation-failed` | 422 | Validation Failed | Corps de requête invalide ou champs obligatoires manquants |
 | `…/unauthorized` | 401 | Unauthorized | Token Bearer absent ou invalide |
+| `…/too-many-requests` | 429 | Too Many Requests | Limite de taux dépassée (`ThrottleMiddleware`) ; en-tête `Retry-After` inclus |
 | `…/payload-too-large` | 413 | Payload Too Large | Corps de requête dépassant la limite configurée |
 | `…/internal-server-error` | 500 | Internal Server Error | Exception non gérée |
 
