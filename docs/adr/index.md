@@ -14,6 +14,7 @@ Architecture decisions are recorded here as lightweight ADRs. Each record captur
 | [0006](0006-v0.2.0-scope-and-packagist-policy.md) | v0.2.0 scope and Packagist policy |
 | [0007](0007-put-vs-patch-policy.md) | PUT vs PATCH policy |
 | [0008](0008-jwt-authentication.md) | JWT authentication direction |
+| [0009](0009-v1.0-public-api-scope.md) | v1.0 public API scope and stability guarantee |
 
 ## Template
 
