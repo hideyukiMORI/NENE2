@@ -359,6 +359,15 @@ _Friction follow-ups (docs): Issues `#167` (MCP JSON integers for path params), 
 - [x] test: `JsonRequestBodyParserTest` 7 ケース（正常・空・不正・非オブジェクト各種）
 - [x] test: `NoteHttpTest` に 400 パス 3 ケース追加
 
+## Phase 50: VitePress v1.2.0 対応ドキュメント (#358)
+
+- [x] docs(vitepress): HOWTO add-rate-limiting (6 言語) を追加する
+- [x] docs(vitepress): HOWTO add-health-check (6 言語) を追加する
+- [x] docs(vitepress): Reference/problem-details-types に 400/429 を追加する (6 言語)
+- [x] docs(vitepress): Reference/http-endpoints を更新する (6 言語)
+- [x] docs(vitepress): config.mts バージョンバッジ・サイドバー更新
+- [ ] CI グリーン確認・PR マージ
+
 ## Phase 49: v1.2.0 リリース (#356)
 
 - [x] docs(roadmap): Phase 48-49 エントリを追加する
