@@ -4,7 +4,7 @@ PHP micro-framework: JSON APIs first, minimal server HTML, easy React starter in
 
 NENE2 is a small, modern PHP framework foundation extracted from the lessons of the original NeNe framework and the 9lick.me modernization work. It is designed for projects that want to ship JSON APIs quickly, keep server-rendered HTML thin, and add a React frontend starter without turning the backend into frontend build glue.
 
-The current `v0.3.x` direction is a practical starter for LLM-assisted client delivery: a maintainer can clone the repository, run a local API, share an OpenAPI contract, expose safe read-only MCP tools through the API boundary, and verify database behavior in Docker.
+The `v1.x` foundation covers full Note/Tag CRUD, rate limiting, health checks, Bearer JWT auth, pagination helpers, and a six-language VitePress documentation site. A maintainer can clone the repository, run a local API, share an OpenAPI contract, expose safe MCP tools through the API boundary, and verify database behavior in Docker Compose.
 
 ## Theme
 
@@ -45,9 +45,6 @@ If you want to use NENE2 as a Composer dependency in an existing project:
 ```bash
 composer require hideyukimori/nene2
 ```
-
-> **Note:** NENE2 is currently `0.x.y`. The public API is still stabilising.
-> Expect breaking changes between minor versions until `v1.0.0`.
 
 ---
 
@@ -126,14 +123,20 @@ NENE2 uses a single repository with Composer at the root, PHP framework code in 
 .
 ├── composer.json
 ├── src/                 # NENE2 framework core
+│   ├── Auth/
 │   ├── Config/
+│   ├── Database/
 │   ├── DependencyInjection/
+│   ├── Error/
 │   ├── Http/
 │   ├── Log/
-│   ├── Routing/
+│   ├── Mcp/
 │   ├── Middleware/
-│   ├── Error/
-│   └── Example/Note/    # canonical domain layer example (full CRUD)
+│   ├── Routing/
+│   ├── Validation/
+│   ├── View/
+│   ├── Example/Note/    # canonical domain layer example (full CRUD)
+│   └── Example/Tag/     # second entity example
 ├── tests/               # PHPUnit / architecture / contract tests
 ├── config/              # framework default config or examples
 ├── database/            # migrations, seeds, and schema docs
@@ -172,14 +175,13 @@ composer test:database:mysql
 
 See `docs/development/php-runtime.md` and `docs/development/docker.md` for runtime and tooling details.
 
-NENE2's planned quality baseline adds PHP-CS-Fixer for backend style checks and npm, ESLint, TypeScript, and Prettier for the React frontend starter. The frontend starter targets active Node.js LTS, commits `package-lock.json`, and keeps dependencies modern through update automation. Framework public APIs should use PHPDoc or TSDoc where comments explain contracts or extension rules. See `docs/development/quality-tools.md`, `docs/development/frontend-integration.md`, and `docs/development/documentation-comments.md`.
+NENE2's quality baseline includes PHP-CS-Fixer for backend style checks and npm, ESLint, TypeScript, and Prettier for the React frontend starter. The frontend starter targets active Node.js LTS, commits `package-lock.json`, and keeps dependencies modern through update automation. Framework public APIs should use PHPDoc or TSDoc where comments explain contracts or extension rules. See `docs/development/quality-tools.md`, `docs/development/frontend-integration.md`, and `docs/development/documentation-comments.md`.
 
 ## Delivery Starter Docs
 
 Start with these docs when adapting NENE2 for a small client-style API:
 
 - Direction: `docs/integrations/llm-delivery-starter.md`
-- Current milestone: `docs/milestones/2026-05-client-delivery-hardening.md`
 - Client project start guide: `docs/development/client-project-start.md`
 - Endpoint workflow: `docs/development/endpoint-scaffold.md`
 - Local MCP server: `docs/integrations/local-mcp-server.md`

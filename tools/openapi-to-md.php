@@ -226,7 +226,7 @@ $md .= buildEndpointTable($groups['tags'], $openapi) . "\n\n";
 
 $md .= "## Protected (machine client)\n\n";
 $md .= buildEndpointTable($groups['protected'], $openapi) . "\n\n";
-$md .= "Requests to protected endpoints must include either the `X-NENE2-API-Key` header or a valid `Authorization: Bearer <token>` header.\n\n";
+$md .= "Requests to the protected endpoint must include a valid `Authorization: Bearer <token>` header with a JWT signed with `NENE2_LOCAL_JWT_SECRET`.\n\n";
 
 $md .= "## Response shapes\n\n";
 $md .= "**Collection envelope** (shared by Notes and Tags):\n\n";
