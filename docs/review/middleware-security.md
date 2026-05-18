@@ -28,6 +28,15 @@ Source policies:
 - [ ] `WWW-Authenticate: ApiKey` challenge header is present on 401 responses.
 - [ ] The API key value is never logged, committed, or returned in a response.
 
+## Rate Limiting (ADR 0010)
+
+- [ ] `ThrottleMiddleware` is wired after Auth (position 8) so per-user limiting is possible.
+- [ ] `RateLimitStorageInterface` is injected — no concrete storage is hardcoded in the middleware.
+- [ ] `InMemoryRateLimitStorage` is used only in local/test environments; production wires a shared-state adapter (Redis, etc.).
+- [ ] `X-RateLimit-Limit`, `X-RateLimit-Remaining`, `X-RateLimit-Reset`, and `Retry-After` headers are present on both allowed and rate-limited responses.
+- [ ] The key extractor does not leak user PII into logs or response bodies.
+- [ ] 429 Problem Details uses `type: https://nene2.dev/problems/too-many-requests`.
+
 ## Bearer Token Authentication (ADR 0008)
 
 - [ ] `BearerTokenMiddleware` receives a `TokenVerifierInterface` — no concrete JWT library is imported in the middleware itself.

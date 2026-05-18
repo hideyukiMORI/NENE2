@@ -203,10 +203,11 @@ UseCase     : ビジネス不変条件、認可ルール、状態依存ルール
 5. Error handling
 6. Request size limit
 7. Authentication / authorization
-8. Routing / handler dispatch
+8. Rate limiting (optional — ThrottleMiddleware)
+9. Routing / handler dispatch
 ```
 
-> **順序の意図**: RequestId と Security headers は Error handling より外側に置くことで、エラーレスポンスにも `X-Request-Id` やセキュリティヘッダーが付く。CORS も同様に外側に置き、エラーレスポンスにも `Access-Control-Allow-Origin` が返る。
+> **順序の意図**: RequestId と Security headers は Error handling より外側に置くことで、エラーレスポンスにも `X-Request-Id` やセキュリティヘッダーが付く。CORS も同様に外側に置き、エラーレスポンスにも `Access-Control-Allow-Origin` が返る。Rate limiting は Auth の後ろに置くことで、認証済みユーザー単位での制限が可能になる。
 
 - CORS は config 駆動。本番ではオリジンを明示的に allowlist に入れる。
 - ログにシークレット・トークン・Cookie・Authorization ヘッダー・生リクエストボディを含めない。

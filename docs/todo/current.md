@@ -364,15 +364,15 @@ _Friction follow-ups (docs): Issues `#167` (MCP JSON integers for path params), 
 - [ ] `ThrottleMiddleware` を使って 429 パスを確認
 - [ ] 摩擦メモを Issue 化する
 
-## Phase 45: Rate Limiting (#344)
+## Phase 45: Rate Limiting (#348)
 
-- [ ] docs(adr): ADR 0010 — Rate Limiting 設計方針を記録する
-- [ ] feat: `RateLimitStorageInterface` を追加する（stable surface）
-- [ ] feat: `InMemoryRateLimitStorage` を追加する（`@internal`、開発・テスト用）
-- [ ] feat: `ThrottleMiddleware` を追加する（429 Problem Details、`Retry-After`、`X-RateLimit-*`）
-- [ ] test: under / at / over limit、reset after window のテスト
-- [ ] docs: CLAUDE.md ミドルウェア順を更新（position 8、Auth 後）
-- [ ] docs: セルフレビューチェックリストに rate limit チェックポイントを追加
+- [x] docs(adr): ADR 0010 — Rate Limiting 設計方針を記録する
+- [x] feat: `RateLimitStorageInterface` を追加する（stable surface）
+- [x] feat: `InMemoryRateLimitStorage` を追加する（`@internal`、開発・テスト用）
+- [x] feat: `ThrottleMiddleware` を追加する（429 Problem Details、`Retry-After`、`X-RateLimit-*`）
+- [x] test: under / at / over limit、別クライアント独立・カスタムキー抽出のテスト
+- [x] docs: CLAUDE.md ミドルウェア順を更新（position 8、Auth 後）
+- [x] docs: セルフレビューチェックリストに rate limit チェックポイントを追加
 
 ## Phase 44: DB Health Check (#346)
 

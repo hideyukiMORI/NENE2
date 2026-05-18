@@ -17,6 +17,7 @@ use Nene2\Middleware\RequestIdMiddleware;
 use Nene2\Middleware\RequestLoggingMiddleware;
 use Nene2\Middleware\RequestSizeLimitMiddleware;
 use Nene2\Middleware\SecurityHeadersMiddleware;
+use Nene2\Middleware\ThrottleMiddleware;
 use Nene2\Routing\Router;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -43,6 +44,7 @@ final readonly class RuntimeApplicationFactory
         private array $routeRegistrars = [],
         private ?BearerTokenMiddleware $bearerTokenMiddleware = null,
         private array $healthChecks = [],
+        private ?ThrottleMiddleware $throttleMiddleware = null,
     ) {
     }
 
@@ -148,6 +150,10 @@ final readonly class RuntimeApplicationFactory
 
         if ($this->bearerTokenMiddleware !== null) {
             $middlewareStack[] = $this->bearerTokenMiddleware;
+        }
+
+        if ($this->throttleMiddleware !== null) {
+            $middlewareStack[] = $this->throttleMiddleware;
         }
 
         return new MiddlewareDispatcher($middlewareStack, $router);
