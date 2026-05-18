@@ -35,7 +35,9 @@ final class JsonRequestBodyParser
         }
 
         try {
-            $decoded = json_decode($raw, associative: true, flags: JSON_THROW_ON_ERROR);
+            // Decode without associative: true so JSON objects become stdClass and
+            // JSON arrays remain array — allowing us to tell them apart.
+            $decoded = json_decode($raw, associative: false, flags: JSON_THROW_ON_ERROR);
         } catch (JsonException $e) {
             throw new JsonBodyParseException(
                 'Request body contains invalid JSON: ' . $e->getMessage(),
@@ -43,12 +45,14 @@ final class JsonRequestBodyParser
             );
         }
 
-        if (!is_array($decoded)) {
+        if (!$decoded instanceof \stdClass) {
             throw new JsonBodyParseException(
-                'Request body must be a JSON object, got ' . gettype($decoded) . '.',
+                'Request body must be a JSON object, got ' . get_debug_type($decoded) . '.',
             );
         }
 
-        return $decoded;
+        // Re-decode as associative to return array<string, mixed> for handler use.
+        /** @var array<string, mixed> */
+        return (array) json_decode($raw, associative: true, flags: JSON_THROW_ON_ERROR);
     }
 }
