@@ -43,11 +43,48 @@ Create tags only from `main` after verification:
 ```bash
 git switch main
 git pull --ff-only origin main
-git tag v0.x.y
-git push origin v0.x.y
+git tag vX.Y.Z
+git push origin vX.Y.Z
 ```
 
 Do not tag unmerged PR branches or local-only commits.
+
+## GitHub Release
+
+**Create a GitHub Release for every tag.** Pushing a git tag alone does not reliably trigger the
+Packagist webhook — the release creation fires the event that Packagist picks up.
+
+```bash
+gh release create vX.Y.Z \
+  --title "vX.Y.Z — <short description>" \
+  --notes "$(cat <<'EOF'
+## What's New
+...
+
+## Full Changelog
+[vX.Y-1.Z-1...vX.Y.Z](https://github.com/hideyukiMORI/NENE2/compare/vX.Y-1.Z-1...vX.Y.Z)
+EOF
+)"
+```
+
+## Packagist Verification
+
+After creating the GitHub Release, confirm Packagist reflects the new version (allow up to 5 minutes):
+
+```bash
+curl -s "https://packagist.org/packages/hideyukimori/nene2.json" \
+  | python3 -c "import json,sys; d=json.load(sys.stdin); \
+    versions=[v for v in d['package']['versions'].keys() if not v.startswith('dev-')]; \
+    print(sorted(versions, reverse=True)[:3])"
+```
+
+If Packagist does not update within 5 minutes, trigger manually:
+
+```bash
+curl -XPOST -H'content-type:application/json' \
+  'https://packagist.org/api/update-package?username=hideyukimori&apiToken=<TOKEN>' \
+  -d '{"repository":{"url":"https://github.com/hideyukiMORI/NENE2"}}'
+```
 
 ## GitHub Release Notes
 
@@ -63,6 +100,6 @@ Release notes should include:
 ## After Release
 
 - Confirm the GitHub Release points to the expected tag.
+- Confirm Packagist reflects the new version.
 - Confirm `docs/todo/current.md` does not list the release as incomplete if it is done.
 - Open follow-up Issues for deferred release work.
-- Leave Packagist publication deferred until Composer package contracts are stable enough for early users.
