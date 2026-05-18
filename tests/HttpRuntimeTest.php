@@ -195,9 +195,16 @@ final class HttpRuntimeTest extends TestCase
     {
         $factory = new Psr17Factory();
 
-        $check = new class implements HealthCheckInterface {
-            public function name(): string { return 'database'; }
-            public function check(): HealthStatus { return HealthStatus::Ok; }
+        $check = new class () implements HealthCheckInterface {
+            public function name(): string
+            {
+                return 'database';
+            }
+
+            public function check(): HealthStatus
+            {
+                return HealthStatus::Ok;
+            }
         };
 
         $application = (new RuntimeApplicationFactory(
@@ -219,9 +226,16 @@ final class HttpRuntimeTest extends TestCase
     {
         $factory = new Psr17Factory();
 
-        $check = new class implements HealthCheckInterface {
-            public function name(): string { return 'database'; }
-            public function check(): HealthStatus { return HealthStatus::Error; }
+        $check = new class () implements HealthCheckInterface {
+            public function name(): string
+            {
+                return 'database';
+            }
+
+            public function check(): HealthStatus
+            {
+                return HealthStatus::Error;
+            }
         };
 
         $application = (new RuntimeApplicationFactory(
@@ -243,9 +257,16 @@ final class HttpRuntimeTest extends TestCase
     {
         $factory = new Psr17Factory();
 
-        $check = new class implements HealthCheckInterface {
-            public function name(): string { return 'external'; }
-            public function check(): HealthStatus { throw new \RuntimeException('connection refused'); }
+        $check = new class () implements HealthCheckInterface {
+            public function name(): string
+            {
+                return 'external';
+            }
+
+            public function check(): HealthStatus
+            {
+                throw new \RuntimeException('connection refused');
+            }
         };
 
         $application = (new RuntimeApplicationFactory(
