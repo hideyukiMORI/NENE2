@@ -11,6 +11,20 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Added
+- ADR 0009: v1.0 public API scope and stability guarantee — `src/Example/` declared as reference implementation outside the stability promise (#334)
+- `@internal` annotations on implementation-detail classes: `ConfigLoader`, `PdoConnectionFactory`, `PdoDatabaseQueryExecutor`, `PdoDatabaseTransactionManager`, `RuntimeServiceProvider`, `RuntimeContainerFactory`, `MonologLoggerFactory`, `RequestIdHolder`, `RequestIdProcessor`, `LocalMcpToolCatalog`, `LocalBearerTokenVerifier`, `NativeLocalMcpHttpClient`, `LocalMcpHttpResponse` (#334 #337)
+- `PdoTagRepositoryMySqlTest` — MySQL integration tests for Tag repository (save / findAll / update / delete, 7 cases) (#312)
+- Frontend Tag support: `frontend/src/api/tags.ts` typed fetch wrapper, `TagList` and `TagForm` React components with live API integration (#314)
+- Frontend component tests for `TagList` and `TagForm` (#321)
+- Frontend API type-guard tests for `tags.ts` (#321)
+
+### Changed
+- README: `src/Example/` documented as reference implementation not covered by the stability guarantee (#334)
+- CLAUDE.md § 5 middleware order corrected to match `RuntimeApplicationFactory` implementation: `RequestId → Logging → Security → CORS → Error → RequestSize → Auth` (#337)
+- ADR 0008 middleware placement table corrected to match implementation (#337)
+- Roadmap: Phase 38–39–40 entries added (#334)
+
 ---
 
 ## [0.7.0] — 2026-05-18

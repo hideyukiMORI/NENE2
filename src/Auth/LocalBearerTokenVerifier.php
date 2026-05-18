@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Nene2\Auth;
 
 /**
+ * @internal
  * HMAC-HS256 JWT verifier for local development.
  * Uses no external library — suitable only for controlled local environments.
  * Production deployments should inject a library-backed TokenVerifierInterface.

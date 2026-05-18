@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Nene2\Mcp;
 
+/** @internal */
 final readonly class NativeLocalMcpHttpClient implements LocalMcpHttpClientInterface
 {
     public function __construct(private ?string $bearerToken = null)

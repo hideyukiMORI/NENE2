@@ -350,6 +350,13 @@ _Friction follow-ups (docs): Issues `#167` (MCP JSON integers for path params), 
 - [x] test(tag): `PdoTagRepositoryMySqlTest` 追加（save/findAll/update/delete 7 ケース）. `#312`
 - [x] feat(frontend): `api/tags.ts` + `TagList` + `TagForm` — Tag CRUD をブラウザから操作可能に. `#314`
 
+## Phase 41: v1.0 ギャップ補完 (#337)
+
+- [x] chore: `@internal` 漏れ補完 — `LocalBearerTokenVerifier` / `NativeLocalMcpHttpClient` / `LocalMcpHttpResponse`
+- [x] docs: CLAUDE.md § 5 ミドルウェア順を実装に合わせる（RequestId → Logging → Security → CORS → Error → RequestSize → Auth）
+- [x] docs: ADR 0008 ミドルウェア配置表を実装に合わせる
+- [x] chore(changelog): `[Unreleased]` に Phase 38–40 の変更を記載する
+
 ## Phase 40: v1.0 公開 API スコープ定義
 
 - [x] docs(adr): ADR 0009 — v1.0 公開 API スコープと安定性保証を記録する. `#334`
