@@ -374,6 +374,14 @@ _Friction follow-ups (docs): Issues `#167` (MCP JSON integers for path params), 
 - [x] `composer.json` に `openapi:docs` スクリプトを追加する
 - [x] CI グリーン確認・PR マージ (#363)
 
+## Phase 57: VitePress i18n リンク修正 (#380)
+
+- [x] 原因調査: nav・サイドバーの相対リンクが VitePress でロケールプレフィックスなしに解決される仕様を特定
+- [x] `config.mts` の `nav()` / `sidebar()` に `p` パラメーターを追加し、全リンクを絶対パスで生成
+- [x] 全 5 言語の `add-rate-limiting.md` の ADR リンクを `/adr/0010-rate-limiting` に修正
+- [x] ビルド後 HTML で全ロケールのリンクが正しいプレフィックス付きであることを確認
+- [x] CI グリーン確認・PR マージ (#381)
+
 ## Phase 56: Field Trial 9 — v1.3.0 検証 (#370)
 
 - [x] `PaginationQueryParser` — デフォルト・明示的パラメーター・422 全エラーパス確認
