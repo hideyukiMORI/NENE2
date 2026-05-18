@@ -14,6 +14,7 @@ final readonly class ProblemDetailsResponseFactory
     public function __construct(
         private ResponseFactoryInterface $responseFactory,
         private StreamFactoryInterface $streamFactory,
+        private string $problemDetailsBaseUrl = 'https://nene2.dev/problems/',
     ) {
     }
 
@@ -29,7 +30,7 @@ final readonly class ProblemDetailsResponseFactory
         array $extensions = [],
     ): ResponseInterface {
         $payload = [
-            'type' => 'https://nene2.dev/problems/' . $type,
+            'type' => $this->problemDetailsBaseUrl . $type,
             'title' => $title,
             'status' => $status,
             'instance' => $request->getUri()->getPath() ?: '/',

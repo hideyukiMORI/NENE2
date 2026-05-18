@@ -127,6 +127,7 @@ final readonly class RuntimeServiceProvider implements ServiceProviderInterface
                 static function (ContainerInterface $container): ProblemDetailsResponseFactory {
                     $responseFactory = $container->get(ResponseFactoryInterface::class);
                     $streamFactory = $container->get(StreamFactoryInterface::class);
+                    $config = $container->get(AppConfig::class);
 
                     if (!$responseFactory instanceof ResponseFactoryInterface) {
                         throw new LogicException('Response factory service is invalid.');
@@ -136,7 +137,11 @@ final readonly class RuntimeServiceProvider implements ServiceProviderInterface
                         throw new LogicException('Stream factory service is invalid.');
                     }
 
-                    return new ProblemDetailsResponseFactory($responseFactory, $streamFactory);
+                    if (!$config instanceof AppConfig) {
+                        throw new LogicException('Application config service is invalid.');
+                    }
+
+                    return new ProblemDetailsResponseFactory($responseFactory, $streamFactory, $config->problemDetailsBaseUrl);
                 },
             )
             ->set(
