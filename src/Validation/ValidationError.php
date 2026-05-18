@@ -6,6 +6,11 @@ namespace Nene2\Validation;
 
 use InvalidArgumentException;
 
+/**
+ * A single field-level validation failure carried by {@see ValidationException}.
+ *
+ * Part of the public API stability guarantee (see ADR 0009).
+ */
 final readonly class ValidationError
 {
     public function __construct(

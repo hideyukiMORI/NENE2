@@ -10,6 +10,12 @@ use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Log\LoggerInterface;
 
+/**
+ * Logs each request's method, path, status, and duration via PSR-3 `LoggerInterface`.
+ * Sensitive headers (Authorization, cookies, API keys) are never included.
+ *
+ * Part of the public API stability guarantee (see ADR 0009).
+ */
 final readonly class RequestLoggingMiddleware implements MiddlewareInterface
 {
     public function __construct(

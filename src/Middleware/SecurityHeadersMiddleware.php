@@ -9,6 +9,12 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
+/**
+ * Adds security-related HTTP response headers (e.g. `X-Content-Type-Options`, `X-Frame-Options`).
+ * Headers are injected before the pipeline processes the request so they appear on error responses too.
+ *
+ * Part of the public API stability guarantee (see ADR 0009).
+ */
 final readonly class SecurityHeadersMiddleware implements MiddlewareInterface
 {
     /**

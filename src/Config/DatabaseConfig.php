@@ -4,6 +4,11 @@ declare(strict_types=1);
 
 namespace Nene2\Config;
 
+/**
+ * Typed database configuration assembled by {@see ConfigLoader} from environment variables.
+ *
+ * Part of the public API stability guarantee (see ADR 0009).
+ */
 final readonly class DatabaseConfig
 {
     public function __construct(

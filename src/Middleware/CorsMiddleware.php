@@ -10,6 +10,12 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
+/**
+ * Handles CORS preflight requests and adds `Access-Control-*` headers to responses.
+ * Allowed origins are injected at construction time; use an explicit allowlist in production.
+ *
+ * Part of the public API stability guarantee (see ADR 0009).
+ */
 final readonly class CorsMiddleware implements MiddlewareInterface
 {
     /**

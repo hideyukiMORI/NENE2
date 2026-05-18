@@ -6,6 +6,13 @@ namespace Nene2\View;
 
 use Throwable;
 
+/**
+ * Renders native PHP template files (`.php`) by including them in an isolated scope.
+ * Templates receive variables via the `$data` argument; use {@see HtmlEscaper} or `$this->escaper`
+ * to escape output safely.
+ *
+ * Part of the public API stability guarantee (see ADR 0009).
+ */
 final readonly class NativePhpViewRenderer
 {
     public function __construct(

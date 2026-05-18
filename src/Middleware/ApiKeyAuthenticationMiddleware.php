@@ -10,6 +10,12 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
+/**
+ * Validates the `X-NENE2-API-Key` request header for machine client endpoints.
+ * Returns 401 Problem Details when the key is absent or does not match `NENE2_MACHINE_API_KEY`.
+ *
+ * Part of the public API stability guarantee (see ADR 0009).
+ */
 final readonly class ApiKeyAuthenticationMiddleware implements MiddlewareInterface
 {
     /**

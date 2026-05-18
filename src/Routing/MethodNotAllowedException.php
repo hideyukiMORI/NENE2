@@ -6,6 +6,12 @@ namespace Nene2\Routing;
 
 use RuntimeException;
 
+/**
+ * Thrown by {@see Router} when the path matches but the HTTP method does not.
+ * ErrorHandlerMiddleware maps this to a 405 Problem Details response.
+ *
+ * Part of the public API stability guarantee (see ADR 0009).
+ */
 final class MethodNotAllowedException extends RuntimeException
 {
     /**

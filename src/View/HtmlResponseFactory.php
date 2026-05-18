@@ -8,6 +8,11 @@ use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 
+/**
+ * Creates PSR-7 `text/html; charset=UTF-8` responses from rendered template strings.
+ *
+ * Part of the public API stability guarantee (see ADR 0009).
+ */
 final readonly class HtmlResponseFactory
 {
     public function __construct(

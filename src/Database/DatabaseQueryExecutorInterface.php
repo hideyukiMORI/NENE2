@@ -5,6 +5,13 @@ declare(strict_types=1);
 namespace Nene2\Database;
 
 /**
+ * Executes parameterised SQL queries against the database connection.
+ *
+ * Implement this interface to swap the persistence backend (e.g. SQLite for tests,
+ * MySQL for production) without changing repository code.
+ *
+ * Part of the public API stability guarantee (see ADR 0009).
+ *
  * @phpstan-type SqlParameter string|int|float|bool|null
  * @phpstan-type SqlParameters array<string|int, SqlParameter>
  * @phpstan-type SqlRow array<string, mixed>
