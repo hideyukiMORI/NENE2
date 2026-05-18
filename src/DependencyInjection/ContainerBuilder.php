@@ -7,6 +7,13 @@ namespace Nene2\DependencyInjection;
 use Psr\Container\ContainerInterface;
 
 /**
+ * Fluent builder for the PSR-11 service container.
+ *
+ * Register service factories with {@see set()} and {@see value()}, group related services
+ * with {@see addProvider()}, then call {@see build()} to obtain the immutable container.
+ *
+ * Part of the public API stability guarantee (see ADR 0009).
+ *
  * @phpstan-import-type ServiceFactory from Container
  */
 final class ContainerBuilder

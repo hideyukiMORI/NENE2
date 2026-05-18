@@ -4,6 +4,12 @@ declare(strict_types=1);
 
 namespace Nene2\Mcp;
 
+/**
+ * HTTP client used by {@see LocalMcpServer} to proxy tool calls to the application API.
+ * Implement this interface to inject custom transport or test doubles.
+ *
+ * Part of the public API stability guarantee (see ADR 0009).
+ */
 interface LocalMcpHttpClientInterface
 {
     public function get(string $baseUrl, string $path): LocalMcpHttpResponse;

@@ -9,6 +9,14 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 
+/**
+ * Builds RFC 9457 `application/problem+json` responses.
+ *
+ * The `type` field is prefixed with `$problemDetailsBaseUrl` (default: `https://nene2.dev/problems/`).
+ * Override via the `PROBLEM_DETAILS_BASE_URL` environment variable for custom problem types.
+ *
+ * Part of the public API stability guarantee (see ADR 0009).
+ */
 final readonly class ProblemDetailsResponseFactory
 {
     public function __construct(

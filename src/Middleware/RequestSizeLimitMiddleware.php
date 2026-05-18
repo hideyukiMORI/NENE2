@@ -10,6 +10,11 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
+/**
+ * Rejects requests whose body exceeds a configured byte limit with a 413 Problem Details response.
+ *
+ * Part of the public API stability guarantee (see ADR 0009).
+ */
 final readonly class RequestSizeLimitMiddleware implements MiddlewareInterface
 {
     public function __construct(

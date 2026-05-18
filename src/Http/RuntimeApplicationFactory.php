@@ -27,6 +27,15 @@ use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 use Throwable;
 
+/**
+ * Assembles the full PSR-15 middleware pipeline and {@see Router} for a NENE2 application.
+ *
+ * Construct this once at the application entry point, pass your route registrars, health
+ * checks, and optional middleware, then call {@see create()} to obtain the request handler
+ * that your front controller dispatches to.
+ *
+ * Part of the public API stability guarantee (see ADR 0009).
+ */
 final readonly class RuntimeApplicationFactory
 {
     /**

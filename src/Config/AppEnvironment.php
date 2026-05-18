@@ -4,6 +4,11 @@ declare(strict_types=1);
 
 namespace Nene2\Config;
 
+/**
+ * Runtime environment derived from the `APP_ENV` environment variable.
+ *
+ * Part of the public API stability guarantee (see ADR 0009).
+ */
 enum AppEnvironment: string
 {
     case Local = 'local';

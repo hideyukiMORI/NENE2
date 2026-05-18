@@ -8,6 +8,11 @@ use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 
+/**
+ * Creates PSR-7 `application/json` responses from PHP values.
+ *
+ * Part of the public API stability guarantee (see ADR 0009).
+ */
 final readonly class JsonResponseFactory
 {
     public function __construct(

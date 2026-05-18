@@ -10,6 +10,12 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
+/**
+ * Validates the `Authorization: Bearer <token>` header using a {@see TokenVerifierInterface}.
+ * Returns 401 Problem Details if the header is absent or the token fails verification.
+ *
+ * Part of the public API stability guarantee (see ADR 0009).
+ */
 final readonly class BearerTokenMiddleware implements MiddlewareInterface
 {
     /**

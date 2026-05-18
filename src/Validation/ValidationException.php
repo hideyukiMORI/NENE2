@@ -7,6 +7,13 @@ namespace Nene2\Validation;
 use InvalidArgumentException;
 use RuntimeException;
 
+/**
+ * Thrown when request input fails business-rule validation.
+ * ErrorHandlerMiddleware maps this to a 422 `validation-failed` Problem Details response
+ * containing a structured `errors` array.
+ *
+ * Part of the public API stability guarantee (see ADR 0009).
+ */
 final class ValidationException extends RuntimeException
 {
     /** @var non-empty-list<ValidationError> */

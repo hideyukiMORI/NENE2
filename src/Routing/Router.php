@@ -10,6 +10,14 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
 /**
+ * Registers named-parameter routes and dispatches incoming requests to the matching handler.
+ *
+ * Routes are matched in registration order. Path parameters (e.g. `/users/{id}`) are
+ * stored in the `nene2.route.parameters` request attribute ({@see Router::PARAMETERS_ATTRIBUTE}).
+ * Throws {@see RouteNotFoundException} (404) or {@see MethodNotAllowedException} (405) on mismatch.
+ *
+ * Part of the public API stability guarantee (see ADR 0009).
+ *
  * @phpstan-type Route array{method: non-empty-string, path: non-empty-string, pattern: string, parameterNames: list<non-empty-string>, handler: callable(ServerRequestInterface): ResponseInterface}
  */
 final class Router implements RequestHandlerInterface

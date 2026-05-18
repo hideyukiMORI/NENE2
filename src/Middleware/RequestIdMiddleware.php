@@ -10,6 +10,12 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
+/**
+ * Assigns a unique `X-Request-Id` to every request and propagates it to response headers.
+ * The ID is available downstream via the `nene2.request_id` request attribute ({@see RequestIdMiddleware::ATTRIBUTE}).
+ *
+ * Part of the public API stability guarantee (see ADR 0009).
+ */
 final readonly class RequestIdMiddleware implements MiddlewareInterface
 {
     public const ATTRIBUTE = 'nene2.request_id';

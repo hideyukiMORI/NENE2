@@ -9,6 +9,11 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
+/**
+ * Runs a fixed list of PSR-15 middleware in order, then falls through to the inner handler.
+ *
+ * Part of the public API stability guarantee (see ADR 0009).
+ */
 final readonly class MiddlewareDispatcher implements RequestHandlerInterface
 {
     /**

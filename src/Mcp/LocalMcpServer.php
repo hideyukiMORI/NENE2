@@ -4,7 +4,16 @@ declare(strict_types=1);
 
 namespace Nene2\Mcp;
 
+use Nene2\FrameworkInfo;
+
 /**
+ * JSON-RPC 2.0 / MCP server that exposes framework API operations as tools.
+ *
+ * Run via `tools/local-mcp-server.php`. Reads its tool catalog from
+ * `docs/mcp/tools.json` and proxies tool calls through {@see LocalMcpHttpClientInterface}.
+ *
+ * Part of the public API stability guarantee (see ADR 0009).
+ *
  * @phpstan-import-type McpTool from LocalMcpToolCatalog
  */
 final readonly class LocalMcpServer
@@ -59,7 +68,7 @@ final readonly class LocalMcpServer
             ],
             'serverInfo' => [
                 'name' => 'nene2-local-mcp',
-                'version' => '0.1.0',
+                'version' => FrameworkInfo::VERSION,
             ],
         ];
     }
