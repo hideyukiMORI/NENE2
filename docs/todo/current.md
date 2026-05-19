@@ -47,23 +47,20 @@ FT11 フォローアップ #440〜#443 および Phase 64 how-to 追加が完了
 
 ---
 
-## Backlog: AI-Standard-Tool 方向への強化
+## Recently Completed (AI-Standard-Tool)
 
-### AI 認知・発見性
+- **llms.txt 設置** → PR #450: リポジトリルートに llmstxt.org 準拠ファイルを設置
+- **Smithery 登録準備** → PR #451: smithery.yaml を追加（`smithery mcp publish` で公開可能な状態）
+- **OpenAPI 前面化** → PR #452: README バッジ・raw spec URL・llms.txt OpenAPI セクション追加
 
-| 優先度 | タスク | 内容 |
-|---|---|---|
-| 高 | `llms.txt` 設置 | リポジトリルートに AI クローラー向け宣言ファイルを置く |
-| 高 | MCP レジストリ登録 | Smithery 等の MCP ディレクトリに hoplog / NENE2 を登録 |
-| 中 | OpenAPI を前面に | README・トップページに OpenAPI スペックへの導線を強化 |
-| 中 | フィールドトライアル継続 | AI 実装実績を積み上げて公開する（FT11 以降） |
-
-### 多言語展開（別リポジトリ）
+## Backlog: AI-Standard-Tool 方向への強化（残タスク）
 
 | 優先度 | タスク | 内容 |
 |---|---|---|
-| 高 | Python 版着手 | `nene2-python` リポジトリを作成し、同じ設計思想で実装 |
-| 中 | TypeScript 版検討 | トークン量・工数を見ながら並列稼働を判断 |
+| 高 | Smithery 実際の公開 | `smithery auth login && smithery mcp publish` を実行（手動操作が必要） |
+| 中 | FT12 フィールドトライアル | 次テーマ（MCP 統合・多対多リレーション・ファイルアップロード等）で実施 |
+| 中 | nene2-python JWT 対応 | Python 版にも JWT 認証フローを追加 |
+| 低 | TypeScript 版検討 | トークン量・工数を見ながら並列稼働を判断 |
 
 ## Operating Notes
 
