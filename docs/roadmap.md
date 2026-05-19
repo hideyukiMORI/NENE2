@@ -697,12 +697,16 @@ App: **tagmark** — ブックマーク管理 API (`composer require hideyukimor
 - [x] Tag assignment/removal, tag-based filtering, cascade deletes (19 tests, 45 assertions)
 - [x] 7 friction points recorded (F-1〜F-7); F-1/F-2/F-7 resolved in v1.4.1; follow-up Issue #457
 
-## Phase 66: Field Trial 12-B — MCP ファースト（Knowledge Base API）(#454)
+## Phase 66: Field Trial 12-B — MCP ファースト（Knowledge Base API）(#454) ✓
 
 Goal: validate MCP tool authoring ergonomics — docs/mcp/tools.json authoring, safety levels,
 and the read/write tool workflow.
 
 App: **knowledgelog** — FAQ / document knowledge base API
+
+- [x] Article / Category domains, API key protection, 8 endpoints (10 tests, 30 assertions)
+- [x] 7 MCP tools (3 read + 4 write), OpenAPI spec, MCP validation passes
+- [x] 5 friction points recorded (F-1〜F-5); F-2/F-3 resolved in PR #464; follow-up Issues #459–#463
 
 ## Phase 67: Field Trial 12-C — 公開 + 管理者の二層アクセス（Product Catalog API）(#455)
 
