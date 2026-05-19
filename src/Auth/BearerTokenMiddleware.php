@@ -14,17 +14,26 @@ use Psr\Http\Server\RequestHandlerInterface;
  * Validates the `Authorization: Bearer <token>` header using a {@see TokenVerifierInterface}.
  * Returns 401 Problem Details if the header is absent or the token fails verification.
  *
+ * Path matching modes (mutually exclusive — `$protectedPaths` takes precedence):
+ *
+ * - **Protect all** (default): both arrays empty → every path requires a token.
+ * - **Allowlist** (`$protectedPaths`): only the listed exact paths are protected.
+ * - **Blocklist** (`$excludedPaths`): all paths are protected *except* the listed exact paths.
+ *   Ideal when public paths (e.g. `/auth/register`, `/auth/login`) are the minority.
+ *
  * Part of the public API stability guarantee (see ADR 0009).
  */
 final readonly class BearerTokenMiddleware implements MiddlewareInterface
 {
     /**
-     * @param list<string> $protectedPaths Restrict protection to these paths. Empty list protects all paths.
+     * @param list<string> $protectedPaths Exact paths to protect (allowlist). Empty = no allowlist filtering.
+     * @param list<string> $excludedPaths  Exact paths to skip authentication (blocklist). Ignored when $protectedPaths is non-empty.
      */
     public function __construct(
         private ProblemDetailsResponseFactory $problemDetails,
         private TokenVerifierInterface $verifier,
         private array $protectedPaths = [],
+        private array $excludedPaths = [],
     ) {
     }
 
@@ -61,13 +70,17 @@ final readonly class BearerTokenMiddleware implements MiddlewareInterface
 
     private function requiresAuthentication(ServerRequestInterface $request): bool
     {
-        if ($this->protectedPaths === []) {
-            return true;
-        }
-
         $path = $request->getUri()->getPath() ?: '/';
 
-        return in_array($path, $this->protectedPaths, true);
+        if ($this->protectedPaths !== []) {
+            return in_array($path, $this->protectedPaths, true);
+        }
+
+        if ($this->excludedPaths !== []) {
+            return !in_array($path, $this->excludedPaths, true);
+        }
+
+        return true;
     }
 
     private function unauthorized(ServerRequestInterface $request, string $error, string $description): ResponseInterface
