@@ -4,8 +4,8 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 ## Status
 
-- Latest release: `v1.4.2`（リリース予定）
-- Current branch: `docs/ft14-complete` — FT14 完了 + v1.4.2 リリース準備中
+- Latest release: `v1.4.2`（2026-05-19 リリース済み）
+- Current branch: `main` — clean
 
 ## Recently Completed
 
@@ -65,9 +65,23 @@ FT12-A / FT12-B / FT12-C / FT13 のすべてが完了。主要成果:
 - Issue #463: RuntimeApplicationFactory Example 切り離し（F-5 from FT12-B）
 - Issue #466: CompositeAuthMiddleware / howto（F-1 from FT12-C）
 - Issue #469: PHPStan memory_limit howto（F-6 from FT12-C）
-- Issue #474: DB_PASSWORD 環境変数名明示（F-2 from FT13） ← 本 PR で解消
-- Issue #475: MySQL FK `signed => false` howto（F-3 from FT13） ← 本 PR で解消
-- Issue #476: Phinx 部分失敗後クリーンアップ howto（F-4 from FT13） ← 本 PR で解消
+- Issue #474: DB_PASSWORD 環境変数名明示（F-2 from FT13） ← PR #477 で解消済み
+- Issue #475: MySQL FK `signed => false` howto（F-3 from FT13） ← PR #477 で解消済み
+- Issue #476: Phinx 部分失敗後クリーンアップ howto（F-4 from FT13） ← PR #477 で解消済み
+
+- **Phase 69 / Field Trial 14** (#479): postboard（投稿ボード API — Post / Tag M:N、3 層アクセスモデル）を `path` リポジトリ経由の @dev で構築。13 エンドポイント・PHPUnit 31/31・PHPStan level 8・PHP-CS-Fixer 全通過。摩擦 4 件記録（F-1〜F-4）。F-1（CompositeAuthMiddleware 未収録）→ v1.4.2 リリースで解消。F-2/F-3（ApiKeyMiddleware 制限）→ Issue #482。
+
+- **v1.4.2**: CompositeAuthMiddleware・BearerTokenMiddleware prefix matching・MCP validator --root・LocalBearerTokenVerifier 公開。タグ・GitHub Release 作成済み。Packagist 自動更新待ち。
+
+## 未解消フィールドトライアル摩擦（open issues）
+
+- Issue #457: M:N 多対多 howto（F-6 from FT12-A）
+- Issue #461: ApiKeyAuthenticationMiddleware メソッドベース保護（FT12-B/C / FT14 F-2/F-3）
+- Issue #462: nene2.auth.* 属性名の公開（F-4 from FT12-B）
+- Issue #463: RuntimeApplicationFactory Example 切り離し（F-5 from FT12-B）
+- Issue #466: CompositeAuthMiddleware / howto（F-1 from FT12-C） ← v1.4.2 で実装済み
+- Issue #469: PHPStan memory_limit howto（F-6 from FT12-C）
+- Issue #482: ApiKeyMiddleware メソッドフィルタ・パスパターン対応（F-2/F-3 from FT14）
 
 これらを整理して v1.5.0 をリリースするか、継続して追加フィールドトライアルを実施するか検討。
 
