@@ -161,7 +161,26 @@ Caddy automatically provisions TLS certificates via Let's Encrypt.
 
 ---
 
-## 4. Production security checklist
+## 4. JWT authentication in production
+
+> **Warning**: `LocalBearerTokenVerifier` (the built-in HMAC-HS256 implementation) is intended
+> **for local development and testing only**. It uses no external library and lacks the security
+> hardening required for production JWT validation (key rotation, RS256 asymmetric keys, revocation,
+> clock-skew tolerance beyond basic `exp`/`nbf` checks, etc.).
+>
+> Before deploying an application that uses Bearer JWT authentication:
+>
+> 1. Implement `TokenVerifierInterface` and `TokenIssuerInterface` using a production-grade library
+>    such as [`firebase/php-jwt`](https://github.com/firebase/php-jwt) or [`lcobuzi/jwt`](https://github.com/lcobuzi/jwt).
+> 2. Use asymmetric keys (RS256 or ES256) so the API can verify tokens without holding the signing key.
+> 3. Keep `NENE2_LOCAL_JWT_SECRET` out of your production environment — it should only appear in
+>    development `.env` files.
+>
+> See [ADR 0008](../adr/0008-jwt-authentication.md) for the full rationale.
+
+---
+
+## 5. Production security checklist
 
 Before accepting traffic, verify:
 
@@ -169,6 +188,8 @@ Before accepting traffic, verify:
 - [ ] `APP_DEBUG=false` — suppresses stack traces in HTTP responses
 - [ ] Database credentials come from a secret store, not from `.env` in the image
 - [ ] `NENE2_MACHINE_API_KEY` is a strong random value (≥ 32 characters)
+- [ ] JWT: `LocalBearerTokenVerifier` replaced with a production library (see §4 above)
+- [ ] `NENE2_LOCAL_JWT_SECRET` is **not** set in production
 - [ ] The container port is bound to loopback (`127.0.0.1:8080`) or a private network, not `0.0.0.0`
 - [ ] TLS is terminated at the reverse proxy
 - [ ] `X-Forwarded-For` / `X-Real-IP` headers are set by the proxy only
@@ -176,7 +197,7 @@ Before accepting traffic, verify:
 
 ---
 
-## 5. Verify after deployment
+## 6. Verify after deployment
 
 ```bash
 # Health check
@@ -194,7 +215,7 @@ Expected responses:
 
 ---
 
-## 6. Problem Details type URIs
+## 7. Problem Details type URIs
 
 NENE2 error responses include a `type` URI such as:
 
