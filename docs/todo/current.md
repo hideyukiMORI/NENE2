@@ -130,8 +130,13 @@ FT12-A / FT12-B / FT12-C / FT13 のすべてが完了。主要成果:
 
 - **v1.5.3**: 上記 3 件を含む機能追加リリース（2026-05-20）。タグ・GitHub Release 作成済み。
 
+## Recently Completed (FT20)
+
+- **FT20 / #560**: reviewlog（書籍レビュー API）による v1.5.3 PostgreSQL 実地検証。PHP 8.4 + PostgreSQL 17 + Phinx `pgsql` アダプター。13/13 テスト通過・PHPStan level 8・CS 全通過。摩擦 4 件記録（F-1: lastInsertId() 非互換・F-2: ProblemDetails create() シグネチャ・F-3: テストリセット SQL DB 固有・F-4: charset 非反映）。
+
 ## 次のアクション候補
 
+- FT20 摩擦対応 — F-1（insertAndGetId または RETURNING howto）・F-2（add-domain-exception-handler.md）Issue 起票・実装
 - 追加フィールドトライアル — 新テーマで品質を継続検証
 - v1.5.x パッチ — セキュリティ修正（Content-Length バイパス・WWW-Authenticate インジェクション・CORS maxAge）のドキュメント整備（ADR 0011 に記録済み）
 
