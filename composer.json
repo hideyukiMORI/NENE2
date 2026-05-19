@@ -34,6 +34,7 @@
     "openapi": "php tools/validate-openapi.php",
     "openapi:docs": "php tools/openapi-to-md.php",
     "mcp": "php tools/validate-mcp-tools.php",
+    "version:check": "php tools/validate-version.php",
     "migrations:status": "phinx status -c phinx.php",
     "migrations:migrate": "phinx migrate -c phinx.php",
     "migrations:rollback": "phinx rollback -c phinx.php",
@@ -43,7 +44,8 @@
       "@analyse",
       "@cs",
       "@openapi",
-      "@mcp"
+      "@mcp",
+      "@version:check"
     ]
   },
   "suggest": {

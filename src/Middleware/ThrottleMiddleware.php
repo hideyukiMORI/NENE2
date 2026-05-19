@@ -19,6 +19,23 @@ use Psr\Http\Server\RequestHandlerInterface;
  * The default key extractor uses REMOTE_ADDR. Pass a custom callable to key by
  * authenticated user, API key, or any other request attribute.
  *
+ * **Reverse proxy / load balancer warning**: behind a reverse proxy, `REMOTE_ADDR`
+ * is the proxy IP, not the real client IP, which means all clients share a single
+ * rate limit bucket. To fix this, inject a `$keyExtractor` that reads a trusted
+ * forwarded-IP header:
+ *
+ * ```php
+ * new ThrottleMiddleware(
+ *     $problemDetails,
+ *     $storage,
+ *     keyExtractor: static fn (ServerRequestInterface $r): string
+ *         => $r->getHeaderLine('X-Forwarded-For') ?: $r->getServerParams()['REMOTE_ADDR'] ?? 'unknown',
+ * )
+ * ```
+ *
+ * Only trust `X-Forwarded-For` when the proxy is under your control and sets it reliably.
+ * An attacker can spoof this header if traffic reaches the app directly.
+ *
  * **Production requirement**: inject a shared storage implementation (Redis, Memcached,
  * or a database-backed store) via {@see RateLimitStorageInterface}. The bundled
  * {@see InMemoryRateLimitStorage} does NOT share state across PHP-FPM worker processes

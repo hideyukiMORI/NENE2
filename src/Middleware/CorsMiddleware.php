@@ -22,6 +22,8 @@ final readonly class CorsMiddleware implements MiddlewareInterface
      * @param list<string> $allowedOrigins
      * @param list<string> $allowedMethods
      * @param list<string> $allowedHeaders
+     * @param positive-int $maxAge Seconds the browser may cache the preflight response
+     *                             (`Access-Control-Max-Age`). Defaults to 3600 (1 hour).
      */
     public function __construct(
         private ResponseFactoryInterface $responseFactory,
@@ -29,16 +31,17 @@ final readonly class CorsMiddleware implements MiddlewareInterface
         private array $allowedMethods = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
         private array $allowedHeaders = ['Content-Type', 'Authorization', 'X-Request-Id'],
         private bool $allowCredentials = false,
+        private int $maxAge = 3600,
     ) {
     }
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         if ($this->isPreflightRequest($request)) {
-            return $this->addCorsHeaders($request, $this->responseFactory->createResponse(204));
+            return $this->addCorsHeaders($request, $this->responseFactory->createResponse(204), preflight: true);
         }
 
-        return $this->addCorsHeaders($request, $handler->handle($request));
+        return $this->addCorsHeaders($request, $handler->handle($request), preflight: false);
     }
 
     private function isPreflightRequest(ServerRequestInterface $request): bool
@@ -48,8 +51,11 @@ final readonly class CorsMiddleware implements MiddlewareInterface
             && $request->hasHeader('Access-Control-Request-Method');
     }
 
-    private function addCorsHeaders(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
-    {
+    private function addCorsHeaders(
+        ServerRequestInterface $request,
+        ResponseInterface $response,
+        bool $preflight,
+    ): ResponseInterface {
         $origin = $request->getHeaderLine('Origin');
         $response = $response->withHeader('Vary', 'Origin');
 
@@ -61,6 +67,10 @@ final readonly class CorsMiddleware implements MiddlewareInterface
             ->withHeader('Access-Control-Allow-Origin', $origin)
             ->withHeader('Access-Control-Allow-Methods', implode(', ', $this->allowedMethods))
             ->withHeader('Access-Control-Allow-Headers', implode(', ', $this->allowedHeaders));
+
+        if ($preflight) {
+            $response = $response->withHeader('Access-Control-Max-Age', (string) $this->maxAge);
+        }
 
         if ($this->allowCredentials) {
             $response = $response->withHeader('Access-Control-Allow-Credentials', 'true');
