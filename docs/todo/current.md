@@ -37,13 +37,15 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 - **Phase 64**: `docs/howto/add-jwt-authentication.md` を 6 言語で追加（PR #449 マージ済み）
 
-## Next
+## Next: Phase 65 — Field Trial 12-A（tagmark）
 
-FT11 フォローアップ #440〜#443 および Phase 64 how-to 追加が完了。
-次の候補:
-- **FT12** — 別テーマのフィールドトライアル（例: MCP 統合・多対多リレーション・ファイルアップロード等）
-- **AI-Standard-Tool 方向**: `llms.txt` 設置 / MCP レジストリ（Smithery）登録
-- **nene2-python** 追加エンティティ / JWT 対応
+**仮説**: 多対多リレーション（M:N）は Claude が NENE2 ドキュメントだけで迷わず実装できるか。
+
+**アプリ**: tagmark（ブックマーク + タグ M:N API）— User/Bookmark/Tag ドメイン、13 エンドポイント
+
+Issue: #453 / マイルストーン: `docs/milestones/2026-05-field-trial-12a.md`
+
+その後: FT12-B (#454 knowledgelog) → FT12-C (#455 shoplog) の順で実施。
 
 ---
 
