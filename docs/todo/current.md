@@ -5,7 +5,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 ## Status
 
 - Latest release: `v1.4.2`（2026-05-19 リリース済み）
-- Current branch: `main` — clean
+- Current branch: `main` — clean — open Issue なし
 
 ## Recently Completed
 
@@ -73,17 +73,22 @@ FT12-A / FT12-B / FT12-C / FT13 のすべてが完了。主要成果:
 
 - **v1.4.2**: CompositeAuthMiddleware・BearerTokenMiddleware prefix matching・MCP validator --root・LocalBearerTokenVerifier 公開。タグ・GitHub Release 作成済み。Packagist 自動更新待ち。
 
-## 未解消フィールドトライアル摩擦（open issues）
+## 未解消フィールドトライアル摩擦 → すべて解消済み ✓
 
-- Issue #457: M:N 多対多 howto（F-6 from FT12-A）
-- Issue #461: ApiKeyAuthenticationMiddleware メソッドベース保護（FT12-B/C / FT14 F-2/F-3）
-- Issue #462: nene2.auth.* 属性名の公開（F-4 from FT12-B）
-- Issue #463: RuntimeApplicationFactory Example 切り離し（F-5 from FT12-B）
-- Issue #466: CompositeAuthMiddleware / howto（F-1 from FT12-C） ← v1.4.2 で実装済み
-- Issue #469: PHPStan memory_limit howto（F-6 from FT12-C）
-- Issue #482: ApiKeyMiddleware メソッドフィルタ・パスパターン対応（F-2/F-3 from FT14）
+| Issue | 内容 | 解消 |
+|---|---|---|
+| #457 | M:N howto | PR #484 (add-database-endpoint.md) |
+| #461/#482 | ApiKeyMiddleware prefix + method filter | PR #483 |
+| #462 | nene2.auth.* 属性名公開 API 化 | PR #484 (ADR 0009) |
+| #463 | RuntimeApplicationFactory Example 切り離し | PR #485 (ExampleServiceProvider) |
+| #466 | CompositeAuthMiddleware | PR #478 / v1.4.2 |
+| #469 | PHPStan memory_limit howto | PR #484 (quality-tools.md) |
+| #481 | v1.4.2 リリース | GitHub Release 作成済み |
 
-これらを整理して v1.5.0 をリリースするか、継続して追加フィールドトライアルを実施するか検討。
+## 次のアクション候補
+
+- FT15 (追加フィールドトライアル) — 新テーマで API 品質を検証する
+- v1.5.0 リリース準備 — FT12〜FT14 で積み上がった改善を整理してタグ作成
 
 ---
 
