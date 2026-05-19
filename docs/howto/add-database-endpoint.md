@@ -396,6 +396,104 @@ if ($dbFile !== ':memory:' && !file_exists($dbFile)) {
 
 ---
 
+## Many-to-many relationships (M:N)
+
+NENE2 has no special M:N abstraction — use a join table and add `attach` / `detach` methods to
+the repository that owns the relationship.
+
+### Schema
+
+```sql
+-- SQLite
+CREATE TABLE IF NOT EXISTS post_tags (
+    post_id INTEGER NOT NULL REFERENCES posts(id)  ON DELETE CASCADE,
+    tag_id  INTEGER NOT NULL REFERENCES tags(id)   ON DELETE CASCADE,
+    PRIMARY KEY (post_id, tag_id)
+);
+```
+
+Enable cascade deletes in SQLite by adding `PRAGMA foreign_keys = ON` after opening the connection:
+
+```php
+$pdo = new PDO('sqlite::memory:');
+$pdo->exec('PRAGMA foreign_keys = ON');
+```
+
+### Repository methods
+
+Add `attachTag` and `detachTag` to `PostRepositoryInterface`:
+
+```php
+interface PostRepositoryInterface
+{
+    public function findById(int $id): ?Post;
+    public function attachTag(int $postId, int $tagId): void;
+    public function detachTag(int $postId, int $tagId): void;
+    /** @return list<Tag> */
+    public function findTags(int $postId): array;
+}
+```
+
+Implement with `INSERT OR IGNORE` for idempotent attach and a plain `DELETE` for detach:
+
+```php
+public function attachTag(int $postId, int $tagId): void
+{
+    $this->pdo
+        ->prepare('INSERT OR IGNORE INTO post_tags (post_id, tag_id) VALUES (?, ?)')
+        ->execute([$postId, $tagId]);
+}
+
+public function detachTag(int $postId, int $tagId): void
+{
+    $this->pdo
+        ->prepare('DELETE FROM post_tags WHERE post_id = ? AND tag_id = ?')
+        ->execute([$postId, $tagId]);
+}
+
+/** @return list<Tag> */
+public function findTags(int $postId): array
+{
+    $stmt = $this->pdo->prepare(
+        'SELECT t.id, t.name FROM tags t
+         JOIN post_tags pt ON pt.tag_id = t.id
+         WHERE pt.post_id = ?',
+    );
+    $stmt->execute([$postId]);
+
+    return array_map(
+        static fn (array $row) => new Tag((int) $row['id'], (string) $row['name']),
+        $stmt->fetchAll(PDO::FETCH_ASSOC),
+    );
+}
+```
+
+### Route handler
+
+```php
+// POST /me/posts/{id}/tags/{tagId}
+$router->post('/me/posts/{id}/tags/{tagId}', function (ServerRequestInterface $req) use ($json, $posts) {
+    $params  = $req->getAttribute(Router::PARAMETERS_ATTRIBUTE, []);
+    $postId  = (int) ($params['id']    ?? 0);
+    $tagId   = (int) ($params['tagId'] ?? 0);
+    $posts->attachTag($postId, $tagId);
+
+    return $json->create(['message' => 'Tag attached.']);
+});
+```
+
+### MySQL note
+
+MySQL does not support `INSERT OR IGNORE`. Use `INSERT IGNORE` instead:
+
+```php
+'INSERT IGNORE INTO post_tags (post_id, tag_id) VALUES (?, ?)'
+```
+
+Or use `INSERT ... ON DUPLICATE KEY UPDATE` for the same idempotent effect.
+
+---
+
 ## Next steps
 
 - Add OpenAPI documentation for your endpoint: see `docs/development/endpoint-scaffold.md`

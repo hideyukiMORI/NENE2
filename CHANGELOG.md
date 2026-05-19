@@ -11,6 +11,9 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ### Added
 - `ApiKeyAuthenticationMiddleware::$protectedPathPrefixes` — prefix allowlist parameter; protects paths starting with any listed prefix (e.g. `/admin/` matches `/admin/users/42`). Evaluated only when `$protectedPaths` is empty, mirroring `BearerTokenMiddleware` behaviour. (#461, #482)
 - `ApiKeyAuthenticationMiddleware::$protectedMethods` — method filter; when non-empty, only requests whose HTTP method is in the list are protected. Enables "GET is public, POST/DELETE require API key" patterns without a custom middleware. (#461, #482)
+- `docs/adr/0009`: `nene2.auth.credential_type` and `nene2.auth.claims` request attributes documented as part of the stable public API (#462)
+- `docs/development/quality-tools.md`: PHPStan `memory_limit` section for consumer projects that hit OOM in Docker (#469)
+- `docs/howto/add-database-endpoint.md`: M:N many-to-many relationship section — join table schema, idempotent `attachTag`/`detachTag` repository pattern, MySQL `INSERT IGNORE` note (#457)
 
 ---
 
