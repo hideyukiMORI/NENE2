@@ -41,11 +41,12 @@ final readonly class RuntimeApplicationFactory
     /**
      * @param list<DomainExceptionHandlerInterface> $domainExceptionHandlers
      * @param list<callable(Router): void> $routeRegistrars
-     * @param ?MiddlewareInterface $authMiddleware Authentication middleware injected into the pipeline
-     *                                              after the request size limit. Pass any PSR-15
-     *                                              {@see MiddlewareInterface} — e.g. the built-in
-     *                                              {@see \Nene2\Auth\BearerTokenMiddleware} or a custom
-     *                                              implementation that uses prefix matching.
+     * @param MiddlewareInterface|list<MiddlewareInterface>|null $authMiddleware Authentication middleware injected
+     *                                              into the pipeline after the request size limit. Accepts a single
+     *                                              {@see MiddlewareInterface} or a list of middlewares that are
+     *                                              pushed in order (first item runs first). Use a list to stack
+     *                                              multiple middlewares — e.g. a tenant extractor followed by a JWT
+     *                                              verifier — without wrapping them in a composite.
      * @param list<HealthCheckInterface> $healthChecks
      * @param list<string> $allowedOrigins CORS-allowed origins (e.g. `['https://app.example.com']`).
      *                                     An empty list (the default) silently disables all CORS headers.
@@ -83,7 +84,7 @@ final readonly class RuntimeApplicationFactory
         private array $domainExceptionHandlers = [],
         private ?RequestIdHolder $requestIdHolder = null,
         private array $routeRegistrars = [],
-        private ?MiddlewareInterface $authMiddleware = null,
+        private MiddlewareInterface|array|null $authMiddleware = null,
         private array $healthChecks = [],
         private ?ThrottleMiddleware $throttleMiddleware = null,
         private bool $debug = false,
@@ -100,9 +101,16 @@ final readonly class RuntimeApplicationFactory
     {
         $logger = $this->logger ?? new NullLogger();
 
+        /** @var list<MiddlewareInterface> $authMiddlewares */
+        $authMiddlewares = match (true) {
+            $this->authMiddleware === null  => [],
+            is_array($this->authMiddleware) => $this->authMiddleware,
+            default                         => [$this->authMiddleware],
+        };
+
         $logger->info('NENE2 runtime started.', [
             'machine_api_key' => $this->machineApiKey !== null,
-            'auth_middleware' => $this->authMiddleware !== null,
+            'auth_middleware' => $authMiddlewares !== [],
         ]);
 
         $jsonResponses = new JsonResponseFactory($this->responseFactory, $this->streamFactory);
@@ -172,7 +180,7 @@ final readonly class RuntimeApplicationFactory
             )
         ;
 
-        if ($this->authMiddleware !== null) {
+        if ($authMiddlewares !== []) {
             $router->get(
                 '/examples/protected',
                 static fn (ServerRequestInterface $request) => $jsonResponses->create([
@@ -203,8 +211,8 @@ final readonly class RuntimeApplicationFactory
             ),
         ];
 
-        if ($this->authMiddleware !== null) {
-            $middlewareStack[] = $this->authMiddleware;
+        foreach ($authMiddlewares as $authMiddleware) {
+            $middlewareStack[] = $authMiddleware;
         }
 
         if ($this->throttleMiddleware !== null) {
