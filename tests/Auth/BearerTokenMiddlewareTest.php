@@ -103,12 +103,103 @@ final class BearerTokenMiddlewareTest extends TestCase
         self::assertSame($claims, $capture->request->getAttribute('nene2.auth.claims'));
     }
 
+    public function testProtectedPathsAllowlistSkipsUnlistedPath(): void
+    {
+        $factory = new Psr17Factory();
+        $middleware = new BearerTokenMiddleware(
+            new ProblemDetailsResponseFactory($factory, $factory),
+            $this->acceptingVerifier(),
+            protectedPaths: ['/protected'],
+        );
+        $request = $factory->createServerRequest('GET', 'https://example.test/public');
+
+        $response = $middleware->process($request, $this->okHandler($factory));
+
+        self::assertSame(200, $response->getStatusCode());
+    }
+
+    public function testProtectedPathsAllowlistEnforcesListedPath(): void
+    {
+        $factory = new Psr17Factory();
+        $middleware = new BearerTokenMiddleware(
+            new ProblemDetailsResponseFactory($factory, $factory),
+            $this->acceptingVerifier(),
+            protectedPaths: ['/protected'],
+        );
+        $request = $factory->createServerRequest('GET', 'https://example.test/protected');
+
+        $response = $middleware->process($request, $this->failHandler());
+
+        self::assertSame(401, $response->getStatusCode());
+    }
+
+    public function testExcludedPathsBlocklistSkipsExcludedPath(): void
+    {
+        $factory = new Psr17Factory();
+        $middleware = new BearerTokenMiddleware(
+            new ProblemDetailsResponseFactory($factory, $factory),
+            $this->acceptingVerifier(),
+            excludedPaths: ['/auth/register', '/auth/login'],
+        );
+        $request = $factory->createServerRequest('POST', 'https://example.test/auth/register');
+
+        $response = $middleware->process($request, $this->okHandler($factory));
+
+        self::assertSame(200, $response->getStatusCode());
+    }
+
+    public function testExcludedPathsBlocklistEnforcesNonExcludedPath(): void
+    {
+        $factory = new Psr17Factory();
+        $middleware = new BearerTokenMiddleware(
+            new ProblemDetailsResponseFactory($factory, $factory),
+            $this->acceptingVerifier(),
+            excludedPaths: ['/auth/register', '/auth/login'],
+        );
+        $request = $factory->createServerRequest('GET', 'https://example.test/tasks/1');
+
+        $response = $middleware->process($request, $this->failHandler());
+
+        self::assertSame(401, $response->getStatusCode());
+    }
+
+    public function testProtectedPathsTakesPrecedenceOverExcludedPaths(): void
+    {
+        $factory = new Psr17Factory();
+        $middleware = new BearerTokenMiddleware(
+            new ProblemDetailsResponseFactory($factory, $factory),
+            $this->acceptingVerifier(),
+            protectedPaths: ['/protected'],
+            excludedPaths: ['/protected'],
+        );
+        // $protectedPaths wins: path is in the allowlist → must authenticate
+        $request = $factory->createServerRequest('GET', 'https://example.test/protected');
+
+        $response = $middleware->process($request, $this->failHandler());
+
+        self::assertSame(401, $response->getStatusCode());
+    }
+
     private function makeMiddleware(Psr17Factory $factory, TokenVerifierInterface $verifier): BearerTokenMiddleware
     {
         return new BearerTokenMiddleware(
             new ProblemDetailsResponseFactory($factory, $factory),
             $verifier,
         );
+    }
+
+    private function okHandler(Psr17Factory $factory): RequestHandlerInterface
+    {
+        return new class ($factory) implements RequestHandlerInterface {
+            public function __construct(private readonly Psr17Factory $factory)
+            {
+            }
+
+            public function handle(ServerRequestInterface $request): ResponseInterface
+            {
+                return $this->factory->createResponse(200);
+            }
+        };
     }
 
     /**
