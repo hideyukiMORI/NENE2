@@ -8,13 +8,29 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+---
+
+## [1.5.0] — 2026-05-20
+
 ### Added
 - `ApiKeyAuthenticationMiddleware::$protectedPathPrefixes` — prefix allowlist parameter; protects paths starting with any listed prefix (e.g. `/admin/` matches `/admin/users/42`). Evaluated only when `$protectedPaths` is empty, mirroring `BearerTokenMiddleware` behaviour. (#461, #482)
 - `ApiKeyAuthenticationMiddleware::$protectedMethods` — method filter; when non-empty, only requests whose HTTP method is in the list are protected. Enables "GET is public, POST/DELETE require API key" patterns without a custom middleware. (#461, #482)
 - `ExampleServiceProvider` (`Nene2\Example`) — bundles Note and Tag example services and exposes `ROUTE_REGISTRARS` / `EXCEPTION_HANDLERS` string keys so framework infrastructure code can wire example routes without importing individual example classes (#463)
+- `LocalMcpToolCatalog` — `is_file()` guard before `file_get_contents()` to avoid PHP warnings on missing catalog files
 - `docs/adr/0009`: `nene2.auth.credential_type` and `nene2.auth.claims` request attributes documented as part of the stable public API (#462)
-- `docs/development/quality-tools.md`: PHPStan `memory_limit` section for consumer projects that hit OOM in Docker (#469)
+- `docs/howto/add-html-view.md` — new howto: server-rendered HTML with `NativePhpViewRenderer` and `HtmlResponseFactory` (#487)
+- `docs/howto/add-mcp-tools.md` — new howto: MCP tool catalog setup, read/write tools, JWT protection, MCP server startup, Claude Code/Desktop config (#489)
 - `docs/howto/add-database-endpoint.md`: M:N many-to-many relationship section — join table schema, idempotent `attachTag`/`detachTag` repository pattern, MySQL `INSERT IGNORE` note (#457)
+- `docs/howto/add-custom-route.md`: "Reserved framework paths" section — lists built-in paths (`/`, `/health`, etc.) that cannot be overridden by user route registrars (#493)
+- `docs/development/quality-tools.md`: PHPStan `memory_limit` guidance updated — `memory_limit` in `phpstan.neon` is not supported in PHPStan 2.x; use `--memory-limit` CLI flag instead (#469, #493)
+
+### Improved
+- `tests/View/NativePhpViewRendererTest`: 5 → 13 tests — added boundary cases for `HtmlEscaper` (null, numeric types, empty string, multibyte UTF-8), `HtmlResponseFactory` (default status, multiple headers), and `NativePhpViewRenderer` (exception buffer cleanup, subdirectory resolution) (#486)
+- `tests/Mcp/LocalMcpToolCatalogTest`: 3 → 15 tests — added error cases (file not found, invalid JSON, missing keys), safety level variants, method uppercasing, and `responseSchemaRef` handling (#489)
+
+### Field Trials (FT15 · FT16)
+- **FT15** — noteboard (HTML View): `NativePhpViewRenderer` + `HtmlResponseFactory` — 7 endpoints, 10/10 tests, PHPStan level 8, PHP-CS-Fixer clean. Frictions: F-1 `GET /` reserved (→ add-custom-route.md), F-2 `Router::PARAMETERS_ATTRIBUTE` usage, F-3 PHPStan neon `memory_limit` (→ quality-tools.md)
+- **FT16** — noteboard MCP: 3 MCP tools (2 read + 1 write) added to FT15 app. `composer mcp --root=.` validates cleanly with v1.4.2+. No friction — `add-mcp-tools.md` howto works as written.
 
 ---
 
@@ -308,7 +324,8 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Governance docs: workflow, coding standards, ADR policy, review checklists (#1)
 - ADR 0001–0004: HTTP runtime, DI container, phpdotenv, Phinx
 
-[Unreleased]: https://github.com/hideyukiMORI/NENE2/compare/v1.4.2...HEAD
+[Unreleased]: https://github.com/hideyukiMORI/NENE2/compare/v1.5.0...HEAD
+[1.5.0]: https://github.com/hideyukiMORI/NENE2/compare/v1.4.2...v1.5.0
 [1.4.2]: https://github.com/hideyukiMORI/NENE2/compare/v1.4.1...v1.4.2
 [1.4.1]: https://github.com/hideyukiMORI/NENE2/compare/v1.4.0...v1.4.1
 [1.4.0]: https://github.com/hideyukiMORI/NENE2/compare/v1.3.0...v1.4.0
