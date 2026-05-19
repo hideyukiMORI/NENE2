@@ -163,6 +163,36 @@ final class BearerTokenMiddlewareTest extends TestCase
         self::assertSame(401, $response->getStatusCode());
     }
 
+    public function testProtectedPathPrefixesAllowlistSkipsNonMatchingPath(): void
+    {
+        $factory = new Psr17Factory();
+        $middleware = new BearerTokenMiddleware(
+            new ProblemDetailsResponseFactory($factory, $factory),
+            $this->acceptingVerifier(),
+            protectedPathPrefixes: ['/me/'],
+        );
+        $request = $factory->createServerRequest('GET', 'https://example.test/products/1');
+
+        $response = $middleware->process($request, $this->okHandler($factory));
+
+        self::assertSame(200, $response->getStatusCode());
+    }
+
+    public function testProtectedPathPrefixesAllowlistProtectsDynamicPath(): void
+    {
+        $factory = new Psr17Factory();
+        $middleware = new BearerTokenMiddleware(
+            new ProblemDetailsResponseFactory($factory, $factory),
+            $this->acceptingVerifier(),
+            protectedPathPrefixes: ['/me/'],
+        );
+        $request = $factory->createServerRequest('DELETE', 'https://example.test/me/favorites/42');
+
+        $response = $middleware->process($request, $this->failHandler());
+
+        self::assertSame(401, $response->getStatusCode());
+    }
+
     public function testProtectedPathsTakesPrecedenceOverExcludedPaths(): void
     {
         $factory = new Psr17Factory();
