@@ -242,6 +242,18 @@ UseCase     : ビジネス不変条件、認可ルール、状態依存ルール
 docker compose run --rm -e NENE2_LOCAL_API_BASE_URL=http://app app php tools/local-mcp-server.php
 ```
 
+### Consumer Project から MCP バリデーターを使う
+
+Consumer Project（`composer require hideyukimori/nene2:^1.4`）では:
+
+1. `require-dev` に `symfony/yaml` を追加する（`composer require --dev symfony/yaml`）
+2. `composer.json` の `scripts` に追加する:
+   ```json
+   "mcp": "php vendor/hideyukimori/nene2/tools/validate-mcp-tools.php --root=."
+   ```
+3. `docs/mcp/tools.json` と `docs/openapi/openapi.yaml` を作成する
+4. `composer mcp` を実行する
+
 ### ローカル AI・MCP で使用可能なコマンド
 
 ```bash

@@ -4,9 +4,22 @@ declare(strict_types=1);
 
 use Symfony\Component\Yaml\Yaml;
 
-require dirname(__DIR__) . '/vendor/autoload.php';
+// When run via `composer mcp` or directly, getcwd() is the project root.
+// --root=<path> overrides this for explicit invocation from another directory.
+$cwd = getcwd();
+$projectRoot = $cwd !== false ? $cwd : dirname(__DIR__);
 
-$root = dirname(__DIR__);
+foreach ($argv as $arg) {
+    if (str_starts_with($arg, '--root=')) {
+        $explicit = substr($arg, 7);
+        $projectRoot = realpath($explicit) ?: $explicit;
+        break;
+    }
+}
+
+require $projectRoot . '/vendor/autoload.php';
+
+$root = $projectRoot;
 $catalogPath = $root . '/docs/mcp/tools.json';
 $openApiPath = $root . '/docs/openapi/openapi.yaml';
 

@@ -46,6 +46,9 @@
       "@mcp"
     ]
   },
+  "suggest": {
+    "symfony/yaml": "Required to run validate-mcp-tools.php from a consumer project (add to your require-dev)"
+  },
   "config": {
     "sort-packages": true
   },
