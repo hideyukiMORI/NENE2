@@ -17,13 +17,9 @@ use Nene2\Database\PdoDatabaseQueryExecutor;
 use Nene2\Database\PdoDatabaseTransactionManager;
 use Nene2\DependencyInjection\ContainerBuilder;
 use Nene2\DependencyInjection\ServiceProviderInterface;
+use Nene2\Error\DomainExceptionHandlerInterface;
 use Nene2\Error\ProblemDetailsResponseFactory;
-use Nene2\Example\Note\NoteNotFoundExceptionHandler;
-use Nene2\Example\Note\NoteRouteRegistrar;
-use Nene2\Example\Note\NoteServiceProvider;
-use Nene2\Example\Tag\TagNotFoundExceptionHandler;
-use Nene2\Example\Tag\TagRouteRegistrar;
-use Nene2\Example\Tag\TagServiceProvider;
+use Nene2\Example\ExampleServiceProvider;
 use Nene2\Log\MonologLoggerFactory;
 use Nene2\Log\RequestIdHolder;
 use Nyholm\Psr7\Factory\Psr17Factory;
@@ -40,8 +36,7 @@ final readonly class RuntimeServiceProvider implements ServiceProviderInterface
 
     public function register(ContainerBuilder $builder): void
     {
-        $builder->addProvider(new NoteServiceProvider());
-        $builder->addProvider(new TagServiceProvider());
+        $builder->addProvider(new ExampleServiceProvider());
 
         $builder
             ->set(
@@ -182,15 +177,13 @@ final readonly class RuntimeServiceProvider implements ServiceProviderInterface
             ->set(
                 RuntimeApplicationFactory::class,
                 static function (ContainerInterface $container): RuntimeApplicationFactory {
-                    $responseFactory = $container->get(ResponseFactoryInterface::class);
-                    $streamFactory = $container->get(StreamFactoryInterface::class);
-                    $logger = $container->get(LoggerInterface::class);
-                    $config = $container->get(AppConfig::class);
-                    $noteNotFoundHandler = $container->get(NoteNotFoundExceptionHandler::class);
-                    $tagNotFoundHandler = $container->get(TagNotFoundExceptionHandler::class);
-                    $noteRegistrar = $container->get('nene2.route_registrar.note');
-                    $tagRegistrar = $container->get('nene2.route_registrar.tag');
-                    $requestIdHolder = $container->get(RequestIdHolder::class);
+                    $responseFactory     = $container->get(ResponseFactoryInterface::class);
+                    $streamFactory       = $container->get(StreamFactoryInterface::class);
+                    $logger              = $container->get(LoggerInterface::class);
+                    $config              = $container->get(AppConfig::class);
+                    $exceptionHandlers   = $container->get(ExampleServiceProvider::EXCEPTION_HANDLERS);
+                    $routeRegistrars     = $container->get(ExampleServiceProvider::ROUTE_REGISTRARS);
+                    $requestIdHolder     = $container->get(RequestIdHolder::class);
 
                     if (!$responseFactory instanceof ResponseFactoryInterface) {
                         throw new LogicException('Response factory service is invalid.');
@@ -208,21 +201,16 @@ final readonly class RuntimeServiceProvider implements ServiceProviderInterface
                         throw new LogicException('Application config service is invalid.');
                     }
 
-                    if (!$noteNotFoundHandler instanceof NoteNotFoundExceptionHandler) {
-                        throw new LogicException('NoteNotFoundException handler service is invalid.');
+                    if (!is_array($exceptionHandlers) || !array_is_list($exceptionHandlers)) {
+                        throw new LogicException('Example exception handlers service is invalid.');
                     }
 
-                    if (!$tagNotFoundHandler instanceof TagNotFoundExceptionHandler) {
-                        throw new LogicException('TagNotFoundException handler service is invalid.');
+                    if (!is_array($routeRegistrars) || !array_is_list($routeRegistrars)) {
+                        throw new LogicException('Example route registrars service is invalid.');
                     }
 
-                    if (!$noteRegistrar instanceof NoteRouteRegistrar) {
-                        throw new LogicException('Note route registrar service is invalid.');
-                    }
-
-                    if (!$tagRegistrar instanceof TagRouteRegistrar) {
-                        throw new LogicException('Tag route registrar service is invalid.');
-                    }
+                    /** @var list<DomainExceptionHandlerInterface> $exceptionHandlers */
+                    /** @var list<callable(\Nene2\Routing\Router): void> $routeRegistrars */
 
                     if (!$requestIdHolder instanceof RequestIdHolder) {
                         throw new LogicException('RequestIdHolder service is invalid.');
@@ -249,9 +237,9 @@ final readonly class RuntimeServiceProvider implements ServiceProviderInterface
                         $streamFactory,
                         $logger,
                         $config->machineApiKey,
-                        [$noteNotFoundHandler, $tagNotFoundHandler],
+                        $exceptionHandlers,
                         $requestIdHolder,
-                        [$noteRegistrar, $tagRegistrar],
+                        $routeRegistrars,
                         $bearerMiddleware,
                         [],
                         null,
