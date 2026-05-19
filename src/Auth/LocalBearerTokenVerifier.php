@@ -6,11 +6,12 @@ namespace Nene2\Auth;
 
 /**
  * @internal
- * HMAC-HS256 JWT verifier for local development.
+ * HMAC-HS256 JWT verifier and issuer for local development.
  * Uses no external library — suitable only for controlled local environments.
- * Production deployments should inject a library-backed TokenVerifierInterface.
+ * Production deployments should inject library-backed implementations of
+ * {@see TokenVerifierInterface} and {@see TokenIssuerInterface}.
  */
-final readonly class LocalBearerTokenVerifier implements TokenVerifierInterface
+final readonly class LocalBearerTokenVerifier implements TokenVerifierInterface, TokenIssuerInterface
 {
     public function __construct(private string $secret)
     {
