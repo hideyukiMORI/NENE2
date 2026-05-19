@@ -1,0 +1,58 @@
+# NENE2
+
+> PHP 8.4 micro-framework for JSON APIs, Bearer JWT auth, PSR-15 middleware pipelines, and local MCP server support. Designed to be AI-readable: small classes, typed boundaries, and recorded decisions.
+
+NENE2 lets you ship a JSON API with OpenAPI contract, optional React frontend, and a safe MCP tool surface in a single repository. The framework ships only the pieces you need — routing, middleware pipeline, dependency injection, database adapters, and auth primitives — without magic conventions or hidden control flow.
+
+## Docs
+
+- [README](https://github.com/hideyukiMORI/NENE2/blob/main/README.md): Installation, quick start, project philosophy.
+- [AGENTS.md](https://github.com/hideyukiMORI/NENE2/blob/main/AGENTS.md): Entry point for AI agents working in this repository.
+- [CLAUDE.md](https://github.com/hideyukiMORI/NENE2/blob/main/CLAUDE.md): Full coding standards, workflow, and architecture rules for Claude Code.
+- [ADR index](https://github.com/hideyukiMORI/NENE2/blob/main/docs/adr/index.md): Architecture Decision Records — why each key choice was made.
+- [Public API scope (ADR 0009)](https://github.com/hideyukiMORI/NENE2/blob/main/docs/adr/0009-v1.0-public-api-scope.md): Stability-guaranteed classes and interfaces by namespace.
+- [Roadmap](https://github.com/hideyukiMORI/NENE2/blob/main/docs/roadmap.md): Phase-by-phase development history and upcoming work.
+
+## How-to guides
+
+- [Add a custom route](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/add-custom-route.md)
+- [Add a database-backed endpoint](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/add-database-endpoint.md)
+- [Add JWT authentication](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/add-jwt-authentication.md)
+- [Add pagination](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/add-pagination.md)
+- [Add rate limiting](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/add-rate-limiting.md)
+- [Add a second entity](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/add-second-entity.md)
+- [Add a health check](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/add-health-check.md)
+- [Deploy to production](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/deploy-production.md)
+
+## Key source files
+
+- [`src/Http/RuntimeApplicationFactory.php`](https://github.com/hideyukiMORI/NENE2/blob/main/src/Http/RuntimeApplicationFactory.php): Main entry point — wires the full PSR-15 middleware stack and router.
+- [`src/Auth/BearerTokenMiddleware.php`](https://github.com/hideyukiMORI/NENE2/blob/main/src/Auth/BearerTokenMiddleware.php): JWT Bearer authentication middleware with allowlist / blocklist path options.
+- [`src/Auth/TokenVerifierInterface.php`](https://github.com/hideyukiMORI/NENE2/blob/main/src/Auth/TokenVerifierInterface.php): Stable interface for JWT verification.
+- [`src/Auth/TokenIssuerInterface.php`](https://github.com/hideyukiMORI/NENE2/blob/main/src/Auth/TokenIssuerInterface.php): Stable interface for JWT issuance.
+- [`src/Error/ErrorHandlerMiddleware.php`](https://github.com/hideyukiMORI/NENE2/blob/main/src/Error/ErrorHandlerMiddleware.php): RFC 9457 Problem Details error handling.
+- [`src/Routing/Router.php`](https://github.com/hideyukiMORI/NENE2/blob/main/src/Routing/Router.php): Explicit route table — no magic annotation scanning.
+- [`src/Mcp/LocalMcpServer.php`](https://github.com/hideyukiMORI/NENE2/blob/main/src/Mcp/LocalMcpServer.php): Local MCP server backed by the OpenAPI contract.
+- [`src/Example/`](https://github.com/hideyukiMORI/NENE2/tree/main/src/Example/): Reference Note/Tag CRUD implementation — canonical patterns for routes, use cases, repositories.
+
+## Field trial reports
+
+AI-autonomously built applications using NENE2 as a Composer dependency, with recorded friction points:
+
+- [FT10 — hoplog (craft beer tasting notes API)](https://github.com/hideyukiMORI/hoplog): 3 domains, 15 routes, 9 friction points → resolved in v1.4.
+- [FT11 — tasklog (JWT-authenticated task API)](https://github.com/hideyukiMORI/tasklog): 2 domains, 7 routes, 4 friction points → resolved in v1.4.1+.
+
+## Design principles
+
+- **PSR-7/15/17**: all HTTP objects are standard interfaces — swap any layer without framework surgery.
+- **No magic**: routing, DI wiring, and middleware order are all explicit and readable in one place.
+- **Thin controllers**: handler → use case → repository is the only allowed data flow direction.
+- **RFC 9457 errors**: every error response is structured Problem Details JSON, including validation failures (422) and auth failures (401/403).
+- **AI-readable by design**: small files, typed boundaries, no global state, and ADRs for every non-obvious decision.
+
+## Optional extras (all opt-in)
+
+- `ThrottleMiddleware` + `RateLimitStorageInterface` for per-IP or per-user rate limiting.
+- `DatabaseHealthCheck` for readiness checks.
+- React + TypeScript + Vite frontend starter (decoupled — backend works without it).
+- Local MCP server exposing read/write tools scoped to the OpenAPI contract.
