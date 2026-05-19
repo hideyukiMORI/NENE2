@@ -297,6 +297,52 @@ The resulting response body:
 
 ---
 
+## MySQL foreign key columns: use `'signed' => false`
+
+When using MySQL with Phinx, primary key columns are created as `INT UNSIGNED AUTO_INCREMENT`
+by default. Foreign key columns that reference them must also be unsigned — otherwise MySQL
+rejects the migration:
+
+```
+Referencing column 'user_id' and referenced column 'id' in foreign key constraint are incompatible
+```
+
+SQLite does not enforce this type constraint, so the same migration runs fine in SQLite and
+only fails when you switch to MySQL. To avoid the mismatch, always add `'signed' => false` to
+integer columns that act as foreign keys:
+
+```php
+$this->table('registrations')
+    ->addColumn('user_id',  'integer', ['null' => false, 'signed' => false])
+    ->addColumn('event_id', 'integer', ['null' => false, 'signed' => false])
+    ->addForeignKey('user_id',  'users',  'id', ['delete' => 'CASCADE'])
+    ->addForeignKey('event_id', 'events', 'id', ['delete' => 'CASCADE'])
+    ->create();
+```
+
+### If a migration fails partway through
+
+Phinx's `change()` method cannot always roll back a `CREATE TABLE` that succeeded before a
+later step failed. The table will exist in MySQL but will not appear in `phinxlog`, so the
+next `migrations:migrate` fails with "Table already exists."
+
+Manual cleanup:
+
+```bash
+# Connect to MySQL inside the container
+docker compose exec db mysql -u <user> -p<password> <dbname>
+DROP TABLE IF EXISTS registrations;
+exit
+
+# Re-run the migration
+docker compose run --rm app composer migrations:migrate
+```
+
+Alternatively, split the migration into `up()` and `down()` methods instead of `change()` so
+the down path is explicit and predictable.
+
+---
+
 ## Initialize a SQLite database
 
 When using SQLite (`DB_ADAPTER=sqlite`), there is no server to create the database; the `.db`
