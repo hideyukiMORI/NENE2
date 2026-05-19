@@ -682,7 +682,7 @@ Goal: address the highest-impact friction points from Field Trial 11.
 - #441: Relax RuntimeApplicationFactory auth parameter type to MiddlewareInterface
 - Optional: add-jwt-authentication.md how-to guide (covers F-1〜F-3 workarounds)
 
-## Phase 65: Field Trial 12-A — 多対多リレーションの AI 実装可能性検証 (#453)
+## Phase 65: Field Trial 12-A — 多対多リレーションの AI 実装可能性検証 (#453) ✓
 
 Goal: validate that Claude can implement many-to-many relationships using only NENE2
 documentation, and record friction points in the relational data design area.
@@ -692,10 +692,10 @@ and tag-based filtering.
 
 App: **tagmark** — ブックマーク管理 API (`composer require hideyukimori/nene2:^1.4` から 0 構築)
 
-- User domain (reuse FT11 JWT auth pattern)
-- Bookmark / Tag domains with M:N join table
-- Tag assignment/removal, tag-based filtering, cascade deletes
-- Record all friction points → open follow-up Issues
+- [x] User domain (reuse FT11 JWT auth pattern)
+- [x] Bookmark / Tag domains with M:N join table
+- [x] Tag assignment/removal, tag-based filtering, cascade deletes (19 tests, 45 assertions)
+- [x] 7 friction points recorded (F-1〜F-7); F-1/F-2/F-7 resolved in v1.4.1; follow-up Issue #457
 
 ## Phase 66: Field Trial 12-B — MCP ファースト（Knowledge Base API）(#454)
 
