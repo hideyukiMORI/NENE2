@@ -399,8 +399,15 @@ tools/                バリデーションスクリプト
 | `APP_ENV` | `local` / `test` / `production` |
 | `APP_DEBUG` | boolean |
 | `APP_NAME` | アプリ名 |
-| `DATABASE_URL` | DB URL |
+| `DATABASE_URL` | DB URL（設定するとホスト/ポート等の個別変数を上書き） |
 | `DB_ADAPTER` | `sqlite` / `mysql` / `pgsql` |
+| `DB_HOST` | DB ホスト（デフォルト: `127.0.0.1`） |
+| `DB_PORT` | DB ポート（デフォルト: `3306`） |
+| `DB_NAME` | DB 名（デフォルト: `nene2`） |
+| `DB_USER` | DB ユーザー（デフォルト: `nene2`） |
+| `DB_PASSWORD` | DB パスワード — **`DB_PASS` ではなく `DB_PASSWORD`**（ConfigLoader が読む） |
+| `DB_CHARSET` | 文字セット（デフォルト: `utf8mb4`） |
+| `DB_ENV` | Phinx 用環境名（デフォルト: `local`） |
 | `NENE2_MACHINE_API_KEY` | マシンクライアント API キー（未設定でパブリックのみ） |
 | `NENE2_LOCAL_JWT_SECRET` | HMAC-HS256 シークレット（Bearer JWT / MCP 書き込みツール保護） |
 | `NENE2_LOCAL_API_BASE_URL` | ローカル MCP サーバーの API ベース URL |

@@ -719,12 +719,15 @@ App: **shoplog** — product catalog API with 3-tier access model
 - [x] MultiAuthMiddleware pattern: Bearer for /me/*, WriteApiKeyMiddleware for writes
 - [x] 6 friction points recorded (F-1〜F-6); F-2/F-5 resolved in PR #470; follow-up Issues #466–#469
 
-## Phase 68: Field Trial 13 — MySQL + Phinx マイグレーション（Event Management API）(#472)
+## Phase 68: Field Trial 13 — MySQL + Phinx マイグレーション（Event Management API）(#472) ✓
 
 Goal: validate database ergonomics — MySQL setup, Phinx migration authoring,
 DatabaseConfig wiring, and production-like environment from a consumer project.
 
 App: **eventlog** — イベント管理 API (MySQL + Phinx + M:N + Multi-Auth)
+
+Result: 14/14 PHPUnit, PHPStan level 8, PHP-CS-Fixer 全通過。摩擦 5 件（F-1〜F-5）。
+F-2/F-3/F-4 フォローアップ Issues #474–#476 → docs PR で解消。
 
 ## Non-Goals
 

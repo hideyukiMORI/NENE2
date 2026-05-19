@@ -44,25 +44,30 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 - **Phase 66 / Field Trial 12-B** (#454): knowledgelog（ナレッジベース API — Article / Category）を `composer require hideyukimori/nene2:^1.4.1` から 0 構築。8 エンドポイント・MCP 7 ツール・PHPUnit 10/10・PHPStan level 8・PHP-CS-Fixer 全通過。摩擦 5 件記録（F-1〜F-5）、F-2/F-3（高）は PR #464 で解消済み（--root オプション + suggest 追加）、F-1/F-4/F-5 は Issue #459–#463 として起票。
 - **Phase 67 / Field Trial 12-C** (#455): shoplog（商品カタログ API — 3 層アクセスモデル）を `composer require hideyukimori/nene2:^1.4.1` から 0 構築。12 エンドポイント・PHPUnit 29/29・PHPStan level 8・PHP-CS-Fixer 全通過。摩擦 6 件記録（F-1〜F-6）、F-2/F-5（高/低）は PR #470 で解消済み（$protectedPathPrefixes 追加・LocalBearerTokenVerifier 公開）、F-1/F-3/F-4/F-6 は Issue #466–#469 として起票。
 
-## FT12 シリーズ完了
+## FT12 + FT13 完了
 
-FT12-A / FT12-B / FT12-C のすべてが完了。主要成果:
+FT12-A / FT12-B / FT12-C / FT13 のすべてが完了。主要成果:
 
 | FT | アプリ | テスト | 主要摩擦 | 解消済み |
 |---|---|---|---|---|
 | 12-A | tagmark (M:N) | 19/19 | F-1〜F-7 | v1.4.1 + PR #464 |
 | 12-B | knowledgelog (MCP) | 10/10 | F-1〜F-5 | PR #464 (F-2/F-3) |
 | 12-C | shoplog (Multi-Auth) | 29/29 | F-1〜F-6 | PR #470 (F-2/F-5) |
+| 13 | eventlog (MySQL+Phinx) | 14/14 | F-1〜F-5 | PR (F-2/F-3/F-4 howto) |
 
-## Next: v1.5.0 リリース候補
+- **Phase 68 / Field Trial 13** (#472): eventlog（イベント管理 API）を `composer require hideyukimori/nene2:^1.4` から 0 構築。10 エンドポイント・MySQL + Phinx マイグレーション（3 テーブル）・PHPUnit 14/14・PHPStan level 8・PHP-CS-Fixer 全通過。摩擦 5 件記録（F-1〜F-5）、F-2/F-3/F-4 は Issue #474–#476 として起票（本 PR で howto 修正）。
 
-FT12 シリーズで発見した摩擦のうち未解消のもの:
+## 未解消フィールドトライアル摩擦（open issues）
+
 - Issue #457: M:N 多対多 howto（F-6 from FT12-A）
 - Issue #461: ApiKeyAuthenticationMiddleware メソッドベース保護（F-1 from FT12-B/C）
 - Issue #462: nene2.auth.* 属性名の公開（F-4 from FT12-B）
 - Issue #463: RuntimeApplicationFactory Example 切り離し（F-5 from FT12-B）
 - Issue #466: CompositeAuthMiddleware / howto（F-1 from FT12-C）
 - Issue #469: PHPStan memory_limit howto（F-6 from FT12-C）
+- Issue #474: DB_PASSWORD 環境変数名明示（F-2 from FT13） ← 本 PR で解消
+- Issue #475: MySQL FK `signed => false` howto（F-3 from FT13） ← 本 PR で解消
+- Issue #476: Phinx 部分失敗後クリーンアップ howto（F-4 from FT13） ← 本 PR で解消
 
 これらを整理して v1.5.0 をリリースするか、継続して追加フィールドトライアルを実施するか検討。
 

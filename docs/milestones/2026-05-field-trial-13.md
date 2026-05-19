@@ -51,24 +51,34 @@ MySQL + Phinx マイグレーションを必須とする。
 
 ## Phases
 
-### Phase 68 — Field Trial 13 Execution
+### Phase 68 — Field Trial 13 Execution ✓
 
-- [ ] eventlog リポジトリを作成し、`composer require hideyukimori/nene2:^1.4` で初期化
-- [ ] MySQL Docker サービスを起動・接続確認
-- [ ] Phinx マイグレーションファイルを作成・実行
-- [ ] Event / Registration / Auth ドメインを実装
-- [ ] `composer check` 全通過（PHPUnit・PHPStan level 8・PHP-CS-Fixer）
-- [ ] MySQL で全エンドポイント動作確認
-- [ ] 摩擦記録を `docs/field-trial-report.md` に残す
-- [ ] フォローアップ Issue を開く
+- [x] eventlog リポジトリを作成し、`composer require hideyukimori/nene2:^1.4` で初期化
+- [x] MySQL Docker サービスを起動・接続確認
+- [x] Phinx マイグレーションファイルを作成・実行
+- [x] Event / Registration / Auth ドメインを実装
+- [x] `composer check` 全通過（PHPUnit 14/14・PHPStan level 8・PHP-CS-Fixer）
+- [x] MySQL で全エンドポイント動作確認（3 テーブル migrate/status/rollback）
+- [x] 摩擦記録を `docs/field-trial-report.md` に残す（F-1〜F-5、4 件 + 情報 1 件）
+- [x] フォローアップ Issue を開く（#474 / #475 / #476）
 
-## 完了条件
+## 摩擦サマリ
 
-- `composer check` 全通過
-- MySQL で全エンドポイント動作確認
+| ID | 重要度 | タイトル | 対応 |
+|---|---|---|---|
+| F-1 | 低 | compose.yaml `working_on` → `working_dir` | 自律修正済み |
+| F-2 | 中 | `DB_PASS` ではなく `DB_PASSWORD` が正しい変数名 | Issue #474 → PR で修正 |
+| F-3 | 高 | MySQL 外部キーに `'signed' => false` 必要 | Issue #475 → howto 追記 |
+| F-4 | 中 | Phinx 部分失敗後のテーブルが残り再 migrate 不可 | Issue #476 → howto 追記 |
+| F-5 | 情報 | SQLite インメモリでテストが MySQL なしで動く（良い設計） | — |
+
+## 完了条件 ✓
+
+- `composer check` 全通過（PHPUnit 14/14・PHPStan level 8・PHP-CS-Fixer）
+- MySQL で全エンドポイント動作確認済み
 - Phinx マイグレーション（migrate/status/rollback）が動作
-- 摩擦記録あり
-- フォローアップ Issue 作成済み
+- 摩擦記録あり（`/home/xi/docker/eventlog/docs/field-trial-report.md`）
+- フォローアップ Issue #474/#475/#476 作成済み
 
 ## 備考
 
@@ -76,3 +86,4 @@ MySQL + Phinx マイグレーションを必須とする。
 - Issue: #472
 - プロジェクト: `/home/xi/docker/eventlog/`
 - 前: FT12-C (#455) — Multi-Auth (shoplog)
+- テスト戦略: SQLite インメモリ（MySQL なしで `composer check` が動作）
