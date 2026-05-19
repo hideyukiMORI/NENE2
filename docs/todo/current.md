@@ -85,10 +85,39 @@ FT12-A / FT12-B / FT12-C / FT13 のすべてが完了。主要成果:
 | #469 | PHPStan memory_limit howto | PR #484 (quality-tools.md) |
 | #481 | v1.4.2 リリース | GitHub Release 作成済み |
 
-## 次のアクション候補
+## 次の目標: View 層 + MCP 層の強化
 
-- FT15 (追加フィールドトライアル) — 新テーマで API 品質を検証する
-- v1.5.0 リリース準備 — FT12〜FT14 で積み上がった改善を整理してタグ作成
+総合評価（2026-05-20）で「テストが薄い・howto がない」と指摘された 2 領域を集中的に補強する。
+
+### Phase 70 — View 層強化
+
+| # | タスク | 内容 | 優先度 |
+|---|---|---|---|
+| 70-1 | View テスト拡充 | `HtmlEscaper`（境界条件・特殊文字・null）、`HtmlResponseFactory`（ステータス・Content-Type）の追加ユニットテスト | 高 |
+| 70-2 | howto 追加 | `docs/howto/add-html-view.md` — `templates/` 配置 → `NativePhpViewRenderer` → `HtmlResponseFactory` の全手順を 6 言語で | 高 |
+| 70-3 | FT15: HTML View FT | HTML レスポンスを主軸にしたアプリ（例: ブログ一覧・フォーム）を `composer require` から構築して摩擦記録 | 中 |
+
+### Phase 71 — MCP 層強化
+
+| # | タスク | 内容 | 優先度 |
+|---|---|---|---|
+| 71-1 | MCP テスト拡充 | `LocalMcpToolCatalog` の 3 テストを拡充（ツール検証・スキーマ生成・エラーケース） | 高 |
+| 71-2 | howto 追加 | `docs/howto/add-mcp-tools.md` — Consumer プロジェクトでの MCP ツール定義・認証・テストの全手順 | 高 |
+| 71-3 | Write ツール認証ドキュメント | JWT 保護 Write ツールのパターンを howto またはコード例で明示 | 中 |
+| 71-4 | FT16: MCP 中心 FT | MCP ツール（read + write）を主目的にしたアプリを構築して摩擦記録 | 中 |
+
+### Phase 72 — テストカバレッジ補完（評価レポート指摘）
+
+| # | タスク | 内容 | 優先度 |
+|---|---|---|---|
+| 72-1 | BearerTokenMiddleware 境界テスト | token expiry / malformed header / missing `Bearer ` prefix の各ケース | 中 |
+| 72-2 | ThrottleMiddleware テスト | 現在テストなし — 基本動作・制限超過・リセットを追加 | 中 |
+| 72-3 | PaginationQueryParser テスト | 現在テストなし — デフォルト値・不正入力・上限を追加 | 低 |
+
+### v1.5.0 リリース準備
+
+上記 Phase 70〜72 が完了したタイミングで v1.5.0 を検討。
+FT12〜FT14 の実績＋ View/MCP 強化がセットになったリリースにする。
 
 ---
 
