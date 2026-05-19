@@ -136,6 +136,50 @@ Pass `--memory-limit 512M` directly in your `composer.json` analyse script:
 The `512M` figure is sufficient for most NENE2 consumer projects up to ~200 source files.
 Larger projects may need `1G`. Avoid setting an unlimited value (`-1`) in shared environments.
 
+## PHP-CS-Fixer Risky Fixers in Consumer Projects
+
+Some PHP-CS-Fixer rules are classified as **risky** because they change code behaviour in
+edge cases (e.g. `declare_strict_types` adds strict type declarations, which affects how PHP
+coerces arguments). They are disabled by default and must be explicitly opted in.
+
+If your `.php-cs-fixer.php` uses any risky rule and you run the fixer without `--allow-risky=yes`,
+PHP-CS-Fixer exits with an error:
+
+```
+The rules contain risky fixers ("declare_strict_types"), but they are not allowed to run.
+Perhaps you forget to use --allow-risky=yes option?
+```
+
+### Fix: enable in the config file
+
+Add `->setRiskyAllowed(true)` to your `.php-cs-fixer.php`:
+
+```php
+return (new PhpCsFixer\Config())
+    ->setRiskyAllowed(true)   // ← required when any risky rule is enabled
+    ->setRules([
+        '@PSR12'             => true,
+        'declare_strict_types' => true,  // risky — needs setRiskyAllowed(true)
+        // …
+    ])
+    ->setFinder($finder);
+```
+
+### Fix: add the flag to composer scripts
+
+```json
+{
+    "scripts": {
+        "cs":     "php-cs-fixer fix --dry-run --diff --allow-risky=yes",
+        "cs:fix": "php-cs-fixer fix --allow-risky=yes"
+    }
+}
+```
+
+Both changes are needed: `setRiskyAllowed(true)` tells the config object that risky rules are
+intentional; `--allow-risky=yes` tells the CLI to honour them. Omitting either one causes the
+error above.
+
 ## Non-Goals
 
 - Forcing React on framework consumers.
