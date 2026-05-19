@@ -322,6 +322,17 @@ final class RecordingLocalMcpHttpClient implements LocalMcpHttpClientInterface
         return $this->response;
     }
 
+    /** @param array<string, mixed> $body */
+    public function patch(string $baseUrl, string $path, array $body): LocalMcpHttpResponse
+    {
+        $this->lastMethod = 'patch';
+        $this->baseUrl = $baseUrl;
+        $this->path = $path;
+        $this->body = $body;
+
+        return $this->response;
+    }
+
     public function delete(string $baseUrl, string $path): LocalMcpHttpResponse
     {
         $this->lastMethod = 'delete';

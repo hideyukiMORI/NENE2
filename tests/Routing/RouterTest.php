@@ -91,6 +91,45 @@ final class RouterTest extends TestCase
         );
     }
 
+    public function testHeadRequestMatchesGetRoute(): void
+    {
+        $factory = new Psr17Factory();
+        $router = (new Router())->get(
+            '/health',
+            static fn (ServerRequestInterface $request): ResponseInterface => $factory->createResponse(200),
+        );
+
+        $response = $router->handle($factory->createServerRequest('HEAD', 'https://example.test/health'));
+
+        self::assertSame(200, $response->getStatusCode());
+    }
+
+    public function testHeadRequestReturns404WhenPathDoesNotExist(): void
+    {
+        $factory = new Psr17Factory();
+        $router = (new Router())->get(
+            '/health',
+            static fn (ServerRequestInterface $request): ResponseInterface => $factory->createResponse(200),
+        );
+
+        $this->expectException(RouteNotFoundException::class);
+
+        $router->handle($factory->createServerRequest('HEAD', 'https://example.test/unknown'));
+    }
+
+    public function testHeadRequestReturns405WhenOnlyNonGetRouteExists(): void
+    {
+        $factory = new Psr17Factory();
+        $router = (new Router())->post(
+            '/notes',
+            static fn (ServerRequestInterface $request): ResponseInterface => $factory->createResponse(201),
+        );
+
+        $this->expectException(MethodNotAllowedException::class);
+
+        $router->handle($factory->createServerRequest('HEAD', 'https://example.test/notes'));
+    }
+
     public function testPatchRouteMatchesOnlyPatchRequests(): void
     {
         $factory = new Psr17Factory();

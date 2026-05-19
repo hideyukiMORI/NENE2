@@ -64,6 +64,15 @@ final class NativeLocalMcpHttpClientTest extends TestCase
         $client->put('http://127.0.0.1:19999', '/notes/1', ['title' => 'updated']);
     }
 
+    public function testPatchThrowsLocalMcpExceptionOnUnreachableUrl(): void
+    {
+        $client = new NativeLocalMcpHttpClient();
+
+        $this->expectException(LocalMcpException::class);
+
+        $client->patch('http://127.0.0.1:19999', '/notes/1', ['title' => 'patched']);
+    }
+
     public function testDeleteThrowsLocalMcpExceptionOnUnreachableUrl(): void
     {
         $client = new NativeLocalMcpHttpClient();

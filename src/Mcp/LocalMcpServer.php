@@ -164,6 +164,7 @@ final readonly class LocalMcpServer
             'GET'    => $this->httpClient->get($this->apiBaseUrl, $this->appendQuery($path, $remainingArgs)),
             'POST'   => $this->httpClient->post($this->apiBaseUrl, $path, $remainingArgs),
             'PUT'    => $this->httpClient->put($this->apiBaseUrl, $path, $remainingArgs),
+            'PATCH'  => $this->httpClient->patch($this->apiBaseUrl, $path, $remainingArgs),
             'DELETE' => $this->httpClient->delete($this->apiBaseUrl, $path),
             default  => throw new LocalMcpException(sprintf('HTTP method "%s" is not supported.', $method)),
         };
