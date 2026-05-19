@@ -58,26 +58,58 @@ API キー認証と JWT Bearer 認証を同一アプリで組み合わせ、
 
 ## Phases
 
-### Phase 67 — Field Trial 12-C Execution
+### Phase 67 — Field Trial 12-C Execution ✅ 完了 (2026-05-19)
 
-- [ ] shoplog リポジトリを作成し、`composer require hideyukimori/nene2:^1.4` で初期化
-- [ ] Product / Category ドメインを実装（公開 GET + API キー管理）
-- [ ] User / Auth ドメインを実装（JWT Bearer）
-- [ ] Favorite ドメインを実装（Bearer 必須、M:N）
-- [ ] `composer check` 全通過（PHPUnit・PHPStan level 8・PHP-CS-Fixer）
-- [ ] 全エンドポイント動作確認（3 層アクセスモデル）
-- [ ] 摩擦記録を `docs/field-trial-report.md` に残す
-- [ ] フォローアップ Issue を開く
+- [x] shoplog リポジトリを作成し、`composer require hideyukimori/nene2:^1.4.1` で初期化
+- [x] Product / Category ドメインを実装（公開 GET + API キー管理）
+- [x] User / Auth ドメインを実装（JWT Bearer）
+- [x] Favorite ドメインを実装（Bearer 必須、M:N）
+- [x] `composer check` 全通過（PHPUnit 29/29・PHPStan level 8・PHP-CS-Fixer）
+- [x] 全エンドポイント動作確認（3 層アクセスモデル: 公開 / Bearer / API キー）
+- [x] 摩擦記録を `docs/field-trial-report.md` に残す（6 件: F-1〜F-6）
+- [x] フォローアップ Issue を開く（#466–#469）
+
+## 結果
+
+### テスト
+
+```
+PHPUnit 11: 29 tests, OK
+PHPStan level 8: No errors
+PHP-CS-Fixer: 0 files to fix
+```
+
+### Multi-Auth 設計パターン（FT12-C 採用）
+
+```
+Request
+  └── MultiAuthMiddleware
+        ├── /me/* → BearerTokenMiddleware (全パス保護)
+        └── other → WriteApiKeyMiddleware (POST/PUT/DELETE → API キー)
+```
+
+### 摩擦サマリー
+
+| # | 種別 | 深刻度 | 対応 |
+|---|---|---|---|
+| F-1 | RuntimeApplicationFactory が 1 つの $authMiddleware しか受け取れない | 高 | Issue #466 — 後続実装（CompositeAuthMiddleware） |
+| F-2 | BearerTokenMiddleware の $protectedPaths が動的パスに対応しない | 高 | PR #470 で解消（$protectedPathPrefixes 追加） |
+| F-3 | ApiKeyAuthenticationMiddleware が動的パス + メソッドに対応しない | 高 | Issue #461 — 後続実装 |
+| F-4 | excludedPaths と Multi-Auth の組み合わせが分かりにくい | 中 | Issue #466 の howto で案内 |
+| F-5 | LocalBearerTokenVerifier が @internal で使いにくい | 低 | PR #470 で解消（公開 API 昇格） |
+| F-6 | PHPStan が Docker でメモリ不足になる | 低 | Issue #469 — howto 追記 |
 
 ## 完了条件
 
-- `composer check` 全通過
-- 3 層アクセスモデルが動作（公開 / Bearer / API キー）
-- 摩擦記録あり
-- フォローアップ Issue 作成済み
+- [x] `composer check` 全通過
+- [x] 3 層アクセスモデルが動作（公開 / Bearer / API キー）
+- [x] 摩擦記録あり
+- [x] フォローアップ Issue 作成済み
 
 ## 備考
 
 - 実施者: Claude Code（自律実装）
 - Issue: #455
+- 報告書: `/home/xi/docker/shoplog/docs/field-trial-report.md`
+- F-2/F-5 対応 PR: #470 (マージ済み)
 - 前: FT12-B (#454) — MCP ファースト (knowledgelog)
