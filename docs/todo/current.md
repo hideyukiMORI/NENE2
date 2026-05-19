@@ -35,9 +35,15 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
   - #442 → PR #447: `TokenIssuerInterface` を公開 API に追加、ADR 0009 更新
   - #443 → PR #448: `CLAUDE.md` セクション 18 に開発ソース vs 公開パッケージ注記追加
 
-## Next: Phase 64 — JWT 認証 how-to ドキュメント（#442 の how-to 部分）
+- **Phase 64**: `docs/howto/add-jwt-authentication.md` を 6 言語で追加（PR #449 マージ済み）
 
-`docs/howto/add-jwt-authentication.md` を追加し、認証フロー（登録・ログイン・Bearer 保護エンドポイント）の最小構成例を文書化する。6 言語展開も検討。
+## Next
+
+FT11 フォローアップ #440〜#443 および Phase 64 how-to 追加が完了。
+次の候補:
+- **FT12** — 別テーマのフィールドトライアル（例: MCP 統合・多対多リレーション・ファイルアップロード等）
+- **AI-Standard-Tool 方向**: `llms.txt` 設置 / MCP レジストリ（Smithery）登録
+- **nene2-python** 追加エンティティ / JWT 対応
 
 ---
 
