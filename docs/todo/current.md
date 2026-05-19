@@ -4,7 +4,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 ## Status
 
-- Latest release: `v1.4.0`
+- Latest release: `v1.4.1`
 - Current branch: `main` — clean
 
 ## Recently Completed
@@ -37,15 +37,22 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 - **Phase 64**: `docs/howto/add-jwt-authentication.md` を 6 言語で追加（PR #449 マージ済み）
 
-## Next: Phase 65 — Field Trial 12-A（tagmark）
+## Recently Completed (continued)
 
-**仮説**: 多対多リレーション（M:N）は Claude が NENE2 ドキュメントだけで迷わず実装できるか。
+- **Phase 65 / Field Trial 12-A** (#453): tagmark（ブックマーク + タグ M:N API）を `composer require hideyukimori/nene2:^1.4.1` から 0 構築。3ドメイン・13エンドポイント・PHPUnit 19/19・PHPStan level 8・PHP-CS-Fixer 全通過。摩擦 7 件記録（F-1〜F-7）、F-1/F-2/F-7 は v1.4.1 で解消済み、F-3/F-4/F-5 は howto 修正済み、F-6 は Issue #457 として起票。
+- **v1.4.1**: FT11 フォローアップ修正（excludedPaths・MiddlewareInterface・TokenIssuerInterface）＋ FT12-A 発見の howto 誤り（F-3/F-4/F-5）修正。タグ・GitHub Release 作成済み。
 
-**アプリ**: tagmark（ブックマーク + タグ M:N API）— User/Bookmark/Tag ドメイン、13 エンドポイント
+## Next: Phase 66 — Field Trial 12-B（knowledgelog）
 
-Issue: #453 / マイルストーン: `docs/milestones/2026-05-field-trial-12a.md`
+**仮説**: MCP ツールを主インターフェースとして設計した場合、`docs/mcp/tools.json` の記述から MCP サーバー起動までを Claude が迷わず実装できるか。
 
-その後: FT12-B (#454 knowledgelog) → FT12-C (#455 shoplog) の順で実施。
+**テーマ**: MCP Ergonomics — MCP が主役、HTTP は補助という設計の摩擦を記録する。
+
+**アプリ**: knowledgelog（ナレッジベース API — Article / Category）— 7 エンドポイント、MCP read/write ツール付き
+
+Issue: #454 / マイルストーン: `docs/milestones/2026-05-field-trial-12b.md`
+
+その後: FT12-C (#455 shoplog) の順で実施。
 
 ---
 
