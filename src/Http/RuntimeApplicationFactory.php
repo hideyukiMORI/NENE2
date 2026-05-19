@@ -50,6 +50,16 @@ final readonly class RuntimeApplicationFactory
      * @param list<string> $allowedOrigins CORS-allowed origins (e.g. `['https://app.example.com']`).
      *                                     An empty list (the default) silently disables all CORS headers.
      *                                     Always set this explicitly in production.
+     * @param list<string> $machineApiKeyExcludedPaths Paths that bypass the machine API key check even when
+     *                                                  `$machineApiKey` is set. Useful when a route should remain
+     *                                                  public while all other routes require an API key.
+     *                                                  Only has effect when `$machineApiKey` is non-null and
+     *                                                  `$machineApiKeyProtectedPaths` is empty.
+     * @param list<string> $machineApiKeyProtectedPaths Exact paths protected by the machine API key. When
+     *                                                   non-empty, ONLY these paths require the key (allowlist
+     *                                                   mode). Defaults to `['/machine/health']`. Set to `[]`
+     *                                                   combined with `$machineApiKeyExcludedPaths` to protect
+     *                                                   all paths except the excluded ones.
      * @param bool $debug When true, unhandled exception messages are exposed in 500 `detail`.
      *                    Never set to true in production.
      */
@@ -66,6 +76,8 @@ final readonly class RuntimeApplicationFactory
         private ?ThrottleMiddleware $throttleMiddleware = null,
         private bool $debug = false,
         private array $allowedOrigins = [],
+        private array $machineApiKeyExcludedPaths = [],
+        private array $machineApiKeyProtectedPaths = ['/machine/health'],
     ) {
     }
 
@@ -166,7 +178,12 @@ final readonly class RuntimeApplicationFactory
             new CorsMiddleware($this->responseFactory, $this->allowedOrigins),
             new ErrorHandlerMiddleware($problemDetails, $this->domainExceptionHandlers, $this->debug, $logger),
             new RequestSizeLimitMiddleware($problemDetails),
-            new ApiKeyAuthenticationMiddleware($problemDetails, $this->machineApiKey, ['/machine/health']),
+            new ApiKeyAuthenticationMiddleware(
+                $problemDetails,
+                $this->machineApiKey,
+                $this->machineApiKeyProtectedPaths,
+                excludedPaths: $this->machineApiKeyExcludedPaths,
+            ),
         ];
 
         if ($this->authMiddleware !== null) {

@@ -118,6 +118,14 @@ final class BaselineMiddlewareTest extends TestCase
         self::assertSame('3600', $response->getHeaderLine('Access-Control-Max-Age'));
     }
 
+    public function testCorsThrowsWhenWildcardPassedAsAllowedOrigin(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('do not pass \'*\' in $allowedOrigins');
+
+        new CorsMiddleware((new Psr17Factory()), ['*']);
+    }
+
     public function testCorsSimpleRequestDoesNotIncludeMaxAge(): void
     {
         $factory = new Psr17Factory();
@@ -182,6 +190,38 @@ final class BaselineMiddlewareTest extends TestCase
         $response = $middleware->process($request, $this->okHandler($factory));
 
         self::assertSame(413, $response->getStatusCode());
+    }
+
+    public function testRequestSizeLimitRejectsNegativeContentLength(): void
+    {
+        $factory = new Psr17Factory();
+        $middleware = new RequestSizeLimitMiddleware(
+            new ProblemDetailsResponseFactory($factory, $factory),
+            10,
+        );
+        $request = $factory
+            ->createServerRequest('POST', 'https://example.test/upload')
+            ->withHeader('Content-Length', '-1');
+
+        $response = $middleware->process($request, $this->okHandler($factory));
+
+        self::assertSame(413, $response->getStatusCode(), 'Negative Content-Length must be rejected.');
+    }
+
+    public function testRequestSizeLimitRejectsNonNumericContentLength(): void
+    {
+        $factory = new Psr17Factory();
+        $middleware = new RequestSizeLimitMiddleware(
+            new ProblemDetailsResponseFactory($factory, $factory),
+            10,
+        );
+        $request = $factory
+            ->createServerRequest('POST', 'https://example.test/upload')
+            ->withHeader('Content-Length', 'abc');
+
+        $response = $middleware->process($request, $this->okHandler($factory));
+
+        self::assertSame(413, $response->getStatusCode(), 'Non-numeric Content-Length must be rejected.');
     }
 
     public function testRequestLoggingIncludesSafeRequestContext(): void

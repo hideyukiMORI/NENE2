@@ -210,6 +210,52 @@ final class BearerTokenMiddlewareTest extends TestCase
         self::assertSame(401, $response->getStatusCode());
     }
 
+    public function testWwwAuthenticateEscapesDoubleQuotesInDescription(): void
+    {
+        $factory = new Psr17Factory();
+        $verifier = new class () implements TokenVerifierInterface {
+            public function verify(string $token): array
+            {
+                throw new TokenVerificationException('Expected claim "sub" to be present.');
+            }
+        };
+        $middleware = $this->makeMiddleware($factory, $verifier);
+        $request = $factory
+            ->createServerRequest('GET', 'https://example.test/protected')
+            ->withHeader('Authorization', 'Bearer some.token.here');
+
+        $response = $middleware->process($request, $this->failHandler());
+
+        $header = $response->getHeaderLine('WWW-Authenticate');
+        self::assertSame(401, $response->getStatusCode());
+        // The double-quotes inside the description must be escaped so the header remains parseable.
+        self::assertStringContainsString('\\"sub\\"', $header);
+        // Must not contain unescaped raw quote that would break the header structure.
+        self::assertStringNotContainsString('error_description="Expected claim "sub"', $header);
+    }
+
+    public function testWwwAuthenticateStripsCrlfFromDescription(): void
+    {
+        $factory = new Psr17Factory();
+        $verifier = new class () implements TokenVerifierInterface {
+            public function verify(string $token): array
+            {
+                throw new TokenVerificationException("Line1\r\nX-Injected: evil");
+            }
+        };
+        $middleware = $this->makeMiddleware($factory, $verifier);
+        $request = $factory
+            ->createServerRequest('GET', 'https://example.test/protected')
+            ->withHeader('Authorization', 'Bearer some.token.here');
+
+        $response = $middleware->process($request, $this->failHandler());
+
+        $header = $response->getHeaderLine('WWW-Authenticate');
+        // CRLF must be stripped to prevent HTTP response splitting.
+        self::assertStringNotContainsString("\r\n", $header);
+        self::assertStringNotContainsString("\n", $header);
+    }
+
     private function makeMiddleware(Psr17Factory $factory, TokenVerifierInterface $verifier): BearerTokenMiddleware
     {
         return new BearerTokenMiddleware(
