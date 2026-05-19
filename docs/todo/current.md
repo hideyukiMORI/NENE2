@@ -23,9 +23,23 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 - **Phase 61** (#426, #429): FT10 フォローアップ Feature Improvements — APP_DEBUG 例外詳細露出・PaginationResponse DTO 追加（PR #431 マージ済み）
 - **#432**: SQLite スキーマ初期化パターンをドキュメント化（F-6 対応、PR #433 マージ済み）
 
-## Next
+## Next: AI-Standard-Tool 方向への強化
 
-特定のタスクなし — 次のフィールドトライアルまたは Issue を確認のこと。
+### AI 認知・発見性
+
+| 優先度 | タスク | 内容 |
+|---|---|---|
+| 高 | `llms.txt` 設置 | リポジトリルートに AI クローラー向け宣言ファイルを置く |
+| 高 | MCP レジストリ登録 | Smithery 等の MCP ディレクトリに hoplog / NENE2 を登録 |
+| 中 | OpenAPI を前面に | README・トップページに OpenAPI スペックへの導線を強化 |
+| 中 | フィールドトライアル継続 | AI 実装実績を積み上げて公開する（FT11 以降） |
+
+### 多言語展開（別リポジトリ）
+
+| 優先度 | タスク | 内容 |
+|---|---|---|
+| 高 | Python 版着手 | `nene2-python` リポジトリを作成し、同じ設計思想で実装 |
+| 中 | TypeScript 版検討 | トークン量・工数を見ながら並列稼働を判断 |
 
 ## Operating Notes
 
