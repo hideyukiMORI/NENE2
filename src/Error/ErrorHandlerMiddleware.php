@@ -12,6 +12,8 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 use Throwable;
 
 final readonly class ErrorHandlerMiddleware implements MiddlewareInterface
@@ -20,11 +22,14 @@ final readonly class ErrorHandlerMiddleware implements MiddlewareInterface
      * @param list<DomainExceptionHandlerInterface> $domainHandlers
      * @param bool $debug When true, the exception message is included in the 500 response `detail`
      *                    field. Never set to true in production.
+     * @param LoggerInterface $logger Unhandled exceptions are logged at ERROR level regardless of $debug.
+     *                                Pass a NullLogger (default) to suppress.
      */
     public function __construct(
         private ProblemDetailsResponseFactory $problemDetails,
         private array $domainHandlers = [],
         private bool $debug = false,
+        private LoggerInterface $logger = new NullLogger(),
     ) {
     }
 
@@ -75,6 +80,11 @@ final readonly class ErrorHandlerMiddleware implements MiddlewareInterface
                     return $domainHandler->handle($exception, $request);
                 }
             }
+
+            $this->logger->error($exception->getMessage(), [
+                'exception' => $exception,
+                'request_id' => $request->getHeaderLine('X-Request-Id'),
+            ]);
 
             return $this->problemDetails->create(
                 $request,

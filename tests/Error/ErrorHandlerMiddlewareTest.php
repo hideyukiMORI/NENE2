@@ -16,7 +16,9 @@ use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use Psr\Log\AbstractLogger;
 use RuntimeException;
+use Stringable;
 use Throwable;
 
 final class ErrorHandlerMiddlewareTest extends TestCase
@@ -226,5 +228,107 @@ final class ErrorHandlerMiddlewareTest extends TestCase
         );
 
         self::assertSame(200, $response->getStatusCode());
+    }
+
+    public function testUnhandledExceptionIsLoggedAtErrorLevelRegardlessOfDebug(): void
+    {
+        $spyLogger = new class () extends AbstractLogger {
+            /** @var list<array{level: string, message: string, context: array<string, mixed>}> */
+            public array $records = [];
+
+            public function log(mixed $level, string|Stringable $message, array $context = []): void
+            {
+                $this->records[] = ['level' => (string) $level, 'message' => (string) $message, 'context' => $context];
+            }
+        };
+
+        $middleware = new ErrorHandlerMiddleware($this->problemDetails, [], debug: false, logger: $spyLogger);
+        $request = $this->factory->createServerRequest('GET', 'https://example.test/crash')
+            ->withHeader('X-Request-Id', 'req-test-123');
+
+        $middleware->process(
+            $request,
+            new class () implements RequestHandlerInterface {
+                public function handle(ServerRequestInterface $request): ResponseInterface
+                {
+                    throw new RuntimeException('db connection refused');
+                }
+            },
+        );
+
+        self::assertCount(1, $spyLogger->records);
+        self::assertSame('error', $spyLogger->records[0]['level']);
+        self::assertSame('db connection refused', $spyLogger->records[0]['message']);
+        self::assertSame('req-test-123', $spyLogger->records[0]['context']['request_id']);
+        self::assertInstanceOf(RuntimeException::class, $spyLogger->records[0]['context']['exception']);
+    }
+
+    public function testUnhandledExceptionIsLoggedEvenInDebugMode(): void
+    {
+        $spyLogger = new class () extends AbstractLogger {
+            /** @var list<array{level: string, message: string, context: array<string, mixed>}> */
+            public array $records = [];
+
+            public function log(mixed $level, string|Stringable $message, array $context = []): void
+            {
+                $this->records[] = ['level' => (string) $level, 'message' => (string) $message, 'context' => $context];
+            }
+        };
+
+        $middleware = new ErrorHandlerMiddleware($this->problemDetails, [], debug: true, logger: $spyLogger);
+        $request = $this->factory->createServerRequest('GET', 'https://example.test/crash');
+
+        $middleware->process(
+            $request,
+            new class () implements RequestHandlerInterface {
+                public function handle(ServerRequestInterface $request): ResponseInterface
+                {
+                    throw new RuntimeException('secret internal error');
+                }
+            },
+        );
+
+        self::assertCount(1, $spyLogger->records);
+        self::assertSame('error', $spyLogger->records[0]['level']);
+    }
+
+    public function testDomainHandledExceptionIsNotLogged(): void
+    {
+        $spyLogger = new class () extends AbstractLogger {
+            /** @var list<array{level: string, message: string, context: array<string, mixed>}> */
+            public array $records = [];
+
+            public function log(mixed $level, string|Stringable $message, array $context = []): void
+            {
+                $this->records[] = ['level' => (string) $level, 'message' => (string) $message, 'context' => $context];
+            }
+        };
+
+        $domainHandler = new class () implements DomainExceptionHandlerInterface {
+            public function supports(Throwable $exception): bool
+            {
+                return $exception instanceof RuntimeException;
+            }
+
+            public function handle(Throwable $exception, ServerRequestInterface $request): ResponseInterface
+            {
+                return (new Psr17Factory())->createResponse(409);
+            }
+        };
+
+        $middleware = new ErrorHandlerMiddleware($this->problemDetails, [$domainHandler], logger: $spyLogger);
+        $request = $this->factory->createServerRequest('POST', 'https://example.test/resource');
+
+        $middleware->process(
+            $request,
+            new class () implements RequestHandlerInterface {
+                public function handle(ServerRequestInterface $request): ResponseInterface
+                {
+                    throw new RuntimeException('conflict');
+                }
+            },
+        );
+
+        self::assertCount(0, $spyLogger->records, 'Domain-handled exceptions must not be logged by ErrorHandlerMiddleware.');
     }
 }
