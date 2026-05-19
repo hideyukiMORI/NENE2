@@ -19,6 +19,12 @@ foreach ($argv as $arg) {
 
 require $projectRoot . '/vendor/autoload.php';
 
+if (!class_exists(\Symfony\Component\Yaml\Yaml::class)) {
+    fwrite(STDERR, "Error: symfony/yaml is not installed.\n");
+    fwrite(STDERR, "Run: composer require --dev symfony/yaml\n");
+    exit(1);
+}
+
 $root = $projectRoot;
 $catalogPath = $root . '/docs/mcp/tools.json';
 $openApiPath = $root . '/docs/openapi/openapi.yaml';
