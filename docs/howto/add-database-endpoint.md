@@ -297,6 +297,59 @@ The resulting response body:
 
 ---
 
+## Initialize a SQLite database
+
+When using SQLite (`DB_ADAPTER=sqlite`), there is no server to create the database; the `.db`
+file is created on demand. You are responsible for applying the schema before the first request.
+Two common patterns:
+
+### Pattern A — `composer db:init` script (recommended)
+
+Create `database/schema.sql`:
+
+```sql
+CREATE TABLE IF NOT EXISTS products (
+    id    INTEGER PRIMARY KEY AUTOINCREMENT,
+    name  TEXT    NOT NULL,
+    price INTEGER NOT NULL
+);
+```
+
+Add a script to `composer.json`:
+
+```json
+{
+    "scripts": {
+        "db:init": "php -r \"$pdo = new PDO('sqlite:' . getenv('DB_NAME')); $pdo->exec(file_get_contents('database/schema.sql')); echo 'Schema applied.' . PHP_EOL;\""
+    }
+}
+```
+
+Run once before starting the server:
+
+```bash
+DB_NAME=./myapp.db composer db:init
+```
+
+### Pattern B — Auto-initialize in the front controller
+
+For small projects, check whether the file exists inside `public_html/index.php` before
+creating the application:
+
+```php
+// Auto-create the SQLite schema on first run.
+$dbFile = getenv('DB_NAME') ?: ':memory:';
+if ($dbFile !== ':memory:' && !file_exists($dbFile)) {
+    $pdo = new PDO('sqlite:' . $dbFile);
+    $pdo->exec((string) file_get_contents(dirname(__DIR__) . '/database/schema.sql'));
+}
+```
+
+> **Trade-off**: Pattern A makes schema initialization explicit and easy to repeat in CI.
+> Pattern B is convenient for development but couples startup logic to the front controller.
+
+---
+
 ## Next steps
 
 - Add OpenAPI documentation for your endpoint: see `docs/development/endpoint-scaffold.md`

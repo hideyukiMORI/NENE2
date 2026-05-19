@@ -273,6 +273,57 @@ if ($price <= 0) {
 
 ---
 
+## SQLite データベースの初期化
+
+`DB_ADAPTER=sqlite` を使用する場合、データベースファイルは自動作成されますが、
+スキーマの適用は開発者が行う必要があります。よく使われる 2 つのパターンを示します。
+
+### パターン A — `composer db:init` スクリプト（推奨）
+
+`database/schema.sql` を作成する:
+
+```sql
+CREATE TABLE IF NOT EXISTS products (
+    id    INTEGER PRIMARY KEY AUTOINCREMENT,
+    name  TEXT    NOT NULL,
+    price INTEGER NOT NULL
+);
+```
+
+`composer.json` にスクリプトを追加する:
+
+```json
+{
+    "scripts": {
+        "db:init": "php -r \"$pdo = new PDO('sqlite:' . getenv('DB_NAME')); $pdo->exec(file_get_contents('database/schema.sql')); echo 'Schema applied.' . PHP_EOL;\""
+    }
+}
+```
+
+サーバー起動前に一度実行する:
+
+```bash
+DB_NAME=./myapp.db composer db:init
+```
+
+### パターン B — フロントコントローラーで自動初期化
+
+小規模プロジェクト向けに、`public_html/index.php` でファイルの存在を確認する:
+
+```php
+// 初回起動時に SQLite スキーマを自動適用する。
+$dbFile = getenv('DB_NAME') ?: ':memory:';
+if ($dbFile !== ':memory:' && !file_exists($dbFile)) {
+    $pdo = new PDO('sqlite:' . $dbFile);
+    $pdo->exec((string) file_get_contents(dirname(__DIR__) . '/database/schema.sql'));
+}
+```
+
+> **トレードオフ**: パターン A は初期化を明示的にし CI で再現しやすい。
+> パターン B は開発時に便利だが、起動ロジックがフロントコントローラーに混入する。
+
+---
+
 ## 次のステップ
 
 - エンドポイントの OpenAPI ドキュメントを追加する: `docs/development/endpoint-scaffold.md` を参照

@@ -266,6 +266,57 @@ if ($price <= 0) {
 
 ---
 
+## 初始化 SQLite 数据库
+
+使用 `DB_ADAPTER=sqlite` 时，`.db` 文件会自动创建，但需要手动应用 Schema。
+以下是两种常见模式：
+
+### 模式 A — `composer db:init` 脚本（推荐）
+
+创建 `database/schema.sql`：
+
+```sql
+CREATE TABLE IF NOT EXISTS products (
+    id    INTEGER PRIMARY KEY AUTOINCREMENT,
+    name  TEXT    NOT NULL,
+    price INTEGER NOT NULL
+);
+```
+
+在 `composer.json` 中添加脚本：
+
+```json
+{
+    "scripts": {
+        "db:init": "php -r \"$pdo = new PDO('sqlite:' . getenv('DB_NAME')); $pdo->exec(file_get_contents('database/schema.sql')); echo 'Schema applied.' . PHP_EOL;\""
+    }
+}
+```
+
+启动服务器前运行一次：
+
+```bash
+DB_NAME=./myapp.db composer db:init
+```
+
+### 模式 B — 在前端控制器中自动初始化
+
+对于小项目，在 `public_html/index.php` 中检查文件是否存在：
+
+```php
+// 首次启动时自动应用 SQLite Schema。
+$dbFile = getenv('DB_NAME') ?: ':memory:';
+if ($dbFile !== ':memory:' && !file_exists($dbFile)) {
+    $pdo = new PDO('sqlite:' . $dbFile);
+    $pdo->exec((string) file_get_contents(dirname(__DIR__) . '/database/schema.sql'));
+}
+```
+
+> **权衡**：模式 A 使初始化显式化，便于在 CI 中复现。
+> 模式 B 开发时方便，但将启动逻辑耦合到了前端控制器。
+
+---
+
 ## 下一步
 
 - 为您的端点添加 OpenAPI 文档：参见 `docs/development/endpoint-scaffold.md`
