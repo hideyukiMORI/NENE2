@@ -136,7 +136,19 @@ FT12-A / FT12-B / FT12-C / FT13 のすべてが完了。主要成果:
 
 ## 次のアクション候補
 
-- FT20 摩擦対応 — F-1（insertAndGetId または RETURNING howto）・F-2（add-domain-exception-handler.md）Issue 起票・実装
+## FT20 摩擦対応（完了）
+
+| # | 重要度 | 対応 | PR |
+|---|---|---|---|
+| F-1（高）| lastInsertId() pgsql 非互換 | PHPDoc 注記 + `use-postgresql.md` 新規作成 | #566 |
+| F-2（中）| ProblemDetails create() 引数未ドキュメント | `add-domain-exception-handler.md` 新規作成 | #566 |
+| F-3（低）| テストリセット SQL DB 固有 | `use-postgresql.md` に比較表追記 | #566 |
+| F-4（低）| pgsql DSN charset 非反映 | `PdoConnectionFactory` コメント + `use-postgresql.md` | #566 |
+
+- **v1.5.4**: 上記 4 件対応（ドキュメント専用リリース、2026-05-20）。タグ・GitHub Release 作成済み。
+
+## 次のアクション候補
+
 - 追加フィールドトライアル — 新テーマで品質を継続検証
 - v1.5.x パッチ — セキュリティ修正（Content-Length バイパス・WWW-Authenticate インジェクション・CORS maxAge）のドキュメント整備（ADR 0011 に記録済み）
 
