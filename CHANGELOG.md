@@ -8,10 +8,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+---
+
+## [1.5.1] — 2026-05-20
+
 ### Added
-- `docs/development/quality-tools.md`: "PHP-CS-Fixer Risky Fixers in Consumer Projects" section — explains `setRiskyAllowed(true)` and `--allow-risky=yes` required when using `declare_strict_types` and other risky rules in consumer projects (#542)
 - `RuntimeApplicationFactory::$machineApiKeyProtectedPathPrefixes` — exposes `ApiKeyAuthenticationMiddleware::$protectedPathPrefixes` through the factory; protects paths starting with any listed prefix without enumerating each route individually (#540)
 - `RuntimeApplicationFactory::$machineApiKeyProtectedMethods` — exposes `ApiKeyAuthenticationMiddleware::$protectedMethods` through the factory; enables "public read / key-gated write" patterns (e.g. GET is open, POST/PUT/DELETE require the API key) without manual middleware construction (#540)
+- `docs/development/quality-tools.md`: "PHP-CS-Fixer Risky Fixers in Consumer Projects" section — explains `setRiskyAllowed(true)` and `--allow-risky=yes` required when using `declare_strict_types` and other risky rules in consumer projects (#542)
 
 ---
 
