@@ -238,8 +238,17 @@ UseCase     : ビジネス不変条件、認可ルール、状態依存ルール
 
 ### ローカル MCP サーバー起動
 
+NENE2 本体（開発用）:
+
 ```bash
 docker compose run --rm -e NENE2_LOCAL_API_BASE_URL=http://app app php tools/local-mcp-server.php
+```
+
+Consumer Project（`vendor/` 経由）:
+
+```bash
+docker compose run --rm -e NENE2_LOCAL_API_BASE_URL=http://app app \
+  php vendor/hideyukimori/nene2/tools/local-mcp-server.php
 ```
 
 ### Consumer Project から MCP バリデーターを使う
