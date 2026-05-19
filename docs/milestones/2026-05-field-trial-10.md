@@ -51,6 +51,7 @@ Address feature-level findings from Field Trial 10. (PR #431 merged)
 
 - [x] #426: `APP_DEBUG=true` 時に例外メッセージを detail に出力（F-5）
 - [x] #429: `PaginationResponse` DTO 追加・`total` フィールド対応（F-8）
+- [x] #432: SQLite スキーマ初期化パターンをドキュメント化（F-6、PR #433 merged）
 
 ## Acceptance Criteria (Phase 58)
 
