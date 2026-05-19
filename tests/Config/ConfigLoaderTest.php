@@ -148,6 +148,54 @@ final class ConfigLoaderTest extends TestCase
         ]);
     }
 
+    public function testSqliteAdapterDoesNotRequireHostUserOrCharset(): void
+    {
+        $config = (new ConfigLoader($this->emptyProjectRoot()))->load([
+            'DB_ADAPTER' => 'sqlite',
+            'DB_NAME' => '/tmp/test.sqlite',
+            'DB_HOST' => '',
+            'DB_USER' => '',
+            'DB_CHARSET' => '',
+        ]);
+
+        self::assertSame('sqlite', $config->database->adapter);
+        self::assertSame('/tmp/test.sqlite', $config->database->name);
+    }
+
+    public function testSqliteAdapterDoesNotValidatePort(): void
+    {
+        $config = (new ConfigLoader($this->emptyProjectRoot()))->load([
+            'DB_ADAPTER' => 'sqlite',
+            'DB_NAME' => '/tmp/test.sqlite',
+            'DB_PORT' => '0',
+        ]);
+
+        self::assertSame('sqlite', $config->database->adapter);
+        self::assertSame(0, $config->database->port);
+    }
+
+    public function testMysqlAdapterStillRequiresHost(): void
+    {
+        $this->expectException(ConfigException::class);
+        $this->expectExceptionMessage('DB_HOST must not be empty.');
+
+        (new ConfigLoader($this->emptyProjectRoot()))->load([
+            'DB_ADAPTER' => 'mysql',
+            'DB_HOST' => '',
+        ]);
+    }
+
+    public function testOutOfRangeDatabasePortFailsFastForMysql(): void
+    {
+        $this->expectException(ConfigException::class);
+        $this->expectExceptionMessage('DB_PORT must be between 1 and 65535.');
+
+        (new ConfigLoader($this->emptyProjectRoot()))->load([
+            'DB_ADAPTER' => 'mysql',
+            'DB_PORT' => '65536',
+        ]);
+    }
+
     private function emptyProjectRoot(): string
     {
         return sys_get_temp_dir();

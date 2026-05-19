@@ -31,12 +31,24 @@ Set them in `.env` (loaded by phpdotenv) or export them before starting the serv
 |---|---|---|---|
 | `DATABASE_URL` | string | *(empty — use `DB_*`)* | Full database connection URL. When non-empty, overrides all individual `DB_*` variables. |
 | `DB_ADAPTER` | string | `mysql` | Database driver. Accepted: `sqlite`, `mysql`. |
-| `DB_HOST` | string | `127.0.0.1` | Database hostname or IP. |
-| `DB_PORT` | integer | `3306` | Database port (1–65535). |
-| `DB_NAME` | string | `nene2` | Database name. |
-| `DB_USER` | string | `nene2` | Database username. |
+| `DB_HOST` | string | `127.0.0.1` | Database hostname or IP. **Not used by SQLite.** |
+| `DB_PORT` | integer | `3306` | Database port (1–65535). **Not validated for SQLite.** |
+| `DB_NAME` | string | `nene2` | Database name. For SQLite, set this to the **file path** (e.g. `/tmp/myapp.sqlite`). |
+| `DB_USER` | string | `nene2` | Database username. **Not used by SQLite.** |
 | `DB_PASSWORD` | string | *(empty)* | Database password. |
-| `DB_CHARSET` | string | `utf8mb4` | Database character set. |
+| `DB_CHARSET` | string | `utf8mb4` | Database character set. **Not used by SQLite.** |
+
+### SQLite adapter
+
+When `DB_ADAPTER=sqlite`, only `DB_NAME` (the file path) is required. `DB_HOST`, `DB_USER`,
+and `DB_CHARSET` are not validated and do not need to be set.
+
+```dotenv
+DB_ADAPTER=sqlite
+DB_NAME=/tmp/myapp.sqlite
+```
+
+For in-memory SQLite (useful in tests), use `DB_NAME=:memory:`.
 
 ::: warning Never commit secrets
 Do not commit `.env` files containing passwords, API keys, or JWT secrets to version control.

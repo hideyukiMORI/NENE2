@@ -164,6 +164,39 @@ curl -i -H 'X-NENE2-API-Key: local-dev-key' http://localhost:8080/machine/health
 
 不要提交真实 API 密钥、生成的密钥或本地 `.env` 文件。
 
+## 为客户项目设置 Dockerfile
+
+如果客户项目使用 `php:8.4-cli` 作为 Docker 基础镜像，需要手动安装 Composer 和所需的 PHP 扩展。
+
+```dockerfile
+FROM php:8.4-cli
+
+RUN apt-get update && apt-get install -y \
+    libsqlite3-dev libonig-dev curl unzip \
+    && docker-php-ext-install pdo pdo_sqlite pdo_mysql \
+    && curl -sS https://getcomposer.org/installer \
+       | php -- --install-dir=/usr/local/bin --filename=composer \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+COPY composer.json composer.lock ./
+RUN composer install --no-dev --optimize-autoloader
+COPY . .
+```
+
+## 设置质量工具
+
+在 `.php-cs-fixer.php` 中使用 `declare_strict_types` 时，该修复器被归类为 `risky`，需要 `--allow-risky=yes` 标志。将其添加到 `composer.json` 脚本中：
+
+```json
+{
+    "scripts": {
+        "cs":     "php-cs-fixer check --diff --allow-risky=yes",
+        "cs:fix": "php-cs-fixer fix --allow-risky=yes"
+    }
+}
+```
+
 ## 验证数据库行为
 
 ```bash

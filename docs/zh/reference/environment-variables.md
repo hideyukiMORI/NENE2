@@ -31,12 +31,24 @@ NENE2 识别的所有环境变量。
 |---|---|---|---|
 | `DATABASE_URL` | string | *(空 — 使用 `DB_*`)* | 完整数据库连接 URL。非空时覆盖所有 `DB_*` 变量。 |
 | `DB_ADAPTER` | string | `mysql` | 数据库驱动。可选值：`sqlite`、`mysql`。 |
-| `DB_HOST` | string | `127.0.0.1` | 数据库主机名或 IP。 |
-| `DB_PORT` | integer | `3306` | 数据库端口（1–65535）。 |
-| `DB_NAME` | string | `nene2` | 数据库名称。 |
-| `DB_USER` | string | `nene2` | 数据库用户名。 |
+| `DB_HOST` | string | `127.0.0.1` | 数据库主机名或 IP。**SQLite 不使用此字段。** |
+| `DB_PORT` | integer | `3306` | 数据库端口（1–65535）。**SQLite 不验证此字段。** |
+| `DB_NAME` | string | `nene2` | 数据库名称。SQLite 时填写文件路径（如 `/tmp/myapp.sqlite`）。 |
+| `DB_USER` | string | `nene2` | 数据库用户名。**SQLite 不使用此字段。** |
 | `DB_PASSWORD` | string | *(空)* | 数据库密码。 |
-| `DB_CHARSET` | string | `utf8mb4` | 数据库字符集。 |
+| `DB_CHARSET` | string | `utf8mb4` | 数据库字符集。**SQLite 不使用此字段。** |
+
+
+### SQLite 适配器
+
+当 `DB_ADAPTER=sqlite` 时，只需要 `DB_NAME`（文件路径）。`DB_HOST`、`DB_USER` 和 `DB_CHARSET` 不会被验证，无需设置。
+
+```dotenv
+DB_ADAPTER=sqlite
+DB_NAME=/tmp/myapp.sqlite
+```
+
+对于内存 SQLite（在测试中有用），使用 `DB_NAME=:memory:`。
 
 ::: warning 切勿提交密钥
 不要将包含密码、API 密钥或 JWT 密钥的 `.env` 文件提交到版本控制。

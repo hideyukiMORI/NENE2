@@ -32,7 +32,7 @@ final readonly class DatabaseConfig
             }
         }
 
-        if ($this->port < 1 || $this->port > 65_535) {
+        if ($this->adapter !== 'sqlite' && ($this->port < 1 || $this->port > 65_535)) {
             throw new ConfigException('DB_PORT must be between 1 and 65535.');
         }
     }
@@ -47,13 +47,18 @@ final readonly class DatabaseConfig
      */
     private function requiredValues(): array
     {
-        return [
+        $required = [
             'DB_ENV' => $this->environment,
             'DB_ADAPTER' => $this->adapter,
-            'DB_HOST' => $this->host,
             'DB_NAME' => $this->name,
-            'DB_USER' => $this->user,
-            'DB_CHARSET' => $this->charset,
         ];
+
+        if ($this->adapter !== 'sqlite') {
+            $required['DB_HOST'] = $this->host;
+            $required['DB_USER'] = $this->user;
+            $required['DB_CHARSET'] = $this->charset;
+        }
+
+        return $required;
     }
 }

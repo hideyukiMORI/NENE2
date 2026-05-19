@@ -242,6 +242,37 @@ public/
 
 ---
 
+## ハンドラーからバリデーションエラーをスローする
+
+ハンドラーでフィールド値の範囲チェックやビジネスルール違反を検知した場合は、
+`ValidationException` をスローします。`ErrorHandlerMiddleware` が自動的に
+`422 validation-failed` Problem Details レスポンスにマッピングします。
+
+```php
+use Nene2\Validation\ValidationError;
+use Nene2\Validation\ValidationException;
+
+if ($price <= 0) {
+    throw new ValidationException([
+        new ValidationError(
+            field:   'price',
+            message: 'Price must be greater than zero.',
+            code:    'out_of_range',
+        ),
+    ]);
+}
+```
+
+`ValidationError` に必要な 3 つの非空文字列:
+
+| パラメーター | 用途 |
+|---|---|
+| `field` | 失敗したリクエストフィールド名 |
+| `message` | 人が読める失敗の説明 |
+| `code` | machine-readable エラーコード（例: `required`、`out_of_range`、`too_long`） |
+
+---
+
 ## 次のステップ
 
 - エンドポイントの OpenAPI ドキュメントを追加する: `docs/development/endpoint-scaffold.md` を参照

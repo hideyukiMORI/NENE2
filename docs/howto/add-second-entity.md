@@ -87,6 +87,27 @@ final readonly class PdoProductRepository implements ProductRepositoryInterface
 
 Follow the same pattern as `GetNoteByIdUseCase` / `GetNoteByIdHandler`. Each use case is a single-method class; each handler converts the result to a JSON response.
 
+Path parameters (e.g. the `id` in `/products/{id}`) are read from the `Router::PARAMETERS_ATTRIBUTE`
+request attribute — they are **not** available as individual PSR-7 attributes.
+
+```php
+use Nene2\Routing\Router;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+
+public function handle(ServerRequestInterface $request): ResponseInterface
+{
+    $params = $request->getAttribute(Router::PARAMETERS_ATTRIBUTE, []);
+    $id     = (int) ($params['id'] ?? 0);
+
+    // validate $id, call use case, return response …
+}
+```
+
+> **Common mistake**: `$request->getAttribute('id')` always returns `null`. Always use
+> `$request->getAttribute(Router::PARAMETERS_ATTRIBUTE, [])['id']` instead.
+> See [Add a custom route](./add-custom-route.md#add-a-path-parameter) for more examples.
+
 ### 4 — Route registrar
 
 This is the key integration point. Instead of adding parameters to `RuntimeApplicationFactory`, create a `__invoke`-able class:
@@ -187,6 +208,21 @@ return new RuntimeApplicationFactory(
 ```
 
 That is all — `RuntimeApplicationFactory` itself does not change.
+
+#### Overriding a service registered by a provider
+
+`ContainerBuilder::set()` uses **last-write-wins**: calling `set()` after `addProvider()` replaces
+whatever the provider registered under that key. This lets you swap a single binding without
+touching the provider itself.
+
+```php
+$builder->addProvider(new RuntimeServiceProvider());
+
+// Override only RuntimeApplicationFactory — everything else from the provider stays.
+$builder->set(RuntimeApplicationFactory::class, static function ($c) {
+    return new RuntimeApplicationFactory(/* your custom wiring */);
+});
+```
 
 ---
 

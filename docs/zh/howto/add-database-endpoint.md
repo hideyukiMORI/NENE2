@@ -242,6 +242,30 @@ public/
 
 ---
 
+## 从处理器抛出验证错误
+
+当处理器需要拒绝请求（字段值超出范围或违反业务规则）时，抛出 `ValidationException`。
+`ErrorHandlerMiddleware` 会自动将其映射为 `422 validation-failed` Problem Details 响应。
+
+```php
+use Nene2\Validation\ValidationError;
+use Nene2\Validation\ValidationException;
+
+if ($price <= 0) {
+    throw new ValidationException([
+        new ValidationError(
+            field:   'price',
+            message: 'Price must be greater than zero.',
+            code:    'out_of_range',
+        ),
+    ]);
+}
+```
+
+`ValidationError` 需要三个非空字符串：`field`（字段名）、`message`（错误描述）、`code`（机器可读代码，如 `required`、`out_of_range`）。
+
+---
+
 ## 下一步
 
 - 为您的端点添加 OpenAPI 文档：参见 `docs/development/endpoint-scaffold.md`

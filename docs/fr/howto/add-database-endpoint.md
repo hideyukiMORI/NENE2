@@ -242,6 +242,31 @@ Chaque ressource obtient son propre répertoire. Gardez le handler mince et le u
 
 ---
 
+## Lever une erreur de validation depuis un handler
+
+Quand un handler doit rejeter une requête parce qu'une valeur de champ est hors limites ou
+viole une règle métier, lancez `ValidationException`. `ErrorHandlerMiddleware` la transforme
+automatiquement en une réponse `422 validation-failed` Problem Details.
+
+```php
+use Nene2\Validation\ValidationError;
+use Nene2\Validation\ValidationException;
+
+if ($price <= 0) {
+    throw new ValidationException([
+        new ValidationError(
+            field:   'price',
+            message: 'Price must be greater than zero.',
+            code:    'out_of_range',
+        ),
+    ]);
+}
+```
+
+`ValidationError` requiert trois chaînes non vides : `field` (champ concerné), `message` (description), `code` (code lisible par machine, ex. `required`, `out_of_range`).
+
+---
+
 ## Étapes suivantes
 
 - Ajouter la documentation OpenAPI pour votre endpoint : voir `docs/development/endpoint-scaffold.md`

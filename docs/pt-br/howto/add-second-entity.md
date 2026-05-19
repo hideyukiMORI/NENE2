@@ -28,6 +28,14 @@ Apenas `RuntimeServiceProvider` recebe o novo registrar e o handler de exceção
 
 ### 1 — RouteRegistrar
 
+Parâmetros de caminho (ex.: `id` em `/products/{id}`) são lidos nos handlers via `Router::PARAMETERS_ATTRIBUTE`, não como atributos PSR-7 individuais:
+
+```php
+$params = $request->getAttribute(Router::PARAMETERS_ATTRIBUTE, []);
+$id     = (int) ($params['id'] ?? 0);
+// $request->getAttribute('id') sempre retorna null.
+```
+
 ```php
 final readonly class ProductRouteRegistrar
 {
@@ -54,6 +62,9 @@ Registre o registrar com a chave `nene2.route_registrar.product` em `register()`
 
 ```php
 $builder->addProvider(new ProductServiceProvider());
+
+// set() após addProvider() substitui um único serviço (último a escrever vence).
+// $builder->set(RuntimeApplicationFactory::class, static fn($c) => new RuntimeApplicationFactory(/* ... */));
 
 return new RuntimeApplicationFactory(
     /* ... */,
