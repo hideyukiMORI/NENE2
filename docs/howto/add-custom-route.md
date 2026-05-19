@@ -144,6 +144,25 @@ Or split across multiple registrar functions for clarity when the route list gro
 
 ---
 
+## Reserved framework paths
+
+The following paths are registered by `RuntimeApplicationFactory` before your route
+registrars run. User-registered routes for these paths will never match because the
+framework's routes are checked first.
+
+| Path | Method | Description |
+|---|---|---|
+| `/` | GET | Framework smoke endpoint (name, description, status) |
+| `/health` | GET | Health check |
+| `/machine/health` | GET | Machine-client health check (requires API key) |
+| `/examples/ping` | GET | Example ping |
+| `/examples/protected` | GET | Example protected endpoint (when JWT configured) |
+
+If your application needs a home page, use a different path (e.g. `/welcome`, `/home`)
+or serve the HTML via the framework's smoke response by registering a health check.
+
+---
+
 ## Next step
 
 If your route needs to read from or write to a database, see
