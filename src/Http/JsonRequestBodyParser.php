@@ -51,8 +51,24 @@ final class JsonRequestBodyParser
             );
         }
 
-        // Re-decode as associative to return array<string, mixed> for handler use.
         /** @var array<string, mixed> */
-        return (array) json_decode($raw, associative: true, flags: JSON_THROW_ON_ERROR);
+        return self::toArray($decoded);
+    }
+
+    /**
+     * Recursively converts a stdClass tree (from json_decode associative:false)
+     * to a nested array<string, mixed> without a second json_decode call.
+     */
+    private static function toArray(mixed $value): mixed
+    {
+        if ($value instanceof \stdClass) {
+            return array_map(self::toArray(...), (array) $value);
+        }
+
+        if (is_array($value)) {
+            return array_map(self::toArray(...), $value);
+        }
+
+        return $value;
     }
 }

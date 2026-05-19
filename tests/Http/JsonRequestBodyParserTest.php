@@ -87,4 +87,15 @@ final class JsonRequestBodyParserTest extends TestCase
 
         JsonRequestBodyParser::parse($request);
     }
+
+    public function testParsesNestedObjectAsDeepArray(): void
+    {
+        $factory = new Psr17Factory();
+        $request = $factory->createServerRequest('POST', 'https://example.test/')
+            ->withBody($factory->createStream('{"user":{"name":"Alice","roles":["admin","editor"]}}'));
+
+        $result = JsonRequestBodyParser::parse($request);
+
+        self::assertSame(['user' => ['name' => 'Alice', 'roles' => ['admin', 'editor']]], $result);
+    }
 }
