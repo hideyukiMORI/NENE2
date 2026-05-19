@@ -90,4 +90,30 @@ final class RouterTest extends TestCase
             static fn (ServerRequestInterface $request): ResponseInterface => (new Psr17Factory())->createResponse(200),
         );
     }
+
+    public function testPatchRouteMatchesOnlyPatchRequests(): void
+    {
+        $factory = new Psr17Factory();
+        $router = (new Router())->patch(
+            '/notes/{id}',
+            static fn (ServerRequestInterface $request): ResponseInterface => $factory->createResponse(200),
+        );
+
+        $response = $router->handle($factory->createServerRequest('PATCH', 'https://example.test/notes/42'));
+
+        self::assertSame(200, $response->getStatusCode());
+    }
+
+    public function testPatchRouteReturns405ForGetRequest(): void
+    {
+        $factory = new Psr17Factory();
+        $router = (new Router())->patch(
+            '/notes/{id}',
+            static fn (ServerRequestInterface $request): ResponseInterface => $factory->createResponse(200),
+        );
+
+        $this->expectException(MethodNotAllowedException::class);
+
+        $router->handle($factory->createServerRequest('GET', 'https://example.test/notes/42'));
+    }
 }

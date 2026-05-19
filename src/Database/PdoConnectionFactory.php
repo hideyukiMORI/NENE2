@@ -49,6 +49,12 @@ final readonly class PdoConnectionFactory implements DatabaseConnectionFactoryIn
                 $this->config->name,
                 $this->config->charset,
             ),
+            'pgsql' => sprintf(
+                'pgsql:host=%s;port=%d;dbname=%s',
+                $this->config->host,
+                $this->config->port,
+                $this->config->name,
+            ),
             default => throw new DatabaseConnectionException(sprintf(
                 'Database adapter "%s" is not supported by the PDO factory.',
                 $this->config->adapter,

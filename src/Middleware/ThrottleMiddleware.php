@@ -19,6 +19,11 @@ use Psr\Http\Server\RequestHandlerInterface;
  * The default key extractor uses REMOTE_ADDR. Pass a custom callable to key by
  * authenticated user, API key, or any other request attribute.
  *
+ * **Production requirement**: inject a shared storage implementation (Redis, Memcached,
+ * or a database-backed store) via {@see RateLimitStorageInterface}. The bundled
+ * {@see InMemoryRateLimitStorage} does NOT share state across PHP-FPM worker processes
+ * and is therefore only suitable for local development and single-process testing.
+ *
  * Part of the public API stability guarantee (see ADR 0009, ADR 0010).
  */
 final class ThrottleMiddleware implements MiddlewareInterface
