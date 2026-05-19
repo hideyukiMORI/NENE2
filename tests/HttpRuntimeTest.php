@@ -284,6 +284,32 @@ final class HttpRuntimeTest extends TestCase
         self::assertSame(['external' => 'error'], $payload['checks']);
     }
 
+    public function testHeadRequestReceivesSecurityHeadersAndXRequestId(): void
+    {
+        $factory = new Psr17Factory();
+        $application = (new RuntimeApplicationFactory($factory, $factory))->create();
+
+        $response = $application->handle($factory->createServerRequest('HEAD', 'https://example.test/'));
+
+        self::assertSame(200, $response->getStatusCode());
+        self::assertMatchesRegularExpression('/\A[a-f0-9]{32}\z/', $response->getHeaderLine('X-Request-Id'));
+        self::assertSame('nosniff', $response->getHeaderLine('X-Content-Type-Options'));
+        self::assertSame("default-src 'self'", $response->getHeaderLine('Content-Security-Policy'));
+        self::assertSame('SAMEORIGIN', $response->getHeaderLine('X-Frame-Options'));
+    }
+
+    public function testHeadRequestToUnknownRouteReturns404WithHeaders(): void
+    {
+        $factory = new Psr17Factory();
+        $application = (new RuntimeApplicationFactory($factory, $factory))->create();
+
+        $response = $application->handle($factory->createServerRequest('HEAD', 'https://example.test/no-such-route'));
+
+        self::assertSame(404, $response->getStatusCode());
+        self::assertMatchesRegularExpression('/\A[a-f0-9]{32}\z/', $response->getHeaderLine('X-Request-Id'));
+        self::assertSame('nosniff', $response->getHeaderLine('X-Content-Type-Options'));
+    }
+
     /**
      * @return array<string, mixed>
      */

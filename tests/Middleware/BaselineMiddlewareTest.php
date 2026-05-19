@@ -126,6 +126,14 @@ final class BaselineMiddlewareTest extends TestCase
         new CorsMiddleware((new Psr17Factory()), ['*']);
     }
 
+    public function testCorsThrowsWhenMaxAgeIsZeroOrNegative(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('$maxAge must be a positive integer');
+
+        new CorsMiddleware((new Psr17Factory()), [], maxAge: 0);
+    }
+
     public function testCorsSimpleRequestDoesNotIncludeMaxAge(): void
     {
         $factory = new Psr17Factory();

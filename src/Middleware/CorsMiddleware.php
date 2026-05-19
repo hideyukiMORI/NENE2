@@ -27,8 +27,8 @@ final readonly class CorsMiddleware implements MiddlewareInterface
      *                                     a custom middleware that echoes the request Origin unconditionally.
      * @param list<string> $allowedMethods
      * @param list<string> $allowedHeaders
-     * @param positive-int $maxAge Seconds the browser may cache the preflight response
-     *                             (`Access-Control-Max-Age`). Defaults to 3600 (1 hour).
+     * @param int $maxAge Seconds the browser may cache the preflight response
+     *                   (`Access-Control-Max-Age`). Must be a positive integer. Defaults to 3600 (1 hour).
      */
     public function __construct(
         private ResponseFactoryInterface $responseFactory,
@@ -43,6 +43,12 @@ final readonly class CorsMiddleware implements MiddlewareInterface
                 'CorsMiddleware: do not pass \'*\' in $allowedOrigins. '
                 . 'It matches only the literal string "*" as an Origin (no browser sends this). '
                 . 'List each allowed origin explicitly instead.',
+            );
+        }
+
+        if ($maxAge <= 0) {
+            throw new \InvalidArgumentException(
+                sprintf('CorsMiddleware: $maxAge must be a positive integer, got %d.', $maxAge),
             );
         }
     }
