@@ -4,7 +4,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 ## Status
 
-- Latest release: `v1.5.1`（2026-05-20 リリース済み）
+- Latest release: `v1.5.2`（2026-05-20 リリース済み）
 - Current branch: `main` — clean — open Issue なし
 
 ## Recently Completed
@@ -118,7 +118,6 @@ FT12-A / FT12-B / FT12-C / FT13 のすべてが完了。主要成果:
 
 ## 次のアクション候補
 
-- v1.5.2 リリース（F-2・F-3 修正を含む）
 - 追加フィールドトライアル — 新テーマで品質を継続検証
 - v1.5.x パッチ — セキュリティ修正（Content-Length バイパス・WWW-Authenticate インジェクション・CORS maxAge）のドキュメント整備（ADR 0011 に記録済み）
 

@@ -8,15 +8,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
-### Added
-- `docs/howto/use-transactions.md` — explains the transactional repository pattern: why `transactional()` provides a fresh executor, how to instantiate concrete repositories inside the callback, how to test with a file-based SQLite, and rollback verification. (#549)
-
 ---
 
 ## [1.5.2] — 2026-05-20
 
 ### Added
 - `RuntimeApplicationFactory::$requestMaxBodyBytes` — configures the request body size limit passed to `RequestSizeLimitMiddleware`. Defaults to 1 MiB (1 048 576 bytes). Increase for bulk-import or large-payload endpoints. (#547)
+- `docs/howto/use-transactions.md` — explains the transactional repository pattern: why `transactional()` provides a fresh executor, how to instantiate concrete repositories inside the callback, how to test with a file-based SQLite, and rollback verification. (#549)
 
 ### Fixed
 - `ApiKeyAuthenticationMiddleware`: `$protectedPaths` and `$protectedPathPrefixes` are now evaluated in **union mode** — a path is protected when it matches any exact entry in `$protectedPaths` OR starts with any prefix in `$protectedPathPrefixes`. Previously, a non-empty `$protectedPaths` suppressed all prefix evaluation, causing `$protectedPathPrefixes` to be silently ignored when both were set. (#548)
