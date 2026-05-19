@@ -49,6 +49,11 @@ final readonly class PdoConnectionFactory implements DatabaseConnectionFactoryIn
                 $this->config->name,
                 $this->config->charset,
             ),
+            // PostgreSQL DSN does not include charset — DB_CHARSET is intentionally ignored
+            // for this adapter. Client encoding defaults to the database's server_encoding
+            // (UTF-8 for databases created with the default locale). To override, set
+            // DATABASE_URL with ?options=--client_encoding%3DUTF8 or issue a
+            // SET client_encoding query after the connection is established.
             'pgsql' => sprintf(
                 'pgsql:host=%s;port=%d;dbname=%s',
                 $this->config->host,

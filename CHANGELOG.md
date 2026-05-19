@@ -10,6 +10,18 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.4] — 2026-05-20
+
+### Added
+- `docs/howto/use-postgresql.md` — complete PostgreSQL setup guide: Dockerfile (`pdo_pgsql`), Docker compose (`postgres:17`), Phinx config, `RETURNING id` pattern for INSERT ID retrieval, per-adapter test data reset (`TRUNCATE RESTART IDENTITY CASCADE` vs MySQL/SQLite), and `DB_CHARSET` behavior on `pgsql`. (#562 #563 #564 #565)
+- `docs/howto/add-domain-exception-handler.md` — step-by-step guide for implementing `DomainExceptionHandlerInterface`: correct `ProblemDetailsResponseFactory::create()` call order (`$request` first, slug-only `type`), common mistakes (missing request, full URL in type), and wiring via `RuntimeApplicationFactory::$domainExceptionHandlers`. (#563)
+
+### Changed
+- `DatabaseQueryExecutorInterface::lastInsertId()` — added PHPDoc explaining that the method returns `0` on PostgreSQL and documenting the `fetchOne()` + `RETURNING id` alternative. (#562)
+- `PdoConnectionFactory` — added inline comment noting that `DB_CHARSET` is intentionally excluded from the `pgsql` DSN; documents the `DATABASE_URL` workaround for explicit client encoding. (#565)
+
+---
+
 ## [1.5.3] — 2026-05-20
 
 ### Added
