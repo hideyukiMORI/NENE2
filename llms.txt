@@ -27,6 +27,7 @@ The spec covers all shipped JSON endpoints including health, examples (Note/Tag 
 
 - [Add a custom route](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/add-custom-route.md)
 - [Add a database-backed endpoint](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/add-database-endpoint.md)
+- [Use database transactions](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/use-transactions.md)
 - [Add JWT authentication](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/add-jwt-authentication.md)
 - [Add pagination](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/add-pagination.md)
 - [Add rate limiting](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/add-rate-limiting.md)

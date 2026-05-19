@@ -108,15 +108,17 @@ FT12-A / FT12-B / FT12-C / FT13 のすべてが完了。主要成果:
 
 - **FT18 / #545**: orderlog（在庫管理付き注文 API）による v1.5.1 実地検証。トランザクション・バルク操作・パス×メソッドのアクセス制御を対象。15/15 テスト通過・PHPStan level 8・CS 全通過。摩擦 3 件記録（F-1: トランザクション内 DI・F-2: protectedPaths デフォルト競合・F-3: RequestSizeLimit 設定不可）。
 
-## 未解消 FT18 摩擦（要 Issue）
+## FT18 摩擦対応（完了）
 
-- **F-1（高）**: トランザクション内でリポジトリの DI インスタンスを再利用できない → `RepositoryFactory` 抽象またはコネクション共有の検討が必要
-- **F-2（中）**: `RuntimeApplicationFactory` の `machineApiKeyProtectedPaths` デフォルト `['/machine/health']` がプレフィックス保護と競合
-- **F-3（低）**: `RequestSizeLimitMiddleware` 上限が `RuntimeApplicationFactory` で設定不可
+| # | 重要度 | 対応 | PR |
+|---|---|---|---|
+| F-1（高）| トランザクション内 DI 制約 | `docs/howto/use-transactions.md` 新規作成 | #551 |
+| F-2（中）| protectedPaths デフォルト競合 | ApiKeyAuthenticationMiddleware union 評価に変更 | #550 |
+| F-3（低）| RequestSizeLimit 設定不可 | RuntimeApplicationFactory に requestMaxBodyBytes 追加 | #550 |
 
 ## 次のアクション候補
 
-- FT18 摩擦 → 新 Issue 起票（F-1 優先）
+- v1.5.2 リリース（F-2・F-3 修正を含む）
 - 追加フィールドトライアル — 新テーマで品質を継続検証
 - v1.5.x パッチ — セキュリティ修正（Content-Length バイパス・WWW-Authenticate インジェクション・CORS maxAge）のドキュメント整備（ADR 0011 に記録済み）
 
