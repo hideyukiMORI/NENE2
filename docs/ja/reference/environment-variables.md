@@ -31,12 +31,24 @@ NENE2 が認識するすべての環境変数です。
 |---|---|---|---|
 | `DATABASE_URL` | string | *(空 — `DB_*` を使用)* | データベース接続 URL。空でない場合は個別の `DB_*` 変数をすべて上書きします。 |
 | `DB_ADAPTER` | string | `mysql` | データベースドライバー。使用可能な値: `sqlite`, `mysql`。 |
-| `DB_HOST` | string | `127.0.0.1` | データベースホスト名または IP アドレス。 |
-| `DB_PORT` | integer | `3306` | データベースポート番号（1〜65535）。 |
-| `DB_NAME` | string | `nene2` | データベース名。 |
-| `DB_USER` | string | `nene2` | データベースユーザー名。 |
+| `DB_HOST` | string | `127.0.0.1` | データベースホスト名または IP アドレス。**SQLite では使用されません。** |
+| `DB_PORT` | integer | `3306` | データベースポート番号（1〜65535）。**SQLite ではバリデーションされません。** |
+| `DB_NAME` | string | `nene2` | データベース名。SQLite の場合はファイルパス（例: `/tmp/myapp.sqlite`）を設定します。 |
+| `DB_USER` | string | `nene2` | データベースユーザー名。**SQLite では使用されません。** |
 | `DB_PASSWORD` | string | *(空)* | データベースパスワード。 |
-| `DB_CHARSET` | string | `utf8mb4` | データベース文字セット。 |
+| `DB_CHARSET` | string | `utf8mb4` | データベース文字セット。**SQLite では使用されません。** |
+
+
+### SQLite アダプター
+
+`DB_ADAPTER=sqlite` の場合、必要なのは `DB_NAME`（ファイルパス）のみです。`DB_HOST`・`DB_USER`・`DB_CHARSET` はバリデーション対象外であり、設定不要です。
+
+```dotenv
+DB_ADAPTER=sqlite
+DB_NAME=/tmp/myapp.sqlite
+```
+
+テスト用のインメモリ SQLite には `DB_NAME=:memory:` を使用します。
 
 ::: warning シークレットをコミットしない
 パスワード・API キー・JWT シークレットを含む `.env` ファイルはバージョン管理にコミットしないでください。

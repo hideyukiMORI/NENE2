@@ -212,6 +212,53 @@ curl -i -H 'X-NENE2-API-Key: local-dev-key' http://localhost:8080/machine/health
 認証ポリシーは `docs/development/authentication-boundary.md` にあります。
 ローカル保護ルートスモークワークフローは `docs/development/machine-client-smoke.md` にあります。
 
+## クライアントプロジェクト用 Dockerfile のセットアップ
+
+クライアントプロジェクトが `php:8.4-cli` を Docker のベースイメージとして使用する場合、
+Composer と必要な PHP 拡張を手動でインストールする必要があります。
+
+```dockerfile
+FROM php:8.4-cli
+
+RUN apt-get update && apt-get install -y \
+    libsqlite3-dev libonig-dev curl unzip \
+    && docker-php-ext-install pdo pdo_sqlite pdo_mysql \
+    && curl -sS https://getcomposer.org/installer \
+       | php -- --install-dir=/usr/local/bin --filename=composer \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+COPY composer.json composer.lock ./
+RUN composer install --no-dev --optimize-autoloader
+COPY . .
+```
+
+拡張のメモ:
+
+| 拡張 | 必要な場合 |
+|---|---|
+| `pdo` | 常時（PDO ベース） |
+| `pdo_sqlite` | `DB_ADAPTER=sqlite` |
+| `pdo_mysql` | `DB_ADAPTER=mysql` |
+| `libsqlite3-dev` | `pdo_sqlite` のビルド依存関係 |
+| `libonig-dev` | `mbstring` のビルド依存関係 |
+
+## クライアントプロジェクトの品質ツールセットアップ
+
+`.php-cs-fixer.php` に `declare_strict_types` を含める場合、そのフィクサーは `risky` に分類されるため、
+`--allow-risky=yes` フラグが必要です。`composer.json` のスクリプトに追加することで忘れを防げます:
+
+```json
+{
+    "scripts": {
+        "cs":     "php-cs-fixer check --diff --allow-risky=yes",
+        "cs:fix": "php-cs-fixer fix --allow-risky=yes"
+    }
+}
+```
+
+`--allow-risky=yes` を省略すると、スタイル違反がない場合でもコマンドがエラー終了します。
+
 ## データベース動作の検証
 
 デフォルトのデータベースアダプターテストは SQLite を使用し、標準チェックパスで実行されます。

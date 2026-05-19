@@ -58,6 +58,26 @@ interface ProductRepositoryInterface
 
 `GetNoteByIdUseCase` / `GetNoteByIdHandler` と同じパターン。
 
+パスパラメーター（例: `/products/{id}` の `id`）は `Router::PARAMETERS_ATTRIBUTE` リクエスト属性から読み取ります。個別の PSR-7 属性としては**利用できません**。
+
+```php
+use Nene2\Routing\Router;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+
+public function handle(ServerRequestInterface $request): ResponseInterface
+{
+    $params = $request->getAttribute(Router::PARAMETERS_ATTRIBUTE, []);
+    $id     = (int) ($params['id'] ?? 0);
+
+    // $id を検証し、ユースケースを呼び出し、レスポンスを返す …
+}
+```
+
+> **よくある間違い**: `$request->getAttribute('id')` は常に `null` を返します。必ず
+> `$request->getAttribute(Router::PARAMETERS_ATTRIBUTE, [])['id']` を使用してください。
+> 詳細は [カスタムルートを追加する](./add-custom-route.md#パスパラメーターを追加する) を参照してください。
+
 ### 4 — ルート登録クラス
 
 `RuntimeApplicationFactory` にパラメータを追加する代わりに、`__invoke` 可能なクラスを作成します：
@@ -121,6 +141,21 @@ return new RuntimeApplicationFactory(
 ```
 
 `RuntimeApplicationFactory` 自体は変更不要です。
+
+#### プロバイダーが登録したサービスのオーバーライド
+
+`ContainerBuilder::set()` は**後勝ち**です。`addProvider()` の後に `set()` を呼ぶと、
+プロバイダーがそのキーに登録した値が置き換わります。プロバイダー自体を変更せずに
+単一のバインディングを差し替えることができます。
+
+```php
+$builder->addProvider(new RuntimeServiceProvider());
+
+// RuntimeApplicationFactory だけ上書き — 他はプロバイダーの設定がそのまま残る
+$builder->set(RuntimeApplicationFactory::class, static function ($c) {
+    return new RuntimeApplicationFactory(/* カスタム配線 */);
+});
+```
 
 ---
 

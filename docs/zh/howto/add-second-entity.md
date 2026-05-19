@@ -28,6 +28,14 @@ src/Example/YourEntity/
 
 ### 1 — RouteRegistrar
 
+路径参数（如 `/products/{id}` 中的 `id`）在处理器中通过 `Router::PARAMETERS_ATTRIBUTE` 读取，而非独立的 PSR-7 属性：
+
+```php
+$params = $request->getAttribute(Router::PARAMETERS_ATTRIBUTE, []);
+$id     = (int) ($params['id'] ?? 0);
+// $request->getAttribute('id') 总是返回 null。
+```
+
 ```php
 final readonly class ProductRouteRegistrar
 {
@@ -54,6 +62,9 @@ final readonly class ProductRouteRegistrar
 
 ```php
 $builder->addProvider(new ProductServiceProvider());
+
+// set() 在 addProvider() 之后调用时，会覆盖提供者注册的服务（后写优先）。
+// $builder->set(RuntimeApplicationFactory::class, static fn($c) => new RuntimeApplicationFactory(/* ... */));
 
 return new RuntimeApplicationFactory(
     /* ... */,

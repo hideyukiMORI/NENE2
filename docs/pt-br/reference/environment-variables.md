@@ -31,12 +31,24 @@ Defina-as no arquivo `.env` (carregado pelo phpdotenv) ou exporte-as antes de in
 |---|---|---|---|
 | `DATABASE_URL` | string | *(vazio — usa `DB_*`)* | URL completa de conexão. Quando não vazia, substitui todas as variáveis `DB_*`. |
 | `DB_ADAPTER` | string | `mysql` | Driver do banco de dados. Aceito: `sqlite`, `mysql`. |
-| `DB_HOST` | string | `127.0.0.1` | Host do banco de dados. |
-| `DB_PORT` | integer | `3306` | Porta do banco de dados (1–65535). |
-| `DB_NAME` | string | `nene2` | Nome do banco de dados. |
-| `DB_USER` | string | `nene2` | Usuário do banco de dados. |
+| `DB_HOST` | string | `127.0.0.1` | Host do banco de dados. **Não usado pelo SQLite.** |
+| `DB_PORT` | integer | `3306` | Porta do banco de dados (1–65535). **Não validado para SQLite.** |
+| `DB_NAME` | string | `nene2` | Nome do banco de dados. Para SQLite: caminho do arquivo (ex.: `/tmp/myapp.sqlite`). |
+| `DB_USER` | string | `nene2` | Usuário do banco de dados. **Não usado pelo SQLite.** |
 | `DB_PASSWORD` | string | *(vazio)* | Senha do banco de dados. |
-| `DB_CHARSET` | string | `utf8mb4` | Conjunto de caracteres do banco de dados. |
+| `DB_CHARSET` | string | `utf8mb4` | Conjunto de caracteres do banco de dados. **Não usado pelo SQLite.** |
+
+
+### Adaptador SQLite
+
+Com `DB_ADAPTER=sqlite`, apenas `DB_NAME` (o caminho do arquivo) é obrigatório. `DB_HOST`, `DB_USER` e `DB_CHARSET` não são validados e não precisam ser definidos.
+
+```dotenv
+DB_ADAPTER=sqlite
+DB_NAME=/tmp/myapp.sqlite
+```
+
+Para SQLite em memória (útil em testes), use `DB_NAME=:memory:`.
 
 ::: warning Nunca comite segredos
 Não comite arquivos `.env` contendo senhas, chaves de API ou segredos JWT no controle de versão.

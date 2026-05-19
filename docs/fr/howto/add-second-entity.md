@@ -28,6 +28,14 @@ Seul `RuntimeServiceProvider` reçoit le nouveau registrar et le gestionnaire d'
 
 ### 1 — RouteRegistrar
 
+Les paramètres de chemin (ex. `id` dans `/products/{id}`) sont lus dans les handlers via `Router::PARAMETERS_ATTRIBUTE`, pas comme attributs PSR-7 individuels :
+
+```php
+$params = $request->getAttribute(Router::PARAMETERS_ATTRIBUTE, []);
+$id     = (int) ($params['id'] ?? 0);
+// $request->getAttribute('id') retourne toujours null.
+```
+
 ```php
 final readonly class ProductRouteRegistrar
 {
@@ -54,6 +62,9 @@ Enregistrez le registrar sous la clé `nene2.route_registrar.product` dans `regi
 
 ```php
 $builder->addProvider(new ProductServiceProvider());
+
+// set() après addProvider() remplace un seul service (dernier écrit gagne).
+// $builder->set(RuntimeApplicationFactory::class, static fn($c) => new RuntimeApplicationFactory(/* ... */));
 
 return new RuntimeApplicationFactory(
     /* ... */,

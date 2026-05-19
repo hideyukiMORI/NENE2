@@ -242,6 +242,61 @@ Each resource gets its own directory. Keep the handler thin and the use case foc
 
 ---
 
+## Throw a validation error from a handler
+
+When a handler needs to reject a request because a field value is out of range or violates a
+business rule, throw `ValidationException`. `ErrorHandlerMiddleware` maps it to a
+`422 validation-failed` Problem Details response automatically.
+
+```php
+use Nene2\Validation\ValidationError;
+use Nene2\Validation\ValidationException;
+
+// Inside a handler method, after reading the request body:
+if ($price <= 0) {
+    throw new ValidationException([
+        new ValidationError(
+            field:   'price',
+            message: 'Price must be greater than zero.',
+            code:    'out_of_range',
+        ),
+    ]);
+}
+```
+
+`ValidationError` requires three non-empty strings:
+
+| Parameter | Purpose |
+|---|---|
+| `field` | The request field that failed (matches the key in the request body or path) |
+| `message` | Human-readable description of the failure |
+| `code` | Machine-readable error code (use snake_case, e.g. `required`, `out_of_range`, `too_long`) |
+
+Multiple errors can be reported in one throw:
+
+```php
+throw new ValidationException([
+    new ValidationError('name',  'Name must not be empty.',           'required'),
+    new ValidationError('price', 'Price must be greater than zero.',  'out_of_range'),
+]);
+```
+
+The resulting response body:
+
+```json
+{
+    "type":   "https://nene2.dev/problems/validation-failed",
+    "title":  "Validation Failed",
+    "status": 422,
+    "errors": [
+        { "field": "name",  "message": "Name must not be empty.",          "code": "required" },
+        { "field": "price", "message": "Price must be greater than zero.", "code": "out_of_range" }
+    ]
+}
+```
+
+---
+
 ## Next steps
 
 - Add OpenAPI documentation for your endpoint: see `docs/development/endpoint-scaffold.md`

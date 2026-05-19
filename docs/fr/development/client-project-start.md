@@ -164,6 +164,41 @@ curl -i -H 'X-NENE2-API-Key: local-dev-key' http://localhost:8080/machine/health
 
 Ne commitez pas les vraies clés API, secrets générés ou fichiers `.env` locaux.
 
+## Configurer un Dockerfile pour le projet client
+
+Si le projet client utilise `php:8.4-cli` comme image Docker de base, il faut installer
+manuellement Composer et les extensions PHP nécessaires.
+
+```dockerfile
+FROM php:8.4-cli
+
+RUN apt-get update && apt-get install -y \
+    libsqlite3-dev libonig-dev curl unzip \
+    && docker-php-ext-install pdo pdo_sqlite pdo_mysql \
+    && curl -sS https://getcomposer.org/installer \
+       | php -- --install-dir=/usr/local/bin --filename=composer \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+COPY composer.json composer.lock ./
+RUN composer install --no-dev --optimize-autoloader
+COPY . .
+```
+
+## Configurer les outils de qualité
+
+Avec `declare_strict_types` dans `.php-cs-fixer.php`, le fixer est classé comme `risky` et
+nécessite `--allow-risky=yes`. Ajoutez-le aux scripts `composer.json` :
+
+```json
+{
+    "scripts": {
+        "cs":     "php-cs-fixer check --diff --allow-risky=yes",
+        "cs:fix": "php-cs-fixer fix --allow-risky=yes"
+    }
+}
+```
+
 ## Vérifier le comportement de base de données
 
 ```bash

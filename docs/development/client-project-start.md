@@ -212,6 +212,59 @@ Do not commit real API keys, generated secrets, or local `.env` files.
 Authentication policy lives in `docs/development/authentication-boundary.md`.
 The local protected route smoke workflow lives in `docs/development/machine-client-smoke.md`.
 
+## Set Up a Dockerfile for the Client Project
+
+If the client project runs in Docker using `php:8.4-cli` as the base image, you will need to
+install Composer and the required PHP extensions manually, as they are not included in the
+`-cli` image.
+
+```dockerfile
+FROM php:8.4-cli
+
+RUN apt-get update && apt-get install -y \
+    libsqlite3-dev libonig-dev curl unzip \
+    && docker-php-ext-install pdo pdo_sqlite pdo_mysql \
+    && curl -sS https://getcomposer.org/installer \
+       | php -- --install-dir=/usr/local/bin --filename=composer \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+COPY composer.json composer.lock ./
+RUN composer install --no-dev --optimize-autoloader
+COPY . .
+```
+
+Extension notes:
+
+| Extension | Required when |
+|---|---|
+| `pdo` | Always (PDO base) |
+| `pdo_sqlite` | `DB_ADAPTER=sqlite` |
+| `pdo_mysql` | `DB_ADAPTER=mysql` |
+| `libsqlite3-dev` | Build dependency for `pdo_sqlite` |
+| `libonig-dev` | Build dependency for `mbstring` (used by some NENE2 deps) |
+
+For a full Docker Compose setup with a MySQL service, see `compose.yaml` in the NENE2
+repository as a reference.
+
+## Set Up Quality Tools in the Client Project
+
+When setting up PHP-CS-Fixer with `declare_strict_types` in `.php-cs-fixer.php`, the fixer is
+classified as `risky` and requires the `--allow-risky=yes` flag. Add it to your `composer.json`
+scripts to avoid forgetting it:
+
+```json
+{
+    "scripts": {
+        "cs":     "php-cs-fixer check --diff --allow-risky=yes",
+        "cs:fix": "php-cs-fixer fix --allow-risky=yes"
+    }
+}
+```
+
+Without `--allow-risky=yes`, the check command exits with an error even when there are no
+actual style violations.
+
 ## Verify Database Behavior
 
 Default database adapter tests use SQLite and run through the standard check path.

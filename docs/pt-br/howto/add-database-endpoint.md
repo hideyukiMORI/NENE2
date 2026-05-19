@@ -242,6 +242,31 @@ Cada recurso tem seu próprio diretório. Mantenha o handler fino e o use case f
 
 ---
 
+## Lançar um erro de validação a partir de um handler
+
+Quando um handler precisa rejeitar uma requisição porque um valor de campo está fora do intervalo ou
+viola uma regra de negócio, lance `ValidationException`. O `ErrorHandlerMiddleware` a converte
+automaticamente em uma resposta `422 validation-failed` Problem Details.
+
+```php
+use Nene2\Validation\ValidationError;
+use Nene2\Validation\ValidationException;
+
+if ($price <= 0) {
+    throw new ValidationException([
+        new ValidationError(
+            field:   'price',
+            message: 'Price must be greater than zero.',
+            code:    'out_of_range',
+        ),
+    ]);
+}
+```
+
+`ValidationError` requer três strings não vazias: `field` (campo), `message` (descrição), `code` (código legível por máquina, ex.: `required`, `out_of_range`).
+
+---
+
 ## Próximos passos
 
 - Adicionar documentação OpenAPI para seu endpoint: veja `docs/development/endpoint-scaffold.md`
