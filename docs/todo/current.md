@@ -17,19 +17,11 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 - **#417 #418**: FrameworkInfo::VERSION 定数追加・LocalMcpServer バージョン修正・安定 API 全クラス PHPDoc 追加 (#419)
 - **Phase 58 / Field Trial 10** (#404): hoplog（クラフトビールテイスティングノート API）を `composer require hideyukimori/nene2:^1.4` から 0 構築。3ドメイン・15ルート・PHPStan level 8・全テスト通過。摩擦 9 件記録、フォローアップ Issue #423–#429 作成。PR #422 マージ済み。
 
-## Next: Phase 60 — FT10 Follow-up Docs & Fixes（高・中優先度）
+## Recently Completed (continued)
 
-ドキュメント追記とバグ修正のみで解消できる摩擦を対応する。
+- **Phase 60** (#423–#425, #427–#428): FT10 フォローアップ Docs & Fixes — SQLite バリデーション修正 + ドキュメント追記 6 言語（PR #430 マージ済み）
 
-| Issue | 内容 | 深刻度 |
-|---|---|---|
-| #423 | `Router::PARAMETERS_ATTRIBUTE` をハンドラリファレンスに追記 | 高 |
-| #424 | SQLite 環境変数ドキュメント追記 | 高 |
-| #425 | SQLite アダプター時のダミーフィールドバリデーション免除 | 高 |
-| #427 | ContainerBuilder 後勝ちルール・ValidationException 例・--allow-risky=yes 追記 | 中/低 |
-| #428 | php:8.4-cli 推奨 Dockerfile How-to 追加 | 中 |
-
-## After Phase 60: Phase 61 — FT10 Follow-up Feature Improvements
+## Next: Phase 61 — FT10 Follow-up Feature Improvements
 
 | Issue | 内容 | 深刻度 |
 |---|---|---|

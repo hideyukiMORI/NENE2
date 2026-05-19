@@ -33,17 +33,17 @@ Key deliverables:
 Scope narrowed from original: MCP tool calls and OpenAPI path additions were not included
 in the hoplog build (hoplog focuses on core CRUD + test coverage).
 
-### Phase 60 — FT10 Follow-up: High/Medium Priority Docs & Fixes
+### Phase 60 — FT10 Follow-up: High/Medium Priority Docs & Fixes ✅
 
-Address the highest-impact findings from Field Trial 10.
+Address the highest-impact findings from Field Trial 10. (PR #430 merged)
 
 Key deliverables:
 
-- [ ] #423: `Router::PARAMETERS_ATTRIBUTE` をハンドラリファレンスに追記（F-2）
-- [ ] #424: SQLite 環境変数ドキュメント追記（F-4 docs）
-- [ ] #425: SQLite アダプター時のダミーフィールドバリデーション免除（F-4 design）
-- [ ] #427: ContainerBuilder 後勝ちルール・ValidationException 例・--allow-risky=yes 追記（F-1, F-7, F-9）
-- [ ] #428: 推奨 Dockerfile How-to 追加（F-3）
+- [x] #423: `Router::PARAMETERS_ATTRIBUTE` をハンドラリファレンスに追記（F-2）
+- [x] #424: SQLite 環境変数ドキュメント追記（F-4 docs）
+- [x] #425: SQLite アダプター時のダミーフィールドバリデーション免除（F-4 design）
+- [x] #427: ContainerBuilder 後勝ちルール・ValidationException 例・--allow-risky=yes 追記（F-1, F-7, F-9）
+- [x] #428: 推奨 Dockerfile How-to 追加（F-3）
 
 ### Phase 61 — FT10 Follow-up: Feature Improvements
 
