@@ -8,8 +8,21 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+---
+
+## [1.4.1] — 2026-05-19
+
 ### Added
 - `FrameworkInfo::VERSION` — public string constant exposing the current framework version (`Nene2\FrameworkInfo`) (#417)
+- `BearerTokenMiddleware::$excludedPaths` — blocklist parameter to skip authentication on specific paths (e.g. `/auth/register`, `/auth/login`); complements the existing `$protectedPaths` allowlist (#440)
+- `TokenIssuerInterface` — public stable interface for JWT issuance (`Nene2\Auth`); `LocalBearerTokenVerifier` now implements it (#442)
+- `add-jwt-authentication` how-to guide in 6 languages (#449)
+
+### Changed
+- `RuntimeApplicationFactory` — `$bearerTokenMiddleware: ?BearerTokenMiddleware` parameter renamed to `$authMiddleware: ?MiddlewareInterface`; accepts any PSR-15 middleware, not only `BearerTokenMiddleware` (#441)
+
+### Fixed
+- `add-jwt-authentication.md` — corrected `DomainExceptionHandlerInterface` method name (`handles` → `supports`), `handle()` signature (2 params, not 3), request body parsing (`JsonRequestBodyParser::parse()` instead of `getParsedBody()`), and handler return type note (FT12-A findings F-3/F-4/F-5)
 
 ---
 

@@ -183,9 +183,8 @@ declare(strict_types=1);
 
 namespace MyApp\Auth;
 
+use Nene2\Http\JsonRequestBodyParser;
 use Nene2\Routing\Router;
-use Nene2\Validation\ValidationError;
-use Nene2\Validation\ValidationException;
 use Psr\Http\Message\ServerRequestInterface;
 
 final class AuthRouteRegistrar
@@ -203,7 +202,7 @@ final class AuthRouteRegistrar
 
     private function handleRegister(ServerRequestInterface $request): mixed
     {
-        $body     = (array) $request->getParsedBody();
+        $body     = JsonRequestBodyParser::parse($request);
         $email    = is_string($body['email'] ?? null)    ? $body['email']    : '';
         $password = is_string($body['password'] ?? null) ? $body['password'] : '';
 
@@ -212,7 +211,7 @@ final class AuthRouteRegistrar
 
     private function handleLogin(ServerRequestInterface $request): mixed
     {
-        $body     = (array) $request->getParsedBody();
+        $body     = JsonRequestBodyParser::parse($request);
         $email    = is_string($body['email'] ?? null)    ? $body['email']    : '';
         $password = is_string($body['password'] ?? null) ? $body['password'] : '';
 
@@ -221,7 +220,7 @@ final class AuthRouteRegistrar
 }
 ```
 
-> The router handler can return an array — NENE2 serialises it to JSON automatically.
+> Handlers must return a `ResponseInterface`. Use `JsonResponseFactory::create($data)` to build a JSON response.
 
 ---
 
@@ -322,17 +321,16 @@ use Psr\Http\Message\ServerRequestInterface;
 
 final class AccessDeniedExceptionHandler implements DomainExceptionHandlerInterface
 {
-    public function handles(\Throwable $e): bool
+    public function __construct(private readonly ProblemDetailsResponseFactory $problemDetails) {}
+
+    public function supports(\Throwable $exception): bool
     {
-        return $e instanceof AccessDeniedException;
+        return $exception instanceof AccessDeniedException;
     }
 
-    public function handle(
-        \Throwable $e,
-        ServerRequestInterface $request,
-        ProblemDetailsResponseFactory $problemDetails,
-    ): ResponseInterface {
-        return $problemDetails->create($request, 'forbidden', 'Forbidden', 403, 'Access denied.');
+    public function handle(\Throwable $exception, ServerRequestInterface $request): ResponseInterface
+    {
+        return $this->problemDetails->create($request, 'forbidden', 'Forbidden', 403, 'Access denied.');
     }
 }
 ```
@@ -343,7 +341,7 @@ Pass it to `RuntimeApplicationFactory`:
 $app = (new RuntimeApplicationFactory(
     $psr17,
     $psr17,
-    domainExceptionHandlers: [new AccessDeniedExceptionHandler()],
+    domainExceptionHandlers: [new AccessDeniedExceptionHandler($problemDetails)],
     authMiddleware:          $authMiddleware,
     routeRegistrars:         [$authRegistrar, $taskRegistrar],
 ))->create();

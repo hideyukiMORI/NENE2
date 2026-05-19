@@ -201,7 +201,7 @@ final class AuthRouteRegistrar
 
     private function handleRegister(ServerRequestInterface $request): mixed
     {
-        $body     = (array) $request->getParsedBody();
+        $body     = JsonRequestBodyParser::parse($request);
         $email    = is_string($body['email'] ?? null)    ? $body['email']    : '';
         $password = is_string($body['password'] ?? null) ? $body['password'] : '';
 
@@ -210,7 +210,7 @@ final class AuthRouteRegistrar
 
     private function handleLogin(ServerRequestInterface $request): mixed
     {
-        $body     = (array) $request->getParsedBody();
+        $body     = JsonRequestBodyParser::parse($request);
         $email    = is_string($body['email'] ?? null)    ? $body['email']    : '';
         $password = is_string($body['password'] ?? null) ? $body['password'] : '';
 
@@ -318,7 +318,7 @@ use Psr\Http\Message\ServerRequestInterface;
 
 final class AccessDeniedExceptionHandler implements DomainExceptionHandlerInterface
 {
-    public function handles(\Throwable $e): bool
+    public function supports(\Throwable $exception): bool
     {
         return $e instanceof AccessDeniedException;
     }
