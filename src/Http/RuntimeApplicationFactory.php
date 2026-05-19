@@ -47,6 +47,9 @@ final readonly class RuntimeApplicationFactory
      *                                              {@see \Nene2\Auth\BearerTokenMiddleware} or a custom
      *                                              implementation that uses prefix matching.
      * @param list<HealthCheckInterface> $healthChecks
+     * @param list<string> $allowedOrigins CORS-allowed origins (e.g. `['https://app.example.com']`).
+     *                                     An empty list (the default) silently disables all CORS headers.
+     *                                     Always set this explicitly in production.
      * @param bool $debug When true, unhandled exception messages are exposed in 500 `detail`.
      *                    Never set to true in production.
      */
@@ -62,6 +65,7 @@ final readonly class RuntimeApplicationFactory
         private array $healthChecks = [],
         private ?ThrottleMiddleware $throttleMiddleware = null,
         private bool $debug = false,
+        private array $allowedOrigins = [],
     ) {
     }
 
@@ -159,8 +163,8 @@ final readonly class RuntimeApplicationFactory
             new RequestIdMiddleware('X-Request-Id', $this->requestIdHolder),
             new RequestLoggingMiddleware($logger),
             new SecurityHeadersMiddleware(),
-            new CorsMiddleware($this->responseFactory),
-            new ErrorHandlerMiddleware($problemDetails, $this->domainExceptionHandlers, $this->debug),
+            new CorsMiddleware($this->responseFactory, $this->allowedOrigins),
+            new ErrorHandlerMiddleware($problemDetails, $this->domainExceptionHandlers, $this->debug, $logger),
             new RequestSizeLimitMiddleware($problemDetails),
             new ApiKeyAuthenticationMiddleware($problemDetails, $this->machineApiKey, ['/machine/health']),
         ];

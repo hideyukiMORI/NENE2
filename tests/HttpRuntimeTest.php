@@ -28,6 +28,7 @@ final class HttpRuntimeTest extends TestCase
         self::assertSame('application/json; charset=utf-8', $response->getHeaderLine('Content-Type'));
         self::assertMatchesRegularExpression('/\A[a-f0-9]{32}\z/', $response->getHeaderLine('X-Request-Id'));
         self::assertSame('nosniff', $response->getHeaderLine('X-Content-Type-Options'));
+        self::assertSame("default-src 'self'", $response->getHeaderLine('Content-Security-Policy'));
         self::assertSame('NENE2', $payload['name']);
         self::assertSame('ok', $payload['status']);
     }
