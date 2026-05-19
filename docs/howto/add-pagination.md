@@ -77,9 +77,72 @@ No additional error handling is needed in the handler.
 `int`, validates them, and returns a `PaginationQuery` DTO. Non-numeric values are coerced to `0`
 (PHP's `(int)` casting behaviour) and then caught by the `limit < 1` check.
 
+## Step 4 — Use `PaginationResponse` to standardise the envelope
+
+`PaginationResponse` is a readonly DTO that builds the standard list envelope. Use it instead of
+constructing the array manually:
+
+```php
+use Nene2\Http\PaginationResponse;
+
+return $this->response->create(
+    (new PaginationResponse(
+        items:  array_map(fn ($item) => ['id' => $item->id, 'name' => $item->name], $output->items),
+        limit:  $output->limit,
+        offset: $output->offset,
+    ))->toArray(),
+);
+```
+
+`toArray()` returns `['items' => ..., 'limit' => ..., 'offset' => ...]`.
+
+## Step 5 — Include the total record count (optional)
+
+Pass `total` to `PaginationResponse` when the repository supports a count query. Clients use
+this to determine the last page without an extra request.
+
+```php
+// In the repository:
+public function countAll(): int
+{
+    $rows = $this->query->select('SELECT COUNT(*) AS n FROM widgets', []);
+    return (int) ($rows[0]['n'] ?? 0);
+}
+
+// In the handler:
+$total = $this->repository->countAll();
+
+return $this->response->create(
+    (new PaginationResponse(
+        items:  /* ... */,
+        limit:  $output->limit,
+        offset: $output->offset,
+        total:  $total,
+    ))->toArray(),
+);
+```
+
+The resulting response:
+
+```json
+{
+    "items":  [ /* ... */ ],
+    "limit":  20,
+    "offset": 0,
+    "total":  42
+}
+```
+
+When `total` is `null` (the default), the key is omitted from the response.
+
+> **Trade-off**: `COUNT(*)` adds one extra query per request. Omit `total` when the collection
+> is large and the overhead is unacceptable, and instruct clients to detect the last page by
+> checking `items.length < limit`.
+
 ## See also
 
-- `src/Example/Note/ListNotesHandler.php` — reference implementation using the parser
+- `src/Example/Note/ListNotesHandler.php` — reference implementation using `PaginationResponse`
 - `src/Example/Tag/ListTagsHandler.php` — second example
-- `Nene2\Http\PaginationQuery` — readonly DTO
+- `Nene2\Http\PaginationQuery` — readonly DTO for parsed parameters
 - `Nene2\Http\PaginationQueryParser` — the parser class
+- `Nene2\Http\PaginationResponse` — the list-envelope DTO

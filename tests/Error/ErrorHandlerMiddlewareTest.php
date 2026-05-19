@@ -168,6 +168,48 @@ final class ErrorHandlerMiddlewareTest extends TestCase
         self::assertSame('Internal Server Error', $payload['title']);
     }
 
+    public function testDebugModeExposesExceptionMessageInDetail(): void
+    {
+        $middleware = new ErrorHandlerMiddleware($this->problemDetails, [], debug: true);
+        $request = $this->factory->createServerRequest('GET', 'https://example.test/crash');
+
+        $response = $middleware->process(
+            $request,
+            new class () implements RequestHandlerInterface {
+                public function handle(ServerRequestInterface $request): ResponseInterface
+                {
+                    throw new RuntimeException('database connection refused');
+                }
+            },
+        );
+
+        $payload = json_decode((string) $response->getBody(), true, 512, JSON_THROW_ON_ERROR);
+
+        self::assertSame(500, $response->getStatusCode());
+        self::assertSame('database connection refused', $payload['detail']);
+    }
+
+    public function testNonDebugModeHidesExceptionMessage(): void
+    {
+        $middleware = new ErrorHandlerMiddleware($this->problemDetails, [], debug: false);
+        $request = $this->factory->createServerRequest('GET', 'https://example.test/crash');
+
+        $response = $middleware->process(
+            $request,
+            new class () implements RequestHandlerInterface {
+                public function handle(ServerRequestInterface $request): ResponseInterface
+                {
+                    throw new RuntimeException('database connection refused');
+                }
+            },
+        );
+
+        $payload = json_decode((string) $response->getBody(), true, 512, JSON_THROW_ON_ERROR);
+
+        self::assertSame(500, $response->getStatusCode());
+        self::assertSame('The server encountered an unexpected condition.', $payload['detail']);
+    }
+
     public function testSuccessPassthroughIsUnmodified(): void
     {
         $middleware = new ErrorHandlerMiddleware($this->problemDetails);

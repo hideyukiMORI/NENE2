@@ -75,7 +75,41 @@ Im Handler ist keine zusätzliche Fehlerbehandlung erforderlich.
 
 ## Siehe auch
 
-- `src/Example/Note/ListNotesHandler.php` — Referenzimplementierung mit dem Parser
+## Schritt 4 — `PaginationResponse` zur Standardisierung des Envelopes verwenden
+
+`PaginationResponse` ist ein readonly DTO, das den Standard-Listenantwort-Envelope aufbaut:
+
+```php
+use Nene2\Http\PaginationResponse;
+
+return $this->response->create(
+    (new PaginationResponse(
+        items:  array_map(fn ($item) => ['id' => $item->id, 'name' => $item->name], $output->items),
+        limit:  $output->limit,
+        offset: $output->offset,
+    ))->toArray(),
+);
+```
+
+## Schritt 5 — Gesamtanzahl einschließen (optional)
+
+Übergeben Sie `total`, wenn das Repository eine Zählabfrage unterstützt:
+
+```php
+$total = $this->repository->countAll(); // SELECT COUNT(*) AS n FROM ...
+
+return $this->response->create(
+    (new PaginationResponse(items: /* ... */, limit: $output->limit, offset: $output->offset, total: $total))->toArray(),
+);
+```
+
+Wenn `total` `null` ist, wird der Schlüssel weggelassen.
+
+> **Abwägung**: `COUNT(*)` kostet eine zusätzliche Abfrage pro Request. Lassen Sie `total` weg,
+> wenn der Overhead nicht akzeptabel ist.
+
+- `src/Example/Note/ListNotesHandler.php` — Referenzimplementierung mit `PaginationResponse`
 - `src/Example/Tag/ListTagsHandler.php` — zweites Beispiel
 - `Nene2\Http\PaginationQuery` — readonly DTO
 - `Nene2\Http\PaginationQueryParser` — die Parser-Klasse
+- `Nene2\Http\PaginationResponse` — das Listen-Envelope-DTO

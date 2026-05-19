@@ -72,9 +72,43 @@ $pagination = PaginationQueryParser::parse($request, defaultLimit: 10, maxLimit:
 
 `PaginationQueryParser::parse()` 读取 PSR-7 请求的 `getQueryParams()`，将值转换为 `int`，进行验证后返回 `PaginationQuery` DTO。非数字值会被转换为 `0`（PHP 的 `(int)` 转换行为），然后被 `limit < 1` 检查捕获。
 
+## 第 4 步 — 使用 `PaginationResponse` 标准化响应结构
+
+`PaginationResponse` 是一个 readonly DTO，用于构建标准的列表响应结构：
+
+```php
+use Nene2\Http\PaginationResponse;
+
+return $this->response->create(
+    (new PaginationResponse(
+        items:  array_map(fn ($item) => ['id' => $item->id, 'name' => $item->name], $output->items),
+        limit:  $output->limit,
+        offset: $output->offset,
+    ))->toArray(),
+);
+```
+
+## 第 5 步 — 包含总记录数（可选）
+
+当仓储支持计数查询时传入 `total`：
+
+```php
+$total = $this->repository->countAll(); // SELECT COUNT(*) AS n FROM ...
+
+return $this->response->create(
+    (new PaginationResponse(items: /* ... */, limit: $output->limit, offset: $output->offset, total: $total))->toArray(),
+);
+```
+
+当 `total` 为 `null`（默认）时，响应中不包含该键。
+
+> **权衡**：`COUNT(*)` 每次请求增加一个查询。若开销不可接受，可省略 `total`，
+> 让客户端通过 `items.length < limit` 判断是否为最后一页。
+
 ## 另请参阅
 
-- `src/Example/Note/ListNotesHandler.php` — 使用解析器的参考实现
+- `src/Example/Note/ListNotesHandler.php` — 使用 `PaginationResponse` 的参考实现
 - `src/Example/Tag/ListTagsHandler.php` — 第二个示例
-- `Nene2\Http\PaginationQuery` — readonly DTO
+- `Nene2\Http\PaginationQuery` — 解析后参数的 readonly DTO
 - `Nene2\Http\PaginationQueryParser` — 解析器类
+- `Nene2\Http\PaginationResponse` — 列表结构 DTO
