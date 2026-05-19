@@ -209,7 +209,7 @@ final readonly class LocalMcpServer
                 throw new LocalMcpException(sprintf('Required path parameter "%s" was not provided.', $param));
             }
 
-            $path = str_replace('{' . $param . '}', (string) $arguments[$param], $path);
+            $path = str_replace('{' . $param . '}', rawurlencode((string) $arguments[$param]), $path);
             unset($remaining[$param]);
         }
 

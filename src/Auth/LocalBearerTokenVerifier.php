@@ -49,6 +49,10 @@ final readonly class LocalBearerTokenVerifier implements TokenVerifierInterface,
 
         $claims = $this->decodeJsonSegment($payloadB64);
 
+        if (isset($claims['nbf']) && is_int($claims['nbf']) && $claims['nbf'] > time()) {
+            throw new TokenVerificationException('Token is not yet valid.');
+        }
+
         if (isset($claims['exp']) && is_int($claims['exp']) && $claims['exp'] < time()) {
             throw new TokenVerificationException('Token has expired.');
         }

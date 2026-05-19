@@ -74,4 +74,34 @@ final class LocalBearerTokenVerifierTest extends TestCase
         $this->expectException(TokenVerificationException::class);
         $verifier->verify($token);
     }
+
+    public function testVerifyRejectsTokenNotYetValid(): void
+    {
+        $verifier = new LocalBearerTokenVerifier(self::SECRET);
+        $token = $verifier->issue(['sub' => 'user-1', 'nbf' => time() + 600]);
+
+        $this->expectException(TokenVerificationException::class);
+        $this->expectExceptionMessage('not yet valid');
+        $verifier->verify($token);
+    }
+
+    public function testVerifyAcceptsTokenWithPastNbf(): void
+    {
+        $verifier = new LocalBearerTokenVerifier(self::SECRET);
+        $token = $verifier->issue(['sub' => 'user-1', 'nbf' => time() - 60]);
+
+        $claims = $verifier->verify($token);
+
+        self::assertSame('user-1', $claims['sub']);
+    }
+
+    public function testVerifyIgnoresNonIntegerNbf(): void
+    {
+        $verifier = new LocalBearerTokenVerifier(self::SECRET);
+        $token = $verifier->issue(['sub' => 'user-1', 'nbf' => 'not-an-int']);
+
+        $claims = $verifier->verify($token);
+
+        self::assertSame('user-1', $claims['sub']);
+    }
 }
