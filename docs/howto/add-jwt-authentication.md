@@ -265,6 +265,30 @@ $app = (new RuntimeApplicationFactory(
 ))->create();
 ```
 
+### Path-scoping options
+
+`BearerTokenMiddleware` supports three mutually exclusive path-scoping strategies.
+Choose the one that matches your access model:
+
+| Strategy | Parameter | Use when |
+|---|---|---|
+| Blocklist (most common) | `$excludedPaths` | All routes require auth **except** a short list of public ones |
+| Allowlist | `$protectedPaths` | Only a fixed, known set of routes require auth |
+| Prefix allowlist | `$protectedPathPrefixes` | A whole path subtree requires auth (e.g. `/me/`, `/admin/`) |
+
+**Prefix allowlist example** — protect every path under `/me/` without listing each one:
+
+```php
+$authMiddleware = new BearerTokenMiddleware(
+    problemDetails:         $problems,
+    verifier:               $verifier,
+    protectedPathPrefixes:  ['/me/'],
+);
+```
+
+A request to `/me/favorites/42` matches the prefix and requires a valid Bearer token.
+A request to `/products/1` does not match and passes through without authentication.
+
 ---
 
 ## Step 5 — Read claims in a protected handler

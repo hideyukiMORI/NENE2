@@ -32,7 +32,9 @@ The foundation currently includes:
 - Typed app and database configuration through `.env` loading boundaries.
 - PSR-11 dependency injection with explicit runtime service wiring.
 - PDO connection, query executor, transaction manager, SQLite tests, and opt-in MySQL verification through Docker Compose.
-- API-key middleware for the first protected machine-client path.
+- Bearer JWT middleware with allowlist, blocklist, and prefix path options; `CompositeAuthMiddleware` for three-tier access models (public / Bearer / API key).
+- API-key middleware with path and method filters for machine-client endpoints.
+- Server-rendered HTML via `NativePhpViewRenderer` and `HtmlResponseFactory` — thin HTML coexists with JSON API routes.
 - Local MCP server support for read/write tools aligned with OpenAPI, with an authentication guard on write operations.
 - React + TypeScript + Vite starter kept optional and decoupled from backend runtime behavior.
 
@@ -183,6 +185,21 @@ composer test:database:mysql
 See `docs/development/php-runtime.md` and `docs/development/docker.md` for runtime and tooling details.
 
 NENE2's quality baseline includes PHP-CS-Fixer for backend style checks and npm, ESLint, TypeScript, and Prettier for the React frontend starter. The frontend starter targets active Node.js LTS, commits `package-lock.json`, and keeps dependencies modern through update automation. Framework public APIs should use PHPDoc or TSDoc where comments explain contracts or extension rules. See `docs/development/quality-tools.md`, `docs/development/frontend-integration.md`, and `docs/development/documentation-comments.md`.
+
+## How-to guides
+
+Step-by-step recipes for common tasks:
+
+- [Add a custom route](docs/howto/add-custom-route.md)
+- [Add a database-backed endpoint](docs/howto/add-database-endpoint.md)
+- [Add a second entity](docs/howto/add-second-entity.md)
+- [Add pagination](docs/howto/add-pagination.md)
+- [Add JWT authentication](docs/howto/add-jwt-authentication.md)
+- [Add rate limiting](docs/howto/add-rate-limiting.md)
+- [Add a health check](docs/howto/add-health-check.md)
+- [Add an HTML view](docs/howto/add-html-view.md)
+- [Add MCP tools](docs/howto/add-mcp-tools.md)
+- [Deploy to production](docs/howto/deploy-production.md)
 
 ## Delivery Starter Docs
 
