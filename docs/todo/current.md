@@ -41,18 +41,17 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 - **Phase 65 / Field Trial 12-A** (#453): tagmark（ブックマーク + タグ M:N API）を `composer require hideyukimori/nene2:^1.4.1` から 0 構築。3ドメイン・13エンドポイント・PHPUnit 19/19・PHPStan level 8・PHP-CS-Fixer 全通過。摩擦 7 件記録（F-1〜F-7）、F-1/F-2/F-7 は v1.4.1 で解消済み、F-3/F-4/F-5 は howto 修正済み、F-6 は Issue #457 として起票。
 - **v1.4.1**: FT11 フォローアップ修正（excludedPaths・MiddlewareInterface・TokenIssuerInterface）＋ FT12-A 発見の howto 誤り（F-3/F-4/F-5）修正。タグ・GitHub Release 作成済み。
+- **Phase 66 / Field Trial 12-B** (#454): knowledgelog（ナレッジベース API — Article / Category）を `composer require hideyukimori/nene2:^1.4.1` から 0 構築。8 エンドポイント・MCP 7 ツール・PHPUnit 10/10・PHPStan level 8・PHP-CS-Fixer 全通過。摩擦 5 件記録（F-1〜F-5）、F-2/F-3（高）は PR #464 で解消済み（--root オプション + suggest 追加）、F-1/F-4/F-5 は Issue #459–#463 として起票。
 
-## Next: Phase 66 — Field Trial 12-B（knowledgelog）
+## Next: Phase 67 — Field Trial 12-C（shoplog）
 
-**仮説**: MCP ツールを主インターフェースとして設計した場合、`docs/mcp/tools.json` の記述から MCP サーバー起動までを Claude が迷わず実装できるか。
+**仮説**: API キー認証（管理者）・JWT Bearer 認証（ユーザー）・認証なし（公開）の 3 層が共存するアプリを、NENE2 のドキュメントだけを参照した Claude が迷わず実装できるか。
 
-**テーマ**: MCP Ergonomics — MCP が主役、HTTP は補助という設計の摩擦を記録する。
+**テーマ**: Multi-Auth Ergonomics — 複数の認証方式が共存する設計の摩擦を記録する。
 
-**アプリ**: knowledgelog（ナレッジベース API — Article / Category）— 7 エンドポイント、MCP read/write ツール付き
+**アプリ**: shoplog（商品カタログ API — Product / Category / お気に入り）— 12 エンドポイント
 
-Issue: #454 / マイルストーン: `docs/milestones/2026-05-field-trial-12b.md`
-
-その後: FT12-C (#455 shoplog) の順で実施。
+Issue: #455 / マイルストーン: `docs/milestones/2026-05-field-trial-12c.md`
 
 ---
 
