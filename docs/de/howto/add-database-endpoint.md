@@ -267,6 +267,57 @@ if ($price <= 0) {
 
 ---
 
+## SQLite-Datenbank initialisieren
+
+Bei `DB_ADAPTER=sqlite` wird die `.db`-Datei automatisch erstellt, aber das Schema muss
+manuell eingespielt werden. Zwei gängige Muster:
+
+### Muster A — `composer db:init`-Skript (empfohlen)
+
+`database/schema.sql` erstellen:
+
+```sql
+CREATE TABLE IF NOT EXISTS products (
+    id    INTEGER PRIMARY KEY AUTOINCREMENT,
+    name  TEXT    NOT NULL,
+    price INTEGER NOT NULL
+);
+```
+
+Skript in `composer.json` eintragen:
+
+```json
+{
+    "scripts": {
+        "db:init": "php -r \"$pdo = new PDO('sqlite:' . getenv('DB_NAME')); $pdo->exec(file_get_contents('database/schema.sql')); echo 'Schema applied.' . PHP_EOL;\""
+    }
+}
+```
+
+Einmalig vor dem Serverstart ausführen:
+
+```bash
+DB_NAME=./myapp.db composer db:init
+```
+
+### Muster B — Auto-Initialisierung im Front-Controller
+
+Für kleine Projekte: Dateiexistenz in `public_html/index.php` prüfen:
+
+```php
+// Schema beim ersten Start automatisch einspielen.
+$dbFile = getenv('DB_NAME') ?: ':memory:';
+if ($dbFile !== ':memory:' && !file_exists($dbFile)) {
+    $pdo = new PDO('sqlite:' . $dbFile);
+    $pdo->exec((string) file_get_contents(dirname(__DIR__) . '/database/schema.sql'));
+}
+```
+
+> **Abwägung**: Muster A macht die Initialisierung explizit und ist in CI reproduzierbar.
+> Muster B ist in der Entwicklung bequem, koppelt aber Startlogik an den Front-Controller.
+
+---
+
 ## Nächste Schritte
 
 - OpenAPI-Dokumentation für Ihren Endpoint hinzufügen: siehe `docs/development/endpoint-scaffold.md`

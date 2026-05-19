@@ -267,6 +267,57 @@ if ($price <= 0) {
 
 ---
 
+## Inicializar um banco de dados SQLite
+
+Com `DB_ADAPTER=sqlite`, o arquivo `.db` é criado automaticamente, mas o schema precisa ser
+aplicado manualmente. Dois padrões comuns:
+
+### Padrão A — script `composer db:init` (recomendado)
+
+Criar `database/schema.sql`:
+
+```sql
+CREATE TABLE IF NOT EXISTS products (
+    id    INTEGER PRIMARY KEY AUTOINCREMENT,
+    name  TEXT    NOT NULL,
+    price INTEGER NOT NULL
+);
+```
+
+Adicionar um script em `composer.json`:
+
+```json
+{
+    "scripts": {
+        "db:init": "php -r \"$pdo = new PDO('sqlite:' . getenv('DB_NAME')); $pdo->exec(file_get_contents('database/schema.sql')); echo 'Schema applied.' . PHP_EOL;\""
+    }
+}
+```
+
+Executar uma vez antes de iniciar o servidor:
+
+```bash
+DB_NAME=./myapp.db composer db:init
+```
+
+### Padrão B — auto-inicialização no controlador frontal
+
+Para projetos pequenos, verificar se o arquivo existe em `public_html/index.php`:
+
+```php
+// Aplicar o schema SQLite automaticamente na primeira execução.
+$dbFile = getenv('DB_NAME') ?: ':memory:';
+if ($dbFile !== ':memory:' && !file_exists($dbFile)) {
+    $pdo = new PDO('sqlite:' . $dbFile);
+    $pdo->exec((string) file_get_contents(dirname(__DIR__) . '/database/schema.sql'));
+}
+```
+
+> **Compromisso**: o padrão A torna a inicialização explícita e reproduzível no CI.
+> O padrão B é conveniente no desenvolvimento, mas acopla a lógica de inicialização ao controlador frontal.
+
+---
+
 ## Próximos passos
 
 - Adicionar documentação OpenAPI para seu endpoint: veja `docs/development/endpoint-scaffold.md`
