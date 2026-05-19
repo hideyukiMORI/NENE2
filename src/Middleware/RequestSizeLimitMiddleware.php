@@ -59,7 +59,9 @@ final readonly class RequestSizeLimitMiddleware implements MiddlewareInterface
     private function isOversized(string $contentLength): bool
     {
         if (preg_match('/\A\d+\z/', $contentLength) !== 1) {
-            return false;
+            // Invalid Content-Length (negative, decimal, hex, etc.) — treat as oversized.
+            // RFC 9110 §8.6 requires a non-negative decimal integer; reject anything else.
+            return true;
         }
 
         return (int) $contentLength > $this->maxBodyBytes;

@@ -103,7 +103,17 @@ final readonly class BearerTokenMiddleware implements MiddlewareInterface
             ->create($request, 'unauthorized', 'Unauthorized', 401, $description)
             ->withHeader(
                 'WWW-Authenticate',
-                sprintf('Bearer realm="NENE2", error="%s", error_description="%s"', $error, $description),
+                sprintf(
+                    'Bearer realm="NENE2", error="%s", error_description="%s"',
+                    $error,
+                    $this->sanitizeHeaderParam($description),
+                ),
             );
+    }
+
+    private function sanitizeHeaderParam(string $value): string
+    {
+        // Strip CRLF (HTTP header injection) then escape double-quotes per RFC 7235 quoted-string.
+        return str_replace('"', '\\"', preg_replace('/\r?\n|\r/', ' ', $value) ?? $value);
     }
 }

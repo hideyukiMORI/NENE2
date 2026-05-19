@@ -19,7 +19,12 @@ use Psr\Http\Server\RequestHandlerInterface;
 final readonly class CorsMiddleware implements MiddlewareInterface
 {
     /**
-     * @param list<string> $allowedOrigins
+     * @param list<string> $allowedOrigins Exact origins to allow (e.g. `['https://app.example.com']`).
+     *                                     An empty list disables CORS headers entirely.
+     *                                     Do NOT pass `['*']` — that matches only the literal string `*`
+     *                                     (no browser sends that as an Origin) and effectively blocks all
+     *                                     CORS. To open all origins, list each one explicitly or implement
+     *                                     a custom middleware that echoes the request Origin unconditionally.
      * @param list<string> $allowedMethods
      * @param list<string> $allowedHeaders
      * @param positive-int $maxAge Seconds the browser may cache the preflight response
@@ -33,6 +38,13 @@ final readonly class CorsMiddleware implements MiddlewareInterface
         private bool $allowCredentials = false,
         private int $maxAge = 3600,
     ) {
+        if (in_array('*', $allowedOrigins, true)) {
+            throw new \InvalidArgumentException(
+                'CorsMiddleware: do not pass \'*\' in $allowedOrigins. '
+                . 'It matches only the literal string "*" as an Origin (no browser sends this). '
+                . 'List each allowed origin explicitly instead.',
+            );
+        }
     }
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
