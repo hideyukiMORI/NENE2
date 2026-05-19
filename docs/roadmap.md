@@ -708,12 +708,16 @@ App: **knowledgelog** — FAQ / document knowledge base API
 - [x] 7 MCP tools (3 read + 4 write), OpenAPI spec, MCP validation passes
 - [x] 5 friction points recorded (F-1〜F-5); F-2/F-3 resolved in PR #464; follow-up Issues #459–#463
 
-## Phase 67: Field Trial 12-C — 公開 + 管理者の二層アクセス（Product Catalog API）(#455)
+## Phase 67: Field Trial 12-C — 公開 + 管理者の二層アクセス（Product Catalog API）(#455) ✓
 
 Goal: validate multi-auth ergonomics — API key + JWT Bearer + public access coexisting
 in one application.
 
 App: **shoplog** — product catalog API with 3-tier access model
+
+- [x] Product / Category / Favorite domains, 3-tier access model, 12 endpoints (29 tests)
+- [x] MultiAuthMiddleware pattern: Bearer for /me/*, WriteApiKeyMiddleware for writes
+- [x] 6 friction points recorded (F-1〜F-6); F-2/F-5 resolved in PR #470; follow-up Issues #466–#469
 
 ## Non-Goals
 
