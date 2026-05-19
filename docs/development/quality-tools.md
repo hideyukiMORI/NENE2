@@ -123,14 +123,7 @@ Out of memory (Reached memory limit of 128 MB)
 Increase your memory limit in php.ini or run PHPStan with --memory-limit CLI option.
 ```
 
-Add a `memory_limit` setting to your `phpstan.neon`:
-
-```yaml
-parameters:
-    memory_limit: 512M
-```
-
-Or pass `--memory-limit 512M` directly in your `composer.json` analyse script:
+Pass `--memory-limit 512M` directly in your `composer.json` analyse script:
 
 ```json
 {
