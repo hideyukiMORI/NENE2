@@ -7,10 +7,22 @@ This guide shows how to protect your NENE2 application with request rate limitin
 
 ---
 
+## Production requirement — shared storage
+
+> **Warning**: `InMemoryRateLimitStorage` (shown below in quick start) is **not suitable for
+> production**. PHP-FPM spawns multiple worker processes, and each process has its own in-memory
+> store. A client that hits 10 workers simultaneously will be counted only once per worker —
+> effectively bypassing the limit. Use a shared storage backend (Redis, Memcached, or a
+> database) in any multi-process or multi-server deployment.
+>
+> See [Swap the storage backend](#swap-the-storage-backend) for a Redis implementation.
+
+---
+
 ## Quick start
 
 Add `ThrottleMiddleware` to `RuntimeApplicationFactory`. The built-in `InMemoryRateLimitStorage`
-is suitable for local development and single-process deployments.
+is suitable for local development and single-process testing only.
 
 ```php
 use Nene2\Error\ProblemDetailsResponseFactory;

@@ -5,7 +5,13 @@ declare(strict_types=1);
 namespace Nene2\Mcp;
 
 /**
- * @internal
+ * Loads and validates the MCP tool catalog from a `docs/mcp/tools.json` file.
+ *
+ * Consumer projects use this class directly in tests to verify their tool catalog:
+ * `new LocalMcpToolCatalog(__DIR__ . '/../docs/mcp/tools.json')`.
+ *
+ * Part of the public API stability guarantee (see ADR 0009).
+ *
  * @phpstan-type McpToolSource array{type: string, operationId: string, method: string, path: string}
  * @phpstan-type McpTool array{name: string, title: string, description: string, safety: string, source: McpToolSource, inputSchema: array<string, mixed>, responseSchemaRef: string|null}
  */
