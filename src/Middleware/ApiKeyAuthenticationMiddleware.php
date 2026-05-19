@@ -16,6 +16,8 @@ use Psr\Http\Server\RequestHandlerInterface;
  *
  * Path matching modes (evaluated in priority order — first match wins):
  *
+ * 0. **Exclude list** (`$excludedPaths`): paths that are always public regardless of other settings.
+ *    Useful with "protect all" mode: pass `excludedPaths: ['/health', '/']` to keep those open.
  * 1. **Allowlist** (`$protectedPaths`): only the listed exact paths are protected.
  * 2. **Prefix allowlist** (`$protectedPathPrefixes`): paths starting with any listed prefix are protected.
  *    Useful for dynamic routes such as `/admin/users/42` → prefix `/admin/`.
@@ -38,6 +40,9 @@ final readonly class ApiKeyAuthenticationMiddleware implements MiddlewareInterfa
      * @param list<string> $protectedMethods       HTTP methods to protect (uppercase). When non-empty, only requests
      *                                             whose method appears here are protected. Useful to allow GET while
      *                                             requiring an API key for POST/PUT/DELETE. OPTIONS is always excluded.
+     * @param list<string> $excludedPaths          Exact paths that are always public, checked before any protect mode.
+     *                                             Combine with the "protect all" default to make specific paths public:
+     *                                             `excludedPaths: ['/', '/health', '/examples/ping']`.
      */
     public function __construct(
         private ProblemDetailsResponseFactory $problemDetails,
@@ -46,6 +51,7 @@ final readonly class ApiKeyAuthenticationMiddleware implements MiddlewareInterfa
         private string $headerName = 'X-NENE2-API-Key',
         private array $protectedPathPrefixes = [],
         private array $protectedMethods = [],
+        private array $excludedPaths = [],
     ) {
     }
 
@@ -81,6 +87,10 @@ final readonly class ApiKeyAuthenticationMiddleware implements MiddlewareInterfa
         }
 
         $path = $request->getUri()->getPath() ?: '/';
+
+        if ($this->excludedPaths !== [] && in_array($path, $this->excludedPaths, true)) {
+            return false;
+        }
 
         if ($this->protectedPaths !== []) {
             return in_array($path, $this->protectedPaths, true);

@@ -171,16 +171,49 @@ final class ApiKeyAuthenticationMiddlewareTest extends TestCase
         self::assertSame('api_key', $capture->request->getAttribute('nene2.auth.credential_type'));
     }
 
+    // --- excludedPaths ---
+
+    public function testExcludedPathPassesThroughWithoutKeyInProtectAllMode(): void
+    {
+        $factory = new Psr17Factory();
+        // No protectedPaths / protectedPathPrefixes → protect-all mode; /health is excluded
+        $mw = $this->make($factory, excludedPaths: ['/health', '/']);
+        $request = $factory->createServerRequest('GET', 'https://example.test/health');
+
+        self::assertSame(200, $mw->process($request, $this->okHandler($factory))->getStatusCode());
+    }
+
+    public function testNonExcludedPathIsStillProtectedInProtectAllMode(): void
+    {
+        $factory = new Psr17Factory();
+        $mw = $this->make($factory, excludedPaths: ['/health']);
+        $request = $factory->createServerRequest('GET', 'https://example.test/admin');
+
+        self::assertSame(401, $mw->process($request, $this->okHandler($factory))->getStatusCode());
+    }
+
+    public function testExcludedPathTakesPrecedenceOverProtectedPaths(): void
+    {
+        $factory = new Psr17Factory();
+        $mw = $this->make($factory, protectedPaths: ['/health'], excludedPaths: ['/health']);
+        $request = $factory->createServerRequest('GET', 'https://example.test/health');
+
+        // excluded wins over protected
+        self::assertSame(200, $mw->process($request, $this->okHandler($factory))->getStatusCode());
+    }
+
     /**
      * @param list<string> $protectedPaths
      * @param list<string> $protectedPathPrefixes
      * @param list<string> $protectedMethods
+     * @param list<string> $excludedPaths
      */
     private function make(
         Psr17Factory $factory,
         array $protectedPaths = [],
         array $protectedPathPrefixes = [],
         array $protectedMethods = [],
+        array $excludedPaths = [],
     ): ApiKeyAuthenticationMiddleware {
         return new ApiKeyAuthenticationMiddleware(
             new ProblemDetailsResponseFactory($factory, $factory),
@@ -189,6 +222,7 @@ final class ApiKeyAuthenticationMiddlewareTest extends TestCase
             'X-NENE2-API-Key',
             $protectedPathPrefixes,
             $protectedMethods,
+            $excludedPaths,
         );
     }
 
