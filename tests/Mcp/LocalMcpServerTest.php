@@ -231,6 +231,24 @@ final class LocalMcpServerTest extends TestCase
         self::assertSame(false, $response['result']['isError'] ?? null);
     }
 
+    public function testPathParameterWithSpecialCharsIsUrlEncoded(): void
+    {
+        $client = new RecordingLocalMcpHttpClient(new LocalMcpHttpResponse(200, [], '{}'));
+        $server = $this->server($client);
+
+        $server->handle([
+            'jsonrpc' => '2.0',
+            'id' => 9,
+            'method' => 'tools/call',
+            'params' => [
+                'name' => 'getExampleNoteById',
+                'arguments' => ['id' => 'foo/bar'],
+            ],
+        ]);
+
+        self::assertSame('/examples/notes/foo%2Fbar', $client->path);
+    }
+
     public function testNotificationsDoNotReturnResponses(): void
     {
         $server = $this->server();

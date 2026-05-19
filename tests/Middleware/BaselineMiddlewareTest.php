@@ -137,6 +137,39 @@ final class BaselineMiddlewareTest extends TestCase
         self::assertSame(10, $payload['max_body_bytes']);
     }
 
+    public function testRequestSizeLimitAllowsBodyWithinLimit(): void
+    {
+        $factory = new Psr17Factory();
+        $middleware = new RequestSizeLimitMiddleware(
+            new ProblemDetailsResponseFactory($factory, $factory),
+            100,
+        );
+        $request = $factory
+            ->createServerRequest('POST', 'https://example.test/upload')
+            ->withHeader('Content-Length', '50');
+
+        $response = $middleware->process($request, $this->okHandler($factory));
+
+        self::assertSame(200, $response->getStatusCode());
+    }
+
+    public function testRequestSizeLimitChecksBodyStreamSizeWhenContentLengthAbsent(): void
+    {
+        $factory = new Psr17Factory();
+        $middleware = new RequestSizeLimitMiddleware(
+            new ProblemDetailsResponseFactory($factory, $factory),
+            5,
+        );
+        $body = $factory->createStream('0123456789');
+        $request = $factory
+            ->createServerRequest('POST', 'https://example.test/upload')
+            ->withBody($body);
+
+        $response = $middleware->process($request, $this->okHandler($factory));
+
+        self::assertSame(413, $response->getStatusCode());
+    }
+
     public function testRequestLoggingIncludesSafeRequestContext(): void
     {
         $factory = new Psr17Factory();

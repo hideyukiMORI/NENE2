@@ -28,19 +28,32 @@ final readonly class RequestSizeLimitMiddleware implements MiddlewareInterface
         $contentLength = $request->getHeaderLine('Content-Length');
 
         if ($contentLength !== '' && $this->isOversized($contentLength)) {
-            return $this->problemDetails->create(
-                $request,
-                'payload-too-large',
-                'Payload Too Large',
-                413,
-                'The request body exceeds the configured size limit.',
-                [
-                    'max_body_bytes' => $this->maxBodyBytes,
-                ],
-            );
+            return $this->tooLarge($request);
+        }
+
+        if ($contentLength === '') {
+            $bodySize = $request->getBody()->getSize();
+
+            if ($bodySize !== null && $bodySize > $this->maxBodyBytes) {
+                return $this->tooLarge($request);
+            }
         }
 
         return $handler->handle($request);
+    }
+
+    private function tooLarge(ServerRequestInterface $request): ResponseInterface
+    {
+        return $this->problemDetails->create(
+            $request,
+            'payload-too-large',
+            'Payload Too Large',
+            413,
+            'The request body exceeds the configured size limit.',
+            [
+                'max_body_bytes' => $this->maxBodyBytes,
+            ],
+        );
     }
 
     private function isOversized(string $contentLength): bool
