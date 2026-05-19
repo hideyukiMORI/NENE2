@@ -23,15 +23,17 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 - **Phase 61** (#426, #429): FT10 フォローアップ Feature Improvements — APP_DEBUG 例外詳細露出・PaginationResponse DTO 追加（PR #431 マージ済み）
 - **#432**: SQLite スキーマ初期化パターンをドキュメント化（F-6 対応、PR #433 マージ済み）
 
-## Next: Phase 62 — Field Trial 11（tasklog）
+## Recently Completed (continued)
 
-**仮説**: JWT Bearer 認証フローは Claude が NENE2 ドキュメントだけで迷わず実装できるか。
+- **Phase 62 / Field Trial 11** (#434): tasklog（タスク管理 JWT 認証 API）を `composer require hideyukimori/nene2:^1.4` から 0 構築。2ドメイン・7エンドポイント・PHPUnit 12/12・PHPStan level 8・PHP-CS-Fixer 全通過。摩擦 4 件記録（F-1〜F-4）、フォローアップ Issue #440–#443 作成。hideyukiMORI/tasklog PR #1 マージ済み。
 
-**アプリ**: tasklog（タスク管理 API）— User 登録/ログイン + Task CRUD（認証保護）
+## Next: Phase 63 — FT11 フォローアップ実装
 
-Issue: #434 / マイルストーン: `docs/milestones/2026-05-field-trial-11.md`
+最優先: **F-1 (#440) — BearerTokenMiddleware にプレフィックスマッチ or 除外パスオプションを追加**
 
-実施準備が整ったら hoplog と同じ手順で着手する。
+連鎖: F-2 (#441) RuntimeApplicationFactory 柔軟化 → F-3 (#442) TokenIssuerInterface 公開 → F-4 (#443) CLAUDE.md 注記
+
+or **JWT 認証 how-to ドキュメント追加**（add-jwt-authentication.md）を先行して F-1〜F-3 の回避策を文書化する選択肢もある。
 
 ---
 

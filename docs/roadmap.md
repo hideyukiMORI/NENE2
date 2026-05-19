@@ -658,7 +658,7 @@ Goal: address the feature-level improvements found in Field Trial 10.
 - #426: `APP_DEBUG=true` 時に例外メッセージを `detail` またはデバッグログに出力（F-5 高）
 - #429: ページネーションレスポンスの `total` フィールド対応を設計・実装（F-8）
 
-## Phase 62: Field Trial 11 — JWT 認証フローの AI 実装可能性検証 (#434)
+## Phase 62: Field Trial 11 — JWT 認証フローの AI 実装可能性検証 (#434) ✅
 
 Goal: validate that Claude can implement a full JWT authentication flow using only NENE2
 documentation, and record friction points in the authentication ergonomics area.
@@ -668,10 +668,19 @@ resource access, and 401/403 response patterns.
 
 App: **tasklog** — タスク管理 API (`composer require hideyukimori/nene2:^1.4` から 0 構築)
 
-- User domain: register, login, JWT issuance
-- Task domain: CRUD + pagination, protected by Bearer middleware
-- Record all friction points encountered during implementation
-- Open follow-up Issues for each finding
+- [x] User domain: register, login, JWT issuance
+- [x] Task domain: CRUD + pagination, protected by Bearer middleware
+- [x] Record all friction points (F-1〜F-4): hideyukiMORI/tasklog docs/field-trial-report.md
+- [x] Open follow-up Issues: #440 (F-1), #441 (F-2), #442 (F-3), #443 (F-4)
+- Result: PHPUnit 12/12, PHPStan level 8 clean, PHP-CS-Fixer clean
+
+## Phase 63: FT11 フォローアップ — BearerTokenMiddleware パスマッチング改善 (#440, #441)
+
+Goal: address the highest-impact friction points from Field Trial 11.
+
+- #440: Add prefix-match or excluded-paths option to BearerTokenMiddleware
+- #441: Relax RuntimeApplicationFactory auth parameter type to MiddlewareInterface
+- Optional: add-jwt-authentication.md how-to guide (covers F-1〜F-3 workarounds)
 
 ## Non-Goals
 
