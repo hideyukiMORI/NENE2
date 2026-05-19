@@ -71,6 +71,10 @@ final class Router implements RequestHandlerInterface
     {
         $method = strtoupper($request->getMethod());
         $path = $request->getUri()->getPath() ?: '/';
+
+        // RFC 7231 §4.3.2: HEAD is identical to GET but without a response body.
+        // Match against GET routes when the incoming method is HEAD.
+        $lookupMethod = $method === 'HEAD' ? 'GET' : $method;
         $allowedMethods = [];
 
         foreach ($this->routes as $route) {
@@ -80,7 +84,7 @@ final class Router implements RequestHandlerInterface
                 continue;
             }
 
-            if ($route['method'] === $method) {
+            if ($route['method'] === $lookupMethod) {
                 return $route['handler'](
                     $request->withAttribute(self::PARAMETERS_ATTRIBUTE, $parameters)
                 );

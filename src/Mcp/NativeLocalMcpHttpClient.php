@@ -28,6 +28,12 @@ final readonly class NativeLocalMcpHttpClient implements LocalMcpHttpClientInter
         return $this->request('PUT', $baseUrl, $path, $body);
     }
 
+    /** @param array<string, mixed> $body */
+    public function patch(string $baseUrl, string $path, array $body): LocalMcpHttpResponse
+    {
+        return $this->request('PATCH', $baseUrl, $path, $body);
+    }
+
     public function delete(string $baseUrl, string $path): LocalMcpHttpResponse
     {
         return $this->request('DELETE', $baseUrl, $path, null);

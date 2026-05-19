@@ -20,6 +20,9 @@ interface LocalMcpHttpClientInterface
     /** @param array<string, mixed> $body */
     public function put(string $baseUrl, string $path, array $body): LocalMcpHttpResponse;
 
+    /** @param array<string, mixed> $body */
+    public function patch(string $baseUrl, string $path, array $body): LocalMcpHttpResponse;
+
     public function delete(string $baseUrl, string $path): LocalMcpHttpResponse;
 
     public function hasAuthentication(): bool;
