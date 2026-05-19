@@ -658,6 +658,21 @@ Goal: address the feature-level improvements found in Field Trial 10.
 - #426: `APP_DEBUG=true` 時に例外メッセージを `detail` またはデバッグログに出力（F-5 高）
 - #429: ページネーションレスポンスの `total` フィールド対応を設計・実装（F-8）
 
+## Phase 62: Field Trial 11 — JWT 認証フローの AI 実装可能性検証 (#434)
+
+Goal: validate that Claude can implement a full JWT authentication flow using only NENE2
+documentation, and record friction points in the authentication ergonomics area.
+
+Theme: **Authentication Ergonomics** — JWT Bearer setup, middleware wiring, user-scoped
+resource access, and 401/403 response patterns.
+
+App: **tasklog** — タスク管理 API (`composer require hideyukimori/nene2:^1.4` から 0 構築)
+
+- User domain: register, login, JWT issuance
+- Task domain: CRUD + pagination, protected by Bearer middleware
+- Record all friction points encountered during implementation
+- Open follow-up Issues for each finding
+
 ## Non-Goals
 
 - Recreating Laravel or Symfony.
