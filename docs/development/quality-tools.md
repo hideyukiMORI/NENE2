@@ -113,6 +113,36 @@ CI should start with backend `composer check` and expand only after each tool ha
 
 Safe local AI and MCP command usage is documented in `docs/integrations/local-ai-commands.md`.
 
+## PHPStan Memory Limit in Consumer Projects
+
+PHPStan's parallel analysis can exhaust PHP's default `memory_limit` (typically `128M`)
+in Docker environments. If `composer check` (or `composer analyse`) fails with:
+
+```
+Out of memory (Reached memory limit of 128 MB)
+Increase your memory limit in php.ini or run PHPStan with --memory-limit CLI option.
+```
+
+Add a `memory_limit` setting to your `phpstan.neon`:
+
+```yaml
+parameters:
+    memory_limit: 512M
+```
+
+Or pass `--memory-limit 512M` directly in your `composer.json` analyse script:
+
+```json
+{
+    "scripts": {
+        "analyse": "phpstan analyse --memory-limit 512M"
+    }
+}
+```
+
+The `512M` figure is sufficient for most NENE2 consumer projects up to ~200 source files.
+Larger projects may need `1G`. Avoid setting an unlimited value (`-1`) in shared environments.
+
 ## Non-Goals
 
 - Forcing React on framework consumers.
