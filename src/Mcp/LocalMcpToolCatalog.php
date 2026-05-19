@@ -15,10 +15,13 @@ namespace Nene2\Mcp;
  * @phpstan-type McpToolSource array{type: string, operationId: string, method: string, path: string}
  * @phpstan-type McpTool array{name: string, title: string, description: string, safety: string, source: McpToolSource, inputSchema: array<string, mixed>, responseSchemaRef: string|null}
  */
-final readonly class LocalMcpToolCatalog
+final class LocalMcpToolCatalog
 {
+    /** @var list<McpTool>|null */
+    private ?array $cachedTools = null;
+
     public function __construct(
-        private string $catalogPath,
+        private readonly string $catalogPath,
     ) {
     }
 
@@ -27,6 +30,10 @@ final readonly class LocalMcpToolCatalog
      */
     public function tools(): array
     {
+        if ($this->cachedTools !== null) {
+            return $this->cachedTools;
+        }
+
         if (!is_file($this->catalogPath)) {
             throw new LocalMcpException(sprintf('MCP tool catalog could not be read from "%s".', $this->catalogPath));
         }
@@ -51,7 +58,7 @@ final readonly class LocalMcpToolCatalog
 
         $validTools = array_values(array_filter($tools, static fn (mixed $t) => is_array($t)));
 
-        return array_map($this->tool(...), $validTools);
+        return $this->cachedTools = array_map($this->tool(...), $validTools);
     }
 
     /**

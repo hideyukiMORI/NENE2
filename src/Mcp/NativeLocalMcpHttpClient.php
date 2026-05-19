@@ -71,7 +71,7 @@ final readonly class NativeLocalMcpHttpClient implements LocalMcpHttpClientInter
 
         $context = stream_context_create($options);
         $url = rtrim($baseUrl, '/') . $path;
-        $responseBody = file_get_contents($url, false, $context);
+        $responseBody = @file_get_contents($url, false, $context);
 
         if ($responseBody === false) {
             throw new LocalMcpException(sprintf('Local API request failed for "%s".', $url));
