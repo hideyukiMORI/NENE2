@@ -10,6 +10,17 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.5] — 2026-05-20
+
+### Added
+- `QueryStringParser` (`Nene2\Http\QueryStringParser`) — typed helpers for extracting individual query-string parameters from a PSR-7 request: `string()`, `int()`, and `bool()`. Complements `PaginationQueryParser` (which only handles `limit`/`offset`) with ergonomic accessors for custom filters such as `?category=tech` or `?is_read=false`. `bool()` treats `"0"`, `"false"`, and `"no"` as false; absent or empty-string values return `null`. (#570)
+- `docs/howto/implement-patch-endpoint.md` — step-by-step guide for PATCH endpoints: `array_key_exists()` vs `isset()` for partial update field extraction, the empty-body `new stdClass()` pattern, repository contract with empty-fields no-op, and a PHPUnit test helper example. (#571)
+
+### Changed
+- `JsonRequestBodyParser::parse()` — when the body is a JSON array instead of a JSON object, the error message now includes an actionable hint: `Hint: in PHP, json_encode([]) produces "[]" (a JSON array). Use json_encode((object)[]) or new stdClass() to produce "{}" (a JSON object).` (#572)
+
+---
+
 ## [1.5.4] — 2026-05-20
 
 ### Added

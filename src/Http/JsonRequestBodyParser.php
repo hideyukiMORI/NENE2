@@ -46,8 +46,11 @@ final class JsonRequestBodyParser
         }
 
         if (!$decoded instanceof \stdClass) {
+            $hint = is_array($decoded)
+                ? ' Hint: in PHP, json_encode([]) produces "[]" (a JSON array). Use json_encode((object)[]) or new stdClass() to produce "{}" (a JSON object).'
+                : '';
             throw new JsonBodyParseException(
-                'Request body must be a JSON object, got ' . get_debug_type($decoded) . '.',
+                'Request body must be a JSON object, got ' . get_debug_type($decoded) . '.' . $hint,
             );
         }
 
