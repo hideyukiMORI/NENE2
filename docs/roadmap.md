@@ -611,16 +611,16 @@ Goal: fix nav/sidebar links returning to English when navigating from a non-Engl
 
 ## Phase 58: Field Trial 10 — New Domain Entity from Scratch (#404)
 
-Goal: validate that the v1.3.0 scaffold workflow is sufficient to build a third domain entity
+Goal: validate that the v1.4.0 scaffold workflow is sufficient to build a third domain entity
 from scratch without referencing the existing Note/Tag implementation as a codebase crutch.
 
-- Choose a new domain entity distinct from Note and Tag (e.g. Task, Event, Product)
-- Follow `docs/development/endpoint-scaffold.md` as the only procedural guide
-- Implement full CRUD (GET / POST / PUT / DELETE) + list with pagination
-- Add OpenAPI paths and `docs/mcp/tools.json` entries for the new entity
-- Connect a local MCP client and verify tool calls against the new endpoints
-- Record friction in `docs/field-trials/2026-05-field-trial-10.md`
-- Open follow-up Issues for each friction point
+Project: **hoplog** — クラフトビールテイスティングノート JSON API (`hideyukimori/nene2: ^1.4`,
+PHP 8.4, 3 domains / 15 routes, PHPUnit 18/18, PHPStan level 8, CS-Fixer clean).
+
+- Implemented Brewery / Beer / TastingNote domains with full CRUD + list pagination
+- All quality checks passed (`composer check`)
+- Recorded 9 friction points in `docs/field-trials/2026-05-field-trial-10.md`
+- Opened follow-up Issues #423–#429 for each friction point
 
 Tracked by `docs/milestones/2026-05-field-trial-10.md`.
 
@@ -640,6 +640,23 @@ client-specific custom problem types also point to `nene2.dev`.
 - `.env.example` gets a commented-out `PROBLEM_DETAILS_BASE_URL` entry
 - `docs/development/client-project-start.md` or `docs/howto/deploy-production.md` documents
   how to override the base URL for a client project's custom problem types
+
+## Phase 60: FT10 Follow-up — High/Medium Priority Docs & Fixes (#423–#425, #427–#428)
+
+Goal: address the highest-impact documentation gaps and one design fix found in Field Trial 10.
+
+- #423: `Router::PARAMETERS_ATTRIBUTE` をハンドラリファレンスに追記（F-2 高）
+- #424: SQLite アダプター使用時の環境変数ドキュメント追記（F-4 docs 高）
+- #425: SQLite アダプター時に `DB_HOST` / `DB_USER` / `DB_CHARSET` バリデーション免除（F-4 design 高）
+- #427: `ContainerBuilder::set()` 後勝ちルール・`ValidationException` 構築例・PHP-CS-Fixer `--allow-risky=yes` 追記（F-1/F-7/F-9）
+- #428: php:8.4-cli ベースの推奨 Dockerfile を How-to に掲載（F-3）
+
+## Phase 61: FT10 Follow-up — Feature Improvements (#426, #429)
+
+Goal: address the feature-level improvements found in Field Trial 10.
+
+- #426: `APP_DEBUG=true` 時に例外メッセージを `detail` またはデバッグログに出力（F-5 高）
+- #429: ページネーションレスポンスの `total` フィールド対応を設計・実装（F-8）
 
 ## Non-Goals
 
