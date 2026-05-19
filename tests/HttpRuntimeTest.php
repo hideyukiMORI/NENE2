@@ -310,6 +310,66 @@ final class HttpRuntimeTest extends TestCase
         self::assertSame('nosniff', $response->getHeaderLine('X-Content-Type-Options'));
     }
 
+    public function testMachineApiKeyProtectedMethodsAllowsGetWithoutKey(): void
+    {
+        $factory = new Psr17Factory();
+        $application = (new RuntimeApplicationFactory(
+            $factory,
+            $factory,
+            machineApiKey:                      'test-key',
+            machineApiKeyProtectedPaths:         [],
+            machineApiKeyProtectedPathPrefixes:  ['/machine/'],
+            machineApiKeyProtectedMethods:       ['POST', 'PUT', 'DELETE'],
+        ))->create();
+
+        $response = $application->handle(
+            $factory->createServerRequest('GET', 'https://example.test/machine/health'),
+        );
+
+        self::assertSame(200, $response->getStatusCode());
+    }
+
+    public function testMachineApiKeyProtectedMethodsBlocksPostWithoutKey(): void
+    {
+        $factory = new Psr17Factory();
+        $application = (new RuntimeApplicationFactory(
+            $factory,
+            $factory,
+            machineApiKey:                      'test-key',
+            machineApiKeyProtectedPaths:         [],
+            machineApiKeyProtectedPathPrefixes:  ['/machine/'],
+            machineApiKeyProtectedMethods:       ['POST', 'PUT', 'DELETE'],
+        ))->create();
+
+        $response = $application->handle(
+            $factory->createServerRequest('POST', 'https://example.test/machine/health'),
+        );
+        $payload = $this->decodeJson($response);
+
+        self::assertSame(401, $response->getStatusCode());
+        self::assertSame('https://nene2.dev/problems/unauthorized', $payload['type']);
+    }
+
+    public function testMachineApiKeyProtectedPathPrefixesProtectsDynamicPath(): void
+    {
+        $factory = new Psr17Factory();
+        $application = (new RuntimeApplicationFactory(
+            $factory,
+            $factory,
+            machineApiKey:                      'test-key',
+            machineApiKeyProtectedPaths:         [],
+            machineApiKeyProtectedPathPrefixes:  ['/machine/'],
+        ))->create();
+
+        $response = $application->handle(
+            $factory->createServerRequest('GET', 'https://example.test/machine/health'),
+        );
+        $payload = $this->decodeJson($response);
+
+        self::assertSame(401, $response->getStatusCode());
+        self::assertSame('https://nene2.dev/problems/unauthorized', $payload['type']);
+    }
+
     /**
      * @return array<string, mixed>
      */

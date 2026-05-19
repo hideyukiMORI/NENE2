@@ -8,6 +8,10 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Added
+- `RuntimeApplicationFactory::$machineApiKeyProtectedPathPrefixes` — exposes `ApiKeyAuthenticationMiddleware::$protectedPathPrefixes` through the factory; protects paths starting with any listed prefix without enumerating each route individually (#540)
+- `RuntimeApplicationFactory::$machineApiKeyProtectedMethods` — exposes `ApiKeyAuthenticationMiddleware::$protectedMethods` through the factory; enables "public read / key-gated write" patterns (e.g. GET is open, POST/PUT/DELETE require the API key) without manual middleware construction (#540)
+
 ---
 
 ## [1.5.0] — 2026-05-20
