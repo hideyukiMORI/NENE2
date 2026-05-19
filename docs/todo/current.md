@@ -5,7 +5,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 ## Status
 
 - Latest release: `v1.4.1`
-- Current branch: `main` — clean
+- Current branch: `main` — clean — Phase 69 / FT14 (postboard) 実施中
 
 ## Recently Completed
 
