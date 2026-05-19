@@ -147,8 +147,13 @@ FT12-A / FT12-B / FT12-C / FT13 のすべてが完了。主要成果:
 
 - **v1.5.4**: 上記 4 件対応（ドキュメント専用リリース、2026-05-20）。タグ・GitHub Release 作成済み。
 
+## Recently Completed (FT21)
+
+- **FT21 / #568**: feedlog（ニュースフィード管理 API）による v1.5.4 ページネーション・PATCH 実地検証。`PaginationQuery`/`PaginationResponse`/`PaginationQueryParser` を初検証。19/19 テスト通過・PHPStan level 8・CS 全通過。摩擦 4 件記録（F-1: PaginationQueryParser とフィルタが分離・F-2: boolean クエリ変換・F-3: PATCH 部分更新 array_key_exists・F-4: JsonRequestBodyParser が JSON 配列拒否）。
+
 ## 次のアクション候補
 
+- FT21 摩擦対応 — F-1（クエリパラメータ解析ユーティリティ）・F-3（PATCH howto）Issue 起票
 - 追加フィールドトライアル — 新テーマで品質を継続検証
 - v1.5.x パッチ — セキュリティ修正（Content-Length バイパス・WWW-Authenticate インジェクション・CORS maxAge）のドキュメント整備（ADR 0011 に記録済み）
 
