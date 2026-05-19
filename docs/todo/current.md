@@ -116,13 +116,22 @@ FT12-A / FT12-B / FT12-C / FT13 のすべてが完了。主要成果:
 | F-2（中）| protectedPaths デフォルト競合 | ApiKeyAuthenticationMiddleware union 評価に変更 | #550 |
 | F-3（低）| RequestSizeLimit 設定不可 | RuntimeApplicationFactory に requestMaxBodyBytes 追加 | #550 |
 
-## Recently Completed (FT19)
+## Recently Completed (FT19 + v1.5.3)
 
-- **FT19 / #553**: teamlog（チームタスク管理 API）による v1.5.2 マルチテナンシー実地検証。`X-Team-Id` ヘッダーによるテナント識別・`TenantContext` ホルダーパターン・テナント境界テストを対象。13/13 テスト通過・PHPStan level 8・CS 全通過。摩擦 3 件記録（F-1: RequestScopedHolder 抽象欠如・F-2: authMiddleware 単一スロット制約・F-3: 同期モデル前提未ドキュメント）。
+- **FT19 / #553**: teamlog（チームタスク管理 API）による v1.5.2 マルチテナンシー実地検証。13/13 テスト通過・PHPStan level 8・CS 全通過。摩擦 3 件記録（F-1: RequestScopedHolder 抽象欠如・F-2: authMiddleware 単一スロット制約・F-3: 同期モデル前提未ドキュメント）。
+
+## FT19 摩擦対応（完了）
+
+| # | 重要度 | 対応 | PR |
+|---|---|---|---|
+| F-1（高）| RequestScopedHolder 抽象欠如 | `RequestScopedHolder<T>` 公開クラス追加 | #558 |
+| F-2（中）| authMiddleware 単一スロット制約 | `$authMiddleware` にリスト対応追加 | #558 |
+| F-3（低）| 同期モデル前提未ドキュメント | `docs/howto/request-scoped-state.md` 新規作成 | #558 |
+
+- **v1.5.3**: 上記 3 件を含む機能追加リリース（2026-05-20）。タグ・GitHub Release 作成済み。
 
 ## 次のアクション候補
 
-- FT19 摩擦対応 — F-1（RequestScopedHolder）・F-2（複数ミドルウェアスタック）Issue 起票・実装
 - 追加フィールドトライアル — 新テーマで品質を継続検証
 - v1.5.x パッチ — セキュリティ修正（Content-Length バイパス・WWW-Authenticate インジェクション・CORS maxAge）のドキュメント整備（ADR 0011 に記録済み）
 
