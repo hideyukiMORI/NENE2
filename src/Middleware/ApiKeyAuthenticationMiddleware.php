@@ -14,14 +14,15 @@ use Psr\Http\Server\RequestHandlerInterface;
  * Validates the `X-NENE2-API-Key` request header for machine client endpoints.
  * Returns 401 Problem Details when the key is absent or does not match `NENE2_MACHINE_API_KEY`.
  *
- * Path matching modes (evaluated in priority order — first match wins):
+ * Path matching modes:
  *
  * 0. **Exclude list** (`$excludedPaths`): paths that are always public regardless of other settings.
  *    Useful with "protect all" mode: pass `excludedPaths: ['/health', '/']` to keep those open.
- * 1. **Allowlist** (`$protectedPaths`): only the listed exact paths are protected.
- * 2. **Prefix allowlist** (`$protectedPathPrefixes`): paths starting with any listed prefix are protected.
- *    Useful for dynamic routes such as `/admin/users/42` → prefix `/admin/`.
- * 3. **Protect all** (default): both arrays empty → every path requires an API key.
+ * 1. **Allowlist** (`$protectedPaths` + `$protectedPathPrefixes`, union): when either or both are
+ *    non-empty, a request is protected if its path matches any entry in `$protectedPaths` (exact)
+ *    OR starts with any entry in `$protectedPathPrefixes` (prefix). Both lists are evaluated
+ *    together — setting one does not suppress the other.
+ * 2. **Protect all** (default): both lists empty → every path requires an API key.
  *
  * In all modes, `OPTIONS` requests are always skipped (CORS preflight).
  *
@@ -34,9 +35,10 @@ use Psr\Http\Server\RequestHandlerInterface;
 final readonly class ApiKeyAuthenticationMiddleware implements MiddlewareInterface
 {
     /**
-     * @param list<string> $protectedPaths        Exact paths to protect. Takes precedence over $protectedPathPrefixes.
+     * @param list<string> $protectedPaths        Exact paths to protect. Combined with $protectedPathPrefixes
+     *                                             in union mode — both lists are checked and either can match.
      * @param list<string> $protectedPathPrefixes  Path prefixes to protect (e.g. `/admin/` matches `/admin/users/42`).
-     *                                             Evaluated only when $protectedPaths is empty.
+     *                                             Combined with $protectedPaths in union mode.
      * @param list<string> $protectedMethods       HTTP methods to protect (uppercase). When non-empty, only requests
      *                                             whose method appears here are protected. Useful to allow GET while
      *                                             requiring an API key for POST/PUT/DELETE. OPTIONS is always excluded.
@@ -92,11 +94,13 @@ final readonly class ApiKeyAuthenticationMiddleware implements MiddlewareInterfa
             return false;
         }
 
-        if ($this->protectedPaths !== []) {
-            return in_array($path, $this->protectedPaths, true);
-        }
+        // Union mode: when either list is non-empty, protect if path matches any exact entry
+        // OR starts with any prefix. Both lists are evaluated together.
+        if ($this->protectedPaths !== [] || $this->protectedPathPrefixes !== []) {
+            if (in_array($path, $this->protectedPaths, true)) {
+                return true;
+            }
 
-        if ($this->protectedPathPrefixes !== []) {
             foreach ($this->protectedPathPrefixes as $prefix) {
                 if (str_starts_with($path, $prefix)) {
                     return true;
