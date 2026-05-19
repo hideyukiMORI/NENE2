@@ -55,15 +55,14 @@ final readonly class RuntimeApplicationFactory
      *                                                  public while all other routes require an API key.
      *                                                  Only has effect when `$machineApiKey` is non-null and
      *                                                  `$machineApiKeyProtectedPaths` is empty.
-     * @param list<string> $machineApiKeyProtectedPaths Exact paths protected by the machine API key. When
-     *                                                   non-empty, ONLY these paths require the key (allowlist
-     *                                                   mode). Defaults to `['/machine/health']`. Set to `[]`
-     *                                                   combined with `$machineApiKeyExcludedPaths` to protect
-     *                                                   all paths except the excluded ones.
+     * @param list<string> $machineApiKeyProtectedPaths Exact paths protected by the machine API key. Combined with
+     *                                                   `$machineApiKeyProtectedPathPrefixes` in union mode — a path
+     *                                                   is protected when it matches any exact entry OR any prefix.
+     *                                                   Defaults to `['/machine/health']`.
      * @param list<string> $machineApiKeyProtectedPathPrefixes Path prefixes protected by the machine API key
      *                                                          (e.g. `['/admin/']` matches `/admin/users/42`).
-     *                                                          Evaluated only when `$machineApiKeyProtectedPaths`
-     *                                                          is empty.
+     *                                                          Combined with `$machineApiKeyProtectedPaths` in union
+     *                                                          mode.
      * @param list<string> $machineApiKeyProtectedMethods HTTP methods that require the machine API key
      *                                                     (uppercase, e.g. `['POST', 'PUT', 'DELETE']`).
      *                                                     When non-empty, GET/HEAD requests pass through
@@ -71,6 +70,10 @@ final readonly class RuntimeApplicationFactory
      *                                                     "public read / key-gated write" patterns.
      * @param bool $debug When true, unhandled exception messages are exposed in 500 `detail`.
      *                    Never set to true in production.
+     * @param int $requestMaxBodyBytes Maximum allowed request body size in bytes. Requests exceeding
+     *                                 this limit are rejected with a 413 Problem Details response.
+     *                                 Defaults to 1 MiB (1 048 576 bytes). Increase for bulk-import
+     *                                 or large-payload endpoints.
      */
     public function __construct(
         private ResponseFactoryInterface $responseFactory,
@@ -89,6 +92,7 @@ final readonly class RuntimeApplicationFactory
         private array $machineApiKeyProtectedPaths = ['/machine/health'],
         private array $machineApiKeyProtectedPathPrefixes = [],
         private array $machineApiKeyProtectedMethods = [],
+        private int $requestMaxBodyBytes = 1_048_576,
     ) {
     }
 
@@ -188,7 +192,7 @@ final readonly class RuntimeApplicationFactory
             new SecurityHeadersMiddleware(),
             new CorsMiddleware($this->responseFactory, $this->allowedOrigins),
             new ErrorHandlerMiddleware($problemDetails, $this->domainExceptionHandlers, $this->debug, $logger),
-            new RequestSizeLimitMiddleware($problemDetails),
+            new RequestSizeLimitMiddleware($problemDetails, $this->requestMaxBodyBytes),
             new ApiKeyAuthenticationMiddleware(
                 $problemDetails,
                 $this->machineApiKey,

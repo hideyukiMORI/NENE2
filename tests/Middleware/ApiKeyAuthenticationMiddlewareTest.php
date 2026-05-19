@@ -76,15 +76,61 @@ final class ApiKeyAuthenticationMiddlewareTest extends TestCase
         self::assertSame(200, $mw->process($request, $this->okHandler($factory))->getStatusCode());
     }
 
-    public function testProtectedPathsTakesPrecedenceOverPrefixes(): void
+    public function testPathsAndPrefixesAreEvaluatedAsUnion(): void
     {
         $factory = new Psr17Factory();
-        // /admin is in protectedPaths → exact match only; /admin/users is not in protectedPaths → pass through
+        // Both lists are non-empty — a path is protected if it matches either.
         $mw = $this->make($factory, protectedPaths: ['/admin'], protectedPathPrefixes: ['/admin/']);
-        $request = $factory->createServerRequest('GET', 'https://example.test/admin/users');
 
-        // protectedPaths mode: /admin/users not in list → passes through
+        // /admin matches protectedPaths exactly → protected
+        $exactRequest = $factory->createServerRequest('POST', 'https://example.test/admin');
+        self::assertSame(401, $mw->process($exactRequest, $this->okHandler($factory))->getStatusCode());
+
+        // /admin/users matches protectedPathPrefixes → protected (union, not priority)
+        $subRequest = $factory->createServerRequest('GET', 'https://example.test/admin/users');
+        self::assertSame(401, $mw->process($subRequest, $this->okHandler($factory))->getStatusCode());
+    }
+
+    public function testUnionModeDoesNotProtectUnmatchedPaths(): void
+    {
+        $factory = new Psr17Factory();
+        $mw = $this->make($factory, protectedPaths: ['/machine/health'], protectedPathPrefixes: ['/products']);
+
+        // /orders matches neither list → passes through even when both lists are non-empty
+        $request = $factory->createServerRequest('POST', 'https://example.test/orders');
         self::assertSame(200, $mw->process($request, $this->okHandler($factory))->getStatusCode());
+    }
+
+    public function testUnionModeCombinesExactAndPrefixProtection(): void
+    {
+        $factory = new Psr17Factory();
+        // FT18 scenario: protect /machine/health (exact) + /products/* (prefix) for POST only
+        $mw = $this->make(
+            $factory,
+            protectedPaths: ['/machine/health'],
+            protectedPathPrefixes: ['/products'],
+            protectedMethods: ['POST', 'PUT', 'DELETE'],
+        );
+
+        // GET /products → method filter → not protected
+        $getRequest = $factory->createServerRequest('GET', 'https://example.test/products');
+        self::assertSame(200, $mw->process($getRequest, $this->okHandler($factory))->getStatusCode());
+
+        // POST /products → method + prefix match → protected
+        $postRequest = $factory->createServerRequest('POST', 'https://example.test/products');
+        self::assertSame(401, $mw->process($postRequest, $this->okHandler($factory))->getStatusCode());
+
+        // POST /products/bulk → method + prefix match → protected
+        $bulkRequest = $factory->createServerRequest('POST', 'https://example.test/products/bulk');
+        self::assertSame(401, $mw->process($bulkRequest, $this->okHandler($factory))->getStatusCode());
+
+        // POST /orders → method passes, but no path/prefix match → not protected
+        $ordersRequest = $factory->createServerRequest('POST', 'https://example.test/orders');
+        self::assertSame(200, $mw->process($ordersRequest, $this->okHandler($factory))->getStatusCode());
+
+        // POST /machine/health → method + exact path match → protected
+        $machineRequest = $factory->createServerRequest('POST', 'https://example.test/machine/health');
+        self::assertSame(401, $mw->process($machineRequest, $this->okHandler($factory))->getStatusCode());
     }
 
     // --- protectedMethods ---

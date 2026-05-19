@@ -10,6 +10,16 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.2] — 2026-05-20
+
+### Added
+- `RuntimeApplicationFactory::$requestMaxBodyBytes` — configures the request body size limit passed to `RequestSizeLimitMiddleware`. Defaults to 1 MiB (1 048 576 bytes). Increase for bulk-import or large-payload endpoints. (#547)
+
+### Fixed
+- `ApiKeyAuthenticationMiddleware`: `$protectedPaths` and `$protectedPathPrefixes` are now evaluated in **union mode** — a path is protected when it matches any exact entry in `$protectedPaths` OR starts with any prefix in `$protectedPathPrefixes`. Previously, a non-empty `$protectedPaths` suppressed all prefix evaluation, causing `$protectedPathPrefixes` to be silently ignored when both were set. (#548)
+
+---
+
 ## [1.5.1] — 2026-05-20
 
 ### Added

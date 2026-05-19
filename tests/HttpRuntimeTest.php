@@ -370,6 +370,63 @@ final class HttpRuntimeTest extends TestCase
         self::assertSame('https://nene2.dev/problems/unauthorized', $payload['type']);
     }
 
+    public function testRequestMaxBodyBytesOverridesDefaultLimit(): void
+    {
+        $factory = new Psr17Factory();
+        $application = (new RuntimeApplicationFactory(
+            $factory,
+            $factory,
+            requestMaxBodyBytes: 10,
+        ))->create();
+
+        $response = $application->handle(
+            $factory
+                ->createServerRequest('POST', 'https://example.test/')
+                ->withHeader('Content-Length', '11'),
+        );
+        $payload = $this->decodeJson($response);
+
+        self::assertSame(413, $response->getStatusCode());
+        self::assertSame('https://nene2.dev/problems/payload-too-large', $payload['type']);
+        self::assertSame(10, $payload['max_body_bytes']);
+    }
+
+    public function testUnionPathAndPrefixProtectionWithoutExplicitPathsClear(): void
+    {
+        // F-2 fix: protectedPaths=['/machine/health'] (default) + protectedPathPrefixes=['/products']
+        // Both lists are non-empty → union mode → /products prefix is protected without needing to
+        // clear machineApiKeyProtectedPaths first.
+        $factory = new Psr17Factory();
+        $application = (new RuntimeApplicationFactory(
+            $factory,
+            $factory,
+            machineApiKey: 'test-key',
+            machineApiKeyProtectedPathPrefixes: ['/products'],
+            machineApiKeyProtectedMethods: ['POST'],
+        ))->create();
+
+        // POST /products → method + prefix match → protected
+        $postProducts = $application->handle(
+            $factory->createServerRequest('POST', 'https://example.test/products'),
+        );
+        self::assertSame(401, $postProducts->getStatusCode());
+
+        // POST /machine/health → method + exact path match (from default protectedPaths) → protected
+        // Key provided → middleware passes → router returns 405 (GET-only route), not 401
+        $postMachineHealth = $application->handle(
+            $factory
+                ->createServerRequest('POST', 'https://example.test/machine/health')
+                ->withHeader('X-NENE2-API-Key', 'test-key'),
+        );
+        self::assertSame(405, $postMachineHealth->getStatusCode()); // middleware passed, router rejected method
+
+        // POST /orders → method filter passes, no path/prefix match → not protected
+        $postOrders = $application->handle(
+            $factory->createServerRequest('POST', 'https://example.test/orders'),
+        );
+        self::assertSame(404, $postOrders->getStatusCode()); // route not registered, but not 401
+    }
+
     /**
      * @return array<string, mixed>
      */
