@@ -115,6 +115,20 @@ final class BaselineMiddlewareTest extends TestCase
         self::assertSame(204, $response->getStatusCode());
         self::assertSame('https://app.example.test', $response->getHeaderLine('Access-Control-Allow-Origin'));
         self::assertSame('GET, POST, PUT, PATCH, DELETE, OPTIONS', $response->getHeaderLine('Access-Control-Allow-Methods'));
+        self::assertSame('3600', $response->getHeaderLine('Access-Control-Max-Age'));
+    }
+
+    public function testCorsSimpleRequestDoesNotIncludeMaxAge(): void
+    {
+        $factory = new Psr17Factory();
+        $middleware = new CorsMiddleware($factory, ['https://app.example.test']);
+        $request = $factory
+            ->createServerRequest('GET', 'https://api.example.test/')
+            ->withHeader('Origin', 'https://app.example.test');
+
+        $response = $middleware->process($request, $this->okHandler($factory));
+
+        self::assertSame('', $response->getHeaderLine('Access-Control-Max-Age'));
     }
 
     public function testRequestSizeLimitReturnsProblemDetailsForOversizedPayload(): void
