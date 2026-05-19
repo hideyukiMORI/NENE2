@@ -21,6 +21,10 @@ final readonly class LocalMcpToolCatalog
      */
     public function tools(): array
     {
+        if (!is_file($this->catalogPath)) {
+            throw new LocalMcpException(sprintf('MCP tool catalog could not be read from "%s".', $this->catalogPath));
+        }
+
         $contents = file_get_contents($this->catalogPath);
 
         if ($contents === false) {
