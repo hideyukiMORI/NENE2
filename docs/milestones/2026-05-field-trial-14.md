@@ -50,23 +50,32 @@ SQLite + CompositeAuthMiddleware + M:N（Post ↔ Tag）。
 
 ## Phases
 
-### Phase 69 — Field Trial 14 Execution
+### Phase 69 — Field Trial 14 Execution ✓
 
-- [ ] postboard リポジトリを作成し、`composer require hideyukimori/nene2:^1.4` で初期化
-- [ ] CompositeAuthMiddleware を使った 3 層アクセスモデルを実装
-- [ ] Post / Tag / PostTag ドメインを実装（M:N）
-- [ ] Auth ドメイン（register / login / JWT）を実装
-- [ ] `composer check` 全通過（PHPUnit・PHPStan level 8・PHP-CS-Fixer）
-- [ ] 全エンドポイント動作確認
-- [ ] 摩擦記録を `docs/field-trial-report.md` に残す
-- [ ] フォローアップ Issue を開く
+- [x] postboard リポジトリを作成（path リポジトリで @dev インストール — F-1 参照）
+- [x] CompositeAuthMiddleware を使った 3 層アクセスモデルを実装
+- [x] Post / Tag / PostTag ドメインを実装（M:N — howto なしでスムーズに実装）
+- [x] Auth ドメイン（register / login / JWT）を実装
+- [x] `composer check` 全通過（PHPUnit 31/31・PHPStan level 8・PHP-CS-Fixer）
+- [x] 全エンドポイント動作確認（13/13）
+- [x] 摩擦記録を `docs/field-trial-report.md` に残す（F-1〜F-4）
+- [x] フォローアップ Issue を開く（#481 / #482）
 
-## 完了条件
+## 摩擦サマリ
 
-- `composer check` 全通過
-- 全エンドポイント動作確認
-- 摩擦記録あり
-- フォローアップ Issue 作成済み
+| ID | 重要度 | タイトル | 対応 |
+|---|---|---|---|
+| F-1 | 高 | CompositeAuthMiddleware が Packagist v1.4.1 に未収録 | Issue #481 → v1.4.2 リリース |
+| F-2 | 中 | ApiKeyMiddleware がメソッド単位保護に非対応 | Issue #482 (= #461) |
+| F-3 | 中 | ApiKeyMiddleware がパスパターン（{id}）に非対応 | Issue #482 (= #461) |
+| F-4 | 情報 | CompositeAuthMiddleware の基本 API は直感的（目標達成） | — |
+
+## 完了条件 ✓
+
+- `composer check` 全通過（PHPUnit 31/31・PHPStan level 8・PHP-CS-Fixer）
+- 全エンドポイント動作確認済み（13/13）
+- 摩擦記録あり（`/home/xi/docker/postboard/docs/field-trial-report.md`）
+- フォローアップ Issue #481/#482 作成済み
 
 ## 備考
 
@@ -74,3 +83,4 @@ SQLite + CompositeAuthMiddleware + M:N（Post ↔ Tag）。
 - Issue: #479
 - プロジェクト: `/home/xi/docker/postboard/`
 - 前: FT13 (#472) — MySQL + Phinx (eventlog)
+- 特記: path リポジトリ経由で @dev インストール（F-1 の回避策）— v1.4.2 リリース後は不要

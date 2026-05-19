@@ -729,12 +729,15 @@ App: **eventlog** — イベント管理 API (MySQL + Phinx + M:N + Multi-Auth)
 Result: 14/14 PHPUnit, PHPStan level 8, PHP-CS-Fixer 全通過。摩擦 5 件（F-1〜F-5）。
 F-2/F-3/F-4 フォローアップ Issues #474–#476 → docs PR で解消。
 
-## Phase 69: Field Trial 14 — CompositeAuthMiddleware + M:N + 3 層アクセスモデル（postboard）(#479)
+## Phase 69: Field Trial 14 — CompositeAuthMiddleware + M:N + 3 層アクセスモデル（postboard）(#479) ✓
 
 Goal: validate `CompositeAuthMiddleware` ergonomics in a real consumer project.
 Three-tier auth (public / Bearer / API key), M:N (Post ↔ Tag), SQLite.
 
 App: **postboard** — 投稿ボード API (CompositeAuthMiddleware + M:N + JWT + API Key)
+
+Result: 31/31 PHPUnit, PHPStan level 8, PHP-CS-Fixer 全通過。摩擦 4 件（F-1〜F-4）。
+F-1 最重要: CompositeAuthMiddleware が v1.4.1 未収録 → v1.4.2 リリースで解消（Issue #481）。
 
 ## Non-Goals
 

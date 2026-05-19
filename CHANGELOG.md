@@ -8,12 +8,16 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+---
+
+## [1.4.2] — 2026-05-19
+
 ### Added
 - `validate-mcp-tools.php` — `--root=<path>` CLI option; falls back to `getcwd()` so consumer projects can run the validator without a wrapper script (#459)
 - `composer.json` `suggest` entry for `symfony/yaml` — consumer projects are guided to add it when using the MCP validator (#460)
 - CLAUDE.md section on how to wire the MCP validator in a consumer project
 - `BearerTokenMiddleware::$protectedPathPrefixes` — prefix allowlist parameter; protects all paths starting with the listed prefixes (e.g. `/me/` matches `/me/favorites/42`); evaluated after `$protectedPaths` and before `$excludedPaths` (#467)
-- `CompositeAuthMiddleware` — chains multiple `MiddlewareInterface` instances as a single auth middleware; enables three-tier access models (public / Bearer / API key) by composing path-scoped middlewares in order (#466)
+- `CompositeAuthMiddleware` — chains multiple `MiddlewareInterface` instances as a single auth middleware; enables three-tier access models (public / Bearer / API key) by composing path-scoped middlewares in order (#466, #481)
 
 ### Changed
 - `LocalBearerTokenVerifier` — removed `@internal` tag; now part of the public API stability guarantee (see ADR 0009) (#468)
@@ -296,7 +300,9 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Governance docs: workflow, coding standards, ADR policy, review checklists (#1)
 - ADR 0001–0004: HTTP runtime, DI container, phpdotenv, Phinx
 
-[Unreleased]: https://github.com/hideyukiMORI/NENE2/compare/v1.4.0...HEAD
+[Unreleased]: https://github.com/hideyukiMORI/NENE2/compare/v1.4.2...HEAD
+[1.4.2]: https://github.com/hideyukiMORI/NENE2/compare/v1.4.1...v1.4.2
+[1.4.1]: https://github.com/hideyukiMORI/NENE2/compare/v1.4.0...v1.4.1
 [1.4.0]: https://github.com/hideyukiMORI/NENE2/compare/v1.3.0...v1.4.0
 [1.3.0]: https://github.com/hideyukiMORI/NENE2/compare/v1.2.0...v1.3.0
 [1.2.0]: https://github.com/hideyukiMORI/NENE2/compare/v1.1.0...v1.2.0

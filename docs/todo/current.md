@@ -4,8 +4,8 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 ## Status
 
-- Latest release: `v1.4.1`
-- Current branch: `main` — clean — Phase 69 / FT14 (postboard) 実施中
+- Latest release: `v1.4.2`（リリース予定）
+- Current branch: `docs/ft14-complete` — FT14 完了 + v1.4.2 リリース準備中
 
 ## Recently Completed
 
