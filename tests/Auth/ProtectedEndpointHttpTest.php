@@ -36,7 +36,7 @@ final class ProtectedEndpointHttpTest extends TestCase
         $this->application = (new RuntimeApplicationFactory(
             $this->factory,
             $this->factory,
-            bearerTokenMiddleware: $bearerMiddleware,
+            authMiddleware: $bearerMiddleware,
         ))->create();
     }
 

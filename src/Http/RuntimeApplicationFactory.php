@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Nene2\Http;
 
-use Nene2\Auth\BearerTokenMiddleware;
 use Nene2\Error\DomainExceptionHandlerInterface;
 use Nene2\Error\ErrorHandlerMiddleware;
 use Nene2\Error\ProblemDetailsResponseFactory;
@@ -22,6 +21,7 @@ use Nene2\Routing\Router;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamFactoryInterface;
+use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
@@ -41,6 +41,11 @@ final readonly class RuntimeApplicationFactory
     /**
      * @param list<DomainExceptionHandlerInterface> $domainExceptionHandlers
      * @param list<callable(Router): void> $routeRegistrars
+     * @param ?MiddlewareInterface $authMiddleware Authentication middleware injected into the pipeline
+     *                                              after the request size limit. Pass any PSR-15
+     *                                              {@see MiddlewareInterface} — e.g. the built-in
+     *                                              {@see \Nene2\Auth\BearerTokenMiddleware} or a custom
+     *                                              implementation that uses prefix matching.
      * @param list<HealthCheckInterface> $healthChecks
      * @param bool $debug When true, unhandled exception messages are exposed in 500 `detail`.
      *                    Never set to true in production.
@@ -53,7 +58,7 @@ final readonly class RuntimeApplicationFactory
         private array $domainExceptionHandlers = [],
         private ?RequestIdHolder $requestIdHolder = null,
         private array $routeRegistrars = [],
-        private ?BearerTokenMiddleware $bearerTokenMiddleware = null,
+        private ?MiddlewareInterface $authMiddleware = null,
         private array $healthChecks = [],
         private ?ThrottleMiddleware $throttleMiddleware = null,
         private bool $debug = false,
@@ -66,7 +71,7 @@ final readonly class RuntimeApplicationFactory
 
         $logger->info('NENE2 runtime started.', [
             'machine_api_key' => $this->machineApiKey !== null,
-            'bearer_middleware' => $this->bearerTokenMiddleware !== null,
+            'auth_middleware' => $this->authMiddleware !== null,
         ]);
 
         $jsonResponses = new JsonResponseFactory($this->responseFactory, $this->streamFactory);
@@ -136,7 +141,7 @@ final readonly class RuntimeApplicationFactory
             )
         ;
 
-        if ($this->bearerTokenMiddleware !== null) {
+        if ($this->authMiddleware !== null) {
             $router->get(
                 '/examples/protected',
                 static fn (ServerRequestInterface $request) => $jsonResponses->create([
@@ -160,8 +165,8 @@ final readonly class RuntimeApplicationFactory
             new ApiKeyAuthenticationMiddleware($problemDetails, $this->machineApiKey, ['/machine/health']),
         ];
 
-        if ($this->bearerTokenMiddleware !== null) {
-            $middlewareStack[] = $this->bearerTokenMiddleware;
+        if ($this->authMiddleware !== null) {
+            $middlewareStack[] = $this->authMiddleware;
         }
 
         if ($this->throttleMiddleware !== null) {
