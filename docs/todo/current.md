@@ -4,7 +4,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 ## Status
 
-- Latest release: `v1.5.0`（2026-05-20 リリース済み）
+- Latest release: `v1.5.1`（2026-05-20 リリース済み）
 - Current branch: `main` — clean — open Issue なし
 
 ## Recently Completed
@@ -102,6 +102,7 @@ FT12-A / FT12-B / FT12-C / FT13 のすべてが完了。主要成果:
 ## Recently Completed (v1.5.0 ドキュメント整備)
 
 - **#536**: llms.txt・README・add-jwt-authentication.md・current.md・ADR 0011 を v1.5.0 に整合
+- **FT17 / #538–#543**: quotelog による v1.5.0 実地検証、摩擦 2 件対応（#540・#542）、v1.5.1 リリース
 
 ## 次のアクション候補
 
