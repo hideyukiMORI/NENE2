@@ -16,6 +16,7 @@ Architecture decisions are recorded here as lightweight ADRs. Each record captur
 | [0008](0008-jwt-authentication.md) | JWT authentication direction |
 | [0009](0009-v1.0-public-api-scope.md) | v1.0 public API scope and stability guarantee |
 | [0010](0010-rate-limiting.md) | Rate limiting design |
+| [0011](0011-security-review-policy.md) | Security review policy — adversarial review and HTTP security invariants |
 
 ## Template
 
