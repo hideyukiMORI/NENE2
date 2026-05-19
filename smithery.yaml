@@ -1,0 +1,53 @@
+# NENE2 Local MCP Server — Smithery configuration
+# https://smithery.ai/docs/build/project-config/smithery.yaml
+#
+# This MCP server runs alongside a local NENE2 application.
+# Prerequisites:
+#   1. Clone this repository and run: docker compose up -d app
+#   2. The app will be available at http://localhost:8080
+#   3. Set NENE2_LOCAL_JWT_SECRET in .env to enable write tools and Bearer auth.
+
+startCommand:
+  type: stdio
+  configSchema:
+    type: object
+    properties:
+      apiBaseUrl:
+        type: string
+        description: >
+          Base URL of the running NENE2 application.
+          Use "http://app" when the app is running via "docker compose up -d app"
+          (the MCP server container shares the same Docker network).
+          Use "http://host.docker.internal:8080" if the app is running directly on the host.
+        default: http://app
+      jwtSecret:
+        type: string
+        description: >
+          Value of NENE2_LOCAL_JWT_SECRET. Required to enable write tools
+          and Bearer-authenticated endpoints. Must match the value in your .env file.
+      machineApiKey:
+        type: string
+        description: >
+          Value of NENE2_MACHINE_API_KEY. Required to access machine-client endpoints
+          such as GET /machine/health.
+    required: []
+  commandFunction: |-
+    (config) => {
+      const apiBaseUrl = config.apiBaseUrl || 'http://app';
+      const args = [
+        'compose', 'run', '--rm', '-T',
+        '-e', 'NENE2_LOCAL_API_BASE_URL=' + apiBaseUrl,
+      ];
+
+      if (config.jwtSecret) {
+        args.push('-e', 'NENE2_LOCAL_JWT_SECRET=' + config.jwtSecret);
+      }
+
+      if (config.machineApiKey) {
+        args.push('-e', 'NENE2_MACHINE_API_KEY=' + config.machineApiKey);
+      }
+
+      args.push('app', 'php', 'tools/local-mcp-server.php');
+
+      return { command: 'docker', args };
+    }

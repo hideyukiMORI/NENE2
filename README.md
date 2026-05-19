@@ -211,6 +211,7 @@ See `docs/CONTRIBUTING.md`, `docs/workflow.md`, and `AGENTS.md` before changing 
 NENE2 is designed to be AI-readable and usable as a tool by AI agents.
 
 - **[`llms.txt`](./llms.txt)** — machine-readable project summary for LLM crawlers ([llmstxt.org](https://llmstxt.org) standard).
+- **[Smithery](https://smithery.ai/server/hideyukiMORI/nene2)** — NENE2 MCP server listed in the Smithery registry ([`smithery.yaml`](./smithery.yaml)).
 - **[AGENTS.md](./AGENTS.md)** — entry point for AI agents working in this repository.
 - **OpenAPI contract** — `GET /openapi.php` or `docs/openapi/openapi.yaml` — the authoritative API contract for LLM tool use.
 - **Local MCP server** — `composer mcp` validates the MCP tool catalog; `composer run local-mcp-server` starts the local server.

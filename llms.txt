@@ -50,6 +50,12 @@ AI-autonomously built applications using NENE2 as a Composer dependency, with re
 - **RFC 9457 errors**: every error response is structured Problem Details JSON, including validation failures (422) and auth failures (401/403).
 - **AI-readable by design**: small files, typed boundaries, no global state, and ADRs for every non-obvious decision.
 
+## MCP registry
+
+NENE2 is listed on [Smithery](https://smithery.ai/server/hideyukiMORI/nene2) — the MCP server
+registry. The [`smithery.yaml`](https://github.com/hideyukiMORI/NENE2/blob/main/smithery.yaml)
+at the repository root defines the startup configuration.
+
 ## Optional extras (all opt-in)
 
 - `ThrottleMiddleware` + `RateLimitStorageInterface` for per-IP or per-user rate limiting.
