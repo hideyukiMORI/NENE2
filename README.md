@@ -192,6 +192,7 @@ Step-by-step recipes for common tasks:
 
 - [Add a custom route](docs/howto/add-custom-route.md)
 - [Add a database-backed endpoint](docs/howto/add-database-endpoint.md)
+- [Use database transactions](docs/howto/use-transactions.md)
 - [Add a second entity](docs/howto/add-second-entity.md)
 - [Add pagination](docs/howto/add-pagination.md)
 - [Add JWT authentication](docs/howto/add-jwt-authentication.md)

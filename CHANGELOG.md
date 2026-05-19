@@ -8,6 +8,9 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Added
+- `docs/howto/use-transactions.md` — explains the transactional repository pattern: why `transactional()` provides a fresh executor, how to instantiate concrete repositories inside the callback, how to test with a file-based SQLite, and rollback verification. (#549)
+
 ---
 
 ## [1.5.2] — 2026-05-20
