@@ -85,39 +85,24 @@ FT12-A / FT12-B / FT12-C / FT13 のすべてが完了。主要成果:
 | #469 | PHPStan memory_limit howto | PR #484 (quality-tools.md) |
 | #481 | v1.4.2 リリース | GitHub Release 作成済み |
 
-## 次の目標: View 層 + MCP 層の強化
+## 完了: Phase 70〜71 + v1.5.0 リリース（2026-05-20）
 
-総合評価（2026-05-20）で「テストが薄い・howto がない」と指摘された 2 領域を集中的に補強する。
+| Phase | 成果 | PR |
+|---|---|---|
+| 70-1 | View テスト 5→13（HtmlEscaper・HtmlResponseFactory 境界ケース） | #491 |
+| 70-2 | `add-html-view.md` howto 新規作成 | #491 |
+| 70-3 | FT15 noteboard（HTML View）: 10/10 テスト・摩擦 3 件 → #493 で解消 | noteboard repo |
+| 71-1 | MCP テスト 3→15（エラーケース・safety バリアント・メソッド正規化） | #492 |
+| 71-2 | `add-mcp-tools.md` howto 新規作成 | #492 |
+| 71-3 | Write ツール認証ドキュメント（add-mcp-tools.md §5） | #492 |
+| 71-4 | FT16 noteboard-mcp: MCP 3 ツール追加・摩擦なし | noteboard repo |
+| 72 | 評価指摘のテスト不足 → 実際には既にカバー済みと確認 | — |
+| v1.5.0 | CHANGELOG 昇格・VERSION bump・タグ・GitHub Release | #495 |
 
-### Phase 70 — View 層強化
+## 次のアクション候補
 
-| # | タスク | 内容 | 優先度 |
-|---|---|---|---|
-| 70-1 | View テスト拡充 | `HtmlEscaper`（境界条件・特殊文字・null）、`HtmlResponseFactory`（ステータス・Content-Type）の追加ユニットテスト | 高 |
-| 70-2 | howto 追加 | `docs/howto/add-html-view.md` — `templates/` 配置 → `NativePhpViewRenderer` → `HtmlResponseFactory` の全手順を 6 言語で | 高 |
-| 70-3 | FT15: HTML View FT | HTML レスポンスを主軸にしたアプリ（例: ブログ一覧・フォーム）を `composer require` から構築して摩擦記録 | 中 |
-
-### Phase 71 — MCP 層強化
-
-| # | タスク | 内容 | 優先度 |
-|---|---|---|---|
-| 71-1 | MCP テスト拡充 | `LocalMcpToolCatalog` の 3 テストを拡充（ツール検証・スキーマ生成・エラーケース） | 高 |
-| 71-2 | howto 追加 | `docs/howto/add-mcp-tools.md` — Consumer プロジェクトでの MCP ツール定義・認証・テストの全手順 | 高 |
-| 71-3 | Write ツール認証ドキュメント | JWT 保護 Write ツールのパターンを howto またはコード例で明示 | 中 |
-| 71-4 | FT16: MCP 中心 FT | MCP ツール（read + write）を主目的にしたアプリを構築して摩擦記録 | 中 |
-
-### Phase 72 — テストカバレッジ補完（評価レポート指摘）
-
-| # | タスク | 内容 | 優先度 |
-|---|---|---|---|
-| 72-1 | BearerTokenMiddleware 境界テスト | token expiry / malformed header / missing `Bearer ` prefix の各ケース | 中 |
-| 72-2 | ThrottleMiddleware テスト | 現在テストなし — 基本動作・制限超過・リセットを追加 | 中 |
-| 72-3 | PaginationQueryParser テスト | 現在テストなし — デフォルト値・不正入力・上限を追加 | 低 |
-
-### v1.5.0 リリース準備
-
-上記 Phase 70〜72 が完了したタイミングで v1.5.0 を検討。
-FT12〜FT14 の実績＋ View/MCP 強化がセットになったリリースにする。
+- FT17 (追加フィールドトライアル) — 新テーマで品質を継続検証
+- v1.5.x パッチ — FT15/FT16 フォローアップ Issue があれば対応
 
 ---
 
