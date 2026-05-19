@@ -72,9 +72,43 @@ $pagination = PaginationQueryParser::parse($request, defaultLimit: 10, maxLimit:
 
 `PaginationQueryParser::parse()` は PSR-7 リクエストの `getQueryParams()` を読み取り、値を `int` にキャストしてバリデーションを行い、`PaginationQuery` DTO を返します。数値以外の値は `0` にキャストされ（PHP の `(int)` キャスト動作）、`limit < 1` チェックで捕捉されます。
 
+## ステップ 4 — `PaginationResponse` でエンベロープを標準化する
+
+`PaginationResponse` は標準的なリストエンベロープを構築する readonly DTO です:
+
+```php
+use Nene2\Http\PaginationResponse;
+
+return $this->response->create(
+    (new PaginationResponse(
+        items:  array_map(fn ($item) => ['id' => $item->id, 'name' => $item->name], $output->items),
+        limit:  $output->limit,
+        offset: $output->offset,
+    ))->toArray(),
+);
+```
+
+## ステップ 5 — 総件数を含める（オプション）
+
+リポジトリがカウントクエリをサポートする場合、`total` を渡します:
+
+```php
+$total = $this->repository->countAll(); // SELECT COUNT(*) AS n FROM ...
+
+return $this->response->create(
+    (new PaginationResponse(items: /* ... */, limit: $output->limit, offset: $output->offset, total: $total))->toArray(),
+);
+```
+
+`total` が `null`（デフォルト）の場合、レスポンスにキーは含まれません。
+
+> **トレードオフ**: `COUNT(*)` はリクエストごとにクエリが 1 件追加されます。オーバーヘッドが
+> 許容できない場合は `total` を省略し、クライアントに `items.length < limit` で最終ページを検出させてください。
+
 ## 参考
 
-- `src/Example/Note/ListNotesHandler.php` — パーサーを使ったリファレンス実装
+- `src/Example/Note/ListNotesHandler.php` — `PaginationResponse` を使ったリファレンス実装
 - `src/Example/Tag/ListTagsHandler.php` — 2 つ目の例
-- `Nene2\Http\PaginationQuery` — readonly DTO
+- `Nene2\Http\PaginationQuery` — パース済みパラメーターの readonly DTO
 - `Nene2\Http\PaginationQueryParser` — パーサークラス
+- `Nene2\Http\PaginationResponse` — リストエンベロープ DTO

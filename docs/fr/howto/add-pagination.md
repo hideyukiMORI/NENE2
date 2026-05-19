@@ -73,9 +73,43 @@ Aucune gestion d'erreur supplémentaire n'est nécessaire dans le handler.
 
 `PaginationQueryParser::parse()` lit `getQueryParams()` de la requête PSR-7, caste les valeurs en `int`, les valide et retourne un DTO `PaginationQuery`. Les valeurs non numériques sont castées en `0` (comportement PHP de `(int)`) puis interceptées par la vérification `limit < 1`.
 
+## Étape 4 — Utiliser `PaginationResponse` pour standardiser l'envelope
+
+`PaginationResponse` est un DTO readonly qui construit l'envelope de liste standard :
+
+```php
+use Nene2\Http\PaginationResponse;
+
+return $this->response->create(
+    (new PaginationResponse(
+        items:  array_map(fn ($item) => ['id' => $item->id, 'name' => $item->name], $output->items),
+        limit:  $output->limit,
+        offset: $output->offset,
+    ))->toArray(),
+);
+```
+
+## Étape 5 — Inclure le nombre total d'enregistrements (optionnel)
+
+Passez `total` quand le repository supporte une requête COUNT :
+
+```php
+$total = $this->repository->countAll(); // SELECT COUNT(*) AS n FROM ...
+
+return $this->response->create(
+    (new PaginationResponse(items: /* ... */, limit: $output->limit, offset: $output->offset, total: $total))->toArray(),
+);
+```
+
+Quand `total` est `null` (défaut), la clé est omise de la réponse.
+
+> **Compromis** : `COUNT(*)` ajoute une requête par appel. Omettez `total` si l'overhead est
+> inacceptable et laissez les clients détecter la dernière page avec `items.length < limit`.
+
 ## Voir aussi
 
-- `src/Example/Note/ListNotesHandler.php` — implémentation de référence utilisant le parseur
+- `src/Example/Note/ListNotesHandler.php` — implémentation de référence avec `PaginationResponse`
 - `src/Example/Tag/ListTagsHandler.php` — deuxième exemple
 - `Nene2\Http\PaginationQuery` — DTO readonly
 - `Nene2\Http\PaginationQueryParser` — la classe parseur
+- `Nene2\Http\PaginationResponse` — le DTO envelope de liste

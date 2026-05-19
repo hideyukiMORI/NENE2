@@ -253,6 +253,9 @@ final readonly class RuntimeServiceProvider implements ServiceProviderInterface
                         $requestIdHolder,
                         [$noteRegistrar, $tagRegistrar],
                         $bearerMiddleware,
+                        [],
+                        null,
+                        $config->debug,
                     );
                 },
             )

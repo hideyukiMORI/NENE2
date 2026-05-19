@@ -42,6 +42,8 @@ final readonly class RuntimeApplicationFactory
      * @param list<DomainExceptionHandlerInterface> $domainExceptionHandlers
      * @param list<callable(Router): void> $routeRegistrars
      * @param list<HealthCheckInterface> $healthChecks
+     * @param bool $debug When true, unhandled exception messages are exposed in 500 `detail`.
+     *                    Never set to true in production.
      */
     public function __construct(
         private ResponseFactoryInterface $responseFactory,
@@ -54,6 +56,7 @@ final readonly class RuntimeApplicationFactory
         private ?BearerTokenMiddleware $bearerTokenMiddleware = null,
         private array $healthChecks = [],
         private ?ThrottleMiddleware $throttleMiddleware = null,
+        private bool $debug = false,
     ) {
     }
 
@@ -152,7 +155,7 @@ final readonly class RuntimeApplicationFactory
             new RequestLoggingMiddleware($logger),
             new SecurityHeadersMiddleware(),
             new CorsMiddleware($this->responseFactory),
-            new ErrorHandlerMiddleware($problemDetails, $this->domainExceptionHandlers),
+            new ErrorHandlerMiddleware($problemDetails, $this->domainExceptionHandlers, $this->debug),
             new RequestSizeLimitMiddleware($problemDetails),
             new ApiKeyAuthenticationMiddleware($problemDetails, $this->machineApiKey, ['/machine/health']),
         ];

@@ -16,10 +16,15 @@ use Throwable;
 
 final readonly class ErrorHandlerMiddleware implements MiddlewareInterface
 {
-    /** @param list<DomainExceptionHandlerInterface> $domainHandlers */
+    /**
+     * @param list<DomainExceptionHandlerInterface> $domainHandlers
+     * @param bool $debug When true, the exception message is included in the 500 response `detail`
+     *                    field. Never set to true in production.
+     */
     public function __construct(
         private ProblemDetailsResponseFactory $problemDetails,
         private array $domainHandlers = [],
+        private bool $debug = false,
     ) {
     }
 
@@ -76,7 +81,9 @@ final readonly class ErrorHandlerMiddleware implements MiddlewareInterface
                 'internal-server-error',
                 'Internal Server Error',
                 500,
-                'The server encountered an unexpected condition.',
+                $this->debug
+                    ? $exception->getMessage()
+                    : 'The server encountered an unexpected condition.',
             );
         }
     }
