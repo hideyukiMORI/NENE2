@@ -23,7 +23,19 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 - **Phase 61** (#426, #429): FT10 フォローアップ Feature Improvements — APP_DEBUG 例外詳細露出・PaginationResponse DTO 追加（PR #431 マージ済み）
 - **#432**: SQLite スキーマ初期化パターンをドキュメント化（F-6 対応、PR #433 マージ済み）
 
-## Next: AI-Standard-Tool 方向への強化
+## Next: Phase 62 — Field Trial 11（tasklog）
+
+**仮説**: JWT Bearer 認証フローは Claude が NENE2 ドキュメントだけで迷わず実装できるか。
+
+**アプリ**: tasklog（タスク管理 API）— User 登録/ログイン + Task CRUD（認証保護）
+
+Issue: #434 / マイルストーン: `docs/milestones/2026-05-field-trial-11.md`
+
+実施準備が整ったら hoplog と同じ手順で着手する。
+
+---
+
+## Backlog: AI-Standard-Tool 方向への強化
 
 ### AI 認知・発見性
 
