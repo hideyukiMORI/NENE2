@@ -60,6 +60,15 @@ final readonly class RuntimeApplicationFactory
      *                                                   mode). Defaults to `['/machine/health']`. Set to `[]`
      *                                                   combined with `$machineApiKeyExcludedPaths` to protect
      *                                                   all paths except the excluded ones.
+     * @param list<string> $machineApiKeyProtectedPathPrefixes Path prefixes protected by the machine API key
+     *                                                          (e.g. `['/admin/']` matches `/admin/users/42`).
+     *                                                          Evaluated only when `$machineApiKeyProtectedPaths`
+     *                                                          is empty.
+     * @param list<string> $machineApiKeyProtectedMethods HTTP methods that require the machine API key
+     *                                                     (uppercase, e.g. `['POST', 'PUT', 'DELETE']`).
+     *                                                     When non-empty, GET/HEAD requests pass through
+     *                                                     without a key even on protected paths. Useful for
+     *                                                     "public read / key-gated write" patterns.
      * @param bool $debug When true, unhandled exception messages are exposed in 500 `detail`.
      *                    Never set to true in production.
      */
@@ -78,6 +87,8 @@ final readonly class RuntimeApplicationFactory
         private array $allowedOrigins = [],
         private array $machineApiKeyExcludedPaths = [],
         private array $machineApiKeyProtectedPaths = ['/machine/health'],
+        private array $machineApiKeyProtectedPathPrefixes = [],
+        private array $machineApiKeyProtectedMethods = [],
     ) {
     }
 
@@ -182,7 +193,9 @@ final readonly class RuntimeApplicationFactory
                 $problemDetails,
                 $this->machineApiKey,
                 $this->machineApiKeyProtectedPaths,
-                excludedPaths: $this->machineApiKeyExcludedPaths,
+                excludedPaths:          $this->machineApiKeyExcludedPaths,
+                protectedPathPrefixes:  $this->machineApiKeyProtectedPathPrefixes,
+                protectedMethods:       $this->machineApiKeyProtectedMethods,
             ),
         ];
 
