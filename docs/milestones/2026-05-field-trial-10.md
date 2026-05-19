@@ -45,10 +45,12 @@ Key deliverables:
 - [x] #427: ContainerBuilder 後勝ちルール・ValidationException 例・--allow-risky=yes 追記（F-1, F-7, F-9）
 - [x] #428: 推奨 Dockerfile How-to 追加（F-3）
 
-### Phase 61 — FT10 Follow-up: Feature Improvements
+### Phase 61 — FT10 Follow-up: Feature Improvements ✅
 
-- [ ] #426: `APP_DEBUG=true` 時に例外メッセージを detail / ログに出力（F-5）
-- [ ] #429: ページネーションレスポンスの `total` フィールド対応（F-8）
+Address feature-level findings from Field Trial 10. (PR #431 merged)
+
+- [x] #426: `APP_DEBUG=true` 時に例外メッセージを detail に出力（F-5）
+- [x] #429: `PaginationResponse` DTO 追加・`total` フィールド対応（F-8）
 
 ## Acceptance Criteria (Phase 58)
 

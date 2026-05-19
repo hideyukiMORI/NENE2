@@ -20,13 +20,11 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 ## Recently Completed (continued)
 
 - **Phase 60** (#423–#425, #427–#428): FT10 フォローアップ Docs & Fixes — SQLite バリデーション修正 + ドキュメント追記 6 言語（PR #430 マージ済み）
+- **Phase 61** (#426, #429): FT10 フォローアップ Feature Improvements — APP_DEBUG 例外詳細露出・PaginationResponse DTO 追加（PR #431 マージ済み）
 
-## Next: Phase 61 — FT10 Follow-up Feature Improvements
+## Next
 
-| Issue | 内容 | 深刻度 |
-|---|---|---|
-| #426 | `APP_DEBUG=true` 時に例外メッセージを detail / ログに出力 | 高 |
-| #429 | ページネーションレスポンスの `total` フィールド対応 | 中 |
+特定のタスクなし — 次のフィールドトライアルまたは Issue を確認のこと。
 
 ## Operating Notes
 
