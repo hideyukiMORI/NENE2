@@ -7,10 +7,13 @@ namespace Nene2\Tests\Auth;
 use Nene2\Auth\BearerTokenMiddleware;
 use Nene2\Auth\LocalBearerTokenVerifier;
 use Nene2\Error\ProblemDetailsResponseFactory;
+use Nene2\Http\RequestScopedHolder;
 use Nene2\Http\RuntimeApplicationFactory;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
 final class ProtectedEndpointHttpTest extends TestCase
@@ -75,6 +78,62 @@ final class ProtectedEndpointHttpTest extends TestCase
         $response = $this->request('GET', '/health');
 
         self::assertSame(200, $response->getStatusCode());
+    }
+
+    public function testAuthMiddlewareAcceptsListOfMiddlewares(): void
+    {
+        $factory = new Psr17Factory();
+        $probs   = new ProblemDetailsResponseFactory($factory, $factory);
+
+        /** @var RequestScopedHolder<string> $holder */
+        $holder = new RequestScopedHolder();
+
+        $first = new class ($holder) implements MiddlewareInterface {
+            /** @param RequestScopedHolder<string> $holder */
+            public function __construct(private readonly RequestScopedHolder $holder)
+            {
+            }
+
+            public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
+            {
+                $this->holder->set('first-ran');
+                return $handler->handle($request);
+            }
+        };
+
+        $second = new class ($holder) implements MiddlewareInterface {
+            /** @param RequestScopedHolder<string> $holder */
+            public function __construct(private readonly RequestScopedHolder $holder)
+            {
+            }
+
+            public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
+            {
+                $request = $request->withAttribute('test-order', $this->holder->get() . '+second-ran');
+                return $handler->handle($request);
+            }
+        };
+
+        $app = (new RuntimeApplicationFactory(
+            $factory,
+            $factory,
+            authMiddleware: [$first, $second],
+            routeRegistrars: [
+                static function (\Nene2\Routing\Router $router) use ($factory): void {
+                    $jsonFactory = new \Nene2\Http\JsonResponseFactory($factory, $factory);
+                    $router->get('/probe', static fn (ServerRequestInterface $req) => $jsonFactory->create([
+                        'order' => $req->getAttribute('test-order'),
+                    ]));
+                },
+            ],
+        ))->create();
+
+        $request  = $factory->createServerRequest('GET', 'http://localhost/probe');
+        $response = $app->handle($request);
+        $payload  = json_decode((string) $response->getBody(), true, flags: JSON_THROW_ON_ERROR);
+
+        self::assertSame(200, $response->getStatusCode());
+        self::assertSame('first-ran+second-ran', $payload['order']);
     }
 
     /**

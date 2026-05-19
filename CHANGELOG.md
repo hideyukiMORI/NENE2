@@ -10,6 +10,15 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.3] — 2026-05-20
+
+### Added
+- `RequestScopedHolder<T>` (`Nene2\Http\RequestScopedHolder`) — a generic mutable holder for request-scoped values. Inject one shared instance into a middleware (writer) and a route handler or repository (reader) to pass extracted values — tenant ID, decoded claims, trace context — without threading the PSR-7 request object through every layer. Includes `set()`, `get()`, `isSet()`, and `reset()` (for async runtimes). (#555)
+- `RuntimeApplicationFactory::$authMiddleware` now accepts `list<MiddlewareInterface>` in addition to a single `MiddlewareInterface|null`. Pass a list to stack multiple middlewares in sequence (first item runs first) without wrapping them in a composite — e.g. a tenant extractor followed by a JWT verifier. Existing single-middleware callers are unaffected. (#556)
+- `docs/howto/request-scoped-state.md` — explains the holder pattern, when to prefer it over PSR-7 request attributes, how to stack multiple auth middlewares, and the async-runtime caveat (PHP shared-nothing model). (#557)
+
+---
+
 ## [1.5.2] — 2026-05-20
 
 ### Added
