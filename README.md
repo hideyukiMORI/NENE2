@@ -1,6 +1,13 @@
 # NENE2
 
+[![PHP](https://img.shields.io/badge/PHP-8.4%2B-8892BF)](https://www.php.net/)
+[![Packagist](https://img.shields.io/packagist/v/hideyukimori/nene2)](https://packagist.org/packages/hideyukimori/nene2)
+[![OpenAPI](https://img.shields.io/badge/OpenAPI-3.1-85EA2D)](https://raw.githubusercontent.com/hideyukiMORI/NENE2/main/docs/openapi/openapi.yaml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
+
 PHP micro-framework: JSON APIs first, minimal server HTML, easy React starter integration, structure friendly to AI tooling.
+
+**[OpenAPI contract](https://raw.githubusercontent.com/hideyukiMORI/NENE2/main/docs/openapi/openapi.yaml)** — machine-readable API spec (OpenAPI 3.1). Live Swagger UI at `http://localhost:8080/docs/` after `docker compose up -d app`.
 
 NENE2 is a small, modern PHP framework foundation designed for projects that want to ship JSON APIs quickly, keep server-rendered HTML thin, and add a React frontend starter without turning the backend into frontend build glue.
 

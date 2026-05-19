@@ -4,6 +4,16 @@
 
 NENE2 lets you ship a JSON API with OpenAPI contract, optional React frontend, and a safe MCP tool surface in a single repository. The framework ships only the pieces you need — routing, middleware pipeline, dependency injection, database adapters, and auth primitives — without magic conventions or hidden control flow.
 
+## OpenAPI contract
+
+The authoritative machine-readable API specification is available at:
+
+- **Raw YAML**: `https://raw.githubusercontent.com/hideyukiMORI/NENE2/main/docs/openapi/openapi.yaml`
+- **Live Swagger UI** (local): `http://localhost:8080/docs/` (after `docker compose up -d app`)
+- **Live spec endpoint** (local): `http://localhost:8080/openapi.php`
+
+The spec covers all shipped JSON endpoints including health, examples (Note/Tag CRUD), and machine-client endpoints. RFC 9457 Problem Details error schemas are included for every operation.
+
 ## Docs
 
 - [README](https://github.com/hideyukiMORI/NENE2/blob/main/README.md): Installation, quick start, project philosophy.
