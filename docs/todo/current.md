@@ -27,13 +27,17 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 - **Phase 62 / Field Trial 11** (#434): tasklog（タスク管理 JWT 認証 API）を `composer require hideyukimori/nene2:^1.4` から 0 構築。2ドメイン・7エンドポイント・PHPUnit 12/12・PHPStan level 8・PHP-CS-Fixer 全通過。摩擦 4 件記録（F-1〜F-4）、フォローアップ Issue #440–#443 作成。hideyukiMORI/tasklog PR #1 マージ済み。
 
-## Next: Phase 63 — FT11 フォローアップ実装
+## Recently Completed (continued)
 
-最優先: **F-1 (#440) — BearerTokenMiddleware にプレフィックスマッチ or 除外パスオプションを追加**
+- **Phase 63 / FT11 フォローアップ実装**:
+  - #440 → PR #445: `BearerTokenMiddleware` に `$excludedPaths`（ブラックリスト）オプション追加
+  - #441 → PR #446: `RuntimeApplicationFactory` auth 引数型を `MiddlewareInterface` に緩める
+  - #442 → PR #447: `TokenIssuerInterface` を公開 API に追加、ADR 0009 更新
+  - #443 → PR #448: `CLAUDE.md` セクション 18 に開発ソース vs 公開パッケージ注記追加
 
-連鎖: F-2 (#441) RuntimeApplicationFactory 柔軟化 → F-3 (#442) TokenIssuerInterface 公開 → F-4 (#443) CLAUDE.md 注記
+## Next: Phase 64 — JWT 認証 how-to ドキュメント（#442 の how-to 部分）
 
-or **JWT 認証 how-to ドキュメント追加**（add-jwt-authentication.md）を先行して F-1〜F-3 の回避策を文書化する選択肢もある。
+`docs/howto/add-jwt-authentication.md` を追加し、認証フロー（登録・ログイン・Bearer 保護エンドポイント）の最小構成例を文書化する。6 言語展開も検討。
 
 ---
 
