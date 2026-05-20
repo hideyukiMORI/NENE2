@@ -4,7 +4,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 ## Status
 
-- Latest release: `v1.5.40`（2026-05-21 リリース済み）
+- Latest release: `v1.5.41`（2026-05-21 リリース済み）
 - Current branch: `main` — clean — open Issue なし
 
 ## Recently Completed (FT ループ — v1.5.27 〜 v1.5.39)
@@ -22,6 +22,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 | FT104 | Webhook シグネチャ検証 | hmaclog | 13/13 | v1.5.38 | webhook-signature.md（hash_equals() vs ===・タイミング攻撃・リプレイ防止） |
 | FT105 | 楽観的ロック | optlocklog | 12/12 | v1.5.39 | optimistic-locking.md（失われた更新・WHERE version=?・409 応答設計） |
 | FT106 | ETag・条件付きリクエスト | etaglog | 15/15 | v1.5.40 | etag-conditional-requests.md（304・412・428・ダブルクォート必須・ISO 8601） |
+| FT107 | レートリミット | throttlelog | 9/9 | v1.5.41 | rate-limiting.md（ThrottleMiddleware・InMemoryRateLimitStorage 本番非推奨・リバースプロキシ・keyExtractor） |
 
 ## 次のアクション
 
@@ -29,7 +30,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 ## Open Issues
 
-なし（FT106 で起票した #714 は v1.5.40 で解消済み）
+なし（FT107 で起票した #716 は v1.5.41 で解消済み）
 
 ## Operating Notes
 
