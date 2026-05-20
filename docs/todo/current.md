@@ -4,7 +4,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 ## Status
 
-- Latest release: `v1.5.43`（2026-05-21 リリース済み）
+- Latest release: `v1.5.44`（2026-05-21 リリース済み）
 - Current branch: `main` — clean — open Issue なし
 
 ## Recently Completed (FT ループ — v1.5.27 〜 v1.5.39)
@@ -25,6 +25,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 | FT107 | レートリミット | throttlelog | 9/9 | v1.5.41 | rate-limiting.md（ThrottleMiddleware・InMemoryRateLimitStorage 本番非推奨・リバースプロキシ・keyExtractor） |
 | FT108 | ソフトデリート | softdeletelog | 18/18 | v1.5.42 | soft-delete.md（WHERE deleted_at IS NULL 必須・includeTrashed・purge ガード・insert()） |
 | FT109 | パスワードハッシュ | pwdlog | 14/14 | v1.5.43 | password-hashing.md（Argon2id・DatabaseConstraintException・ユーザー列挙防止・dummy hash） |
+| FT110 | JWT 認証 | jwtlog | 14/14 | v1.5.44 | jwt-authentication.md（LocalBearerTokenVerifier Issuer兼用・excludedPaths・nene2.auth.claims・exp int必須・alg:none拒否） |
 
 ## 次のアクション
 
@@ -32,7 +33,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 ## Open Issues
 
-なし（FT109 で起票した #720 は v1.5.43 で解消済み）
+なし（FT110 で起票した #722 は v1.5.44 で解消済み）
 
 ## Operating Notes
 
