@@ -10,6 +10,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.32] — 2026-05-20
+
+### Added
+- `docs/howto/file-upload.md` — base64 JSON file upload guide: `requestMaxBodyBytes` sizing for base64 overhead, `finfo_buffer()` MIME detection, filename sanitization checklist (path traversal, null bytes, dangerous extensions), PHP exception property collision note. (#697)
+- `docs/field-trials/2026-05-field-trial-98.md` — FT98 report: uploadlog (file upload security). (#697)
+
+---
+
 ## [1.5.31] — 2026-05-20
 
 ### Added
