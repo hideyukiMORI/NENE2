@@ -12,8 +12,10 @@ use Psr\Http\Server\RequestHandlerInterface;
 /**
  * Registers named-parameter routes and dispatches incoming requests to the matching handler.
  *
- * Routes are matched in registration order. Path parameters (e.g. `/users/{id}`) are
- * stored in the `nene2.route.parameters` request attribute ({@see Router::PARAMETERS_ATTRIBUTE}).
+ * Routes with fewer path parameters (more static segments) take priority over parameterized
+ * routes, regardless of registration order. Among routes with the same parameter count,
+ * registration order is preserved. Path parameters (e.g. `/users/{id}`) are stored in the
+ * `nene2.route.parameters` request attribute ({@see Router::PARAMETERS_ATTRIBUTE}).
  * Throws {@see RouteNotFoundException} (404) or {@see MethodNotAllowedException} (405) on mismatch.
  *
  * Part of the public API stability guarantee (see ADR 0009).
@@ -26,6 +28,8 @@ final class Router implements RequestHandlerInterface
 
     /** @var list<Route> */
     private array $routes = [];
+
+    private bool $sorted = true;
 
     /**
      * @param callable(ServerRequestInterface): ResponseInterface $handler
@@ -69,6 +73,12 @@ final class Router implements RequestHandlerInterface
 
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
+        if (!$this->sorted) {
+            // Stable sort: fewer parameters = higher priority; registration order preserved for ties.
+            usort($this->routes, fn (array $a, array $b) => count($a['parameterNames']) <=> count($b['parameterNames']));
+            $this->sorted = true;
+        }
+
         $method = strtoupper($request->getMethod());
         $path = $request->getUri()->getPath() ?: '/';
 
@@ -119,6 +129,8 @@ final class Router implements RequestHandlerInterface
             'parameterNames' => $parameterNames,
             'handler' => $handler,
         ];
+
+        $this->sorted = false;
 
         return $this;
     }
