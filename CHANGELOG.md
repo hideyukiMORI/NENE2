@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.8] — 2026-05-20
+
+### Changed
+- `CorsMiddleware` — added PHPDoc note that OPTIONS preflight requests receive a `204 No Content` response and do not reach the route handler. (#582)
+
+---
+
 ## [1.5.7] — 2026-05-20
 
 ### Changed
