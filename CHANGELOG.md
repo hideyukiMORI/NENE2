@@ -10,6 +10,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.37] — 2026-05-21
+
+### Added
+- `docs/howto/mass-assignment.md` — mass assignment defence guide: explicit DTO whitelist pattern, attack scenarios (role escalation, is_active tampering, id/timestamp forgery), response field control, trusted-internal-service DTO pattern, `create()` vs `createList()` distinction, code review checklist. (#708)
+- `docs/field-trials/2026-05-field-trial-103.md` — FT103 report: masslog (mass assignment defence, 14 tests, 39 assertions, 6-persona DX review). (#708)
+
+---
+
 ## [1.5.36] — 2026-05-21
 
 ### Added
