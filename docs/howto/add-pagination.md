@@ -139,6 +139,24 @@ When `total` is `null` (the default), the key is omitted from the response.
 > is large and the overhead is unacceptable, and instruct clients to detect the last page by
 > checking `items.length < limit`.
 
+## Step 6 — Parse other query parameters with `QueryStringParser`
+
+Use `QueryStringParser` for additional filter parameters beyond `limit`/`offset`.
+
+```php
+use Nene2\Http\QueryStringParser;
+
+$search = QueryStringParser::string($request, 'search');   // ?string
+$page   = QueryStringParser::int($request, 'page');        // ?int
+$active = QueryStringParser::bool($request, 'is_active');  // ?bool
+
+// Comma-separated multi-value: ?tags=php,lang → ['php', 'lang']
+$tags = QueryStringParser::commaSeparated($request, 'tags'); // list<string>|null
+```
+
+`commaSeparated()` splits on commas, trims whitespace, removes empty values, and returns `null`
+when the parameter is absent or produces an empty list after filtering.
+
 ## See also
 
 - `src/Example/Note/ListNotesHandler.php` — reference implementation using `PaginationResponse`
@@ -146,3 +164,4 @@ When `total` is `null` (the default), the key is omitted from the response.
 - `Nene2\Http\PaginationQuery` — readonly DTO for parsed parameters
 - `Nene2\Http\PaginationQueryParser` — the parser class
 - `Nene2\Http\PaginationResponse` — the list-envelope DTO
+- `Nene2\Http\QueryStringParser` — typed helpers for other query parameters

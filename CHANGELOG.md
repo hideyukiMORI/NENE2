@@ -10,6 +10,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.9] — 2026-05-20
+
+### Added
+- `QueryStringParser::commaSeparated()` — splits a comma-separated query parameter into a `list<string>`, trimming whitespace and removing empty values. Returns `null` when the key is absent or produces an empty list. (#584)
+- `docs/howto/add-pagination.md` — added Step 6 documenting `QueryStringParser` helpers (`string`, `int`, `bool`, `commaSeparated`) with usage examples. (#584)
+
+---
+
 ## [1.5.8] — 2026-05-20
 
 ### Changed
