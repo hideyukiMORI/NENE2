@@ -10,6 +10,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.46] — 2026-05-21
+
+### Added
+- `docs/howto/multi-tenant-isolation.md` — マルチテナント隔離ガイド: 全クエリへの `tenant_id` フィルター必須（`ForTenant` サフィックスパターン）、JWT クレームへのテナント ID 埋め込みと `is_int()` 型チェック、クロステナントアクセスは 404（403 は情報漏洩）、レスポンスから `tenant_id` を除外、PHPStan `assertIsList()` による `list<>` 型保証、コードレビューチェックリスト。 (#726)
+- `docs/field-trials/2026-05-field-trial-112.md` — FT112 レポート: tenantlog（マルチテナント隔離、13 tests / 61 assertions、6ペルソナ DX レビュー）。 (#726)
+
+---
+
 ## [1.5.45] — 2026-05-21
 
 ### Added
