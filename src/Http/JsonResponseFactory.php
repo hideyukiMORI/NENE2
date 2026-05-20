@@ -41,4 +41,12 @@ final readonly class JsonResponseFactory
 
         return $response->withBody($body);
     }
+
+    /**
+     * Creates an empty response with no body — intended for 204 No Content and similar status codes.
+     */
+    public function createEmpty(int $status = 204): ResponseInterface
+    {
+        return $this->responseFactory->createResponse($status);
+    }
 }

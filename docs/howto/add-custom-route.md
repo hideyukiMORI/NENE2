@@ -209,6 +209,25 @@ or serve the HTML via the framework's smoke response by registering a health che
 
 ---
 
+## Returning 204 No Content (DELETE endpoints)
+
+Use `JsonResponseFactory::createEmpty()` to return a 204 response with no body:
+
+```php
+private function delete(ServerRequestInterface $request): ResponseInterface
+{
+    $params = (array) $request->getAttribute(Router::PARAMETERS_ATTRIBUTE);
+    $id     = (int) ($params['id'] ?? 0);
+    $this->repository->delete($id); // throws NotFoundException if not found
+    return $this->json->createEmpty(204);
+}
+```
+
+> **Why not `create([], 204)`?** Passing an empty array produces a `{}` JSON body.
+> `createEmpty()` returns a truly bodyless response, which is correct for 204 No Content.
+
+---
+
 ## Next step
 
 If your route needs to read from or write to a database, see
