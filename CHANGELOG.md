@@ -10,6 +10,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.19] — 2026-05-20
+
+### Added
+- `docs/howto/add-database-endpoint.md` — added "Path parameters" callout explaining `Router::PARAMETERS_ATTRIBUTE` extraction pattern; notes that `getAttribute('id')` returns `null` and causes silent 404s. (#624)
+- `docs/field-trials/2026-05-field-trial-48.md` — FT48 (webhooklog) field trial report.
+
+---
+
 ## [1.5.18] — 2026-05-20
 
 ### Added
