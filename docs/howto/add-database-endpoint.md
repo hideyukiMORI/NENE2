@@ -566,6 +566,68 @@ $id = $this->executor->lastInsertId();
 
 ---
 
+## Full-text search with SQLite FTS5
+
+SQLite 3.9+ (bundled with PHP) supports the FTS5 extension for efficient full-text search.
+The recommended pattern uses a **content table** — the FTS index shadows a regular table,
+with triggers keeping them in sync.
+
+### Schema
+
+```sql
+CREATE TABLE IF NOT EXISTS articles (
+    id      INTEGER PRIMARY KEY AUTOINCREMENT,
+    title   TEXT NOT NULL,
+    body    TEXT NOT NULL
+);
+
+CREATE VIRTUAL TABLE IF NOT EXISTS articles_fts USING fts5(
+    title,
+    body,
+    content='articles',
+    content_rowid='id'
+);
+
+-- Keep FTS index in sync with the base table
+CREATE TRIGGER IF NOT EXISTS articles_ai AFTER INSERT ON articles BEGIN
+    INSERT INTO articles_fts(rowid, title, body) VALUES (new.id, new.title, new.body);
+END;
+
+CREATE TRIGGER IF NOT EXISTS articles_ad AFTER DELETE ON articles BEGIN
+    INSERT INTO articles_fts(articles_fts, rowid, title, body) VALUES ('delete', old.id, old.title, old.body);
+END;
+
+CREATE TRIGGER IF NOT EXISTS articles_au AFTER UPDATE ON articles BEGIN
+    INSERT INTO articles_fts(articles_fts, rowid, title, body) VALUES ('delete', old.id, old.title, old.body);
+    INSERT INTO articles_fts(rowid, title, body) VALUES (new.id, new.title, new.body);
+END;
+```
+
+### Query
+
+Join the FTS table on `rowid` and use `MATCH` for the search predicate:
+
+```php
+$sql = 'SELECT a.*
+          FROM articles a
+          JOIN articles_fts fts ON a.id = fts.rowid
+         WHERE fts.articles_fts MATCH ?
+         ORDER BY a.created_at DESC
+         LIMIT ? OFFSET ?';
+
+$rows = $this->executor->fetchAll($sql, [$query . '*', $limit, $offset]);
+```
+
+Append `'*'` to the query string for **prefix matching** (`php*` matches "PHP", "phpstan", etc.).
+Omit it for exact-word matching.
+
+> **Combining with other filters**: When mixing FTS search with regular WHERE clauses
+> (e.g., `AND source = ?`), add extra conditions after the `MATCH` predicate in the same
+> WHERE clause. The FTS filter must come first so that it defines the rowid set that the
+> regular filters then narrow.
+
+---
+
 ## Next steps
 
 - Add OpenAPI documentation for your endpoint: see `docs/development/endpoint-scaffold.md`
