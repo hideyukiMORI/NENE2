@@ -10,6 +10,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.39] — 2026-05-21
+
+### Added
+- `docs/howto/optimistic-locking.md` — optimistic locking guide: lost-update problem scenario, version field schema, `WHERE version = ?` pattern with `execute()` affected-rows check, 0-rows disambiguation (not-found vs conflict), atomic `version = version + 1` in SQL, 409 response with `current_version`, client retry flow, optimistic vs pessimistic comparison table, code review checklist. (#712)
+- `docs/field-trials/2026-05-field-trial-105.md` — FT105 report: optlocklog (optimistic locking, 12 tests, 24 assertions, 6-persona DX review). (#712)
+
+---
+
 ## [1.5.38] — 2026-05-21
 
 ### Added

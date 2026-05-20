@@ -4,10 +4,10 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 ## Status
 
-- Latest release: `v1.5.38`（2026-05-21 リリース済み）
+- Latest release: `v1.5.39`（2026-05-21 リリース済み）
 - Current branch: `main` — clean — open Issue なし
 
-## Recently Completed (FT ループ — v1.5.27 〜 v1.5.38)
+## Recently Completed (FT ループ — v1.5.27 〜 v1.5.39)
 
 | FT | テーマ | アプリ | テスト | リリース | 主要対応 |
 |---|---|---|---|---|---|
@@ -20,6 +20,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 | FT102 | DBトランザクション境界 | txlog | 11/11 | v1.5.36 | transactions.md（コールバック外インジェクト罠・pre-validation パターン） |
 | FT103 | マスアサインメント防御 | masslog | 14/14 | v1.5.37 | mass-assignment.md（DTO ホワイトリスト・権限フィールド隔離・レスポンス制御） |
 | FT104 | Webhook シグネチャ検証 | hmaclog | 13/13 | v1.5.38 | webhook-signature.md（hash_equals() vs ===・タイミング攻撃・リプレイ防止） |
+| FT105 | 楽観的ロック | optlocklog | 12/12 | v1.5.39 | optimistic-locking.md（失われた更新・WHERE version=?・409 応答設計） |
 
 ## 次のアクション
 
@@ -27,7 +28,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 ## Open Issues
 
-なし（FT104 で起票した #710 は v1.5.38 で解消済み）
+なし（FT105 で起票した #712 は v1.5.39 で解消済み）
 
 ## Operating Notes
 
