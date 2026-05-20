@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.22] — 2026-05-20
+
+### Changed
+- `Router`: static routes (zero path parameters) now always take priority over parameterized routes, regardless of registration order. Among routes with the same parameter count, registration order is preserved. This eliminates the common pitfall of `GET /resources/action` being captured by `GET /resources/{id}` when the parameterized route is registered first. (#649)
+
+---
+
 ## [1.5.21] — 2026-05-20
 
 ### Added
