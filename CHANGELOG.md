@@ -10,6 +10,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.47] — 2026-05-21
+
+### Added
+- `docs/howto/refresh-token-rotation.md` — Refresh Token Rotation ガイド: リフレッシュトークンのハッシュ保存（SHA-256、生値は DB に入れない）、ローテーション（使用後即 `revoke()`）、リプレイ攻撃検知（失効済みトークン再利用時に `revokeAllForUser()`）、ログアウトは必ず 204（情報漏洩防止）、`jti` クレームによるアクセストークンのユニーク性保証、アクセストークン（短命・stateless）とリフレッシュトークン（長命・DB管理）の分離。 (#728)
+- `docs/field-trials/2026-05-field-trial-113.md` — FT113 レポート: refreshlog（JWT Refresh Token Rotation、15 tests / 63 assertions、6ペルソナ DX レビュー）。 (#728)
+
+---
+
 ## [1.5.46] — 2026-05-21
 
 ### Added
