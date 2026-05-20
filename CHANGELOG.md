@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.20] — 2026-05-20
+
+### Added
+- `ConditionalGetHelper` — static utility for ETag / conditional-GET support. `check($request, $responseFactory, $etag, $lastModified)` returns a 304 Not Modified response (with `ETag` and `Last-Modified` headers) when `If-None-Match` or `If-Modified-Since` indicates the client already has a fresh copy, or `null` when the handler should return the full 200 response. (#637)
+
+---
+
 ## [1.5.19] — 2026-05-20
 
 ### Added
