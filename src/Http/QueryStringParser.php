@@ -14,12 +14,14 @@ use Psr\Http\Message\ServerRequestInterface;
  * absent or empty-string values.
  *
  * Usage:
- *   $all      = QueryStringParser::parse($request);                  // array<string, mixed> — all params
- *   $category = QueryStringParser::string($request, 'category');     // ?string
- *   $page     = QueryStringParser::int($request, 'page');            // ?int
- *   $isRead   = QueryStringParser::bool($request, 'is_read');        // ?bool (null when absent)
- *   $tags     = QueryStringParser::commaSeparated($request, 'tags'); // list<string>|null
- *   $tags     = QueryStringParser::array($request, 'tags');         // list<string>|null — ?tags[]=php&tags[]=api
+ *   $all      = QueryStringParser::parse($request);                      // array<string, mixed> — all params
+ *   $category = QueryStringParser::string($request, 'category');         // ?string
+ *   $category = QueryStringParser::string($request, 'category', 'all');  // string with default
+ *   $page     = QueryStringParser::int($request, 'page');                // ?int
+ *   $page     = QueryStringParser::int($request, 'page', 1);             // int with default
+ *   $isRead   = QueryStringParser::bool($request, 'is_read');            // ?bool (null when absent)
+ *   $tags     = QueryStringParser::commaSeparated($request, 'tags');     // list<string>|null
+ *   $tags     = QueryStringParser::array($request, 'tags');              // list<string>|null — ?tags[]=php&tags[]=api
  *
  * Part of the public API stability guarantee (see ADR 0009).
  */
@@ -39,34 +41,40 @@ final class QueryStringParser
     }
 
     /**
-     * Returns the raw string value for a query parameter, or null when the key is
+     * Returns the raw string value for a query parameter, or `$default` when the key is
      * absent or the value is an empty string.
+     *
+     * When `$default` is omitted (null), the return type is `?string`.
+     * When `$default` is a non-null string, the return type is `string`.
      */
-    public static function string(ServerRequestInterface $request, string $key): ?string
+    public static function string(ServerRequestInterface $request, string $key, ?string $default = null): ?string
     {
         $params = $request->getQueryParams();
 
         if (!isset($params[$key]) || !is_string($params[$key]) || $params[$key] === '') {
-            return null;
+            return $default;
         }
 
         return $params[$key];
     }
 
     /**
-     * Returns the integer value for a query parameter, or null when the key is
+     * Returns the integer value for a query parameter, or `$default` when the key is
      * absent, empty, or not a valid integer string.
+     *
+     * When `$default` is omitted (null), the return type is `?int`.
+     * When `$default` is a non-null int, the return type is `int`.
      */
-    public static function int(ServerRequestInterface $request, string $key): ?int
+    public static function int(ServerRequestInterface $request, string $key, ?int $default = null): ?int
     {
         $raw = self::string($request, $key);
 
         if ($raw === null) {
-            return null;
+            return $default;
         }
 
         if (!ctype_digit(ltrim($raw, '-')) || $raw === '-') {
-            return null;
+            return $default;
         }
 
         return (int) $raw;
