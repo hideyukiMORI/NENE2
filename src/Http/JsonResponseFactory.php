@@ -28,7 +28,7 @@ final readonly class JsonResponseFactory
     public function create(array $data, int $status = 200, array $headers = []): ResponseInterface
     {
         $body = $this->streamFactory->createStream(
-            json_encode($data, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT | JSON_PRESERVE_ZERO_FRACTION)
+            json_encode($data, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT | JSON_PRESERVE_ZERO_FRACTION | JSON_UNESCAPED_UNICODE)
         );
 
         $response = $this->responseFactory
@@ -54,7 +54,7 @@ final readonly class JsonResponseFactory
     public function createList(array $items, int $status = 200, array $headers = []): ResponseInterface
     {
         $body = $this->streamFactory->createStream(
-            json_encode($items, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT | JSON_PRESERVE_ZERO_FRACTION)
+            json_encode($items, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT | JSON_PRESERVE_ZERO_FRACTION | JSON_UNESCAPED_UNICODE)
         );
 
         $response = $this->responseFactory

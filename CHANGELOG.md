@@ -10,6 +10,17 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.27] — 2026-05-20
+
+### Changed
+- `JsonResponseFactory::create()` and `createList()` now include `JSON_UNESCAPED_UNICODE` in the `json_encode` flags. Non-ASCII characters (Japanese, emoji, Arabic, etc.) are now emitted as literal UTF-8 in responses instead of `\uXXXX` escape sequences. Payload size for CJK-heavy responses is reduced by ~3×. (#681)
+
+### Added
+- `docs/howto/validate-unicode-input.md` — how-to guide for Unicode-aware input validation: `mb_strlen` vs `strlen`, null-byte rejection, grapheme clusters vs codepoints, and `JSON_UNESCAPED_UNICODE` behaviour. (#682)
+- `docs/field-trials/2026-05-field-trial-93.md` — FT93 report: unicodelog (Unicode/emoji/encoding boundary). (#681 #682)
+
+---
+
 ## [1.5.26] — 2026-05-20
 
 ### Added
