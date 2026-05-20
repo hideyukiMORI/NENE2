@@ -4,179 +4,31 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 ## Status
 
-- Latest release: `v1.5.2`（2026-05-20 リリース済み）
+- Latest release: `v1.5.31`（2026-05-20 リリース済み）
 - Current branch: `main` — clean — open Issue なし
 
-## Recently Completed
+## Recently Completed (FT ループ — v1.5.27 〜 v1.5.31)
 
-- **Phase 56**: Field Trial 9 — v1.3.0 検証
-- **#407**: レビュー所見反映 — FT8 stub・FT10 マイルストーン・ロードマップ Phase 58–59
-- **#409**: ProblemDetailsResponseFactory base URL 設定化
-- **#413**: #409 実装後のドキュメント整合（deploy-production 6言語・ADR 0009・env-vars 6言語・CLAUDE.md）
-- **v1.4.0**: タグ・GitHub Release 作成、Packagist 反映確認
-- **#417 #418**: FrameworkInfo::VERSION 定数追加・LocalMcpServer バージョン修正・安定 API 全クラス PHPDoc 追加 (#419)
-- **Phase 58 / Field Trial 10** (#404): hoplog（クラフトビールテイスティングノート API）を `composer require hideyukimori/nene2:^1.4` から 0 構築。3ドメイン・15ルート・PHPStan level 8・全テスト通過。摩擦 9 件記録、フォローアップ Issue #423–#429 作成。PR #422 マージ済み。
+| FT | テーマ | アプリ | テスト | リリース | 主要対応 |
+|---|---|---|---|---|---|
+| FT93 | Unicode / 絵文字入力 | unicodelog | 22/22 | v1.5.27 | `JSON_UNESCAPED_UNICODE` 追加・validate-unicode-input.md |
+| FT94 | JWT 認証エッジケース | authlog | 18/18 | v1.5.28 | `authMiddleware` 命名 howto・`exp` 推奨明記 |
+| FT95 | タイムゾーン敏感日付 | schedulelog | 19/19 | v1.5.29 | `QueryStringParser::parse()` 追加・handle-timezones.md |
+| FT96 | コンテントネゴシエーション | contentlog | 16/16 | v1.5.30 | content-negotiation.md（406 を返さない設計を明文化） |
+| FT97 | SQL インジェクション防御 | injectionlog | 19/19 | v1.5.31 | `Router::param()`・`QueryStringParser` デフォルト値引数・sql-injection.md |
 
-## Recently Completed (continued)
+## 次のアクション
 
-- **Phase 60** (#423–#425, #427–#428): FT10 フォローアップ Docs & Fixes — SQLite バリデーション修正 + ドキュメント追記 6 言語（PR #430 マージ済み）
-- **Phase 61** (#426, #429): FT10 フォローアップ Feature Improvements — APP_DEBUG 例外詳細露出・PaginationResponse DTO 追加（PR #431 マージ済み）
-- **#432**: SQLite スキーマ初期化パターンをドキュメント化（F-6 対応、PR #433 マージ済み）
+- **FT98** — ファイルアップロード（MIME バリデーション・サイズ制限・パストラバーサルリスク）
+  - FT ループが自動スケジュール中（ScheduleWakeup 設定済み）
 
-## Recently Completed (continued)
+## Open Issues
 
-- **Phase 62 / Field Trial 11** (#434): tasklog（タスク管理 JWT 認証 API）を `composer require hideyukimori/nene2:^1.4` から 0 構築。2ドメイン・7エンドポイント・PHPUnit 12/12・PHPStan level 8・PHP-CS-Fixer 全通過。摩擦 4 件記録（F-1〜F-4）、フォローアップ Issue #440–#443 作成。hideyukiMORI/tasklog PR #1 マージ済み。
-
-## Recently Completed (continued)
-
-- **Phase 63 / FT11 フォローアップ実装**:
-  - #440 → PR #445: `BearerTokenMiddleware` に `$excludedPaths`（ブラックリスト）オプション追加
-  - #441 → PR #446: `RuntimeApplicationFactory` auth 引数型を `MiddlewareInterface` に緩める
-  - #442 → PR #447: `TokenIssuerInterface` を公開 API に追加、ADR 0009 更新
-  - #443 → PR #448: `CLAUDE.md` セクション 18 に開発ソース vs 公開パッケージ注記追加
-
-- **Phase 64**: `docs/howto/add-jwt-authentication.md` を 6 言語で追加（PR #449 マージ済み）
-
-## Recently Completed (continued)
-
-- **Phase 65 / Field Trial 12-A** (#453): tagmark（ブックマーク + タグ M:N API）を `composer require hideyukimori/nene2:^1.4.1` から 0 構築。3ドメイン・13エンドポイント・PHPUnit 19/19・PHPStan level 8・PHP-CS-Fixer 全通過。摩擦 7 件記録（F-1〜F-7）、F-1/F-2/F-7 は v1.4.1 で解消済み、F-3/F-4/F-5 は howto 修正済み、F-6 は Issue #457 として起票。
-- **v1.4.1**: FT11 フォローアップ修正（excludedPaths・MiddlewareInterface・TokenIssuerInterface）＋ FT12-A 発見の howto 誤り（F-3/F-4/F-5）修正。タグ・GitHub Release 作成済み。
-- **Phase 66 / Field Trial 12-B** (#454): knowledgelog（ナレッジベース API — Article / Category）を `composer require hideyukimori/nene2:^1.4.1` から 0 構築。8 エンドポイント・MCP 7 ツール・PHPUnit 10/10・PHPStan level 8・PHP-CS-Fixer 全通過。摩擦 5 件記録（F-1〜F-5）、F-2/F-3（高）は PR #464 で解消済み（--root オプション + suggest 追加）、F-1/F-4/F-5 は Issue #459–#463 として起票。
-- **Phase 67 / Field Trial 12-C** (#455): shoplog（商品カタログ API — 3 層アクセスモデル）を `composer require hideyukimori/nene2:^1.4.1` から 0 構築。12 エンドポイント・PHPUnit 29/29・PHPStan level 8・PHP-CS-Fixer 全通過。摩擦 6 件記録（F-1〜F-6）、F-2/F-5（高/低）は PR #470 で解消済み（$protectedPathPrefixes 追加・LocalBearerTokenVerifier 公開）、F-1/F-3/F-4/F-6 は Issue #466–#469 として起票。
-
-## FT12 + FT13 完了
-
-FT12-A / FT12-B / FT12-C / FT13 のすべてが完了。主要成果:
-
-| FT | アプリ | テスト | 主要摩擦 | 解消済み |
-|---|---|---|---|---|
-| 12-A | tagmark (M:N) | 19/19 | F-1〜F-7 | v1.4.1 + PR #464 |
-| 12-B | knowledgelog (MCP) | 10/10 | F-1〜F-5 | PR #464 (F-2/F-3) |
-| 12-C | shoplog (Multi-Auth) | 29/29 | F-1〜F-6 | PR #470 (F-2/F-5) |
-| 13 | eventlog (MySQL+Phinx) | 14/14 | F-1〜F-5 | PR (F-2/F-3/F-4 howto) |
-
-- **Phase 68 / Field Trial 13** (#472): eventlog（イベント管理 API）を `composer require hideyukimori/nene2:^1.4` から 0 構築。10 エンドポイント・MySQL + Phinx マイグレーション（3 テーブル）・PHPUnit 14/14・PHPStan level 8・PHP-CS-Fixer 全通過。摩擦 5 件記録（F-1〜F-5）、F-2/F-3/F-4 は Issue #474–#476 として起票（本 PR で howto 修正）。
-
-## 未解消フィールドトライアル摩擦（open issues）
-
-- Issue #457: M:N 多対多 howto（F-6 from FT12-A）
-- Issue #461: ApiKeyAuthenticationMiddleware メソッドベース保護（F-1 from FT12-B/C）
-- Issue #462: nene2.auth.* 属性名の公開（F-4 from FT12-B）
-- Issue #463: RuntimeApplicationFactory Example 切り離し（F-5 from FT12-B）
-- Issue #466: CompositeAuthMiddleware / howto（F-1 from FT12-C）
-- Issue #469: PHPStan memory_limit howto（F-6 from FT12-C）
-- Issue #474: DB_PASSWORD 環境変数名明示（F-2 from FT13） ← PR #477 で解消済み
-- Issue #475: MySQL FK `signed => false` howto（F-3 from FT13） ← PR #477 で解消済み
-- Issue #476: Phinx 部分失敗後クリーンアップ howto（F-4 from FT13） ← PR #477 で解消済み
-
-- **Phase 69 / Field Trial 14** (#479): postboard（投稿ボード API — Post / Tag M:N、3 層アクセスモデル）を `path` リポジトリ経由の @dev で構築。13 エンドポイント・PHPUnit 31/31・PHPStan level 8・PHP-CS-Fixer 全通過。摩擦 4 件記録（F-1〜F-4）。F-1（CompositeAuthMiddleware 未収録）→ v1.4.2 リリースで解消。F-2/F-3（ApiKeyMiddleware 制限）→ Issue #482。
-
-- **v1.4.2**: CompositeAuthMiddleware・BearerTokenMiddleware prefix matching・MCP validator --root・LocalBearerTokenVerifier 公開。タグ・GitHub Release 作成済み。Packagist 自動更新待ち。
-
-## 未解消フィールドトライアル摩擦 → すべて解消済み ✓
-
-| Issue | 内容 | 解消 |
-|---|---|---|
-| #457 | M:N howto | PR #484 (add-database-endpoint.md) |
-| #461/#482 | ApiKeyMiddleware prefix + method filter | PR #483 |
-| #462 | nene2.auth.* 属性名公開 API 化 | PR #484 (ADR 0009) |
-| #463 | RuntimeApplicationFactory Example 切り離し | PR #485 (ExampleServiceProvider) |
-| #466 | CompositeAuthMiddleware | PR #478 / v1.4.2 |
-| #469 | PHPStan memory_limit howto | PR #484 (quality-tools.md) |
-| #481 | v1.4.2 リリース | GitHub Release 作成済み |
-
-## 完了: Phase 70〜71 + v1.5.0 リリース（2026-05-20）
-
-| Phase | 成果 | PR |
-|---|---|---|
-| 70-1 | View テスト 5→13（HtmlEscaper・HtmlResponseFactory 境界ケース） | #491 |
-| 70-2 | `add-html-view.md` howto 新規作成 | #491 |
-| 70-3 | FT15 noteboard（HTML View）: 10/10 テスト・摩擦 3 件 → #493 で解消 | noteboard repo |
-| 71-1 | MCP テスト 3→15（エラーケース・safety バリアント・メソッド正規化） | #492 |
-| 71-2 | `add-mcp-tools.md` howto 新規作成 | #492 |
-| 71-3 | Write ツール認証ドキュメント（add-mcp-tools.md §5） | #492 |
-| 71-4 | FT16 noteboard-mcp: MCP 3 ツール追加・摩擦なし | noteboard repo |
-| 72 | 評価指摘のテスト不足 → 実際には既にカバー済みと確認 | — |
-| v1.5.0 | CHANGELOG 昇格・VERSION bump・タグ・GitHub Release | #495 |
-
-## Recently Completed (v1.5.0 ドキュメント整備)
-
-- **#536**: llms.txt・README・add-jwt-authentication.md・current.md・ADR 0011 を v1.5.0 に整合
-- **FT17 / #538–#543**: quotelog による v1.5.0 実地検証、摩擦 2 件対応（#540・#542）、v1.5.1 リリース
-
-## Recently Completed (FT18)
-
-- **FT18 / #545**: orderlog（在庫管理付き注文 API）による v1.5.1 実地検証。トランザクション・バルク操作・パス×メソッドのアクセス制御を対象。15/15 テスト通過・PHPStan level 8・CS 全通過。摩擦 3 件記録（F-1: トランザクション内 DI・F-2: protectedPaths デフォルト競合・F-3: RequestSizeLimit 設定不可）。
-
-## FT18 摩擦対応（完了）
-
-| # | 重要度 | 対応 | PR |
-|---|---|---|---|
-| F-1（高）| トランザクション内 DI 制約 | `docs/howto/use-transactions.md` 新規作成 | #551 |
-| F-2（中）| protectedPaths デフォルト競合 | ApiKeyAuthenticationMiddleware union 評価に変更 | #550 |
-| F-3（低）| RequestSizeLimit 設定不可 | RuntimeApplicationFactory に requestMaxBodyBytes 追加 | #550 |
-
-## Recently Completed (FT19 + v1.5.3)
-
-- **FT19 / #553**: teamlog（チームタスク管理 API）による v1.5.2 マルチテナンシー実地検証。13/13 テスト通過・PHPStan level 8・CS 全通過。摩擦 3 件記録（F-1: RequestScopedHolder 抽象欠如・F-2: authMiddleware 単一スロット制約・F-3: 同期モデル前提未ドキュメント）。
-
-## FT19 摩擦対応（完了）
-
-| # | 重要度 | 対応 | PR |
-|---|---|---|---|
-| F-1（高）| RequestScopedHolder 抽象欠如 | `RequestScopedHolder<T>` 公開クラス追加 | #558 |
-| F-2（中）| authMiddleware 単一スロット制約 | `$authMiddleware` にリスト対応追加 | #558 |
-| F-3（低）| 同期モデル前提未ドキュメント | `docs/howto/request-scoped-state.md` 新規作成 | #558 |
-
-- **v1.5.3**: 上記 3 件を含む機能追加リリース（2026-05-20）。タグ・GitHub Release 作成済み。
-
-## Recently Completed (FT20)
-
-- **FT20 / #560**: reviewlog（書籍レビュー API）による v1.5.3 PostgreSQL 実地検証。PHP 8.4 + PostgreSQL 17 + Phinx `pgsql` アダプター。13/13 テスト通過・PHPStan level 8・CS 全通過。摩擦 4 件記録（F-1: lastInsertId() 非互換・F-2: ProblemDetails create() シグネチャ・F-3: テストリセット SQL DB 固有・F-4: charset 非反映）。
-
-## 次のアクション候補
-
-## FT20 摩擦対応（完了）
-
-| # | 重要度 | 対応 | PR |
-|---|---|---|---|
-| F-1（高）| lastInsertId() pgsql 非互換 | PHPDoc 注記 + `use-postgresql.md` 新規作成 | #566 |
-| F-2（中）| ProblemDetails create() 引数未ドキュメント | `add-domain-exception-handler.md` 新規作成 | #566 |
-| F-3（低）| テストリセット SQL DB 固有 | `use-postgresql.md` に比較表追記 | #566 |
-| F-4（低）| pgsql DSN charset 非反映 | `PdoConnectionFactory` コメント + `use-postgresql.md` | #566 |
-
-- **v1.5.4**: 上記 4 件対応（ドキュメント専用リリース、2026-05-20）。タグ・GitHub Release 作成済み。
-
-## Recently Completed (FT21)
-
-- **FT21 / #568**: feedlog（ニュースフィード管理 API）による v1.5.4 ページネーション・PATCH 実地検証。`PaginationQuery`/`PaginationResponse`/`PaginationQueryParser` を初検証。19/19 テスト通過・PHPStan level 8・CS 全通過。摩擦 4 件記録（F-1: PaginationQueryParser とフィルタが分離・F-2: boolean クエリ変換・F-3: PATCH 部分更新 array_key_exists・F-4: JsonRequestBodyParser が JSON 配列拒否）。
-
-## 次のアクション候補
-
-- FT21 摩擦対応 — F-1（クエリパラメータ解析ユーティリティ）・F-3（PATCH howto）Issue 起票
-- 追加フィールドトライアル — 新テーマで品質を継続検証
-- v1.5.x パッチ — セキュリティ修正（Content-Length バイパス・WWW-Authenticate インジェクション・CORS maxAge）のドキュメント整備（ADR 0011 に記録済み）
-
----
-
-## Recently Completed (AI-Standard-Tool)
-
-- **llms.txt 設置** → PR #450: リポジトリルートに llmstxt.org 準拠ファイルを設置
-- **Smithery 登録準備** → PR #451: smithery.yaml を追加（`smithery mcp publish` で公開可能な状態）
-- **OpenAPI 前面化** → PR #452: README バッジ・raw spec URL・llms.txt OpenAPI セクション追加
-
-## Backlog: AI-Standard-Tool 方向への強化（残タスク）
-
-| 優先度 | タスク | 内容 |
-|---|---|---|
-| 高 | Smithery 実際の公開 | `smithery auth login && smithery mcp publish` を実行（手動操作が必要） |
-| 中 | FT12 フィールドトライアル | 次テーマ（MCP 統合・多対多リレーション・ファイルアップロード等）で実施 |
-| 中 | nene2-python JWT 対応 | Python 版にも JWT 認証フローを追加 |
-| 低 | TypeScript 版検討 | トークン量・工数を見ながら並列稼働を判断 |
+なし（FT97 で起票した #691 / #692 / #693 は v1.5.31 で解消済み）
 
 ## Operating Notes
 
 - Keep this file short.
 - Move completed historical detail to milestone files and field-trial reports when it becomes noisy.
-- If a task needs review, create or link a GitHub Issue.
+- FT ループが毎回 main にマージするため、リリースのたびにこのファイルも更新すること。
 - Full phase history is preserved in `docs/roadmap.md` and `docs/milestones/`.
