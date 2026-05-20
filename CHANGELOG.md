@@ -10,6 +10,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.30] — 2026-05-20
+
+### Added
+- `docs/howto/content-negotiation.md` — documents NENE2's JSON-only response design (no 406), `JsonRequestBodyParser` Content-Type behavior, and a custom middleware pattern for 406/415 enforcement. (#689)
+- `docs/field-trials/2026-05-field-trial-96.md` — FT96 report: contentlog (content negotiation / Accept header). (#689)
+
+---
+
 ## [1.5.29] — 2026-05-20
 
 ### Added
