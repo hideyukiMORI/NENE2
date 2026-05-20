@@ -10,6 +10,16 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.14] — 2026-05-20
+
+### Fixed
+- `PdoConnectionFactory` now runs `PRAGMA foreign_keys = ON` immediately after creating a SQLite connection. Previously, `ON DELETE CASCADE` and other foreign key constraints were silently ignored on SQLite. (#596)
+
+### Added
+- `docs/field-trials/2026-05-field-trial-30.md` — FT30 (projtrack) field trial report.
+
+---
+
 ## [1.5.13] — 2026-05-20
 
 ### Added
