@@ -10,6 +10,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.41] — 2026-05-21
+
+### Added
+- `docs/howto/rate-limiting.md` — rate limiting guide: `ThrottleMiddleware` setup (`throttleMiddleware` named parameter), `X-RateLimit-*` headers, 429 response format, IP-based vs custom `keyExtractor` (user, API key), reverse proxy `REMOTE_ADDR` warning (`X-Forwarded-For` trust), `InMemoryRateLimitStorage` production restriction, Redis `RateLimitStorageInterface` implementation pattern, fixed-window burst problem, client retry pattern, code review checklist. (#716)
+- `docs/field-trials/2026-05-field-trial-107.md` — FT107 report: throttlelog (rate limiting, 9 tests, 33 assertions, 6-persona DX review). (#716)
+
+---
+
 ## [1.5.40] — 2026-05-21
 
 ### Added
