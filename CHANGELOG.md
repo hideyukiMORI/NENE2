@@ -10,6 +10,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.26] — 2026-05-20
+
+### Added
+- `docs/howto/prevent-double-booking.md` — reservation concurrency guide: distinguishing duplicate-user from over-capacity, TOCTOU window explanation, SQLite vs PostgreSQL behaviour, domain exception pattern. (#679)
+- `docs/field-trials/2026-05-field-trial-92.md` — FT92 report: bookinglog (double-booking prevention). (#679)
+
+---
+
 ## [1.5.25] — 2026-05-20
 
 ### Added
