@@ -10,6 +10,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.24] — 2026-05-20
+
+### Added
+- `ConditionalWriteHelper` — static helper for HTTP conditional writes. Evaluates the `If-Match` header and returns a `412 Precondition Failed` or `428 Precondition Required` problem-details response when the precondition fails; returns `null` when the write may proceed. Complements the existing `ConditionalGetHelper` (which handles `If-None-Match` / 304). (#674)
+- `docs/howto/add-optimistic-locking.md` — how-to guide for implementing optimistic concurrency control with ETag / If-Match, including 428 usage, wildcard semantics, and conditional UPDATE pattern. (#674 #675)
+
+---
+
 ## [1.5.23] — 2026-05-20
 
 ### Added
