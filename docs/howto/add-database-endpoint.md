@@ -494,8 +494,53 @@ Or use `INSERT ... ON DUPLICATE KEY UPDATE` for the same idempotent effect.
 
 ---
 
+---
+
+## Handling UNIQUE constraint violations
+
+`PdoDatabaseQueryExecutor::execute()` catches `PDOException` internally and re-throws it as
+`DatabaseConnectionException`. To detect a UNIQUE constraint violation, catch
+`DatabaseConnectionException` and inspect `getPrevious()`:
+
+```php
+use Nene2\Database\DatabaseConnectionException;
+
+public function vote(int $pollId, string $voterKey): void
+{
+    try {
+        $this->executor->execute(
+            'INSERT INTO votes (poll_id, voter_key, created_at) VALUES (?, ?, ?)',
+            [$pollId, $voterKey, date('Y-m-d H:i:s')],
+        );
+    } catch (DatabaseConnectionException $e) {
+        // DatabaseConnectionException wraps the original PDOException.
+        // Inspect getPrevious() to detect constraint violations.
+        $previous = $e->getPrevious();
+        if ($previous !== null && str_contains($previous->getMessage(), 'UNIQUE constraint failed')) {
+            throw new DuplicateVoteException();
+        }
+        throw $e;
+    }
+}
+```
+
+The exact message fragment differs by database adapter:
+
+| Adapter | Fragment to check |
+|---|---|
+| SQLite | `'UNIQUE constraint failed'` |
+| MySQL | `'Duplicate entry'` |
+| PostgreSQL | `'duplicate key value violates unique constraint'` |
+
+> **Note**: `isset()` on the previous exception is not needed — `getPrevious()` returns `null`
+> when there is no wrapped exception, and `str_contains(null, ...)` is a type error.
+> Always check `$previous !== null` first.
+
+---
+
 ## Next steps
 
 - Add OpenAPI documentation for your endpoint: see `docs/development/endpoint-scaffold.md`
 - Add database migrations: see `docs/development/test-database-strategy.md`
 - See NENE2's built-in Note example as a reference: `src/Example/Note/`
+- PATCH endpoint pattern: see [`implement-patch-endpoint.md`](implement-patch-endpoint.md)

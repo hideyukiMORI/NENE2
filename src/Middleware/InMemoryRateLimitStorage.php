@@ -5,10 +5,20 @@ declare(strict_types=1);
 namespace Nene2\Middleware;
 
 /**
- * @internal
+ * In-memory rate limit storage for local development and single-process testing.
  *
- * In-memory rate limit storage for local development and testing.
- * NOT safe for production: state is not shared between PHP-FPM processes.
+ * State is held in a plain PHP array and is therefore NOT shared between PHP-FPM
+ * worker processes. For production, inject a shared implementation (Redis, Memcached,
+ * or a database-backed store) via {@see RateLimitStorageInterface}.
+ *
+ * Typical test usage:
+ *
+ * ```php
+ * $storage = new InMemoryRateLimitStorage();
+ * $throttle = new ThrottleMiddleware($problemDetails, $storage, limit: 60, windowSeconds: 60);
+ * ```
+ *
+ * Part of the public API stability guarantee (see ADR 0009, ADR 0010).
  */
 final class InMemoryRateLimitStorage implements RateLimitStorageInterface
 {
