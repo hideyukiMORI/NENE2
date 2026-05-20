@@ -152,10 +152,17 @@ $active = QueryStringParser::bool($request, 'is_active');  // ?bool
 
 // Comma-separated multi-value: ?tags=php,lang → ['php', 'lang']
 $tags = QueryStringParser::commaSeparated($request, 'tags'); // list<string>|null
+
+// PHP-style repeated key: ?tags[]=php&tags[]=api → ['php', 'api']
+$tags = QueryStringParser::array($request, 'tags'); // list<string>|null
 ```
 
 `commaSeparated()` splits on commas, trims whitespace, removes empty values, and returns `null`
 when the parameter is absent or produces an empty list after filtering.
+
+`array()` handles PHP-style repeated keys (`?key[]=v1&key[]=v2`). PSR-7 implementations parse
+these into `['key' => ['v1', 'v2']]` in `getQueryParams()`. Returns `null` when the key is absent
+or the value is not an array.
 
 ## See also
 

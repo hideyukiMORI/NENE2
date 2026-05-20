@@ -10,6 +10,16 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.18] — 2026-05-20
+
+### Added
+- `QueryStringParser::array()` — typed helper for PHP-style repeated query parameters (`?key[]=v1&key[]=v2`). Returns `list<string>|null`, trimming each value and filtering empty strings. (#621)
+- `docs/howto/add-pagination.md` — documented `QueryStringParser::array()` in Step 6 alongside `commaSeparated()`. (#621)
+- `docs/howto/add-database-endpoint.md` — noted that `CAST(? AS INTEGER)` is required in `HAVING` clauses with `COUNT(DISTINCT ...)` comparisons (PDO binds all array values as strings). (#622)
+- `docs/field-trials/2026-05-field-trial-47.md` — FT47 (tagfilterlog) field trial report.
+
+---
+
 ## [1.5.17] — 2026-05-20
 
 ### Fixed
