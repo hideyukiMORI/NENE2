@@ -14,6 +14,7 @@ use Psr\Http\Message\ServerRequestInterface;
  * absent or empty-string values.
  *
  * Usage:
+ *   $all      = QueryStringParser::parse($request);                  // array<string, mixed> — all params
  *   $category = QueryStringParser::string($request, 'category');     // ?string
  *   $page     = QueryStringParser::int($request, 'page');            // ?int
  *   $isRead   = QueryStringParser::bool($request, 'is_read');        // ?bool (null when absent)
@@ -24,6 +25,19 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 final class QueryStringParser
 {
+    /**
+     * Returns all query parameters as a raw array — equivalent to `$request->getQueryParams()`.
+     *
+     * Mirrors the `JsonRequestBodyParser::parse()` API for discoverability.
+     * Use the typed accessor methods (`string`, `int`, `bool`) for validated access to individual keys.
+     *
+     * @return array<string, mixed>
+     */
+    public static function parse(ServerRequestInterface $request): array
+    {
+        return $request->getQueryParams();
+    }
+
     /**
      * Returns the raw string value for a query parameter, or null when the key is
      * absent or the value is an empty string.

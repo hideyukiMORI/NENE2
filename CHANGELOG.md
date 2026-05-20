@@ -10,6 +10,16 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.29] — 2026-05-20
+
+### Added
+- `QueryStringParser::parse()` — returns `array<string, mixed>` (alias for `$request->getQueryParams()`). Mirrors the `JsonRequestBodyParser::parse()` discovery pattern so developers can find the method without knowing the typed-accessor API upfront. (#686)
+- `docs/howto/handle-timezones.md` — timezone handling guide: always explicit UTC on `now`, IANA validation with `listIdentifiers()`, `createFromFormat` for strict parsing, DST ambiguous-time behavior (PHP takes first occurrence), local→UTC conversion pattern. (#687)
+- `docs/field-trials/2026-05-field-trial-95.md` — FT95 report: schedulelog (timezone-sensitive scheduling). (#686 #687)
+- `QueryStringParser` added to the public API stability guarantee (ADR 0009). (#686)
+
+---
+
 ## [1.5.28] — 2026-05-20
 
 ### Added
