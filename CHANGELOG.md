@@ -10,6 +10,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.45] — 2026-05-21
+
+### Added
+- `docs/howto/rbac.md` — RBAC ガイド: JWT クレームへのロール埋め込み（DB 毎回参照とのトレードオフ）、`requireAuth()` / `requireRole()` ヘルパーパターン、401 vs 403 の正しい使い分け、`BearerTokenMiddleware` が HTTP メソッドを区別しない制限と手動検証回避策、`Role` enum / `tryFrom()` 型安全デコード、`createEmpty(204)` の正しい使い方。 (#724)
+- `docs/field-trials/2026-05-field-trial-111.md` — FT111 レポート: rbaclog（RBAC、14 tests / 48 assertions、6ペルソナ DX レビュー）。 (#724)
+
+---
+
 ## [1.5.44] — 2026-05-21
 
 ### Added
