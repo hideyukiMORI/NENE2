@@ -7,6 +7,10 @@ namespace Nene2\Config;
 /**
  * Typed database configuration assembled by {@see ConfigLoader} from environment variables.
  *
+ * **SQLite**: only `adapter` and `name` are required. Pass empty strings for
+ * `host`, `user`, `password`, and `charset` — they are not validated when
+ * `adapter` is `'sqlite'`. `port` is also ignored; any value (e.g. `1`) is accepted.
+ *
  * Part of the public API stability guarantee (see ADR 0009).
  */
 final readonly class DatabaseConfig
