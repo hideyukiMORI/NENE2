@@ -77,8 +77,22 @@ final class PdoDatabaseQueryExecutor implements DatabaseQueryExecutorInterface
 
             return $statement;
         } catch (PDOException $exception) {
+            if ($this->isConstraintViolation($exception)) {
+                throw new DatabaseConstraintException('Database constraint violated.', previous: $exception);
+            }
             throw new DatabaseConnectionException('Database query could not be executed.', previous: $exception);
         }
+    }
+
+    private function isConstraintViolation(PDOException $e): bool
+    {
+        // SQLSTATE 23xxx = Integrity Constraint Violation (UNIQUE, FK, NOT NULL, CHECK)
+        $code = (string) $e->getCode();
+        return str_starts_with($code, '23')
+            || str_contains($e->getMessage(), 'UNIQUE constraint failed')
+            || str_contains($e->getMessage(), 'FOREIGN KEY constraint failed')
+            || str_contains($e->getMessage(), 'NOT NULL constraint failed')
+            || str_contains($e->getMessage(), 'CHECK constraint failed');
     }
 
     private function connection(): PDO
