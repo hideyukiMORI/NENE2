@@ -10,6 +10,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.15] — 2026-05-20
+
+### Added
+- `docs/howto/add-database-endpoint.md` — added "Full-text search with SQLite FTS5" section: content table setup, sync triggers (AFTER INSERT/DELETE/UPDATE), JOIN + MATCH query pattern, prefix matching. (#598)
+- `docs/field-trials/2026-05-field-trial-31.md` — FT31 (feedlog) field trial report.
+
+---
+
 ## [1.5.14] — 2026-05-20
 
 ### Fixed
