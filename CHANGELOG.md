@@ -10,6 +10,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.38] — 2026-05-21
+
+### Added
+- `docs/howto/webhook-signature.md` — Webhook HMAC-SHA256 signature verification guide: `hash_equals()` vs `===` timing attack explanation, Stripe-compatible header format, timestamp-in-payload design, replay attack prevention (5-minute window), secret rotation pattern, testing with `sign()` helper, code review checklist. (#710)
+- `docs/field-trials/2026-05-field-trial-104.md` — FT104 report: hmaclog (Webhook signature verification, 13 tests, 23 assertions, 6-persona DX review). (#710)
+
+---
+
 ## [1.5.37] — 2026-05-21
 
 ### Added

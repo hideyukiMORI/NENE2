@@ -4,10 +4,10 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 ## Status
 
-- Latest release: `v1.5.37`（2026-05-21 リリース済み）
+- Latest release: `v1.5.38`（2026-05-21 リリース済み）
 - Current branch: `main` — clean — open Issue なし
 
-## Recently Completed (FT ループ — v1.5.27 〜 v1.5.37)
+## Recently Completed (FT ループ — v1.5.27 〜 v1.5.38)
 
 | FT | テーマ | アプリ | テスト | リリース | 主要対応 |
 |---|---|---|---|---|---|
@@ -19,6 +19,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 | FT101 | ネスト JSON バリデーション | nestedlog | 19/19 | v1.5.35 | nested-json-validation.md（ドット記法・全収集・PHPStan 判別共用体） |
 | FT102 | DBトランザクション境界 | txlog | 11/11 | v1.5.36 | transactions.md（コールバック外インジェクト罠・pre-validation パターン） |
 | FT103 | マスアサインメント防御 | masslog | 14/14 | v1.5.37 | mass-assignment.md（DTO ホワイトリスト・権限フィールド隔離・レスポンス制御） |
+| FT104 | Webhook シグネチャ検証 | hmaclog | 13/13 | v1.5.38 | webhook-signature.md（hash_equals() vs ===・タイミング攻撃・リプレイ防止） |
 
 ## 次のアクション
 
@@ -26,7 +27,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 ## Open Issues
 
-なし（FT103 で起票した #708 は v1.5.37 で解消済み）
+なし（FT104 で起票した #710 は v1.5.38 で解消済み）
 
 ## Operating Notes
 
