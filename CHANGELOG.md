@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.21] — 2026-05-20
+
+### Added
+- `JsonResponseFactory::createList()` — creates a bare JSON array response (`[{...}, ...]`). Accepts `list<mixed>` and encodes it as a top-level JSON array with `Content-Type: application/json`. Complements `create()` which is restricted to JSON objects (`array<string, mixed>`). (#645)
+
+---
+
 ## [1.5.20] — 2026-05-20
 
 ### Added

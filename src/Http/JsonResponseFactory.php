@@ -43,6 +43,32 @@ final readonly class JsonResponseFactory
     }
 
     /**
+     * Creates a `application/json` response from a list (bare JSON array).
+     *
+     * Use this instead of {@see create()} when the response body is a top-level JSON array,
+     * such as collection endpoints that return `[{...}, {...}]`.
+     *
+     * @param list<mixed> $items
+     * @param array<string, string> $headers
+     */
+    public function createList(array $items, int $status = 200, array $headers = []): ResponseInterface
+    {
+        $body = $this->streamFactory->createStream(
+            json_encode($items, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT | JSON_PRESERVE_ZERO_FRACTION)
+        );
+
+        $response = $this->responseFactory
+            ->createResponse($status)
+            ->withHeader('Content-Type', 'application/json; charset=utf-8');
+
+        foreach ($headers as $name => $value) {
+            $response = $response->withHeader($name, $value);
+        }
+
+        return $response->withBody($body);
+    }
+
+    /**
      * Creates an empty response with no body — intended for 204 No Content and similar status codes.
      */
     public function createEmpty(int $status = 204): ResponseInterface
