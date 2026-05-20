@@ -7,10 +7,11 @@ namespace Nene2\Database;
 use RuntimeException;
 
 /**
- * Thrown when a database connection cannot be established.
+ * Thrown when a database operation fails due to a connection or execution error.
+ * Extended by DatabaseConstraintException for constraint violations.
  *
  * Part of the public API stability guarantee (see ADR 0009).
  */
-final class DatabaseConnectionException extends RuntimeException
+class DatabaseConnectionException extends RuntimeException
 {
 }

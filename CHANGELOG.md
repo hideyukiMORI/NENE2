@@ -10,6 +10,16 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.23] — 2026-05-20
+
+### Added
+- `DatabaseConstraintException` — new exception class (extends `DatabaseConnectionException`) thrown by `PdoDatabaseQueryExecutor` when a DB constraint is violated (UNIQUE, FK, NOT NULL, CHECK). Catch this type to handle duplicate-key or FK violations without catching all connection errors. (#669)
+
+### Changed
+- `DatabaseConnectionException` — removed `final` modifier to allow `DatabaseConstraintException` to extend it. Existing `catch (DatabaseConnectionException)` blocks now also catch `DatabaseConstraintException` (Liskov-compatible). (#669)
+
+---
+
 ## [1.5.22] — 2026-05-20
 
 ### Changed
