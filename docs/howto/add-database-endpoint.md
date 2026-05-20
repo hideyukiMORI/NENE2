@@ -668,6 +668,10 @@ provides the affinity.
 > apply numeric affinity for integer column comparisons. The `CAST` is harmless on those
 > databases, so keeping it is safe for cross-database code.
 
+> **Pattern also applies to `HAVING COUNT(DISTINCT ...) = ?`**: The cast is required any time
+> a bound integer placeholder appears in a `HAVING` clause, not just for aggregate alias comparisons.
+> Example: `HAVING COUNT(DISTINCT tag) = CAST(? AS INTEGER)` for AND-mode tag filtering.
+
 ---
 
 ## Next steps

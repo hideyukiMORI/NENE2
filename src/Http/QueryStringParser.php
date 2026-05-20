@@ -18,6 +18,7 @@ use Psr\Http\Message\ServerRequestInterface;
  *   $page     = QueryStringParser::int($request, 'page');            // ?int
  *   $isRead   = QueryStringParser::bool($request, 'is_read');        // ?bool (null when absent)
  *   $tags     = QueryStringParser::commaSeparated($request, 'tags'); // list<string>|null
+ *   $tags     = QueryStringParser::array($request, 'tags');         // list<string>|null — ?tags[]=php&tags[]=api
  *
  * Part of the public API stability guarantee (see ADR 0009).
  */
@@ -102,6 +103,43 @@ final class QueryStringParser
 
         /** @var list<string> $items */
         $items = array_values(array_filter(array_map('trim', explode(',', $raw))));
+
+        return $items !== [] ? $items : null;
+    }
+
+    /**
+     * Returns a list of string values for a PHP-style repeated query parameter.
+     *
+     * Handles `?tags[]=php&tags[]=api` → `['php', 'api']`.
+     * PSR-7 implementations parse this into `['tags' => ['php', 'api']]` in getQueryParams().
+     *
+     * Returns null when the key is absent.
+     * Each item is trimmed; empty items after trimming are removed.
+     *
+     * Note: if the key exists as a plain string (not an array), returns null.
+     * Use commaSeparated() for `?tags=php,api` format instead.
+     *
+     * @return list<string>|null
+     */
+    public static function array(ServerRequestInterface $request, string $key): ?array
+    {
+        $params = $request->getQueryParams();
+
+        if (!array_key_exists($key, $params)) {
+            return null;
+        }
+
+        $raw = $params[$key];
+
+        if (!is_array($raw)) {
+            return null;
+        }
+
+        /** @var list<string> $items */
+        $items = array_values(array_filter(array_map(
+            static fn (mixed $v): string => is_string($v) ? trim($v) : '',
+            $raw,
+        ), static fn (string $s): bool => $s !== ''));
 
         return $items !== [] ? $items : null;
     }
