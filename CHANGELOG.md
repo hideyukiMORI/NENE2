@@ -10,6 +10,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.10] — 2026-05-20
+
+### Changed
+- `docs/howto/add-custom-route.md` — added warning: static route segments must be registered before parameterised routes sharing the same prefix. Includes example of the silent misbehaviour and the correct ordering. (#586)
+- `docs/howto/implement-patch-endpoint.md` — added Step 4 "Validating PATCH fields": explains `array_key_exists` vs `isset` for PATCH field detection, validation pattern for optional fields, and nullable repository parameter pattern. (#587)
+
+---
+
 ## [1.5.9] — 2026-05-20
 
 ### Added

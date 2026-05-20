@@ -131,6 +131,22 @@ routeRegistrars: [
 
 Or split across multiple registrar functions for clarity when the route list grows long.
 
+> **Route registration order**: The router matches in registration order. **Always register
+> static routes before parameterised ones** when both share the same prefix. If you register
+> `GET /items/{id}` first and then `GET /items/summary`, a request to `/items/summary` will
+> match the `{id}` route with `id = "summary"` — producing a confusing domain-specific 404
+> rather than a routing error.
+>
+> ```php
+> // WRONG — /items/summary matches {id} with id="summary"
+> $router->get('/items/{id}',    $this->show(...));
+> $router->get('/items/summary', $this->summary(...)); // never reached
+>
+> // CORRECT — static segment matched first
+> $router->get('/items/summary', $this->summary(...));
+> $router->get('/items/{id}',    $this->show(...));
+> ```
+
 ---
 
 ## Available HTTP methods
