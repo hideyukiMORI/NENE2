@@ -19,7 +19,7 @@ final readonly class PdoConnectionFactory implements DatabaseConnectionFactoryIn
     public function create(): PDO
     {
         try {
-            return new PDO(
+            $pdo = new PDO(
                 $this->dsn(),
                 $this->config->user,
                 $this->config->password,
@@ -29,6 +29,12 @@ final readonly class PdoConnectionFactory implements DatabaseConnectionFactoryIn
                     PDO::ATTR_EMULATE_PREPARES => false,
                 ],
             );
+
+            if ($this->config->adapter === 'sqlite') {
+                $pdo->exec('PRAGMA foreign_keys = ON');
+            }
+
+            return $pdo;
         } catch (PDOException $exception) {
             throw new DatabaseConnectionException('Database connection could not be created.', previous: $exception);
         }
