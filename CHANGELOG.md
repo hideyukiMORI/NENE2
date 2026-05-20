@@ -10,6 +10,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.40] — 2026-05-21
+
+### Added
+- `docs/howto/etag-conditional-requests.md` — ETag & conditional requests guide: ETag generation (double-quote requirement, entity method pattern), `ConditionalGetHelper` for 304 Not Modified, `ConditionalWriteHelper` for 412/428 precondition checks, `If-Match: *` wildcard semantics, `Last-Modified` ISO 8601 format requirement, ETag vs version field comparison, code review checklist. (#714)
+- `docs/field-trials/2026-05-field-trial-106.md` — FT106 report: etaglog (ETag/conditional requests, 15 tests, 37 assertions, 6-persona DX review). (#714)
+
+---
+
 ## [1.5.39] — 2026-05-21
 
 ### Added
