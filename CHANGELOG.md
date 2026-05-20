@@ -10,6 +10,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.25] — 2026-05-20
+
+### Added
+- `docs/howto/enforce-resource-ownership.md` — how-to guide for IDOR prevention: SQL-level ownership enforcement, 404-not-403 guidance, cross-tenant test patterns. (#677)
+- `docs/field-trials/2026-05-field-trial-91.md` — FT91 report: noteslog (personal notes with IDOR prevention). (#677)
+
+---
+
 ## [1.5.24] — 2026-05-20
 
 ### Added
