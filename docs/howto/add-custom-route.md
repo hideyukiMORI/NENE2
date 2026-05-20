@@ -176,6 +176,30 @@ $router->post('/items/{id}/restore', static function (ServerRequestInterface $re
 > the show/update routes — they work correctly because the action path has an additional static
 > segment after `{id}`, making them unambiguous regardless of registration order.
 
+### Action endpoints with an optional body
+
+Some actions accept an optional JSON body (e.g., a `reject` action with an optional `reason`).
+`JsonRequestBodyParser::parse()` throws a 400 if the body is empty — check for an empty body
+before calling the parser:
+
+```php
+$router->post('/items/{id}/reject', static function (ServerRequestInterface $req) use ($repo, $json): ResponseInterface {
+    $params = $req->getAttribute(Router::PARAMETERS_ATTRIBUTE, []);
+    $id     = (int) ($params['id'] ?? 0);
+    $raw    = (string) $req->getBody();
+    $reason = null;
+
+    if ($raw !== '') {
+        $body   = JsonRequestBodyParser::parse($req);
+        $reason = isset($body['reason']) && is_string($body['reason']) ? trim($body['reason']) : null;
+    }
+
+    $item = $repo->reject($id, $reason, (new \DateTimeImmutable())->format('Y-m-d\TH:i:s\Z'));
+
+    return $json->create(self::serialize($item));
+});
+```
+
 ---
 
 ## Available HTTP methods
