@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.12] — 2026-05-20
+
+### Added
+- `docs/howto/implement-bulk-endpoint.md` — new howto covering the complete bulk create pattern: envelope validation, per-item validation with `"scores[{i}].field"` indexed error names, size limiting, route registration order, and transaction note. (#591)
+
+---
+
 ## [1.5.11] — 2026-05-20
 
 ### Changed
