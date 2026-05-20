@@ -10,6 +10,17 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.17] — 2026-05-20
+
+### Fixed
+- `JsonResponseFactory::create()` now includes `JSON_PRESERVE_ZERO_FRACTION` so whole-number PHP floats (e.g. `12.0`) are encoded as JSON numbers with a decimal point (`12.0`) rather than integers (`12`). (#602)
+
+### Added
+- `docs/howto/quality-tools.md` — new guide covering PHPStan and PHP-CS-Fixer configuration, including the PHPStan 2.x `--memory-limit` CLI-flag requirement. (#603)
+- `docs/field-trials/2026-05-field-trial-33.md` — FT33 (shiftlog) field trial report.
+
+---
+
 ## [1.5.16] — 2026-05-20
 
 ### Added
