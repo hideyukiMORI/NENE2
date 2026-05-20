@@ -193,6 +193,19 @@ $app = (new RuntimeApplicationFactory(
 > and inject typed config objects instead of raw PDO connection strings.
 > See `src/DependencyInjection/` and `docs/development/domain-layer.md` for the full pattern.
 
+> **Path parameters**: Route parameters like `{id}` are stored under a named constant, not as
+> individual request attributes. Always use `Router::PARAMETERS_ATTRIBUTE` to extract them:
+>
+> ```php
+> use Nene2\Routing\Router;
+>
+> $params = (array) $request->getAttribute(Router::PARAMETERS_ATTRIBUTE);
+> $id     = (int) ($params['id'] ?? 0);
+> ```
+>
+> Calling `$request->getAttribute('id')` directly returns `null` — a common source of silent 404s
+> when the record lookup then fails against id `0`.
+
 ---
 
 ## Test the use case without a database
