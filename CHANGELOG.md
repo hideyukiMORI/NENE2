@@ -10,6 +10,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.34] — 2026-05-21
+
+### Added
+- `docs/howto/pagination.md` — OFFSET vs cursor pagination guide: fetch+1 pattern, limit clamping, performance comparison table, SQLite EXPLAIN QUERY PLAN note, migration verification technique. (#702)
+- `docs/field-trials/2026-05-field-trial-100.md` — FT100 report: pagelog (OFFSET vs cursor pagination, 500-row deep-page correctness test). (#702)
+
+---
+
 ## [1.5.33] — 2026-05-21
 
 ### Added
