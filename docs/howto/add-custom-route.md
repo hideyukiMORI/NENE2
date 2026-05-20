@@ -149,13 +149,43 @@ Or split across multiple registrar functions for clarity when the route list gro
 
 ---
 
+## Action endpoints (non-CRUD operations)
+
+Some operations don't fit the standard CRUD shape — archiving, publishing, approving, restoring.
+Use `POST /resource/{id}/action` for these. The response is `200 OK` with the updated resource body.
+
+```php
+$router->post('/items/{id}/archive', static function (ServerRequestInterface $req) use ($repo, $json): ResponseInterface {
+    $params = $req->getAttribute(Router::PARAMETERS_ATTRIBUTE, []);
+    $id     = (int) ($params['id'] ?? 0);
+    $item   = $repo->archive($id, (new \DateTimeImmutable())->format('Y-m-d\TH:i:s\Z'));
+
+    return $json->create(self::serialize($item)); // 200 OK
+});
+
+$router->post('/items/{id}/restore', static function (ServerRequestInterface $req) use ($repo, $json): ResponseInterface {
+    $params = $req->getAttribute(Router::PARAMETERS_ATTRIBUTE, []);
+    $id     = (int) ($params['id'] ?? 0);
+    $item   = $repo->restore($id, (new \DateTimeImmutable())->format('Y-m-d\TH:i:s\Z'));
+
+    return $json->create(self::serialize($item)); // 200 OK
+});
+```
+
+> **Registration order**: Action routes (`/items/{id}/archive`) share the `{id}` segment with
+> the show/update routes — they work correctly because the action path has an additional static
+> segment after `{id}`, making them unambiguous regardless of registration order.
+
+---
+
 ## Available HTTP methods
 
 | Method | Router method | Typical use |
 |---|---|---|
 | GET | `$router->get()` | Read a resource |
-| POST | `$router->post()` | Create a resource |
+| POST | `$router->post()` | Create a resource or trigger an action |
 | PUT | `$router->put()` | Replace a resource (full update) |
+| PATCH | `$router->patch()` | Partial update |
 | DELETE | `$router->delete()` | Remove a resource |
 
 ---
