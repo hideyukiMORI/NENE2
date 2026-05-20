@@ -10,6 +10,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.42] — 2026-05-21
+
+### Added
+- `docs/howto/soft-delete.md` — soft delete guide: `deleted_at` schema pattern, critical `WHERE deleted_at IS NULL` filter (missing it leaks deleted data), `$includeTrashed = false` default, `purge()` guard (trash-first requirement), `insert()` vs `execute()` + `lastInsertId()`, REST semantics note, foreign key considerations, code review checklist. (#718)
+- `docs/field-trials/2026-05-field-trial-108.md` — FT108 report: softdeletelog (soft delete, 18 tests, 30 assertions, 6-persona DX review). (#718)
+
+---
+
 ## [1.5.41] — 2026-05-21
 
 ### Added
