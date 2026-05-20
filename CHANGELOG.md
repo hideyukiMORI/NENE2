@@ -10,6 +10,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.16] — 2026-05-20
+
+### Added
+- `docs/howto/add-database-endpoint.md` — added "Aggregate queries with HAVING and PDO parameters (SQLite)" section: explains why `HAVING col <= ?` performs text comparison and documents the `CAST(? AS INTEGER)` fix. (#600)
+- `docs/field-trials/2026-05-field-trial-32.md` — FT32 (inventorylog) field trial report.
+
+---
+
 ## [1.5.15] — 2026-05-20
 
 ### Added

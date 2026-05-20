@@ -628,6 +628,48 @@ Omit it for exact-word matching.
 
 ---
 
+## Aggregate queries with HAVING and PDO parameters (SQLite)
+
+When filtering aggregated results with `HAVING` and a bound `?` parameter in SQLite, PDO
+binds the value as a **string**. SQLite then performs a text comparison, which gives
+incorrect results for multi-digit numbers:
+
+```php
+// BROKEN — PDO binds threshold as string "5"
+// "10" <= "5" is TRUE in text comparison ("1" < "5" lexicographically)
+$rows = $executor->fetchAll(
+    "SELECT ..., SUM(qty) AS total
+     FROM orders
+     GROUP BY customer_id
+     HAVING total <= ?",
+    [5],
+);
+// Returns customers with total=10 — wrong!
+```
+
+**Fix**: wrap the parameter in `CAST(? AS INTEGER)` to force numeric comparison:
+
+```php
+// CORRECT — numeric comparison enforced
+$rows = $executor->fetchAll(
+    "SELECT ..., SUM(qty) AS total
+     FROM orders
+     GROUP BY customer_id
+     HAVING total <= CAST(? AS INTEGER)",
+    [5],
+);
+```
+
+This only affects `HAVING` clauses with aggregate aliases. Regular `WHERE` comparisons
+against integer columns work correctly without the cast because the column's declared type
+provides the affinity.
+
+> **MySQL / PostgreSQL**: This issue does not occur on MySQL or PostgreSQL, which always
+> apply numeric affinity for integer column comparisons. The `CAST` is harmless on those
+> databases, so keeping it is safe for cross-database code.
+
+---
+
 ## Next steps
 
 - Add OpenAPI documentation for your endpoint: see `docs/development/endpoint-scaffold.md`
