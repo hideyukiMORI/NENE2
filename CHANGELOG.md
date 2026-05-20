@@ -10,6 +10,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.35] — 2026-05-21
+
+### Added
+- `docs/howto/nested-json-validation.md` — nested JSON validation guide: dot-notation error paths, collect-all-errors pattern, PHPStan discriminated-union workaround (`@var` annotation), `array_is_list()` usage, JSON numeric type handling. (#704)
+- `docs/field-trials/2026-05-field-trial-101.md` — FT101 report: nestedlog (nested JSON validation with structured error paths). (#704)
+
+---
+
 ## [1.5.34] — 2026-05-21
 
 ### Added
