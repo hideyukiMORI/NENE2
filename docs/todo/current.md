@@ -4,10 +4,10 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 ## Status
 
-- Latest release: `v1.5.33`（2026-05-21 リリース済み）
+- Latest release: `v1.5.34`（2026-05-21 リリース済み）
 - Current branch: `main` — clean — open Issue なし
 
-## Recently Completed (FT ループ — v1.5.27 〜 v1.5.33)
+## Recently Completed (FT ループ — v1.5.27 〜 v1.5.34)
 
 | FT | テーマ | アプリ | テスト | リリース | 主要対応 |
 |---|---|---|---|---|---|
@@ -18,15 +18,15 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 | FT97 | SQL インジェクション防御 | injectionlog | 19/19 | v1.5.31 | `Router::param()`・`QueryStringParser` デフォルト値引数・sql-injection.md |
 | FT98 | ファイルアップロード | uploadlog | 19/19 | v1.5.32 | file-upload.md（base64 オーバーヘッド・MIME 検出・パストラバーサル） |
 | FT99 | CSRF 的パターン・冪等性 | csrflog | 15/15 | v1.5.33 | idempotency.md・csrf-and-json-api.md（CORS ≠ CSRF 明文化） |
+| FT100 | OFFSET vs カーソルページネーション | pagelog | 15/15 | v1.5.34 | pagination.md（fetch+1・パフォーマンス比較・選択基準） |
 
 ## 次のアクション
 
-- **FT100** — 大量データ・ページネーション（実データ量でのパフォーマンス・カーソルベース）
-  - FT ループが自動スケジュール中（ScheduleWakeup 設定済み）
+- FT ループ継続中（ScheduleWakeup 設定済み）
 
 ## Open Issues
 
-なし（FT99 で起票した #699 / #700 は v1.5.33 で解消済み）
+なし（FT100 で起票した #702 は v1.5.34 で解消済み）
 
 ## Operating Notes
 
