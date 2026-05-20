@@ -10,6 +10,15 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.7] — 2026-05-20
+
+### Changed
+- `DatabaseTransactionManagerInterface::transactional()` — added PHPDoc warning: repositories injected at construction time must not be reused inside the callback; they execute on a different connection outside the transaction. (#579)
+- `DatabaseConfig` — added PHPDoc noting that for SQLite only `adapter` and `name` are required; `host`, `user`, `password`, `charset` accept empty strings. (#580)
+- `docs/howto/use-transactions.md` — added prominent `> **Warning**` callout about the injected-repository anti-pattern; expanded "Test with a file-based SQLite database" section with `DatabaseConfig` + `PdoConnectionFactory` setup, `:memory:` limitation explanation, and notes on SQLite optional fields. (#578 #579 #580)
+
+---
+
 ## [1.5.6] — 2026-05-20
 
 ### Added

@@ -26,12 +26,18 @@ transaction. **This executor is different from the one you inject at constructio
 
 ## The transactional repository pattern
 
-Because the callback provides its own executor, you cannot safely reuse repositories that were
-injected at construction time — they would execute queries on a separate connection that sits
-outside the transaction.
+> **Warning — do not reuse injected repositories inside the callback.**
+>
+> Repositories injected at construction time hold a **different connection** than the one
+> the transaction runs on. Using them inside the callback means their queries execute
+> outside the transaction: rollbacks will not undo those changes, and uncommitted
+> rows written inside the callback may not be visible to them.
+>
+> This mistake compiles and tests may pass — the bug only surfaces under concurrent
+> writes or when you rely on rollback behaviour.
 
-The solution: **instantiate repository classes inside the callback** using the executor the
-callback provides.
+Because the callback provides its own executor, you must **instantiate repository classes
+inside the callback** using the executor the callback provides.
 
 ```php
 <?php
@@ -125,6 +131,24 @@ protected function setUp(): void
     $this->dbFile = sys_get_temp_dir() . '/test-' . bin2hex(random_bytes(8)) . '.sqlite';
     $pdo = new \PDO('sqlite:' . $this->dbFile, options: [\PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION]);
     $pdo->exec(file_get_contents(dirname(__DIR__) . '/database/schema.sql'));
+    unset($pdo); // close the init connection before the factory opens its own
+
+    $dbConfig = new DatabaseConfig(
+        url:         null,
+        environment: 'test',
+        adapter:     'sqlite',
+        host:        '',      // unused for SQLite
+        port:        1,       // unused for SQLite
+        name:        $this->dbFile,
+        user:        '',      // unused for SQLite
+        password:    '',      // unused for SQLite
+        charset:     '',      // unused for SQLite
+    );
+
+    $factory   = new PdoConnectionFactory($dbConfig);
+    $executor  = new PdoDatabaseQueryExecutor($factory);
+    $txManager = new PdoDatabaseTransactionManager($factory);
+    // ... wire repositories and use cases
 }
 
 protected function tearDown(): void
@@ -133,19 +157,18 @@ protected function tearDown(): void
         unlink($this->dbFile);
     }
 }
-
-private function dbConfig(): DatabaseConfig
-{
-    return new DatabaseConfig(
-        url: null, environment: 'test', adapter: 'sqlite',
-        host: 'localhost', port: 1, name: $this->dbFile,
-        user: 'myapp', password: '', charset: 'utf8',
-    );
-}
 ```
 
 Each test gets a fresh file, both `PdoDatabaseQueryExecutor` and
 `PdoDatabaseTransactionManager` connect to the same file, and `tearDown` deletes it.
+
+> **Note on SQLite `DatabaseConfig` fields**: For SQLite, only `adapter` and `name`
+> are required. Pass empty strings for `host`, `user`, `password`, and `charset` — they
+> are not validated when `adapter` is `'sqlite'`.
+
+> **Note**: `PdoDatabaseQueryExecutor` does not accept a raw `PDO` as its constructor
+> argument — it requires a `DatabaseConnectionFactoryInterface`. Use `PdoConnectionFactory`
+> (shown above) to bridge a raw `PDO` setup to the executor.
 
 ---
 
