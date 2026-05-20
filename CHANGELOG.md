@@ -10,6 +10,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.36] — 2026-05-21
+
+### Added
+- `docs/howto/transactions.md` — `DatabaseTransactionManagerInterface::transactional()` guide: correct callback-scoped executor pattern, injected-repository trap (silent rollback failure), pre-validation + atomic operation pattern, rollback testing, Laravel vs NENE2 connection model comparison. (#706)
+- `docs/field-trials/2026-05-field-trial-102.md` — FT102 report: txlog (database transaction boundaries, rollback correctness, 6-persona DX review). (#706)
+
+---
+
 ## [1.5.35] — 2026-05-21
 
 ### Added
