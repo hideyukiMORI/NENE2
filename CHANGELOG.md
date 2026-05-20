@@ -10,6 +10,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.43] — 2026-05-21
+
+### Added
+- `docs/howto/password-hashing.md` — password hashing guide: `password_hash(PASSWORD_ARGON2ID)` vs `PASSWORD_DEFAULT` (bcrypt), `DatabaseConstraintException` for UNIQUE violation detection (not `\PDOException` — NENE2 wraps it), user enumeration prevention via dummy hash pattern (timing attack), `password_verify()` algorithm auto-detection (bcrypt ↔ Argon2id transparent), `password_needs_rehash()` for live migration, never returning `password_hash` in responses, `RouteRegistrar::register()` name conflict avoidance, code review checklist. (#720)
+- `docs/field-trials/2026-05-field-trial-109.md` — FT109 report: pwdlog (password hashing, 14 tests, 39 assertions, 6-persona DX review). (#720)
+
+---
+
 ## [1.5.42] — 2026-05-21
 
 ### Added
