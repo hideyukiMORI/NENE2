@@ -17,6 +17,7 @@ use Psr\Http\Message\ServerRequestInterface;
  *   $category = QueryStringParser::string($request, 'category');     // ?string
  *   $page     = QueryStringParser::int($request, 'page');            // ?int
  *   $isRead   = QueryStringParser::bool($request, 'is_read');        // ?bool (null when absent)
+ *   $tags     = QueryStringParser::commaSeparated($request, 'tags'); // list<string>|null
  *
  * Part of the public API stability guarantee (see ADR 0009).
  */
@@ -79,5 +80,29 @@ final class QueryStringParser
         }
 
         return !in_array($raw, ['0', 'false', 'no'], true);
+    }
+
+    /**
+     * Splits a comma-separated query parameter into a list of non-empty trimmed strings.
+     *
+     * Returns null when the key is absent or the value is an empty string.
+     * Each item is trimmed; empty items after trimming are removed.
+     *
+     * Common use case: `?tags=php,lang` → `['php', 'lang']`
+     *
+     * @return list<string>|null
+     */
+    public static function commaSeparated(ServerRequestInterface $request, string $key): ?array
+    {
+        $raw = self::string($request, $key);
+
+        if ($raw === null) {
+            return null;
+        }
+
+        /** @var list<string> $items */
+        $items = array_values(array_filter(array_map('trim', explode(',', $raw))));
+
+        return $items !== [] ? $items : null;
     }
 }
