@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.11] — 2026-05-20
+
+### Changed
+- `docs/howto/add-custom-route.md` — added "Action endpoints" section documenting the `POST /resource/{id}/action` pattern (archive, restore, publish, approve) with registration-order note; updated HTTP methods table to include PATCH. (#589)
+
+---
+
 ## [1.5.10] — 2026-05-20
 
 ### Changed
