@@ -10,6 +10,15 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.33] — 2026-05-21
+
+### Added
+- `docs/howto/idempotency.md` — Idempotency-Key pattern guide: header validation, replay with 200, race condition handling via `DatabaseConstraintException` + UNIQUE constraint, key generation guidance. (#699)
+- `docs/howto/csrf-and-json-api.md` — CORS vs CSRF guide: why CORS ≠ CSRF protection, JSON API preflight resistance, Bearer JWT immunity, SameSite cookies and Origin enforcement for cookie-based sessions. (#700)
+- `docs/field-trials/2026-05-field-trial-99.md` — FT99 report: csrflog (CSRF-like patterns / idempotency key). (#699 #700)
+
+---
+
 ## [1.5.32] — 2026-05-20
 
 ### Added

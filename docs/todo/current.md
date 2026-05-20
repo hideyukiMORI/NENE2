@@ -4,10 +4,10 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 ## Status
 
-- Latest release: `v1.5.31`（2026-05-20 リリース済み）
+- Latest release: `v1.5.33`（2026-05-21 リリース済み）
 - Current branch: `main` — clean — open Issue なし
 
-## Recently Completed (FT ループ — v1.5.27 〜 v1.5.31)
+## Recently Completed (FT ループ — v1.5.27 〜 v1.5.33)
 
 | FT | テーマ | アプリ | テスト | リリース | 主要対応 |
 |---|---|---|---|---|---|
@@ -16,15 +16,17 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 | FT95 | タイムゾーン敏感日付 | schedulelog | 19/19 | v1.5.29 | `QueryStringParser::parse()` 追加・handle-timezones.md |
 | FT96 | コンテントネゴシエーション | contentlog | 16/16 | v1.5.30 | content-negotiation.md（406 を返さない設計を明文化） |
 | FT97 | SQL インジェクション防御 | injectionlog | 19/19 | v1.5.31 | `Router::param()`・`QueryStringParser` デフォルト値引数・sql-injection.md |
+| FT98 | ファイルアップロード | uploadlog | 19/19 | v1.5.32 | file-upload.md（base64 オーバーヘッド・MIME 検出・パストラバーサル） |
+| FT99 | CSRF 的パターン・冪等性 | csrflog | 15/15 | v1.5.33 | idempotency.md・csrf-and-json-api.md（CORS ≠ CSRF 明文化） |
 
 ## 次のアクション
 
-- **FT98** — ファイルアップロード（MIME バリデーション・サイズ制限・パストラバーサルリスク）
+- **FT100** — 大量データ・ページネーション（実データ量でのパフォーマンス・カーソルベース）
   - FT ループが自動スケジュール中（ScheduleWakeup 設定済み）
 
 ## Open Issues
 
-なし（FT97 で起票した #691 / #692 / #693 は v1.5.31 で解消済み）
+なし（FT99 で起票した #699 / #700 は v1.5.33 で解消済み）
 
 ## Operating Notes
 
