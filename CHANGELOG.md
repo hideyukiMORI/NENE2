@@ -10,6 +10,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.44] — 2026-05-21
+
+### Added
+- `docs/howto/jwt-authentication.md` — JWT 認証ガイド: `LocalBearerTokenVerifier` が Issuer/Verifier を兼ねる、`BearerTokenMiddleware` の3モード（`excludedPaths` / `protectedPaths` / `protectedPathPrefixes`）、`nene2.auth.claims` からのクレーム取得、`exp` は int 必須（文字列は有効期限チェックがスキップされる）、`alg: none` 攻撃拒否の解説、JWT シークレット環境変数管理、トークンリボーク設計、コードレビューチェックリスト。 (#722)
+- `docs/field-trials/2026-05-field-trial-110.md` — FT110 レポート: jwtlog（JWT 認証、14 tests / 53 assertions、6ペルソナ DX レビュー）。 (#722)
+
+---
+
 ## [1.5.43] — 2026-05-21
 
 ### Added
