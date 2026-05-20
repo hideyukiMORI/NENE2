@@ -120,3 +120,22 @@ A 404 response produced by the example above:
 ```
 
 `instance` is populated automatically from `$request->getUri()->getPath()`.
+
+## Troubleshooting: getting 500 instead of your expected error code
+
+If a domain exception produces a **500 Internal Server Error** instead of the expected
+4xx response, the most common cause is a missing or mis-registered handler:
+
+1. **Handler not added to `domainExceptionHandlers`** — double-check that the handler
+   class is included in the array passed to `RuntimeApplicationFactory`.
+2. **`supports()` method mismatch** — ensure `supports()` checks for the exact exception
+   class that is actually thrown. If the thrown exception is a subclass and `supports()`
+   uses `instanceof ExactClass`, child-class exceptions will still match. But if the
+   class hierarchy is inverted (handler checks a parent, exception is a different branch),
+   no handler will match.
+3. **Handler registered but wrong order** — handlers are tried in order. If a catch-all
+   handler appears first and its `supports()` is too broad, it may swallow exceptions
+   that a later handler should handle.
+
+A quick diagnostic: temporarily add `error_log(get_class($exception))` before the
+`supports()` check to print the actual exception class name.
