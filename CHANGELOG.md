@@ -10,6 +10,17 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.31] — 2026-05-20
+
+### Added
+- `Router::param(ServerRequestInterface $request, string $key): ?string` — static helper to read a single route path parameter without the two-step `getAttribute(Router::PARAMETERS_ATTRIBUTE)` boilerplate. (#693)
+- `QueryStringParser::string()` — optional `$default` third argument; returns `$default` (instead of `null`) when the key is absent or empty. Backwards-compatible. (#692)
+- `QueryStringParser::int()` — optional `$default` third argument; same pattern. (#692)
+- `docs/howto/sql-injection.md` — SQL injection defense guide: LIKE parameterization, ORDER BY whitelist requirement, IN clause with variable-length placeholders. (#691)
+- `docs/field-trials/2026-05-field-trial-97.md` — FT97 report: injectionlog (SQL injection defense). (#691)
+
+---
+
 ## [1.5.30] — 2026-05-20
 
 ### Added

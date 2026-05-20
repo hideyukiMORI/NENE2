@@ -71,6 +71,34 @@ final class Router implements RequestHandlerInterface
         return $this->add('DELETE', $path, $handler);
     }
 
+    /**
+     * Returns a single route path parameter by name, or null when the key is absent.
+     *
+     * Shorthand for `(array) $request->getAttribute(Router::PARAMETERS_ATTRIBUTE)` followed
+     * by key access. Eliminates the common two-step boilerplate in route handlers.
+     *
+     * ```php
+     * // Before:
+     * $params = (array) $request->getAttribute(Router::PARAMETERS_ATTRIBUTE);
+     * $id     = (int) ($params['id'] ?? 0);
+     *
+     * // After:
+     * $id = (int) Router::param($request, 'id');
+     * ```
+     */
+    public static function param(ServerRequestInterface $request, string $key): ?string
+    {
+        $params = $request->getAttribute(self::PARAMETERS_ATTRIBUTE);
+
+        if (!is_array($params)) {
+            return null;
+        }
+
+        $value = $params[$key] ?? null;
+
+        return is_string($value) ? $value : null;
+    }
+
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
         if (!$this->sorted) {
