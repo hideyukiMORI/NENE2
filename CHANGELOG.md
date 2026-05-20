@@ -10,6 +10,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.28] — 2026-05-20
+
+### Added
+- `docs/howto/use-bearer-auth.md` — Bearer token authentication guide: `BearerTokenMiddleware` setup (`authMiddleware` named parameter), `exp` claim recommendation, path protection modes, claims extraction, testing patterns, security property table. (#684)
+- `docs/field-trials/2026-05-field-trial-94.md` — FT94 report: authlog (JWT Bearer authentication edge cases). (#684)
+
+---
+
 ## [1.5.27] — 2026-05-20
 
 ### Changed
