@@ -14,6 +14,10 @@ use Psr\Http\Server\RequestHandlerInterface;
  * Handles CORS preflight requests and adds `Access-Control-*` headers to responses.
  * Allowed origins are injected at construction time; use an explicit allowlist in production.
  *
+ * **Preflight response**: OPTIONS requests that include both `Origin` and
+ * `Access-Control-Request-Method` are handled as CORS preflight. The response status is
+ * `204 No Content` (RFC 9110 compliant). The request does **not** reach the route handler.
+ *
  * Part of the public API stability guarantee (see ADR 0009).
  */
 final readonly class CorsMiddleware implements MiddlewareInterface
