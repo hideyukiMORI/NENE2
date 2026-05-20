@@ -511,11 +511,12 @@ Or use `INSERT ... ON DUPLICATE KEY UPDATE` for the same idempotent effect.
 
 ## Handling UNIQUE constraint violations
 
-`PdoDatabaseQueryExecutor::execute()` catches `PDOException` internally and re-throws it as
-`DatabaseConnectionException`. To detect a UNIQUE constraint violation, catch
-`DatabaseConnectionException` and inspect `getPrevious()`:
+Since **v1.5.23**, `PdoDatabaseQueryExecutor` automatically detects constraint violations (UNIQUE,
+FK, NOT NULL, CHECK) and throws `DatabaseConstraintException` instead of the generic
+`DatabaseConnectionException`. Catch it by type — no message string inspection needed:
 
 ```php
+use Nene2\Database\DatabaseConstraintException;
 use Nene2\Database\DatabaseConnectionException;
 
 public function vote(int $pollId, string $voterKey): void
@@ -525,29 +526,82 @@ public function vote(int $pollId, string $voterKey): void
             'INSERT INTO votes (poll_id, voter_key, created_at) VALUES (?, ?, ?)',
             [$pollId, $voterKey, date('Y-m-d H:i:s')],
         );
-    } catch (DatabaseConnectionException $e) {
-        // DatabaseConnectionException wraps the original PDOException.
-        // Inspect getPrevious() to detect constraint violations.
-        $previous = $e->getPrevious();
-        if ($previous !== null && str_contains($previous->getMessage(), 'UNIQUE constraint failed')) {
-            throw new DuplicateVoteException();
-        }
-        throw $e;
+    } catch (DatabaseConstraintException) {
+        // UNIQUE, FK, NOT NULL, or CHECK constraint violated.
+        throw new DuplicateVoteException();
     }
+    // DatabaseConnectionException (non-constraint errors) propagates up unchanged.
 }
 ```
 
-The exact message fragment differs by database adapter:
+`DatabaseConstraintException extends DatabaseConnectionException`, so existing
+`catch (DatabaseConnectionException)` blocks remain unaffected.
 
-| Adapter | Fragment to check |
-|---|---|
-| SQLite | `'UNIQUE constraint failed'` |
-| MySQL | `'Duplicate entry'` |
-| PostgreSQL | `'duplicate key value violates unique constraint'` |
+### Upsert pattern
 
-> **Note**: `isset()` on the previous exception is not needed — `getPrevious()` returns `null`
-> when there is no wrapped exception, and `str_contains(null, ...)` is a type error.
-> Always check `$previous !== null` first.
+To insert-or-update (upsert), catch `DatabaseConstraintException` and update instead:
+
+```php
+try {
+    $id = $this->executor->insert('INSERT INTO ratings (...) VALUES (?)', [...]);
+} catch (DatabaseConstraintException) {
+    $this->executor->execute('UPDATE ratings SET score = ? WHERE item_id = ? AND rater_id = ?', [...]);
+}
+```
+
+---
+
+## SQLite foreign key enforcement
+
+SQLite does **not** enforce `FOREIGN KEY` constraints by default. Each connection must explicitly
+enable them with a PRAGMA:
+
+```sql
+PRAGMA foreign_keys = ON;
+```
+
+`PdoConnectionFactory` does not set this PRAGMA automatically. Applications that declare FK
+constraints in their schema and want them enforced at the DB level must run the PRAGMA after
+connecting.
+
+### How to enable in tests
+
+Open the PDO connection and run the PRAGMA before inserting test data:
+
+```php
+$pdo = new \PDO('sqlite:' . $dbFile);
+$pdo->exec('PRAGMA foreign_keys = ON');
+$pdo->exec(file_get_contents('database/schema.sql'));
+```
+
+### How to enable in production (front controller / service provider)
+
+After calling `PdoConnectionFactory::create()`, run the PRAGMA on the returned connection.
+The simplest approach is a custom `ServiceProvider`:
+
+```php
+use Nene2\Database\DatabaseConnectionFactoryInterface;
+use Nene2\DependencyInjection\ContainerBuilder;
+
+$builder->addProvider(new class implements \Nene2\DependencyInjection\ServiceProviderInterface {
+    public function register(ContainerBuilder $b): void
+    {
+        // Wrap the existing factory to run the PRAGMA after every new connection.
+        // This is only needed for SQLite with FK constraints.
+    }
+});
+```
+
+Or, for a simple project, run the PRAGMA explicitly after bootstrapping:
+
+```php
+$connection = $container->get(DatabaseConnectionFactoryInterface::class)->create();
+$connection->getPdo()->exec('PRAGMA foreign_keys = ON');
+```
+
+> **Note**: If you are using SQLite only for development and FK enforcement is not critical
+> (e.g., your application validates FKs at the repository layer), you can omit this PRAGMA.
+> The FK declarations in your schema SQL remain as documentation of the intended relationships.
 
 ---
 
