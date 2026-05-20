@@ -10,6 +10,17 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.6] — 2026-05-20
+
+### Added
+- `docs/howto/add-database-endpoint.md` — added "Handling UNIQUE constraint violations" section: `DatabaseConnectionException` wraps `PDOException`; catch `DatabaseConnectionException` and inspect `getPrevious()` to detect constraint violations. Includes per-adapter message fragments (SQLite / MySQL / PostgreSQL). (#576)
+
+### Changed
+- `InMemoryRateLimitStorage` — removed `@internal` annotation; promoted to public API. The class is for local development and single-process testing; PHPDoc now explicitly documents that it is NOT shared across PHP-FPM workers. Consumers can now use it in tests without PHPStan warnings. (#574)
+- `docs/howto/add-health-check.md` — fixed `check()` return type from `bool` to `HealthStatus` in the Quick Start example; added inline note that `name()` return value becomes the key in the `checks` response map. (#575)
+
+---
+
 ## [1.5.5] — 2026-05-20
 
 ### Added

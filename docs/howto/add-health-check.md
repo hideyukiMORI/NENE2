@@ -28,17 +28,18 @@ Implement `HealthCheckInterface` and pass it to `RuntimeApplicationFactory`:
 
 ```php
 use Nene2\Http\HealthCheckInterface;
+use Nene2\Http\HealthStatus;
 use Nene2\Http\RuntimeApplicationFactory;
 use Nyholm\Psr7\Factory\Psr17Factory;
 
 final class CacheHealthCheck implements HealthCheckInterface
 {
+    // The return value of name() becomes the key in the "checks" map.
     public function name(): string { return 'cache'; }
 
-    public function check(): bool
+    public function check(): HealthStatus
     {
-        // Return true = healthy, false = degraded.
-        return $this->ping();
+        return $this->ping() ? HealthStatus::Ok : HealthStatus::Error;
     }
 
     private function ping(): bool { /* ... */ return true; }
@@ -92,7 +93,7 @@ $app = (new RuntimeApplicationFactory(
 ))->create();
 ```
 
-The check executes `SELECT 1` and returns `true` on success, `false` on any exception.
+The check executes `SELECT 1` and returns `HealthStatus::Ok` on success, `HealthStatus::Error` on any exception.
 
 > **Note**: `DatabaseHealthCheck` is in `src/Example/` — it is a reference implementation,
 > not a stable API surface. Copy it into your application and adapt it to your needs.
