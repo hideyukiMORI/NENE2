@@ -10,6 +10,16 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.13] — 2026-05-20
+
+### Added
+- `DatabaseQueryExecutorInterface::insert()` — convenience method that executes an INSERT and returns the auto-generated ID in one call (wraps `execute()` + `lastInsertId()`). (#593)
+- `JsonResponseFactory::createEmpty()` — creates a bodyless response for 204 No Content and similar status codes. (#594)
+- `docs/howto/add-database-endpoint.md` — added "Inserting a row and retrieving the generated ID" section documenting `insert()` and the two-step `execute()` + `lastInsertId()` pattern. (#593)
+- `docs/howto/add-custom-route.md` — added "Returning 204 No Content" section documenting `createEmpty()` for DELETE endpoints. (#594)
+
+---
+
 ## [1.5.12] — 2026-05-20
 
 ### Added

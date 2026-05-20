@@ -538,6 +538,34 @@ The exact message fragment differs by database adapter:
 
 ---
 
+## Inserting a row and retrieving the generated ID
+
+Use `insert()` to execute an INSERT and return the auto-generated primary key in one call:
+
+```php
+$id = $this->executor->insert(
+    'INSERT INTO products (name, price, created_at) VALUES (?, ?, ?)',
+    [$name, $price, $now],
+);
+$product = $this->findById($id);
+```
+
+`insert()` is equivalent to calling `execute()` then `lastInsertId()` separately:
+
+```php
+$this->executor->execute(
+    'INSERT INTO products (name, price, created_at) VALUES (?, ?, ?)',
+    [$name, $price, $now],
+);
+$id = $this->executor->lastInsertId();
+```
+
+> **PostgreSQL**: `lastInsertId()` returns `0` on PostgreSQL without a sequence name.
+> Append `RETURNING id` to the INSERT and call `fetchOne()` instead.
+> See [`use-postgresql.md`](use-postgresql.md) for the complete pattern.
+
+---
+
 ## Next steps
 
 - Add OpenAPI documentation for your endpoint: see `docs/development/endpoint-scaffold.md`
