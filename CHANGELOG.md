@@ -10,6 +10,21 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.90] — 2026-05-22
+
+### Added
+- `docs/howto/file-metadata-sharing.md` — ファイルメタデータ管理・共有 API ガイド: 3段階アクセス制御・IDOR防止・visibility エスカレーション防止。脆弱性診断 VULN-A〜L 全Pass / クラッカー攻撃試験 ATK-01〜12 全Pass。 (#816)
+
+---
+
+## [1.5.89] — 2026-05-21
+
+### Added
+- `docs/howto/shopping-cart.md` — ショッピングカートガイド: UNIQUE制約・数量加算冪等・quantity=0削除・price都度計算。 (#814)
+- `docs/field-trials/2026-05-field-trial-155.md` — FT155 レポート: cartlog（カート管理、28 tests）。 (#814)
+
+---
+
 ## [1.5.88] — 2026-05-21
 
 ### Added
