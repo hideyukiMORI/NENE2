@@ -10,6 +10,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.71] — 2026-05-21
+
+### Added
+- `docs/howto/subscription-plan-management.md` — サブスクリプション管理ガイド: UNIQUE制約でのre-subscribe（UPDATE）・キャンセル後の再加入・PUT要アクティブ制約・409 vs 404。 (#778)
+- `docs/field-trials/2026-05-field-trial-137.md` — FT137 レポート: planlog（サブスクリプション、20 tests）6 ペルソナ DX レビュー。 (#778)
+
+---
+
 ## [1.5.70] — 2026-05-21
 
 ### Added
