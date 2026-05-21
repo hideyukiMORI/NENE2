@@ -10,6 +10,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.63] — 2026-05-21
+
+### Added
+- `docs/howto/event-sourcing.md` — イベントソーシングガイド: append-only イベントログ・リプレイ・amount 型バリデーション・セキュリティプロパティ。 (#762)
+- `docs/field-trials/2026-05-field-trial-129.md` — FT129 レポート: eventsourcelog（イベントソーシング、17 tests、脆弱性診断: VULN-A 整数オーバーフロー修正）。 (#762)
+
+---
+
 ## [1.5.62] — 2026-05-21
 
 ### Added
