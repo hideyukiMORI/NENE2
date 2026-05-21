@@ -10,6 +10,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.72] — 2026-05-21
+
+### Added
+- `docs/howto/group-membership-management.md` — グループメンバーシップ管理ガイド: `user_groups` テーブル名（MySQL予約語回避）・MemberRole enum権限メソッド・owner自動追加・自己脱退・MySQL FK teardown パターン。 (#780)
+- `docs/field-trials/2026-05-field-trial-138.md` — FT138 レポート: grouplog（グループメンバーシップ、38 tests = 21 正常 + 12 脆弱性診断 + 5 MySQL）**脆弱性診断: 12件全Pass** / **MySQL統合テスト: 5テスト** (#780)
+
+---
+
 ## [1.5.71] — 2026-05-21
 
 ### Added
