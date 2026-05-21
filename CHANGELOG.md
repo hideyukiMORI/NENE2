@@ -10,6 +10,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.80] — 2026-05-21
+
+### Added
+- `docs/howto/content-pinning.md` — コンテンツピン留めガイド: position連続管理・冪等追加（201/200）・unpin後の位置詰め・完全一致reorder。 (#796)
+- `docs/field-trials/2026-05-field-trial-146.md` — FT146 レポート: pinlog（コンテンツピン留め、19 tests）。 (#796)
+
+---
+
 ## [1.5.79] — 2026-05-21
 
 ### Added
