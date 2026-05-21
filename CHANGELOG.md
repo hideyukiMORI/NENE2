@@ -10,6 +10,102 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.59] — 2026-05-21
+
+### Added
+- `docs/howto/tagging-system.md` — M:N タグシステムガイド: join table の設計・原子的タグ差し替え（delete-then-insert）・N+1 防止の IN クエリバッチ取得・タグ別 JOIN 検索。 (#752)
+- `docs/field-trials/2026-05-field-trial-125.md` — FT125 レポート: taglog（タグシステム M:N、20 tests、PHPStan level 8）。 (#752)
+
+---
+
+## [1.5.58] — 2026-05-21
+
+### Added
+- `docs/howto/user-invitation.md` — ユーザー招待システムガイド: bin2hex(random_bytes(32)) による 256-bit トークン・expiry before status check（410 → 409 の正しい順序）・cancel の 403 vs 404 設計・owner enforcement パターン。 (#750)
+- `docs/field-trials/2026-05-field-trial-124.md` — FT124 レポート: invitelog（ユーザー招待、14 functional + 12 cracker attack tests）。クラッカー攻撃試験 12 ケース全耐久。 (#750)
+
+---
+
+## [1.5.57] — 2026-05-21
+
+### Added
+- `docs/howto/personal-data-export.md` — 個人データエクスポートガイド: opaque token（bin2hex random_bytes(32)）・センシティブフィールド除外（phone / password_hash）・expiry 二重チェック（process + download）・410 vs 404 設計。 (#748)
+- `docs/field-trials/2026-05-field-trial-123.md` — FT123 レポート: exportlog（個人データエクスポート、19 tests）。脆弱性診断: 期限切れエクスポートの孤児 PII レコード生成を修正。 (#748)
+
+---
+
+## [1.5.56] — 2026-05-21
+
+### Added
+- `docs/howto/distributed-locking.md` — 分散ロックガイド: owner 強制（取得・解放・更新すべて owner トークン必須）・stale lock claim（期限切れロックを新 owner が上書き取得）・非ブロッキング取得（acquired: false を即返す）・409 vs 403 設計。 (#746)
+- `docs/field-trials/2026-05-field-trial-122.md` — FT122 レポート: distlocklog（分散ロック、16 tests）、6ペルソナ DX レビュー復活（FT122〜）。 (#746)
+
+---
+
+## [1.5.55] — 2026-05-21
+
+### Added
+- `docs/howto/feature-flags.md` — フィーチャーフラグガイド: 評価優先順位（user target → tenant target → globally_enabled → rollout_pct hash → false）・crc32 バケット割り当て・ターゲット upsert パターン・kill switch パターン。 (#744)
+- `docs/field-trials/2026-05-field-trial-121.md` — FT121 レポート: featureflaglog（フィーチャーフラグ、21 tests）。 (#744)
+
+---
+
+## [1.5.54] — 2026-05-21
+
+### Added
+- `docs/howto/webhook-delivery.md` — アウトバウンド Webhook 配信ガイド: SSRF URL 検証・timestamp 付き HMAC（リプレイ防止）・secret ハッシュ保存・指数バックオフリトライ。 (#742)
+- `docs/field-trials/2026-05-field-trial-120.md` — FT120 レポート: webhookdeliverylog（Webhook 配信、31 tests）。クラッカー攻撃試験 16 ケース全耐久。null safety 脆弱性修正。 (#742)
+
+---
+
+## [1.5.53] — 2026-05-21
+
+### Added
+- `docs/howto/circuit-breaker.md` — サーキットブレーカーガイド: Closed/Open/Half-Open の 3 状態遷移・lazy Half-Open（次リクエストで移行）・DB 永続化・連続失敗カウント・503 応答。 (#740)
+- `docs/field-trials/2026-05-field-trial-119.md` — FT119 レポート: circuitlog（サーキットブレーカー、15 tests）。 (#740)
+
+---
+
+## [1.5.52] — 2026-05-21
+
+### Added
+- `docs/howto/signed-urls.md` — 署名付き URL ガイド: HMAC-SHA256 トークン・hash_equals 必須（タイミング攻撃防止）・410 Gone vs 401 設計・stateless 検証・secret rotation パターン。 (#738)
+- `docs/field-trials/2026-05-field-trial-118.md` — FT118 レポート: signedlog（署名付き URL、17 tests）。 (#738)
+
+---
+
+## [1.5.51] — 2026-05-21
+
+### Added
+- `docs/howto/api-key-management.md` — API キー管理ガイド: SHA-256 ハッシュ保存・prefix+hash_equals 2 段階認証・スコープ階層・rotate は create-first パターン。 (#736)
+- `docs/field-trials/2026-05-field-trial-117.md` — FT117 レポート: apikeylog（API キー管理、19 tests）。脆弱性診断: prefix 固定で全テーブルスキャン・rotate 非アトミック問題を修正。 (#736)
+
+---
+
+## [1.5.50] — 2026-05-21
+
+### Added
+- `docs/howto/job-queue.md` — バックグラウンドジョブキューガイド: 優先度キュー・リトライロジックはリポジトリ層・retry_count/max_retries・idempotency_key UNIQUE 制約・max_retries=0 で即失敗。 (#734)
+- `docs/field-trials/2026-05-field-trial-116.md` — FT116 レポート: queuelog（ジョブキュー、27 tests）。 (#734)
+
+---
+
+## [1.5.49] — 2026-05-21
+
+### Added
+- `docs/howto/api-versioning.md` — API バージョニングガイド: URI プレフィックス方式・Deprecation/Sunset ヘッダー RFC 8594・toV1/toV2 変換・ストレージ共有設計。 (#732)
+- `docs/field-trials/2026-05-field-trial-115.md` — FT115 レポート: versionlog（API バージョニング、14 tests）。 (#732)
+
+---
+
+## [1.5.48] — 2026-05-21
+
+### Added
+- `docs/howto/audit-trail.md` — 監査ログガイド: 監査はハンドラレイヤー・before/after スナップショット・immutable レコード・JWT クレームからアクター取得・ORDER BY id DESC。 (#730)
+- `docs/field-trials/2026-05-field-trial-114.md` — FT114 レポート: auditlog（監査ログ、17 tests）。脆弱性診断: ダミーハッシュ不正形式・所有権チェック漏れを修正。 (#730)
+
+---
+
 ## [1.5.47] — 2026-05-21
 
 ### Added
