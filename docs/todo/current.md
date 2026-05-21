@@ -4,7 +4,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 ## Status
 
-- Latest release: `v1.5.63`（2026-05-21 リリース済み）
+- Latest release: `v1.5.64`（2026-05-21 リリース済み）
 - Current branch: `main` — clean — open Issue なし
 
 ## Recently Completed (FT ループ — v1.5.27 〜 v1.5.39)
@@ -45,10 +45,11 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 | FT127 | スレッドコメント | commentlog | 20/20 | v1.5.61 | threaded-comments.md（parent_id 自己参照・depth 非正規化・MAX_DEPTH=3・ソフトデリート子保持・2パスツリー組み立て・PHPStan-safe） |
 | FT128 | アカウントロックアウト | lockoutlog | 32/32 | v1.5.62 | account-lockout.md（per-account 失敗カウント・locked_until・423・ユーザー列挙防止・MySQL スキーマ）**クラッカー攻撃試験: 12 攻撃すべて耐久** / **MySQL 統合テスト初導入: 5テスト** |
 | FT129 | イベントソーシング（基本） | eventsourcelog | 17/17 | v1.5.63 | event-sourcing.md（append-only イベントログ・リプレイ・ORDER BY id ASC）**脆弱性診断: VULN-A 整数オーバーフロー（is_int + 上限 1e9）修正** |
+| FT130 | 通知インボックス | notificationlog | 23/23 | v1.5.64 | notification-inbox.md（read_at nullable・冪等マーク・クロスユーザー 404・bulk read-all） |
 
 ## 次のアクション
 
-- FT ループ継続中（FT130 以降・次のクラッカー攻撃試験は FT132・次の脆弱性診断は FT132・次の MySQL テストは FT133）
+- FT ループ継続中（FT131 以降・次のクラッカー攻撃試験は FT132・次の脆弱性診断は FT132・次の MySQL テストは FT133）
 
 ## Open Issues
 

@@ -10,6 +10,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.64] — 2026-05-21
+
+### Added
+- `docs/howto/notification-inbox.md` — 通知インボックスガイド: `read_at` nullable パターン・冪等マーク・クロスユーザー 404・`ORDER BY id DESC`・bulk mark-as-read。 (#764)
+- `docs/field-trials/2026-05-field-trial-130.md` — FT130 レポート: notificationlog（通知インボックス、23 tests）。 (#764)
+
+---
+
 ## [1.5.63] — 2026-05-21
 
 ### Added
