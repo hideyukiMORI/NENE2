@@ -10,6 +10,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.87] — 2026-05-21
+
+### Added
+- `docs/howto/activity-feed.md` — アクティビティフィードガイド: フォローベースフィード・カーソルページネーション・プライバシー制御・actor_id注入防止。 (#811)
+- `docs/field-trials/2026-05-field-trial-153.md` — FT153 レポート: feedlog（アクティビティフィード、57 tests = 40 正常 + 12 脆弱性診断 + 5 MySQL統合）**脆弱性診断: VULN-A〜L 全Pass** / **MySQL統合テスト: 5件全Pass**。 (#811)
+
+---
+
 ## [1.5.86] — 2026-05-21
 
 ### Added
