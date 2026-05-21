@@ -10,6 +10,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.73] — 2026-05-21
+
+### Added
+- `docs/howto/guest-order-system.md` — ゲスト注文システムガイド: price snapshot in order_items・在庫先行検証・カート数量加算（UPDATE on conflict）・ユーザー別カート分離・array_sum 合計計算。 (#782)
+- `docs/field-trials/2026-05-field-trial-139.md` — FT139 レポート: orderlog（カート→注文→明細、23 tests）6 ペルソナ DX レビュー。 (#782)
+
+---
+
 ## [1.5.72] — 2026-05-21
 
 ### Added

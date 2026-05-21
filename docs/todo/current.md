@@ -4,7 +4,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 ## Status
 
-- Latest release: `v1.5.72`（2026-05-21 リリース済み）
+- Latest release: `v1.5.73`（2026-05-21 リリース済み）
 - Current branch: `main` — clean — open Issue なし
 
 ## Recently Completed (FT ループ — v1.5.27 〜 v1.5.39)
@@ -54,10 +54,11 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 | FT136 | アクセストークン管理 | tokenlog | 29/29 | v1.5.70 | access-token-management.md（SHA-256・TokenScope enum・二重所有権チェック・verify 常に 200）**クラッカー攻撃試験: 12 攻撃全耐久** |
 | FT137 | サブスクリプション管理 | planlog | 20/20 | v1.5.71 | subscription-plan-management.md（UNIQUE制約→re-subscribe UPDATE・PUT要アクティブ・cancel 404 vs 409） |
 | FT138 | グループメンバーシップ | grouplog | 38/38 | v1.5.72 | group-membership-management.md（`user_groups`・MemberRole enum権限メソッド・owner自動追加・自己脱退）**脆弱性診断: 12件全Pass** / **MySQL 統合テスト: 5テスト** |
+| FT139 | ゲスト注文 | orderlog | 23/23 | v1.5.73 | guest-order-system.md（price snapshot・在庫先行検証・カート数量加算・ユーザー別カート分離） |
 
 ## 次のアクション
 
-- FT ループ継続中（FT139 以降・次の MySQL テストは FT143・次の脆弱性診断は FT141・次のクラッカー攻撃試験は FT140）
+- FT ループ継続中（FT140 以降・次の MySQL テストは FT143・次の脆弱性診断は FT141・次のクラッカー攻撃試験は FT140）
 
 ## Open Issues
 
