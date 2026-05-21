@@ -10,6 +10,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.81] — 2026-05-21
+
+### Added
+- `docs/howto/content-report-moderation.md` — コンテンツ通報・モデレーションガイド: RBAC・IDOR防止・冪等通報（201/200）・一方向ステータス遷移・Router::param()パターン。 (#799)
+- `docs/field-trials/2026-05-field-trial-147.md` — FT147 レポート: reportlog（コンテンツ通報・モデレーション、32 tests、脆弱性診断 VULN-A〜L）。 (#799)
+
+---
+
 ## [1.5.80] — 2026-05-21
 
 ### Added
