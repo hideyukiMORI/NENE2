@@ -10,6 +10,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.78] — 2026-05-21
+
+### Added
+- `docs/howto/passwordless-auth-magic-link.md` — パスワードレス認証（Magic Link）ガイド: SHA-256ハッシュ保存・ユーザー列挙防止（常に202）・expiry before used_at・セッション無効化。 (#792)
+- `docs/field-trials/2026-05-field-trial-144.md` — FT144 レポート: magiclog（パスワードレス認証、43 tests = 19 正常 + 12 脆弱性診断 + 12 クラッカー攻撃）**脆弱性診断: 12件全Pass** / **クラッカー攻撃試験: 12件全Pass**。 (#792)
+
+---
+
 ## [1.5.77] — 2026-05-21
 
 ### Added
