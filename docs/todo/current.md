@@ -4,7 +4,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 ## Status
 
-- Latest release: `v1.5.50`（2026-05-21 リリース済み）
+- Latest release: `v1.5.51`（2026-05-21 リリース済み）
 - Current branch: `main` — clean — open Issue なし
 
 ## Recently Completed (FT ループ — v1.5.27 〜 v1.5.39)
@@ -32,10 +32,11 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 | FT114 | 監査ログ（Audit Trail）| auditlog | 17/17 | v1.5.48 | audit-trail.md（監査はハンドラレイヤー・before/after スナップショット・immutable・JWT クレームからアクター取得・ORDER BY id DESC）脆弱性診断: ダミーハッシュ不正形式・所有権チェック漏れを修正 |
 | FT115 | API バージョニング | versionlog | 14/14 | v1.5.49 | api-versioning.md（URI プレフィックス・Deprecation/Sunset ヘッダー RFC 8594・toV1/toV2 変換・ストレージ共有） |
 | FT116 | バックグラウンドジョブキュー | queuelog | 27/27 | v1.5.50 | job-queue.md（優先度キュー・リトライロジックはリポジトリ層・retry_count/max_retries・idempotency_key UNIQUE 制約・max_retries=0 で即失敗） |
+| FT117 | API キー管理 | apikeylog | 19/19 | v1.5.51 | api-key-management.md（SHA-256 ハッシュ保存・prefix+hash_equals 2段階認証・スコープ階層・rotate は create-first・**脆弱性診断: prefix が常に 'nk' で全テーブルスキャン→修正・rotate 非アトミック→create-first に修正**） |
 
 ## 次のアクション
 
-- FT ループ継続中（FT117 進行中・**FT117 で脆弱性診断**）
+- FT ループ継続中（FT118 以降・次の脆弱性診断は FT120）
 
 ## Open Issues
 
