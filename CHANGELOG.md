@@ -10,6 +10,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.86] — 2026-05-21
+
+### Added
+- `docs/howto/point-loyalty-system.md` — ポイント・ロイヤルティシステムガイド: トランザクション履歴残高・冪等化reference_id・残高多層防御・MAX_EARN制限・admin調整。 (#809)
+- `docs/field-trials/2026-05-field-trial-152.md` — FT152 レポート: pointlog（ポイント・ロイヤルティ、30 tests = 18 正常 + 12 攻撃試験）**クラッカー攻撃試験: ATK-01〜12 全Pass**。 (#809)
+
+---
+
 ## [1.5.85] — 2026-05-21
 
 ### Added
