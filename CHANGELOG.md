@@ -10,6 +10,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.88] — 2026-05-21
+
+### Added
+- `docs/howto/product-review-system.md` — プロダクトレビュー・評価システムガイド: 1ユーザー1商品1レビュー・集計・所有権チェック。 (#813)
+- `docs/field-trials/2026-05-field-trial-154.md` — FT154 レポート: reviewlog（レビュー評価、29 tests）。 (#813)
+
+---
+
 ## [1.5.87] — 2026-05-21
 
 ### Added
