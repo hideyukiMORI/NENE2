@@ -4,7 +4,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 ## Status
 
-- Latest release: `v1.5.57`（2026-05-21 リリース済み）
+- Latest release: `v1.5.58`（2026-05-21 リリース済み）
 - Current branch: `main` — clean — open Issue なし
 
 ## Recently Completed (FT ループ — v1.5.27 〜 v1.5.39)
@@ -39,10 +39,11 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 | FT121 | フィーチャーフラグ | featureflaglog | 21/21 | v1.5.55 | feature-flags.md（評価優先順位・rollout_pct crc32 バケット・ターゲット upsert・kill switch パターン） |
 | FT122 | 分散ロック | distlocklog | 16/16 | v1.5.56 | distributed-locking.md（owner 強制・stale lock claim・非ブロッキング取得・409 vs 403 設計） |
 | FT123 | 個人データエクスポート | exportlog | 19/19 | v1.5.57 | personal-data-export.md（opaque token・センシティブフィールド除外・expiry 二重チェック）**脆弱性診断: 期限切れエクスポートの孤児 PII レコード生成を修正** |
+| FT124 | ユーザー招待システム | invitelog | 26/26 | v1.5.58 | user-invitation.md（256-bit token・expiry before status check・cancel 403 vs 404・INSERT 引数順バグ修正）**クラッカー攻撃試験: 12 攻撃すべて耐久** |
 
 ## 次のアクション
 
-- FT ループ継続中（FT124 以降・次の脆弱性診断は FT126・次のクラッカー攻撃試験は FT124）
+- FT ループ継続中（FT125 以降・次の脆弱性診断は FT126・次のクラッカー攻撃試験は FT128）
 
 ## Open Issues
 
