@@ -10,6 +10,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.77] — 2026-05-21
+
+### Added
+- `docs/howto/emoji-reaction-system.md` — 絵文字リアクションガイド: UNIQUE(post_id, user_id, emoji)・GROUP BY集計・optional actor per-user tracking・mb_strlen絵文字長・is_array常にtrue回避。 (#790)
+- `docs/field-trials/2026-05-field-trial-143.md` — FT143 レポート: emojilog（絵文字リアクション、23 tests = 18 正常 + 5 MySQL）**MySQL統合テスト: 5テスト**。 (#790)
+
+---
+
 ## [1.5.76] — 2026-05-21
 
 ### Added
