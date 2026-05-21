@@ -4,7 +4,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 ## Status
 
-- Latest release: `v1.5.86`（2026-05-21 リリース済み）
+- Latest release: `v1.5.87`（2026-05-21 リリース済み）
 - Current branch: `main` — clean — open Issue なし
 
 ## Recently Completed (FT ループ — v1.5.27 〜 v1.5.39)
@@ -68,10 +68,11 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 | FT150 | クーポン・プロモコード管理 | couponlog | 34/34 | v1.5.84 | coupon-promo-code.md（admin RBAC・ユーザー1回制限・discount_pct制約・user_id注入防止）**脆弱性診断: VULN-A〜L 12件全Pass** |
 | FT151 | ウィッシュリスト管理 | wishlistlog | 23/23 | v1.5.85 | wishlist-management.md（存在非公開404・冪等追加201/200・priority/noteメタデータ・フォールバックバリデーション） |
 | FT152 | ポイント・ロイヤルティシステム | pointlog | 30/30 | v1.5.86 | point-loyalty-system.md（トランザクション履歴残高・冪等化reference_id・残高多層防御）**クラッカー攻撃試験: ATK-01〜12 全Pass** |
+| FT153 | アクティビティフィード | feedlog | 57/57 | v1.5.87 | activity-feed.md（フォローベースフィード・カーソルページネーション・プライバシー制御）**脆弱性診断: VULN-A〜L 全Pass** / **MySQL統合テスト: 5件全Pass** |
 
 ## 次のアクション
 
-- FT ループ継続中（FT153 以降・次の MySQL テストは FT153・次の脆弱性診断: FT153・次のクラッカー攻撃試験: FT156）
+- FT ループ継続中（FT154 以降・次の MySQL テストは FT158・次の脆弱性診断: FT156・次のクラッカー攻撃試験: FT156）
 
 ## Open Issues
 
