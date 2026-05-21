@@ -10,6 +10,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.76] — 2026-05-21
+
+### Added
+- `docs/howto/content-draft-lifecycle.md` — コンテンツ下書きライフサイクルガイド: ArticleStatus enum遷移ガード・非公開記事の404隠蔽・同秒ソート安定性（ORDER BY published_at DESC, id DESC）。 (#788)
+- `docs/field-trials/2026-05-field-trial-142.md` — FT142 レポート: draftlog（下書き管理、20 tests）6 ペルソナ DX レビュー。 (#788)
+
+---
+
 ## [1.5.75] — 2026-05-21
 
 ### Added
