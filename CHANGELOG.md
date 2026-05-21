@@ -10,6 +10,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.85] — 2026-05-21
+
+### Added
+- `docs/howto/wishlist-management.md` — ウィッシュリスト管理ガイド: 存在非公開・冪等追加・priority/noteメタデータ・フォールバックバリデーション。 (#807)
+- `docs/field-trials/2026-05-field-trial-151.md` — FT151 レポート: wishlistlog（ウィッシュリスト管理、23 tests）。 (#807)
+
+---
+
 ## [1.5.84] — 2026-05-21
 
 ### Added
