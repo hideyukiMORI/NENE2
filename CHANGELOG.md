@@ -10,6 +10,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.75] — 2026-05-21
+
+### Added
+- `docs/howto/leaderboard-ranking-system.md` — リーダーボードガイド: ベストスコア UPDATE パターン・COUNT(*)ランク計算・スコア所有権チェック（IDOR防止）・limitクランプ・型混乱（float/string）防止。 (#786)
+- `docs/field-trials/2026-05-field-trial-141.md` — FT141 レポート: ranklog（リーダーボード、29 tests = 17 正常 + 12 脆弱性診断）**脆弱性診断: 12件全Pass**。 (#786)
+
+---
+
 ## [1.5.74] — 2026-05-21
 
 ### Added
