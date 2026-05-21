@@ -10,6 +10,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.79] — 2026-05-21
+
+### Added
+- `docs/howto/user-preferences-management.md` — ユーザー設定管理ガイド: PreferenceKey enum・型バリデーション・upsert・デフォルト値フォールバック・IDOR防止。 (#794)
+- `docs/field-trials/2026-05-field-trial-145.md` — FT145 レポート: preflog（ユーザー設定管理、20 tests）。 (#794)
+
+---
+
 ## [1.5.78] — 2026-05-21
 
 ### Added
