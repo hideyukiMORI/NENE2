@@ -4,7 +4,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 ## Status
 
-- Latest release: `v1.5.45`（2026-05-21 リリース済み）
+- Latest release: `v1.5.47`（2026-05-21 リリース済み）
 - Current branch: `main` — clean — open Issue なし
 
 ## Recently Completed (FT ループ — v1.5.27 〜 v1.5.39)
@@ -27,14 +27,16 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 | FT109 | パスワードハッシュ | pwdlog | 14/14 | v1.5.43 | password-hashing.md（Argon2id・DatabaseConstraintException・ユーザー列挙防止・dummy hash） |
 | FT110 | JWT 認証 | jwtlog | 14/14 | v1.5.44 | jwt-authentication.md（LocalBearerTokenVerifier Issuer兼用・excludedPaths・nene2.auth.claims・exp int必須・alg:none拒否） |
 | FT111 | RBAC | rbaclog | 14/14 | v1.5.45 | rbac.md（JWT クレームロール・requireRole パターン・401 vs 403・BearerTokenMiddleware メソッド非区別・createEmpty） |
+| FT112 | マルチテナント隔離 | tenantlog | 13/13 | v1.5.46 | multi-tenant-isolation.md（全クエリに tenant_id フィルター必須・クロステナント 404・JWT クレームにテナント ID・レスポンスから tenant_id 除外） |
+| FT113 | JWT Refresh Token Rotation | refreshlog | 15/15 | v1.5.47 | refresh-token-rotation.md（リフレッシュトークンをハッシュ保存・ローテーション・リプレイ攻撃検知・ログアウト常に 204・jti クレーム） |
 
 ## 次のアクション
 
-- FT ループ継続中（ScheduleWakeup 設定済み）
+- FT114: 監査ログ（Audit Trail）— 進行中
 
 ## Open Issues
 
-なし（FT111 で起票した #724 は v1.5.45 で解消済み）
+なし
 
 ## Operating Notes
 
