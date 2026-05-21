@@ -111,6 +111,20 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 | 脆弱性診断 | FT159 |
 | クラッカー攻撃試験 | FT160 |
 
+## 検討事項（決定不要・議題として保持）
+
+### FT プロジェクトの外部公開方針
+
+`../NENE2-FT/<name>/` に 156 本の参照実装が蓄積されているが、Packagist ユーザーからは不可視。
+以下の選択肢を Phase 73 または v2.0 設計フェーズで議論する。
+
+- **Option A**: 各 FT プロジェクトを GitHub の独立リポジトリとして公開
+- **Option B**: howto ガイドに実装の要所を埋め込み（現行の一部ガイドはすでにこの形式）
+- **Option C**: モノレポ的に `examples/` ディレクトリへ集約して公開
+
+判断基準: メンテナンスコスト vs 発見可能性 vs ドキュメントとの同期。
+急ぎではないが、ライブラリが 100 ガイドを超える前に方針を決めておくと良い。
+
 ## Open Issues
 
 なし
