@@ -10,6 +10,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.65] — 2026-05-21
+
+### Added
+- `docs/howto/voting-system.md` — 投票システムガイド: upvote/downvote トグル・VoteDirection enum・UNIQUE 制約・スコア同梱・ユーザー投票状態取得。 (#766)
+- `docs/field-trials/2026-05-field-trial-131.md` — FT131 レポート: votelog（投票システム、20 tests）。 (#766)
+
+---
+
 ## [1.5.64] — 2026-05-21
 
 ### Added
