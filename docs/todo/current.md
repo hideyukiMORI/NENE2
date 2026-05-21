@@ -4,7 +4,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 ## Status
 
-- Latest release: `v1.5.48`（2026-05-21 リリース済み）
+- Latest release: `v1.5.49`（2026-05-21 リリース済み）
 - Current branch: `main` — clean — open Issue なし
 
 ## Recently Completed (FT ループ — v1.5.27 〜 v1.5.39)
@@ -30,10 +30,11 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 | FT112 | マルチテナント隔離 | tenantlog | 13/13 | v1.5.46 | multi-tenant-isolation.md（全クエリに tenant_id フィルター必須・クロステナント 404・JWT クレームにテナント ID・レスポンスから tenant_id 除外） |
 | FT113 | JWT Refresh Token Rotation | refreshlog | 15/15 | v1.5.47 | refresh-token-rotation.md（リフレッシュトークンをハッシュ保存・ローテーション・リプレイ攻撃検知・ログアウト常に 204・jti クレーム） |
 | FT114 | 監査ログ（Audit Trail）| auditlog | 17/17 | v1.5.48 | audit-trail.md（監査はハンドラレイヤー・before/after スナップショット・immutable・JWT クレームからアクター取得・ORDER BY id DESC）脆弱性診断: ダミーハッシュ不正形式・所有権チェック漏れを修正 |
+| FT115 | API バージョニング | versionlog | 14/14 | v1.5.49 | api-versioning.md（URI プレフィックス・Deprecation/Sunset ヘッダー RFC 8594・toV1/toV2 変換・ストレージ共有） |
 
 ## 次のアクション
 
-- FT ループ継続中（次回: FT115・FT116・FT117 で脆弱性診断）
+- FT ループ継続中（FT116 進行中・FT117 で脆弱性診断）
 
 ## Open Issues
 
