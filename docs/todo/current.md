@@ -4,7 +4,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 ## Status
 
-- Latest release: `v1.5.54`（2026-05-21 リリース済み）
+- Latest release: `v1.5.55`（2026-05-21 リリース済み）
 - Current branch: `main` — clean — open Issue なし
 
 ## Recently Completed (FT ループ — v1.5.27 〜 v1.5.39)
@@ -36,10 +36,11 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 | FT118 | 署名付き URL | signedlog | 17/17 | v1.5.52 | signed-urls.md（HMAC-SHA256 トークン・hash_equals 必須・410 Gone vs 401 設計・stateless 検証・secret rotation パターン） |
 | FT119 | サーキットブレーカー | circuitlog | 15/15 | v1.5.53 | circuit-breaker.md（3状態遷移・lazy Half-Open・DB 永続化・連続失敗カウント・503 応答） |
 | FT120 | アウトバウンド Webhook 配信 | webhookdeliverylog | 31/31 | v1.5.54 | webhook-delivery.md（SSRF URL 検証・timestamp 付き HMAC・secret ハッシュ保存・リトライ）**脆弱性診断: null safety 修正** ／ **クラッカー攻撃試験: 16 攻撃すべて耐久** |
+| FT121 | フィーチャーフラグ | featureflaglog | 21/21 | v1.5.55 | feature-flags.md（評価優先順位・rollout_pct crc32 バケット・ターゲット upsert・kill switch パターン） |
 
 ## 次のアクション
 
-- FT ループ継続中（FT121 以降・次の脆弱性診断は FT123・次のクラッカー攻撃試験は FT124）
+- FT ループ継続中（FT122 以降・次の脆弱性診断は FT123・次のクラッカー攻撃試験は FT124）
 
 ## Open Issues
 
