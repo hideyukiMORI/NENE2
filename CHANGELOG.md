@@ -10,6 +10,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.69] — 2026-05-21
+
+### Added
+- `docs/howto/direct-messaging-system.md` — DM システムガイド: 双方向会話検索・参加者アクセス制御・GET リクエストで parse() を呼ばない注意点・メッセージ昇順ソート。 (#774)
+- `docs/field-trials/2026-05-field-trial-135.md` — FT135 レポート: messagelog（DM システム、31 tests = 19 正常 + 12 脆弱性診断）**脆弱性診断: IDOR・SQLインジェクション・XSS 全耐久、GET parse() バグ修正**。 (#774)
+
+---
+
 ## [1.5.68] — 2026-05-21
 
 ### Added
