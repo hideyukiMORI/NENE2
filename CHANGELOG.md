@@ -10,6 +10,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.66] — 2026-05-21
+
+### Added
+- `docs/howto/user-profile-management.md` — プロフィール管理ガイド: avatar_url https 強制・DatabaseConstraintException catch・mb_strlen・X-User-Id 所有権チェック。 (#768)
+- `docs/field-trials/2026-05-field-trial-132.md` — FT132 レポート: profilelog（プロフィール管理、32 tests = 20 正常 + 12 攻撃）**クラッカー攻撃試験: 12 攻撃全耐久** / **脆弱性診断: VULN-A 重複メール 500 → 409 修正**。 (#768)
+
+---
+
 ## [1.5.65] — 2026-05-21
 
 ### Added
