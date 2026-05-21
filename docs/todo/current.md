@@ -4,7 +4,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 ## Status
 
-- Latest release: `v1.5.76`（2026-05-21 リリース済み）
+- Latest release: `v1.5.77`（2026-05-21 リリース済み）
 - Current branch: `main` — clean — open Issue なし
 
 ## Recently Completed (FT ループ — v1.5.27 〜 v1.5.39)
@@ -58,10 +58,11 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 | FT140 | フラッシュセール | salelog | 29/29 | v1.5.74 | flash-sale-system.md（COUNT残数計算・ISO 8601時間比較・UNIQUE二重購入防止・matchステータス）**クラッカー攻撃試験: 12件全Pass** |
 | FT141 | リーダーボード | ranklog | 29/29 | v1.5.75 | leaderboard-ranking-system.md（ベストスコア UPDATE・COUNT(*)ランク計算・IDOR防止・limitクランプ）**脆弱性診断: 12件全Pass** |
 | FT142 | コンテンツ下書き | draftlog | 20/20 | v1.5.76 | content-draft-lifecycle.md（ArticleStatus enum遷移ガード・404隠蔽・同秒ソート id DESC tiebreaker） |
+| FT143 | 絵文字リアクション | emojilog | 23/23 | v1.5.77 | emoji-reaction-system.md（UNIQUE(post_id,user_id,emoji)・GROUP BY集計・optional actor tracking・mb_strlen）**MySQL統合テスト: 5テスト** |
 
 ## 次のアクション
 
-- FT ループ継続中（FT143 以降・次の MySQL テストは FT143・次の脆弱性診断 + クラッカー攻撃試験は FT144）
+- FT ループ継続中（FT144 以降・次の MySQL テストは FT148・次の脆弱性診断: FT144・次のクラッカー攻撃試験: FT144）
 
 ## Open Issues
 
