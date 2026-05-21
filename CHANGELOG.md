@@ -10,6 +10,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.82] — 2026-05-21
+
+### Added
+- `docs/howto/otp-authentication.md` — OTP認証ガイド: 6桁コード生成・SHA-256ハッシュ保存・ブルートフォース対策・ロックアウト・セッション管理・MySQL対応・setRiskyAllowed(true)。 (#801)
+- `docs/field-trials/2026-05-field-trial-148.md` — FT148 レポート: otplog（OTP認証、35 tests = 18 正常 + 12 攻撃試験 + 5 MySQL）**クラッカー攻撃試験: 12件全Pass** / **MySQL統合テスト: 5件全Pass**。 (#801)
+
+---
+
 ## [1.5.81] — 2026-05-21
 
 ### Added

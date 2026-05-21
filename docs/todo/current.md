@@ -4,7 +4,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 ## Status
 
-- Latest release: `v1.5.81`（2026-05-21 リリース済み）
+- Latest release: `v1.5.82`（2026-05-21 リリース済み）
 - Current branch: `main` — clean — open Issue なし
 
 ## Recently Completed (FT ループ — v1.5.27 〜 v1.5.39)
@@ -63,10 +63,11 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 | FT145 | ユーザー設定管理 | preflog | 20/20 | v1.5.79 | user-preferences-management.md（PreferenceKey enum・型バリデーション・upsert・デフォルト値フォールバック・IDOR防止） |
 | FT146 | コンテンツピン留め | pinlog | 19/19 | v1.5.80 | content-pinning.md（position連続管理・冪等追加201/200・unpin後位置詰め・完全一致reorder） |
 | FT147 | コンテンツ通報・モデレーション | reportlog | 32/32 | v1.5.81 | content-report-moderation.md（RBAC・IDOR防止・冪等通報201/200・一方向ステータス遷移）**脆弱性診断: VULN-A〜L 12件全Pass** |
+| FT148 | OTP 認証システム | otplog | 35/35 | v1.5.82 | otp-authentication.md（SHA-256ハッシュ・3回ロックアウト・最新OTPのみ有効・setRiskyAllowed）**クラッカー攻撃試験: 12件全Pass** / **MySQL統合テスト: 5件全Pass** |
 
 ## 次のアクション
 
-- FT ループ継続中（FT148 以降・次の MySQL テストは FT148・次の脆弱性診断: FT150・次のクラッカー攻撃試験: FT148）
+- FT ループ継続中（FT149 以降・次の MySQL テストは FT153・次の脆弱性診断: FT150・次のクラッカー攻撃試験: FT152）
 
 ## Open Issues
 
