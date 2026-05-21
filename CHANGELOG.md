@@ -10,6 +10,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.84] — 2026-05-21
+
+### Added
+- `docs/howto/coupon-promo-code.md` — クーポン・プロモコード管理ガイド: admin RBAC・ユーザーごとの利用追跡・discount_pct範囲制約・user_id注入防止。 (#805)
+- `docs/field-trials/2026-05-field-trial-150.md` — FT150 レポート: couponlog（クーポン・プロモコード管理、34 tests = 22 正常 + 12 脆弱性診断）**脆弱性診断: VULN-A〜L 12件全Pass**。 (#805)
+
+---
+
 ## [1.5.83] — 2026-05-21
 
 ### Added
