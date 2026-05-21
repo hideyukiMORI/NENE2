@@ -4,7 +4,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 ## Status
 
-- Latest release: `v1.5.52`（2026-05-21 リリース済み）
+- Latest release: `v1.5.53`（2026-05-21 リリース済み）
 - Current branch: `main` — clean — open Issue なし
 
 ## Recently Completed (FT ループ — v1.5.27 〜 v1.5.39)
@@ -34,10 +34,11 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 | FT116 | バックグラウンドジョブキュー | queuelog | 27/27 | v1.5.50 | job-queue.md（優先度キュー・リトライロジックはリポジトリ層・retry_count/max_retries・idempotency_key UNIQUE 制約・max_retries=0 で即失敗） |
 | FT117 | API キー管理 | apikeylog | 19/19 | v1.5.51 | api-key-management.md（SHA-256 ハッシュ保存・prefix+hash_equals 2段階認証・スコープ階層・rotate は create-first・**脆弱性診断: prefix が常に 'nk' で全テーブルスキャン→修正・rotate 非アトミック→create-first に修正**） |
 | FT118 | 署名付き URL | signedlog | 17/17 | v1.5.52 | signed-urls.md（HMAC-SHA256 トークン・hash_equals 必須・410 Gone vs 401 設計・stateless 検証・secret rotation パターン） |
+| FT119 | サーキットブレーカー | circuitlog | 15/15 | v1.5.53 | circuit-breaker.md（3状態遷移・lazy Half-Open・DB 永続化・連続失敗カウント・503 応答） |
 
 ## 次のアクション
 
-- FT ループ継続中（FT119 以降・次の脆弱性診断は FT120）
+- FT ループ継続中（FT120 進行中・**FT120 で脆弱性診断**）
 
 ## Open Issues
 
