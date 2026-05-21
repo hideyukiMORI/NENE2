@@ -10,6 +10,15 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.62] — 2026-05-21
+
+### Added
+- `docs/howto/account-lockout.md` — アカウントロックアウトガイド: per-account 失敗カウント・locked_until・423 Locked・ユーザー列挙防止・MySQL スキーマ・MySQL 統合テスト手順。 (#760)
+- `docs/field-trials/2026-05-field-trial-128.md` — FT128 レポート: lockoutlog（アカウントロックアウト、32 tests = 27 SQLite + 5 MySQL、クラッカー攻撃試験 12 攻撃全耐久、MySQL 統合テスト初導入）。 (#760)
+- `NENE2-FT/docker-compose.yml` — FT 用 MySQL サービス定義（nene2-ft_default ネットワーク、5FT ごとの MySQL テストで使用）。 (#760)
+
+---
+
 ## [1.5.61] — 2026-05-21
 
 ### Added

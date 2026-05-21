@@ -4,7 +4,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 ## Status
 
-- Latest release: `v1.5.61`（2026-05-21 リリース済み）
+- Latest release: `v1.5.62`（2026-05-21 リリース済み）
 - Current branch: `main` — clean — open Issue なし
 
 ## Recently Completed (FT ループ — v1.5.27 〜 v1.5.39)
@@ -43,11 +43,11 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 | FT125 | タグシステム（M:N）| taglog | 20/20 | v1.5.59 | tagging-system.md（join table・原子的タグ差し替え・N+1 防止 IN クエリ・タグ別検索） |
 | FT126 | パスワードリセット | resetlog | 15/15 | v1.5.60 | password-reset.md（SHA-256 ハッシュ保存・常に 202・旧トークン無効化・expiry before used チェック）**脆弱性診断: user_id レスポンス露出を修正** |
 | FT127 | スレッドコメント | commentlog | 20/20 | v1.5.61 | threaded-comments.md（parent_id 自己参照・depth 非正規化・MAX_DEPTH=3・ソフトデリート子保持・2パスツリー組み立て・PHPStan-safe） |
+| FT128 | アカウントロックアウト | lockoutlog | 32/32 | v1.5.62 | account-lockout.md（per-account 失敗カウント・locked_until・423・ユーザー列挙防止・MySQL スキーマ）**クラッカー攻撃試験: 12 攻撃すべて耐久** / **MySQL 統合テスト初導入: 5テスト** |
 
 ## 次のアクション
 
-- FT ループ継続中（FT128 以降・次のクラッカー攻撃試験は FT128・次の脆弱性診断は FT129）
-- FT128 から MySQL テンプレートを導入（5FT ごとに MySQL/PostgreSQL テスト追加）
+- FT ループ継続中（FT129 以降・次の脆弱性診断は FT129・次のクラッカー攻撃試験は FT132・次の MySQL テストは FT133）
 
 ## Open Issues
 
