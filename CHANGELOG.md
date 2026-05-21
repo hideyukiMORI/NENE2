@@ -10,6 +10,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.83] — 2026-05-21
+
+### Added
+- `docs/howto/content-collection.md` — コンテンツコレクションガイド: 存在非公開パターン（404 vs 403）・冪等アイテム追加（201/200）・位置詰め整合・複数パスパラメータ。 (#803)
+- `docs/field-trials/2026-05-field-trial-149.md` — FT149 レポート: collectionlog（コンテンツコレクション、20 tests）。 (#803)
+
+---
+
 ## [1.5.82] — 2026-05-21
 
 ### Added
