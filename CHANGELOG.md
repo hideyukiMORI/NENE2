@@ -10,6 +10,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.68] — 2026-05-21
+
+### Added
+- `docs/howto/user-follow-system.md` — フォローシステムガイド: 冪等フォロー（201/200）・自己フォロー防止（422）・フォロワー/フォロイーリスト・相互フォロー確認。 (#772)
+- `docs/field-trials/2026-05-field-trial-134.md` — FT134 レポート: followlog（ユーザーフォロー、20 tests）6 ペルソナ DX レビュー。 (#772)
+
+---
+
 ## [1.5.67] — 2026-05-21
 
 ### Added
