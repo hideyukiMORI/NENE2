@@ -739,6 +739,73 @@ App: **postboard** — 投稿ボード API (CompositeAuthMiddleware + M:N + JWT 
 Result: 31/31 PHPUnit, PHPStan level 8, PHP-CS-Fixer 全通過。摩擦 4 件（F-1〜F-4）。
 F-1 最重要: CompositeAuthMiddleware が v1.4.1 未収録 → v1.4.2 リリースで解消（Issue #481）。
 
+## Phase 70: Howto Library Sprint — Phase I: Documentation Catch-up ✓
+
+Goal: backfill howto guides for FT96–FT120, covering patterns implemented before
+the sprint formally began, to ensure every field trial has a self-contained guide.
+
+- `docs/howto/` guides for content negotiation, SQL injection, file upload, CSRF/idempotency,
+  pagination, nested JSON validation, transactions, mass assignment, webhook signature,
+  optimistic locking, ETag, rate limiting, soft delete, password hashing, JWT auth, RBAC,
+  multi-tenant isolation, JWT refresh token rotation, audit trail, API versioning,
+  background job queue, API key management, signed URLs, circuit breaker, outbound webhook delivery
+- Each guide links to field trial report and reference implementation
+
+Tracked by `docs/milestones/2026-05-howto-library-sprint.md`.
+
+## Phase 71: Howto Library Sprint — Phase II: Implementation Sprint ✓
+
+Goal: run 36 full field trial implementations (FT121–FT156) with code, tests, and howto guides,
+maintaining security cadence throughout.
+
+- Feature flags, distributed locking, personal data export, user invitation, tagging (M:N),
+  password reset, threaded comments, account lockout, event sourcing, notification inbox,
+  comment voting, user profile, bookmarks, user follow, direct messaging, access token management,
+  subscription management, group membership, guest order, flash sale, leaderboard,
+  content draft lifecycle, emoji reactions, passwordless auth (Magic Link), user preferences,
+  content pinning, content reporting/moderation, OTP auth, content collections, coupon management,
+  wishlist, points/loyalty, activity feed, product reviews, shopping cart, file metadata sharing
+- Reached **87 howto guides** and **v1.5.90**
+- Security coverage: 10 vulnerability assessments + 8 cracker attack tests + 6 MySQL test sessions
+
+Tracked by `docs/milestones/2026-05-howto-library-sprint.md`.
+
+## Phase 72: Howto Library Sprint — Phase III: Library Completion
+
+Goal: cover the remaining core API patterns (FT157–FT170) to complete the initial howto library,
+reaching ~100 self-contained guides with full test coverage and security assessments.
+
+- Search & autocomplete, CSV bulk import, TOTP two-factor auth, OAuth2/social login pattern,
+  application caching, content versioning, payment webhook, geolocation queries, A/B testing,
+  multi-step workflow (state machine), inbound webhook receiver, admin report aggregation,
+  data masking (PII), request deduplication
+- Security cadence: vuln assessment at FT159/FT165/FT169, cracker attack at FT160/FT166/FT170
+- MySQL integration tests at FT158/FT164/FT167
+
+Tracked by `docs/milestones/2026-05-howto-library-sprint.md`.
+
+## Phase 73: Howto Library Consolidation
+
+Goal: make the 100+ guide library navigable and publish it as a reference corpus.
+
+- `docs/howto/README.md` full index with categories, search tags, and cross-links
+- VitePress documentation site updated with all new howto pages
+- Sidebar / nav restructured around pattern categories
+  (Auth, Security, Database, API Design, Social, E-commerce, System Patterns)
+- "Pattern finder" guide: map business requirements to howto guides
+- Tag the library milestone as **Howto Library v1**
+
+## Phase 74: v2.0 Design and Framework Evolution
+
+Goal: review the friction and gaps accumulated across FT96–FT170 and decide
+what moves into the framework core vs. remains as howto-only patterns.
+
+- Collect top-friction patterns from field trial reports
+- ADR for each framework-level change candidate
+- Identify stable surface additions that the FT loop has validated
+- Draft v2.0 breaking change scope (if any)
+- Consumer project validation using `composer require hideyukimori/nene2:^2.0`
+
 ## Non-Goals
 
 - Recreating Laravel or Symfony.
