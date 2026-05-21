@@ -4,7 +4,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 ## Status
 
-- Latest release: `v1.5.66`（2026-05-21 リリース済み）
+- Latest release: `v1.5.67`（2026-05-21 リリース済み）
 - Current branch: `main` — clean — open Issue なし
 
 ## Recently Completed (FT ループ — v1.5.27 〜 v1.5.39)
@@ -48,10 +48,11 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 | FT130 | 通知インボックス | notificationlog | 23/23 | v1.5.64 | notification-inbox.md（read_at nullable・冪等マーク・クロスユーザー 404・bulk read-all） |
 | FT131 | コメント投票 | votelog | 20/20 | v1.5.65 | voting-system.md（upvote/downvote toggle・VoteDirection enum・UNIQUE 制約・スコア同梱） |
 | FT132 | プロフィール管理 | profilelog | 32/32 | v1.5.66 | user-profile-management.md（avatar_url https 強制・DatabaseConstraintException 409・mb_strlen・X-User-Id 所有権）**クラッカー攻撃試験: 12 攻撃全耐久** / **脆弱性診断: VULN-A 重複メール 500 → 409** |
+| FT133 | ブックマーク | bookmarklog | 22/22 | v1.5.67 | bookmark-system.md（冪等 add・DatabaseConstraintException catch・コレクションフィルタ・204 vs 404）**MySQL 統合テスト: 5テスト** |
 
 ## 次のアクション
 
-- FT ループ継続中（FT133 以降・次のクラッカー攻撃試験は FT136・次の脆弱性診断は FT135・次の MySQL テストは FT133）
+- FT ループ継続中（FT134 以降・次のクラッカー攻撃試験は FT136・次の脆弱性診断は FT135・次の MySQL テストは FT138）
 
 ## Open Issues
 
