@@ -73,9 +73,43 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 | FT155 | ショッピングカート | cartlog | 28/28 | v1.5.89 | shopping-cart.md（UNIQUE制約・数量加算冪等・quantity=0削除・price都度計算・RuntimeApplicationFactory必須） |
 | FT156 | ファイルメタデータ管理・共有 | filelog | 59/59 | v1.5.90 | file-metadata-sharing.md（3段階アクセス制御・IDOR防止 404・visibility エスカレーション防止・FK順序削除）**脆弱性診断: VULN-A〜L 全Pass** / **クラッカー攻撃試験: ATK-01〜12 全Pass** |
 
-## 次のアクション
+## 次のアクション（2026-05-22〜）
 
-- FT ループ継続中（FT156 完了・次の MySQL テストは FT158・次の脆弱性診断: FT159・次のクラッカー攻撃試験: FT160）
+### FT ループ継続（Howto Library Sprint Phase III）
+
+目標: **FT170 完了**でコアパターンライブラリを一区切りにする。
+
+| FT | テーマ案 | 備考 |
+|---|---|---|
+| FT157 | Search & Autocomplete（searchlog） | 全文検索・候補補完エンドポイント |
+| FT158 | CSV Bulk Import（importlog） | **MySQL 統合テスト** |
+| FT159 | TOTP 二要素認証（totplog） | **脆弱性診断** |
+| FT160 | OAuth2 / Social Login パターン（oauthlog） | **クラッカー攻撃試験** |
+| FT161 | Application Caching（cachelog） | キャッシュキー設計・無効化 |
+| FT162 | Content Versioning（versionlog） | 履歴管理・diff・ロールバック |
+| FT163 | Payment Webhook（paymentlog） | 冪等決済・べき等キー |
+| FT164 | Geolocation（geoloclog） | 距離クエリ・バウンディングボックス |
+| FT165 | A/B Testing（ablog） | 実験割当・メトリクス収集 |
+| FT166 | Multi-step Workflow（workflowlog） | ステートマシン・承認フロー |
+| FT167 | Inbound Webhook Receiver（inboundlog） | **MySQL 統合テスト** |
+| FT168 | Admin Report Aggregation（reportlog） | 集計クエリ・ダッシュボードパターン |
+| FT169 | Data Masking（masklog） | **脆弱性診断** PII フィールドマスク |
+| FT170 | Request Deduplication（deduplog） | **クラッカー攻撃試験** 二重送信防止 |
+
+### ループ終了後（FT170 以降）
+
+- **howto 索引（README.md）** の全 90+ ガイド分類整備
+- **VitePress サイト**への新規 howto ページ追加
+- **v2.0 設計検討**: FT ループで判明した摩擦点をもとにフレームワーク本体の次バージョン方針を議論
+- マイルストーン: `docs/milestones/2026-05-howto-library-sprint.md`
+
+### 次のトリガー値
+
+| チェック項目 | 次回 |
+|---|---|
+| MySQL 統合テスト | FT158 |
+| 脆弱性診断 | FT159 |
+| クラッカー攻撃試験 | FT160 |
 
 ## Open Issues
 
