@@ -10,6 +10,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.70] — 2026-05-21
+
+### Added
+- `docs/howto/access-token-management.md` — アクセストークン管理ガイド: SHA-256 ハッシュ保存・TokenScope enum・二重所有権チェック・revoke 409・verify 常に 200・isset+null PHPStan 注意点。 (#776)
+- `docs/field-trials/2026-05-field-trial-136.md` — FT136 レポート: tokenlog（アクセストークン、29 tests = 17 正常 + 12 攻撃）**クラッカー攻撃試験: 12 攻撃全耐久（ATK-04 二重 IDOR を確認）**。 (#776)
+
+---
+
 ## [1.5.69] — 2026-05-21
 
 ### Added

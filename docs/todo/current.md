@@ -4,7 +4,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 ## Status
 
-- Latest release: `v1.5.69`（2026-05-21 リリース済み）
+- Latest release: `v1.5.70`（2026-05-21 リリース済み）
 - Current branch: `main` — clean — open Issue なし
 
 ## Recently Completed (FT ループ — v1.5.27 〜 v1.5.39)
@@ -51,10 +51,11 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 | FT133 | ブックマーク | bookmarklog | 22/22 | v1.5.67 | bookmark-system.md（冪等 add・DatabaseConstraintException catch・コレクションフィルタ・204 vs 404）**MySQL 統合テスト: 5テスト** |
 | FT134 | ユーザーフォロー | followlog | 20/20 | v1.5.68 | user-follow-system.md（冪等フォロー 201/200・自己フォロー 422・相互フォロー・ORDER BY id DESC） |
 | FT135 | ダイレクトメッセージ | messagelog | 31/31 | v1.5.69 | direct-messaging-system.md（双方向会話検索・参加者アクセス制御・GET で parse() 禁止）**脆弱性診断: 12 攻撃全耐久** |
+| FT136 | アクセストークン管理 | tokenlog | 29/29 | v1.5.70 | access-token-management.md（SHA-256・TokenScope enum・二重所有権チェック・verify 常に 200）**クラッカー攻撃試験: 12 攻撃全耐久** |
 
 ## 次のアクション
 
-- FT ループ継続中（FT136 以降・次のクラッカー攻撃試験は FT136・次の MySQL テストは FT138）
+- FT ループ継続中（FT137 以降・次の MySQL テストは FT138）
 
 ## Open Issues
 
