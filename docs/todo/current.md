@@ -4,7 +4,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 ## Status
 
-- Latest release: `v1.5.88`（2026-05-21 リリース済み）
+- Latest release: `v1.5.89`（2026-05-21 リリース済み）
 - Current branch: `main` — clean — open Issue なし
 
 ## Recently Completed (FT ループ — v1.5.27 〜 v1.5.39)
@@ -70,6 +70,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 | FT152 | ポイント・ロイヤルティシステム | pointlog | 30/30 | v1.5.86 | point-loyalty-system.md（トランザクション履歴残高・冪等化reference_id・残高多層防御）**クラッカー攻撃試験: ATK-01〜12 全Pass** |
 | FT153 | アクティビティフィード | feedlog | 57/57 | v1.5.87 | activity-feed.md（フォローベースフィード・カーソルページネーション・プライバシー制御）**脆弱性診断: VULN-A〜L 全Pass** / **MySQL統合テスト: 5件全Pass** |
 | FT154 | プロダクトレビュー・評価システム | reviewlog | 29/29 | v1.5.88 | product-review-system.md（1ユーザー1商品1レビュー・評価集計・所有権ガード） |
+| FT155 | ショッピングカート | cartlog | 28/28 | v1.5.89 | shopping-cart.md（UNIQUE制約・数量加算冪等・quantity=0削除・price都度計算・RuntimeApplicationFactory必須） |
 
 ## 次のアクション
 
