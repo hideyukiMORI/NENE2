@@ -10,6 +10,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.67] — 2026-05-21
+
+### Added
+- `docs/howto/bookmark-system.md` — ブックマークシステムガイド: 冪等 add・DatabaseConstraintException catch・コレクションフィルタ・204 vs 404・MySQL スキーマ差分。 (#770)
+- `docs/field-trials/2026-05-field-trial-133.md` — FT133 レポート: bookmarklog（ブックマーク、22 tests = 17 SQLite + 5 MySQL）**MySQL 統合テスト: 5テスト**。 (#770)
+
+---
+
 ## [1.5.66] — 2026-05-21
 
 ### Added
