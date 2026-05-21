@@ -10,6 +10,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.74] — 2026-05-21
+
+### Added
+- `docs/howto/flash-sale-system.md` — フラッシュセールシステムガイド: COUNT(*)残数計算・ISO 8601時間比較・UNIQUE制約二重購入防止・match式ステータス・時間逆転バリデーション。 (#784)
+- `docs/field-trials/2026-05-field-trial-140.md` — FT140 レポート: salelog（フラッシュセール、29 tests = 17 正常 + 12 攻撃）**クラッカー攻撃試験: 12件全Pass**。 (#784)
+
+---
+
 ## [1.5.73] — 2026-05-21
 
 ### Added
