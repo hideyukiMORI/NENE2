@@ -10,6 +10,22 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.61] — 2026-05-21
+
+### Added
+- `docs/howto/threaded-comments.md` — スレッドコメントガイド: 自己参照ツリー・depth 非正規化・ソフトデリート・2パスツリー組み立て・PHPStan-safe readonly 設計。 (#758)
+- `docs/field-trials/2026-05-field-trial-127.md` — FT127 レポート: commentlog（スレッドコメント、20 tests、PHPStan level 8）。 (#758)
+
+---
+
+## [1.5.60] — 2026-05-21
+
+### Added
+- `docs/howto/password-reset.md` — パスワードリセットガイド: SHA-256 ハッシュ保存・ユーザー列挙防止・有効期限・ワンタイム使用・旧トークン無効化。 (#756)
+- `docs/field-trials/2026-05-field-trial-126.md` — FT126 レポート: resetlog（パスワードリセット、15 tests、脆弱性診断: VULN-A user_id 露出修正）。 (#756)
+
+---
+
 ## [1.5.59] — 2026-05-21
 
 ### Added
