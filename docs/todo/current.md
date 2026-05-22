@@ -4,7 +4,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 ## Status
 
-- Latest release: `v1.5.96`（2026-05-22 リリース済み）
+- Latest release: `v1.5.97`（2026-05-22 リリース済み）
 - Current branch: `main` — clean — open Issue なし
 
 ## Recently Completed (FT ループ — v1.5.27 〜 v1.5.39)
@@ -78,6 +78,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 | FT160 | OAuth2 Social Login | oauthlog | 22/22 | v1.5.94 | oauth2-social-login.md（Authorization Code Flow・state CSRF 防止・コードリプレイ防止・セッション無効化）**クラッカー攻撃試験: ATK-01〜12 全Pass** |
 | FT161 | Application Caching | cachelog | 20/20 | v1.5.95 | application-caching.md（Cache-Aside・TTL クロック注入・書き込み時無効化・ヒット率統計） |
 | FT162 | Content Versioning | contentvlog | 18/18 | v1.5.96 | content-versioning.md（append-only 履歴・バージョン一覧・ロールバック = 新バージョン）|
+| FT163 | Payment Webhook 受信 | paymentlog | 18/18 | v1.5.97 | payment-webhook.md（HMAC-SHA256 署名検証・event_id 冪等処理・ステータス遷移ガード 409） |
 
 ## 次のアクション（2026-05-22〜）
 
@@ -87,8 +88,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 | FT | テーマ案 | 備考 |
 |---|---|---|
-| FT163 | Payment Webhook（paymentlog） | 冪等決済・べき等キー |
-| FT164 | Geolocation（geoloclog） | 距離クエリ・バウンディングボックス |
+| FT164 | Geolocation（geoloclog） | 距離クエリ・バウンディングボックス | **クラッカー攻撃試験** |
 | FT165 | A/B Testing（ablog） | 実験割当・メトリクス収集 |
 | FT166 | Multi-step Workflow（workflowlog） | ステートマシン・承認フロー |
 | FT167 | Inbound Webhook Receiver（inboundlog） | **MySQL 統合テスト** |
