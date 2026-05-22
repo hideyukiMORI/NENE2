@@ -4,7 +4,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 ## Status
 
-- Latest release: `v1.5.100`（2026-05-22 リリース済み）
+- Latest release: `v1.5.101`（2026-05-22 リリース済み）
 - Current branch: `main` — clean — open Issue なし
 
 ## Recently Completed (FT ループ — v1.5.27 〜 v1.5.39)
@@ -82,6 +82,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 | FT164 | Geolocation | geoloclog | 25/25 | v1.5.98 | geolocation.md（Haversine 距離・バウンディングボックス2パス・固定パス順序・座標バリデーション）**クラッカー攻撃試験: ATK-01〜12 全Pass** |
 | FT165 | A/B Testing | ablog | 16/16 | v1.5.99 | ab-testing.md（draft→active→stopped遷移・crc32決定論的割当・冪等・CVR集計） |
 | FT166 | Multi-step Workflow | stepflowlog | 18/18 | v1.5.100 | multi-step-workflow.md（順序付きステップ・approve→次ステップ/完了・reject→即終了・アクション履歴） |
+| FT167 | Inbound Webhook Receiver | inboundlog | 17/17 | v1.5.101 | inbound-webhook-receiver.md（per-source HMAC secret・署名検証→冪等→保存順序・UNIQUE(source_id,event_id)）**MySQL 統合テスト: 5件全Pass** |
 
 ## 次のアクション（2026-05-22〜）
 
@@ -94,7 +95,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 | ~~FT164~~ | ~~Geolocation（geoloclog）~~ | ~~完了~~ | ~~v1.5.98~~ |
 | ~~FT165~~ | ~~A/B Testing（ablog）~~ | ~~完了~~ | ~~v1.5.99~~ |
 | ~~FT166~~ | ~~Multi-step Workflow（stepflowlog）~~ | ~~完了~~ | ~~v1.5.100~~ |
-| FT167 | Inbound Webhook Receiver（inboundlog） | **MySQL 統合テスト** |
+| ~~FT167~~ | ~~Inbound Webhook Receiver（inboundlog）~~ | ~~完了~~ | ~~v1.5.101~~ |
 | FT168 | Admin Report Aggregation（reportlog） | 集計クエリ・ダッシュボードパターン |
 | FT169 | Data Masking（masklog） | **脆弱性診断** PII フィールドマスク |
 | FT170 | Request Deduplication（deduplog） | **クラッカー攻撃試験** 二重送信防止 |
