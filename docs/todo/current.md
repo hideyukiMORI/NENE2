@@ -4,7 +4,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 ## Status
 
-- Latest release: `v1.5.94`（2026-05-22 リリース済み）
+- Latest release: `v1.5.95`（2026-05-22 リリース済み）
 - Current branch: `main` — clean — open Issue なし
 
 ## Recently Completed (FT ループ — v1.5.27 〜 v1.5.39)
@@ -76,6 +76,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 | FT158 | CSV バルクインポート | importlog | 22/22 | v1.5.92 | csv-bulk-import.md（str_getcsv $escape 必須化・部分成功・バッチ内重複検知・CRLF 対応・errors JSON 永続化）**MySQL 統合テスト: 5テスト** |
 | FT159 | TOTP 二要素認証 | totplog | 32/32 | v1.5.93 | totp-authentication.md（RFC 6238・Base32・リプレイ防止 used_totp_steps・window=1 許容・hash_equals タイミング攻撃防止）**脆弱性診断: VULN-A〜L 全Pass** |
 | FT160 | OAuth2 Social Login | oauthlog | 22/22 | v1.5.94 | oauth2-social-login.md（Authorization Code Flow・state CSRF 防止・コードリプレイ防止・セッション無効化）**クラッカー攻撃試験: ATK-01〜12 全Pass** |
+| FT161 | Application Caching | cachelog | 20/20 | v1.5.95 | application-caching.md（Cache-Aside・TTL クロック注入・書き込み時無効化・ヒット率統計） |
 
 ## 次のアクション（2026-05-22〜）
 
@@ -85,7 +86,6 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 | FT | テーマ案 | 備考 |
 |---|---|---|
-| FT161 | Application Caching（cachelog） | キャッシュキー設計・無効化 |
 | FT162 | Content Versioning（versionlog） | 履歴管理・diff・ロールバック |
 | FT163 | Payment Webhook（paymentlog） | 冪等決済・べき等キー |
 | FT164 | Geolocation（geoloclog） | 距離クエリ・バウンディングボックス |
