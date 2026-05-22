@@ -145,9 +145,7 @@ SCHEMA
 
 # ── dump-autoload ─────────────────────────────────────────────────────────────
 echo "Running dump-autoload..."
-PHP_BIN="${PHP_BIN:-$(command -v php8.4 || command -v php)}"
-COMPOSER_BIN="$(command -v composer)"
-(cd "${TARGET}" && "${PHP_BIN}" "${COMPOSER_BIN}" dump-autoload --quiet)
+(cd "${TARGET}" && composer dump-autoload --quiet)
 
 # ── done ──────────────────────────────────────────────────────────────────────
 echo ""
