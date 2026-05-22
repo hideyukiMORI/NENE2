@@ -302,6 +302,14 @@ docker compose run --rm app composer test:database
 docker compose up -d mysql
 docker compose run --rm app composer test:database:mysql
 
+# FT MySQL 統合テスト（../NENE2-FT/ プロジェクト共通）
+# コンテナ起動（port 3308、永続ボリューム ft_mysql_data）
+docker compose -f ../NENE2-FT/docker-compose.yml up -d mysql
+# テスト実行（MYSQL_HOST 未設定なら自動 skip）
+MYSQL_HOST=127.0.0.1 MYSQL_PORT=3308 MYSQL_DATABASE=ft_test \
+  MYSQL_USER=ft_user MYSQL_PASSWORD=ft_pass \
+  php8.4 vendor/bin/phpunit --filter Mysql
+
 # マイグレーション
 docker compose run --rm app composer migrations:status
 docker compose run --rm app composer migrations:migrate
