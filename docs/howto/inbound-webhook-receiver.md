@@ -84,6 +84,24 @@ if (!(bool) $source['active']) {
 
 The `UNIQUE KEY uq_source_event (source_id, event_id)` constraint works the same in MySQL. Use `VARCHAR(191)` for indexed text columns to stay within InnoDB's key length limit.
 
+### Running MySQL Integration Tests
+
+Start the shared FT MySQL container (port 3308, persistent volume):
+
+```bash
+docker compose -f ../NENE2-FT/docker-compose.yml up -d mysql
+```
+
+Then run the integration tests with environment variables:
+
+```bash
+MYSQL_HOST=127.0.0.1 MYSQL_PORT=3308 MYSQL_DATABASE=ft_test \
+  MYSQL_USER=ft_user MYSQL_PASSWORD=ft_pass \
+  php8.4 vendor/bin/phpunit --filter Mysql
+```
+
+Without `MYSQL_HOST`, the MySQL tests are automatically skipped (`markTestSkipped`).
+
 ## Security Notes
 
 - `hash_equals()` prevents timing attacks on signature comparison.
