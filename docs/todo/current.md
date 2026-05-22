@@ -4,7 +4,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 ## Status
 
-- Latest release: `v1.5.92`（2026-05-22 リリース済み）
+- Latest release: `v1.5.93`（2026-05-22 リリース済み）
 - Current branch: `main` — clean — open Issue なし
 
 ## Recently Completed (FT ループ — v1.5.27 〜 v1.5.39)
@@ -74,6 +74,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 | FT156 | ファイルメタデータ管理・共有 | filelog | 59/59 | v1.5.90 | file-metadata-sharing.md（3段階アクセス制御・IDOR防止 404・visibility エスカレーション防止・FK順序削除）**脆弱性診断: VULN-A〜L 全Pass** / **クラッカー攻撃試験: ATK-01〜12 全Pass** |
 | FT157 | 全文検索・オートコンプリート | searchlog | 22/22 | v1.5.91 | search-autocomplete.md（LIKE 特殊文字エスケープ・! エスケープ文字・関連度スコア 3段階・前方一致オートコンプリート・limit クランプ） |
 | FT158 | CSV バルクインポート | importlog | 22/22 | v1.5.92 | csv-bulk-import.md（str_getcsv $escape 必須化・部分成功・バッチ内重複検知・CRLF 対応・errors JSON 永続化）**MySQL 統合テスト: 5テスト** |
+| FT159 | TOTP 二要素認証 | totplog | 32/32 | v1.5.93 | totp-authentication.md（RFC 6238・Base32・リプレイ防止 used_totp_steps・window=1 許容・hash_equals タイミング攻撃防止）**脆弱性診断: VULN-A〜L 全Pass** |
 
 ## 次のアクション（2026-05-22〜）
 
@@ -83,7 +84,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 | FT | テーマ案 | 備考 |
 |---|---|---|
-| FT159 | TOTP 二要素認証（totplog） | **脆弱性診断** |
+| FT160 | OAuth2 / Social Login パターン（oauthlog） | **クラッカー攻撃試験** |
 | FT160 | OAuth2 / Social Login パターン（oauthlog） | **クラッカー攻撃試験** |
 | FT161 | Application Caching（cachelog） | キャッシュキー設計・無効化 |
 | FT162 | Content Versioning（versionlog） | 履歴管理・diff・ロールバック |
@@ -108,7 +109,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 | チェック項目 | 次回 |
 |---|---|
 | MySQL 統合テスト | FT167 |
-| 脆弱性診断 | FT159 |
+| 脆弱性診断 | FT169 |
 | クラッカー攻撃試験 | FT160 |
 
 ## 検討事項（決定不要・議題として保持）
