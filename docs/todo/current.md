@@ -4,7 +4,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 ## Status
 
-- Latest release: `v1.5.98`（2026-05-22 リリース済み）
+- Latest release: `v1.5.99`（2026-05-22 リリース済み）
 - Current branch: `main` — clean — open Issue なし
 
 ## Recently Completed (FT ループ — v1.5.27 〜 v1.5.39)
@@ -80,6 +80,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 | FT162 | Content Versioning | contentvlog | 18/18 | v1.5.96 | content-versioning.md（append-only 履歴・バージョン一覧・ロールバック = 新バージョン）|
 | FT163 | Payment Webhook 受信 | paymentlog | 18/18 | v1.5.97 | payment-webhook.md（HMAC-SHA256 署名検証・event_id 冪等処理・ステータス遷移ガード 409） |
 | FT164 | Geolocation | geoloclog | 25/25 | v1.5.98 | geolocation.md（Haversine 距離・バウンディングボックス2パス・固定パス順序・座標バリデーション）**クラッカー攻撃試験: ATK-01〜12 全Pass** |
+| FT165 | A/B Testing | ablog | 16/16 | v1.5.99 | ab-testing.md（draft→active→stopped遷移・crc32決定論的割当・冪等・CVR集計） |
 
 ## 次のアクション（2026-05-22〜）
 
@@ -90,7 +91,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 | FT | テーマ案 | 備考 |
 |---|---|---|
 | ~~FT164~~ | ~~Geolocation（geoloclog）~~ | ~~完了~~ | ~~v1.5.98~~ |
-| FT165 | A/B Testing（ablog） | 実験割当・メトリクス収集 |
+| ~~FT165~~ | ~~A/B Testing（ablog）~~ | ~~完了~~ | ~~v1.5.99~~ |
 | FT166 | Multi-step Workflow（workflowlog） | ステートマシン・承認フロー |
 | FT167 | Inbound Webhook Receiver（inboundlog） | **MySQL 統合テスト** |
 | FT168 | Admin Report Aggregation（reportlog） | 集計クエリ・ダッシュボードパターン |
