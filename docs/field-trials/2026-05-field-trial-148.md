@@ -151,7 +151,7 @@ OTP レコードに `attempt_count` を持たせる設計は、Laravel では Ca
 「ログインフォームの実装がシンプル。
 Step 1: メール入力 → POST /otp/request → 202 → 『コードをメールに送りました』UI
 Step 2: コード入力 → POST /otp/verify → 200 → session_token をローカルストレージに保存
-Step 3: 各リクエストに Authorization: Bearer <token> を付ける
+Step 3: 各リクエストに `Authorization: Bearer <token>` を付ける
 Step 4: GET /otp/session で定期的にトークン有効性を確認
 Step 5: DELETE /otp/session でログアウト
 422 と 401 の区別がはっきりしている（フォームバリデーションエラー vs 認証失敗）ので
