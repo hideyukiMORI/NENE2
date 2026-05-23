@@ -464,10 +464,11 @@ ADR ファイル: `docs/adr/NNNN-kebab-case-title.md`、テンプレート: `doc
 
 ## 15. リリース・バージョニング
 
-- Semantic Versioning。`0.x.y` 期間中は公開契約はまだ形成中。
-- タグは `main` のコミットを指す（`v0.1.0` 形式）。
+- Semantic Versioning。現在 `v1.5.x`。
+- タグは `main` のコミットを指す（`v1.5.NNN` 形式）。
+- タグを push したら対応する GitHub Release も作成する（`gh release create`）。
 - リリース前に `docs/development/release-checklist.md` を使う。
-- Packagist 公開は契約が安定してから。
+- Packagist 公開済み: `composer require hideyukimori/nene2`
 
 ---
 
