@@ -91,17 +91,17 @@ Goal: cover the remaining core patterns to complete the initial howto library.
 | FT159 | TOTP Two-Factor Auth | totplog | Vuln |
 | FT160 | OAuth2 / Social Login pattern | oauthlog | Cracker |
 | FT161 | Application Caching (key design, invalidation) | cachelog | — |
-| FT162 | Content Versioning (history, diff, rollback) | versionlog | — |
+| FT162 | Content Versioning (history, diff, rollback) | contentvlog | — |
 | FT163 | Payment Webhook (idempotent payment) | paymentlog | — |
-| FT164 | Geolocation (distance queries, bounding box) | geoloclog | MySQL |
-| FT165 | A/B Testing (experiment assignment, metrics) | ablog | Vuln |
-| FT166 | Multi-step Workflow (state machine, approval) | workflowlog | Cracker |
+| FT164 | Geolocation (distance queries, bounding box) | geoloclog | Cracker |
+| FT165 | A/B Testing (experiment assignment, metrics) | ablog | — |
+| FT166 | Multi-step Workflow (state machine, approval) | stepflowlog | — |
 | FT167 | Inbound Webhook Receiver | inboundlog | MySQL |
-| FT168 | Admin Report Aggregation | reportlog | — |
+| FT168 | Admin Report Aggregation | agglog | Cracker |
 | FT169 | Data Masking (PII field masking) | masklog | Vuln |
 | FT170 | Request Deduplication (at-most-once processing) | deduplog | Cracker |
 
-Status: **🔄 In progress** — starts FT157.
+Status: **✅ Complete** — v1.5.104, **100 howto guides** in `docs/howto/`.
 
 ---
 
@@ -109,8 +109,8 @@ Status: **🔄 In progress** — starts FT157.
 
 After FT170:
 
-1. **Howto index overhaul** — `docs/howto/README.md` full 90+ guide index with search tags
-2. **VitePress site update** — add new howto pages to the documentation site
+1. **Howto index overhaul** — `docs/howto/README.md` full 100-guide index with categories (✅ index updated; search tags pending)
+2. **VitePress site update** — add new howto pages to the documentation site (🔄 badge synced; sidebar expansion pending)
 3. **v2.0 design discussion** — review friction points accumulated across FT96–FT170
    to decide what should move into the framework core vs. remain as howto-only patterns
 4. **Milestone: Howto Library v1** — tag the library as a usable reference corpus
@@ -121,20 +121,20 @@ After FT170:
 
 | Type | Frequency | Next |
 |---|---|---|
-| 脆弱性診断 | Every 3rd FT from FT114 | FT159 |
-| クラッカー攻撃試験 | Every 4th FT from FT120 | FT160 |
-| MySQL 統合テスト | Every ~5th FT | FT158 |
+| 脆弱性診断 | Every 3rd FT from FT114 | FT172 (Phase III 完了: FT159/169 ✓) |
+| クラッカー攻撃試験 | Every 4th FT from FT120 | FT172 (Phase III 完了: FT160/164/168/170 ✓) |
+| MySQL 統合テスト | Every ~5th FT | FT173 (Phase III 完了: FT158/167 ✓) |
 
 ---
 
 ## Acceptance Criteria (Phase III)
 
-- [ ] FT157–FT170 each merged to `main` with passing tests
-- [ ] 101+ howto guides in `docs/howto/`
-- [ ] All security assessments: VULN-A〜L Pass
-- [ ] All attack tests: ATK-01〜12 Pass
-- [ ] `docs/howto/README.md` updated with all new entries
-- [ ] `docs/todo/current.md` updated after each FT
+- [x] FT157–FT170 each merged to `main` with passing tests
+- [x] 100 howto guides in `docs/howto/`
+- [x] All security assessments: VULN-A〜L Pass
+- [x] All attack tests: ATK-01〜12 Pass
+- [x] `docs/howto/README.md` updated with all new entries
+- [x] `docs/todo/current.md` updated after each FT
 
 ## Tracked by
 

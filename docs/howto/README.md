@@ -2,6 +2,8 @@
 
 Task-focused guides for building with NENE2. Each guide is self-contained and links to related topics.
 
+**100 guides** in this directory (excluding this index). VitePress sidebar lists common entry points; use this page for the full catalog.
+
 ---
 
 ## Getting Started
@@ -129,7 +131,21 @@ Task-focused guides for building with NENE2. Each guide is self-contained and li
 | [User invitation](user-invitation.md) | Token, expiry, cancel ownership |
 | [Group membership](group-membership-management.md) | Roles, owner auto-join, self-leave |
 | [Coupon/promo codes](coupon-promo-code.md) | Admin RBAC, per-user limit |
-| [Password-based auth flow](password-hashing.md) | End-to-end with lockout (see also account-lockout) |
+| [Product reviews](product-review-system.md) | 1-user-1-product, rating aggregation |
+| [Shopping cart](shopping-cart.md) | UNIQUE constraint, quantity accumulation, quantity=0 delete |
+| [File metadata sharing](file-metadata-sharing.md) | 3-tier access control, IDOR prevention, visibility guard |
+| [Search & autocomplete](search-autocomplete.md) | LIKE escape, relevance scoring, prefix autocomplete |
+| [CSV bulk import](csv-bulk-import.md) | Partial success, batch duplicate detection, CRLF |
+| [TOTP two-factor auth](totp-authentication.md) | RFC 6238, Base32, replay prevention |
+| [OAuth2 social login](oauth2-social-login.md) | Authorization Code Flow, state CSRF, code replay guard |
+| [Application caching](application-caching.md) | Cache-Aside, TTL injection, write invalidation |
+| [Content versioning](content-versioning.md) | Append-only history, rollback as new version |
+| [Payment webhook](payment-webhook.md) | HMAC signature, event_id idempotency, status guard |
+| [Geolocation](geolocation.md) | Haversine distance, bounding box, coordinate validation |
+| [A/B testing](ab-testing.md) | Experiment lifecycle, deterministic assignment, CVR |
+| [Multi-step workflow](multi-step-workflow.md) | Ordered steps, approve/reject, action history |
+| [Inbound webhook receiver](inbound-webhook-receiver.md) | Per-source HMAC, signature→idempotency→persist |
+| [Admin report aggregation](admin-report-aggregation.md) | Date validation, from>to guard, limit clamp |
+| [Data masking](data-masking.md) | Default mask, admin unmask, append-only audit |
+| [Request deduplication](request-deduplication.md) | Idempotency-Key, 24h TTL, replayed flag |
 | [Personal data export](personal-data-export.md) | Opaque token, PII expiry |
-| [Access token scopes](access-token-management.md) | Scope hierarchy, rotate |
-| [Signed URL delivery](signed-urls.md) | Download with expiry, 410 Gone |

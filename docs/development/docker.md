@@ -55,7 +55,9 @@ docker compose down
 
 ## MySQL (Optional)
 
-The `app` service connects to SQLite by default. The `mysql` service exists for verifying real database adapter behavior — migrations, write operations, and `lastInsertId()` across adapters.
+The `app` service defaults to **MySQL** (`DB_ADAPTER=mysql` in `.env.example`). The `compose.yaml` `app` service sets `DB_HOST=mysql` so the container reaches the bundled MySQL service. PHPUnit uses SQLite in-memory by default — no MySQL container required for `composer test` or CI.
+
+The `mysql` service exists for verifying real database adapter behavior — migrations, write operations, and `lastInsertId()` across adapters.
 
 Start MySQL and run migrations:
 

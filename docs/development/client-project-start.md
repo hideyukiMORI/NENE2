@@ -16,7 +16,7 @@ Use this guide when a project needs:
 - basic machine-client authentication
 - a Docker-based database verification path
 
-NENE2 is still a `0.x` foundation. Treat public contracts as useful but still forming.
+NENE2 is a `v1.x` foundation. Core HTTP runtime, middleware, and config boundaries are stable (see [ADR 0009](../adr/0009-v1.0-public-api-scope.md)). Example Note/Tag code under `src/Example/` is reference-only.
 
 ## Public field trial reference sandbox (optional)
 
@@ -34,7 +34,7 @@ If you are starting a new project from scratch rather than forking the NENE2 rep
 ```bash
 mkdir my-project && cd my-project
 composer init --name="vendor/my-project" --no-interaction
-composer require hideyukimori/nene2:^0.3
+composer require hideyukimori/nene2:^1.5
 ```
 
 Then create the minimum files manually:

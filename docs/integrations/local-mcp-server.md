@@ -6,7 +6,7 @@ It is a development convenience, not a production backdoor.
 
 ## Position
 
-A local MCP server may expose read-only inspection tools and safe verification commands for the developer's local NENE2 checkout.
+A local MCP server may expose read and write tools aligned with the shipped OpenAPI catalog. Write tools require JWT when `NENE2_LOCAL_JWT_SECRET` is set.
 
 It should use:
 

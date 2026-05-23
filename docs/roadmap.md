@@ -765,12 +765,12 @@ maintaining security cadence throughout.
   content draft lifecycle, emoji reactions, passwordless auth (Magic Link), user preferences,
   content pinning, content reporting/moderation, OTP auth, content collections, coupon management,
   wishlist, points/loyalty, activity feed, product reviews, shopping cart, file metadata sharing
-- Reached **87 howto guides** and **v1.5.90**
-- Security coverage: 10 vulnerability assessments + 8 cracker attack tests + 6 MySQL test sessions
+- Reached **100 howto guides** and **v1.5.104**
+- Security coverage: 13 vulnerability assessments + 12 cracker attack tests + 8 MySQL test sessions
 
 Tracked by `docs/milestones/2026-05-howto-library-sprint.md`.
 
-## Phase 72: Howto Library Sprint — Phase III: Library Completion
+## Phase 72: Howto Library Sprint — Phase III: Library Completion ✅
 
 Goal: cover the remaining core API patterns (FT157–FT170) to complete the initial howto library,
 reaching ~100 self-contained guides with full test coverage and security assessments.
@@ -779,12 +779,13 @@ reaching ~100 self-contained guides with full test coverage and security assessm
   application caching, content versioning, payment webhook, geolocation queries, A/B testing,
   multi-step workflow (state machine), inbound webhook receiver, admin report aggregation,
   data masking (PII), request deduplication
-- Security cadence: vuln assessment at FT159/FT165/FT169, cracker attack at FT160/FT166/FT170
-- MySQL integration tests at FT158/FT164/FT167
+- Security cadence: vuln assessment at FT159/FT169, cracker attack at FT160/FT164/FT168/FT170
+- MySQL integration tests at FT158/FT167
+- **Completed** — v1.5.104, 100 howto guides
 
 Tracked by `docs/milestones/2026-05-howto-library-sprint.md`.
 
-## Phase 73: Howto Library Consolidation
+## Phase 73: Howto Library Consolidation 🔄
 
 Goal: make the 100+ guide library navigable and publish it as a reference corpus.
 

@@ -239,7 +239,7 @@ NENE2 is designed to be AI-readable and usable as a tool by AI agents.
 - **[Smithery](https://smithery.ai/server/hideyukiMORI/nene2)** — NENE2 MCP server listed in the Smithery registry ([`smithery.yaml`](./smithery.yaml)).
 - **[AGENTS.md](./AGENTS.md)** — entry point for AI agents working in this repository.
 - **OpenAPI contract** — `GET /openapi.php` or `docs/openapi/openapi.yaml` — the authoritative API contract for LLM tool use.
-- **Local MCP server** — `composer mcp` validates the MCP tool catalog; `composer run local-mcp-server` starts the local server.
+- **Local MCP server** — `composer mcp` validates the MCP tool catalog; `docker compose run --rm -e NENE2_LOCAL_API_BASE_URL=http://app app php tools/local-mcp-server.php` starts the local server.
 - **Field trial reports** — real-world AI implementation records: [hoplog](https://github.com/hideyukiMORI/hoplog) (FT10), [tasklog](https://github.com/hideyukiMORI/tasklog) (FT11).
 
 ## License
