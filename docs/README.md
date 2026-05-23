@@ -28,6 +28,7 @@ Step-by-step guides that get you from zero to a working result. Follow in order.
 
 Goal-oriented guides. Pick the one that matches what you need to do.
 
+- [**Full howto index (100 guides)**](howto/README.md) — categorized catalog of all pattern guides
 - [Add a custom route](howto/add-custom-route.md) — GET, POST, path parameters, query strings
 - [Add a database-backed endpoint](howto/add-database-endpoint.md) — UseCase → Repository → Handler pattern
 

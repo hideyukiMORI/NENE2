@@ -10,6 +10,104 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.104] — 2026-05-22
+
+### Added
+- `docs/howto/request-deduplication.md` — Request Deduplication ガイド: Idempotency-Key 必須・24h TTL・replayed フラグ。クラッカー攻撃試験 ATK-01〜12 全Pass。 (#845)
+
+---
+
+## [1.5.103] — 2026-05-22
+
+### Added
+- `docs/howto/data-masking.md` — Data Masking ガイド: デフォルトマスク・admin unmask・X-Accessor 強制・append-only 監査ログ。脆弱性診断 VULN-A〜L 全Pass。 (#843)
+
+---
+
+## [1.5.102] — 2026-05-22
+
+### Added
+- `docs/howto/admin-report-aggregation.md` — Admin Report Aggregation ガイド: 日付バリデーション・from>to 拒否・limit クランプ。クラッカー攻撃試験 ATK-01〜12 全Pass。 (#841)
+
+---
+
+## [1.5.101] — 2026-05-22
+
+### Added
+- `docs/howto/inbound-webhook-receiver.md` — Inbound Webhook Receiver ガイド: per-source HMAC secret・署名検証→冪等→保存順序。MySQL 統合テスト 5件全Pass。 (#839)
+
+---
+
+## [1.5.100] — 2026-05-22
+
+### Added
+- `docs/howto/multi-step-workflow.md` — Multi-step Workflow ガイド: 順序付きステップ・approve/reject 遷移・アクション履歴。 (#837)
+
+---
+
+## [1.5.99] — 2026-05-22
+
+### Added
+- `docs/howto/ab-testing.md` — A/B Testing ガイド: draft→active→stopped 遷移・crc32 決定論的割当・CVR 集計。 (#835)
+
+---
+
+## [1.5.98] — 2026-05-22
+
+### Added
+- `docs/howto/geolocation.md` — Geolocation ガイド: Haversine 距離・バウンディングボックス・座標バリデーション。クラッカー攻撃試験 ATK-01〜12 全Pass。 (#833)
+
+---
+
+## [1.5.97] — 2026-05-22
+
+### Added
+- `docs/howto/payment-webhook.md` — Payment Webhook ガイド: HMAC-SHA256 署名検証・event_id 冪等処理・ステータス遷移ガード 409。 (#831)
+
+---
+
+## [1.5.96] — 2026-05-22
+
+### Added
+- `docs/howto/content-versioning.md` — Content Versioning ガイド: append-only 履歴・バージョン一覧・ロールバック = 新バージョン。 (#829)
+
+---
+
+## [1.5.95] — 2026-05-22
+
+### Added
+- `docs/howto/application-caching.md` — Application Caching ガイド: Cache-Aside・TTL クロック注入・書き込み時無効化。 (#827)
+
+---
+
+## [1.5.94] — 2026-05-22
+
+### Added
+- `docs/howto/oauth2-social-login.md` — OAuth2 Social Login ガイド: Authorization Code Flow・state CSRF 防止・コードリプレイ防止。クラッカー攻撃試験 ATK-01〜12 全Pass。 (#825)
+
+---
+
+## [1.5.93] — 2026-05-22
+
+### Added
+- `docs/howto/totp-authentication.md` — TOTP 二要素認証ガイド: RFC 6238・Base32・リプレイ防止 used_totp_steps。脆弱性診断 VULN-A〜L 全Pass。 (#823)
+
+---
+
+## [1.5.92] — 2026-05-22
+
+### Added
+- `docs/howto/csv-bulk-import.md` — CSV バルクインポートガイド: str_getcsv $escape 必須化・部分成功・バッチ内重複検知。MySQL 統合テスト 5件全Pass。 (#821)
+
+---
+
+## [1.5.91] — 2026-05-22
+
+### Added
+- `docs/howto/search-autocomplete.md` — 全文検索・オートコンプリートガイド: LIKE 特殊文字エスケープ・関連度スコア 3段階・limit クランプ。 (#819)
+
+---
+
 ## [1.5.90] — 2026-05-22
 
 ### Added

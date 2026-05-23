@@ -11,6 +11,7 @@ This file is the entry point for AI agents and automation working on NENE2.
 - AI tool policy: `docs/integrations/ai-tools.md`
 - Roadmap: `docs/roadmap.md`
 - Current work: `docs/todo/current.md`
+- Field trial registry: `docs/ft-registry.md`
 
 ## Operating Rules
 

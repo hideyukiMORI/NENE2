@@ -16,7 +16,7 @@
 - 基本的机器客户端认证
 - 基于 Docker 的数据库验证路径
 
-NENE2 仍是 `0.x` 基础。将公共契约视为有用但仍在形成中。
+NENE2 是 `v1.x` 基础。HTTP 运行时、中间件和配置边界已稳定（见 [ADR 0009](../../adr/0009-v1.0-public-api-scope.md)）。`src/Example/` 下的示例代码仅供参考。
 
 ## 公开实地试验参考沙盒（可选）
 
@@ -34,7 +34,7 @@ NENE2 仍是 `0.x` 基础。将公共契约视为有用但仍在形成中。
 ```bash
 mkdir my-project && cd my-project
 composer init --name="vendor/my-project" --no-interaction
-composer require hideyukimori/nene2:^0.3
+composer require hideyukimori/nene2:^1.5
 ```
 
 然后手动创建最小文件：

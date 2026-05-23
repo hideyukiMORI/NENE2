@@ -165,16 +165,21 @@ protected function setUp(): void
 }
 ```
 
-Run against the NENE2-FT MySQL service:
+Run against the shared FT MySQL container (port 3308, persistent volume):
 
 ```bash
-docker compose -f /home/xi/docker/NENE2-FT/docker-compose.yml up -d mysql
-docker run --rm --network nene2-ft_default \
-  -v /home/xi/docker/NENE2-FT/lockoutlog:/app -w /app \
-  -e MYSQL_HOST=mysql -e MYSQL_PORT=3306 \
-  -e MYSQL_DATABASE=ft_test -e MYSQL_USER=ft_user -e MYSQL_PASSWORD=ft_pass \
-  nene2-app composer check
+docker compose -f ../NENE2-FT/docker-compose.yml up -d mysql
 ```
+
+Then run the integration tests with environment variables:
+
+```bash
+MYSQL_HOST=127.0.0.1 MYSQL_PORT=3308 MYSQL_DATABASE=ft_test \
+  MYSQL_USER=ft_user MYSQL_PASSWORD=ft_pass \
+  php8.4 vendor/bin/phpunit --filter Mysql
+```
+
+Without `MYSQL_HOST`, the MySQL tests are automatically skipped.
 
 ## Security Properties
 

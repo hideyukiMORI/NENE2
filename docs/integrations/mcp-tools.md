@@ -11,7 +11,7 @@ NENE2's LLM-assisted delivery direction is documented in `docs/integrations/llm-
 The default direction is:
 
 - derive tool shape from OpenAPI where practical
-- start with read-only inspection tools
+- start with read-only inspection tools, then add write tools with explicit auth gates
 - keep local development tools separate from production tools
 - require explicit authorization and audit policy before mutation tools
 - avoid direct database access from MCP tools by default
@@ -30,7 +30,7 @@ Avoid creating MCP-only behavior that cannot be exercised or verified through no
 
 The first machine-readable MCP tool catalog lives at `docs/mcp/tools.json`.
 
-It contains read-only tool metadata aligned with shipped OpenAPI operations. The catalog is validated by:
+It contains tool metadata aligned with shipped OpenAPI operations: **6 read tools** (list/get Note and Tag) and **6 write tools** (create/update/delete Note and Tag). Write tools require a valid Bearer JWT when `NENE2_LOCAL_JWT_SECRET` is set. The catalog is validated by:
 
 ```bash
 docker compose run --rm app composer mcp
@@ -50,6 +50,8 @@ Each MCP tool should be classified before implementation:
 - `destructive`: deletes data or performs irreversible actions
 
 The first MCP tools should be `read` tools.
+
+The shipped local MCP catalog already includes `write` tools gated by JWT. New tools should still default to `read` unless there is an explicit auth and audit design.
 
 `write`, `admin`, and `destructive` tools require:
 

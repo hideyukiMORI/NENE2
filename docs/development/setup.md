@@ -158,5 +158,5 @@ ports:
 **MySQL connection refused during migrations**
 The `mysql` container takes a few seconds to become ready after `docker compose up -d mysql`. Wait a moment and retry.
 
-**`DB_HOST` default is `127.0.0.1` but I get connection refused**
-Inside Docker containers, use the service name `mysql` as the host. The default `.env.example` and `compose.yaml` already set this correctly — check that your `.env` has `DB_HOST=mysql`.
+**`DB_HOST` default is `127.0.0.1` but I get connection refused inside Docker**
+`.env.example` sets `DB_HOST=127.0.0.1` for host-side runs. Inside the `app` container, `compose.yaml` injects `DB_HOST=mysql` — verify your `.env` is not overriding that back to `127.0.0.1` when using `docker compose up`.

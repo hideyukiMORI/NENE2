@@ -16,7 +16,7 @@ Utilisez ce guide lorsqu'un projet a besoin de :
 - une authentification machine-client basique
 - un chemin de vérification de base de données basé sur Docker
 
-NENE2 est encore une fondation `0.x`. Traitez les contrats publics comme utiles mais encore en formation.
+NENE2 est une fondation `v1.x`. Le runtime HTTP, le middleware et les limites de configuration sont stables (voir [ADR 0009](../../adr/0009-v1.0-public-api-scope.md)). Le code d'exemple sous `src/Example/` est une référence uniquement.
 
 ## Sandbox de référence pour essais sur le terrain publics (optionnel)
 
@@ -34,7 +34,7 @@ Si vous démarrez un nouveau projet depuis zéro plutôt que de forker le dépô
 ```bash
 mkdir my-project && cd my-project
 composer init --name="vendor/my-project" --no-interaction
-composer require hideyukimori/nene2:^0.3
+composer require hideyukimori/nene2:^1.5
 ```
 
 Puis créez les fichiers minimum manuellement :

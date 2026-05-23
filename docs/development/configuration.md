@@ -14,7 +14,7 @@ The standard direction is:
 - Prefer real environment variables in production.
 - Never commit secrets.
 
-This Issue defines the policy only. Config loaders, typed config classes, and dotenv dependencies should be added in a later Issue.
+Config loaders, typed config classes, and dotenv loading are implemented under `src/Config/` (see Initial Implementation below).
 
 ## Standard Directories
 
@@ -25,7 +25,7 @@ src/Config/             # typed config objects and loaders
 .env                    # local secrets, ignored by Git
 ```
 
-`src/Config/` and `.env.example` should be added when the first config implementation is introduced.
+`src/Config/` and `.env.example` are part of the shipped foundation.
 
 ## Runtime Boundary
 

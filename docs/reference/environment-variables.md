@@ -30,13 +30,14 @@ Set them in `.env` (loaded by phpdotenv) or export them before starting the serv
 | Variable | Type | Default | Description |
 |---|---|---|---|
 | `DATABASE_URL` | string | *(empty — use `DB_*`)* | Full database connection URL. When non-empty, overrides all individual `DB_*` variables. |
-| `DB_ADAPTER` | string | `mysql` | Database driver. Accepted: `sqlite`, `mysql`. |
-| `DB_HOST` | string | `127.0.0.1` | Database hostname or IP. **Not used by SQLite.** |
+| `DB_ADAPTER` | string | `mysql` | Database driver. Accepted: `sqlite`, `mysql`, `pgsql` (experimental — see [Use PostgreSQL](../howto/use-postgresql.md)). |
+| `DB_HOST` | string | `127.0.0.1` | Database hostname or IP. **Not used by SQLite.** Inside Docker Compose, `compose.yaml` overrides this to `mysql` for the `app` service. |
 | `DB_PORT` | integer | `3306` | Database port (1–65535). **Not validated for SQLite.** |
 | `DB_NAME` | string | `nene2` | Database name. For SQLite, set this to the **file path** (e.g. `/tmp/myapp.sqlite`). |
 | `DB_USER` | string | `nene2` | Database username. **Not used by SQLite.** |
 | `DB_PASSWORD` | string | *(empty)* | Database password. |
 | `DB_CHARSET` | string | `utf8mb4` | Database character set. **Not used by SQLite.** |
+| `DB_ENV` | string | `local` | Phinx migration environment name (see `phinx.php`). |
 
 ### SQLite adapter
 

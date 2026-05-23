@@ -7,7 +7,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 - Latest release: `v1.5.104`（2026-05-22 リリース済み）
 - Current branch: `main` — clean — open Issue なし
 
-## Recently Completed (FT ループ — v1.5.27 〜 v1.5.39)
+## Recently Completed (FT ループ — FT96–FT170 / v1.5.30–v1.5.104)
 
 | FT | テーマ | アプリ | テスト | リリース | 主要対応 |
 |---|---|---|---|---|---|
@@ -105,7 +105,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 ### ループ終了後（FT170 以降）
 
-- **howto 索引（README.md）** の全 90+ ガイド分類整備
+- **howto 索引（README.md）** の全 100 ガイド分類整備（✅ 索引更新済み。検索タグ・VitePress sidebar 拡張は Phase 73 継続）
 - **VitePress サイト**への新規 howto ページ追加
 - **v2.0 設計検討**: FT ループで判明した摩擦点をもとにフレームワーク本体の次バージョン方針を議論
 - マイルストーン: `docs/milestones/2026-05-howto-library-sprint.md`
@@ -122,7 +122,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 ### FT プロジェクトの外部公開方針
 
-`../NENE2-FT/<name>/` に 156 本の参照実装が蓄積されているが、Packagist ユーザーからは不可視。
+`../NENE2-FT/<name>/` に **170 本**の参照実装が蓄積されているが、Packagist ユーザーからは不可視。
 以下の選択肢を Phase 73 または v2.0 設計フェーズで議論する。
 
 - **Option A**: 各 FT プロジェクトを GitHub の独立リポジトリとして公開
@@ -130,7 +130,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 - **Option C**: モノレポ的に `examples/` ディレクトリへ集約して公開
 
 判断基準: メンテナンスコスト vs 発見可能性 vs ドキュメントとの同期。
-急ぎではないが、ライブラリが 100 ガイドを超える前に方針を決めておくと良い。
+howto ライブラリは **100 本**に到達済み。FT 参照実装 170 本の公開方針を Phase 73 / v2.0 設計で決める。
 
 ## Open Issues
 
