@@ -109,6 +109,22 @@ The initial frontend workflow lives at `.github/workflows/frontend.yml` and runs
 4. npm run build --prefix frontend
 ```
 
+## CI Trigger Timing
+
+To avoid duplicate runs while keeping the merge gate safe:
+
+| Workflow | Triggers | Purpose |
+|---|---|---|
+| Backend (`.github/workflows/backend.yml`) | `pull_request`, `workflow_dispatch` | Merge gate: `Composer Check` |
+| Frontend (`.github/workflows/frontend.yml`) | `pull_request`, `workflow_dispatch` | Merge gate: `npm Check` |
+| Docs (`.github/workflows/docs.yml`) | `push` to `main`, `workflow_dispatch` | VitePress build + GitHub Pages deploy |
+
+Backend and Frontend do **not** re-run on `main` push after merge. Branch protection required checks on the PR are sufficient.
+
+Both PR workflows use `concurrency` with `cancel-in-progress: true` so intermediate pushes cancel stale runs.
+
+Docs-only changes are not validated in CI until merge. Run `npm run docs:build` locally before merging doc changes, or add a Docs PR workflow later if needed.
+
 ## Branch Protection
 
 `main` should be protected before releases become public.

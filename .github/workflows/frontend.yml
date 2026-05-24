@@ -2,10 +2,11 @@ name: Frontend
 
 on:
   pull_request:
-  push:
-    branches:
-      - main
   workflow_dispatch:
+
+concurrency:
+  group: frontend-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
 
 permissions:
   contents: read
