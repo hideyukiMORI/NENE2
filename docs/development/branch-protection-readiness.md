@@ -11,7 +11,15 @@ The current required check candidates are:
 - `Composer Check` from `.github/workflows/backend.yml`
 - `npm Check` from `.github/workflows/frontend.yml`
 
-Do not require a check before the workflow has run successfully on both pull requests and `main` pushes.
+Do not require a check before the workflow has run successfully on pull requests at least once.
+
+## CI Trigger Policy
+
+Backend and Frontend workflows run on **pull requests only** (plus `workflow_dispatch`). They do not re-run on `main` push after merge — branch protection required checks on the PR are the merge gate.
+
+The Docs workflow runs on **`main` push only** to build and deploy GitHub Pages.
+
+Both Backend and Frontend use `concurrency` with `cancel-in-progress: true` so only the latest commit on a PR branch is checked.
 
 ## Recommended Protection
 
@@ -30,32 +38,32 @@ Recommended `main` protection:
 
 Before enabling or tightening branch protection:
 
-- [ ] `docs/workflow.md` describes the PR-first workflow.
-- [ ] `.github/workflows/backend.yml` runs on pull requests and pushes to `main`.
-- [ ] `.github/workflows/frontend.yml` runs on pull requests and pushes to `main`.
-- [ ] The latest `main` push has passing Backend and Frontend workflow runs.
-- [ ] `composer check` passes locally or in CI.
-- [ ] `npm run check --prefix frontend` and `npm run build --prefix frontend` pass in CI.
-- [ ] `docs/todo/current.md` does not list an incomplete CI setup task as complete.
-- [ ] The team agrees whether merge commits remain the default.
+- [x] `docs/workflow.md` describes the PR-first workflow.
+- [x] `.github/workflows/backend.yml` runs on pull requests.
+- [x] `.github/workflows/frontend.yml` runs on pull requests.
+- [x] Backend and Frontend workflows pass on pull requests.
+- [x] `composer check` passes locally or in CI.
+- [x] `npm run check --prefix frontend` and `npm run build --prefix frontend` pass in CI.
+- [x] The team agrees merge commits remain the default.
 
 ## Current Decision
 
-As of the `v0.1.0` release readiness milestone, `main` is not protected in GitHub repository settings.
+As of 2026-05-23, `main` is protected via GitHub ruleset **main protection** (active).
 
 Decision:
 
-- Do not enable branch protection as an incidental documentation change.
-- Treat `main` as ready for the smallest recommended protection once the release owner explicitly approves the repository setting change.
+- Require pull requests before merging to `main`.
+- Require `Composer Check` and `npm Check` as status checks on pull requests.
+- Block force pushes and branch deletion on `main`.
 - Keep merge commits as the default history policy.
-- Use `Composer Check` and `npm Check` as the initial required status checks when protection is enabled.
-- Reconfirm the exact required check names from a fresh `main` run immediately before changing repository settings.
+- Backend/Frontend CI runs on PR only; Docs CI runs on `main` push for GitHub Pages deploy.
+- Avoid bypass except for documented emergencies.
 
 Reason:
 
-- The workflows are passing on pull requests and `main` pushes.
-- Enabling repository protection is an operational setting change, not a source-code change.
-- The first `v0.1.0` release can still be prepared while this remains a documented pre-tag decision.
+- Workflows pass reliably on pull requests.
+- Duplicate Backend/Frontend runs on every `main` push were removed to reduce CI usage.
+- Branch protection ensures no merge without passing PR checks.
 
 ## Rollout Notes
 
