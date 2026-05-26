@@ -10,6 +10,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.167] — 2026-05-27
+
+### Added
+- `docs/howto/session-management.md` — Multi-Device Session Manager ガイド: 256-bit トークン・IDOR 防止・VULN-A〜L 全Pass (FT186)。 (#918)
+
+---
+
+
 ## [1.5.158] — 2026-05-27
 
 ### Added
