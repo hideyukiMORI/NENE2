@@ -93,6 +93,13 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 | FT175 | API Usage Metering | meterlog | 24/24 | v1.5.109 | api-usage-metering.md（per-user 日次クォータ・usage_events 追記・day_key インデックス・ゲートチェック・エンドポイント別内訳）**脆弱性診断: VULN-A〜L 全Pass** |
 | FT176 | Delegated Access Grants | grantlog | 23/23 | v1.5.110 | delegated-access-grants.md（multi-party 委譲・expired/revoked state machine・IDOR防止・型強制・Unicode/BIDI verbatim）**クラッカー攻撃試験: ATK-01〜12 全Pass** |
 | FT177 | Pagination Boundary Attack | limitlog | 20/20 | v1.5.111 | pagination-boundary-attack.md（ctype_digit O(n)・overflow guard・clampInt・ReDoS safe）**脆弱性診断: VULN-A〜L 全Pass** |
+| FT178 | JSON Merge Patch & ETag | patchlog | — | v1.5.112〜 | json-merge-patch.md（RFC 7396 null セマンティクス・If-Match 412・V.php）→ PR #899 |
+| FT179 | テナント分離 & IDOR | isolationlog | — | v1.5.114 | tenant-isolation.md（SQL tenant_id・ヘッダー認証・ATK 全Pass）→ PR #901 |
+| FT180〜187 | 各種 howto | — | — | v1.5.115〜122 | — → PR #903〜#920 |
+| FT188 | 数値認証コード | verifylog | — | v1.5.123 | numeric-verification-code.md（ATK-01〜12 全Pass）→ PR #922 |
+| FT189 | プライバシーコンセント | consentlog | 51/51 | v1.5.124 | privacy-consent-management.md（VULN-A〜L 全Pass）→ PR #924 |
+| FT190 | システムアナウンス | announcelog | 38/38 | v1.5.125 | system-announcement-management.md（hash_equals admin key）→ PR #926 |
+| FT191 | ウェイティングリスト | waitlistlog | 39/39 | v1.5.126 | waitlist-management.md（動的ポジション・状態機械・IDOR防止）→ PR #928 |
 
 ## 次のアクション（2026-05-26〜）
 
@@ -126,8 +133,8 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 | チェック項目 | 次回 |
 |---|---|
 | MySQL 統合テスト | FT167 ✓ 完了 |
-| 脆弱性診断 | FT177 ✓ 完了（次: FT180） |
-| クラッカー攻撃試験 | FT176 ✓ 完了（次: FT180） |
+| 脆弱性診断 | FT189 ✓ 完了（次: FT192） |
+| クラッカー攻撃試験 | FT188 ✓ 完了（次: FT192） |
 
 ## 検討事項（決定不要・議題として保持）
 

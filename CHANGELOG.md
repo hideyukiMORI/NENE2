@@ -10,6 +10,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.170] — 2026-05-27
+
+### Added
+- `docs/howto/waitlist-management.md` — ウェイティングリスト管理ガイド: 動的ポジション計算・状態機械・IDOR 防止 (FT191)。 (#928)
+
+---
+
+
 ## [1.5.158] — 2026-05-27
 
 ### Added
