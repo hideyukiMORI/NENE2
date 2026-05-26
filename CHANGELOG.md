@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.240] — 2026-05-27
+
+### Added
+- `docs/howto/shopping-cart-api.md` — ショッピングカート API howto: UNIQUE (user_id, product_id) 制約による重複防止・upsert add-item（既存なら数量加算 SELECT-then-UPDATE/INSERT）・quantity=0 自動削除セマンティクス・JOIN による合計金額リアルタイム計算・price/subtotal を INTEGER (float 禁止)・X-User-Id ヘッダー識別（本番は JWT 推奨）・201/200 ステータス使い分け (FT269)。 (#1085)
+
+---
+
 ## [1.5.239] — 2026-05-27
 
 ### Changed
