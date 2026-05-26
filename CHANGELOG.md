@@ -10,6 +10,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.168] — 2026-05-27
+
+### Added
+- `docs/howto/encrypted-field-storage.md` — AES-256-GCM フィールドレベル暗号化ガイド: per-record nonce・AEAD 改ざん検知・HMAC-SHA256 ブラインドインデックス (FT187)。 (#920)
+
+---
+
+
 ## [1.5.158] — 2026-05-27
 
 ### Added
