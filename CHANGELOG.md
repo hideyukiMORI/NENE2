@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.238] — 2026-05-27
+
+### Changed
+- `docs/howto/encrypted-field-storage.md` — FT267 参照と VULN アセスメント (V-01〜V-10) を追加: AES-256-GCM フィールド暗号化・12 バイトランダム nonce・16 バイト GCM 認証タグ・HMAC-SHA256 ブラインドインデックス（email 検索用）・encKey/indexKey 鍵分離・IDOR ガード (user_id スコープ)・V-01 鍵のコミット禁止 BLOCKED、V-02 nonce 再利用 BLOCKED、V-03 タグ検証 BLOCKED、V-04 復号エラー詳細漏洩 EXPOSED、V-05 ブラインドインデックス辞書攻撃 BLOCKED、V-06 認証なし EXPOSED、V-07 IDOR BLOCKED、V-08 鍵ローテーション未実装 EXPOSED、V-09 タイミング比較 BLOCKED、V-10 ログ平文漏洩 EXPOSED (FT267/VULN)。 (#1081)
+
+---
+
 ## [1.5.237] — 2026-05-27
 
 ### Changed

@@ -1,6 +1,10 @@
 # How to Build Encrypted Field Storage
 
-> **Pattern proven by FT187 encryptlog** — AES-256-GCM per-field encryption with HMAC-SHA256 blind index for searchable PII storage.
+> **FT reference**: FT267 (`NENE2-FT/encryptlog`) — AES-256-GCM field-level encryption: encrypt-on-write / decrypt-on-read, blind index for searchable ciphertext, key separation between encryption and index keys
+>
+> **VULN assessment**: V-01 through V-10 included at the end of this document.
+>
+> **Pattern also proven by FT187 encryptlog** — AES-256-GCM per-field encryption with HMAC-SHA256 blind index for searchable PII storage.
 
 ---
 
@@ -244,3 +248,112 @@ PHP CS Fixer — clean
 | Blind index reindex | email update keeps index in sync |
 
 Source: [`../NENE2-FT/encryptlog/`](https://github.com/hideyukiMORI/NENE2-examples/tree/main/encryptlog)
+
+---
+
+## VULN Assessment (FT267)
+
+Security assessment of `NENE2-FT/encryptlog` under the field-encryption threat model.
+
+### V-01 — Key Management: Env Loading ✅ BLOCKED
+
+**Threat**: Encryption keys committed to VCS or hard-coded in source.
+**Mitigation**: Keys loaded via `getenv()` in `ConfigLoader`, length-validated at boot. The `.env` file is git-ignored. No key material appears in source code.
+**Residual**: Key rotation (replacing both keys, re-encrypting all rows) is not implemented. Accept for FT scope; production system needs a rotation plan.
+
+---
+
+### V-02 — Nonce Reuse (GCM) ✅ BLOCKED
+
+**Threat**: If the same nonce is ever used twice under the same key, GCM loses all confidentiality and authenticity guarantees.
+**Mitigation**: `random_bytes(12)` is called inside `encrypt()` on every invocation. The 96-bit nonce space and `random_bytes()` make collision probability negligible for any realistic usage volume (< 2^32 encryptions per key lifetime is the safe bound).
+**Finding**: Safe.
+
+---
+
+### V-03 — Authentication Tag Verification ✅ BLOCKED
+
+**Threat**: Ciphertext tampering passes undetected; attacker flips bits to manipulate decrypted plaintext.
+**Mitigation**: `openssl_decrypt()` verifies the 16-byte GCM authentication tag before returning plaintext. Any single-bit modification returns `false`, which `FieldCrypto::decrypt()` converts to a thrown `\RuntimeException`. The application catches it and returns `500`; no partial plaintext is exposed.
+**Finding**: Safe.
+
+---
+
+### V-04 — API Response Leaks Decryption Error Detail ⚠️ EXPOSED
+
+**Threat**: Error handler serializes `\RuntimeException::getMessage()` ("Decryption failed — tag mismatch or corrupt ciphertext.") into the API response, leaking an integrity signal to attackers.
+**Finding**: In `APP_DEBUG=true` mode the full message and stack trace may surface. In `APP_DEBUG=false` mode, the default handler may still expose the exception class name.
+**Recommendation**: Add a dedicated `DecryptionFailedExceptionHandler` that maps to `500` with a generic `"internal-error"` Problem Details body regardless of debug mode. Tag-verification failure should be logged server-side only.
+
+---
+
+### V-05 — Blind Index Collision / Offline Dictionary ✅ BLOCKED
+
+**Threat**: Attacker builds a dictionary of `blindIndex(candidate)` values offline and compares against the `email_idx` column.
+**Mitigation**: HMAC-SHA256 with a 256-bit secret key. Without `VAULT_INDEX_KEY`, precomputing any index value is computationally infeasible. The blind index only supports exact-match (`WHERE email_idx = ?`); wildcard or substring search is not possible.
+**Residual**: If `VAULT_INDEX_KEY` is compromised, all email blind indexes become brute-forceable for a finite known-email list. Key confidentiality is essential.
+
+---
+
+### V-06 — No Authentication / Authorization on Endpoints ⚠️ EXPOSED
+
+**Threat**: Any unauthenticated caller can create, read, update, and delete vault records for arbitrary `user_id` values.
+**Finding**: The FT exposes `/vault/{userId}/records` with no API key, JWT, or session check. The `user_id` path parameter is caller-supplied.
+**Recommendation**: Require authentication (API key or JWT) and derive `$userId` from the verified token — never trust a caller-supplied `user_id`. Add `requireScope()` or an equivalent auth middleware.
+**FT note**: Deliberate scope constraint for the FT. Production use requires auth.
+
+---
+
+### V-07 — IDOR on Update / Delete ✅ BLOCKED
+
+**Threat**: Authenticated-but-wrong-user modifies another user's encrypted record.
+**Mitigation**: All write queries include `AND user_id = :user_id`. If the record belongs to a different user, `rowCount()` returns 0 and the controller returns 404. The attacker learns only that the record does not exist (for them).
+**Finding**: Safe, assuming authentication is present (see V-06).
+
+---
+
+### V-08 — Key Rotation / Re-encryption Gap ⚠️ EXPOSED
+
+**Threat**: When `VAULT_ENC_KEY` is rotated, old ciphertext encrypted under the previous key cannot be decrypted. There is no re-encryption migration strategy.
+**Finding**: No key versioning, no re-encryption utility, and no migration documented.
+**Recommendation**: Prefix each encrypted blob with a key-version byte (e.g., `v1:<base64>`). On decrypt, read version, select key. Provide a migration script that decrypts under old key and re-encrypts under new key in a transaction.
+
+---
+
+### V-09 — Blind Index Timing Comparison ✅ BLOCKED
+
+**Threat**: Comparing `email_idx` from an untrusted source with `===` leaks character-by-character timing information.
+**Mitigation**: `findByEmail()` passes the computed blind index as a SQL parameter. The comparison happens inside SQLite's B-tree index lookup, which is not a timing oracle from the PHP side. No PHP-side string comparison of blind index values occurs.
+**Finding**: Safe.
+
+---
+
+### V-10 — Decrypted Data in Memory / Logs ⚠️ EXPOSED
+
+**Threat**: Decrypted plaintext (name, email, notes) appears in: PHP exception traces, request-logging middleware (if body is logged), error output, APM spans.
+**Finding**: Request body logging middleware logs the POST body before encryption occurs — plaintext fields are in the log. If `VaultRecord` is included in an exception context, decrypted fields appear in the stack trace.
+**Recommendation**:
+1. Exclude plaintext vault payloads from request body logging (mask or skip `/vault` routes).
+2. Implement `__debugInfo()` on `VaultRecord` to redact sensitive fields from var_dump / exception serialization.
+3. Ensure error tracking integrations (Sentry, etc.) scrub plaintext fields before transmission.
+
+---
+
+### VULN Summary
+
+| ID | Threat | Status |
+|----|--------|--------|
+| V-01 | Key committed to VCS | ✅ BLOCKED |
+| V-02 | Nonce reuse (GCM) | ✅ BLOCKED |
+| V-03 | Tampered ciphertext accepted | ✅ BLOCKED |
+| V-04 | Decryption error detail in response | ⚠️ EXPOSED |
+| V-05 | Blind index offline dictionary | ✅ BLOCKED |
+| V-06 | No authentication on endpoints | ⚠️ EXPOSED |
+| V-07 | IDOR on update/delete | ✅ BLOCKED |
+| V-08 | Key rotation / re-encryption gap | ⚠️ EXPOSED |
+| V-09 | Blind index timing comparison | ✅ BLOCKED |
+| V-10 | Decrypted data in logs/exceptions | ⚠️ EXPOSED |
+
+**Score**: 6 BLOCKED, 4 EXPOSED.
+
+The four exposures are in key rotation strategy (V-08), authentication (V-06, deliberate FT scope), error detail leakage (V-04), and log hygiene (V-10). None represent a flaw in the AES-256-GCM or blind-index cryptographic design — they are operational and integration gaps that must be addressed before production use.
