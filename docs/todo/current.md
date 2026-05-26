@@ -93,6 +93,8 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 | FT175 | API Usage Metering | meterlog | 24/24 | v1.5.109 | api-usage-metering.md（per-user 日次クォータ・usage_events 追記・day_key インデックス・ゲートチェック・エンドポイント別内訳）**脆弱性診断: VULN-A〜L 全Pass** |
 | FT176 | Delegated Access Grants | grantlog | 23/23 | v1.5.110 | delegated-access-grants.md（multi-party 委譲・expired/revoked state machine・IDOR防止・型強制・Unicode/BIDI verbatim）**クラッカー攻撃試験: ATK-01〜12 全Pass** |
 | FT177 | Pagination Boundary Attack | limitlog | 20/20 | v1.5.111 | pagination-boundary-attack.md（ctype_digit O(n)・overflow guard・clampInt・ReDoS safe）**脆弱性診断: VULN-A〜L 全Pass** |
+| FT178〜192 | 各種 howto | — | — | v1.5.112〜127 | → PR #899〜#930 |
+| FT193 | リソース予約・タイムスロット | reservationlog | 38/38 | v1.5.128 | resource-reservation.md（半開区間重複防止・隣接許可・IDOR防止 403）→ PR #932 |
 
 ## 次のアクション（2026-05-26〜）
 
@@ -100,6 +102,10 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 | FT | テーマ案 | 備考 |
 |---|---|---|
+| ~~FT170〜FT193~~ | ~~完了~~ | ~~v1.5.104〜128~~ |
+| 📋 FT194 | 次テーマ | 通常 FT |
+
+<!-- Legacy entries below preserved for history -->
 | ~~FT170~~ | ~~Request Deduplication（deduplog）~~ | ~~完了 v1.5.104~~ |
 | ~~FT171~~ | ~~Hierarchical Data（hierarchylog）~~ | ~~完了 v1.5.105~~ |
 | ~~FT172~~ | ~~Content Scheduling（pubschedulelog）~~ | ~~完了 v1.5.106~~ |
