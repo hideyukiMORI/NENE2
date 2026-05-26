@@ -10,6 +10,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.181] — 2026-05-27
+
+### Added
+- `docs/howto/note-management-with-tags.md` — タグ付きノート管理ガイド: タグフィルタ・キーワード検索・IDOR 防止 (FT202)。 (#949)
+
+---
+
+
 ## [1.5.158] — 2026-05-27
 
 ### Added
