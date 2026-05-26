@@ -119,8 +119,10 @@ final class V
      *
      * Accepted format: 2024-01-15T12:30:00+09:00
      *
-     * Rejected: date-only, UTC 'Z' suffix, missing offset, overflow dates
-     * (e.g., Feb 30 — caught by round-trip re-format comparison).
+     * Rejected:
+     *  - date-only, UTC 'Z' suffix, missing offset, float/sci notation
+     *  - overflow dates (e.g., Feb 30 — caught by round-trip re-format comparison)
+     *  - timezone offsets outside the valid range −14:00 … +14:00
      *
      * Uses DateTimeImmutable::createFromFormat() which preserves the input
      * timezone for re-formatting — avoids the strtotime + date() pitfall where
@@ -136,7 +138,16 @@ final class V
 
         // Strict regex: full datetime with explicit ±HH:MM offset required.
         // Rejects: date-only, 'Z' suffix, missing offset, float/sci notation.
-        if (!preg_match('/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}[+-]\d{2}:\d{2}$/', $raw)) {
+        if (!preg_match('/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}([+-])(\d{2}):(\d{2})$/', $raw, $m)) {
+            return null;
+        }
+
+        // Validate timezone offset range: valid UTC offsets are −14:00 … +14:00.
+        // PHP's DateTimeImmutable silently accepts invalid offsets like +25:00.
+        $tzHours   = (int) $m[2];
+        $tzMinutes = (int) $m[3];
+
+        if ($tzHours > 14 || $tzMinutes > 59 || ($tzHours === 14 && $tzMinutes > 0)) {
             return null;
         }
 
@@ -157,14 +168,19 @@ final class V
     /**
      * Validates an ISO 8601 datetime that must be strictly after $now.
      *
-     * $now should be the current moment in the same format (e.g., date('c')).
-     * String comparison is used — both strings must share the same timezone
-     * offset for the comparison to be meaningful; callers are responsible for
-     * normalising to a common offset when comparing across zones.
+     * Uses DateTimeImmutable object comparison — NOT string comparison.
+     * String comparison of ISO 8601 datetimes fails when the two values use
+     * different timezone offsets: "2026-06-01T18:00:00+09:00" (= UTC 09:00)
+     * would incorrectly compare as greater than "2026-06-01T10:00:00+00:00"
+     * (= UTC 10:00) because "T18" > "T10" lexicographically.
+     *
+     * Both $raw and $now must be valid ISO 8601 datetimes with ±HH:MM offsets
+     * (the format produced by V::isoDatetime and DateTimeImmutable::format(DATE_ATOM)).
      *
      * Returns null if the datetime is invalid or not strictly in the future.
      *
-     * @param string $now Current moment as an ISO 8601 datetime string
+     * @param string $now Current moment as an ISO 8601 datetime string (e.g., from
+     *                    (new DateTimeImmutable())->format(DATE_ATOM))
      */
     public static function futureDatetime(mixed $raw, string $now): ?string
     {
@@ -174,7 +190,18 @@ final class V
             return null;
         }
 
-        return $dt > $now ? $dt : null;
+        // Parse both to DateTimeImmutable for timezone-aware comparison.
+        // createFromFormat returns false only if the format is invalid — both
+        // strings have already passed isoDatetime() / are DATE_ATOM strings.
+        $dtObj  = DateTimeImmutable::createFromFormat(DATE_ATOM, $dt);
+        $nowObj = DateTimeImmutable::createFromFormat(DATE_ATOM, $now);
+
+        if ($dtObj === false || $nowObj === false) {
+            return null;
+        }
+
+        // Object comparison converts both to UTC before comparing.
+        return $dtObj > $nowObj ? $dt : null;
     }
 
     /**

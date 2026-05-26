@@ -10,6 +10,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.162] — 2026-05-27
+
+### Added
+- `docs/howto/iso-datetime-validation.md` — ISO 8601 日時バリデーション & タイムゾーン対応ガイド: DateTimeImmutable ラウンドトリップ・オフセット範囲チェック (FT181)。 (#906)
+
+---
+
+
 ## [1.5.158] — 2026-05-27
 
 ### Added

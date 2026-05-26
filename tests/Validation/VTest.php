@@ -288,6 +288,46 @@ final class VTest extends TestCase
         self::assertNull(V::futureDatetime(null, '2024-01-01T00:00:00+00:00'));
     }
 
+    public function testFutureDatetimeCrossTimezoneCorrectness(): void
+    {
+        // now = UTC 10:00
+        $now = '2026-06-01T10:00:00+00:00';
+
+        // JST 18:00 = UTC 09:00 → actually 1 hour in the PAST from UTC 10:00.
+        // Naive string comparison would say "2026-06-01T18..." > "2026-06-01T10..." = future (WRONG).
+        // DateTimeImmutable comparison correctly sees UTC 09:00 < UTC 10:00 = past.
+        $pastJst = '2026-06-01T18:00:00+09:00';
+        self::assertNull(V::futureDatetime($pastJst, $now), 'JST 18:00 = UTC 09:00 is past — string comparison bug must not affect result');
+
+        // JST 20:00 = UTC 11:00 → 1 hour in the FUTURE from UTC 10:00.
+        $futureJst = '2026-06-01T20:00:00+09:00';
+        self::assertSame($futureJst, V::futureDatetime($futureJst, $now), 'JST 20:00 = UTC 11:00 is future');
+
+        // EST 03:00 = UTC 08:00 → past from UTC 10:00 (string comparison also rejects, but for wrong reason)
+        $pastEst = '2026-06-01T03:00:00-05:00';
+        self::assertNull(V::futureDatetime($pastEst, $now), 'EST 03:00 = UTC 08:00 is past');
+
+        // EST 08:00 = UTC 13:00 → future from UTC 10:00.
+        // Naive string comparison: "2026-06-01T08..." < "2026-06-01T10..." = past (WRONG).
+        // DateTimeImmutable comparison: UTC 13:00 > UTC 10:00 = future (correct).
+        $futureEst = '2026-06-01T08:00:00-05:00';
+        self::assertSame($futureEst, V::futureDatetime($futureEst, $now), 'EST 08:00 = UTC 13:00 is future — string comparison bug must not affect result');
+    }
+
+    public function testIsoDatetimeRejectsOutOfRangeTimezoneOffset(): void
+    {
+        // Valid offsets are −14:00 to +14:00; PHP silently accepts +25:00
+        self::assertNull(V::isoDatetime('2026-06-15T09:00:00+25:00'), '+25:00 is not a valid UTC offset');
+        self::assertNull(V::isoDatetime('2026-06-15T09:00:00+15:00'), '+15:00 is not a valid UTC offset');
+        self::assertNull(V::isoDatetime('2026-06-15T09:00:00-15:00'), '-15:00 is not a valid UTC offset');
+
+        // Edge: +14:00 and -14:00 are valid (Kiribati, Line Islands)
+        self::assertSame('2026-06-15T09:00:00+14:00', V::isoDatetime('2026-06-15T09:00:00+14:00'));
+        self::assertSame('2026-06-15T09:00:00-14:00', V::isoDatetime('2026-06-15T09:00:00-14:00'));
+        // +14:01 is invalid (only exactly +14:00 is the max)
+        self::assertNull(V::isoDatetime('2026-06-15T09:00:00+14:01'), '+14:01 exceeds maximum offset');
+    }
+
     // ── V::enum ──────────────────────────────────────────────────────────────
 
     public function testEnumAcceptsValidCase(): void
