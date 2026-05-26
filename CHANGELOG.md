@@ -10,6 +10,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.182] — 2026-05-27
+
+### Added
+- `docs/howto/inventory-stock-management.md` — 在庫管理ガイド: 入庫・出庫・在庫不足防止・SKU バリデーション・履歴追跡 (FT203)。 (#951)
+
+---
+
+
 ## [1.5.158] — 2026-05-27
 
 ### Added
