@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.216] — 2026-05-27
+
+### Added
+- `docs/howto/aggregate-reporting.md` — 多次元集計レポート API howto: COALESCE(SUM/AVG)・COUNT(CASE WHEN) 条件付きカウント・substr() 日付切り出し GROUP BY・byStatus / topItems 集計・dateFilter() 動的 WHERE・createFromFormat() ラウンドトリップ日付検証 (FT245)。 (#1036)
+
+---
+
 ## [1.5.215] — 2026-05-27
 
 ### Added
