@@ -188,19 +188,29 @@ NENE2's quality baseline includes PHP-CS-Fixer for backend style checks and npm,
 
 ## How-to guides
 
-Step-by-step recipes for common tasks:
+100 task-focused guides covering authentication, security, database patterns, API design, background jobs, and 40+ product feature recipes.
+
+**[Full guide index →](docs/howto/README.md)**
+
+Common entry points:
 
 - [Add a custom route](docs/howto/add-custom-route.md)
 - [Add a database-backed endpoint](docs/howto/add-database-endpoint.md)
-- [Use database transactions](docs/howto/use-transactions.md)
-- [Add a second entity](docs/howto/add-second-entity.md)
-- [Add pagination](docs/howto/add-pagination.md)
 - [Add JWT authentication](docs/howto/add-jwt-authentication.md)
+- [Add pagination](docs/howto/add-pagination.md)
 - [Add rate limiting](docs/howto/add-rate-limiting.md)
-- [Add a health check](docs/howto/add-health-check.md)
-- [Add an HTML view](docs/howto/add-html-view.md)
-- [Add MCP tools](docs/howto/add-mcp-tools.md)
 - [Deploy to production](docs/howto/deploy-production.md)
+
+## Reference Implementations
+
+**[hideyukiMORI/NENE2-examples](https://github.com/hideyukiMORI/NENE2-examples)** — 73 field-trial applications built with `hideyukimori/nene2` as a Composer dependency. Each directory is a self-contained, runnable JSON API corresponding to one howto guide.
+
+```bash
+git clone https://github.com/hideyukiMORI/NENE2-examples.git
+cd NENE2-examples/deduplog   # or any other example
+composer install
+vendor/bin/phpunit
+```
 
 ## Delivery Starter Docs
 
@@ -240,7 +250,7 @@ NENE2 is designed to be AI-readable and usable as a tool by AI agents.
 - **[AGENTS.md](./AGENTS.md)** — entry point for AI agents working in this repository.
 - **OpenAPI contract** — `GET /openapi.php` or `docs/openapi/openapi.yaml` — the authoritative API contract for LLM tool use.
 - **Local MCP server** — `composer mcp` validates the MCP tool catalog; `docker compose run --rm -e NENE2_LOCAL_API_BASE_URL=http://app app php tools/local-mcp-server.php` starts the local server.
-- **Field trial reports** — real-world AI implementation records: [hoplog](https://github.com/hideyukiMORI/hoplog) (FT10), [tasklog](https://github.com/hideyukiMORI/tasklog) (FT11).
+- **Reference implementations** — **[hideyukiMORI/NENE2-examples](https://github.com/hideyukiMORI/NENE2-examples)**: 73 runnable field-trial apps covering every major howto pattern (auth, security, queues, social features, and more). Each app is `composer install && phpunit`-ready.
 
 ## License
 
