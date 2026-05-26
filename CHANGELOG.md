@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.230] — 2026-05-27
+
+### Added
+- `docs/howto/leaderboard-ranking-api.md` — リーダーボード API howto: RANK() OVER ウィンドウ関数・MAX(score) プレイヤーベストスコア集計・COUNT(*) プレイ回数・バルク提出（最大 100 件・全-or-nothing バリデーション）・validateScoreEntry() 共有バリデーションヘルパー（prefix パラメータでネームスペース）・動的クエリ構築 (WHERE 1=1 + 条件追記)・ScoreNotFoundException + カスタム例外ハンドラーパターン・PaginationQueryParser + PaginationResponse (FT259)。 (#1064)
+
+---
+
 ## [1.5.229] — 2026-05-27
 
 ### Added
