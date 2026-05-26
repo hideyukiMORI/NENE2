@@ -162,19 +162,26 @@ The spec covers all shipped JSON endpoints including health, examples (Note/Tag 
 - [`src/Mcp/LocalMcpServer.php`](https://github.com/hideyukiMORI/NENE2/blob/main/src/Mcp/LocalMcpServer.php): Local MCP server backed by the OpenAPI contract.
 - [`src/Example/`](https://github.com/hideyukiMORI/NENE2/tree/main/src/Example/): Reference Note/Tag CRUD implementation — canonical patterns for routes, use cases, repositories.
 
-## Field trial reports
+## Reference implementations
 
-AI-autonomously built applications using NENE2 as a Composer dependency, with recorded friction points:
+73 field-trial applications built with `hideyukimori/nene2` as a Composer dependency, each corresponding to one howto guide.
 
-- [FT10 — hoplog (craft beer tasting notes API)](https://github.com/hideyukiMORI/hoplog): 3 domains, 15 routes, 9 friction points → resolved in v1.4.
-- [FT11 — tasklog (JWT-authenticated task API)](https://github.com/hideyukiMORI/tasklog): 2 domains, 7 routes, 4 friction points → resolved in v1.4.1+.
-- [FT12-A — tagmark (bookmark + M:N tag API)](https://github.com/hideyukiMORI/tagmark): 3 entities, 13 endpoints, 7 friction points → resolved in v1.4.1+.
-- [FT12-B — knowledgelog (knowledge base + MCP tools)](https://github.com/hideyukiMORI/NENE2/blob/main/docs/field-trials/2026-05-field-trial-12b.md): 8 endpoints, 7 MCP tools, 5 friction points → resolved in v1.4.2+.
-- [FT12-C — shoplog (three-tier access model)](https://github.com/hideyukiMORI/NENE2/blob/main/docs/field-trials/2026-05-field-trial-12c.md): 12 endpoints, 6 friction points → resolved in v1.4.2+.
-- [FT13 — eventlog (MySQL + Phinx migrations)](https://github.com/hideyukiMORI/NENE2/blob/main/docs/field-trials/2026-05-field-trial-13.md): 10 endpoints, 5 friction points → resolved in v1.4.2+.
-- [FT14 — postboard (CompositeAuthMiddleware + M:N)](https://github.com/hideyukiMORI/NENE2/blob/main/docs/field-trials/2026-05-field-trial-14.md): 13 endpoints, 4 friction points → resolved in v1.4.2+.
-- [FT15 — noteboard (HTML View layer)](https://github.com/hideyukiMORI/NENE2/blob/main/docs/field-trials/2026-05-field-trial-15.md): 7 endpoints (HTML + JSON coexist), 3 friction points → resolved in v1.5.0.
-- [FT16 — noteboard (MCP tool layer)](https://github.com/hideyukiMORI/NENE2/blob/main/docs/field-trials/2026-05-field-trial-16.md): 3 MCP tools (2 read + 1 write), no friction — `add-mcp-tools.md` howto validated end-to-end.
+**Repository**: [hideyukiMORI/NENE2-examples](https://github.com/hideyukiMORI/NENE2-examples)
+
+Each example is runnable with `composer install && vendor/bin/phpunit`. No vendor/ committed.
+
+Selected examples:
+
+- [deduplog](https://github.com/hideyukiMORI/NENE2-examples/tree/main/deduplog) — Request Deduplication (Idempotency-Key, 24h TTL)
+- [jwtlog](https://github.com/hideyukiMORI/NENE2-examples/tree/main/jwtlog) — JWT Authentication (LocalBearerTokenVerifier)
+- [rbaclog](https://github.com/hideyukiMORI/NENE2-examples/tree/main/rbaclog) — RBAC (JWT claim roles)
+- [apikeylog](https://github.com/hideyukiMORI/NENE2-examples/tree/main/apikeylog) — API Key Management (SHA-256, scoped)
+- [feedlog](https://github.com/hideyukiMORI/NENE2-examples/tree/main/feedlog) — Activity Feed (follow-based, cursor pagination)
+- [lockoutlog](https://github.com/hideyukiMORI/NENE2-examples/tree/main/lockoutlog) — Account Lockout (brute-force defense)
+- [totplog](https://github.com/hideyukiMORI/NENE2-examples/tree/main/totplog) — TOTP Two-Factor Auth (RFC 6238)
+- [oauthlog](https://github.com/hideyukiMORI/NENE2-examples/tree/main/oauthlog) — OAuth2 Social Login (Authorization Code Flow)
+
+Full index: [NENE2-examples/README.md](https://github.com/hideyukiMORI/NENE2-examples/blob/main/README.md)
 
 ## Design principles
 
