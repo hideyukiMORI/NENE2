@@ -10,6 +10,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.179] — 2026-05-27
+
+### Added
+- `docs/howto/sliding-window-rate-limiter.md` — スライディングウィンドウ レート制限ガイド: per-user カウンター・ATK-01〜12 全Pass (FT200)。 (#945)
+
+---
+
+
 ## [1.5.158] — 2026-05-27
 
 ### Added
