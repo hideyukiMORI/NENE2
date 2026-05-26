@@ -10,6 +10,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.188] — 2026-05-27
+
+### Added
+- `docs/howto/file-upload-metadata.md` — ファイルアップロードメタデータ API ガイド: MIME 許可リスト・パストラバーサル防止・VULN-A~L 全Pass (FT210)。 (#965)
+
+---
+
+
 ## [1.5.158] — 2026-05-27
 
 ### Added
