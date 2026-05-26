@@ -10,6 +10,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.189] — 2026-05-27
+
+### Added
+- `docs/howto/comment-thread.md` — コメントスレッド API ガイド: リソース別コメント・ページネーション・IDOR 防止 (FT211)。 (#967)
+
+---
+
+
 ## [1.5.158] — 2026-05-27
 
 ### Added
