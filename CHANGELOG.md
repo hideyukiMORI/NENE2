@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.197] — 2026-05-27
+
+### Added
+- `docs/howto/event-analytics.md` — イベント分析 API ガイド: json_extract JSON プロパティフィルタ・strftime 日別集計・COUNT(DISTINCT) ユニークユーザー・静的ルート優先登録パターン (FT226)。 (#998)
+
+---
+
 ## [1.5.196] — 2026-05-27
 
 ### Added
