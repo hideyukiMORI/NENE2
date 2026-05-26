@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.202] — 2026-05-27
+
+### Added
+- `docs/howto/bulk-status-update.md` — 一括ステータス更新 API ガイド: 部分成功・IN 句パラメータ化・backed enum バリデーション・VULN V-01〜V-10 脆弱性評価 (FT231)。 (#1008)
+
+---
+
 ## [1.5.201] — 2026-05-27
 
 ### Added
