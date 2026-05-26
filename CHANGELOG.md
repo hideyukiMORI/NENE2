@@ -10,6 +10,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.173] — 2026-05-27
+
+### Added
+- `docs/howto/asset-checkout.md` — Asset Check-out / Check-in Management ガイド: exclusive hold・checkout 409・append-only audit log (FT194)。 (#934)
+
+---
+
+
 ## [1.5.158] — 2026-05-27
 
 ### Added
