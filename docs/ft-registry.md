@@ -119,3 +119,4 @@ webhooklog wishlistlog workflowlog
 | FT168 | agglog | Admin Report Aggregation ※reportlog(FT147)と衝突のため変更 |
 | FT169 | masklog | Data Masking |
 | FT170 | deduplog | Request Deduplication |
+| FT171 | hierarchylog | Hierarchical Data（自己参照FK＋マテリアライズドパス） |
