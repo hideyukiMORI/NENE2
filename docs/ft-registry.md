@@ -125,3 +125,4 @@ webhooklog wishlistlog workflowlog
 | FT174 | sluglog | Slug Management（URL スラグ生成・衝突解決・履歴リダイレクト） |
 | FT175 | meterlog | API Usage Metering（per-user 日次クォータ・usage_events 追記・ゲートチェック） |
 | FT176 | grantlog | Delegated Access Grants（multi-party 委譲・time-limited・revocable・state machine 攻撃試験） |
+| FT177 | limitlog | Pagination Boundary Attack（ctype_digit・overflow guard・ReDoS safe・VULN-A〜L） |
