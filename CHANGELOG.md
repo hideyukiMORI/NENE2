@@ -10,6 +10,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.114] — 2026-05-26
+
+### Added
+- `docs/howto/tenant-isolation.md` — テナント分離 & クロステナント IDOR 防止ガイド: SQL レベルの tenant_id スコープ・ヘッダーベース認証・ボディインジェクション防止・404 vs 403 戦略。ATK-01〜12 全Pass (FT179)。 (#901)
+
+
+---
+
 ## [1.5.113] — 2026-05-26
 
 ### Added
