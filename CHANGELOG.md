@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.158] — 2026-05-27
+
+### Added
+- `docs/howto/leaderboard-ranking.md` — ゲームリーダーボード API ガイド: スコア投稿・MAX(score) GROUP BY ランキング・個人ベスト・ゲーム別分離・limit クランプ・is_int スコア検証 (FT206)。 (#957)
+
+---
+
 ## [1.5.157] — 2026-05-27
 
 ### Added
