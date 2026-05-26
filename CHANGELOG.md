@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.212] — 2026-05-27
+
+### Added
+- `docs/howto/project-task-management.md` — プロジェクト・タスク管理 API ガイド: ネストリソース設計 (`/projects/{projectId}/tasks/{taskId}`)・親存在検証 (ProjectNotFoundException → 404)・array_key_exists() による PATCH 選択更新・is_int() priority 厳密検証・status 許可リスト・QueryStringParser ステータスフィルタ・204 No Content DELETE (FT241)。 (#1028)
+
+---
+
 ## [1.5.211] — 2026-05-27
 
 ### Added
