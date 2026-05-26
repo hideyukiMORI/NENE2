@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.210] — 2026-05-27
+
+### Added
+- `docs/howto/document-versioning.md` — ドキュメントバージョニング API ガイド: is_current フラグ・非破壊リバート (コピーとして新バージョン追加)・DatabaseTransactionManagerInterface::transactional()・PaginationQueryParser/Response・ValidationException (FT239)。 (#1024)
+
+---
+
 ## [1.5.209] — 2026-05-27
 
 ### Added
