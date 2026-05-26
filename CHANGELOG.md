@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.214] — 2026-05-27
+
+### Added
+- `docs/howto/event-analytics-api.md` — イベント収集・集計 API howto: JSON properties blob・json_extract() 検索・strftime GROUP BY 集計・静的ルート優先登録、VULN V-01〜V-10 (無認証・user_id詐称・occurred_at改ざん・JSON path連結・event_type長・properties サイズ・レート制限なし) (FT243/VULN)。 (#1032)
+
+---
+
 ## [1.5.213] — 2026-05-27
 
 ### Added
