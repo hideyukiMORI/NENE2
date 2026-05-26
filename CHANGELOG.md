@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.152] — 2026-05-27
+
+### Added
+- `docs/howto/poll-survey.md` — 投票・アンケート API ガイド: 1ユーザー1票制 (UNIQUE constraint)・クロスポールオプション注入防止・LEFT JOIN 集計・プライベートポール 404 返却・is_bool/is_int 厳格検証 (FT217)。 (#979)
+
+---
+
 ## [1.5.151] — 2026-05-27
 
 ### Added
