@@ -10,6 +10,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.183] — 2026-05-27
+
+### Added
+- `docs/howto/coupon-promo-code.md` — クーポン管理ガイド: 1人1回使用制限・有効期限・VULN-A〜L + ATK-01〜12 全Pass (FT204)。 (#953)
+
+---
+
+
 ## [1.5.158] — 2026-05-27
 
 ### Added
