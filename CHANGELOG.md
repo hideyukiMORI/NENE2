@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.213] — 2026-05-27
+
+### Added
+- `docs/howto/cursor-pagination.md` — カーソルベースページネーション howto: ID ベースカーソル (`WHERE id < ? ORDER BY id DESC`)・limit+1 による has_more 判定・next_cursor レスポンスフィールド・ctype_digit() カーソル検証・limit クランプ・オフセットページネーションとの比較 (FT242)。 (#1030)
+
+---
+
 ## [1.5.212] — 2026-05-27
 
 ### Added
