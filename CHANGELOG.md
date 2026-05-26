@@ -10,6 +10,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.185] — 2026-05-27
+
+### Added
+- `docs/howto/wish-list-api.md` — ウィッシュリスト API ガイド: CRUD・IDOR 防止・VULN-A~L 全Pass (FT207)。 (#959)
+
+---
+
+
 ## [1.5.158] — 2026-05-27
 
 ### Added
