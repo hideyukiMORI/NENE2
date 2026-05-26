@@ -122,3 +122,4 @@ webhooklog wishlistlog workflowlog
 | FT171 | hierarchylog | Hierarchical Data（自己参照FK＋マテリアライズドパス） |
 | FT172 | pubschedulelog | Content Scheduling（時間指定公開・ライフサイクル状態機械） |
 | FT173 | relatedlog | Content Relations（型付きM:N自己参照リンク） |
+| FT174 | sluglog | Slug Management（URL スラグ生成・衝突解決・履歴リダイレクト） |
