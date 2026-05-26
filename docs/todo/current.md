@@ -4,8 +4,9 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 ## Status
 
-- Latest release: `v1.5.111`（2026-05-26 リリース済み）
-- Current branch: `main` — clean
+- Latest release: `v1.5.114`（2026-05-26 リリース済み — main）
+- In progress: `feat/915-ft185-statuslog` (v1.5.120) — PR #916 待ちマージ
+- PR キュー（GitHub Actions 障害中）: #905 / #907 / #910 / #912 / #914 / #916
 
 ## Recently Completed (FT ループ — FT96–FT170 / v1.5.30–v1.5.104)
 
@@ -93,6 +94,14 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 | FT175 | API Usage Metering | meterlog | 24/24 | v1.5.109 | api-usage-metering.md（per-user 日次クォータ・usage_events 追記・day_key インデックス・ゲートチェック・エンドポイント別内訳）**脆弱性診断: VULN-A〜L 全Pass** |
 | FT176 | Delegated Access Grants | grantlog | 23/23 | v1.5.110 | delegated-access-grants.md（multi-party 委譲・expired/revoked state machine・IDOR防止・型強制・Unicode/BIDI verbatim）**クラッカー攻撃試験: ATK-01〜12 全Pass** |
 | FT177 | Pagination Boundary Attack | limitlog | 20/20 | v1.5.111 | pagination-boundary-attack.md（ctype_digit O(n)・overflow guard・clampInt・ReDoS safe）**脆弱性診断: VULN-A〜L 全Pass** |
+| FT178 | JSON Merge Patch & ETag | patchlog | —/— | v1.5.113 | json-merge-patch.md（RFC 7396 null セマンティクス・不変フィールド保護・If-Match 412・V.php） |
+| FT179 | テナント分離 | tenantlog2 | —/— | v1.5.114 | tenant-isolation.md（SQL tenant_id スコープ・IDOR防止）**クラッカー攻撃試験: ATK-01〜12 全Pass** |
+| FT180 | Sort & Filter API | sortlog | —/— | v1.5.115 | sort-filter-api.md（V::enum() allowlist・SQL ORDER BY injection 防止）**脆弱性診断** |
+| FT181 | Reminder Log | reminderlog | —/— | v1.5.116 | reminder-log.md（V::isoDatetime() +25:00修正・V::futureDatetime()） |
+| FT182 | Batch API 部分成功 | batchlog | —/— | v1.5.117 | batch-api-partial-success.md（V::bodyInt()・array_is_list()）**クラッカー攻撃試験: ATK-01〜12 全Pass** |
+| FT183 | URL Shortener & SSRF | shortlog | 52/52 | v1.5.118 | url-shortener-ssrf.md（parse_url + scheme allowlist + DNS resolver）**脆弱性診断: VULN-A〜L 全Pass** |
+| FT184 | One-Time Secret API | onetimelog | 85/85 | v1.5.119 | one-time-secrets.md（atomic consumed=0・256bit token）**クラッカー攻撃試験: ATK-01〜12 全Pass** |
+| FT185 | Service Status Page | statuslog | 46/46 | v1.5.120 | service-status-page.md（V::secret() admin key・V::enum() status・transition guard 409） |
 
 ## 次のアクション（2026-05-26〜）
 
@@ -100,15 +109,8 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 | FT | テーマ案 | 備考 |
 |---|---|---|
-| ~~FT170~~ | ~~Request Deduplication（deduplog）~~ | ~~完了 v1.5.104~~ |
-| ~~FT171~~ | ~~Hierarchical Data（hierarchylog）~~ | ~~完了 v1.5.105~~ |
-| ~~FT172~~ | ~~Content Scheduling（pubschedulelog）~~ | ~~完了 v1.5.106~~ |
-| ~~FT173~~ | ~~Content Relations（relatedlog）~~ | ~~完了 v1.5.107~~ |
-| ~~FT174~~ | ~~Slug Management（sluglog）~~ | ~~完了 v1.5.108~~ |
-| ~~FT175~~ | ~~API Usage Metering（meterlog）~~ | ~~完了 v1.5.109~~ |
-| ~~FT176~~ | ~~Delegated Access Grants（grantlog）~~ | ~~完了 v1.5.110~~ |
-| ~~FT177~~ | ~~Pagination Boundary Attack（limitlog）~~ | ~~完了 v1.5.111~~ |
-| 📋 FT178 | 次テーマ | 脆弱性診断（周期: FT178） |
+| ~~FT177〜FT185~~ | ~~完了~~ | ~~v1.5.111〜120~~ |
+| 📋 FT186 | 次テーマ | 脆弱性診断（周期: FT186） |
 
 ### ループ終了後（FT170 以降）— 完了・進行状況
 
@@ -120,14 +122,15 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 | VitePress サイトへの新規 howto ページ追加 | 🔄 継続（検索で代替可） | — |
 | **v2.0 設計検討**: FT ループで判明した摩擦点の還元 | 🔄 継続（src/ 還元 batch 2〜） | — |
 | src/ 還元 batch 2: JSON ボディ厳密型バリデーター等 | 📋 次候補 | — |
+| **PR マージ待ち（GitHub Actions 障害中）** #905/#907/#910/#912/#914/#916 | ⏳ CI 回復待ち | Actions global outage |
 
 ### 次のトリガー値
 
 | チェック項目 | 次回 |
 |---|---|
-| MySQL 統合テスト | FT167 ✓ 完了 |
-| 脆弱性診断 | FT177 ✓ 完了（次: FT180） |
-| クラッカー攻撃試験 | FT176 ✓ 完了（次: FT180） |
+| MySQL 統合テスト | FT167 ✓ 完了（次回: FT186 以降） |
+| 脆弱性診断 | FT183 ✓ 完了（次: FT186） |
+| クラッカー攻撃試験 | FT184 ✓ 完了（次: FT188） |
 
 ## 検討事項（決定不要・議題として保持）
 

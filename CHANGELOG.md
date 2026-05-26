@@ -10,6 +10,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.166] — 2026-05-27
+
+### Added
+- `docs/howto/service-status-page.md` — Service Status Page API ガイド: V::secret() admin key・V::enum() allowlist・resolved 遷移ガード (FT185)。 (#916)
+
+---
+
+
 ## [1.5.158] — 2026-05-27
 
 ### Added
