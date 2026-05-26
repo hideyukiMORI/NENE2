@@ -10,6 +10,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.191] — 2026-05-27
+
+### Added
+- `docs/howto/subscription-plan.md` — サブスクリプション・プラン管理 API ガイド: プラン選択・重複防止・キャンセル・VULN-A~L 全Pass (FT213)。 (#971)
+
+---
+
+
 ## [1.5.158] — 2026-05-27
 
 ### Added
