@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.233] — 2026-05-27
+
+### Added
+- `docs/howto/multi-currency-money-ledger.md` — マルチカレンシー台帳 howto: Money 値オブジェクト（整数 amount_cents + ISO 4217 currency）・float 禁止・整数セントで精度保証・EntryType 文字列 BackedEnum (credit/debit)・CASE WHEN 通貨別残高集計（credit_cents / debit_cents / balance_cents を 1 クエリで計算）・CHECK(amount_cents > 0) DB レベルガード・strtoupper() 通貨正規化・amount と amount_cents 両方シリアライズ (FT262)。 (#1070)
+
+---
+
 ## [1.5.232] — 2026-05-27
 
 ### Changed
