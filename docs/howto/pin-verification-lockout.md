@@ -1,5 +1,8 @@
 # PIN 認証・ロックアウト
 
+> **FT reference**: FT252 (`NENE2-FT/pinverifylog`) — PIN Verification with Lockout
+> **ATK**: FT252 — cracker-mindset attack test (ATK-01 through ATK-12)
+
 6桁 PIN のブルートフォース防止・タイミング攻撃対策・管理者ロック解除の実装ガイド。
 HMAC-SHA256 ハッシュ保存・定数時間比較・試行回数ロックアウトを解説する。
 

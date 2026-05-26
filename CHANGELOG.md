@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.223] — 2026-05-27
+
+### Changed
+- `docs/howto/pin-verification-lockout.md` — FT252/ATK 参照を追加: NENE2-FT/pinverifylog との紐付け・HMAC-SHA256 PIN ハッシュ・hash_equals() 定数時間比較・ブルートフォースロックアウト・fail-closed 管理キー・ctype_digit() ReDoS 防止・ATK-01〜12 全 BLOCKED 対策済み。 (#1050)
+
+---
+
 ## [1.5.222] — 2026-05-27
 
 ### Added
