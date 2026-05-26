@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.200] — 2026-05-27
+
+### Added
+- `docs/howto/approval-workflow.md` — 承認ワークフロー API ガイド: backed enum による状態遷移ルール・canTransitionTo() パターン・reject 必須理由・rework でのレビュー状態クリア (FT229)。 (#1004)
+
+---
+
 ## [1.5.199] — 2026-05-27
 
 ### Added
