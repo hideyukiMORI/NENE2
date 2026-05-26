@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.153] — 2026-05-27
+
+### Added
+- `docs/howto/coupon-redemption.md` — クーポン引き換え API ガイド: コードパターン検証・使用上限・有効期限・ユーザーごと 1回制限 (UNIQUE constraint)・atomic インクリメント・match 式分岐 (FT218)。 (#981)
+
+---
+
 ## [1.5.152] — 2026-05-27
 
 ### Added
