@@ -10,6 +10,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.175] — 2026-05-27
+
+### Added
+- `docs/howto/event-ticket-booking.md` — Event Ticket Booking ガイド: capacity tracking・sold-out 409・ATK-01〜12 全Pass (FT196)。 (#938)
+
+---
+
+
 ## [1.5.158] — 2026-05-27
 
 ### Added
