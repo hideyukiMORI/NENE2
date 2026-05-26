@@ -10,6 +10,20 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.106] — 2026-05-26
+
+### Added
+- `docs/howto/content-scheduling.md` — Content Scheduling ガイド: publish_at 時間指定・draft/scheduled/published/archived 状態機械・publish-due 一括トリガー・hash_equals admin key。脆弱性診断 VULN-A〜L 全Pass・クラッカー攻撃試験 ATK-01〜12 全Pass (FT172)。 (#886)
+
+---
+
+## [1.5.105] — 2026-05-26
+
+### Added
+- `docs/howto/hierarchical-data.md` — Hierarchical Data ガイド: 自己参照FK + マテリアライズドパス・MAX_DEPTH=5・循環参照検出・サブツリーカスケード (FT171)。 (#884)
+
+---
+
 ## [1.5.104] — 2026-05-22
 
 ### Added

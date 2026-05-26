@@ -120,3 +120,4 @@ webhooklog wishlistlog workflowlog
 | FT169 | masklog | Data Masking |
 | FT170 | deduplog | Request Deduplication |
 | FT171 | hierarchylog | Hierarchical Data（自己参照FK＋マテリアライズドパス） |
+| FT172 | pubschedulelog | Content Scheduling（時間指定公開・ライフサイクル状態機械） |
