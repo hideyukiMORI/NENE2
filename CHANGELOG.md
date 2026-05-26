@@ -10,6 +10,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.174] — 2026-05-27
+
+### Added
+- `docs/howto/secret-vault.md` — Personal Secret Vault ガイド: per-user key-value store・HMAC-SHA256 integrity・IDOR 防止・VULN-A〜L 全Pass (FT195)。 (#936)
+
+---
+
+
 ## [1.5.158] — 2026-05-27
 
 ### Added

@@ -4,7 +4,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 ## Status
 
-- Latest release: `v1.5.111`（2026-05-26 リリース済み）
+- Latest release: `v1.5.130`（2026-05-26 リリース済み）
 - Current branch: `main` — clean
 
 ## Recently Completed (FT ループ — FT96–FT170 / v1.5.30–v1.5.104)
@@ -93,6 +93,24 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 | FT175 | API Usage Metering | meterlog | 24/24 | v1.5.109 | api-usage-metering.md（per-user 日次クォータ・usage_events 追記・day_key インデックス・ゲートチェック・エンドポイント別内訳）**脆弱性診断: VULN-A〜L 全Pass** |
 | FT176 | Delegated Access Grants | grantlog | 23/23 | v1.5.110 | delegated-access-grants.md（multi-party 委譲・expired/revoked state machine・IDOR防止・型強制・Unicode/BIDI verbatim）**クラッカー攻撃試験: ATK-01〜12 全Pass** |
 | FT177 | Pagination Boundary Attack | limitlog | 20/20 | v1.5.111 | pagination-boundary-attack.md（ctype_digit O(n)・overflow guard・clampInt・ReDoS safe）**脆弱性診断: VULN-A〜L 全Pass** |
+| FT178 | JSON Merge Patch + ETag | mergedifflog | 21/21 | v1.5.112 | json-merge-patch.md（RFC 7396 null セマンティクス・不変フィールド保護・If-Match 412・V.php） |
+| FT179 | Multi-Tenant Isolation | tenantlog2 | 23/23 | v1.5.113 | tenant-isolation.md（tenant_id スコープ・クロステナント IDOR・ボディインジェクション防止）**クラッカー攻撃試験: ATK-01〜12 全Pass** |
+| FT180 | V.php バリデーター | validatorlog | 30/30 | v1.5.114 | — (src/Validation/V.php) **脆弱性診断: VULN-A〜L 全Pass** / **クラッカー攻撃試験: ATK-01〜12 全Pass** |
+| FT181 | Reminder System | reminderlog | 28/28 | v1.5.115 | reminder-system.md |
+| FT182 | Batch Processing | batchlog | — | v1.5.116 | batch-processing.md |
+| FT183 | URL Shortener | shortlog | — | v1.5.117 | url-shortener.md |
+| FT184 | One-Time Secret | onetimelog | — | v1.5.118 | one-time-secret.md |
+| FT185 | Status Page | statuslog | — | v1.5.119 | status-page.md |
+| FT186 | Session Management | sessionlog | — | v1.5.120 | session-management.md |
+| FT187 | Field Encryption | encryptlog | — | v1.5.121 | field-encryption.md |
+| FT188 | Email Verification | verifylog | — | v1.5.122 | email-verification.md |
+| FT189 | Consent Management | consentlog | — | v1.5.123 | consent-management.md |
+| FT190 | Announcement System | announcelog | — | v1.5.124 | announcement-system.md |
+| FT191 | Waitlist Management | waitlistlog | 28/28 | v1.5.126 | waitlist-management.md（動的ポジション計算・state machine・IDOR防止） |
+| FT192 | PIN Verification + Lockout | pinverifylog | 51/51 | v1.5.127 | pin-verification-lockout.md（HMAC-SHA256 PIN・lockout・hash_equals・ctype_digit）**脆弱性診断: VULN-A〜L 全Pass** / **クラッカー攻撃試験: ATK-01〜12 全Pass** |
+| FT193 | Resource Reservation | reservationlog | 38/38 | v1.5.128 | resource-reservation.md（half-open interval 重複検出・IDOR防止・cancel 403 vs 404） |
+| FT194 | Asset Check-out / Check-in | assetlog | 45/45 | v1.5.129 | asset-checkout.md（exclusive hold・conflict 409・wrong-holder 403・audit log・IDOR防止） |
+| FT195 | Personal Secret Vault | vaultlog | 58/58 | v1.5.130 | secret-vault.md（per-user KV・HMAC integrity・IDOR防止・admin no-value・key pattern）**脆弱性診断: VULN-A〜L 全Pass** |
 
 ## 次のアクション（2026-05-26〜）
 
@@ -126,8 +144,8 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 | チェック項目 | 次回 |
 |---|---|
 | MySQL 統合テスト | FT167 ✓ 完了 |
-| 脆弱性診断 | FT177 ✓ 完了（次: FT180） |
-| クラッカー攻撃試験 | FT176 ✓ 完了（次: FT180） |
+| 脆弱性診断 | FT195 ✓ 完了（次: FT198） |
+| クラッカー攻撃試験 | FT192 ✓ 完了（次: FT196） |
 
 ## 検討事項（決定不要・議題として保持）
 
