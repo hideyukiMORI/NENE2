@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.232] — 2026-05-27
+
+### Changed
+- `docs/howto/jwt-authentication.md` — FT261/VULN 参照を追加: タイミング攻撃対策（ダミーハッシュで password_verify() を必ず実行）・VULN V-01〜10（ブルートフォース・JWT シークレット強度・トークン失効なし EXPOSED、メール大小文字正規化なし・メールバリデーションなし・HTTPS 未強制 EXPOSED、password_hash クレーム未含有 SAFE、SQL インジェクション BLOCKED）(FT261/VULN)。 (#1068)
+
+---
+
 ## [1.5.231] — 2026-05-27
 
 ### Added
