@@ -25,17 +25,128 @@ The spec covers all shipped JSON endpoints including health, examples (Note/Tag 
 
 ## How-to guides
 
+100 task-focused guides. Full index: [docs/howto/README.md](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/README.md)
+
+### Getting Started
+
 - [Add a custom route](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/add-custom-route.md)
 - [Add a database-backed endpoint](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/add-database-endpoint.md)
-- [Use database transactions](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/use-transactions.md)
-- [Add JWT authentication](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/add-jwt-authentication.md)
-- [Add pagination](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/add-pagination.md)
-- [Add rate limiting](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/add-rate-limiting.md)
 - [Add a second entity](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/add-second-entity.md)
 - [Add a health check](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/add-health-check.md)
 - [Add an HTML view](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/add-html-view.md)
+- [Add a domain exception handler](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/add-domain-exception-handler.md)
+- [Quality tools](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/quality-tools.md)
+
+### Authentication & Authorization
+
+- [JWT authentication](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/jwt-authentication.md)
+- [Add JWT authentication](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/add-jwt-authentication.md)
+- [Use Bearer auth](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/use-bearer-auth.md)
+- [RBAC](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/rbac.md)
+- [Multi-tenant isolation](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/multi-tenant-isolation.md)
+- [JWT Refresh Token Rotation](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/refresh-token-rotation.md)
+- [API key management](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/api-key-management.md)
+- [OTP authentication](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/otp-authentication.md)
+- [Passwordless auth (Magic Link)](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/passwordless-auth-magic-link.md)
+- [Password hashing](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/password-hashing.md)
+- [Password reset](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/password-reset.md)
+- [Access token management](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/access-token-management.md)
+
+### Security
+
+- [SQL injection prevention](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/sql-injection.md)
+- [Mass assignment defense](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/mass-assignment.md)
+- [CSRF and JSON APIs](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/csrf-and-json-api.md)
+- [Idempotency](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/idempotency.md)
+- [Webhook signature verification](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/webhook-signature.md)
+- [Enforce resource ownership](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/enforce-resource-ownership.md)
+- [Signed URLs](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/signed-urls.md)
+- [Account lockout](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/account-lockout.md)
+
+### Database
+
+- [Database transactions](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/transactions.md)
+- [Use database transactions](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/use-transactions.md)
+- [Optimistic locking](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/optimistic-locking.md)
+- [Add optimistic locking](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/add-optimistic-locking.md)
+- [Soft delete](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/soft-delete.md)
+- [Prevent double booking](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/prevent-double-booking.md)
+- [Use FTS5 search](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/use-fts5-search.md)
+- [Use PostgreSQL](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/use-postgresql.md)
+
+### API Design
+
+- [Pagination](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/pagination.md)
+- [Add pagination](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/add-pagination.md)
+- [API versioning](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/api-versioning.md)
+- [Content negotiation](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/content-negotiation.md)
+- [ETag and conditional requests](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/etag-conditional-requests.md)
+- [Rate limiting](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/rate-limiting.md)
+- [Add rate limiting](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/add-rate-limiting.md)
+- [Nested JSON validation](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/nested-json-validation.md)
+- [Implement bulk endpoint](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/implement-bulk-endpoint.md)
+- [Implement PATCH endpoint](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/implement-patch-endpoint.md)
+- [Handle timezones](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/handle-timezones.md)
+- [Validate unicode input](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/validate-unicode-input.md)
+- [Request scoped state](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/request-scoped-state.md)
+
+### Background & Infrastructure
+
+- [Job queue](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/job-queue.md)
+- [Circuit breaker](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/circuit-breaker.md)
+- [Webhook delivery (outbound)](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/webhook-delivery.md)
+- [Event sourcing](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/event-sourcing.md)
+- [Feature flags](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/feature-flags.md)
+- [Distributed locking](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/distributed-locking.md)
+- [Audit trail](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/audit-trail.md)
+- [File upload](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/file-upload.md)
 - [Add MCP tools](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/add-mcp-tools.md)
 - [Deploy to production](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/deploy-production.md)
+
+### Product Features
+
+- [Activity feed](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/activity-feed.md)
+- [User follow system](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/user-follow-system.md)
+- [Direct messaging](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/direct-messaging-system.md)
+- [Notification inbox](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/notification-inbox.md)
+- [Comment threads](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/threaded-comments.md)
+- [Voting system](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/voting-system.md)
+- [Emoji reactions](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/emoji-reaction-system.md)
+- [Bookmark system](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/bookmark-system.md)
+- [Wishlist management](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/wishlist-management.md)
+- [Tagging system (M:N)](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/tagging-system.md)
+- [User profile management](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/user-profile-management.md)
+- [User preferences](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/user-preferences-management.md)
+- [Content drafts](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/content-draft-lifecycle.md)
+- [Content pinning](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/content-pinning.md)
+- [Content collection](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/content-collection.md)
+- [Content moderation](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/content-report-moderation.md)
+- [Leaderboard ranking](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/leaderboard-ranking-system.md)
+- [Point/loyalty system](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/point-loyalty-system.md)
+- [Flash sale](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/flash-sale-system.md)
+- [Guest order system](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/guest-order-system.md)
+- [Subscription plan management](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/subscription-plan-management.md)
+- [User invitation](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/user-invitation.md)
+- [Group membership](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/group-membership-management.md)
+- [Coupon/promo codes](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/coupon-promo-code.md)
+- [Product reviews](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/product-review-system.md)
+- [Shopping cart](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/shopping-cart.md)
+- [File metadata sharing](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/file-metadata-sharing.md)
+- [Search & autocomplete](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/search-autocomplete.md)
+- [CSV bulk import](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/csv-bulk-import.md)
+- [TOTP two-factor auth](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/totp-authentication.md)
+- [OAuth2 social login](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/oauth2-social-login.md)
+- [Application caching](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/application-caching.md)
+- [Content versioning](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/content-versioning.md)
+- [Payment webhook (inbound)](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/payment-webhook.md)
+- [Geolocation](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/geolocation.md)
+- [A/B testing](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/ab-testing.md)
+- [Multi-step workflow](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/multi-step-workflow.md)
+- [Inbound webhook receiver](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/inbound-webhook-receiver.md)
+- [Admin report aggregation](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/admin-report-aggregation.md)
+- [Data masking](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/data-masking.md)
+- [Request deduplication](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/request-deduplication.md)
+- [Personal data export](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/personal-data-export.md)
 
 ## Key source files
 
