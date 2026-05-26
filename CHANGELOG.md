@@ -10,6 +10,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.187] — 2026-05-27
+
+### Added
+- `docs/howto/tag-label-api.md` — タグ・ラベル API ガイド: エンティティタグ付け・タグ別検索・find-or-create パターン (FT209)。 (#963)
+
+---
+
+
 ## [1.5.158] — 2026-05-27
 
 ### Added
