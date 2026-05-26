@@ -1,182 +1,157 @@
-# Notification Inbox
+# How-to: Notification Inbox API
 
-Deliver notifications to users and let them track read/unread status. State is stored as a `read_at` timestamp — `NULL` means unread, a timestamp means read.
+This guide shows how to build a notification inbox system with type-allowlisted push notifications,
+per-user IDOR protection, and bulk mark-as-read using NENE2.
+Pattern demonstrated by the **notificationlog** field trial (FT222 — VULN).
 
-## Overview
+## Features
 
-A notification inbox consists of:
-- **Create**: push a notification to a user
-- **List**: retrieve all notifications (optionally filter to unread only)
-- **Mark as read**: set `read_at` on a single notification (idempotent)
-- **Bulk mark as read**: set `read_at` on all unread notifications for a user
-- **Unread count**: cheap badge counter
+- Admin-only notification creation with type allowlist
+- Per-user IDOR protection: users see only their own notifications (404 on unauthorized access)
+- Single and bulk mark-as-read with ownership verification
+- Unread count returned on every listing
+- Optional unread-only filter and pagination
+- Admin fail-closed
 
-Notifications are never deleted — they are permanent records of what was communicated to the user.
-
-## Database Schema
+## Schema
 
 ```sql
-CREATE TABLE notifications (
+CREATE TABLE IF NOT EXISTS notifications (
     id         INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id    INTEGER NOT NULL,
+    type       TEXT    NOT NULL,
     title      TEXT    NOT NULL,
-    body       TEXT    NOT NULL,
-    read_at    TEXT    DEFAULT NULL,
+    body       TEXT    NOT NULL DEFAULT '',
+    is_read    INTEGER NOT NULL DEFAULT 0,
     created_at TEXT    NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES users(id)
+    read_at    TEXT
 );
+
+CREATE INDEX IF NOT EXISTS idx_notifications_user ON notifications (user_id, id DESC);
 ```
 
-`read_at IS NULL` means unread. `read_at IS NOT NULL` means read. No boolean column is needed — the timestamp is the state.
+No separate `users` table — the API trusts `X-User-Id` header (replace with real auth in production).
 
-## Read State Pattern
+## Endpoints
 
-Use a single nullable `read_at` column instead of a boolean `is_read`. This gives you:
+| Method | Path | Auth | Description |
+|--------|------|------|-------------|
+| `POST` | `/notifications` | Admin | Create notification for a user |
+| `GET` | `/users/{userId}/notifications` | Self / Admin | List notifications |
+| `POST` | `/notifications/{id}/read` | Self / Admin | Mark one notification as read |
+| `POST` | `/users/{userId}/notifications/read-all` | Self / Admin | Mark all as read |
 
-- **When it was read** (useful for analytics)
-- **Idempotent update**: `UPDATE ... WHERE read_at IS NULL` is safe to call multiple times
-- **Cheap unread count**: `SELECT COUNT(*) WHERE read_at IS NULL`
+## Type Allowlist
+
+Free-form type strings are rejected to prevent injection and enumeration attacks:
 
 ```php
-public function isRead(): bool
-{
-    return $this->readAt !== null;
+public const array ALLOWED_TYPES = [
+    'system',
+    'promotion',
+    'social',
+    'account',
+    'security',
+    'reminder',
+];
+```
+
+Route handler validates before any DB access:
+
+```php
+if (!in_array($type, NotificationRepository::ALLOWED_TYPES, true)) {
+    $allowed = implode(', ', NotificationRepository::ALLOWED_TYPES);
+    return $this->problem(422, 'validation-failed', "type must be one of: {$allowed}.");
 }
 ```
 
-## Appending a Notification
+## IDOR Protection
 
-Notifications are written by the server (admin, system event) and pushed to a user:
-
-```php
-public function create(int $userId, string $title, string $body, string $now): Notification
-{
-    $this->executor->execute(
-        'INSERT INTO notifications (user_id, title, body, read_at, created_at) VALUES (?, ?, ?, NULL, ?)',
-        [$userId, $title, $body, $now],
-    );
-
-    $id = (int) $this->executor->lastInsertId();
-
-    return new Notification($id, $userId, $title, $body, null, $now);
-}
-```
-
-`read_at` is always `NULL` on insert — a new notification is always unread.
-
-## Listing Notifications
-
-Return notifications newest-first. Include the unread count in the response so clients can update badge UI without a separate request:
+Users can only read their own notifications. A 404 (not 403) is returned on unauthorized access
+to prevent user ID enumeration:
 
 ```php
-public function findByUserId(int $userId, ?bool $unreadOnly = null): array
+private function isSelfOrAdmin(ServerRequestInterface $req, int $ownerId): bool
 {
-    if ($unreadOnly === true) {
-        $rows = $this->executor->fetchAll(
-            'SELECT * FROM notifications WHERE user_id = ? AND read_at IS NULL ORDER BY id DESC',
-            [$userId],
-        );
-    } else {
-        $rows = $this->executor->fetchAll(
-            'SELECT * FROM notifications WHERE user_id = ? ORDER BY id DESC',
-            [$userId],
-        );
+    if ($this->isAdmin($req)) {
+        return true;
     }
-    ...
+    $uid = $this->requestUserId($req);
+    return $uid !== null && $uid === $ownerId;
 }
 ```
 
-`ORDER BY id DESC` (not `created_at DESC`) — insertion order is stable; two notifications with the same timestamp keep a deterministic order.
-
-## Mark as Read (Single, Idempotent)
+Mark-as-read also verifies ownership before acting:
 
 ```php
-public function markAsRead(int $id, string $now): ?Notification
-{
-    $existing = $this->findById($id);
-
-    if ($existing === null) {
-        return null;
-    }
-
-    if ($existing->isRead()) {
-        return $existing;  // already read — no UPDATE, preserve original read_at
-    }
-
-    $this->executor->execute(
-        'UPDATE notifications SET read_at = ? WHERE id = ?',
-        [$now, $id],
-    );
-
-    return $this->findById($id);
-}
-```
-
-Check `isRead()` before updating so `read_at` is never overwritten. A second PATCH call returns the same `read_at` value as the first.
-
-## Bulk Mark as Read
-
-```php
-public function markAllAsRead(int $userId, string $now): int
-{
-    $this->executor->execute(
-        'UPDATE notifications SET read_at = ? WHERE user_id = ? AND read_at IS NULL',
-        [$now, $userId],
-    );
-
-    return $this->countUnread($userId);
-}
-```
-
-`WHERE read_at IS NULL` makes the bulk update idempotent — already-read notifications keep their original `read_at`. Returns the remaining unread count (should be 0).
-
-## Cross-User Ownership Check
-
-When marking a single notification as read, verify the notification belongs to the requesting user:
-
-```php
+// POST /notifications/{id}/read handler
 $notification = $this->repo->findById($id);
-
-if ($notification === null || $notification->userId !== $userId) {
-    return $this->responseFactory->create(['error' => 'notification not found'], 404);
+if ($notification === null) {
+    return $this->problem(404, 'not-found', 'Notification not found.');
+}
+// IDOR: only the owner or admin may mark as read
+if (!$this->isSelfOrAdmin($req, (int) $notification['user_id'])) {
+    return $this->problem(404, 'not-found', 'Notification not found.');
 }
 ```
 
-Return 404 (not 403) — this prevents enumeration of notification IDs belonging to other users.
-
-## Unread Count
-
-A lightweight endpoint for badge counters — no need to load all notifications:
+## Admin Fail-Closed
 
 ```php
-public function countUnread(int $userId): int
+private function isAdmin(ServerRequestInterface $req): bool
 {
-    $row = $this->executor->fetchOne(
-        'SELECT COUNT(*) as cnt FROM notifications WHERE user_id = ? AND read_at IS NULL',
-        [$userId],
-    );
-    ...
+    if ($this->adminKey === '') {
+        return false;   // fail-closed: no admin if key not configured
+    }
+    $key = $req->getHeaderLine('X-Admin-Key');
+    return $key !== '' && hash_equals($this->adminKey, $key);
 }
 ```
 
-Include this count in list responses as well so clients can keep badges in sync without extra round-trips.
+## Pagination
 
-## Security Properties
+`limit` and `offset` are clamped in the repository — never trusted raw from the client:
 
-| Property | Implementation |
-|---|---|
-| User isolation | All queries filter by `user_id` |
-| Cross-user read attempt | Returns 404 — prevents notification ID enumeration |
-| Idempotent mark-as-read | Checks `isRead()` before UPDATE; `read_at` never overwritten |
-| Bulk update safety | `WHERE read_at IS NULL` — only unread rows are touched |
+```php
+private const int MAX_LIMIT = 100;
 
-## Route Summary
+$limit  = max(1, min(self::MAX_LIMIT, $limit));
+$offset = max(0, $offset);
+```
 
-| Method | Path | Description |
-|---|---|---|
-| `POST` | `/users` | Create a user |
-| `POST` | `/users/{userId}/notifications` | Push a notification to a user |
-| `GET` | `/users/{userId}/notifications` | List all notifications (`?unread=true` for unread only) |
-| `GET` | `/users/{userId}/notifications/unread-count` | Get unread badge count |
-| `PATCH` | `/users/{userId}/notifications/{id}/read` | Mark a single notification as read |
-| `POST` | `/users/{userId}/notifications/read-all` | Mark all notifications as read |
+PDO integer binding prevents SQL injection in LIMIT / OFFSET:
+
+```php
+$stmt->bindValue(':lim', $limit, PDO::PARAM_INT);
+$stmt->bindValue(':off', $offset, PDO::PARAM_INT);
+```
+
+## Mark-as-Read Idempotency
+
+```php
+/** @return 'ok'|'not_found'|'already_read' */
+public function markAsRead(int $id): string
+{
+    $notification = $this->findById($id);
+    if ($notification === null) return 'not_found';
+    if ((bool) $notification['is_read']) return 'already_read';
+
+    // ... UPDATE SET is_read = 1, read_at = :now ...
+    return 'ok';
+}
+```
+
+The route handler returns 200 for both `ok` and `already_read` — making the endpoint safe to call
+multiple times without side effects.
+
+## Security Patterns
+
+| Pattern | Implementation |
+|---------|----------------|
+| **Type allowlist** | `in_array($type, ALLOWED_TYPES, true)` — strict match |
+| **IDOR → 404** | Return 404 (not 403) to hide user/notification existence |
+| **Ownership verification** | Fetch notification, check `user_id` before marking as read |
+| **Admin fail-closed** | `if ($this->adminKey === '') return false;` |
+| **`ctype_digit()`** | Path param ID validation — ReDoS-safe |
+| **Pagination clamping** | `max(1, min(100, $limit))` + `PDO::PARAM_INT` binding |
+| **`is_int()` + `> 0`** | Strict user_id check — rejects floats, strings, negatives |

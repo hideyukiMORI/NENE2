@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.157] — 2026-05-27
+
+### Added
+- `docs/howto/notification-inbox.md` — 通知 inbox API ガイド: 型 allowlist・IDOR 防止 (404)・mark-as-read オーナー検証・一括既読・ページネーションクランプ・管理者 fail-closed (FT222 VULN トリガー)。 (#989)
+
+---
+
 ## [1.5.156] — 2026-05-27
 
 ### Added
