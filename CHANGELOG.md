@@ -10,6 +10,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.171] — 2026-05-27
+
+### Added
+- `docs/howto/pin-verification-lockout.md` — PIN 認証・ロックアウトガイド: HMAC-SHA256 PIN ハッシュ・hash_equals()・ブルートフォースロックアウト (FT192)。 (#930)
+
+---
+
+
 ## [1.5.158] — 2026-05-27
 
 ### Added

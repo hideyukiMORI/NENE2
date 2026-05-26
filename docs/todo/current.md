@@ -93,6 +93,9 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 | FT175 | API Usage Metering | meterlog | 24/24 | v1.5.109 | api-usage-metering.md（per-user 日次クォータ・usage_events 追記・day_key インデックス・ゲートチェック・エンドポイント別内訳）**脆弱性診断: VULN-A〜L 全Pass** |
 | FT176 | Delegated Access Grants | grantlog | 23/23 | v1.5.110 | delegated-access-grants.md（multi-party 委譲・expired/revoked state machine・IDOR防止・型強制・Unicode/BIDI verbatim）**クラッカー攻撃試験: ATK-01〜12 全Pass** |
 | FT177 | Pagination Boundary Attack | limitlog | 20/20 | v1.5.111 | pagination-boundary-attack.md（ctype_digit O(n)・overflow guard・clampInt・ReDoS safe）**脆弱性診断: VULN-A〜L 全Pass** |
+| FT178〜190 | 各種 howto | — | — | v1.5.112〜125 | → PR #899〜#926 |
+| FT191 | ウェイティングリスト | waitlistlog | 39/39 | v1.5.126 | waitlist-management.md（動的ポジション・状態機械・IDOR防止）→ PR #928 |
+| FT192 | PIN 認証・ロックアウト | pinverifylog | 51/51 | v1.5.127 | pin-verification-lockout.md（HMAC-SHA256・hash_equals・lockout）**VULN-A〜L 全Pass / ATK-01〜12 全Pass** → PR #930 |
 
 ## 次のアクション（2026-05-26〜）
 
@@ -100,15 +103,8 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 | FT | テーマ案 | 備考 |
 |---|---|---|
-| ~~FT170~~ | ~~Request Deduplication（deduplog）~~ | ~~完了 v1.5.104~~ |
-| ~~FT171~~ | ~~Hierarchical Data（hierarchylog）~~ | ~~完了 v1.5.105~~ |
-| ~~FT172~~ | ~~Content Scheduling（pubschedulelog）~~ | ~~完了 v1.5.106~~ |
-| ~~FT173~~ | ~~Content Relations（relatedlog）~~ | ~~完了 v1.5.107~~ |
-| ~~FT174~~ | ~~Slug Management（sluglog）~~ | ~~完了 v1.5.108~~ |
-| ~~FT175~~ | ~~API Usage Metering（meterlog）~~ | ~~完了 v1.5.109~~ |
-| ~~FT176~~ | ~~Delegated Access Grants（grantlog）~~ | ~~完了 v1.5.110~~ |
-| ~~FT177~~ | ~~Pagination Boundary Attack（limitlog）~~ | ~~完了 v1.5.111~~ |
-| 📋 FT178 | 次テーマ | 脆弱性診断（周期: FT178） |
+| ~~FT177〜FT192~~ | ~~完了~~ | ~~v1.5.111〜127~~ |
+| 📋 FT193 | 次テーマ | 通常 FT |
 
 ### ループ終了後（FT170 以降）— 完了・進行状況
 
@@ -126,8 +122,8 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 | チェック項目 | 次回 |
 |---|---|
 | MySQL 統合テスト | FT167 ✓ 完了 |
-| 脆弱性診断 | FT177 ✓ 完了（次: FT180） |
-| クラッカー攻撃試験 | FT176 ✓ 完了（次: FT180） |
+| 脆弱性診断 | FT192 ✓ 完了（次: FT195） |
+| クラッカー攻撃試験 | FT192 ✓ 完了（次: FT196） |
 
 ## 検討事項（決定不要・議題として保持）
 
