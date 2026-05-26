@@ -10,6 +10,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.192] — 2026-05-27
+
+### Added
+- `docs/howto/notification-queue.md` — 通知キュー API ガイド: 管理者送信・ユーザー受信・既読管理・フィルタリング (FT214)。 (#973)
+
+---
+
+
 ## [1.5.158] — 2026-05-27
 
 ### Added
