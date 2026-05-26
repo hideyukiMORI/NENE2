@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.239] — 2026-05-27
+
+### Changed
+- `docs/howto/audit-trail.md` — FT268 参照と ATK クラッカー攻撃テスト (ATK-01〜12) を追加: JWT None アルゴリズム BLOCKED・JWT 署名改竄 BLOCKED・IDOR (他ユーザーのタスク) BLOCKED・アクタ ID インジェクション BLOCKED・SQL インジェクション BLOCKED・Limit -1 DoS BLOCKED・監査ログ未認証読み取り EXPOSED (ATK-07/08)・ブルートフォース EXPOSED (ATK-11)・任意 status 値注入 EXPOSED (ATK-12)、9 BLOCKED / 4 EXPOSED (FT268/ATK)。 (#1083)
+
+---
+
 ## [1.5.238] — 2026-05-27
 
 ### Changed
