@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.229] — 2026-05-27
+
+### Added
+- `docs/howto/bulk-operations-partial-success.md` — バルク操作・部分成功セマンティクス howto: POST /items/bulk バルク作成（各アイテム独立バリデーション・SKU 重複チェック）・DELETE /items/bulk バルク削除（not_found 追跡）・BulkResult DTO（created / errors）・HTTP 207 Multi-Status（部分成功時）vs 201 Created（全成功時）・インデックス付きエラー（index フィールドで失敗アイテム特定）・all-or-nothing vs 部分成功 vs 非同期キュー比較 (FT258)。 (#1062)
+
+---
+
 ## [1.5.228] — 2026-05-27
 
 ### Added
