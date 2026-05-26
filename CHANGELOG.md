@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.204] — 2026-05-27
+
+### Added
+- `docs/howto/cqrs-pattern.md` — CQRS パターン API ガイド: Command/Query 分離・WriteModel/ReadModel ハンドラー・SQL VIEW による非正規化 read model・「command then query」レスポンスパターン (FT233)。 (#1012)
+
+---
+
 ## [1.5.203] — 2026-05-27
 
 ### Added
