@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.219] — 2026-05-27
+
+### Added
+- `docs/howto/content-approval-workflow.md` — コンテンツ承認ワークフロー API howto: PostStatus BackedEnum canTransitionTo()・InvalidTransitionException → 409・tryFrom() ステータスフィルタ・optional reject_reason・terminal 状態防御、ATK-01〜12 (無認証・不正遷移・author詐称・mass assignment など) (FT248/ATK)。 (#1042)
+
+---
+
 ## [1.5.218] — 2026-05-27
 
 ### Added
