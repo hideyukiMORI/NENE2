@@ -5,7 +5,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 ## Status
 
 - Latest release: `v1.5.104`（2026-05-22 リリース済み）
-- Current branch: `main` — clean — open Issue なし
+- Current branch: `main` — clean — open Issue なし（#872 vite Dependabot リベース待ち）
 
 ## Recently Completed (FT ループ — FT96–FT170 / v1.5.30–v1.5.104)
 
@@ -103,12 +103,16 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 | ~~FT169~~ | ~~Data Masking（masklog）~~ | ~~完了~~ | ~~v1.5.103~~ |
 | ~~FT170~~ | ~~Request Deduplication（deduplog）~~ | ~~完了~~ | ~~v1.5.104~~ |
 
-### ループ終了後（FT170 以降）
+### ループ終了後（FT170 以降）— 完了・進行状況
 
-- **howto 索引（README.md）** の全 100 ガイド分類整備（✅ 索引更新済み。検索タグ・VitePress sidebar 拡張は Phase 73 継続）
-- **VitePress サイト**への新規 howto ページ追加
-- **v2.0 設計検討**: FT ループで判明した摩擦点をもとにフレームワーク本体の次バージョン方針を議論
-- マイルストーン: `docs/milestones/2026-05-howto-library-sprint.md`
+| タスク | 状況 | PR |
+|---|---|---|
+| **発見可能性** llms.txt に全 100 howto を追記 | ✅ 完了 | #876 |
+| **src/ 還元 batch 1** UtcClock + SecureTokenHelper | ✅ 完了 | #878 |
+| **FT 公開** NENE2-examples monorepo 作成（73 実装） | ✅ 完了 | #880 |
+| VitePress サイトへの新規 howto ページ追加 | 🔄 継続（検索で代替可） | — |
+| **v2.0 設計検討**: FT ループで判明した摩擦点の還元 | 🔄 継続（src/ 還元 batch 2〜） | — |
+| src/ 還元 batch 2: JSON ボディ厳密型バリデーター等 | 📋 次候補 | — |
 
 ### 次のトリガー値
 
@@ -120,17 +124,12 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 ## 検討事項（決定不要・議題として保持）
 
-### FT プロジェクトの外部公開方針
+### src/ 還元 batch 2 の候補
 
-`../NENE2-FT/<name>/` に **170 本**の参照実装が蓄積されているが、Packagist ユーザーからは不可視。
-以下の選択肢を Phase 73 または v2.0 設計フェーズで議論する。
+FT ループで証明されたがまだ `src/` にないパターン:
 
-- **Option A**: 各 FT プロジェクトを GitHub の独立リポジトリとして公開
-- **Option B**: howto ガイドに実装の要所を埋め込み（現行の一部ガイドはすでにこの形式）
-- **Option C**: モノレポ的に `examples/` ディレクトリへ集約して公開
-
-判断基準: メンテナンスコスト vs 発見可能性 vs ドキュメントとの同期。
-howto ライブラリは **100 本**に到達済み。FT 参照実装 170 本の公開方針を Phase 73 / v2.0 設計で決める。
+- JSON ボディ厳密整数バリデーター（`ctype_digit` ベース、`QueryStringParser::int()` と対称）
+- IdempotencyKey ミドルウェア（24h TTL・replayed フラグ・ストレージ抽象）
 
 ## Open Issues
 
