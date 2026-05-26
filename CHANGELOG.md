@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.224] — 2026-05-27
+
+### Added
+- `docs/howto/transaction-scope-pattern.md` — DB トランザクションスコープパターン howto: transactional() コールバック内でのリポジトリ生成（executor scope trap 解説）・在庫減算 + 注文作成の原子的 2 書き込み・InsufficientStockException → ロールバック → 422・複数アイテム途中失敗の全ロールバック保証・CHECK(stock >= 0) セーフガード (FT253)。 (#1052)
+
+---
+
 ## [1.5.223] — 2026-05-27
 
 ### Changed
