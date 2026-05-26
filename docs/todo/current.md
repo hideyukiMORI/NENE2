@@ -4,7 +4,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 ## Status
 
-- Latest release: `v1.5.109`（2026-05-26 リリース済み）
+- Latest release: `v1.5.110`（2026-05-26 リリース済み）
 - Current branch: `main` — clean
 
 ## Recently Completed (FT ループ — FT96–FT170 / v1.5.30–v1.5.104)
@@ -91,6 +91,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 | FT173 | Content Relations | relatedlog | 19/19 | v1.5.107 | content-relations.md（型付きM:N自己参照・sequel↔prequel 自動逆辺・UNIQUE 制約・カスケード削除） |
 | FT174 | Slug Management | sluglog | 19/19 | v1.5.108 | slug-management.md（SlugHelper fromTitle/makeUnique・slug_history 301 リダイレクト・両テーブル重複チェック） |
 | FT175 | API Usage Metering | meterlog | 24/24 | v1.5.109 | api-usage-metering.md（per-user 日次クォータ・usage_events 追記・day_key インデックス・ゲートチェック・エンドポイント別内訳）**脆弱性診断: VULN-A〜L 全Pass** |
+| FT176 | Delegated Access Grants | grantlog | 23/23 | v1.5.110 | delegated-access-grants.md（multi-party 委譲・expired/revoked state machine・IDOR防止・型強制・Unicode/BIDI verbatim）**クラッカー攻撃試験: ATK-01〜12 全Pass** |
 
 ## 次のアクション（2026-05-26〜）
 
@@ -104,7 +105,8 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 | ~~FT173~~ | ~~Content Relations（relatedlog）~~ | ~~完了 v1.5.107~~ |
 | ~~FT174~~ | ~~Slug Management（sluglog）~~ | ~~完了 v1.5.108~~ |
 | ~~FT175~~ | ~~API Usage Metering（meterlog）~~ | ~~完了 v1.5.109~~ |
-| 📋 FT176 | 次テーマ | クラッカー攻撃試験（周期: FT176） |
+| ~~FT176~~ | ~~Delegated Access Grants（grantlog）~~ | ~~完了 v1.5.110~~ |
+| 📋 FT177 | 次テーマ | — |
 
 ### ループ終了後（FT170 以降）— 完了・進行状況
 
@@ -123,7 +125,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 |---|---|
 | MySQL 統合テスト | FT167 ✓ 完了 |
 | 脆弱性診断 | FT175 ✓ 完了（次: FT178） |
-| クラッカー攻撃試験 | FT172 ✓ 完了（次: FT176） |
+| クラッカー攻撃試験 | FT176 ✓ 完了（次: FT180） |
 
 ## 検討事項（決定不要・議題として保持）
 
