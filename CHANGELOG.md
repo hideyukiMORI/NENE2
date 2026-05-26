@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.108] — 2026-05-26
+
+### Added
+- `docs/howto/slug-management.md` — Slug Management ガイド: SlugHelper（fromTitle/makeUnique）・slug_history テーブル・301 リダイレクトヒント・更新時衝突解決 (FT174)。 (#890)
+
+---
+
 ## [1.5.107] — 2026-05-26
 
 ### Added
