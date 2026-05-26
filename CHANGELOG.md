@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.235] — 2026-05-27
+
+### Added
+- `docs/howto/sql-injection-defence.md` — SQL インジェクション防御 howto: パラメータ化クエリ（? プレースホルダー）・LIKE ワイルドカードのパラメータ化 ('%' || ? || '%')・ORDER BY カラム許可リスト (ALLOWED_SORT_FIELDS) + 例外・sortDir ホワイトリストマッピング・ATK-01〜12 クラッカー攻撃テスト（SELECT 注入・DROP TABLE・UNION・2 次注入・積み重ねクエリ・NULL バイト BLOCKED、LIKE メタ文字フラッド EXPOSED）(FT264/ATK)。 (#1074)
+
+---
+
 ## [1.5.234] — 2026-05-27
 
 ### Added
