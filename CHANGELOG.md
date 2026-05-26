@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.211] — 2026-05-27
+
+### Added
+- `docs/howto/note-management-ownership.md` — ノート管理 API ガイド: X-Auth-User ヘッダー認証・findByIdAndOwner() IDOR 防止・フィールドマージ更新・ATK-01〜12 攻撃テスト (FT240)。 (#1026)
+
+---
+
 ## [1.5.210] — 2026-05-27
 
 ### Added
