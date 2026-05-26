@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.221] — 2026-05-27
+
+### Added
+- `docs/howto/multi-value-tag-filter.md` — マルチバリュータグフィルター API howto: M:N join table（post_tags・PRIMARY KEY(post_id, tag)）・AND 検索（HAVING COUNT(DISTINCT tag) = CAST(? AS INTEGER)）・OR 検索（SELECT DISTINCT）・カンマ区切り/PHP 配列スタイル二重クエリ形式・INSERT OR IGNORE タグ重複防止 (FT250)。 (#1046)
+
+---
+
 ## [1.5.220] — 2026-05-27
 
 ### Added
