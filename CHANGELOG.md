@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.194] — 2026-05-27
+
+### Added
+- `docs/howto/expense-tracker.md` — 経費追跡 API ガイド: カテゴリ allowlist・amount is_int 検証・ISO 8601 日付 roundtrip・月次サマリー GROUP BY・PATCH 部分更新 (FT223)。 (#992)
+
+---
+
 ## [1.5.193] — 2026-05-27
 
 ### Added
