@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.225] — 2026-05-27
+
+### Added
+- `docs/howto/sqlite-fts5-search.md` — SQLite FTS5 全文検索 howto: content='posts' 外部コンテンツテーブル・INSERT/DELETE/UPDATE トリガー自動同期・WHERE posts_fts MATCH ? 検索・fts.rank 関連度スコア順・タグスペース区切り文字列・無効クエリ try-catch → 400・FTS5 クエリ構文（フレーズ・プレフィックス・カラム限定）・LIKE との比較表 (FT254)。 (#1054)
+
+---
+
 ## [1.5.224] — 2026-05-27
 
 ### Added
