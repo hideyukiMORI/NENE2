@@ -10,6 +10,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.169] — 2026-05-27
+
+### Added
+- `docs/howto/numeric-verification-code.md` — 6桁数字コード確認ガイド: SHA-256 ハッシュ保存・hash_equals() 定数時間比較・3回失敗ロック・ATK-01〜12 全Pass (FT188)。 (#922)
+
+---
+
+
 ## [1.5.158] — 2026-05-27
 
 ### Added
