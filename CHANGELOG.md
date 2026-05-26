@@ -10,6 +10,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.186] — 2026-05-27
+
+### Added
+- `docs/howto/session-token-management.md` — セッション・トークン管理 API ガイド: トークン発行・検証・失効・ATK-01~12 全Pass (FT208)。 (#961)
+
+---
+
+
 ## [1.5.158] — 2026-05-27
 
 ### Added
