@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.222] — 2026-05-27
+
+### Added
+- `docs/howto/fixed-window-rate-limiter.md` — 固定ウィンドウレートリミッター howto: SQLite upsert（INSERT ON CONFLICT DO UPDATE SET count = count + 1）・ウィンドウ境界切り捨て（ts - ts%window）・429 Too Many Requests + Retry-After ヘッダー・X-Client-Key ヘッダーキー・read-only status エンドポイント・pruneExpired 掃除パターン (FT251)。 (#1048)
+
+---
+
 ## [1.5.221] — 2026-05-27
 
 ### Added
