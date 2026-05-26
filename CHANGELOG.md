@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.156] — 2026-05-27
+
+### Added
+- `docs/howto/invitation-referral.md` — 招待・リファラル API ガイド: トークン as capability パターン・bin2hex(random_bytes(16)) 生成・有効期限・1回限り使用・IDOR 防止 (自分の招待のみ) (FT221)。 (#987)
+
+---
+
 ## [1.5.155] — 2026-05-27
 
 ### Added
