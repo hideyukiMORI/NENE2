@@ -10,6 +10,22 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.193] — 2026-05-27
+
+### Added
+- Batch howto docs — FT181〜FT214 全 32 ガイドを一括追加:
+  `iso-datetime-validation`, `batch-api-partial-success`, `url-shortener-ssrf`, `one-time-secrets`,
+  `service-status-page`, `session-management`, `encrypted-field-storage`, `numeric-verification-code`,
+  `privacy-consent-management`, `system-announcement-management`, `waitlist-management`,
+  `pin-verification-lockout`, `asset-checkout`, `secret-vault`, `event-ticket-booking`,
+  `document-template-engine`, `multi-currency-wallet`, `live-poll-system`,
+  `sliding-window-rate-limiter`, `resource-booking`, `note-management-with-tags`,
+  `inventory-stock-management`, `feedback-collection`, `wish-list-api`,
+  `session-token-management`, `tag-label-api`, `file-upload-metadata`, `comment-thread`,
+  `product-catalog`, `subscription-plan`, `notification-queue`
+
+---
+
 ## [1.5.161] — 2026-05-27
 
 ### Added
