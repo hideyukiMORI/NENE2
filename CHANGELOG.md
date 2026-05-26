@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.226] — 2026-05-27
+
+### Added
+- `docs/howto/job-queue-with-retry.md` — バックグラウンドジョブキュー howto: JobPriority 数値 BackedEnum・クレームパターン（非原子 SELECT+UPDATE）・retry_count < max_retries → 再キュー vs 失敗・冪等性キー重複防止・VULN V-01〜10（認証なし・型未検証・優先度操作・ワーカーID 詐称・所有権チェックなし・競合状態・ペイロードサイズ・SQL インジェクション BLOCKED・冪等性キー衝突 PARTIALLY・エラーメッセージ漏洩）(FT255/VULN)。 (#1056)
+
+---
+
 ## [1.5.225] — 2026-05-27
 
 ### Added
