@@ -10,6 +10,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.164] — 2026-05-27
+
+### Added
+- `docs/howto/url-shortener-ssrf.md` — URL 短縮 API & SSRF 防止ガイド: スキーム allowlist・プライベート IP ブロック・VULN-A〜L 全Pass (FT183)。 (#911)
+
+---
+
+
 ## [1.5.158] — 2026-05-27
 
 ### Added

@@ -4,8 +4,9 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 ## Status
 
-- Latest release: `v1.5.111`（2026-05-26 リリース済み）
-- Current branch: `main` — clean
+- Latest release: `v1.5.114`（2026-05-26 リリース済み）
+- PR #905 (FT180 v1.5.115) / PR #907 (FT181 v1.5.116) / PR #910 (FT182 v1.5.117) — CI 待機中
+- Current branch: `feat/911-ft183-shortlog` — PR 作成予定 (v1.5.118)
 
 ## Recently Completed (FT ループ — FT96–FT170 / v1.5.30–v1.5.104)
 
@@ -93,6 +94,12 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 | FT175 | API Usage Metering | meterlog | 24/24 | v1.5.109 | api-usage-metering.md（per-user 日次クォータ・usage_events 追記・day_key インデックス・ゲートチェック・エンドポイント別内訳）**脆弱性診断: VULN-A〜L 全Pass** |
 | FT176 | Delegated Access Grants | grantlog | 23/23 | v1.5.110 | delegated-access-grants.md（multi-party 委譲・expired/revoked state machine・IDOR防止・型強制・Unicode/BIDI verbatim）**クラッカー攻撃試験: ATK-01〜12 全Pass** |
 | FT177 | Pagination Boundary Attack | limitlog | 20/20 | v1.5.111 | pagination-boundary-attack.md（ctype_digit O(n)・overflow guard・clampInt・ReDoS safe）**脆弱性診断: VULN-A〜L 全Pass** |
+| FT178 | JSON Merge Patch & ETag | patchlog | 37/37 | v1.5.113 | json-merge-patch.md（RFC 7396 null セマンティクス・不変フィールド保護・If-Match 412・V.php 実戦） |
+| FT179 | テナント分離 & IDOR 防止 | isolationlog | 33/33 | v1.5.114 | tenant-isolation.md（SQL tenant_id スコープ・ヘッダーベース認証・ボディインジェクション防止・ATK-01〜12 全Pass） |
+| FT180 | SQL ORDER BY インジェクション防止 | sortlog | 32/32 | v1.5.115 | sql-orderby-injection.md（allowlist + in_array strict・PSR-7 単一デコード）**VULN-A〜L + ATK-01〜12 全Pass** |
+| FT181 | ISO 8601 Datetime バリデーション | reminderlog | 26/26 | v1.5.116 | iso-datetime-validation.md（+25:00 拒否・クロスTZ 比較バグ修正） |
+| FT182 | バッチ書き込み API & 部分成功 | batchlog | 36/36 | v1.5.117 | batch-api-partial-success.md（V::bodyInt() JSON型混同防止・array_is_list()・MAX_BATCH DoS防止） |
+| FT183 | URL 短縮 API & SSRF 防止 | shortlog | 52/52 | v1.5.118 (本PR) | url-shortener-ssrf.md（スキーム allowlist + プライベート IP ブロック + DNS 注入テスト）**脆弱性診断: VULN-A〜L 全Pass** |
 
 ## 次のアクション（2026-05-26〜）
 
@@ -108,7 +115,8 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 | ~~FT175~~ | ~~API Usage Metering（meterlog）~~ | ~~完了 v1.5.109~~ |
 | ~~FT176~~ | ~~Delegated Access Grants（grantlog）~~ | ~~完了 v1.5.110~~ |
 | ~~FT177~~ | ~~Pagination Boundary Attack（limitlog）~~ | ~~完了 v1.5.111~~ |
-| 📋 FT178 | 次テーマ | 脆弱性診断（周期: FT178） |
+| ~~FT178〜FT183~~ | ~~完了~~ | ~~v1.5.113〜v1.5.118~~ |
+| 📋 FT184 | 次テーマ | **クラッカー攻撃試験**（周期: FT184） |
 
 ### ループ終了後（FT170 以降）— 完了・進行状況
 
@@ -126,8 +134,8 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 | チェック項目 | 次回 |
 |---|---|
 | MySQL 統合テスト | FT167 ✓ 完了 |
-| 脆弱性診断 | FT177 ✓ 完了（次: FT180） |
-| クラッカー攻撃試験 | FT176 ✓ 完了（次: FT180） |
+| 脆弱性診断 | FT183 ✓ 完了（次: FT186） |
+| クラッカー攻撃試験 | FT180 ✓ 完了（次: FT184） |
 
 ## 検討事項（決定不要・議題として保持）
 
