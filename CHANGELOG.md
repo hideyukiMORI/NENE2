@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.154] — 2026-05-27
+
+### Added
+- `docs/howto/activity-feed.md` — アクティビティフィード API ガイド: 型 allowlist (in_array strict)・JSON payload ストレージ・IDOR 防止 (404)・ページネーション・型フィルター・VULN-B〜I 全Pass (FT219 VULN トリガー)。 (#983)
+
+---
+
 ## [1.5.153] — 2026-05-27
 
 ### Added
