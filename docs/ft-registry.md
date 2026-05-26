@@ -123,3 +123,4 @@ webhooklog wishlistlog workflowlog
 | FT172 | pubschedulelog | Content Scheduling（時間指定公開・ライフサイクル状態機械） |
 | FT173 | relatedlog | Content Relations（型付きM:N自己参照リンク） |
 | FT174 | sluglog | Slug Management（URL スラグ生成・衝突解決・履歴リダイレクト） |
+| FT175 | meterlog | API Usage Metering（per-user 日次クォータ・usage_events 追記・ゲートチェック） |

@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.109] — 2026-05-26
+
+### Added
+- `docs/howto/api-usage-metering.md` — API Usage Metering ガイド: per-user 日次クォータ・usage_events 追記ログ・day_key インデックス・ゲートチェック・エンドポイント別内訳。脆弱性診断 VULN-A〜L 全Pass (FT175)。 (#893)
+
+---
+
 ## [1.5.108] — 2026-05-26
 
 ### Added
