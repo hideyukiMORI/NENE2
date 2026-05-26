@@ -10,6 +10,20 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.113] — 2026-05-26
+
+### Added
+- `docs/howto/json-merge-patch.md` — JSON Merge Patch & ETag ガイド: RFC 7396 null セマンティクス・不変フィールド保護・If-Match 競合検出 412・V.php 実戦投入・`?? ''` トラップ・Router::param() 正しい使い方。ATK-01〜12 全Pass (FT178)。 (#899)
+
+---
+
+## [1.5.112] — 2026-05-26
+
+### Added
+- `src/Validation/V.php` — HTTP パラメータ検証ヘルパー: queryInt/bodyInt/str/isoDatetime/futureDatetime/enum/userId/secret の8メソッド。フレームワーク非依存の純粋 PHP ユーティリティ、将来 hideyukimori/nene-validate として独立抽出可能な構造。63 tests / 102 assertions。 (#897)
+
+---
+
 ## [1.5.111] — 2026-05-26
 
 ### Added
