@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.155] — 2026-05-27
+
+### Added
+- `docs/howto/inventory-management.md` — 在庫管理 API ガイド: SKU パターン検証・signed delta 調整・在庫不足 409・調整履歴ログ・ATK-01〜12 全Pass (FT220 ATK クラッカー攻撃テストトリガー)。 (#985)
+
+---
+
 ## [1.5.154] — 2026-05-27
 
 ### Added
