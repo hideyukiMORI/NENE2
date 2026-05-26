@@ -10,6 +10,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.190] — 2026-05-27
+
+### Added
+- `docs/howto/product-catalog.md` — 商品カタログ API ガイド: SKU 管理・キーワード検索・ソフトデリート・ATK-01~12 全Pass (FT212)。 (#969)
+
+---
+
+
 ## [1.5.158] — 2026-05-27
 
 ### Added
