@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.203] — 2026-05-27
+
+### Added
+- `docs/howto/multilingual-content.md` — 多言語コンテンツ API ガイド: BCP 47 ロケール検証・翻訳 upsert・ロケールフォールバック・公開状態管理・ATK-01〜12 攻撃テスト (FT232)。 (#1010)
+
+---
+
 ## [1.5.202] — 2026-05-27
 
 ### Added
