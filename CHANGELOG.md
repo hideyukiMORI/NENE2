@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.115] — 2026-05-26
+
+### Added
+- `docs/howto/sql-orderby-injection.md` — SQL ORDER BY インジェクション防止ガイド: allowlist + `in_array` strict・PSR-7 単一デコードによる二重エンコード検出・null バイトチェック・VULN-A〜L + ATK-01〜12 ダブル FT 全 Pass (FT180)。 (#903)
+
+---
+
 ## [1.5.114] — 2026-05-26
 
 ### Added
