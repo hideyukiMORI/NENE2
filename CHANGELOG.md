@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.196] — 2026-05-27
+
+### Added
+- `docs/howto/shift-management.md` — シフト管理 API ガイド: オーバーラップ検出・トランザクション・ISO 8601 比較・VULN V-01〜V-12 脆弱性評価 (FT225)。 (#996)
+
+---
+
 ## [1.5.195] — 2026-05-27
 
 ### Added
