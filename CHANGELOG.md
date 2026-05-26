@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.209] — 2026-05-27
+
+### Added
+- `docs/howto/contact-management.md` — コンタクト管理 API ガイド: contact_groups 多対多・LIKE + EXISTS サブクエリ動的検索・owner_id IDOR 防止・DatabaseConstraintException による重複グループ 409・冪等 addToGroup (FT238)。 (#1022)
+
+---
+
 ## [1.5.208] — 2026-05-27
 
 ### Added
