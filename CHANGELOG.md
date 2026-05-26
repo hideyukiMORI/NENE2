@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.107] — 2026-05-26
+
+### Added
+- `docs/howto/content-relations.md` — Content Relations ガイド: 型付きM:N自己参照リンク（related/sequel/prequel/reference）・双方向自動挿入・逆辺カスケード削除 (FT173)。 (#888)
+
+---
+
 ## [1.5.106] — 2026-05-26
 
 ### Added

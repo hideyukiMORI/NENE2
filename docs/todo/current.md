@@ -4,8 +4,8 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 ## Status
 
-- Latest release: `v1.5.105`（2026-05-26 リリース済み）
-- Current branch: `main` — clean — FT172 PR 作成前（#872 vite Dependabot リベース待ち）
+- Latest release: `v1.5.106`（2026-05-26 リリース済み）
+- Current branch: `main` — clean — FT173 PR 作成前（#872 vite Dependabot リベース待ち）
 
 ## Recently Completed (FT ループ — FT96–FT170 / v1.5.30–v1.5.104)
 
@@ -87,7 +87,8 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 | FT169 | Data Masking | masklog | 24/24 | v1.5.103 | data-masking.md（デフォルトマスク・admin unmask・X-Accessor 強制・append-only 監査ログ）**脆弱性診断: VULN-A〜L 全Pass** |
 | FT170 | Request Deduplication | deduplog | 24/24 | v1.5.104 | request-deduplication.md（Idempotency-Key 必須・24h TTL・replayed フラグ・ctype_digit 型検証）**クラッカー攻撃試験: ATK-01〜12 全Pass** |
 | FT171 | Hierarchical Data | hierarchylog | 21/21 | v1.5.105 | hierarchical-data.md（自己参照FK + マテリアライズドパス・MAX_DEPTH=5・循環参照検出・サブツリーカスケード） |
-| FT172 | Content Scheduling | pubschedulelog | 34/34 | v1.5.106 予定 | content-scheduling.md（publish_at 時間指定・draft/scheduled/published/archived 状態機械・publish-due 一括トリガー・hash_equals admin key）**脆弱性診断: VULN-A〜L 全Pass** ／ **クラッカー攻撃試験: ATK-01〜12 全Pass** |
+| FT172 | Content Scheduling | pubschedulelog | 34/34 | v1.5.106 | content-scheduling.md（publish_at 時間指定・draft/scheduled/published/archived 状態機械・publish-due 一括トリガー・hash_equals admin key）**脆弱性診断: VULN-A〜L 全Pass** ／ **クラッカー攻撃試験: ATK-01〜12 全Pass** |
+| FT173 | Content Relations | relatedlog | 19/19 | v1.5.107 予定 | content-relations.md（型付きM:N自己参照・sequel↔prequel 自動逆辺・UNIQUE 制約・カスケード削除） |
 
 ## 次のアクション（2026-05-26〜）
 
@@ -97,8 +98,9 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 |---|---|---|
 | ~~FT170~~ | ~~Request Deduplication（deduplog）~~ | ~~完了 v1.5.104~~ |
 | ~~FT171~~ | ~~Hierarchical Data（hierarchylog）~~ | ~~完了 v1.5.105~~ |
-| 🔄 FT172 | Content Scheduling（pubschedulelog） | 実装完了・PR 作成前 |
-| 📋 FT173 | 次テーマ | — |
+| ~~FT172~~ | ~~Content Scheduling（pubschedulelog）~~ | ~~完了 v1.5.106~~ |
+| 🔄 FT173 | Content Relations（relatedlog） | 実装完了・PR 作成前 |
+| 📋 FT174 | 次テーマ | — |
 
 ### ループ終了後（FT170 以降）— 完了・進行状況
 
