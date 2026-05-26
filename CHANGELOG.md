@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.217] — 2026-05-27
+
+### Added
+- `docs/howto/time-tracking.md` — タイムトラッキング API howto: NULL end_time = running パターン・シングルトンタイマー (TimerAlreadyRunning / NoRunningTimer → 409)・julianday() による秒計算・date() 関数フィルタ・LIKE 部分一致検索・dailySummary GROUP BY (FT246)。 (#1038)
+
+---
+
 ## [1.5.216] — 2026-05-27
 
 ### Added
