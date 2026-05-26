@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.215] — 2026-05-27
+
+### Added
+- `docs/howto/budget-tracking.md` — 家計簿 API howto: income/expense/transfer トランザクション型・TransferFundsUseCase (残高チェック + DB トランザクション)・QueryStringParser マルチフィルタ (category/min_amount/max_amount/recurring)・sumByCategory 集計、ATK-01〜12 (無認証・残高マイナス・レース条件・float切り捨て・bool強制など) (FT244/ATK)。 (#1034)
+
+---
+
 ## [1.5.214] — 2026-05-27
 
 ### Added
