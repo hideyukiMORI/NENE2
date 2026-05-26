@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.220] — 2026-05-27
+
+### Added
+- `docs/howto/article-versioning-api.md` — 記事バージョン管理 API howto: current_version INTEGER カラムパターン・read-then-increment 非原子更新・非破壊ロールバック・バージョン一覧 body 省略・UNIQUE(article_id, version)、VULN V-01〜10 (無認証・IDOR・レース条件・非トランザクション・バージョン列挙・body サイズ) (FT249/VULN)。 (#1044)
+
+---
+
 ## [1.5.219] — 2026-05-27
 
 ### Added
