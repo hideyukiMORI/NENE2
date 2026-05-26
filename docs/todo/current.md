@@ -4,8 +4,8 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 ## Status
 
-- Latest release: `v1.5.104`（2026-05-22 リリース済み）
-- Current branch: `main` — clean — FT171 PR 作成前（#872 vite Dependabot リベース待ち）
+- Latest release: `v1.5.105`（2026-05-26 リリース済み）
+- Current branch: `main` — clean — FT172 PR 作成前（#872 vite Dependabot リベース待ち）
 
 ## Recently Completed (FT ループ — FT96–FT170 / v1.5.30–v1.5.104)
 
@@ -86,7 +86,8 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 | FT168 | Admin Report Aggregation | agglog | 26/26 | v1.5.102 | admin-report-aggregation.md（日付バリデーション・from>to拒否・limit クランプ・COALESCE NULL 防止）**クラッカー攻撃試験: ATK-01〜12 全Pass** |
 | FT169 | Data Masking | masklog | 24/24 | v1.5.103 | data-masking.md（デフォルトマスク・admin unmask・X-Accessor 強制・append-only 監査ログ）**脆弱性診断: VULN-A〜L 全Pass** |
 | FT170 | Request Deduplication | deduplog | 24/24 | v1.5.104 | request-deduplication.md（Idempotency-Key 必須・24h TTL・replayed フラグ・ctype_digit 型検証）**クラッカー攻撃試験: ATK-01〜12 全Pass** |
-| FT171 | Hierarchical Data | hierarchylog | 21/21 | v1.5.105 予定 | hierarchical-data.md（自己参照FK + マテリアライズドパス・MAX_DEPTH=5・循環参照検出・サブツリーカスケード） |
+| FT171 | Hierarchical Data | hierarchylog | 21/21 | v1.5.105 | hierarchical-data.md（自己参照FK + マテリアライズドパス・MAX_DEPTH=5・循環参照検出・サブツリーカスケード） |
+| FT172 | Content Scheduling | pubschedulelog | 34/34 | v1.5.106 予定 | content-scheduling.md（publish_at 時間指定・draft/scheduled/published/archived 状態機械・publish-due 一括トリガー・hash_equals admin key）**脆弱性診断: VULN-A〜L 全Pass** ／ **クラッカー攻撃試験: ATK-01〜12 全Pass** |
 
 ## 次のアクション（2026-05-26〜）
 
@@ -95,8 +96,9 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 | FT | テーマ案 | 備考 |
 |---|---|---|
 | ~~FT170~~ | ~~Request Deduplication（deduplog）~~ | ~~完了 v1.5.104~~ |
-| 🔄 FT171 | Hierarchical Data（hierarchylog） | 実装完了・PR 作成前 |
-| 📋 FT172 | 次テーマ | 脆弱性診断 ＋ クラッカー攻撃試験 両方が対象（周期到来） |
+| ~~FT171~~ | ~~Hierarchical Data（hierarchylog）~~ | ~~完了 v1.5.105~~ |
+| 🔄 FT172 | Content Scheduling（pubschedulelog） | 実装完了・PR 作成前 |
+| 📋 FT173 | 次テーマ | — |
 
 ### ループ終了後（FT170 以降）— 完了・進行状況
 
@@ -114,8 +116,8 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 | チェック項目 | 次回 |
 |---|---|
 | MySQL 統合テスト | FT167 ✓ 完了 |
-| 脆弱性診断 | FT172（次） |
-| クラッカー攻撃試験 | FT172（次） |
+| 脆弱性診断 | FT172 ✓ 完了（次: FT175） |
+| クラッカー攻撃試験 | FT172 ✓ 完了（次: FT176） |
 
 ## 検討事項（決定不要・議題として保持）
 
