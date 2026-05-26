@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: NENE2 API
-  version: 1.5.158
+  version: 1.5.178
   description: >
     NENE2 API contract. This file is the source of truth for public JSON APIs.
 servers:

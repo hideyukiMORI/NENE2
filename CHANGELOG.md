@@ -10,6 +10,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.178] — 2026-05-27
+
+### Added
+- `docs/howto/live-poll-system.md` — ライブ投票システムガイド: 投票重複防止 (UNIQUE制約)・投票済み検出・クローズ済み投票拒否 (FT199)。 (#943)
+
+---
+
+
 ## [1.5.158] — 2026-05-27
 
 ### Added
