@@ -10,6 +10,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.177] — 2026-05-27
+
+### Added
+- `docs/howto/multi-currency-wallet.md` — Multi-Currency Wallet ガイド: balance in minor units・insufficient_funds 409・IDOR isolation・VULN-A〜L 全Pass (FT198)。 (#942)
+
+---
+
+
 ## [1.5.158] — 2026-05-27
 
 ### Added
