@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.111] — 2026-05-26
+
+### Added
+- `docs/howto/pagination-boundary-attack.md` — Pagination Boundary Attack ガイド: ctype_digit O(n) vs regex ReDoS・overflow guard strlen>18・clampInt パターン・VULN-A〜L 全Pass (FT177)。 (#898)
+
+---
+
 ## [1.5.110] — 2026-05-26
 
 ### Added
