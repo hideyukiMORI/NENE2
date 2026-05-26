@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.205] — 2026-05-27
+
+### Added
+- `docs/howto/credit-ledger.md` — クレジット台帳 API ガイド: direction ±1 台帳モデル・COALESCE(SUM(amount*direction)) 残高計算・InsufficientCreditsException → 409・冪等性キー (UNIQUE + DatabaseConstraintException) パターン (FT234)。 (#1014)
+
+---
+
 ## [1.5.204] — 2026-05-27
 
 ### Added
