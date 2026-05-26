@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.218] — 2026-05-27
+
+### Added
+- `docs/howto/step-workflow-approval.md` — ステップワークフロー承認 API howto: ワークフロー定義 + step_order 自動採番・workflow_runs 状態機械 (in_progress → completed/rejected)・findNextStep (step_order > current LIMIT 1)・recordAction 履歴 JOIN・LEFT JOIN で current_step_name 取得・409 (ステップなし / 非 in_progress) (FT247)。 (#1040)
+
+---
+
 ## [1.5.217] — 2026-05-27
 
 ### Added
