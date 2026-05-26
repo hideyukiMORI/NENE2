@@ -10,6 +10,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.180] — 2026-05-27
+
+### Added
+- `docs/howto/resource-booking.md` — リソース予約管理ガイド: IDOR 防止・二重予約防止・VULN-A〜L 全Pass (FT201)。 (#947)
+
+---
+
+
 ## [1.5.158] — 2026-05-27
 
 ### Added
