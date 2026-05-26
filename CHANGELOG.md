@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.228] — 2026-05-27
+
+### Added
+- `docs/howto/soft-delete-trash-purge.md` — ソフトデリート / ゴミ箱 / 永久削除 howto: deleted_at タイムスタンプによるソフトデリート・アクティブリスト (WHERE deleted_at IS NULL) vs ゴミ箱リスト・findById(includeTrashed: bool) 二段フラグパターン・restore（deleted_at = NULL リセット）・purge（物理 DELETE、ゴミ箱のみ対象）・ルート衝突回避 (/notes/trash を {id} より先に登録)・HTTP 動詞選択根拠 (DELETE=ソフトデリート/パージ、POST=復元) (FT257)。 (#1060)
+
+---
+
 ## [1.5.227] — 2026-05-27
 
 ### Added
