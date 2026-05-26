@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.198] — 2026-05-27
+
+### Added
+- `docs/howto/media-watchlist.md` — メディア視聴リスト API ガイド: backed enum バリデーション・array_key_exists 利用の null 許容フィールド・archive/restore POST アクションパターン・評価 1-5 整数チェック (FT227)。 (#1000)
+
+---
+
 ## [1.5.197] — 2026-05-27
 
 ### Added
