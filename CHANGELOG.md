@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.110] — 2026-05-26
+
+### Added
+- `docs/howto/delegated-access-grants.md` — Delegated Access Grants ガイド: multi-party 委譲・time-limited scoped アクセス・state machine（expired/revoked）・IDOR防止 404・型強制チェック（is_int 厳密検証）・Unicode/BIDI verbatim 保存。**クラッカー攻撃試験 ATK-01〜12 全Pass** (FT176)。 (#895)
+
+---
+
 ## [1.5.109] — 2026-05-26
 
 ### Added
