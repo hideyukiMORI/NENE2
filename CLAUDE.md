@@ -506,7 +506,62 @@ ADR ファイル: `docs/adr/NNNN-kebab-case-title.md`、テンプレート: `doc
 
 ---
 
-## 18. フィールドトライアルプロジェクトでの NENE2 参照先
+## 18. FT ループ作業ルール
+
+FT（フィールドトライアル）を連続してこなすときの専用ルール。
+
+### セッション開始時
+
+1. **`docs/todo/current.md` を必ず読む** — 最終 FT 番号・VERSION・次の ATK/VULN サイクルを確認する。
+2. `bash tools/uncovered-fts.sh` で未カバー FT を確認し、次の対象を選ぶ。
+3. 対象 FT のテストが全通過することを確認する:
+   ```bash
+   cd ../NENE2-FT/<name> && php8.4 vendor/bin/phpunit tests/ --no-coverage
+   ```
+
+### 各 FT の作業フロー
+
+```
+1. docs/howto/<topic>.md が既存か ls で確認 → 既存なら Write でなく Edit を使う
+2. GitHub Issue 作成
+3. git checkout -b docs/<issue>-ft<N>-<name>
+4. bash tools/bump-ft.sh <new-version>  # FrameworkInfo.php + openapi.yaml を一括バンプ
+5. CHANGELOG.md を Read してから Edit（ブランチ切替後は必ず Read が必要）
+6. docs/howto/<topic>.md を Write または Edit
+7. docker compose run --rm app composer check
+8. git commit / push / gh pr create / CI 待ち / merge / git pull
+```
+
+### ATK / VULN サイクル
+
+- **ATK**（クラッカー攻撃試験）: **4 件ごと**（FT252, 256, 260, 264, 268, 272...）
+- **VULN**（脆弱性診断）: **6 件ごと**（FT249, 255, 261, 267, 273...）
+- 現在のサイクル状態は `docs/todo/current.md` に記載。
+
+### 引き継ぎドキュメント更新
+
+**5FT ごと**またはセッション終了時に `docs/todo/current.md` を更新する:
+
+```
+- 最終完了 FT 番号と VERSION
+- 次の FT 番号
+- 次の ATK 回・VULN 回の FT 番号
+- 直近 10 件の FT 履歴
+- 進行中ブランチがあれば記録
+```
+
+### ツールリファレンス
+
+```bash
+bash tools/uncovered-fts.sh              # 未カバー FT 一覧
+bash tools/uncovered-fts.sh --all        # 全件（✅/❌ 表示）
+bash tools/uncovered-fts.sh --check cartlog  # 特定 FT の確認
+bash tools/bump-ft.sh 1.5.241            # バージョン一括バンプ
+```
+
+---
+
+## 19. フィールドトライアルプロジェクトでの NENE2 参照先
 
 **重要**: このリポジトリ（`../NENE2/`）は開発版（リリース前の HEAD）。
 フィールドトライアルプロジェクトからこのソースを参照するときは以下に注意すること。
