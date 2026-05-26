@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.150] — 2026-05-27
+
+### Added
+- `docs/howto/order-management.md` — 注文管理 API ガイド: 複数行アイテム・自動合計計算・ステータスライフサイクル (pending→cancelled)・IDOR 防止 (404 返却)・管理者オーバーライド・二重キャンセル競合検出 409 (FT215)。 (#975)
+
+---
+
 ## [1.5.114] — 2026-05-26
 
 ### Added
