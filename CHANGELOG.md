@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.151] — 2026-05-27
+
+### Added
+- `docs/howto/resource-reservation.md` — リソース予約 & タイムスロット予約ガイド: 重複検出 SQL (半開区間)・readonly value object・公開/管理者ビュー分離による IDOR 防止・キャンセル所有権検証・VULN-A〜L + ATK-01〜12 全Pass (FT216 デュアルトリガー)。 (#977)
+
+---
+
 ## [1.5.150] — 2026-05-27
 
 ### Added
