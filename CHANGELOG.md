@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.160] — 2026-05-27
+
+### Added
+- `docs/howto/system-announcement-management.md` — システムアナウンス管理 API ガイド: 時間ベースの有効化・管理者キー認証・per-user 非表示・is_dismissed フラグ (FT190)。 (#925)
+
+---
+
 ## [1.5.157] — 2026-05-27
 
 ### Added
