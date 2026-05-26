@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.227] — 2026-05-27
+
+### Added
+- `docs/howto/mass-assignment-defence.md` — マスアサインメント防御 howto: CreateUserInput readonly DTO によるフィールドホワイトリスト（name/email のみ）・role/is_active/created_at/id はサーバー側でハードコード・コントローラーによる明示的フィールド抽出・許可リスト vs ブロックリスト比較・ATK-01〜12 クラッカー攻撃テスト（ロール昇格・アカウント状態操作・タイムスタンプ改ざん・ID ハイジャック・SQL インジェクション・メールケースバイパス BLOCKED、重複メール未ハンドリング・長さ制限なし EXPOSED、XSS ACCEPTED BY DESIGN）(FT256/ATK)。 (#1058)
+
+---
+
 ## [1.5.226] — 2026-05-27
 
 ### Added
