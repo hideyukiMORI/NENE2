@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.199] — 2026-05-27
+
+### Added
+- `docs/howto/price-history.md` — 価格履歴 API ガイド: 価格ティア・時点クエリ・cents 整数バリデーション・ATK-01〜12 クラッカー攻撃テスト (FT228)。 (#1002)
+
+---
+
 ## [1.5.198] — 2026-05-27
 
 ### Added
