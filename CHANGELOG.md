@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.236] — 2026-05-27
+
+### Added
+- `docs/howto/url-bookmark-api.md` — URL ブックマーク API howto: URL UNIQUE 制約 + DuplicateUrlException（UNIQUE 制約違反 → ドメイン例外 → 409 Conflict）・タグをカンマ区切り TEXT で保存・タグ LIKE マッチング 4 パターン（完全一致・先頭・中間・末尾）・カンマ区切りタグ vs M:N テーブル比較・title/url LIKE 検索・?tags=php,api クエリパース (FT265)。 (#1076)
+
+---
+
 ## [1.5.235] — 2026-05-27
 
 ### Added
