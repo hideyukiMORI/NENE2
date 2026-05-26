@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.231] — 2026-05-27
+
+### Added
+- `docs/howto/webhook-signature-verification.md` — Webhook 署名検証 howto: Stripe スタイル署名ヘッダー (X-Webhook-Signature: t=<ts>,v1=<hmac>)・タイムスタンプ+本文バインド HMAC-SHA256・hash_equals() 定数時間比較（タイミング攻撃防止）・リプレイ攻撃防止（300 秒 tolerance + abs()）・ctype_digit() タイムスタンプ検証・生ボディ先読み（JSON パース前に署名検証）・ATK-01〜12（ヘッダーなし・署名改ざん・誤シークレット・リプレイ・未来 TS・本文改ざん・ヘッダー不正 BLOCKED、空シークレット・大容量ボディ EXPOSED）(FT260/ATK)。 (#1066)
+
+---
+
 ## [1.5.230] — 2026-05-27
 
 ### Added
