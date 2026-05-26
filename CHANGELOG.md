@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.207] — 2026-05-27
+
+### Added
+- `docs/howto/quota-management.md` — クォータ管理 API ガイド: QuotaWindow enum windowStart()・check/consume 分離・429 Too Many Requests・usage = usage + 1 原子インクリメント・ATK-01〜12 攻撃テスト (FT236)。 (#1018)
+
+---
+
 ## [1.5.206] — 2026-05-27
 
 ### Added
