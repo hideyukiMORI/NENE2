@@ -10,6 +10,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.176] — 2026-05-27
+
+### Added
+- `docs/howto/document-template-engine.md` — Document Template Engine ガイド: variable substitution・admin CRUD・PATCH partial update (FT197)。 (#940)
+
+---
+
+
 ## [1.5.158] — 2026-05-27
 
 ### Added
