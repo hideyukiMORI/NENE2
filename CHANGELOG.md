@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.206] — 2026-05-27
+
+### Added
+- `docs/howto/scheduled-reminders.md` — スケジュールリマインダー API ガイド: V::futureDatetime() タイムゾーン対応未来日時バリデーション・X-User-Id ヘッダー認証・findForUser() IDOR 防止・fetch-first 404/409 区別 (FT235)。 (#1016)
+
+---
+
 ## [1.5.205] — 2026-05-27
 
 ### Added
