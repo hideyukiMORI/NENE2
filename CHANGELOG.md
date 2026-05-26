@@ -10,6 +10,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.165] — 2026-05-27
+
+### Added
+- `docs/howto/one-time-secrets.md` — One-Time Secret API & ATK-01〜12 クラッカー攻撃テストガイド: atomic UPDATE・256bit トークン・IDOR 防止 (FT184)。 (#914)
+
+---
+
+
 ## [1.5.158] — 2026-05-27
 
 ### Added
