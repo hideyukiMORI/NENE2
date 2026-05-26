@@ -4,8 +4,9 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 ## Status
 
-- Latest release: `v1.5.111`（2026-05-26 リリース済み）
+- Latest release: `v1.5.114`（2026-05-26 リリース済み）
 - Current branch: `main` — clean
+- 進行中 PR: #905（FT180 v1.5.115）、#907（FT181 v1.5.116）— GitHub Actions 障害により CI 待機中
 
 ## Recently Completed (FT ループ — FT96–FT170 / v1.5.30–v1.5.104)
 
@@ -93,6 +94,10 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 | FT175 | API Usage Metering | meterlog | 24/24 | v1.5.109 | api-usage-metering.md（per-user 日次クォータ・usage_events 追記・day_key インデックス・ゲートチェック・エンドポイント別内訳）**脆弱性診断: VULN-A〜L 全Pass** |
 | FT176 | Delegated Access Grants | grantlog | 23/23 | v1.5.110 | delegated-access-grants.md（multi-party 委譲・expired/revoked state machine・IDOR防止・型強制・Unicode/BIDI verbatim）**クラッカー攻撃試験: ATK-01〜12 全Pass** |
 | FT177 | Pagination Boundary Attack | limitlog | 20/20 | v1.5.111 | pagination-boundary-attack.md（ctype_digit O(n)・overflow guard・clampInt・ReDoS safe）**脆弱性診断: VULN-A〜L 全Pass** |
+| FT178 | JSON Merge Patch & ETag | patchlog | 37/37 | v1.5.113 | json-merge-patch.md（RFC 7396 null セマンティクス・不変フィールド保護・If-Match 412・V.php 実戦投入） |
+| FT179 | テナント分離 & IDOR 防止 | isolationlog | 33/33 | v1.5.114 | tenant-isolation.md（全クエリ tenant_id スコープ・ヘッダーベース認証・ボディインジェクション防止・ATK-01〜12 全Pass） |
+| FT180 | SQL ORDER BY インジェクション防止 | sortlog | 32/32 | v1.5.115 | sql-orderby-injection.md（allowlist + in_array strict・PSR-7 単一デコード・二重エンコード検出）**脆弱性診断 VULN-A〜L + クラッカー攻撃試験 ATK-01〜12** ／ PR #905 CI 待機中 |
+| FT181 | ISO 8601 Datetime バリデーション | reminderlog | 26/26 | v1.5.116 | iso-datetime-validation.md（+25:00 拒否・クロスTZ 比較バグ修正・DateTimeImmutable 比較） ／ PR #907 CI 待機中 |
 
 ## 次のアクション（2026-05-26〜）
 
@@ -100,15 +105,12 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 | FT | テーマ案 | 備考 |
 |---|---|---|
-| ~~FT170~~ | ~~Request Deduplication（deduplog）~~ | ~~完了 v1.5.104~~ |
-| ~~FT171~~ | ~~Hierarchical Data（hierarchylog）~~ | ~~完了 v1.5.105~~ |
-| ~~FT172~~ | ~~Content Scheduling（pubschedulelog）~~ | ~~完了 v1.5.106~~ |
-| ~~FT173~~ | ~~Content Relations（relatedlog）~~ | ~~完了 v1.5.107~~ |
-| ~~FT174~~ | ~~Slug Management（sluglog）~~ | ~~完了 v1.5.108~~ |
-| ~~FT175~~ | ~~API Usage Metering（meterlog）~~ | ~~完了 v1.5.109~~ |
-| ~~FT176~~ | ~~Delegated Access Grants（grantlog）~~ | ~~完了 v1.5.110~~ |
-| ~~FT177~~ | ~~Pagination Boundary Attack（limitlog）~~ | ~~完了 v1.5.111~~ |
-| 📋 FT178 | 次テーマ | 脆弱性診断（周期: FT178） |
+| ~~FT170〜FT177~~ | ~~完了~~ | ~~v1.5.104〜v1.5.111~~ |
+| ~~FT178~~ | ~~JSON Merge Patch（patchlog）~~ | ~~完了 v1.5.113~~ |
+| ~~FT179~~ | ~~テナント分離（isolationlog）~~ | ~~完了 v1.5.114~~ |
+| ~~FT180~~ | ~~SQL ORDER BY インジェクション（sortlog）~~ | ~~完了 v1.5.115 — PR #905 CI 待機中~~ |
+| ~~FT181~~ | ~~ISO 8601 Datetime（reminderlog）~~ | ~~完了 v1.5.116 — PR #907 CI 待機中~~ |
+| 📋 FT182 | 次テーマ | — |
 
 ### ループ終了後（FT170 以降）— 完了・進行状況
 
@@ -126,8 +128,8 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 | チェック項目 | 次回 |
 |---|---|
 | MySQL 統合テスト | FT167 ✓ 完了 |
-| 脆弱性診断 | FT177 ✓ 完了（次: FT180） |
-| クラッカー攻撃試験 | FT176 ✓ 完了（次: FT180） |
+| 脆弱性診断 | FT180 ✓ 完了（次: FT183） |
+| クラッカー攻撃試験 | FT180 ✓ 完了（次: FT184） |
 
 ## 検討事項（決定不要・議題として保持）
 
