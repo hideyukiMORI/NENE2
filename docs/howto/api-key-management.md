@@ -1,5 +1,7 @@
 # API Key Management
 
+> **FT reference**: FT266 (`NENE2-FT/apikeylog`) — API key lifecycle: generation, SHA-256 hash storage, prefix-based lookup, scope enforcement, rotation
+
 This guide covers implementing API key management in NENE2 applications: key generation, secure storage, scope-based authorization, revocation, and rotation.
 
 ## Core design principles

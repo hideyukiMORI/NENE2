@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.237] — 2026-05-27
+
+### Changed
+- `docs/howto/api-key-management.md` — FT266 参照を追加: NENE2-FT/apikeylog との紐付け (FT266)。 (#1078)
+
+---
+
 ## [1.5.236] — 2026-05-27
 
 ### Added
