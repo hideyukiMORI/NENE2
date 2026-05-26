@@ -10,6 +10,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.184] — 2026-05-27
+
+### Added
+- `docs/howto/feedback-collection.md` — フィードバック収集ガイド: 1人1回・スコア1-5バリデーション・集計統計 (FT205)。 (#955)
+
+---
+
+
 ## [1.5.158] — 2026-05-27
 
 ### Added
