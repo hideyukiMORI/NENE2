@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.234] — 2026-05-27
+
+### Added
+- `docs/howto/emoji-reactions-toggle.md` — 絵文字リアクション howto: トグルパターン（SELECT → 存在すれば DELETE・なければ INSERT）・UNIQUE(target_id, target_type, reaction_type, user_id) 複合ユニーク制約・DatabaseConstraintException 競合状態処理（remove として扱う）・GROUP BY reaction_type + COUNT(*) グループ別カウント・per-user リアクション一覧（user_id クエリパラメータ）・PUT 201（追加時） vs 200（削除時）・target_type による複数エンティティ型対応 (FT263)。 (#1072)
+
+---
+
 ## [1.5.233] — 2026-05-27
 
 ### Added
