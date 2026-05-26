@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.159] — 2026-05-27
+
+### Added
+- `docs/howto/privacy-consent-management.md` — プライバシー同意管理 API ガイド: GDPR スタイル同意管理・UPSERT 冪等性・append-only 履歴・IDOR 防止・ctype_alnum() purpose バリデーション (FT189)。 (#923)
+
+---
+
 ## [1.5.157] — 2026-05-27
 
 ### Added

@@ -4,7 +4,7 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 ## Status
 
-- Latest release: `v1.5.111`（2026-05-26 リリース済み）
+- Latest release: `v1.5.124`（2026-05-26 リリース済み、PR #924 pending CI）
 - Current branch: `main` — clean
 
 ## Recently Completed (FT ループ — FT96–FT170 / v1.5.30–v1.5.104)
@@ -108,7 +108,9 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 | ~~FT175~~ | ~~API Usage Metering（meterlog）~~ | ~~完了 v1.5.109~~ |
 | ~~FT176~~ | ~~Delegated Access Grants（grantlog）~~ | ~~完了 v1.5.110~~ |
 | ~~FT177~~ | ~~Pagination Boundary Attack（limitlog）~~ | ~~完了 v1.5.111~~ |
-| 📋 FT178 | 次テーマ | 脆弱性診断（周期: FT178） |
+| ~~FT178〜188~~ | ~~JSON Merge Patch〜Numeric Verification Code 等~~ | ~~完了 v1.5.112〜123（PR pending CI）~~ |
+| ~~FT189~~ | ~~Privacy Consent Management（consentlog）~~ | ~~完了 v1.5.124（PR #924 pending CI）VULN-A〜L 全 Pass~~ |
+| 📋 FT190 | 次テーマ | 通常 FT |
 
 ### ループ終了後（FT170 以降）— 完了・進行状況
 
@@ -126,8 +128,8 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 | チェック項目 | 次回 |
 |---|---|
 | MySQL 統合テスト | FT167 ✓ 完了 |
-| 脆弱性診断 | FT177 ✓ 完了（次: FT180） |
-| クラッカー攻撃試験 | FT176 ✓ 完了（次: FT180） |
+| 脆弱性診断 | FT189 ✓ 完了（次: FT192） |
+| クラッカー攻撃試験 | FT188 ✓ 完了（次: FT192） |
 
 ## 検討事項（決定不要・議題として保持）
 
