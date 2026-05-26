@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.208] — 2026-05-27
+
+### Added
+- `docs/howto/state-machine-audit-log.md` — 状態遷移ログ API ガイド: 遷移監査テーブル・InvalidTransitionException → 409 + from/to コンテキスト・2-write パターン・VULN V-01〜V-10 脆弱性評価 (FT237)。 (#1020)
+
+---
+
 ## [1.5.207] — 2026-05-27
 
 ### Added
