@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.201] — 2026-05-27
+
+### Added
+- `docs/howto/dead-letter-queue.md` — デッドレターキュー API ガイド: クレイム・指数バックオフリトライ (2^n 秒、最大 3600 秒)・DLQ・リプレイ・複数キュー (FT230)。 (#1006)
+
+---
+
 ## [1.5.200] — 2026-05-27
 
 ### Added
