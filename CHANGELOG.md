@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.195] — 2026-05-27
+
+### Added
+- `docs/howto/habit-tracker.md` — 習慣トラッカー API ガイド: 頻度 allowlist・重複完了 409 Conflict・ストリーク計算・ATK-01〜12 クラッカー攻撃テスト (FT224)。 (#994)
+
+---
+
 ## [1.5.194] — 2026-05-27
 
 ### Added
