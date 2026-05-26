@@ -10,6 +10,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.163] — 2026-05-27
+
+### Added
+- `docs/howto/batch-api-partial-success.md` — バッチ書き込み API & 部分成功パターンガイド: MAX_BATCH DoS 防止・インデックス保存エラー報告 (FT182)。 (#908)
+
+---
+
+
 ## [1.5.158] — 2026-05-27
 
 ### Added
