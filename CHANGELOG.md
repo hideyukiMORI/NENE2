@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.255] — 2026-05-27
+
+### Added
+- `docs/howto/rate-limiting.md` — FT284 新規作成: ThrottleMiddleware レート制限 howto と ATK 攻撃試験 (ATK-01〜ATK-12): IP ベース・カスタム key extractor・X-RateLimit-* ヘッダー・429 Problem Details・Retry-After (FT284)。 (#1128)
+
+---
+
 ## [1.5.254] — 2026-05-27
 
 ### Added
