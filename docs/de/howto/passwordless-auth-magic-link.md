@@ -1,23 +1,23 @@
 # Passwortlose Authentifizierung (Magic Link)
 
-Implementierungsleitfaden für passwortlose Authentifizierung (Magic Link). Erklärt das sichere Designmuster für ein Einmal-Link-System, bei dem die Authentifizierung nur mit einer E-Mail-Adresse möglich ist.
+Implementierungsanleitung für passwortlose Authentifizierung (Magic Link). Beschreibt sichere Designmuster für ein Einmalig-Link-System, das allein mit einer E-Mail-Adresse authentifiziert.
 
-## Überblick
+## Übersicht
 
 Magic-Link-Authentifizierung funktioniert mit folgendem Ablauf:
 
 1. Benutzer sendet E-Mail-Adresse
-2. Server generiert ein Einmal-Token (Magic Link) und sendet es per E-Mail
-3. Benutzer sendet das Token, um ein Session-Token zu erhalten
-4. Session-Token für API-Zugriff verwenden
+2. Server generiert einen Einmal-Token (Magic Link) und sendet ihn per E-Mail
+3. Benutzer sendet das Token und erhält ein Session-Token
+4. Mit dem Session-Token wird auf die API zugegriffen
 
 ## Endpunkte
 
 | Methode | Pfad | Beschreibung |
-|---------|------|-------------|
-| `POST` | `/auth/request` | E-Mail-Adresse vorlegen → Magic Link generieren (immer 202) |
-| `POST` | `/auth/verify` | Magic-Link-Token verifizieren → Session-Token ausgeben |
-| `POST` | `/auth/logout` | Session invalidieren (immer 204) |
+|---|---|---|
+| `POST` | `/auth/request` | E-Mail-Adresse angeben → Magic Link generieren (immer 202) |
+| `POST` | `/auth/verify` | Magic-Link-Token verifizieren → Session-Token ausstellen |
+| `POST` | `/auth/logout` | Session ungültig machen (immer 204) |
 | `GET` | `/me` | Authentifizierte Benutzerinformationen abrufen |
 
 ## Datenbankdesign
@@ -32,7 +32,7 @@ CREATE TABLE users (
 CREATE TABLE magic_links (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER NOT NULL,
-    token_hash TEXT NOT NULL UNIQUE,  -- SHA-256-Hash gespeichert (Rohwert wird nicht gespeichert)
+    token_hash TEXT NOT NULL UNIQUE,  -- SHA-256-Hash speichern (Rohwert nicht gespeichert)
     expires_at TEXT NOT NULL,          -- 15-Minuten-Ablaufzeit
     used_at TEXT,                      -- Einmalige Verwendung (NULL = unbenutzt)
     created_at TEXT NOT NULL,
@@ -42,9 +42,9 @@ CREATE TABLE magic_links (
 CREATE TABLE auth_sessions (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER NOT NULL,
-    session_token_hash TEXT NOT NULL UNIQUE,  -- SHA-256-Hash gespeichert
+    session_token_hash TEXT NOT NULL UNIQUE,  -- SHA-256-Hash speichern
     expires_at TEXT NOT NULL,                  -- 24-Stunden-Ablaufzeit
-    revoked_at TEXT,                           -- Bei logout gesetzt
+    revoked_at TEXT,                           -- beim Logout gesetzt
     created_at TEXT NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
@@ -55,64 +55,64 @@ CREATE TABLE auth_sessions (
 ### Token als SHA-256-Hash speichern
 
 ```php
-// Generierung: 256-Bit-Zufall → Hex-String (64 Zeichen)
+// Generierung: 256-Bit-Zufallswert → Hex-String (64 Zeichen)
 $rawToken = bin2hex(random_bytes(32));
 $tokenHash = hash('sha256', $rawToken);
 
 // Nur tokenHash in DB speichern
-// Nur rawToken wird per E-Mail gesendet (Sicherheit bei DB-Leck)
+// rawToken wird nur per E-Mail gesendet (Sicherheit bei DB-Kompromiss)
 ```
 
-Selbst bei DB-Leck kann das Token nicht aus dem Hash wiederhergestellt werden. Gleiches Prinzip wie Passwort-Hashing.
+Selbst wenn die DB kompromittiert wird, können Token aus den Hashes nicht wiederhergestellt werden. Gleiches Prinzip wie Passwort-Hashing.
 
-### Benutzer-Enumerationsprävention
+### Benutzer-Enumerations-Prävention
 
 ```php
 // POST /auth/request gibt immer 202 zurück
-// Antwort nicht zwischen registrierten / nicht-registrierten E-Mails unterscheiden
+// Antwort unterscheidet sich nicht für registrierte/nicht-registrierte E-Mails
 return $this->responseFactory->create([
     'message' => 'if this email is registered, a magic link has been sent',
 ], 202);
 ```
 
-Angreifer kann die Gültigkeit von E-Mail-Adressen nicht bestätigen.
+Angreifer können die Gültigkeit von E-Mail-Adressen nicht überprüfen.
 
 ### Ablauf-Check vor used_at-Check
 
 ```php
-// Zuerst Ablauf prüfen
+// Ablauf zuerst prüfen
 if ($now > (string) $link['expires_at']) {
     return $this->responseFactory->create(['error' => 'token has expired'], 401);
 }
 
-// Dann used_at prüfen
+// Danach used_at prüfen
 if ($link['used_at'] !== null) {
     return $this->responseFactory->create(['error' => 'token has already been used'], 401);
 }
 ```
 
-Verhindert das Preisgeben, ob ein abgelaufenes Token "verwendet" ist (Timing-Informations-Leck-Prävention).
+Verhindert, dass bekannt wird, ob ein abgelaufenes Token „verwendet" wurde (verhindert Timing-Informationsleck).
 
 ### Einmalige Verwendung (Replay-Angriffs-Prävention)
 
 ```php
-// Bei erfolgreichem verify sofort used_at setzen
+// Bei erfolgreicher Verifizierung immediately used_at setzen
 $this->repository->markMagicLinkUsed($linkId, $now);
 ```
 
-Denselben Magic Link kann man nicht zweimal verwenden. Verhindert die Wiederverwendung abgefangener Links.
+Derselbe Magic Link kann nicht zweimal verwendet werden. Verhindert die Wiederverwendung abgefangener Links.
 
-### Session-Invalidierung (Logout)
+### Session-Ungültigmachung (Logout)
 
 ```php
-// Logout gibt immer 204 zurück — verrät keine Session-Existenz
+// Logout gibt immer 204 zurück — verrät nicht Session-Existenz
 if ($session !== null && $session['revoked_at'] === null) {
     $this->repository->revokeSession((int) $session['id'], date('c'));
 }
 return $this->responseFactory->createEmpty(204);
 ```
 
-Bei `/me` wird 401 zurückgegeben, wenn `revoked_at !== null`.
+`/me` gibt 401 zurück, wenn `revoked_at !== null`.
 
 ## Session-Validierungsablauf
 
@@ -148,9 +148,9 @@ private function extractBearerToken(ServerRequestInterface $request): string
 }
 ```
 
-`X-User-Id`-Header wird nicht für die Authentifizierung verwendet. Nur `Authorization: Bearer <token>`.
+`X-User-Id`-Header nicht für Authentifizierung verwenden. Nur `Authorization: Bearer <token>`.
 
-## Neuen Benutzer automatisch erstellen
+## Automatische Neubenutzererstellung
 
 ```php
 public function findOrCreateUser(string $email, string $now): int
@@ -164,21 +164,22 @@ public function findOrCreateUser(string $email, string $now): int
 }
 ```
 
-Benutzer wird beim ersten Login automatisch erstellt. Charakteristikum passwortloser Authentifizierung.
+Benutzer werden beim ersten Login automatisch erstellt. Eigenschaft der passwortlosen Authentifizierung.
 
 ## Magic-Link-Ablaufzeiten
 
-- **Magic Link**: 15 Minuten (900 Sekunden) — Zeit zum Öffnen und Klicken der E-Mail
-- **Session Token**: 24 Stunden (86400 Sekunden) — normale API-Session
+- **Magic Link**: 15 Minuten (900 Sekunden) — genug Zeit zum E-Mail-Öffnen und Klicken
+- **Session-Token**: 24 Stunden (86400 Sekunden) — normale API-Session
 
 ```php
-$expiresAt = date('c', time() + 900);    // magic link: 15 Min
+$expiresAt = date('c', time() + 900);    // magic link: 15 min
 $sessionExpiresAt = date('c', time() + 86400);  // session: 24h
 ```
 
 ## Produktionsüberlegungen
 
-- **E-Mail-Versand**: In diesem FT ist das `token` aus Testgründen in der Antwort enthalten. In der Produktion per SMTP an die E-Mail-Adresse des Benutzers senden und aus der Antwort entfernen.
-- **Rate-Limiting**: Anfragen an `/auth/request` nach IP / E-Mail rate-limitieren.
-- **Alte unbenutzte Links invalidieren**: Wenn `/auth/request` mehrmals mit derselben E-Mail aufgerufen wird, explizit alte unbenutzte Links invalidieren.
-- **HTTPS erforderlich**: Da Magic-Link-Tokens in URL-Parametern enthalten sind, ist HTTPS erforderlich (Man-in-the-Middle-Angriffs-Prävention).
+- **E-Mail-Versand**: In diesem FT wird `token` in der Antwort zurückgegeben (für Tests).
+  In der Produktion per SMTP an die E-Mail-Adresse des Benutzers senden und aus der Antwort entfernen.
+- **Rate Limiting**: Anfragen an `/auth/request` nach IP / E-Mail begrenzen.
+- **Ungültigmachung alter unbenutzter Links**: Bei mehrmaligem Aufrufen von `/auth/request` mit derselben E-Mail erwägen, alte unbenutzte Links explizit ungültig zu machen.
+- **HTTPS erforderlich**: Magic-Link-Token befinden sich in URL-Parametern, daher ist HTTPS Pflicht (Man-in-the-Middle-Angriffs-Prävention).
