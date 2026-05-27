@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.318] — 2026-05-27
+
+### Added
+- `docs/howto/upvote-downvote-api.md` — FT347 新規作成: 賛否投票 API howto: UNIQUE(user_id, item_id) 1 票制限・トグルオフ・方向変更・score 集計 (#1255)
+
+---
+
 ## [1.5.317] — 2026-05-27
 
 ### Added
