@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.241] — 2026-05-27
+
+### Changed
+- `docs/howto/feature-flags.md` — FT270 参照と HTTP API 詳細を追加: 7 エンドポイント（create/get/toggle/rollout/targeting/evaluate）・FlagEvaluator の優先順位チェーン（user target → tenant target → globally_enabled → rollout_pct hash → false）・crc32 ハッシュによる決定的バケット割り当て（同一ユーザーは常に同じバケット）・abs() による符号対策・ユーザー kill switch（globally_enabled=1 でも user target enabled=false で除外）・flag name の UNIQUE 制約と 409 Conflict・target_type は 'user' か 'tenant' のみ許可 (FT270)。 (#1098)
+
+---
+
 ## [1.5.240] — 2026-05-27
 
 ### Added
