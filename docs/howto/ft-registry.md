@@ -85,6 +85,7 @@ FT 番号 → プロジェクト名 → howto ファイルの台帳。
 | FT292 | deduplog | [idempotency-key.md](idempotency-key.md) | ATK |
 | FT293 | ablog | [ab-testing.md](ab-testing.md) | 通常 |
 | FT294 | batchlog | [batch-api-partial-success.md](batch-api-partial-success.md) | 通常 |
+| FT295 | bookmarklog | [bookmark-api.md](bookmark-api.md) | 通常 |
 
 ---
 

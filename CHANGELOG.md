@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.266] — 2026-05-27
+
+### Added
+- `docs/howto/bookmark-api.md` — FT295 新規作成: ブックマーク API howto: UNIQUE(user_id,item_id)・コレクション分類・重複 409・ユーザースコープ IDOR 防止 (FT295)。 (#1150)
+
+---
+
 ## [1.5.265] — 2026-05-27
 
 ### Added
