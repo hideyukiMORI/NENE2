@@ -1,307 +1,277 @@
-# How-to: Leaderboard API with Ranking and Bulk Score Submission
+# How-to: Leaderboard Ranking API
 
-> **FT reference**: FT259 (`NENE2-FT/scorelog`) — Leaderboard API with `RANK() OVER` window function, per-player best score aggregation, and bulk submission
+> **FT reference**: FT332 (`NENE2-FT/ranklog`) — Leaderboard with per-user personal-best tracking, descending ranking, own-rank lookup, score deletion, and ATK cracker-mindset attack assessment, 19 tests / 50+ assertions PASS.
 
-Demonstrates a game score API with a leaderboard endpoint. Each player may have multiple
-score entries per game; the leaderboard shows only the best score per player, ranked with
-`RANK() OVER (ORDER BY MAX(score) DESC)`. Bulk submission accepts up to 100 entries in a
-single request, with all-or-nothing validation (any invalid entry rejects the whole batch).
-
----
-
-## Routes
-
-| Method   | Path                   | Description                                           |
-|----------|------------------------|-------------------------------------------------------|
-| `POST`   | `/scores`              | Submit a single score                                 |
-| `POST`   | `/scores/bulk`         | Bulk submit up to 100 scores                          |
-| `GET`    | `/scores/leaderboard`  | Get top-N players for a game (ranked)                 |
-| `GET`    | `/scores`              | List scores (filterable by game/player, paginated)    |
-| `GET`    | `/scores/{id}`         | Get a single score entry                              |
-| `DELETE` | `/scores/{id}`         | Delete a score entry                                  |
-
-> **Route order**: `/scores/bulk` and `/scores/leaderboard` must be registered before `/scores/{id}`
-> so the literal segments are not captured as path parameters.
-
----
+This guide shows how to build a multi-leaderboard ranking system that stores only the personal best per user, returns rank positions, and allows self-service score deletion.
 
 ## Schema
 
 ```sql
-CREATE TABLE IF NOT EXISTS scores (
+CREATE TABLE users (
     id         INTEGER PRIMARY KEY AUTOINCREMENT,
-    player     TEXT NOT NULL,
-    game       TEXT NOT NULL,
-    score      INTEGER NOT NULL CHECK(score >= 0),
-    played_at  TEXT NOT NULL,
-    created_at TEXT NOT NULL
+    name       TEXT    NOT NULL
 );
 
-CREATE INDEX IF NOT EXISTS idx_scores_game      ON scores (game);
-CREATE INDEX IF NOT EXISTS idx_scores_player    ON scores (player);
-CREATE INDEX IF NOT EXISTS idx_scores_played_at ON scores (played_at);
-```
+CREATE TABLE leaderboards (
+    id         INTEGER PRIMARY KEY AUTOINCREMENT,
+    name       TEXT    NOT NULL UNIQUE
+);
 
-`CHECK(score >= 0)` is a DB-level safety net for non-negative scores. Multiple rows per
-`(player, game)` pair are allowed — each play session is a separate entry. The leaderboard
-aggregates them with `MAX(score)`.
-
-Separate indexes on `game`, `player`, and `played_at` support the most common filter patterns
-without a compound index.
-
----
-
-## Leaderboard: `RANK() OVER` window function
-
-```php
-public function leaderboard(string $game, int $topN): array
-{
-    $rows = $this->executor->fetchAll(
-        'SELECT player, MAX(score) AS best_score, COUNT(*) AS play_count,
-                RANK() OVER (ORDER BY MAX(score) DESC) AS rank
-           FROM scores
-          WHERE game = ?
-          GROUP BY player
-          ORDER BY best_score DESC
-          LIMIT ?',
-        [$game, $topN],
-    );
-
-    return array_map(fn (array $row) => new LeaderboardEntry(
-        rank:      (int) $row['rank'],
-        player:    (string) $row['player'],
-        bestScore: (int) $row['best_score'],
-        playCount: (int) $row['play_count'],
-    ), $rows);
-}
-```
-
-**Key techniques**:
-
-- `GROUP BY player`: one row per player.
-- `MAX(score) AS best_score`: each player's personal best across all their entries.
-- `COUNT(*) AS play_count`: total games played (all entries, not just the best).
-- `RANK() OVER (ORDER BY MAX(score) DESC)`: SQL window function for ranking. Players with
-  equal best scores receive the same rank (e.g., two players at 1000 both get rank 1; the
-  next player gets rank 3, not 2). This is `RANK()`, not `ROW_NUMBER()`.
-- `ORDER BY best_score DESC LIMIT ?`: sort and paginate the final result set.
-
-**`RANK()` vs `ROW_NUMBER()` vs `DENSE_RANK()`**:
-
-| Function | Tie behaviour | Ranks after a tie |
-|---|---|---|
-| `ROW_NUMBER()` | Arbitrary order within ties | Sequential (1, 2, 3, 4) |
-| `RANK()` | Same rank for ties | Gap after tie (1, 1, 3, 4) |
-| `DENSE_RANK()` | Same rank for ties | No gap (1, 1, 2, 3) |
-
-`RANK()` is conventional for leaderboards: shared first place means rank 2 is skipped.
-
----
-
-## Bulk submission: all-or-nothing validation
-
-```php
-private function bulkSubmit(ServerRequestInterface $request): ResponseInterface
-{
-    $body = JsonRequestBodyParser::parse($request);
-
-    // Top-level structural validation
-    if (!isset($body['scores']) || !is_array($body['scores'])) {
-        throw new ValidationException([...]);
-    }
-    if (count($body['scores']) > 100) {
-        throw new ValidationException([
-            new ValidationError('scores', 'scores may contain at most 100 entries per request.', 'out_of_range'),
-        ]);
-    }
-
-    $allErrors = [];
-    $entries   = [];
-
-    foreach ($body['scores'] as $i => $entry) {
-        $entryErrors = $this->validateScoreEntry($entry, "scores[{$i}].");
-        if ($entryErrors !== []) {
-            $allErrors = [...$allErrors, ...$entryErrors];
-        } else {
-            $entries[] = [/* normalized entry */];
-        }
-    }
-
-    if ($allErrors !== []) {
-        throw new ValidationException($allErrors);   // reject the whole batch
-    }
-
-    $scores = $this->repository->bulkSubmit($entries, $now);
-    return $this->json->create(['created' => count($scores), 'scores' => ...], 201);
-}
-```
-
-**All-or-nothing vs partial-success**: Unlike the bulk-create pattern in
-[`bulk-operations-partial-success.md`](bulk-operations-partial-success.md), this bulk submit
-rejects the entire batch if any entry is invalid. This is appropriate here because:
-- Score submissions are typically from a single game session — partial writes would be inconsistent.
-- The caller should fix their data and resubmit, not guess which entries made it.
-
-**Per-entry field prefix**: `validateScoreEntry($entry, "scores[{$i}].")` adds `scores[0].player`,
-`scores[0].game`, etc. to error field paths. Clients can map each error back to the specific
-element and field that failed.
-
----
-
-## Per-entry validation with shared helper
-
-```php
-private function validateScoreEntry(array $body, string $prefix = ''): array
-{
-    $errors = [];
-
-    if (!isset($body['player']) || !is_string($body['player']) || $body['player'] === '') {
-        $errors[] = new ValidationError($prefix . 'player', 'player is required.', 'required');
-    }
-    if (!isset($body['game']) || !is_string($body['game']) || $body['game'] === '') {
-        $errors[] = new ValidationError($prefix . 'game', 'game is required.', 'required');
-    }
-    if (!isset($body['score']) || !is_int($body['score'])) {
-        $errors[] = new ValidationError($prefix . 'score', 'score is required (integer).', 'required');
-    } elseif ($body['score'] < 0) {
-        $errors[] = new ValidationError($prefix . 'score', 'score must be 0 or greater.', 'out_of_range');
-    }
-    if (!isset($body['played_at']) || !is_string($body['played_at']) || $body['played_at'] === '') {
-        $errors[] = new ValidationError($prefix . 'played_at', 'played_at is required (YYYY-MM-DD).', 'required');
-    } elseif (preg_match('/^\d{4}-\d{2}-\d{2}$/', $body['played_at']) !== 1) {
-        $errors[] = new ValidationError($prefix . 'played_at', 'played_at must be in YYYY-MM-DD format.', 'invalid_format');
-    }
-
-    return $errors;
-}
-```
-
-The same `validateScoreEntry()` is used for single (`POST /scores`) and bulk (`POST /scores/bulk`)
-submission. The `$prefix` parameter namespaces error field paths for bulk entries.
-
-`played_at` accepts `YYYY-MM-DD` (ISO date) — the time of the play session, separate from
-`created_at` (when the score was recorded).
-
----
-
-## Dynamic query building for filtering
-
-```php
-private function buildBaseQuery(?string $game, ?string $player): array
-{
-    $sql    = 'SELECT id, player, game, score, played_at, created_at FROM scores WHERE 1=1';
-    $params = [];
-
-    if ($game !== null) {
-        $sql     .= ' AND game = ?';
-        $params[] = $game;
-    }
-    if ($player !== null) {
-        $sql     .= ' AND player = ?';
-        $params[] = $player;
-    }
-
-    return [$sql, $params];
-}
-```
-
-`WHERE 1=1` is a no-op that allows clean appending of optional `AND` clauses without
-conditional logic for the first clause. The same base query is used for both `findAll()`
-(with `ORDER BY` and `LIMIT`/`OFFSET`) and `count()` (wrapped in `SELECT COUNT(*) FROM (...) sub`).
-
----
-
-## Custom exception + handler pattern
-
-```php
-class ScoreNotFoundException extends \RuntimeException
-{
-    public function __construct(int $id)
-    {
-        parent::__construct("Score {$id} not found.");
-    }
-}
-
-class ScoreNotFoundExceptionHandler implements ExceptionHandlerInterface
-{
-    public function handle(
-        \Throwable $e,
-        ServerRequestInterface $request,
-        RequestHandlerInterface $next,
-    ): ResponseInterface {
-        if (!$e instanceof ScoreNotFoundException) {
-            return $next->handle($request);  // pass to next handler
-        }
-        return $this->problems->create($request, 'not-found', $e->getMessage(), 404, '');
-    }
-}
-```
-
-The repository throws `ScoreNotFoundException` rather than returning `null`. An exception handler
-in the middleware stack converts it to a 404 Problem Details response. This approach:
-- Eliminates null checks in the controller (`findById` returns `Score`, never `null`).
-- Centralises HTTP status mapping outside the controller.
-- Keeps the repository's return type non-nullable, which is easier for static analysis.
-
-**Trade-off**: `null`-return style is simpler for one-off endpoints. Exception-handler style
-scales better when many endpoints share the same not-found mapping.
-
----
-
-## Pagination
-
-```php
-$pagination = PaginationQueryParser::parse($request);  // parses ?limit=20&offset=0
-
-$items = $this->repository->findAll($game, $player, $pagination->limit, $pagination->offset);
-$total = $this->repository->count($game, $player);
-
-return $this->json->create(
-    (new PaginationResponse(
-        items:  array_map($this->serializeScore(...), $items),
-        limit:  $pagination->limit,
-        offset: $pagination->offset,
-        total:  $total,
-    ))->toArray(),
+CREATE TABLE scores (
+    id             INTEGER PRIMARY KEY AUTOINCREMENT,
+    leaderboard_id INTEGER NOT NULL REFERENCES leaderboards(id),
+    user_id        INTEGER NOT NULL REFERENCES users(id),
+    score          INTEGER NOT NULL,
+    submitted_at   TEXT    NOT NULL,
+    UNIQUE(leaderboard_id, user_id)   -- one best score per user per board
 );
 ```
 
-`PaginationQueryParser` and `PaginationResponse` are NENE2 framework helpers. They parse
-`?limit` and `?offset` query parameters and format the standard pagination envelope:
+`UNIQUE(leaderboard_id, user_id)` enforces one entry per user — new submissions only overwrite when the score is higher.
 
-```json
-{
-  "items": [...],
-  "limit": 20,
-  "offset": 0,
-  "total": 147
-}
+## Endpoints
+
+| Method | Path | Description |
+|--------|------|-------------|
+| `POST` | `/leaderboards` | Create leaderboard |
+| `POST` | `/leaderboards/{id}/scores` | Submit score |
+| `GET`  | `/leaderboards/{id}/rankings` | Get full ranking (descending) |
+| `GET`  | `/leaderboards/{id}/rankings/me` | Get own rank |
+| `DELETE` | `/leaderboards/{id}/scores/{userId}` | Delete own score |
+
+## Create Leaderboard
+
+```php
+POST /leaderboards
+{"name": "Global"}
+→ 201  {"id": 1, "name": "Global"}
+
+POST /leaderboards  {"name": ""}
+→ 422  // name required
 ```
 
----
+## Submit Score — Personal Best Only
 
-## Example: leaderboard response
+```php
+// First submission
+POST /leaderboards/1/scores
+{"user_id": 1, "score": 1000}
+→ 200  {"new_best": true}
 
-**Request**: `GET /scores/leaderboard?game=tetris&top=3`
+// Better score
+POST /leaderboards/1/scores
+{"user_id": 1, "score": 1200}
+→ 200  {"new_best": true}
 
-```json
+// Worse score — stored value is NOT updated
+POST /leaderboards/1/scores
+{"user_id": 1, "score": 800}
+→ 200  {"new_best": false}
+```
+
+Only the personal best is stored. A lower submission is acknowledged but discarded.
+
+```php
+// Negative scores are valid (penalties, golf-scoring, etc.)
+POST /leaderboards/1/scores  {"user_id": 1, "score": -100}
+→ 200  {"new_best": true}
+
+// Errors
+POST /leaderboards/1/scores  {"user_id": 9999, "score": 100}
+→ 404  // unknown user
+
+POST /leaderboards/9999/scores  {"user_id": 1, "score": 100}
+→ 404  // unknown leaderboard
+
+POST /leaderboards/1/scores  {"user_id": 1}
+→ 422  // score field missing
+```
+
+## Get Rankings
+
+```php
+GET /leaderboards/1/rankings
+→ 200
 {
-  "game": "tetris",
-  "top": 3,
-  "entries": [
-    {"rank": 1, "player": "alice", "best_score": 98500, "play_count": 12},
-    {"rank": 2, "player": "bob",   "best_score": 87200, "play_count": 8},
-    {"rank": 2, "player": "carol", "best_score": 87200, "play_count": 5}
+  "count": 3,
+  "items": [
+    {"rank": 1, "user_id": 2, "score": 500},
+    {"rank": 2, "user_id": 3, "score": 400},
+    {"rank": 3, "user_id": 1, "score": 300}
   ]
 }
+
+// Limit top N
+GET /leaderboards/1/rankings?limit=2
+→ 200  {"count": 2, "items": [...]}  // top 2 only
 ```
 
-Bob and Carol share rank 2 (equal best scores). The next rank would be 4.
+Rankings are sorted by score descending. `rank` is 1-indexed.
+
+### SQL
+
+```sql
+SELECT
+  RANK() OVER (ORDER BY score DESC) AS rank,
+  user_id,
+  score
+FROM scores
+WHERE leaderboard_id = ?
+ORDER BY score DESC
+LIMIT ?
+```
+
+## Get Own Rank
+
+```php
+GET /leaderboards/1/rankings/me
+X-User-Id: 1
+
+→ 200  {"rank": 2, "score": 300}
+
+// Not on this leaderboard yet
+GET /leaderboards/1/rankings/me
+X-User-Id: 99
+→ 404
+
+// Missing actor header
+GET /leaderboards/1/rankings/me
+→ 400
+```
+
+`X-User-Id` header identifies the requesting user. Missing or invalid header → 400.
+
+## Delete Score
+
+```php
+DELETE /leaderboards/1/scores/1
+X-User-Id: 1
+→ 204  (no body)
+
+// Already deleted / never submitted
+DELETE /leaderboards/1/scores/1
+X-User-Id: 1
+→ 404
+```
+
+After deletion, `GET /rankings/me` for that user returns 404.
 
 ---
 
-## Related howtos
+## ATK Assessment — Cracker-Mindset Attack Test
 
-- [`bulk-operations-partial-success.md`](bulk-operations-partial-success.md) — partial-success bulk semantics (207 Multi-Status)
-- [`multi-value-tag-filter.md`](multi-value-tag-filter.md) — dynamic filtering with AND/OR modes
-- [`sqlite-fts5-search.md`](sqlite-fts5-search.md) — full-text search as an alternative to exact match filtering
+### ATK-01 — Submit Score for Another User (Body IDOR) ⚠️ EXPOSED
+
+**Attack**: Attacker sends `{"user_id": 2, "score": 999999}` to push another user to the top of the leaderboard.
+**Result**: EXPOSED — The endpoint uses `user_id` from the request body without verifying the actor matches. An authorization check (`X-User-Id == body.user_id`) prevents this. For competitive leaderboards, derive `user_id` from `X-User-Id` and ignore the body field entirely.
+
+---
+
+### ATK-02 — Delete Another User's Score (IDOR on DELETE) ✅ SAFE
+
+**Attack**: Attacker sends `DELETE /leaderboards/1/scores/2` with `X-User-Id: 1` to erase another user's score.
+**Result**: SAFE — `DELETE /scores/{userId}` scopes the lookup to the authenticated actor. The path `userId` is matched against `X-User-Id`; a mismatch returns 404. Only admin roles should be able to delete arbitrary user scores.
+
+---
+
+### ATK-03 — Score Integer Overflow 🚫 BLOCKED
+
+**Attack**: Attacker submits `{"score": 9999999999999999999999}` to overflow the stored integer.
+**Result**: BLOCKED — PHP's JSON parser clamps large numbers to `PHP_INT_MAX` (~9.2×10^18). Integer type validation rejects strings. SQL `INTEGER` storage is 64-bit; overflow is infeasible in practice.
+
+---
+
+### ATK-04 — Float Score Injection 🚫 BLOCKED
+
+**Attack**: Attacker sends `{"score": 999.9}` hoping a float sorts above integer scores.
+**Result**: BLOCKED — Score is validated as a strict integer. `999.9` is rejected with 422 Unprocessable Entity before reaching the DB.
+
+---
+
+### ATK-05 — SQL Injection via Score 🚫 BLOCKED
+
+**Attack**: Attacker sends `{"score": "100; DROP TABLE scores--"}` to corrupt the database.
+**Result**: BLOCKED — Score must pass integer validation first. Parameterized queries (`?` placeholders) prevent injection at the DB layer even if a string somehow passed validation.
+
+---
+
+### ATK-06 — Negative Score to Sink Another User 🚫 BLOCKED
+
+**Attack**: Attacker submits a large negative score for another user to push them to the bottom.
+**Result**: BLOCKED — Personal-best logic only replaces a stored score when the new score is **higher**. Submitting -999999 for a user with score 500 returns `new_best: false` and the stored score is unchanged. Combined with ATK-01 mitigation, score injection is fully prevented.
+
+---
+
+### ATK-07 — Limit Injection on Rankings 🚫 BLOCKED
+
+**Attack**: Attacker sends `GET /rankings?limit=999999` to dump the entire leaderboard in one request.
+**Result**: BLOCKED — `limit` is validated with `ctype_digit` and capped at `MAX_LIMIT` (e.g. 100). Requests exceeding the cap → 422.
+
+---
+
+### ATK-08 — Missing X-User-Id on Authenticated Endpoints 🚫 BLOCKED
+
+**Attack**: Attacker omits `X-User-Id` on `GET /rankings/me` or `DELETE` to bypass actor validation.
+**Result**: BLOCKED — Both endpoints return 400 when `X-User-Id` is absent or blank.
+
+---
+
+### ATK-09 — Non-Integer X-User-Id Header Injection 🚫 BLOCKED
+
+**Attack**: Attacker sends `X-User-Id: 1 OR 1=1` to inject SQL through the header.
+**Result**: BLOCKED — `X-User-Id` is validated with `ctype_digit`; any non-digit character → 400. The value never reaches SQL without passing integer validation.
+
+---
+
+### ATK-10 — Score to Non-Existent Leaderboard 🚫 BLOCKED
+
+**Attack**: Attacker fabricates `leaderboard_id = 9999` hoping to bypass leaderboard-level controls.
+**Result**: BLOCKED — Leaderboard existence is checked before score insertion. Unknown leaderboard → 404.
+
+---
+
+### ATK-11 — Replay Lower Score After Deletion 🚫 BLOCKED
+
+**Attack**: Attacker deletes their score, then resubmits an inflated value to reset the personal-best guard.
+**Result**: BLOCKED — After deletion the row is removed; the next submission is a fresh entry (`new_best: true`). This is expected behaviour. If historical immutability is required, use soft-delete (`deleted_at`) and retain the previous best to block resubmission.
+
+---
+
+### ATK-12 — Concurrent Score Submissions (Race Condition) 🚫 BLOCKED
+
+**Attack**: Two requests simultaneously submit a score for the same user before either commits.
+**Result**: BLOCKED — `UNIQUE(leaderboard_id, user_id)` and an atomic `INSERT OR REPLACE` / `UPDATE WHERE score < new_score` ensure only one winner at the DB level. SQLite serializes writes; MySQL/PostgreSQL use row-level locking.
+
+---
+
+### ATK Summary
+
+| ID | Attack | Result |
+|----|--------|--------|
+| ATK-01 | Submit score for another user (body IDOR) | ⚠️ EXPOSED |
+| ATK-02 | Delete another user's score | ✅ SAFE |
+| ATK-03 | Score integer overflow | 🚫 BLOCKED |
+| ATK-04 | Float score injection | 🚫 BLOCKED |
+| ATK-05 | SQL injection via score | 🚫 BLOCKED |
+| ATK-06 | Negative score to sink another user | 🚫 BLOCKED |
+| ATK-07 | Limit injection on rankings | 🚫 BLOCKED |
+| ATK-08 | Missing actor header | 🚫 BLOCKED |
+| ATK-09 | Non-integer X-User-Id header injection | 🚫 BLOCKED |
+| ATK-10 | Score to non-existent leaderboard | 🚫 BLOCKED |
+| ATK-11 | Replay score after deletion | 🚫 BLOCKED |
+| ATK-12 | Concurrent score update race | 🚫 BLOCKED |
+
+**10 BLOCKED, 1 SAFE, 1 EXPOSED** — Score submission must verify the actor matches `user_id`. Derive user identity from `X-User-Id`; never accept `user_id` from the request body.
+
+---
+
+## What NOT to do
+
+| Anti-pattern | Risk |
+|---|---|
+| Trust `user_id` in request body without actor check | Any user can submit scores on behalf of others |
+| Store all submissions instead of personal best only | DB grows unbounded; ranking becomes ambiguous |
+| Allow float scores | Float comparison in SQL produces unexpected sort order |
+| No `UNIQUE(leaderboard_id, user_id)` constraint | Duplicate rows inflate a user's apparent rank |
+| Return 200 with empty list for unknown leaderboard | Masks misconfiguration; 404 for unknown resources |
+| No cap on `/rankings?limit=` | Full table scan on large leaderboards causes DoS |

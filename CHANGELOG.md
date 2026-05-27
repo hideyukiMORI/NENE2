@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.303] — 2026-05-27
+
+### Added
+- `docs/howto/leaderboard-ranking-api.md` — FT332 ATK 新規作成: リーダーボードランキング API howto: スコア提出・個人ベスト管理・降順ランキング・自分のランク取得・ATK アセスメント (FT332)。 (#1225)
+
+---
+
 ## [1.5.302] — 2026-05-27
 
 ### Added
