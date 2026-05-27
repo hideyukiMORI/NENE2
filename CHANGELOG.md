@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.320] — 2026-05-27
+
+### Added
+- `docs/howto/state-machine-workflow-api.md` — FT349 新規作成: ステートマシン型ワークフロー API howto: 遷移マップ・allowed_next・history ログ・ターミナル状態 (#1259)
+
+---
+
 ## [1.5.319] — 2026-05-27
 
 ### Added
