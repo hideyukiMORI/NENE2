@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.277] — 2026-05-27
+
+### Added
+- `docs/howto/emoji-reactions-api.md` — FT306 新規作成: 絵文字リアクション API howto: UNIQUE(post_id,user_id,emoji)・mb_strlen 上限・urldecode パス・user_reactions 取得者別表示 (FT306)。 (#1172)
+
+---
+
 ## [1.5.276] — 2026-05-27
 
 ### Added
