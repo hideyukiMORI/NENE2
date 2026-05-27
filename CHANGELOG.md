@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.301] — 2026-05-27
+
+### Added
+- `docs/howto/scheduled-publish-article.md` — FT330 新規作成: 予約公開記事管理 API howto: draft/published/archived 状態遷移・未来日時スケジュール・公開記事認証なし閲覧・下書き所有者のみ (FT330)。 (#1221)
+
+---
+
 ## [1.5.300] — 2026-05-27
 
 ### Added
