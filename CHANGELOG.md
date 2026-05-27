@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.313] — 2026-05-27
+
+### Added
+- `docs/howto/jwt-tenant-isolation.md` — FT342 新規作成: JWT マルチテナント隔離 howto: tenant_id JWT クレーム・テナントスコープクエリ・クロステナント 404・テナント ID 非公開 (FT342)。 (#1245)
+
+---
+
 ## [1.5.312] — 2026-05-27
 
 ### Added
