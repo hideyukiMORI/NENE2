@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.272] — 2026-05-27
+
+### Added
+- `docs/howto/content-negotiation-api.md` — FT301 新規作成: JSON API コンテントネゴシエーション howto: Accept ヘッダー処理・application/json 強制・415 Content-Type ガード・Problem Details (FT301)。 (#1162)
+
+---
+
 ## [1.5.271] — 2026-05-27
 
 ### Added
