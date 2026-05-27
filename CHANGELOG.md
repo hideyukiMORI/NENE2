@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.304] — 2026-05-27
+
+### Added
+- `docs/howto/rating-review-api.md` — FT333 VULN 新規作成: 評価・レーティング API howto: PUT upsert・スコア 1-5 バリデーション・サマリー分布・VULN アセスメント (FT333)。 (#1227)
+
+---
+
 ## [1.5.303] — 2026-05-27
 
 ### Added
