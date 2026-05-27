@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.270] — 2026-05-27
+
+### Added
+- `docs/howto/collection-api.md` — FT299 新規作成: 記事コレクション API howto: is_public 公開制御・UNIQUE(collection_id,article_id)・position フィールド・404 存在秘匿 (FT299)。 (#1158)
+
+---
+
 ## [1.5.269] — 2026-05-27
 
 ### Added
