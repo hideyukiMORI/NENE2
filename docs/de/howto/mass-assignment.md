@@ -1,8 +1,8 @@
 # Mass-Assignment-Schutz
 
-Mass Assignment ist eine Schwachstelle, bei der ein Angreifer dem Request-Body zusätzliche Felder hinzufügt — wie `role=admin` oder `is_active=false` — und der Server sie unbeabsichtigt persistiert.
+Mass-Assignment ist eine Schwachstelle, bei der ein Angreifer dem Request-Body extra Felder hinzufügt — wie `role=admin` oder `is_active=false` — und der Server diese unbeabsichtigt persistiert.
 
-NENE2 hat keine `create($body)`-Zaubermethode, die dies versehentlich leicht auslösbar machen würde. Trotzdem ist das DTO-Whitelist-Muster die korrekte und explizite Verteidigung.
+NENE2 hat keine `create($body)`-Methode, die das versehentliche Auslösen vereinfachen würde. Dennoch ist das DTO-Whitelist-Muster die korrekte und explizite Abwehr.
 
 ## Die Schwachstelle
 
@@ -26,16 +26,16 @@ Ein Angreifer sendet:
 }
 ```
 
-Da `$body['role']` aus der Anfrage gelesen wird, erhält der Angreifer `role=admin` in der Datenbank.
+Da `$body['role']` aus dem Request gelesen wird, erhält der Angreifer `role=admin` in der Datenbank.
 
-## Die Verteidigung: Explizite DTO-Allowlist
+## Die Abwehr: Explizite DTO-Whitelist
 
-Ein DTO definieren, das nur die Felder enthält, die ein Benutzer liefern darf:
+Ein DTO definieren, das nur die Felder enthält, die ein Benutzer angeben darf:
 
 ```php
 /**
  * Nur name und email werden aus Benutzereingaben akzeptiert.
- * role und is_active werden durch serverseitige Logik gesetzt, niemals aus der Anfrage.
+ * role und is_active werden durch serverseitige Logik gesetzt, niemals aus dem Request.
  */
 final readonly class CreateUserInput
 {
@@ -46,10 +46,10 @@ final readonly class CreateUserInput
 }
 ```
 
-Im Controller nur die erlaubten Felder auf das DTO abbilden:
+Im Controller nur die erlaubten Felder auf das DTO mappen:
 
 ```php
-// ✅ Zusätzliche Felder (role, is_active, id, created_at) werden niemals aus $body gelesen
+// ✅ Extra Felder (role, is_active, id, created_at) werden nie aus $body gelesen
 $input = new CreateUserInput(
     name:  trim((string) $body['name']),
     email: strtolower(trim((string) $body['email'])),
@@ -58,7 +58,7 @@ $input = new CreateUserInput(
 $user = $this->repo->create($input);
 ```
 
-Im Repository die DTO-Eigenschaften direkt verwenden:
+Im Repository die DTO-Properties direkt verwenden:
 
 ```php
 public function create(CreateUserInput $input): User
@@ -66,26 +66,26 @@ public function create(CreateUserInput $input): User
     $now = (new \DateTimeImmutable())->format('Y-m-d H:i:s');
     $id = $this->executor->insert(
         'INSERT INTO users (name, email, role, is_active, created_at) VALUES (?, ?, ?, ?, ?)',
-        [$input->name, $input->email, 'user', 1, $now], // role und is_active sind hardcodiert
+        [$input->name, $input->email, 'user', 1, $now], // role und is_active sind fest kodiert
     );
     // ...
 }
 ```
 
-Selbst wenn der Angreifer `role=admin` sendet, hat `$input` nur `name` und `email` — das zusätzliche Feld erreicht den INSERT niemals.
+Selbst wenn der Angreifer `role=admin` sendet, hat `$input` nur `name` und `email` — das extra Feld erreicht das INSERT nie.
 
-## Behandelte Angriffsszenarien
+## Abgedeckte Angriffsszenarien
 
-| Feld | Angriffsabsicht | Verteidigung |
-|------|-----------------|-------------|
-| `role=admin` | Rechteerweiterung | `role` ist nicht in `CreateUserInput`; immer auf `'user'` im Repository gesetzt |
+| Feld | Angriffsabsicht | Abwehr |
+|-------|---------------|---------|
+| `role=admin` | Privilegieneskalation | `role` ist nicht in `CreateUserInput`; immer auf `'user'` im Repository gesetzt |
 | `is_active=false` | Deaktiviertes Konto erstellen oder Benutzer sperren | `is_active` nicht im DTO; immer auf `1` gesetzt |
-| `id=9999` | Primärschlüssel überschreiben | `id` nicht im DTO; automatisch von SQLite vergeben |
+| `id=9999` | Primärschlüssel überschreiben | `id` nicht im DTO; automatisch von SQLite zugewiesen |
 | `created_at=2000-01-01` | Audit-Zeitstempel fälschen | `created_at` nicht im DTO; immer auf aktuelle Zeit gesetzt |
 
-## Response-Feld-Kontrolle
+## Antwortfeld-Kontrolle
 
-Die Verteidigung erstreckt sich auf die Response: niemals DB-Zeilen direkt zurückgeben. Explizit abbilden, was eingeschlossen werden soll:
+Die Abwehr erstreckt sich auch auf die Antwort: DB-Zeilen niemals direkt zurückgeben. Explizit mappen, was eingeschlossen werden soll:
 
 ```php
 return $this->json->create([
@@ -95,12 +95,12 @@ return $this->json->create([
     'role'       => $user->role,
     'is_active'  => $user->isActive,
     'created_at' => $user->createdAt,
-    // password_hash bewusst ausgeschlossen
-    // deleted_at bewusst ausgeschlossen
+    // password_hash absichtlich ausgeschlossen
+    // deleted_at absichtlich ausgeschlossen
 ], 201);
 ```
 
-Auf das Fehlen sensibler Felder testen:
+Auf die Abwesenheit sensibler Felder testen:
 
 ```php
 $this->assertArrayNotHasKey('password_hash', $data);
@@ -109,7 +109,7 @@ $this->assertArrayNotHasKey('deleted_at', $data);
 
 ## Vertrauenswürdige interne Dienste
 
-Wenn ein interner Dienst einen Admin-Benutzer erstellen muss (z.B. ein Bereitstellungsdienst), ein separates DTO verwenden:
+Wenn ein interner Dienst einen Admin-Benutzer erstellen muss (z.B. ein Bereitstellungs-Service), ein separates DTO verwenden:
 
 ```php
 final readonly class AdminCreateUserInput
@@ -127,22 +127,22 @@ Dieses DTO nur aus Code-Pfaden aufrufen, die die Identität des Aufrufers bereit
 
 ## `create()` vs `createList()` für Antworten
 
-Wenn eine Liste zurückgegeben wird, `createList()` statt `create()` verwenden:
+Beim Zurückgeben einer Liste `createList()` statt `create()` verwenden:
 
 ```php
-// ✅ Top-Level JSON-Array
+// ✅ JSON-Array auf oberster Ebene
 return $this->json->createList(array_map(fn (User $u) => [...], $users));
 
-// ✅ Top-Level JSON-Objekt
+// ✅ JSON-Objekt auf oberster Ebene
 return $this->json->create(['id' => $user->id, ...], 201);
 ```
 
-`create()` erwartet `array<string, mixed>` (ein Objekt). Die Ausgabe von `array_map()` direkt an `create()` übergeben verursacht einen PHPStan-Level-8-Typfehler, da `array_map` `list<T>` zurückgibt.
+`create()` erwartet `array<string, mixed>` (ein Objekt). Die direkte Übergabe von `array_map()`-Ausgabe an `create()` verursacht einen PHPStan Level 8 Typfehler, weil `array_map` ein `list<T>` zurückgibt.
 
 ## Code-Review-Checkliste
 
-- [ ] Request-Body-Felder werden vor der Übergabe an das Repository auf ein DTO abgebildet
-- [ ] DTO enthält nur Felder, die der Benutzer liefern darf
-- [ ] Server-gesteuerte Felder (`role`, `is_active`, Zeitstempel, Primärschlüssel) werden im Repository gesetzt, nicht aus `$body` gelesen
-- [ ] Response listet zurückgegebene Felder explizit auf; kein Wildcard-`SELECT *` oder direkte Zeile-zu-JSON-Serialisierung
-- [ ] Tests verifizieren, dass zusätzliche Request-Felder ignoriert werden und den persistierten Wert nicht beeinflussen
+- [ ] Request-Body-Felder werden auf ein DTO gemappt, bevor sie an das Repository übergeben werden
+- [ ] DTO enthält nur Felder, die der Benutzer angeben darf
+- [ ] Serverseitig gesteuerte Felder (`role`, `is_active`, Zeitstempel, Primärschlüssel) werden im Repository gesetzt, nicht aus `$body` gelesen
+- [ ] Antwort listet explizit die zurückgegebenen Felder auf; kein Wildcard-`SELECT *` oder direkte Zeile-zu-JSON-Serialisierung
+- [ ] Tests verifizieren, dass extra Request-Felder ignoriert werden und den persistierten Wert nicht beeinflussen

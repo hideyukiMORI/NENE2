@@ -1,22 +1,22 @@
-# How-to: Medien-Watchlist-API
+# How-to: Medien-Merklisten-API
 
-> **FT-Referenz**: FT59 (`NENE2-FT/watchlog`) — Medien-Watch-List-API
+> **FT-Referenz**: FT59 (`NENE2-FT/watchlog`) — Medien-Merklisten-API
 
-Demonstriert eine persönliche Medien-Watchlist mit backed String-Enums für Status und Typ, optionalen nullable-Feldern mit `array_key_exists`, Archivieren/Wiederherstellen über POST-Aktionsendpunkte und einer 1–5-Integer-Bewertung. Alle Status- und Typvalidierungen verwenden PHPs `BackedEnum::tryFrom()`, um sicherzustellen, dass nur bekannte Werte akzeptiert werden.
+Demonstriert eine persönliche Medien-Merkliste mit backed-String-Enums für Status und Typ, optionalen nullable Feldern mit `array_key_exists`, Archivierung/Wiederherstellung über POST-Aktions-Endpunkte und einer 1–5-Integer-Bewertung. Die gesamte Status- und Typvalidierung verwendet PHPs `BackedEnum::tryFrom()`, um sicherzustellen, dass nur bekannte Werte akzeptiert werden.
 
 ---
 
 ## Routen
 
 | Methode | Pfad | Beschreibung |
-|--------|------|-------------|
-| `GET`    | `/watch` | Einträge auflisten (gefiltert und paginiert) |
-| `POST`   | `/watch` | Einen Eintrag zur Watchlist hinzufügen |
-| `GET`    | `/watch/{id}` | Einen einzelnen Eintrag abrufen |
-| `PATCH`  | `/watch/{id}/status` | Status aktualisieren (und optional Bewertung/Notiz) |
-| `POST`   | `/watch/{id}/archive` | Eintrag ins Archiv verschieben |
-| `POST`   | `/watch/{id}/restore` | Einen archivierten Eintrag wiederherstellen |
-| `DELETE` | `/watch/{id}` | Einen Eintrag dauerhaft löschen |
+|----------|------|-------------|
+| `GET`    | `/watch`                   | Einträge auflisten (gefiltert und paginiert)  |
+| `POST`   | `/watch`                   | Eintrag zur Merkliste hinzufügen              |
+| `GET`    | `/watch/{id}`              | Einzelnen Eintrag abrufen                     |
+| `PATCH`  | `/watch/{id}/status`       | Status aktualisieren (und optional Bewertung/Notiz) |
+| `POST`   | `/watch/{id}/archive`      | Eintrag ins Archiv verschieben                |
+| `POST`   | `/watch/{id}/restore`      | Archivierten Eintrag wiederherstellen         |
+| `DELETE` | `/watch/{id}`              | Eintrag dauerhaft löschen                     |
 
 ---
 
@@ -40,7 +40,7 @@ enum MediaType: string
 }
 ```
 
-Im Controller gibt `tryFrom()` `null` für unbekannte Werte zurück, was auf 422 abgebildet wird:
+Im Controller gibt `tryFrom()` `null` für unbekannte Werte zurück, was zu einem 422 führt:
 
 ```php
 $statusRaw = isset($body['status']) && is_string($body['status']) ? $body['status'] : null;
@@ -53,7 +53,7 @@ if ($statusRaw === null) {
 }
 ```
 
-Die zweistufige Prüfung unterscheidet "Feld fehlt" (required) von "Feld vorhanden, aber ungültig" (invalid_value), was bessere Fehlermeldungen erzeugt.
+Die zweistufige Prüfung unterscheidet "Feld fehlt" (required) von "Feld vorhanden, aber ungültig" (invalid_value) und erzeugt bessere Fehlermeldungen.
 
 ---
 
@@ -62,7 +62,7 @@ Die zweistufige Prüfung unterscheidet "Feld fehlt" (required) von "Feld vorhand
 Query-Parameter werden über `QueryStringParser` geparst, dann über `tryFrom()` validiert:
 
 ```php
-$statusRaw = QueryStringParser::string($request, 'status');   // null wenn fehlt
+$statusRaw = QueryStringParser::string($request, 'status');   // null wenn fehlend
 $status    = $statusRaw !== null ? WatchStatus::tryFrom($statusRaw) : null;
 
 if ($statusRaw !== null && $status === null) {
@@ -70,7 +70,7 @@ if ($statusRaw !== null && $status === null) {
 }
 ```
 
-Dieses Muster — parsen, Enum-Konvertierung versuchen, validieren — hält Routing-Logik außerhalb des Domänen-Codes. Das Repository akzeptiert `?WatchStatus` und `?MediaType` und filtert entsprechend.
+Dieses Muster — parsen, Enum-Konvertierung versuchen, validieren — hält Routing-Logik aus dem Domain-Code heraus. Das Repository akzeptiert `?WatchStatus` und `?MediaType` und filtert entsprechend.
 
 **Unterstützte Filter**:
 - `?status=watching` — nach Status filtern
@@ -80,7 +80,7 @@ Dieses Muster — parsen, Enum-Konvertierung versuchen, validieren — hält Rou
 
 ---
 
-## Nullable-Felder mit `array_key_exists`
+## Nullable Felder mit `array_key_exists`
 
 `rating` und `note` sind nullable — Aufrufer können sie explizit auf `null` setzen, um sie zu löschen. Die Verwendung von `isset()` würde ein explizit gesendetes `null` übersehen. `array_key_exists()` verwenden:
 
@@ -100,9 +100,9 @@ if ($rating !== null) {
 
 ---
 
-## Archivieren/Wiederherstellen über POST-Aktionsendpunkte
+## Archivierung / Wiederherstellung über POST-Aktions-Endpunkte
 
-Archivieren und Wiederherstellen sind Mutationen (sie ändern den Zustand und zeichnen einen Zeitstempel auf), verwenden also `POST`, nicht `DELETE` oder `PATCH`. Dies folgt dem Aktionsendpunkt-Muster:
+Archivierung und Wiederherstellung sind Mutationen (sie ändern den Zustand und erfassen einen Zeitstempel), daher verwenden sie `POST`, nicht `DELETE` oder `PATCH`. Dies folgt dem Aktions-Endpunkt-Muster:
 
 ```php
 // POST /watch/{id}/archive
@@ -124,9 +124,9 @@ private function restore(ServerRequestInterface $request): ResponseInterface
 }
 ```
 
-`archive()` setzt `archived_at` auf den aktuellen Zeitstempel; `restore()` setzt es auf `null` zurück. Der Listenendpunkt versteckt archivierte Einträge standardmäßig (`include_archived=false`).
+`archive()` setzt `archived_at` auf den aktuellen Zeitstempel; `restore()` setzt ihn zurück auf `null`. Der Listen-Endpunkt verbirgt archivierte Einträge standardmäßig (`include_archived=false`).
 
-Warum `POST` und nicht `DELETE` für Archivieren? `DELETE` impliziert permanentes Entfernen. Archivieren ist eine Soft-Zustandsänderung — der Eintrag bleibt in der DB und ist wiederherstellbar. Die Benennung der Endpunkte nach der Aktion (`/archive`, `/restore`) macht die Absicht explizit.
+Warum `POST` und nicht `DELETE` für die Archivierung? `DELETE` impliziert permanente Entfernung. Archivierung ist eine weiche Zustandsänderung — der Eintrag verbleibt in der DB und ist wiederherstellbar. Die Endpunkte nach der Aktion zu benennen (`/archive`, `/restore`) macht die Absicht explizit.
 
 ---
 
@@ -147,11 +147,11 @@ CREATE TABLE watch_entries (
 );
 ```
 
-DB `CHECK`-Constraints spiegeln die Enum-Fälle wider — wenn ein neuer Status zum Enum hinzugefügt wird, ohne den `CHECK` zu aktualisieren, schlägt der Insert auf der DB-Ebene fehl. Beide synchron halten: den neuen Fall zum Enum, dem `CHECK` und einer Migration hinzufügen.
+DB-`CHECK`-Constraints spiegeln die Enum-Fälle — wenn ein neuer Status zum Enum hinzugefügt wird, ohne den `CHECK` zu aktualisieren, schlägt das Insert auf DB-Ebene fehl. Beide synchron halten: den neuen Fall zum Enum, dem `CHECK` und einer Migration hinzufügen.
 
-`rating CHECK(rating IS NULL OR ...)` erlaubt korrekt, dass die Spalte `NULL` ist, während der 1–5-Bereich erzwungen wird, wenn ein Wert vorhanden ist.
+`rating CHECK(rating IS NULL OR ...)` erlaubt korrekt, dass die Spalte `NULL` ist, während der Bereich 1–5 erzwungen wird, wenn ein Wert vorhanden ist.
 
-`archived_at TEXT` (nullable) dient als Archivierungs-Flag: `NULL` = aktiv, nicht-null = archiviert. Das ist das minimale Soft-Archiv-Muster — keine separate `is_archived BOOLEAN`-Spalte nötig.
+`archived_at TEXT` (nullable) fungiert als Archivierungs-Flag: `NULL` = aktiv, nicht-null = archiviert. Das ist das minimale Soft-Archive-Muster — keine separate `is_archived BOOLEAN`-Spalte erforderlich.
 
 ---
 
@@ -162,7 +162,7 @@ CREATE INDEX idx_watch_status      ON watch_entries (status);
 CREATE INDEX idx_watch_archived_at ON watch_entries (archived_at);
 ```
 
-`idx_watch_archived_at` unterstützt den häufigen `WHERE archived_at IS NULL`-Filter (aktive Einträge). SQLite kann diesen Index für `IS NULL`-Bedingungen über ein Partial-Index-Muster verwenden, aber ein einfacher Index ist für die meisten Watchlists ausreichend.
+`idx_watch_archived_at` unterstützt den häufigen `WHERE archived_at IS NULL`-Filter (aktive Einträge). SQLite kann diesen Index für `IS NULL`-Bedingungen über ein Partial-Index-Muster verwenden, aber ein normaler Index ist für die meisten Merklisten ausreichend.
 
 ---
 
@@ -175,8 +175,8 @@ private function serialize(WatchEntry $entry): array
     return [
         'id'          => $entry->id,
         'title'       => $entry->title,
-        'media_type'  => $entry->mediaType->value,  // enum → string
-        'status'      => $entry->status->value,      // enum → string
+        'media_type'  => $entry->mediaType->value,  // Enum → String
+        'status'      => $entry->status->value,      // Enum → String
         'rating'      => $entry->rating,             // int|null
         'note'        => $entry->note,
         'created_at'  => $entry->createdAt,
@@ -186,13 +186,13 @@ private function serialize(WatchEntry $entry): array
 }
 ```
 
-`->value` auf einem backed-Enum gibt den String-Case-Wert zurück (z.B. `'want-to-watch'`). Enums auf diese Weise serialisieren, nicht `->name` aufrufen — der Name ist der PHP-Identifier (`WantToWatch`), nicht der API-Vertragswert.
+`->value` auf einem backed Enum gibt den String-Fallwert zurück (z.B. `'want-to-watch'`). Enums auf diese Weise serialisieren statt `->name` aufzurufen — der Name ist der PHP-Bezeichner (`WantToWatch`), nicht der API-Vertragswert.
 
 ---
 
 ## Verwandte Anleitungen
 
-- [`content-draft-lifecycle.md`](content-draft-lifecycle.md) — Zustandsmaschine mit Statusübergängen
+- [`content-draft-lifecycle.md`](content-draft-lifecycle.md) — Zustandsmaschine mit Status-Übergängen
 - [`soft-delete.md`](soft-delete.md) — Soft Delete mit `deleted_at`-Zeitstempel
 - [`implement-patch-endpoint.md`](implement-patch-endpoint.md) — partielle Updates mit `array_key_exists`
-- [`add-custom-route.md`](add-custom-route.md) — POST-Aktionsendpunkt-Muster (`/archive`, `/restore`, `/publish`)
+- [`add-custom-route.md`](add-custom-route.md) — POST-Aktions-Endpunkt-Muster (`/archive`, `/restore`, `/publish`)
