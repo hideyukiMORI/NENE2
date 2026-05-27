@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.245] — 2026-05-27
+
+### Changed
+- `docs/howto/order-management.md` — FT274 参照と What NOT to do セクションを追加: SKU パターン制約 (A-Z0-9-)・items 上限 50・total_cents 整数計算・cancel match 式・IDOR → 404・admin fail-closed (FT274)。 (#1108)
+
+---
+
 ## [1.5.244] — 2026-05-27
 
 ### Added

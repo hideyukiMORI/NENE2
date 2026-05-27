@@ -1,7 +1,10 @@
 # How-to: Order Management API
 
+> **FT reference**: FT274 (`NENE2-FT/orderlog`) — Order management: SKU-validated line items, total_cents auto-calculation, status lifecycle (pending→confirmed→shipped→delivered→cancelled), IDOR → 404, admin override, cancel conflict detection, 36 tests PASS.
+>
+> Also validated in FT215 (`NENE2-FT/orderlog` precursor) — same pattern, earlier implementation.
+
 This guide shows how to build a multi-item order management API with NENE2.
-Pattern demonstrated by the **orderlog** field trial (FT215).
 
 ## Features
 
@@ -115,3 +118,17 @@ return match ($result) {
 - **`ctype_digit()`**: ReDoS-safe integer validation for path and header IDs
 - **`is_int()`**: Strict type check — rejects floats (e.g., `1.5`) passed as JSON
 - **Max items guard**: Limits to 50 items to prevent oversized payloads
+
+---
+
+## What NOT to do
+
+| Anti-pattern | Risk |
+|---|---|
+| Store price as FLOAT | Floating-point rounding errors in totals (use INTEGER cents) |
+| Accept free-form SKU strings | Injection surface; allowlist with regex (e.g., `[A-Z0-9\-]{1,32}`) |
+| No max items limit | Attacker sends 10,000-item array causing slow INSERT loop |
+| Calculate total client-side | Client can send any total; always derive from `quantity × unit_cents` |
+| Return 403 on wrong-user order access | Reveals the order exists; use 404 to hide ownership |
+| Allow cancel of delivered orders | Fulfilled orders should be immutable; use state machine |
+| Omit `ON DELETE CASCADE` on order_items | Deleting an order leaves orphan items |
