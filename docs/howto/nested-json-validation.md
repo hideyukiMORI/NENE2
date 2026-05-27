@@ -1,208 +1,176 @@
-# Nested JSON Validation
+# How-to: Nested JSON Validation
 
-NENE2 does not include a recursive validator. When a request body contains arrays of objects — for example, an order with line items — you validate it yourself with a `foreach` loop and accumulate errors in a structured list.
+> **FT reference**: FT322 (`NENE2-FT/nestedlog`) — Order API with nested items validation, `items.N.field` error paths, multi-error single response, error codes, total calculation, 19 tests / 43 assertions PASS.
 
-## Error path convention
+This guide shows how to validate nested JSON arrays (e.g. order line items) and return structured error paths that identify exactly which nested field failed.
 
-Use dot notation with 0-based integer indexes for array elements:
+## Schema
 
-| Path | Meaning |
-|---|---|
-| `customer` | Top-level field |
-| `items` | The array itself (e.g., missing or empty) |
-| `items.0.quantity` | `quantity` in the first item |
-| `items.2.unit_price` | `unit_price` in the third item |
+```sql
+CREATE TABLE orders (
+    id         INTEGER PRIMARY KEY AUTOINCREMENT,
+    customer   TEXT    NOT NULL,
+    total      REAL    NOT NULL DEFAULT 0.0,
+    created_at TEXT    NOT NULL
+);
 
-This format is readable, easy to generate, and easy for clients to map back to their form fields.
+CREATE TABLE order_items (
+    id         INTEGER PRIMARY KEY AUTOINCREMENT,
+    order_id   INTEGER NOT NULL REFERENCES orders(id),
+    product_id INTEGER NOT NULL,
+    quantity   INTEGER NOT NULL,
+    unit_price REAL    NOT NULL
+);
+```
 
-## Validator class
+## Endpoints
 
-Put all validation logic in a dedicated class. Keep the route handler thin — it only calls the validator and maps the result to a response.
+| Method | Path | Description |
+|--------|------|-------------|
+| `POST` | `/orders` | Create order with items |
+| `GET`  | `/orders` | List orders |
+| `GET`  | `/orders/{id}` | Get order with items |
+
+## Create Order
 
 ```php
-final class OrderValidator
+POST /orders
 {
-    /**
-     * @param mixed $body
-     * @return array{errors: list<array{field: string, code: string, message: string}>}
-     *       | array{errors: list<array{field: string, code: string, message: string}>, customer: string, note: string, items: list<array{product_id: int, quantity: int, unit_price: float}>}
-     */
-    public function validate(mixed $body): array
-    {
-        if (!is_array($body)) {
-            return ['errors' => [['field' => '', 'code' => 'invalid-body', 'message' => 'Request body must be a JSON object.']]];
-        }
-
-        $errors = [];
-
-        // --- top-level ---
-        $customer = isset($body['customer']) && is_string($body['customer']) ? trim($body['customer']) : '';
-        if ($customer === '') {
-            $errors[] = ['field' => 'customer', 'code' => 'required', 'message' => 'Customer name is required.'];
-        } elseif (strlen($customer) > 200) {
-            $errors[] = ['field' => 'customer', 'code' => 'too-long', 'message' => 'Customer name must not exceed 200 characters.'];
-        }
-
-        // --- items array ---
-        if (!isset($body['items'])) {
-            $errors[] = ['field' => 'items', 'code' => 'required', 'message' => 'items is required.'];
-        } elseif (!is_array($body['items']) || !array_is_list($body['items'])) {
-            $errors[] = ['field' => 'items', 'code' => 'must-be-array', 'message' => 'items must be an array.'];
-        } elseif (count($body['items']) === 0) {
-            $errors[] = ['field' => 'items', 'code' => 'min-items', 'message' => 'Order must contain at least one item.'];
-        } elseif (count($body['items']) > 50) {
-            $errors[] = ['field' => 'items', 'code' => 'max-items', 'message' => 'Order may not contain more than 50 items.'];
-        } else {
-            // --- per-item validation ---
-            foreach ($body['items'] as $i => $item) {
-                $prefix = "items.{$i}"; // dot-notation path prefix
-
-                if (!is_array($item)) {
-                    $errors[] = ['field' => $prefix, 'code' => 'must-be-object', 'message' => "{$prefix} must be an object."];
-                    continue; // skip field checks — no point if the item itself is wrong
-                }
-
-                // product_id: required integer ≥ 1
-                if (!isset($item['product_id']) || !is_int($item['product_id'])) {
-                    $errors[] = ['field' => "{$prefix}.product_id", 'code' => 'required', 'message' => "{$prefix}.product_id must be an integer."];
-                } elseif ($item['product_id'] < 1) {
-                    $errors[] = ['field' => "{$prefix}.product_id", 'code' => 'min-value', 'message' => "{$prefix}.product_id must be ≥ 1."];
-                }
-
-                // quantity: required integer 1–9999
-                if (!isset($item['quantity']) || !is_int($item['quantity'])) {
-                    $errors[] = ['field' => "{$prefix}.quantity", 'code' => 'required', 'message' => "{$prefix}.quantity must be an integer."];
-                } elseif ($item['quantity'] < 1) {
-                    $errors[] = ['field' => "{$prefix}.quantity", 'code' => 'min-value', 'message' => "{$prefix}.quantity must be ≥ 1."];
-                } elseif ($item['quantity'] > 9999) {
-                    $errors[] = ['field' => "{$prefix}.quantity", 'code' => 'max-value', 'message' => "{$prefix}.quantity must be ≤ 9999."];
-                }
-
-                // unit_price: required number > 0 (JSON gives int OR float)
-                $rawPrice = $item['unit_price'] ?? null;
-                if (!is_int($rawPrice) && !is_float($rawPrice)) {
-                    $errors[] = ['field' => "{$prefix}.unit_price", 'code' => 'required', 'message' => "{$prefix}.unit_price must be a number."];
-                } elseif ($rawPrice <= 0) {
-                    $errors[] = ['field' => "{$prefix}.unit_price", 'code' => 'min-value', 'message' => "{$prefix}.unit_price must be > 0."];
-                }
-            }
-        }
-
-        if ($errors !== []) {
-            return ['errors' => $errors];
-        }
-
-        return [
-            'errors'   => [],
-            'customer' => $customer,
-            'note'     => isset($body['note']) && is_string($body['note']) ? trim($body['note']) : '',
-            'items'    => array_map(
-                static fn (array $item) => [
-                    'product_id' => (int) $item['product_id'],
-                    'quantity'   => (int) $item['quantity'],
-                    'unit_price' => (float) ($item['unit_price'] ?? 0),
-                ],
-                (array) $body['items'],
-            ),
-        ];
-    }
+  "customer": "Alice",
+  "items": [
+    {"product_id": 1, "quantity": 2, "unit_price": 9.99},
+    {"product_id": 2, "quantity": 1, "unit_price": 4.50}
+  ]
+}
+→ 201
+{
+  "id": 1,
+  "customer": "Alice",
+  "items": [...],
+  "total": 24.48      // 2×9.99 + 1×4.50
 }
 ```
 
-## Route handler
+## Nested Error Paths — `items.N.field`
+
+Each item error includes the array index in the field path:
 
 ```php
-private function createOrder(ServerRequestInterface $request): ResponseInterface
+POST /orders
 {
-    $body   = json_decode((string) $request->getBody(), true);
-    $result = $this->validator->validate($body);
-
-    if ($result['errors'] !== []) {
-        return $this->problems->create(
-            $request,
-            'validation-failed',
-            'Validation failed.',
-            422,
-            null,
-            ['errors' => $result['errors']],
-        );
-    }
-
-    // PHPStan level 8: the union type doesn't narrow automatically after the early return.
-    // Use a @var annotation to tell PHPStan which shape remains.
-    /** @var array{customer: string, note: string, items: list<array{product_id: int, quantity: int, unit_price: float}>} $valid */
-    $valid = $result;
-    $order = $this->repo->create($valid['customer'], $valid['note'], $valid['items']);
-    return $this->json->create($order->toArray(), 201);
+  "customer": "Alice",
+  "items": [
+    {"product_id": "not-an-int", "quantity": 2, "unit_price": 9.99},
+    {"product_id": 1, "quantity": 1, "unit_price": -5.0}
+  ]
 }
-```
-
-## Error response shape
-
-All errors are collected before returning — clients get everything wrong in a single response:
-
-```json
+→ 422
 {
-  "type": "https://nene2.dev/problems/validation-failed",
-  "title": "Validation failed.",
-  "status": 422,
-  "instance": "/orders",
   "errors": [
-    {
-      "field": "customer",
-      "code": "required",
-      "message": "Customer name is required."
-    },
-    {
-      "field": "items.0.quantity",
-      "code": "min-value",
-      "message": "items.0.quantity must be ≥ 1."
-    },
-    {
-      "field": "items.2.unit_price",
-      "code": "required",
-      "message": "items.2.unit_price must be a number."
-    }
+    {"field": "items.0.product_id", "message": "...", "code": "invalid-type"},
+    {"field": "items.1.unit_price",  "message": "...", "code": "min-value"}
   ]
 }
 ```
 
-## Design decisions
+## All Errors in One Response
 
-### Collect all errors, not fail-fast
-
-Fail-fast (return on the first error) is simpler to implement but forces clients to iterate: fix one error, submit, discover the next, and so on. Collecting all errors in a single pass means one round-trip for the client to fix everything.
-
-The tradeoff: if item `0` itself is not an object, skip the field checks for that item with `continue` — there is nothing useful to report inside a non-object.
-
-### Numeric keys in paths
-
-Use `0`-based integer indexes matching the array position: `items.0`, `items.1`. Avoid brackets (`items[0]`) — dot notation is simpler to generate and parse, and many client-side validation libraries support it.
-
-### PHPStan and discriminated unions
-
-When a function returns a union of shapes (one with extra keys on success, one without on error), PHPStan level 8 does not automatically narrow after an early return. Use a `@var` annotation at the call site to assert the narrower type:
+All validation failures — both top-level and nested — are collected and returned together. Never return one error at a time for batch submissions:
 
 ```php
-/** @var array{customer: string, ...} $valid */
-$valid = $result;
-```
-
-This is the recommended workaround until PHPStan adds full control-flow narrowing for array shapes.
-
-### `array_is_list()` vs `is_array()`
-
-`is_array()` alone accepts `{"0": "x", "1": "y"}` — a JSON object with numeric string keys — as an array. `array_is_list()` additionally requires 0-based sequential integer keys, rejecting associative arrays disguised as lists.
-
-### Numeric types in JSON
-
-JSON has one number type. PHP's `json_decode` maps integers to `int` and decimals to `float`. To accept both for a price field:
-
-```php
-$rawPrice = $item['unit_price'] ?? null;
-if (!is_int($rawPrice) && !is_float($rawPrice)) {
-    // reject strings, booleans, null
+POST /orders
+{
+  "customer": "",      // error: required
+  "items": [
+    {"product_id": 0, "quantity": -1, "unit_price": 1.0}  // 2 errors
+  ]
+}
+→ 422
+{
+  "errors": [
+    {"field": "customer",          "code": "required"},
+    {"field": "items.0.product_id","code": "min-value"},
+    {"field": "items.0.quantity",  "code": "min-value"}
+  ]
 }
 ```
 
-Never use `is_numeric()` here — it accepts `"9.99"` (a string), which would pass but is semantically wrong.
+## Validation Rules
+
+| Field | Rule |
+|-------|------|
+| `customer` | Required, non-blank, max 200 chars |
+| `items` | Required, non-empty array |
+| `items[].product_id` | Integer, ≥ 1 |
+| `items[].quantity` | Integer, ≥ 1 |
+| `items[].unit_price` | Number (int or float), > 0 |
+
+## Implementation Pattern
+
+```php
+final class OrderValidator
+{
+    /** @return list<ValidationError> */
+    public function validate(array $data): array
+    {
+        $errors = [];
+
+        // Top-level validation
+        $customer = trim($data['customer'] ?? '');
+        if ($customer === '') {
+            $errors[] = new ValidationError('customer', 'required', 'required');
+        } elseif (strlen($customer) > 200) {
+            $errors[] = new ValidationError('customer', 'max 200 chars', 'max-length');
+        }
+
+        $items = $data['items'] ?? null;
+        if (!is_array($items) || $items === []) {
+            $errors[] = new ValidationError('items', 'required non-empty array', 'required');
+            return $errors;  // can't validate items further
+        }
+
+        // Nested item validation with index
+        foreach ($items as $i => $item) {
+            $prefix = "items.{$i}";
+
+            $productId = $item['product_id'] ?? null;
+            if (!is_int($productId) || $productId < 1) {
+                $errors[] = new ValidationError("{$prefix}.product_id", 'must be int >= 1', 'min-value');
+            }
+
+            $quantity = $item['quantity'] ?? null;
+            if (!is_int($quantity) || $quantity < 1) {
+                $errors[] = new ValidationError("{$prefix}.quantity", 'must be int >= 1', 'min-value');
+            }
+
+            $price = $item['unit_price'] ?? null;
+            if ((!is_int($price) && !is_float($price)) || $price <= 0) {
+                $errors[] = new ValidationError("{$prefix}.unit_price", 'must be number > 0', 'min-value');
+            }
+        }
+
+        return $errors;
+    }
+}
+```
+
+## Error Codes
+
+| Code | Meaning |
+|------|---------|
+| `required` | Field is missing or blank |
+| `max-length` | Exceeds maximum length |
+| `min-value` | Below minimum value (int/float) |
+| `invalid-type` | Wrong type (e.g. string where int expected) |
+
+---
+
+## What NOT to do
+
+| Anti-pattern | Risk |
+|---|---|
+| Return only first error | Client must submit, get error, fix, resubmit N times — terrible UX for batch forms |
+| Flat error path `"product_id"` for nested items | Client cannot identify which item (index 0, 1, ...) failed |
+| Accept `unit_price: 0` silently | Zero-price items corrupt order totals |
+| Validate items only after top-level passes | Delays feedback; collect all errors in one pass |
+| Stop validation on first item error | Mask further errors in remaining items |
