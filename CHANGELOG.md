@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.317] — 2026-05-27
+
+### Added
+- `docs/howto/api-versioning.md` — FT346 新規作成: API バージョニング howto: URL パスバージョニング・V1 Deprecation ヘッダー・V2 data+meta ラッパー・共有ストレージ (#1253)
+
+---
+
 ## [1.5.316] — 2026-05-27
 
 ### Added
