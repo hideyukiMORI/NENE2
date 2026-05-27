@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.290] — 2026-05-27
+
+### Added
+- `docs/howto/pagination-limit-injection.md` — FT319 新規作成: ページネーション境界・Limit インジェクション防止 howto: MAX_LIMIT 強制・ctype_digit 型検証・オフセット/カーソルページネーション・ReDoS 安全 (FT319)。 (#1199)
+
+---
+
 ## [1.5.289] — 2026-05-27
 
 ### Added
