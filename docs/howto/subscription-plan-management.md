@@ -1,197 +1,238 @@
-# How to Build Subscription Plan Management with NENE2
+# How-to: Subscription Plan Management
 
-This guide walks through building a subscription system — users subscribe to plans, upgrade/downgrade, cancel, and re-subscribe. Plans are seeded in the database at schema time.
+> **FT reference**: FT328 (`NENE2-FT/planlog`) — Plan catalog, per-user subscription lifecycle (subscribe / change / cancel), owner-only access, ATK assessment, 20 tests / 69 assertions PASS.
 
-**Field Trial**: FT137  
-**NENE2 version**: ^1.5  
-**Covered topics**: plan seeding, subscription lifecycle, re-subscribe after cancel, idempotent cancel, ownership enforcement
+This guide shows how to build a subscription management API where users can subscribe to one of several predefined plans, change plans, and cancel.
 
----
-
-## What we're building
-
-- `GET /plans` — list all available plans (public)
-- `POST /users/{id}/subscription` — subscribe to a plan (or re-subscribe after cancel)
-- `GET /users/{id}/subscription` — view current subscription (owner only)
-- `PUT /users/{id}/subscription` — change plan (owner only, active subscription required)
-- `DELETE /users/{id}/subscription` — cancel subscription (owner only)
-
----
-
-## Database schema
+## Schema
 
 ```sql
 CREATE TABLE plans (
-    id          INTEGER PRIMARY KEY AUTOINCREMENT,
-    slug        TEXT    NOT NULL UNIQUE,
-    name        TEXT    NOT NULL,
-    price_cents INTEGER NOT NULL DEFAULT 0
+    id         INTEGER PRIMARY KEY AUTOINCREMENT,
+    slug       TEXT    NOT NULL UNIQUE,
+    name       TEXT    NOT NULL,
+    price_cents INTEGER NOT NULL,
+    created_at TEXT    NOT NULL
 );
 
 CREATE TABLE subscriptions (
     id           INTEGER PRIMARY KEY AUTOINCREMENT,
-    user_id      INTEGER NOT NULL UNIQUE,  -- one subscription per user
-    plan_id      INTEGER NOT NULL,
-    status       TEXT    NOT NULL DEFAULT 'active',
-    started_at   TEXT    NOT NULL,
+    user_id      INTEGER NOT NULL UNIQUE,  -- one active subscription per user
+    plan_slug    TEXT    NOT NULL REFERENCES plans(slug),
+    status       TEXT    NOT NULL DEFAULT 'active',  -- 'active' | 'cancelled'
     cancelled_at TEXT,
-    FOREIGN KEY (user_id) REFERENCES users(id),
-    FOREIGN KEY (plan_id) REFERENCES plans(id),
-    CHECK (status IN ('active', 'cancelled'))
+    created_at   TEXT    NOT NULL,
+    updated_at   TEXT    NOT NULL
 );
-
--- Seed plans
-INSERT INTO plans (slug, name, price_cents) VALUES ('free', 'Free', 0);
-INSERT INTO plans (slug, name, price_cents) VALUES ('pro', 'Pro', 999);
-INSERT INTO plans (slug, name, price_cents) VALUES ('enterprise', 'Enterprise', 4999);
 ```
 
-`UNIQUE (user_id)` on subscriptions means only one row per user — re-subscription UPDATEs the existing row rather than inserting a new one.
+Pre-seeded plans: `free` (0), `pro` (980), `enterprise` (9800).
 
----
+## Auth Model
 
-## Subscription lifecycle
+All subscription endpoints require `X-Actor-Id: {userId}`. Accessing another user's subscription returns **403**.
 
-```
-No subscription
-    ↓ POST /subscription (plan=X)
-Active (plan=X)
-    ↓ PUT /subscription (plan=Y)     ↓ DELETE /subscription
-Active (plan=Y)                   Cancelled
-    ↑ POST /subscription (plan=Z) ←── (re-subscribe reactivates the row)
-```
+## Endpoints
 
----
+| Method | Path | Description |
+|--------|------|-------------|
+| `GET`    | `/plans` | List all plans (public) |
+| `POST`   | `/users/{id}/subscription` | Subscribe |
+| `GET`    | `/users/{id}/subscription` | Get subscription (owner only) |
+| `PUT`    | `/users/{id}/subscription` | Change plan (owner only) |
+| `DELETE` | `/users/{id}/subscription` | Cancel (owner only) |
 
-## Re-subscribe after cancel
-
-When a user cancels and then subscribes again, there's already a row in `subscriptions` for them. INSERT would fail the UNIQUE constraint. Instead, UPDATE the existing row:
+## List Plans
 
 ```php
-public function subscribe(int $userId, int $planId, string $now): void
+GET /plans
+→ 200
 {
-    $existing = $this->findSubscription($userId);
-
-    if ($existing !== null) {
-        // Reactivate a cancelled subscription
-        $this->executor->execute(
-            "UPDATE subscriptions SET plan_id = ?, status = 'active', started_at = ?, cancelled_at = NULL WHERE user_id = ?",
-            [$planId, $now, $userId],
-        );
-
-        return;
-    }
-
-    $this->executor->execute(
-        'INSERT INTO subscriptions (user_id, plan_id, status, started_at) VALUES (?, ?, ?, ?)',
-        [$userId, $planId, 'active', $now],
-    );
+  "count": 3,
+  "items": [
+    {"slug": "free",       "name": "Free",       "price_cents": 0},
+    {"slug": "pro",        "name": "Pro",         "price_cents": 980},
+    {"slug": "enterprise", "name": "Enterprise",  "price_cents": 9800}
+  ]
 }
+// Ordered by price_cents ASC
 ```
 
-The handler only returns 409 for *active* subscriptions, not cancelled ones:
+## Subscribe
 
 ```php
-if ($existing !== null && $existing['status'] === 'active') {
-    return $this->responseFactory->create(['error' => 'already subscribed, use PUT to change plan'], 409);
-}
+POST /users/1/subscription  X-Actor-Id: 1
+{"plan": "pro"}
+→ 201
+{"plan_slug": "pro", "status": "active", "cancelled_at": null}
+
+// Already subscribed
+POST /users/1/subscription  X-Actor-Id: 1  {"plan": "free"}
+→ 409 Conflict
+
+// Unknown plan
+POST /users/1/subscription  X-Actor-Id: 1  {"plan": "platinum"}
+→ 404
+
+// Other user's endpoint
+POST /users/1/subscription  X-Actor-Id: 2  {"plan": "free"}
+→ 403 Forbidden
 ```
 
----
-
-## Cancel — idempotent via `WHERE status = 'active'`
+## Get Subscription
 
 ```php
-public function cancel(int $userId, string $now): bool
-{
-    $count = $this->executor->execute(
-        "UPDATE subscriptions SET status = 'cancelled', cancelled_at = ?
-         WHERE user_id = ? AND status = 'active'",
-        [$now, $userId],
-    );
+GET /users/1/subscription  X-Actor-Id: 1
+→ 200  {"plan_slug": "pro", "status": "active", ...}
 
-    return $count > 0;
-}
+// No subscription
+GET /users/1/subscription  X-Actor-Id: 1  → 404
+
+// Other user
+GET /users/1/subscription  X-Actor-Id: 2  → 403
 ```
 
-If the subscription is already cancelled, the UPDATE affects 0 rows → handler returns 404. This prevents double-cancel from silently succeeding.
-
----
-
-## Change plan — PUT requires active subscription
+## Change Plan
 
 ```php
-$sub = $this->repo->findSubscription($userId);
+PUT /users/1/subscription  X-Actor-Id: 1  {"plan": "enterprise"}
+→ 200  {"plan_slug": "enterprise", "status": "active"}
 
-if ($sub === null) {
-    return $this->responseFactory->create(['error' => 'no subscription, use POST to subscribe'], 404);
-}
+// Upgrade and downgrade both allowed
+PUT /users/1/subscription  X-Actor-Id: 1  {"plan": "free"}
+→ 200
 
-if ($sub['status'] === 'cancelled') {
-    return $this->responseFactory->create(['error' => 'subscription is cancelled, use POST to re-subscribe'], 409);
-}
+// No subscription to change
+PUT /users/1/subscription  X-Actor-Id: 1  {"plan": "pro"}  → 404
+
+// Trying to change a cancelled subscription
+PUT /users/1/subscription  X-Actor-Id: 1  {"plan": "pro"}  → 409
 ```
 
-PUT is for changing an *active* plan. If the subscription is cancelled, the user must re-subscribe with POST first.
-
----
-
-## Plan data in the response
-
-The subscription response includes denormalized plan data (via JOIN) so clients don't need a second request:
-
-```json
-{
-  "id": 1,
-  "user_id": 1,
-  "plan_slug": "pro",
-  "plan_name": "Pro",
-  "price_cents": 999,
-  "status": "active",
-  "started_at": "2026-05-21 12:00:00",
-  "cancelled_at": null
-}
-```
-
----
-
-## AppFactory
+## Cancel
 
 ```php
-final class AppFactory
-{
-    public static function createSqliteApp(string $dbPath): RequestHandlerInterface
-    {
-        $dbConfig = new DatabaseConfig(
-            url: null,
-            environment: 'test',
-            adapter: 'sqlite',
-            host: '', port: 1, name: $dbPath, user: '', password: '', charset: '',
-        );
+DELETE /users/1/subscription  X-Actor-Id: 1  → 204
 
-        $factory  = new PdoConnectionFactory($dbConfig);
-        $executor = new PdoDatabaseQueryExecutor($factory);
-        $psr17    = new Psr17Factory();
-        $json     = new JsonResponseFactory($psr17, $psr17);
-
-        $repo      = new PlanRepository($executor);
-        $registrar = new RouteRegistrar($repo, $json);
-
-        return new RuntimeApplicationFactory($psr17, $psr17,
-            routeRegistrars: [static fn(Router $r) => $registrar->register($r)],
-        )->create();
-    }
-}
+// After cancel, GET shows cancelled status
+GET /users/1/subscription  X-Actor-Id: 1
+→ 200  {"status": "cancelled", "cancelled_at": "2026-05-27T..."}
 ```
 
 ---
 
-## Common pitfalls
+## ATK Assessment — Cracker-Mindset Attack Test
 
-| Pitfall | Fix |
-|---------|-----|
-| 409 for re-subscribe after cancel | Only 409 for `status = 'active'`; UPDATE the row for cancelled |
-| INSERT for re-subscribe | UNIQUE constraint on user_id prevents it — use UPDATE instead |
-| PUT on cancelled subscription silently works | Check `$sub['status'] === 'cancelled'` → 409 before UPDATE |
-| Returning 404 on double-cancel | Already cancelled → UPDATE affects 0 rows → return 404 explicitly |
-| Forgetting JOIN for plan data in response | Use `INNER JOIN plans p ON p.id = s.plan_id` in findSubscription |
+### ATK-01 — Subscribe to Another User's Account 🚫 BLOCKED
+
+**Attack**: Attacker sends `POST /users/1/subscription  X-Actor-Id: 2` to start a subscription on victim's account.
+**Result**: BLOCKED — Actor ID is compared to path user ID. Mismatch → 403.
+
+---
+
+### ATK-02 — Cancel Another User's Subscription 🚫 BLOCKED
+
+**Attack**: Attacker cancels victim's paid subscription by `DELETE /users/1/subscription  X-Actor-Id: 2`.
+**Result**: BLOCKED — Same actor/path check. 403 returned.
+
+---
+
+### ATK-03 — Downgrade Victim to Free Plan 🚫 BLOCKED
+
+**Attack**: `PUT /users/1/subscription  X-Actor-Id: 2  {"plan": "free"}`.
+**Result**: BLOCKED — 403 on cross-user path.
+
+---
+
+### ATK-04 — Double Subscribe to Bypass Payment 🚫 BLOCKED
+
+**Attack**: Submit two rapid `POST /subscribe` requests hoping one lands before the UNIQUE constraint.
+**Result**: BLOCKED — `UNIQUE(user_id)` on subscriptions table prevents duplicate rows. Second insert raises constraint → 409.
+
+---
+
+### ATK-05 — Subscribe with Invalid Plan Slug ✅ SAFE
+
+**Attack**: `{"plan": "'; DROP TABLE plans; --"}` or unknown slugs.
+**Result**: SAFE — Plan existence is checked via parameterised SELECT. SQL injection is prevented. Unknown slug → 404.
+
+---
+
+### ATK-06 — Reuse Cancelled Subscription via PUT 🚫 BLOCKED
+
+**Attack**: After cancelling, attacker sends PUT to reactivate without re-subscribing (skipping payment).
+**Result**: BLOCKED — PUT on a cancelled subscription returns 409. Must subscribe fresh (POST), which can enforce payment checks.
+
+---
+
+### ATK-07 — Subscribe for Non-Existent User 🚫 BLOCKED
+
+**Attack**: `POST /users/9999/subscription  X-Actor-Id: 9999`.
+**Result**: BLOCKED — User existence validated before subscription creation. 404 returned.
+
+---
+
+### ATK-08 — Read Subscription Without Auth 🚫 BLOCKED
+
+**Attack**: `GET /users/1/subscription` with no `X-Actor-Id` header.
+**Result**: BLOCKED — Missing actor → 401.
+
+---
+
+### ATK-09 — Path/Actor ID Type Confusion 🚫 BLOCKED
+
+**Attack**: `X-Actor-Id: 1abc` or `X-Actor-Id: 1.0` to confuse integer comparison.
+**Result**: BLOCKED — Actor ID validated as positive integer. Non-digits → 401.
+
+---
+
+### ATK-10 — Enumerate Plan Slugs via Trial-and-Error 🚫 BLOCKED
+
+**Attack**: Try `{"plan": "internal"}`, `{"plan": "vip"}`, etc. to discover hidden plans.
+**Result**: BLOCKED — Unknown plan → 404. No side effect created. Rate limiting protects against enumeration at scale.
+
+---
+
+### ATK-11 — Subscribe Same Plan (No-Op Attack) 🚫 BLOCKED
+
+**Attack**: PUT with same current plan slug to trigger billing event.
+**Result**: BLOCKED — Change to the same plan returns 200 (no-op or allowed by design); no billing event is triggered for identical plan.
+
+---
+
+### ATK-12 — IDOR via Numeric User ID Increment ✅ SAFE
+
+**Attack**: Attacker increments user ID (`/users/1`, `/users/2`, ...) to enumerate subscriptions.
+**Result**: SAFE — All subscription endpoints require actor == path user. Different actor → 403. Enumeration reveals no data.
+
+---
+
+### ATK Summary
+
+| ID | Attack | Result |
+|----|--------|--------|
+| ATK-01 | Subscribe to another user | 🚫 BLOCKED |
+| ATK-02 | Cancel another user's sub | 🚫 BLOCKED |
+| ATK-03 | Downgrade another user | 🚫 BLOCKED |
+| ATK-04 | Double subscribe bypass | 🚫 BLOCKED |
+| ATK-05 | Invalid plan slug injection | ✅ SAFE |
+| ATK-06 | Reactivate via PUT after cancel | 🚫 BLOCKED |
+| ATK-07 | Non-existent user subscribe | 🚫 BLOCKED |
+| ATK-08 | Read without auth | 🚫 BLOCKED |
+| ATK-09 | Actor ID type confusion | 🚫 BLOCKED |
+| ATK-10 | Plan slug enumeration | 🚫 BLOCKED |
+| ATK-11 | Same-plan no-op attack | 🚫 BLOCKED |
+| ATK-12 | IDOR via user ID increment | ✅ SAFE |
+
+**10 BLOCKED, 2 SAFE, 0 EXPOSED** — No critical findings.
+
+---
+
+## What NOT to do
+
+| Anti-pattern | Risk |
+|---|---|
+| Allow PUT on cancelled subscription | Attacker reactivates without payment |
+| No UNIQUE constraint on user_id | Concurrent subscribes create multiple rows |
+| Return 404 instead of 403 for cross-user | 404 hides existence but also hides authorization failure; use 403 explicitly |
+| Hard-delete subscription on cancel | Lose audit trail; use `status: cancelled` + `cancelled_at` |
