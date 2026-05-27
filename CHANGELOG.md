@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.275] — 2026-05-27
+
+### Added
+- `docs/howto/flash-sale-api.md` — FT304 新規作成: フラッシュセール API howto: 時間窓バリデーション・在庫 UNIQUE(sale_id,user_id) 二重購入防止・売り切れ 422・ATK-01〜12 全 BLOCKED (FT304)。 (#1168)
+
+---
+
 ## [1.5.274] — 2026-05-27
 
 ### Added
