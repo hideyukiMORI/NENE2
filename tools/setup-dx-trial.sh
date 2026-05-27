@@ -20,7 +20,7 @@
 set -euo pipefail
 
 TRIAL_NUM="${1:-}"
-NS="${2:-}"
+NS_RAW="${2:-}"
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 REPO_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
 BASE="${REPO_ROOT}/../NENE2-FT"
@@ -29,11 +29,18 @@ BASE="${REPO_ROOT}/../NENE2-FT"
 DEFAULT_VENDOR="${BASE}/dx-trial-01-persona-A/vendor"
 SRC_VENDOR="${3:-${DEFAULT_VENDOR}}"
 
-if [[ -z "$TRIAL_NUM" || -z "$NS" ]]; then
+if [[ -z "$TRIAL_NUM" || -z "$NS_RAW" ]]; then
   echo "Usage: $0 <trial-num> <namespace> [src-vendor-dir]" >&2
   echo "  trial-num : 2桁の番号 (例: 07)" >&2
-  echo "  namespace : PHP 名前空間 (例: Shop, Tasks, Blog)" >&2
+  echo "  namespace : PHP 名前空間 (例: shop, Shop, todo, Todo)" >&2
+  echo "              小文字で入力しても自動で PascalCase に変換されます" >&2
   exit 1
+fi
+
+# namespace を PascalCase に正規化（"todo" → "Todo"、"myApp" → "MyApp" 等）
+NS="$(echo "${NS_RAW:0:1}" | tr '[:lower:]' '[:upper:]')${NS_RAW:1}"
+if [[ "$NS" != "$NS_RAW" ]]; then
+  echo "namespace を PascalCase に変換: '${NS_RAW}' → '${NS}'"
 fi
 
 if [[ ! -d "$SRC_VENDOR" ]]; then
