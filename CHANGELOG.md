@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.260] — 2026-05-27
+
+### Added
+- `docs/howto/content-reporting.md` — FT289 新規作成: コンテンツ報告システム howto: 報告理由 enum・UNIQUE 重複防止（冪等 200）・pending→resolved/dismissed 状態マシン・モデレーター専用 API・CHECK 制約 (FT289)。 (#1138)
+
+---
+
 ## [1.5.259] — 2026-05-27
 
 ### Added

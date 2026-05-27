@@ -79,6 +79,7 @@ FT 番号 → プロジェクト名 → howto ファイルの台帳。
 | FT286 | schedulelog | [timezone-aware-scheduling.md](timezone-aware-scheduling.md) | 通常 |
 | FT287 | waitlistlog | [waitlist-system.md](waitlist-system.md) | 通常 |
 | FT288 | distlocklog | [distributed-lock.md](distributed-lock.md) | ATK |
+| FT289 | reportlog | [content-reporting.md](content-reporting.md) | 通常 |
 
 ---
 
