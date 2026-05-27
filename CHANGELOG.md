@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.285] — 2026-05-27
+
+### Added
+- `docs/howto/follow-api.md` — FT314 新規作成: フォロー/アンフォロー API howto: 冪等フォロー・自己フォロー防止・followers_count/following_count stats・followers/following リスト降順・is-following チェック・相互フォロー (FT314)。 (#1188)
+
+---
+
 ## [1.5.284] — 2026-05-27
 
 ### Added
