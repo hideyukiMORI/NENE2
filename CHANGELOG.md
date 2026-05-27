@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.269] — 2026-05-27
+
+### Added
+- `docs/howto/circuit-breaker.md` — FT298 新規作成: サーキットブレーカー howto: closed/open/half_open 3状態・失敗閾値・タイムアウト後自動 half_open 遷移・503 ブロック (FT298)。 (#1156)
+
+---
+
 ## [1.5.268] — 2026-05-27
 
 ### Added
