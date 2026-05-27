@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.287] — 2026-05-27
+
+### Added
+- `docs/howto/idempotency-key-api.md` — FT316 ATK 新規作成: 冪等キー支払い API howto: X-Idempotency-Key ヘッダー・SHA-256 ハッシュ保存・X-Idempotent-Replayed ヘッダー・重複決済防止・ATK アセスメント (FT316)。 (#1193)
+
+---
+
 ## [1.5.286] — 2026-05-27
 
 ### Added
