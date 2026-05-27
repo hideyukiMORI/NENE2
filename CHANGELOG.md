@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.281] — 2026-05-27
+
+### Added
+- `docs/howto/event-sourcing-ledger.md` — FT310 新規作成: イベントソーシング口座台帳 howto: 不変イベントログ・replayBalance で残高再生・deposit/withdraw イベント追記のみ・上限 1000000000 (FT310)。 (#1180)
+
+---
+
 ## [1.5.280] — 2026-05-27
 
 ### Added
