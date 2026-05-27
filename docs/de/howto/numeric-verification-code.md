@@ -1,28 +1,28 @@
-# How-to: Numerischen Verifikationscode aufbauen
+# Anleitung: Numerischen Verifizierungscode aufbauen
 
-> **Muster bewiesen durch FT188 verifylog** — 6-stelliger SMS/E-Mail-Verifikationscode mit Brute-Force-Schutz, Constant-Time-Vergleich und Replay-Prävention. ATK-01〜12 alle bestanden.
+> **Muster bewiesen durch FT188 verifylog** — 6-stelliger SMS/E-Mail-Verifizierungscode mit Brute-Force-Schutz, zeitkonstantem Vergleich und Replay-Prävention. ATK-01~12 alle Pass.
 
 ---
 
-## Was abgedeckt wird
+## Was behandelt wird
 
-Ein Kontakt-Verifikationsablauf (E-Mail oder Telefon):
+Ein Kontaktverifizierungsablauf (E-Mail oder Telefon):
 
-1. **Code anfordern** — Server generiert einen zufälligen 6-stelligen Code, liefert ihn out-of-band
-2. **Code einreichen** — Benutzer reicht den Code ein; maximal 3 Versuche vor Sperrung
-3. **Status prüfen** — Prüfen, ob eine Verifizierung abgeschlossen wurde
+1. **Code anfordern** — Server generiert einen zufälligen 6-stelligen Code, liefert ihn außerhalb des Bandes
+2. **Code einreichen** — Benutzer reicht den Code ein; max. 3 Versuche vor der Sperrung
+3. **Statusprüfung** — Überprüfen, ob eine Verifizierung abgeschlossen wurde
 
 Sicherheitsgarantien:
 
 | Bedenken | Technik |
-|----------|---------|
-| Brute Force | Max 3 Versuche → 429 Locked |
-| Timing-Angriff | `hash_equals()` Constant-Time-Vergleich |
+|---|---|
+| Brute Force | 3 max. Versuche → 429 Gesperrt |
+| Timing-Angriff | `hash_equals()` zeitkonstanter Vergleich |
 | Code-Replay | Verifizierter Code gibt 410 Gone zurück |
 | Benutzer-Enumeration | `POST /verifications` gibt immer 202 zurück |
 | Mass Assignment | `code_hash/verified_at` nur serverseitig gesetzt |
-| SQL-Injection | Integer-only Pfadparameter (ctype_digit + strlen > 18 Guard) |
-| Typkonfusion | `is_string()`-Prüfung vor `ctype_digit()` |
+| SQL-Injection | Nur-Integer-Pfadparameter (ctype_digit + strlen > 18 Guard) |
+| Typverwechslung | `is_string()`-Prüfung vor `ctype_digit()` |
 | ReDoS | `ctype_digit()` O(n) — kein Regex |
 
 ---
@@ -49,10 +49,10 @@ CREATE TABLE verifications (
 ## API
 
 | Methode | Pfad | Beschreibung |
-|---------|------|-------------|
+|---|---|---|
 | `POST` | `/verifications` | Code anfordern (immer 202) |
-| `POST` | `/verifications/{id}/check` | Code einreichen (max 3 Versuche) |
-| `GET` | `/verifications/{id}` | Status prüfen (kein Code enthüllt) |
+| `POST` | `/verifications/{id}/check` | Code einreichen (max. 3 Versuche) |
+| `GET` | `/verifications/{id}` | Statusprüfung (kein Code offenbart) |
 
 ---
 
@@ -67,7 +67,7 @@ $codeHash  = hash('sha256', $plainCode);
 INSERT INTO verifications (contact, code_hash, expires_at, created_at)
 VALUES (:contact, :code_hash, :expires_at, :now)
 
-// plainCode an Aufrufer zurückgeben (für Zustellung) — niemals speichern oder loggen
+// plainCode an Aufrufer zurückgeben (zur Zustellung) — niemals speichern oder protokollieren
 return ['verification' => $v, 'plainCode' => $plainCode];
 ```
 
@@ -75,7 +75,7 @@ return ['verification' => $v, 'plainCode' => $plainCode];
 
 ---
 
-## Kernmuster: Constant-Time-Vergleich
+## Kernmuster: Zeitkonstanter Vergleich
 
 ```php
 // ATK-10: hash_equals verhindert Timing-Angriff
@@ -84,11 +84,11 @@ return ['verification' => $v, 'plainCode' => $plainCode];
 $valid = hash_equals($v->codeHash, hash('sha256', $submittedCode));
 ```
 
-**Warum nicht `===`:** `===` bricht beim ersten Nichtübereinstimmen ab — ein Angreifer kann Timing-Unterschiede zwischen "erstes Byte falsch" und "alle Bytes falsch" messen, um den korrekten Code zeichenweise einzugrenzen. `hash_equals()` ist unabhängig vom Ort des Nichtübereinstimmens konstant in der Zeit.
+**Warum nicht `===`:** `===` schließt kurz beim ersten Mismatch — ein Angreifer kann Timing-Unterschiede zwischen "erster Byte falsch" und "alle Bytes falsch" messen, um den korrekten Code zeichenweise einzugrenzen. `hash_equals()` ist zeitkonstant unabhängig davon, wo der Mismatch auftritt.
 
 ---
 
-## Kernmuster: Fail-First Versuchszählung
+## Kernmuster: Fail-First-Versuche-Zählung
 
 ```php
 public function check(int $id, string $submittedCode): string
@@ -103,7 +103,7 @@ public function check(int $id, string $submittedCode): string
     // VOR der Prüfung inkrementieren — verhindert Race-Exploitation
     UPDATE verifications SET attempts_count = attempts_count + 1 WHERE id = :id
 
-    // ATK-10: Constant-Time-Vergleich
+    // ATK-10: zeitkonstanter Vergleich
     $valid = hash_equals($v->codeHash, hash('sha256', $submittedCode));
 
     if ($valid) {
@@ -115,11 +115,11 @@ public function check(int $id, string $submittedCode): string
 }
 ```
 
-Das Inkrementieren der Versuche **vor** dem Vergleich stellt sicher, dass ein gleichzeitiger Race zum Prüfen des gleichen Codes das Limit nicht umgehen kann.
+Das Inkrementieren der Versuche **vor** dem Vergleich stellt sicher, dass ein gleichzeitiger Race-Angriff zur Prüfung desselben Codes das Limit nicht umgehen kann.
 
 ---
 
-## Kernmuster: Benutzer-Enumerationsprävention
+## Kernmuster: Benutzer-Enumerations-Prävention
 
 ```php
 // POST /verifications — gibt IMMER 202 zurück
@@ -129,7 +129,7 @@ private function handleRequest(ServerRequestInterface $request): ResponseInterfa
     $contact = V::str($body['contact'] ?? null, self::MAX_CONTACT_LEN);
 
     if ($contact === null || $contact === '') {
-        return $this->responseFactory->create(['error' => '...'], 422); // nur für leere/null
+        return $this->responseFactory->create(['error' => '...'], 422); // nur für leer/null
     }
 
     // Zustellungserfolg oder -fehler ist für den Aufrufer unsichtbar
@@ -139,16 +139,16 @@ private function handleRequest(ServerRequestInterface $request): ResponseInterfa
 }
 ```
 
-Ein 404 oder 422 für einen unbekannten Kontakt verrät "Dieser Kontakt ist nicht registriert." Immer 202.
+Ein 404 oder 422 für einen unbekannten Kontakt leckt "dieser Kontakt ist nicht registriert." Immer 202.
 
 ---
 
-## Kernmuster: Code-Typ- und Format-Validierung
+## Kernmuster: Code-Typ- und Formatvalidierung
 
 ```php
 $raw = $body['code'] ?? null;
 
-// ATK-07: Typkonfusion — Code muss ein String sein
+// ATK-07: Typverwechslung — Code muss ein String sein
 if (!is_string($raw)) {
     return $this->responseFactory->create(['error' => 'code must be a 6-digit string.'], 422);
 }
@@ -167,32 +167,32 @@ if (!ctype_digit($raw) || strlen($raw) !== 6) {
 ## Antwort-Design
 
 | Szenario | Status | Body |
-|----------|--------|------|
+|---|---|---|
 | Code korrekt | 200 | `{verified: true}` |
-| Code falsch, Versuche verbleibend | 422 | `{error: "Incorrect code.", attempts_left: N}` |
-| Max Versuche erreicht | 429 | `{error: "Too many failed attempts. Request a new code."}` |
+| Code falsch, Versuche verbleiben | 422 | `{error: "Incorrect code.", attempts_left: N}` |
+| Maximale Versuche erreicht | 429 | `{error: "Too many failed attempts. Request a new code."}` |
 | Bereits verifiziert (Replay) | 410 | `{error: "This verification has already been completed."}` |
 | Abgelaufen | 410 | `{error: "Verification has expired. Request a new code."}` |
 | Nicht gefunden | 404 | `{error: "Verification not found."}` |
 
 ---
 
-## ATK-01〜12 alle bestanden
+## ATK-01~12 alle Pass
 
-| ATK | Angriff | Abwehr |
-|-----|---------|--------|
+| ATK | Angriff | Verteidigung |
+|---|---|---|
 | 01 | SQL-Injection in `{id}` | `ctype_digit()` + strlen > 18 Guard |
-| 02 | IDOR — Check mit fremder Verifikations-ID | Gleiche 404 — kein Eigentums-Oracle |
+| 02 | IDOR — Check mit fremder Verification-ID | Gleiche 404 — kein Eigentumsindikator |
 | 03 | Mass Assignment (code_hash/verified_at aus Body) | Nur serverseitig gesetzt |
-| 04 | XSS in contact | Nur JSON-Ausgabe — kein HTML-Rendering. Contact nicht in Antwort zurückgeben |
-| 05 | Brute Force 6-stelliger Code | 3 Fehler → 429 Locked |
+| 04 | XSS im Kontakt | Nur JSON-Ausgabe — kein HTML-Rendering; Kontakt nicht in Antwort |
+| 05 | Brute Force 6-stelliger Code | 3 Fehlschläge → 429 Gesperrt |
 | 06 | Auth-Bypass | verified_at nur serverseitig gesetzt |
-| 07 | Typkonfusion (Code als int/bool/array) | `is_string()` + `ctype_digit()` |
+| 07 | Typverwechslung (Code als int/bool/array) | `is_string()` + `ctype_digit()` |
 | 08 | Integer-Overflow in `{id}` | strlen > 18 Guard |
-| 09 | ReDoS-ähnliche Code-Eingabe | `ctype_digit()` O(n) |
-| 10 | Timing-Angriff auf Code-Vergleich | `hash_equals()` Konstante Zeit |
+| 09 | ReDoS-artige Code-Eingabe | `ctype_digit()` O(n) |
+| 10 | Timing-Angriff auf Code-Vergleich | `hash_equals()` konstante Zeit |
 | 11 | Code-Replay nach Erfolg | 410 Gone |
-| 12 | CRLF-Injection in Headers | PSR-7 lehnt auf HTTP-Ebene ab |
+| 12 | CRLF-Injection in Headern | PSR-7 lehnt auf HTTP-Ebene ab |
 
 ---
 
@@ -202,5 +202,7 @@ if (!ctype_digit($raw) || strlen($raw) !== 6) {
 48 Tests / 103 Assertions — alle PASS
 PHPStan Level 8 — keine Fehler
 PHP CS Fixer — sauber
-ATK-01〜12 alle bestanden
+ATK-01~12 alle Pass
 ```
+
+Quelle: [`../NENE2-FT/verifylog/`](https://github.com/hideyukiMORI/NENE2-examples/tree/main/verifylog)
