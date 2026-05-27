@@ -121,6 +121,51 @@ EOF
   composer dump-autoload -q
   cd - > /dev/null
 
+  # TRIAL_LOG.md — YAML フロントマターつき雛形
+  # 集計時に grep/yq で tests/assertions 等を抽出できる
+  cat > "${DIR}/TRIAL_LOG.md" <<EOF
+---
+trial: ${TRIAL_NUM}
+persona: ${PERSONA}
+app: ""          # アプリ名を記入 (例: "クーポン割引")
+tests: 0         # 完了後に更新
+assertions: 0    # 完了後に更新
+phpstan: pass    # pass | fail
+tx: false        # transactional() を使ったか (true/false)
+enum: false      # backed enum を使ったか (true/false)
+vo: false        # Value Object を使ったか (true/false)
+notes: ""        # 特記事項（ひとことで）
+---
+
+# DX Trial ${TRIAL_NUM} — Persona ${PERSONA}
+
+## セットアップ
+
+\`\`\`bash
+cd ../NENE2-FT/dx-trial-${TRIAL_NUM}-persona-${PERSONA}
+\`\`\`
+
+## 実装ログ
+
+<!-- ここに実装の手順・詰まった点・解決策を記録する -->
+
+## テスト結果
+
+\`\`\`
+# php8.4 vendor/bin/phpunit tests/ --no-coverage --testdox
+\`\`\`
+
+## PHPStan
+
+\`\`\`
+# php8.4 vendor/bin/phpstan analyse --level=8 src tests
+\`\`\`
+
+## 気づき・フリクション
+
+<!-- DX 上の問題点、ハマりポイント、howto への改善提案を記録する -->
+EOF
+
   echo "    ✅ done (vendor: hard-link + composer/ independent)"
 done
 
