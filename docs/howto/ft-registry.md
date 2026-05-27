@@ -92,6 +92,7 @@ FT 番号 → プロジェクト名 → howto ファイルの台帳。
 | FT299 | collectionlog | [collection-api.md](collection-api.md) | 通常 |
 | FT300 | pointlog | [point-ledger-api.md](point-ledger-api.md) | ATK |
 | FT301 | contentlog | [content-negotiation-api.md](content-negotiation-api.md) | 通常 |
+| FT302 | couponlog | [coupon-discount-api.md](coupon-discount-api.md) | 通常 |
 
 ---
 

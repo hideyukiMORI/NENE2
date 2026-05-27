@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.273] — 2026-05-27
+
+### Added
+- `docs/howto/coupon-discount-api.md` — FT302 新規作成: クーポン割引コード API howto: 管理者専用作成・CODE_PATTERN 正規表現・期限切れ/上限超過/重複 409・UNIQUE(coupon_id,user_id) べき等 (FT302)。 (#1164)
+
+---
+
 ## [1.5.272] — 2026-05-27
 
 ### Added
