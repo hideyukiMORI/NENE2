@@ -96,6 +96,7 @@ FT 番号 → プロジェクト名 → howto ファイルの台帳。
 | FT303 | filelog | [file-sharing-api.md](file-sharing-api.md) | VULN |
 | FT304 | salelog | [flash-sale-api.md](flash-sale-api.md) | ATK |
 | FT305 | draftlog | [draft-publish-workflow.md](draft-publish-workflow.md) | 通常 |
+| FT306 | emojilog | [emoji-reactions-api.md](emoji-reactions-api.md) | 通常 |
 
 ---
 
