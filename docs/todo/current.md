@@ -54,6 +54,7 @@ bash tools/uncovered-fts.sh
 | P4: ATK/VULN テンプレートを CLAUDE.md に追加 | ✅ #1096/#1097 |
 | FT270 featureflaglog howto 更新 | ✅ #1098/#1099 |
 | **全 FT カバー達成** | ✅ #1262 |
+| **DX シナリオテスト 50 件作成** | ✅ #1267/#1268 |
 
 ---
 
@@ -79,6 +80,22 @@ docker compose run --rm app composer check
 | src/ 還元 batch 2（JSON ボディ整数バリデーター等） | 📋 候補 |
 | v2.0 設計検討（FT ループ摩擦点の還元） | 📋 候補 |
 | 新規 FT 追加（FT350〜）の ATK/VULN サイクル継続 | 📋 候補 |
+| DX シナリオ 50 件から howto 候補を抽出・優先度付け | 📋 候補 |
+
+### DX シナリオ分析から抽出した howto 候補（上位）
+
+| 優先 | howto テーマ | 言及シナリオ数 |
+|------|-------------|--------------|
+| ★★★ | SQLite ウィンドウ関数（LAG/LEAD/ROW_NUMBER）3.25+ | 7+ |
+| ★★★ | 動的 WHERE 句（WHERE 1=1 AND ...） | 6+ |
+| ★★★ | 整数演算による金額計算（intdiv / ROUND） | 8+ |
+| ★★★ | N:M AND 検索（HAVING COUNT(DISTINCT) = N） | 5+ |
+| ★★ | Atomic UPDATE パターン（競合防止） | 5+ |
+| ★★ | マルチテナント API 設計（テナント分離 + API キー） | 2 |
+| ★★ | order_index 一括更新（CASE WHEN UPDATE） | 3 |
+| ★★ | SQLite 動的 interval（date + カラム値） | 3 |
+| ★★ | 階層データ再帰 CTE（エリア・組織・カテゴリ） | 4 |
+| ★ | ロールベース情報マスキング（匿名 DTO 制御） | 2 |
 
 ---
 
