@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.254] — 2026-05-27
+
+### Added
+- `docs/howto/invitation-system.md` — FT283 新規作成: 招待コードシステム howto: 32文字 hex トークン (128bit エントロピー)・ISO 8601 日時バリデーション・pending→used 状態管理・match 式による状態マッピング・IDOR 保護 (FT283)。 (#1126)
+
+---
+
 ## [1.5.253] — 2026-05-27
 
 ### Added
