@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.305] — 2026-05-27
+
+### Added
+- `docs/howto/article-relations-api.md` — FT334 新規作成: 記事リレーション API howto: 双方向/非対称リレーション・自動逆関係挿入・タイプフィルター・削除時逆関係同時削除 (FT334)。 (#1229)
+
+---
+
 ## [1.5.304] — 2026-05-27
 
 ### Added
