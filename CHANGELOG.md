@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.286] — 2026-05-27
+
+### Added
+- `docs/howto/category-hierarchy-api.md` — FT315 VULN 新規作成: 階層カテゴリ API howto: マテリアライズドパス・深さ制限・循環参照防止・subtree クエリ・祖先取得・VULN アセスメント (FT315)。 (#1190)
+
+---
+
 ## [1.5.285] — 2026-05-27
 
 ### Added
