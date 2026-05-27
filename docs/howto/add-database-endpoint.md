@@ -741,9 +741,92 @@ provides the affinity.
 
 ---
 
+## Wrapping multiple writes in a transaction
+
+When a single operation must write to more than one table, wrap it in a transaction
+so that either **all** writes succeed or **none** do.
+
+A common example: create an order **and** decrement stock atomically.
+
+```php
+use Nene2\Database\DatabaseTransactionManagerInterface;
+
+final readonly class CreateOrderUseCase
+{
+    public function __construct(
+        private OrderRepositoryInterface   $orders,
+        private ProductRepositoryInterface $products,
+        private DatabaseTransactionManagerInterface $txManager,
+    ) {}
+
+    public function execute(int $productId, int $quantity): Order
+    {
+        return $this->txManager->transactional(function () use ($productId, $quantity): Order {
+            // 1. Check and decrement stock atomically
+            $affected = $this->products->decrementStock($productId, $quantity);
+            if ($affected === 0) {
+                throw new OutOfStockException("Product {$productId} is out of stock.");
+            }
+
+            // 2. Create the order record
+            return $this->orders->create($productId, $quantity);
+
+            // If an exception is thrown anywhere in this block, both writes are rolled back.
+        });
+    }
+}
+```
+
+The repository's `decrementStock` uses an atomic `UPDATE ... WHERE stock >= ?` to
+avoid race conditions:
+
+```php
+public function decrementStock(int $productId, int $quantity): int
+{
+    return $this->db->execute(
+        'UPDATE products SET stock = stock - ? WHERE id = ? AND stock >= ?',
+        [$quantity, $productId, $quantity],
+    ); // returns number of affected rows; 0 = insufficient stock
+}
+```
+
+### Injecting `DatabaseTransactionManagerInterface`
+
+Register it in your service provider alongside the repository:
+
+```php
+$container->bind(
+    CreateOrderUseCase::class,
+    fn ($c) => new CreateOrderUseCase(
+        orders:    $c->get(OrderRepositoryInterface::class),
+        products:  $c->get(ProductRepositoryInterface::class),
+        txManager: $c->get(DatabaseTransactionManagerInterface::class),
+    ),
+);
+```
+
+`DatabaseTransactionManagerInterface` is already registered by NENE2's core
+`DatabaseServiceProvider` — you only need to declare it as a constructor dependency.
+
+### When to use transactions
+
+| Situation | Use transaction? |
+|-----------|-----------------|
+| Single INSERT or UPDATE | No — a single SQL statement is atomic by default |
+| INSERT + INSERT (two tables) | **Yes** — must succeed or fail together |
+| INSERT + UPDATE (e.g., order + stock) | **Yes** |
+| Read-only SELECT queries | No |
+| UPDATE with a preceding SELECT for validation | **Yes** — prevents race between check and update |
+
+For a deeper guide including rollback testing, see [`use-transactions.md`](use-transactions.md).
+
+---
+
 ## Next steps
 
 - Add OpenAPI documentation for your endpoint: see `docs/development/endpoint-scaffold.md`
 - Add database migrations: see `docs/development/test-database-strategy.md`
 - See NENE2's built-in Note example as a reference: `src/Example/Note/`
 - PATCH endpoint pattern: see [`implement-patch-endpoint.md`](implement-patch-endpoint.md)
+- Transactions deep-dive: see [`use-transactions.md`](use-transactions.md)
+- Dynamic list filtering: see [`dynamic-filter-query.md`](dynamic-filter-query.md)

@@ -2,7 +2,45 @@
 
 Task-focused guides for building with NENE2. Each guide is self-contained and links to related topics.
 
-**100 guides** in this directory (excluding this index). VitePress sidebar lists common entry points; use this page for the full catalog.
+**100+ guides** in this directory (excluding this index). VitePress sidebar lists common entry points; use this page for the full catalog.
+
+---
+
+## 🔍 Find by what you want to build
+
+> Can't find the right guide by technical name? Start here.
+
+| I want to… | Guide |
+|-----------|-------|
+| Filter a list by optional query params (`?status=`, `?price_max=`) | [dynamic-filter-query.md](dynamic-filter-query.md) |
+| Filter by multiple tags / skills (AND: must have all) | [multi-value-tag-filter.md](multi-value-tag-filter.md) |
+| Sort by a query param safely (`?sort=name&order=asc`) | [dynamic-sort-order-injection.md](dynamic-sort-order-injection.md) |
+| Add pagination to a list endpoint | [add-pagination.md](add-pagination.md) |
+| Store and calculate money without rounding errors | [money-integer-arithmetic.md](money-integer-arithmetic.md) |
+| Manage status transitions (draft → published → archived) | [state-machine-workflow-api.md](state-machine-workflow-api.md) |
+| Build a hierarchy (categories, folders, org chart, regions) | [hierarchical-data.md](hierarchical-data.md) |
+| Store events / history (append-only, never update) | [event-sourcing-cqrs-api.md](event-sourcing-cqrs-api.md) |
+| Prevent double-booking (hotel, meeting room, appointment) | [prevent-double-booking.md](prevent-double-booking.md) |
+| Prevent race conditions on limited stock or seats | [flash-sale-api.md](flash-sale-api.md) |
+| Record who changed what and when (audit trail) | [audit-trail.md](audit-trail.md) |
+| Implement votes / likes (one per user) | [upvote-downvote-api.md](upvote-downvote-api.md) |
+| Add threaded comments or nested replies | [threaded-comments-api.md](threaded-comments-api.md) |
+| Generate a secure token (invite link, download URL, API key) | [api-key-management.md](api-key-management.md) |
+| Handle timezones and UTC storage | [handle-timezones.md](handle-timezones.md) |
+| Add JWT authentication | [jwt-authentication.md](jwt-authentication.md) |
+| Add multi-tenant isolation (per-tenant data separation) | [jwt-tenant-isolation.md](jwt-tenant-isolation.md) |
+| Hash passwords and verify on login | [password-auth-argon2id.md](password-auth-argon2id.md) |
+| Add leaderboard / ranking | [game-score-leaderboard-api.md](game-score-leaderboard-api.md) |
+| Upload and serve files securely | [file-upload.md](file-upload.md) |
+| Full-text search | [sqlite-fts5-search.md](sqlite-fts5-search.md) |
+| Use database transactions (wrap multiple writes atomically) | [use-transactions.md](use-transactions.md) |
+| Soft-delete (hide without permanently removing) | [soft-delete.md](soft-delete.md) |
+| Send a webhook when something happens | [webhook-delivery-api.md](webhook-delivery-api.md) |
+| Implement an approval / review workflow | [approval-workflow.md](approval-workflow.md) |
+| Manage points, credits, or a balance ledger | [point-ledger-api.md](point-ledger-api.md) |
+| Manage coupons and discounts | [coupon-discount-api.md](coupon-discount-api.md) |
+| Implement rate limiting | [add-rate-limiting.md](add-rate-limiting.md) |
+| Build a subscription / membership | [subscription-plan-management.md](subscription-plan-management.md) |
 
 ---
 
