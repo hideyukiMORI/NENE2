@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.276] — 2026-05-27
+
+### Added
+- `docs/howto/draft-publish-workflow.md` — FT305 新規作成: 記事下書き・公開・アーカイブ状態機械 howto: draft→published→archived 一方向遷移・著者専用書き込み・公開済みは閲覧可 (FT305)。 (#1170)
+
+---
+
 ## [1.5.275] — 2026-05-27
 
 ### Added
