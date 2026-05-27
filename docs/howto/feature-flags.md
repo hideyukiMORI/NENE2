@@ -1,6 +1,24 @@
-# Feature Flags
+# How-to: Feature Flags API
+
+> **FT reference**: FT270 (`NENE2-FT/featureflaglog`) — Feature flag API: priority-chain evaluation (user target → tenant target → globally_enabled → rollout_pct hash), crc32-based deterministic bucket assignment, user/tenant kill switches, flag UNIQUE name constraint, 21 tests / 31 assertions PASS.
 
 Feature flags let you toggle functionality at runtime without deploying code. The core decisions are: where to store state (DB vs config), how to evaluate priority when multiple rules apply, and how to handle rollout percentages without per-user tracking.
+
+---
+
+## Routes
+
+| Method   | Path                                  | Description                              |
+|----------|---------------------------------------|------------------------------------------|
+| `POST`   | `/flags`                              | Create a new feature flag                |
+| `GET`    | `/flags/{name}`                       | Get flag details with targets            |
+| `POST`   | `/flags/{name}/toggle`                | Set globally_enabled on/off              |
+| `PUT`    | `/flags/{name}/rollout`               | Set rollout percentage (0–100)           |
+| `PUT`    | `/flags/{name}/targets`               | Upsert a user or tenant target override  |
+| `DELETE` | `/flags/{name}/targets/{type}/{id}`   | Remove a specific target override        |
+| `POST`   | `/flags/{name}/evaluate`              | Evaluate the flag for a user/tenant      |
+
+---
 
 ## Core components
 
@@ -141,3 +159,62 @@ A flag system without kill switches is incomplete. `enabled = false` is the safe
 
 **Why separate `globally_enabled` and `rollout_pct`?**
 `globally_enabled = 1` is an explicit all-or-nothing switch. `rollout_pct` is for gradual exposure. Keeping them separate avoids overloading one field with two different meanings.
+
+---
+
+## Example responses
+
+**POST /flags** (201 Created):
+```json
+{
+    "id": 1,
+    "name": "new-checkout",
+    "description": "New checkout flow",
+    "globally_enabled": false,
+    "rollout_pct": 0,
+    "created_at": "2026-05-27 10:00:00"
+}
+```
+
+**GET /flags/{name}** (200 OK):
+```json
+{
+    "flag": {
+        "id": 1,
+        "name": "new-checkout",
+        "globally_enabled": false,
+        "rollout_pct": 30
+    },
+    "targets": [
+        {
+            "id": 1,
+            "flag_id": 1,
+            "target_type": "user",
+            "target_id": "user-42",
+            "enabled": true
+        }
+    ]
+}
+```
+
+**POST /flags/{name}/evaluate** (200 OK):
+```json
+{
+    "flag": "new-checkout",
+    "user_id": "user-42",
+    "enabled": true
+}
+```
+
+---
+
+## What NOT to do
+
+| Anti-pattern | Risk |
+|---|---|
+| Use random number for rollout per request | Same user flips between enabled/disabled across requests — inconsistent UX |
+| Forget `abs()` on `crc32()` | crc32 can return negative values on 64-bit PHP — modulo gives wrong bucket |
+| Allow arbitrary `target_type` values | Uncontrolled enum makes evaluation logic unbounded; restrict to `'user'` and `'tenant'` |
+| No `UNIQUE (flag_id, target_type, target_id)` | Duplicate targets make evaluation ambiguous — first row wins arbitrarily |
+| Use flag name as `target_id` | Flag name can change; use stable IDs for user/tenant targeting |
+| Return 500 on duplicate flag name | The name uniqueness violation is a domain error, not a server error; map to 409 Conflict |
