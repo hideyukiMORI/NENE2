@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.307] — 2026-05-27
+
+### Added
+- `docs/howto/reservation-availability-api.md` — FT336 ATK 新規作成: 予約・空き状況 API howto: 半開区間重複防止・キャンセル後再予約・空き状況フィルター・ATK アセスメント (FT336)。 (#1233)
+
+---
+
 ## [1.5.306] — 2026-05-27
 
 ### Added
