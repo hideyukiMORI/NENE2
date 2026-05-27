@@ -1,4 +1,6 @@
-# How to Add A/B Testing
+# How-to: A/B Testing Framework
+
+> **FT reference**: FT293 (`NENE2-FT/ablog`) — A/B experiment framework: weighted deterministic variant assignment via crc32 seed, draft→active→stopped state machine, UNIQUE(experiment_id, user_id) idempotent assignment, CVR aggregation in SQL, 16 tests / 26 assertions PASS.
 
 Run controlled experiments by assigning users to variants and collecting conversion events.
 
@@ -134,3 +136,17 @@ $row['cvr'] = $assignments > 0 ? round($events / $assignments, 4) : 0.0;
 - Events require the user to be assigned (404 otherwise).
 - `UNIQUE(experiment_id, user_id)` prevents double-assignment at the DB level.
 - Weights must be positive integers; zero-weight variants are rejected (422).
+
+---
+
+## What NOT to do
+
+| Anti-pattern | Risk |
+|---|---|
+| Random (non-deterministic) assignment | Same user gets different variants on each call; inconsistent experience |
+| No `UNIQUE(experiment_id, user_id)` | Concurrent assignments create duplicate rows; user ends up in multiple variants |
+| Allow assignment in `draft` or `stopped` status | Draft experiments have no valid variants; stopped experiments should not collect new data |
+| Allow backward status transitions | `stopped → active` re-opens a closed experiment; historical data contaminated |
+| No weight validation (allow 0) | Zero total weight causes division-by-zero in bucket calculation |
+| Compute CVR in application with all rows | Fetch all rows then loop; use `GROUP BY` SQL aggregation instead |
+| No event → assignment validation | Events without valid assignment skew per-variant conversion rates |
