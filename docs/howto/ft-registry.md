@@ -70,6 +70,7 @@ FT 番号 → プロジェクト名 → howto ファイルの台帳。
 | FT277 | feedlog | [activity-feed.md](activity-feed.md) | 通常 |
 | FT278 | messagelog | [direct-messaging-system.md](direct-messaging-system.md) | 通常 |
 | FT279 | rbaclog | [rbac-jwt-auth.md](rbac-jwt-auth.md) | VULN |
+| FT280 | lockoutlog | [account-lockout.md](account-lockout.md) | ATK |
 
 ---
 
