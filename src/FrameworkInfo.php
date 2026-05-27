@@ -11,7 +11,7 @@ namespace Nene2;
  */
 final readonly class FrameworkInfo
 {
-    public const string VERSION = '1.5.305';
+    public const string VERSION = '1.5.306';
 
     public function name(): string
     {

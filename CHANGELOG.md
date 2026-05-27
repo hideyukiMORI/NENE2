@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.306] — 2026-05-27
+
+### Added
+- `docs/howto/resource-reservation-booking.md` — FT335 新規作成: リソース予約 API howto: 時間スロット重複防止・半開区間・user_id 非公開・キャンセル IDOR 403・管理者 API (FT335)。 (#1231)
+
+---
+
 ## [1.5.305] — 2026-05-27
 
 ### Added
