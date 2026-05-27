@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.250] — 2026-05-27
+
+### Added
+- `docs/howto/rbac-jwt-auth.md` — FT279 新規作成: RBAC + JWT 認証 howto と VULN 脆弱性診断 (V-01〜V-10): Argon2id タイミング攻撃対策・JWT role クレーム・401 vs 403 区別・BearerTokenMiddleware・管理者専用エンドポイント保護 (FT279)。 (#1118)
+
+---
+
 ## [1.5.249] — 2026-05-27
 
 ### Changed
