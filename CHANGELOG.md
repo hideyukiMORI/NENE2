@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.258] — 2026-05-27
+
+### Added
+- `docs/howto/waitlist-system.md` — FT287 新規作成: ウェイトリストシステム howto: UNIQUE(user_id)・waiting/approved/declined 状態マシン・isTerminal()・/me ルート優先登録・管理者 X-Admin-Key・位置番号追跡 (FT287)。 (#1134)
+
+---
+
 ## [1.5.257] — 2026-05-27
 
 ### Added
