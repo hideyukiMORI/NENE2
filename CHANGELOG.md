@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.248] — 2026-05-27
+
+### Changed
+- `docs/howto/activity-feed.md` — FT277 参照と What NOT to do セクションを追加: type allowlist 9種・payload JSON TEXT・user_id インデックス (user_id, id DESC)・limit/offset クランプ・IDOR → 404・admin fail-closed (FT277)。 (#1114)
+
+---
+
 ## [1.5.247] — 2026-05-27
 
 ### Changed

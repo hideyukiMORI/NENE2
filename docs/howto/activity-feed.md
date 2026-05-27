@@ -1,7 +1,10 @@
 # How-to: Activity Feed / Timeline API
 
+> **FT reference**: FT277 (`NENE2-FT/feedlog`) — Activity feed: type-allowlisted events (9 types), JSON payload per event, user-scoped feed with IDOR → 404, pagination clamping (max 100), admin fail-closed, 24 tests / 37 assertions PASS.
+>
+> Also validated in FT219 (`NENE2-FT/feedlog` precursor) — VULN assessment on same pattern.
+
 This guide shows how to build an activity feed system with typed events, user scoping, and pagination using NENE2.
-Pattern demonstrated by the **feedlog** field trial (FT219, VULN assessment).
 
 ## Features
 
@@ -108,3 +111,16 @@ Unknown types in the `?type=` parameter are silently ignored (null = no filter a
 - **`is_array()`**: Payload must be a JSON object (array in PHP) — not string, number, null
 - **Parameterized queries**: All SQL uses `:named` parameters — no string concatenation
 - **`in_array(..., true)`**: Strict comparison prevents type-coercion bypass
+
+---
+
+## What NOT to do
+
+| Anti-pattern | Risk |
+|---|---|
+| Accept free-form event type string | Uncontrolled types pollute the feed; hard to build type-specific queries |
+| Store payload as TEXT without JSON validation | `is_array($payload)` ensures a JSON object; scalars/arrays break downstream consumers |
+| Trust raw `limit` from query string | No upper bound → full table scan on large datasets |
+| Use `in_array($type, TYPES)` without `true` | Loose comparison; `0 == 'post_created'` in some PHP versions |
+| Return 403 on feed access for wrong user | Reveals the user exists; use 404 to hide user enumeration |
+| Index only on `user_id` | Missing `id DESC` in composite index causes slow ORDER BY on large feeds |
