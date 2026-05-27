@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.267] — 2026-05-27
+
+### Added
+- `docs/howto/geolocation-api.md` — FT296 新規作成: 位置情報 API ATK howto: Haversine 距離・緯度経度バリデーション・近傍検索・bbox・半径クランプ・ATK-01〜12 (FT296)。 (#1152)
+
+---
+
 ## [1.5.266] — 2026-05-27
 
 ### Added
