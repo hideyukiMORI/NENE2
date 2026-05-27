@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.251] — 2026-05-27
+
+### Added
+- `docs/howto/account-lockout.md` — FT280 新規作成: アカウントロックアウト howto と ATK 攻撃試験 (ATK-01〜ATK-12): 5回失敗→15分ロック・423 Locked・成功でリセット・ロックアウト状態エンドポイント (FT280)。 (#1120)
+
+---
+
 ## [1.5.250] — 2026-05-27
 
 ### Added

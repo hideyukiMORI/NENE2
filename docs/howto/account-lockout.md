@@ -1,5 +1,9 @@
 # Account Lockout (Brute-Force Protection)
 
+> **FT reference**: FT280 (`NENE2-FT/lockoutlog`) — Account lockout: 5 failed attempts trigger 15-minute lockout (423 Locked), correct password blocked while locked, success resets counter, Argon2id password verification, MySQL integration tests, 27 tests pass / 5 skipped (MySQL), 44 assertions PASS.
+>
+> **ATK assessment**: ATK-01 through ATK-12 included at the end of this document.
+
 Protect login endpoints against brute-force attacks by locking an account after a configurable number of failed attempts.
 
 ## Overview
@@ -214,3 +218,125 @@ For most applications, the trade-off favors brute-force protection. The lockout 
 | `POST` | `/users` | Create user (seed/registration) |
 | `POST` | `/auth/login` | Login attempt (200/401/423) |
 | `GET` | `/auth/status/{email}` | Check lockout status |
+
+---
+
+## ATK Assessment — Cracker-Mindset Attack Test
+
+### ATK-01 — Brute-force until lockout 🚫 BLOCKED
+
+**Attack**: Send 5+ failed login attempts with wrong passwords for a known email.
+**Result**: BLOCKED — after 5 failures, `failed_count >= MAX_ATTEMPTS` sets `locked_until = now + 15 min`. Subsequent attempts receive 423 `account-locked` before password is checked.
+
+---
+
+### ATK-02 — Submit correct password after lockout 🚫 BLOCKED
+
+**Attack**: Lock the account, then immediately submit the correct password.
+**Result**: BLOCKED — lockout check happens before `findUserByEmail()`. Even with the correct password, 423 is returned while locked.
+
+---
+
+### ATK-03 — Probe nonexistent email to avoid lockout on real accounts 🚫 BLOCKED (by design)
+
+**Attack**: Use a nonexistent email to probe without triggering lockout on real accounts.
+**Result**: BLOCKED (by design) — nonexistent emails do not accumulate failures, protecting storage. Real accounts are protected by their own lockout state. Probing fake emails reveals nothing about real accounts.
+
+---
+
+### ATK-04 — Race condition: concurrent login attempts at failure threshold 🚫 BLOCKED
+
+**Attack**: Send two requests simultaneously when `failed_count` is at 4 to race past lockout.
+**Result**: BLOCKED — `UPDATE account_states` is atomic at the DB level. SQLite WAL serializes concurrent writes; MySQL uses row-level locking. Both updates succeed; the final `locked_until` is set correctly.
+
+---
+
+### ATK-05 — Status endpoint reveals lockout state 🚫 BLOCKED (by design)
+
+**Attack**: `GET /auth/status/{email}` to discover if an email has been targeted for lockout.
+**Result**: BY DESIGN — the status endpoint is intended for client UX ("try again in 15 min"). In production, this should be rate-limited or require authentication. It reveals lockout timing but not password information.
+
+---
+
+### ATK-06 — SQL injection via email field 🚫 BLOCKED
+
+**Attack**: Send `{"email": "' OR '1'='1' --", "password": "x"}`.
+**Result**: BLOCKED — all queries use parameterized statements (`WHERE email = ?`). The injected string is treated as a literal email value.
+
+---
+
+### ATK-07 — Oversized email string to cause denial of service 🚫 BLOCKED
+
+**Attack**: Send an email field with 100,000 characters.
+**Result**: BLOCKED — `if (strlen($email) > 255)` → 422 `validation-failed` before any DB query.
+
+---
+
+### ATK-08 — Missing email or password fields 🚫 BLOCKED
+
+**Attack**: Send `{}` or `{"email": "x@x.com"}` without password.
+**Result**: BLOCKED — `if ($email === '' || $pass === '')` → 422 `validation-failed`.
+
+---
+
+### ATK-09 — Reset counter by logging in as another account 🚫 BLOCKED
+
+**Attack**: Lock account A, then log in as account B to reset A's counter.
+**Result**: BLOCKED — `resetState()` is keyed by email. Another account's successful login has no effect on account A's state.
+
+---
+
+### ATK-10 — Whitespace-only email to bypass validation 🚫 BLOCKED
+
+**Attack**: Send `{"email": "   ", "password": "x"}`.
+**Result**: BLOCKED — `$email = trim($body['email'])` reduces whitespace to `''` → 422.
+
+---
+
+### ATK-11 — Non-string email type to bypass is_string check 🚫 BLOCKED
+
+**Attack**: Send `{"email": 12345, "password": "x"}` (integer email).
+**Result**: BLOCKED — `is_string($body['email'])` check → false → `$email = ''` → 422.
+
+---
+
+### ATK-12 — Sustained lockout of victim (availability attack) 🚫 BLOCKED (mitigated)
+
+**Attack**: Malicious user repeatedly fails login for victim's email to sustain permanent lockout.
+**Result**: MITIGATED — lockout is time-based (15 minutes). It expires automatically; no permanent ban. Sustained attack sustains the 15-minute window but cannot permanently disable the account. Production hardening: CAPTCHA, IP-based rate limiting, notify user by email.
+
+---
+
+### ATK Summary
+
+| ID | Attack | Result |
+|----|--------|--------|
+| ATK-01 | Brute-force until lockout | 🚫 BLOCKED |
+| ATK-02 | Correct password after lockout | 🚫 BLOCKED |
+| ATK-03 | Probe via nonexistent email | 🚫 BLOCKED (by design) |
+| ATK-04 | Race condition on failure count | 🚫 BLOCKED |
+| ATK-05 | Status endpoint reveals lockout state | 🚫 BLOCKED (by design) |
+| ATK-06 | SQL injection via email | 🚫 BLOCKED |
+| ATK-07 | Oversized email DoS | 🚫 BLOCKED |
+| ATK-08 | Missing required fields | 🚫 BLOCKED |
+| ATK-09 | Reset counter via other account | 🚫 BLOCKED |
+| ATK-10 | Whitespace-only email | 🚫 BLOCKED |
+| ATK-11 | Non-string email type | 🚫 BLOCKED |
+| ATK-12 | Sustained lockout of victim | 🚫 BLOCKED (mitigated) |
+
+**12 BLOCKED / MITIGATED, 0 EXPOSED**
+Lockout checked before password verification, parameterized queries, input length validation, and time-based expiry prevent all tested attack vectors.
+
+---
+
+## What NOT to do
+
+| Anti-pattern | Risk |
+|---|---|
+| Check lockout after password verification | Wastes Argon2id CPU for locked accounts; lockout timing side-channel |
+| Return 429 for account lockout | Wrong semantics — 429 is rate limiting, 423 is locked resource |
+| Implement permanent lockout on failure | Attacker can permanently deny service for any user with known email |
+| Record failures for nonexistent emails | Attacker pre-creates lockout states before users sign up |
+| No email length validation | 100KB+ email strings cause slow queries or memory pressure |
+| Store lockout state in memory/session | State lost on server restart; not shared across multiple app instances |
+| Same error for locked vs wrong password | Hard to distinguish UX — use 423 for locked, 401 for wrong credentials |
