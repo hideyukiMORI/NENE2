@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.249] — 2026-05-27
+
+### Changed
+- `docs/howto/direct-messaging-system.md` — FT278 参照と What NOT to do セクションを追加: conversations UNIQUE(initiator_id, recipient_id)・CHECK(initiator_id != recipient_id)・参加者のみアクセス可・方向非依存 conversation lookup (FT278)。 (#1116)
+
+---
+
 ## [1.5.248] — 2026-05-27
 
 ### Changed

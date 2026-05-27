@@ -1,8 +1,11 @@
 # How to Build a Direct Messaging System with NENE2
 
+> **FT reference**: FT278 (`NENE2-FT/messagelog`) — Direct messaging: conversation threading, UNIQUE(initiator_id, recipient_id) + CHECK(initiator_id != recipient_id), participant-only access control, direction-agnostic lookup, idempotent conversation start, 31 tests / 96 assertions PASS.
+>
+> Also validated in FT135 — original implementation.
+
 This guide walks through building a Twitter/Instagram-style direct message (DM) system — users start conversations with each other, send messages, and only participants can read or send in a conversation.
 
-**Field Trial**: FT135  
 **NENE2 version**: ^1.5  
 **Covered topics**: conversation threading, participant access control, direction-agnostic conversation lookup, idempotent conversation start
 
@@ -253,3 +256,20 @@ All 12 vulnerability tests pass. No vulnerabilities found.
 | `UNIQUE (initiator_id, recipient_id)` doesn't prevent A→B and B→A as two conversations | Look up direction-agnostic with OR query before INSERT |
 | Checking participant after checking content validity | Check participant *before* content to avoid leaking info |
 | Accepting any non-zero integer as actor ID without user existence check | Always verify `findUserById(actorId)` before checking participation |
+
+---
+
+## What NOT to do
+
+| Anti-pattern | Risk |
+|---|---|
+| Store conversations as `(user_a, user_b)` with direction — two separate rows for A→B and B→A | Same two users accumulate duplicate conversations; direction-agnostic lookup fails |
+| No `CHECK (initiator_id != recipient_id)` constraint | Users can message themselves, creating confusing self-conversations |
+| No `UNIQUE (initiator_id, recipient_id)` constraint | Concurrent conversation-start requests create duplicate rows for the same pair |
+| Return 404 instead of 403 on non-participant access | Reveals conversation ID existence to non-participants |
+| Call `JsonRequestBodyParser::parse()` on GET `/conversations/{id}/messages` | GET requests have no body; parser returns 400 |
+| Check content validity before participant check | Leaks info — attacker can probe valid conversation IDs by sending empty content and watching for 403 vs 422 |
+| Use `is_numeric()` without cast to `int` then `> 0` | `is_numeric("0")` is true; user ID 0 would be treated as valid |
+| Skip user existence check after participant check | `isParticipant()` only checks FK — deleted or non-existent users can still appear if DB has no cascade |
+| Allow any user to list another user's conversations | IDOR — always verify `actorId === targetUserId` before returning conversation list |
+| Index only on `conversation_id` for messages | Missing `id ASC` in index causes slow ORDER BY on large message histories |
