@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.298] — 2026-05-27
+
+### Added
+- `docs/howto/pin-bookmark-ordering.md` — FT327 VULN 新規作成: 記事ピン・順序管理 API howto: 最大10件制限・削除後再採番・順序変更・ユーザー分離・VULN アセスメント (FT327)。 (#1215)
+
+---
+
 ## [1.5.297] — 2026-05-27
 
 ### Added
