@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.246] — 2026-05-27
+
+### Added
+- `docs/howto/user-profile-api.md` — FT275: ユーザープロフィール API: 1ユーザー1プロフィール (UNIQUE)・email FILTER_VALIDATE_EMAIL・display_name 100文字/bio 500文字/avatar_url 2048文字制限・https URL のみ許可・DatabaseConstraintException → 409・所有者チェック (actorId=userId) (FT275)。 (#1110)
+
+---
+
 ## [1.5.245] — 2026-05-27
 
 ### Changed
