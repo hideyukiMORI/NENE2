@@ -1,19 +1,19 @@
-# How-to : API de fil d'activité / timeline
+# How-to : API de fil d'actualité / timeline
 
-> **Référence FT** : FT277 (`NENE2-FT/feedlog`) — Fil d'activité : événements avec allowlist de types (9 types), payload JSON par événement, fil limité par utilisateur avec IDOR → 404, clamping de pagination (max 100), admin fail-closed, 24 tests / 37 assertions PASS.
+> **Référence FT** : FT277 (`NENE2-FT/feedlog`) — Fil d'actualité : événements avec allowlist de types (9 types), payload JSON par événement, fil scopé par utilisateur avec IDOR → 404, limitation de pagination (max 100), admin fail-closed, 24 tests / 37 assertions PASS.
 >
 > Également validé dans FT219 (`NENE2-FT/feedlog` précurseur) — évaluation VULN sur le même pattern.
 
-Ce guide montre comment construire un système de fil d'activité avec des événements typés, une portée par utilisateur et une pagination avec NENE2.
+Ce guide montre comment construire un système de fil d'actualité avec des événements typés, un scope utilisateur et une pagination en utilisant NENE2.
 
 ## Fonctionnalités
 
-- Poster des événements d'activité typés (types strictement en allowlist)
+- Publier des événements d'activité typés (types strictement en allowlist)
 - Stockage de payload JSON (métadonnées arbitraires par type d'événement)
-- Fil limité par utilisateur avec protection IDOR (retourne 404 pour les accès non autorisés)
+- Fil scopé par utilisateur avec protection IDOR (retourne 404 pour les accès non autorisés)
 - Filtrage par type d'événement via paramètre de requête
-- Pagination par ordre décroissant de timestamp (les plus récents en premier)
-- L'admin peut poster des événements au nom des utilisateurs
+- Pagination par horodatage décroissant (les plus récents en premier)
+- L'admin peut publier des événements au nom des utilisateurs
 
 ## Schéma
 
@@ -34,12 +34,12 @@ CREATE INDEX IF NOT EXISTS idx_events_type ON events (type, id DESC);
 
 | Méthode | Chemin | Auth | Description |
 |--------|------|------|-------------|
-| `POST` | `/events` | Utilisateur | Poster un événement d'activité |
+| `POST` | `/events` | Utilisateur | Publier un événement d'activité |
 | `GET` | `/users/{userId}/feed` | Utilisateur (lui-même ou admin) | Obtenir le fil avec filtre de type optionnel |
 
-## Allowlist des types d'événements (VULN-B)
+## Allowlist de types d'événements (VULN-B)
 
-L'utilisation stricte d'une allowlist de types d'événements empêche l'affectation de masse et l'injection d'événements arbitraires :
+L'allowlist stricte des types d'événements empêche l'injection d'événements arbitraires et l'assignation massive :
 
 ```php
 private const array ALLOWED_TYPES = [
@@ -55,9 +55,9 @@ if (!in_array($type, self::ALLOWED_TYPES, true)) {
 }
 ```
 
-## Stockage des payloads
+## Stockage de payload
 
-Les payloads sont stockés en tant que chaînes JSON et décodés lors de la récupération :
+Les payloads sont stockés sous forme de chaînes JSON et décodés à la récupération :
 
 ```php
 public function create(int $userId, string $type, array $payload): array
@@ -76,7 +76,7 @@ private function decode(array $row): array
 
 ## Protection IDOR (VULN-C)
 
-L'accès au fil retourne 404 (pas 403) quand un utilisateur non autorisé essaie de voir le fil d'un autre utilisateur :
+L'accès au fil retourne 404 (pas 403) lorsqu'un utilisateur non autorisé tente de consulter le fil d'un autre utilisateur :
 
 ```php
 $callerUid = $this->uid($req);
@@ -99,7 +99,7 @@ Les types inconnus dans le paramètre `?type=` sont silencieusement ignorés (nu
 ## Résultats de l'évaluation VULN (FT219)
 
 - **VULN-B** : `in_array(..., strict: true)` empêche tout type d'événement non listé
-- **VULN-C** : IDOR retourne 404 pour cacher l'existence du fil aux appelants non autorisés
+- **VULN-C** : L'IDOR retourne 404 pour cacher l'existence du fil aux appelants non autorisés
 - **VULN-D** : Admin fail-closed — une clé admin vide retourne toujours false
 - **VULN-F** : `is_array($payload)` garantit que le payload est toujours un objet JSON, pas un scalaire
 - **VULN-G** : `ctype_digit()` protège le paramètre de chemin `userId`
@@ -107,9 +107,9 @@ Les types inconnus dans le paramètre `?type=` sont silencieusement ignorés (nu
 
 ## Patterns de sécurité
 
-- **`ctype_digit()`** : Validation des entiers résistante aux ReDoS pour les paramètres de chemin
-- **`is_array()`** : Le payload doit être un objet JSON (tableau en PHP) — pas une chaîne, un nombre, null
-- **Requêtes paramétrées** : Tout le SQL utilise des paramètres `:named` — pas de concaténation de chaînes
+- **`ctype_digit()`** : Validation d'entier sûre contre les ReDoS pour les paramètres de chemin
+- **`is_array()`** : Le payload doit être un objet JSON (array en PHP) — pas une chaîne, un nombre, null
+- **Requêtes paramétrées** : Tout le SQL utilise des paramètres `:named` — pas de concaténation de chaîne
 - **`in_array(..., true)`** : Comparaison stricte empêche le contournement par coercition de type
 
 ---
@@ -118,9 +118,9 @@ Les types inconnus dans le paramètre `?type=` sont silencieusement ignorés (nu
 
 | Anti-pattern | Risque |
 |---|---|
-| Accepter une chaîne de type d'événement libre | Les types non contrôlés polluent le fil ; difficile de construire des requêtes spécifiques à un type |
-| Stocker le payload en TEXT sans validation JSON | `is_array($payload)` garantit un objet JSON ; les scalaires/tableaux cassent les consommateurs en aval |
-| Faire confiance au `limit` brut de la query string | Pas de borne supérieure → scan complet de la table sur de grands ensembles de données |
+| Accepter une chaîne de type d'événement libre | Les types non contrôlés polluent le fil ; difficile de construire des requêtes spécifiques par type |
+| Stocker le payload en TEXT sans validation JSON | `is_array($payload)` assure un objet JSON ; les scalaires/tableaux cassent les consommateurs en aval |
+| Faire confiance au `limit` brut de la chaîne de requête | Pas de borne supérieure → scan de table complète sur les grands ensembles de données |
 | Utiliser `in_array($type, TYPES)` sans `true` | Comparaison lâche ; `0 == 'post_created'` dans certaines versions de PHP |
-| Retourner 403 pour l'accès au fil d'un mauvais utilisateur | Révèle l'existence de l'utilisateur ; utilisez 404 pour cacher l'énumération des utilisateurs |
+| Retourner 403 pour l'accès au fil d'un mauvais utilisateur | Révèle l'existence de l'utilisateur ; utiliser 404 pour masquer l'énumération d'utilisateurs |
 | Indexer uniquement sur `user_id` | L'absence de `id DESC` dans l'index composite cause un ORDER BY lent sur les grands fils |

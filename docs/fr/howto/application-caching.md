@@ -3,7 +3,7 @@
 ## Vue d'ensemble
 
 Ce guide explique comment implémenter un cache applicatif avec NENE2.
-Il couvre le pattern Cache-Aside (look-aside), l'expiration basée sur TTL, l'invalidation à l'écriture et les statistiques exposées via une API REST.
+Il couvre le pattern Cache-Aside (lookaside), l'expiration basée sur le TTL, l'invalidation à l'écriture et les statistiques exposées comme API REST.
 
 ---
 
@@ -17,7 +17,7 @@ Il couvre le pattern Cache-Aside (look-aside), l'expiration basée sur TTL, l'in
 | PUT | `/products/{id}` | Mettre à jour un produit (invalide individuel + liste) |
 | DELETE | `/products/{id}` | Supprimer un produit (invalide individuel + liste) |
 | POST | `/cache/clear` | Vider tout le cache |
-| GET | `/cache/stats` | Nombre de hits, misses et entrées |
+| GET | `/cache/stats` | Nombre de hits, misses, entrées |
 
 ---
 
@@ -87,7 +87,7 @@ class InMemoryCache implements CacheInterface
 
 ### Pattern Cache-Aside
 
-Vérifiez le cache à la lecture, et si absent, récupérez depuis la DB et stockez en cache :
+Vérifier le cache à la lecture, et en cas de miss, récupérer depuis la DB et stocker dans le cache :
 
 ```php
 public function handleGet(int $id): ResponseInterface
@@ -111,7 +111,7 @@ public function handleGet(int $id): ResponseInterface
 
 ### Invalidation à l'écriture
 
-Après create/update/delete, supprimez les entrées de cache concernées pour que la prochaine lecture obtienne des données fraîches depuis la DB :
+Après create/update/delete, supprimer les caches associés pour que la prochaine lecture récupère des données fraîches depuis la DB :
 
 ```php
 // POST /products
@@ -133,52 +133,53 @@ $this->cache->delete('products:list');
 | Ressource unique | `product:42` |
 | Collection | `products:list` |
 | Avec filtre | `products:category:3:page:2` |
-| Portée utilisateur | `user:7:cart` |
+| Scopé par utilisateur | `user:7:cart` |
 
-Pour le cache de collection, choisissez soit un **TTL court** (si les écritures sont fréquentes), soit une **suppression à l'écriture**.
+Pour les caches de collection, choisir entre **TTL court si les écritures sont fréquentes** ou **suppression à l'écriture**.
 
-### Conseils pour le TTL
+### Directives de conception du TTL
 
 | Nature des données | TTL recommandé |
 |---|---|
 | Données maîtres statiques (catégories, etc.) | 5 à 60 minutes |
-| Stock / prix (mise à jour modérée) | 30 à 60 secondes |
-| Données liées à la session utilisateur | Jusqu'à l'expiration de session si nécessaire |
-| Données nécessitant un temps réel | Ne pas mettre en cache |
+| Stock, prix (fréquence de mise à jour modérée) | 30 à 60 secondes |
+| Données liées aux sessions utilisateur | Jusqu'à l'expiration de la session selon les besoins |
+| Données nécessitant du temps réel | Ne pas mettre en cache |
 
-### Tests : simuler le TTL par injection d'horloge
+### Tests : simulation du TTL par injection d'horloge
 
-Contrôlez l'heure via une horloge injectée sans dépendre du `time()` réel :
+Sans dépendre du `time()` réel, contrôler l'heure avec une horloge injectée :
 
 ```php
 $time  = time();
 $clock = function () use (&$time): int { return $time; };
 $app   = AppFactory::createSqlite($dbFile, $clock);
 
-$this->req('GET', '/products/1'); // remplit le cache (TTL=60s)
+$this->req('GET', '/products/1'); // réchauffer le cache (TTL=60s)
 
-$time += 61; // avance l'horloge au-delà du TTL
+$time += 61; // avancer l'horloge au-delà du TTL
 
 $res = $this->req('GET', '/products/1');
 $this->assertFalse($data['cached']); // expiré → cache miss
 ```
 
-Utilisez `function () use (&$time)` car `static fn()` de PHP ne supporte pas la capture par référence.
+Utiliser `function () use (&$time)` car `static fn()` de PHP ne supporte pas la capture par référence.
 
-### Observabilité via les statistiques de cache
+### Observabilité avec les statistiques de cache
 
 ```php
 GET /cache/stats
 → {"hits": 42, "misses": 8, "size": 5}
 ```
 
-Taux de hit = hits / (hits + misses). En production, exportez vers Prometheus/StatsD pour mesurer en continu l'efficacité du cache.
+Taux de hit = hits / (hits + misses). En production, exporter vers Prometheus/StatsD pour
+mesurer en continu l'efficacité du cache.
 
 ---
 
-## Exemples de réponses
+## Exemples de réponse
 
-### GET /products (première fois — cache miss)
+### GET /products (1ère fois — cache miss)
 
 ```json
 {
@@ -187,7 +188,7 @@ Taux de hit = hits / (hits + misses). En production, exportez vers Prometheus/St
 }
 ```
 
-### GET /products (deuxième fois — cache hit)
+### GET /products (2ème fois — cache hit)
 
 ```json
 {

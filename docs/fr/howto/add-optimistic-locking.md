@@ -1,9 +1,9 @@
-# Comment ajouter le contrôle de concurrence optimiste (ETag / If-Match)
+# How-to : Ajouter le contrôle de concurrence optimiste (ETag / If-Match)
 
 Le verrouillage optimiste empêche le **problème de mise à jour perdue** : deux clients lisent la même ressource,
-la modifient tous les deux, et la deuxième écriture écrase silencieusement la première.
+la modifient tous les deux, et la seconde écriture écrase silencieusement la première.
 
-NENE2 inclut `ConditionalWriteHelper` pour le côté écriture (PUT, PATCH, DELETE) et
+NENE2 fournit `ConditionalWriteHelper` pour le côté écriture (PUT, PATCH, DELETE) et
 `ConditionalGetHelper` pour le côté lecture (GET → 304 Not Modified).
 
 ---
@@ -21,9 +21,9 @@ CREATE TABLE documents (
 
 ---
 
-## 2. Retourner un ETag à chaque réponse GET et d'écriture
+## 2. Retourner un ETag sur chaque GET et réponse d'écriture
 
-Utilisez le numéro de version comme ETag simple et déboguable :
+Utiliser le numéro de version comme ETag simple et débogable :
 
 ```php
 private function etag(int $version): string
@@ -60,7 +60,7 @@ private function update(ServerRequestInterface $request): ResponseInterface
         return $block; // 412 Precondition Failed ou 428 Precondition Required
     }
 
-    // ETag correspond — écriture sécurisée
+    // ETag correspondant — écriture sûre
     $updated = $this->repo->updateIfMatch($id, /* nouvelles valeurs */, $doc->version);
     if ($updated === null) {
         // Modification concurrente après notre vérification
@@ -75,12 +75,12 @@ private function update(ServerRequestInterface $request): ResponseInterface
 
 | En-tête `If-Match` | ETag serveur | Résultat |
 |-------------------|-------------|--------|
-| absent | quelconque | **428** Precondition Required (l'en-tête est obligatoire) |
-| `*` | quelconque | **null** — passe (wildcard, n'importe quelle version) |
+| absent | quelconque | **428** Precondition Required (en-tête obligatoire) |
+| `*` | quelconque | **null** — passe (wildcard, toute version) |
 | `"v3"` | `"v3"` | **null** — passe (correspondance exacte) |
-| `"v2"` | `"v3"` | **412** Precondition Failed (version périmée) |
+| `"v2"` | `"v3"` | **412** Precondition Failed (version obsolète) |
 
-Pour rendre `If-Match` optionnel, passez `require: false` :
+Pour rendre `If-Match` optionnel, passer `require: false` :
 
 ```php
 ConditionalWriteHelper::check($request, $this->problems, $etag, require: false);
@@ -107,8 +107,8 @@ public function updateIfMatch(int $id, string $title, int $expectedVersion): ?Do
 }
 ```
 
-La clause `WHERE version = ?` est le verrou de protection au niveau de la base de données. Si la version de la ligne a déjà
-été avancée par un autre écrivain concurrent, `execute()` retourne `0` (aucune ligne mise à jour) et
+La clause `WHERE version = ?` est le garde-verrou au niveau de la base de données. Si la version de la ligne
+a déjà été avancée par un écrivain concurrent, `execute()` retourne `0` (aucune ligne mise à jour) et
 l'appelant peut retourner une seconde réponse 412.
 
 ---
@@ -123,7 +123,7 @@ public function testLostUpdatePrevented(): void
     // Alice lit la version 1 et met à jour → la version devient 2
     $this->req('PUT', '/documents/' . $id, ['title' => "Alice's edit"], '"v1"');
 
-    // Bob essaie de mettre à jour avec l'ETag périmé v1 → doit échouer
+    // Bob essaie de mettre à jour avec l'ETag obsolète v1 → doit échouer
     $bob = $this->req('PUT', '/documents/' . $id, ['title' => "Bob's edit"], '"v1"');
     self::assertSame(412, $bob->getStatusCode());
 
@@ -139,13 +139,13 @@ public function testLostUpdatePrevented(): void
 ## Notes
 
 - **Format ETag** : `"v{version}"` (basé sur un entier) est simple et prévisible dans les tests.
-  Les ETags basés sur le hash du contenu (`'"' . md5($body) . '"'`) sont plus robustes pour les ressources
-  adressables par contenu mais plus difficiles à prédire dans les tests sans précalculer le hash.
-- **Wildcard `If-Match: *`** : RFC 9110 définit `*` pour signifier "réussir si la ressource a une
-  représentation actuelle" — c'est-à-dire qu'elle existe. Utile pour "mettre à jour si elle existe" sans connaître
+  Les ETag de hash de contenu (`'"' . md5($body) . '"'`) sont plus robustes pour les ressources à adressage par contenu
+  mais plus difficiles à prédire dans les tests sans pré-calculer le hash.
+- **Wildcard `If-Match: *`** : La RFC 9110 définit `*` comme "réussir si la ressource a une
+  représentation courante" — c'est-à-dire qu'elle existe. Utile pour "mettre à jour si existe" sans connaître
   la version. L'appelant doit quand même retourner 404 quand la ressource est absente.
-- **428 Precondition Required** (RFC 6585 §3) : le statut correct quand `If-Match` est requis
-  mais absent. Utilisez-le plutôt que 400 ou 422 — la requête est bien formée ; la précondition est manquante.
-- **Fenêtre TOCTOU** : le pattern `findById()` + UPDATE conditionnel a une brève fenêtre de course sur
-  les bases de données multi-écrivains. Sous la sérialisation des écritures de SQLite, c'est sans danger. Sur PostgreSQL
-  sous haute concurrence, enveloppez les deux opérations dans une transaction `SERIALIZABLE`.
+- **428 Precondition Required** (RFC 6585 §3) : le statut correct lorsque `If-Match` est requis
+  mais absent. L'utiliser à la place de 400 ou 422 — la requête est bien formée ; la précondition est manquante.
+- **Fenêtre TOCTOU** : le pattern `findById()` + UPDATE conditionnel a une brève fenêtre de course
+  sur les bases de données multi-écrivains. Sous la sérialisation d'écriture de SQLite, c'est inoffensif. Sous PostgreSQL
+  en haute concurrence, envelopper les deux opérations dans une transaction `SERIALIZABLE`.

@@ -1,9 +1,9 @@
-# Comment ajouter un gestionnaire d'exception de domaine
+# How-to : Ajouter un gestionnaire d'exception de domaine
 
-Lorsqu'un gestionnaire de route lève une exception de domaine (par exemple `OrderNotFoundException`, `InsufficientStockException`),
+Lorsqu'un gestionnaire de route lève une exception de domaine (ex. `OrderNotFoundException`, `InsufficientStockException`),
 le `ErrorHandlerMiddleware` de NENE2 délègue au premier `DomainExceptionHandlerInterface` enregistré
-qui déclare pouvoir gérer ce type d'exception. Cela libère les gestionnaires de routes des blocs
-try/catch et centralise la sérialisation des erreurs en un seul endroit.
+qui déclare pouvoir gérer ce type d'exception. Cela garde les gestionnaires de route sans
+blocs try/catch et regroupe la sérialisation des erreurs en un seul endroit.
 
 ## 1. Définir l'exception de domaine
 
@@ -43,7 +43,7 @@ final readonly class OrderNotFoundExceptionHandler implements DomainExceptionHan
     {
         return $this->probs->create(
             request: $request,        // ← requis : utilisé pour remplir 'instance' dans la réponse
-            type: 'not-found',        // ← slug uniquement — la factory ajoute l'URL de base en préfixe
+            type: 'not-found',        // ← slug uniquement — la factory préfixe l'URL de base
             title: 'Not Found',
             status: 404,
             detail: $exception->getMessage(),
@@ -54,11 +54,11 @@ final readonly class OrderNotFoundExceptionHandler implements DomainExceptionHan
 
 ### Erreurs courantes
 
-**`$request` manquant** — `ProblemDetailsResponseFactory::create()` requiert la requête PSR-7
-comme premier argument. Son omission cause une `ArgumentCountError` au runtime.
+**`$request` manquant** — `ProblemDetailsResponseFactory::create()` nécessite la requête PSR-7
+comme premier argument. L'omettre cause une `ArgumentCountError` à l'exécution.
 
-**URL complète dans `type`** — `type` prend un slug (par ex. `'not-found'`), pas l'URI complète.
-La factory ajoute automatiquement `https://nene2.dev/problems/` (ou l'URL de base configurée) en préfixe.
+**URL complète dans `type`** — `type` prend un slug (ex. `'not-found'`), pas l'URI complète.
+La factory préfixe automatiquement `https://nene2.dev/problems/` (ou l'URL de base configurée).
 Passer l'URL complète produit un chemin doublé comme
 `https://nene2.dev/problems/https://nene2.dev/problems/not-found`.
 
@@ -67,7 +67,7 @@ Passer l'URL complète produit un chemin doublé comme
 $this->probs->create(
     request: $request,   // ServerRequestInterface
     type: 'not-found',   // slug
-    title: 'Not Found',  // titre lisible par un humain
+    title: 'Not Found',  // titre lisible par l'humain
     status: 404,         // code de statut HTTP
     detail: '...',       // chaîne de détail optionnelle
 );
@@ -82,7 +82,7 @@ $application = (new RuntimeApplicationFactory(
     domainExceptionHandlers: [
         new OrderNotFoundExceptionHandler($probs),
         new InsufficientStockExceptionHandler($probs),
-        // les gestionnaires sont essayés dans l'ordre — le premier qui correspond gagne
+        // les gestionnaires sont essayés dans l'ordre — le premier correspondant gagne
     ],
 ))->create();
 ```
@@ -101,8 +101,8 @@ $router->get('/orders/{id}', static function (ServerRequestInterface $request) u
 });
 ```
 
-`ErrorHandlerMiddleware` attrape l'exception, parcourt la liste `$domainExceptionHandlers`, appelle
-`supports()` sur chacun, et délègue au premier qui correspond. Si aucun gestionnaire ne correspond, l'exception
+`ErrorHandlerMiddleware` capture l'exception, parcourt la liste `$domainExceptionHandlers`, appelle
+`supports()` sur chacun, et délègue au premier correspondant. Si aucun gestionnaire ne correspond, l'exception
 est traitée comme une erreur serveur inattendue (500).
 
 ## Forme de la réponse
@@ -123,19 +123,19 @@ Une réponse 404 produite par l'exemple ci-dessus :
 
 ## Dépannage : obtenir 500 au lieu du code d'erreur attendu
 
-Si une exception de domaine produit une **erreur interne du serveur 500** au lieu de la réponse
+Si une exception de domaine produit une **500 Internal Server Error** au lieu de la réponse
 4xx attendue, la cause la plus courante est un gestionnaire manquant ou mal enregistré :
 
-1. **Gestionnaire non ajouté à `domainExceptionHandlers`** — vérifiez que la classe du gestionnaire
+1. **Gestionnaire non ajouté à `domainExceptionHandlers`** — vérifier que la classe du gestionnaire
    est bien incluse dans le tableau passé à `RuntimeApplicationFactory`.
-2. **Méthode `supports()` incorrecte** — assurez-vous que `supports()` vérifie la classe d'exception exacte
-   qui est réellement levée. Si l'exception levée est une sous-classe et que `supports()` utilise
-   `instanceof ExactClass`, les exceptions de classe enfant correspondront quand même. Mais si la hiérarchie
-   de classes est inversée (le gestionnaire vérifie un parent, l'exception est une branche différente),
+2. **Incompatibilité de la méthode `supports()`** — s'assurer que `supports()` vérifie la classe d'exception exacte
+   qui est réellement levée. Si l'exception levée est une sous-classe et que `supports()`
+   utilise `instanceof ExactClass`, les exceptions de classes enfant correspondront quand même. Mais si la
+   hiérarchie de classes est inversée (le gestionnaire vérifie un parent, l'exception est d'une branche différente),
    aucun gestionnaire ne correspondra.
 3. **Gestionnaire enregistré mais dans le mauvais ordre** — les gestionnaires sont essayés dans l'ordre. Si un gestionnaire
-   fourre-tout apparaît en premier et que son `supports()` est trop large, il peut absorber des exceptions
+   attrape-tout apparaît en premier et que son `supports()` est trop large, il peut avaler des exceptions
    qu'un gestionnaire ultérieur devrait traiter.
 
-Pour un diagnostic rapide : ajoutez temporairement `error_log(get_class($exception))` avant la
-vérification `supports()` pour afficher le nom réel de la classe d'exception.
+Diagnostic rapide : ajouter temporairement `error_log(get_class($exception))` avant la
+vérification `supports()` pour afficher le nom de la classe d'exception réelle.

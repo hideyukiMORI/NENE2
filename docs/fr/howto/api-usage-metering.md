@@ -1,8 +1,8 @@
-# How-to : Mesure de l'utilisation de l'API et gestion des quotas
+# How-to : Métrologie d'utilisation d'API et gestion des quotas
 
-> **Référence FT** : FT321 (`NENE2-FT/meterlog`) — Gestion des quotas journaliers par utilisateur, enregistrement de l'utilisation protégé par clé machine, ventilation par endpoint, protection IDOR, garantie que le restant ne devient jamais négatif, 24 tests / 92 assertions PASS.
+> **Référence FT** : FT321 (`NENE2-FT/meterlog`) — Gestion des quotas journaliers par utilisateur, enregistrement d'utilisation protégé par clé machine, répartition par endpoint, protection IDOR, garantie remaining-jamais-négatif, 24 tests / 92 assertions PASS.
 
-Ce guide montre comment construire un système de mesure de l'utilisation qui suit les appels API par utilisateur et par jour et applique des quotas journaliers configurables.
+Ce guide montre comment construire un système de métrologie d'utilisation qui trace les appels API par utilisateur par jour et applique des quotas journaliers configurables.
 
 ## Schéma
 
@@ -36,8 +36,8 @@ const DEFAULT_DAILY_LIMIT = 1000;  // appliqué quand aucune ligne de quota n'ex
 ```
 POST /quotas               → X-Admin-Key   (configuration des quotas)
 POST /usage                → X-Machine-Key (enregistrement d'utilisation côté serveur)
-POST /usage/check          → X-Machine-Key (vérification de quota préliminaire)
-GET  /usage/{id}/breakdown → X-User-Id (soi-même) OR X-Admin-Key (n'importe qui)
+POST /usage/check          → X-Machine-Key (vérification pré-vol de quota)
+GET  /usage/{id}/breakdown → X-User-Id (propre) OU X-Admin-Key (n'importe quel)
 ```
 
 ## Gestion des quotas (Admin)
@@ -53,8 +53,8 @@ POST /quotas  X-Admin-Key: admin-secret
 → 200  {"user_id": 1, "daily_limit": 1000}
 
 // Pas de clé admin  → 401
-// Mauvaise clé     → 401
-// daily_limit <= 0 → 422
+// Mauvaise clé      → 401
+// daily_limit <= 0  → 422
 ```
 
 ## Statut du quota
@@ -93,11 +93,11 @@ POST /usage  X-Machine-Key: machine-secret
 }
 
 // Pas de clé machine → 401
-// user_id <= 0   → 422
-// endpoint vide → 422
+// user_id <= 0       → 422
+// endpoint vide      → 422
 ```
 
-## Vérification de quota préliminaire
+## Vérification de quota pré-vol
 
 ```php
 POST /usage/check  X-Machine-Key: machine-secret
@@ -106,7 +106,7 @@ POST /usage/check  X-Machine-Key: machine-secret
 → 200  {"allowed": false, "remaining": 0, "used": 2}  // épuisé
 ```
 
-## Ventilation de l'utilisation
+## Répartition de l'utilisation
 
 ```php
 GET /usage/1/breakdown?date=2026-05-27  X-User-Id: 1
@@ -123,7 +123,7 @@ GET /usage/1/breakdown?date=2026-05-27  X-User-Id: 1
 
 // IDOR bloqué
 GET /usage/1/breakdown  X-User-Id: 2        → 403
-// L'admin peut accéder à n'importe quel utilisateur
+// Admin peut accéder à n'importe quel utilisateur
 GET /usage/1/breakdown  X-Admin-Key: admin  → 200
 // Date invalide
 GET /usage/1/breakdown?date=not-a-date      → 422
@@ -133,10 +133,10 @@ GET /usage/1/breakdown?date=not-a-date      → 422
 
 ## Évaluation des vulnérabilités
 
-### V-01 — Admin de quota sans clé ✅ SAFE
+### V-01 — Administration de quota sans clé ✅ SAFE
 
 **Risque** : Un appelant non authentifié définit le quota à 0 ou INT_MAX pour n'importe quel utilisateur.
-**Résultat** : SAFE — `POST /quotas` requiert `X-Admin-Key`. Clé manquante ou erronée retourne 401.
+**Résultat** : SAFE — `POST /quotas` nécessite `X-Admin-Key`. Clé manquante ou incorrecte retourne 401.
 
 ---
 
@@ -147,58 +147,58 @@ GET /usage/1/breakdown?date=not-a-date      → 422
 
 ---
 
-### V-03 — daily_limit non positif ✅ SAFE
+### V-03 — daily_limit non-positif ✅ SAFE
 
-**Risque** : `daily_limit=0` ou `-1` verrouille définitivement l'utilisateur.
+**Risque** : `daily_limit=0` ou `-1` bloque définitivement l'utilisateur.
 **Résultat** : SAFE — 422 pour `daily_limit <= 0`.
 
 ---
 
 ### V-04 — Enregistrement d'utilisation sans clé machine ✅ SAFE
 
-**Risque** : Un appelant externe enregistre de fausses utilisations pour épuiser le quota.
-**Résultat** : SAFE — `POST /usage` requiert `X-Machine-Key`. 401 en cas de clé manquante/erronée.
+**Risque** : Un appelant externe enregistre une fausse utilisation pour épuiser le quota.
+**Résultat** : SAFE — `POST /usage` nécessite `X-Machine-Key`. 401 en cas de clé manquante/incorrecte.
 
 ---
 
 ### V-05 — Injection SQL dans le champ endpoint ✅ SAFE
 
 **Risque** : `"'; DROP TABLE usage_events; --"` corrompt la DB.
-**Résultat** : SAFE — Requêtes paramétrées. L'injection est stockée comme une chaîne littérale. La table survit.
+**Résultat** : SAFE — Requêtes paramétrées. L'injection est stockée comme chaîne littérale. La table survit.
 
 ---
 
-### V-06 — user_id non positif dans l'utilisation ✅ SAFE
+### V-06 — user_id non-positif dans l'utilisation ✅ SAFE
 
 **Risque** : `user_id=0/-1` insère une ligne pour un utilisateur inexistant.
 **Résultat** : SAFE — 422 pour `user_id <= 0`.
 
 ---
 
-### V-07 — IDOR sur la ventilation ✅ SAFE
+### V-07 — IDOR sur la répartition ✅ SAFE
 
-**Risque** : Un utilisateur lit les patterns d'utilisation des endpoints d'un autre utilisateur.
+**Risque** : L'utilisateur lit les patterns d'utilisation des endpoints d'un autre utilisateur.
 **Résultat** : SAFE — `X-User-Id` comparé au `{id}` du chemin. Incompatibilité → 403. L'admin contourne.
 
 ---
 
-### V-08 — Date invalide dans la ventilation ✅ SAFE
+### V-08 — Date invalide dans la répartition ✅ SAFE
 
-**Risque** : Traversal de chemin ou date impossible dans le paramètre `date=` cause un crash ou une erreur SQL.
-**Résultat** : SAFE — Validation `/^\d{4}-\d{2}-\d{2}$/` + `checkdate()`. Invalide → 422.
+**Risque** : La traversée de chemin ou une date impossible dans le paramètre `date=` cause un crash ou une erreur SQL.
+**Résultat** : SAFE — `/^\d{4}-\d{2}-\d{2}$/` + validation `checkdate()`. Invalide → 422.
 
 ---
 
 ### V-09 — Le quota restant devient négatif ✅ SAFE
 
-**Risque** : `remaining` négatif affiché aux clients quand l'utilisation dépasse un quota réduit.
+**Risque** : `remaining` négatif affiché aux clients quand l'utilisation dépasse le quota réduit.
 **Résultat** : SAFE — `remaining = max(0, $daily_limit - $used)`.
 
 ---
 
-### V-10 — Chaîne endpoint vide ✅ SAFE
+### V-10 — Chaîne d'endpoint vide ✅ SAFE
 
-**Risque** : Un endpoint vide crée des lignes de ventilation inutilisables.
+**Risque** : Un endpoint vide crée des lignes de répartition inutilisables.
 **Résultat** : SAFE — 422 pour `endpoint === ''`.
 
 ---
@@ -207,16 +207,16 @@ GET /usage/1/breakdown?date=not-a-date      → 422
 
 | ID | Vulnérabilité | Résultat |
 |----|---------------|---------|
-| V-01 | Admin de quota sans clé | ✅ SAFE |
-| V-02 | Contournement par casse/variante | ✅ SAFE |
-| V-03 | daily_limit non positif | ✅ SAFE |
+| V-01 | Administration de quota sans clé | ✅ SAFE |
+| V-02 | Contournement par casse/variante de clé | ✅ SAFE |
+| V-03 | daily_limit non-positif | ✅ SAFE |
 | V-04 | Utilisation sans clé machine | ✅ SAFE |
-| V-05 | Injection SQL dans endpoint | ✅ SAFE |
-| V-06 | user_id non positif | ✅ SAFE |
-| V-07 | IDOR sur la ventilation | ✅ SAFE |
+| V-05 | Injection SQL dans l'endpoint | ✅ SAFE |
+| V-06 | user_id non-positif | ✅ SAFE |
+| V-07 | IDOR sur la répartition | ✅ SAFE |
 | V-08 | Format de date invalide | ✅ SAFE |
 | V-09 | Quota restant négatif | ✅ SAFE |
-| V-10 | Chaîne endpoint vide | ✅ SAFE |
+| V-10 | Chaîne d'endpoint vide | ✅ SAFE |
 
 **10 SAFE, 0 EXPOSÉS** — Aucun résultat critique.
 
@@ -226,8 +226,8 @@ GET /usage/1/breakdown?date=not-a-date      → 422
 
 | Anti-pattern | Risque |
 |---|---|
-| Laisser `remaining` devenir négatif | Nombres négatifs confus ; la logique de contrôle se casse |
-| Pas de clé machine pour l'enregistrement d'utilisation | N'importe quel client gonfle/réduit le quota d'un autre utilisateur |
-| Pas de vérification IDOR sur la ventilation | Les patterns d'utilisation des endpoints fuient vers des utilisateurs non autorisés |
-| Enregistrer l'utilisation avant la vérification de quota | Les appels rejetés consomment quand même du quota |
-| Autoriser `daily_limit=0` | Utilisateur définitivement verrouillé dès le départ |
+| Laisser `remaining` devenir négatif | Nombres négatifs déroutants ; la logique de portail se casse |
+| Pas de clé machine sur l'enregistrement d'utilisation | N'importe quel client gonfle/dégonfle le quota d'un autre utilisateur |
+| Pas de vérification IDOR sur la répartition | Les patterns d'utilisation des endpoints fuient vers des utilisateurs non autorisés |
+| Enregistrer l'utilisation avant la vérification du quota | Les appels rejetés consomment quand même du quota |
+| Autoriser `daily_limit=0` | L'utilisateur est définitivement bloqué dès le départ |
