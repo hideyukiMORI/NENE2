@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.242] — 2026-05-27
+
+### Changed
+- `docs/howto/notification-inbox.md` — FT271 参照と What NOT to do セクションを追加: type allowlist で未定義タイプを拒否・IDOR は 403 ではなく 404 で存在を隠す・admin fail-closed（adminKey 未設定なら false）・is_read idempotency（already_read も 200）・limit/offset を MAX_LIMIT=100 でクランプ (FT271)。 (#1102)
+
+---
+
 ## [1.5.241] — 2026-05-27
 
 ### Changed
