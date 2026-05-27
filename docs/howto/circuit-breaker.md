@@ -1,4 +1,6 @@
-# Circuit Breaker
+# How-to: Circuit Breaker
+
+> **FT reference**: FT298 (`NENE2-FT/circuitlog`) — Circuit breaker pattern: closed/open/half_open three-state machine, configurable failure threshold, timeout-based automatic half_open transition, 503 Service Unavailable on open circuit, `isCallAllowed()` readonly check, 15 tests / 28 assertions PASS.
 
 The circuit breaker pattern prevents cascading failures when calling external services. Instead of letting slow or failed calls pile up, the circuit trips open and immediately rejects calls until the dependency recovers.
 
@@ -122,3 +124,18 @@ Clients and load balancers that respect `503` can stop routing to this instance 
 **Why lazy Half-Open transition?** Proactive background transitions require a scheduler or daemon. Lazy transitions are simpler, stateless from the scheduler's perspective, and sufficient for most web APIs where request volume ensures the check runs promptly.
 
 **Why `failure_count` resets on any success?** This is "consecutive failures" semantics. An alternative is "failure rate over a sliding window" (e.g., >50% failures in the last 60 seconds). The sliding window is more accurate for services with low but steady traffic; consecutive failures is simpler and sufficient for services that are either up or down.
+
+---
+
+## What NOT to do
+
+| Anti-pattern | Risk |
+|---|---|
+| No `UNIQUE(name)` constraint | Concurrent creates produce multiple rows for the same circuit |
+| No timeout on open circuit | Circuit stays open forever after threshold breach |
+| No half_open state | Circuit goes directly open → closed; no probe-then-verify |
+| Return 200 when circuit is open | Callers think call succeeded; downstream errors hidden |
+| No `open_until` in 503 response | Callers retry immediately (thundering herd); include retry timing |
+| Accept string `"true"` as success | JSON type confusion; use `is_bool()` strictly |
+| Check `isCallAllowed()` without `maybeTransitionToHalfOpen()` first | Open circuit never becomes half_open; stuck permanently |
+| In-memory state only | State lost on worker restart; no sharing across PHP-FPM workers |
