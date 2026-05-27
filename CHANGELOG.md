@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.288] — 2026-05-27
+
+### Added
+- `docs/howto/inbound-webhook-gateway.md` — FT317 新規作成: 受信 Webhook ゲートウェイ API howto: HMAC-SHA256 署名検証・ソース管理・重複 event_id 冪等処理・シークレット非公開 (FT317)。 (#1195)
+
+---
+
 ## [1.5.287] — 2026-05-27
 
 ### Added
