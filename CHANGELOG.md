@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.295] — 2026-05-27
+
+### Added
+- `docs/howto/optimistic-lock-patch-version.md` — FT324 ATK 新規作成: PATCH バージョン楽観的ロック howto: 409 current_version 返却・文字列 version 拒否・再試行パターン・ATK アセスメント (FT324)。 (#1209)
+
+---
+
 ## [1.5.294] — 2026-05-27
 
 ### Added
