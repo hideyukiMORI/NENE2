@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.312] — 2026-05-27
+
+### Added
+- `docs/howto/dynamic-sort-order-injection.md` — FT341 新規作成: ORDER BY インジェクション防止 howto: allowlist バリデーション・ステータスフィルター allowlist・ReDoS 耐性・ケースセンシティブ検証 (FT341)。 (#1243)
+
+---
+
 ## [1.5.311] — 2026-05-27
 
 ### Added
