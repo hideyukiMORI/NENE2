@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.283] — 2026-05-27
+
+### Added
+- `docs/howto/data-export-api.md` — FT312 新規作成: データエクスポート API howto: 非同期 pending→ready パターン・PII 除外 toPublicArray・ARGON2ID パスワードハッシュ・410 期限切れ・409 未完了ダウンロード防止 (FT312)。 (#1184)
+
+---
+
 ## [1.5.282] — 2026-05-27
 
 ### Added
