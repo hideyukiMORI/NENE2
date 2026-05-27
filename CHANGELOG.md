@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.302] — 2026-05-27
+
+### Added
+- `docs/howto/password-auth-argon2id.md` — FT331 新規作成: パスワード認証 Argon2id howto: ユーザー登録・Argon2id ハッシュ・パスワード/ハッシュ非返却・ユーザー列挙防止 (FT331)。 (#1223)
+
+---
+
 ## [1.5.301] — 2026-05-27
 
 ### Added
