@@ -2,7 +2,10 @@
 
 > **Référence FT** : FT68 (`NENE2-FT/approvallog`) — API de workflow d'approbation
 
-Démontre un workflow d'approbation multi-étapes où une demande passe par des états définis (Brouillon → Soumis → En révision → Approuvé/Rejeté). Les transitions invalides retournent 409 Conflict. La machine d'état est encodée directement dans l'enum backed `ApprovalStatus` via une méthode `allowedTransitions()`.
+Démontre un workflow d'approbation multi-étapes où une demande progresse à travers des états définis
+(Draft → Submitted → UnderReview → Approved/Rejected). Les transitions invalides
+retournent 409 Conflict. La machine d'états est encodée directement dans l'enum backed
+`ApprovalStatus` en utilisant une méthode `allowedTransitions()`.
 
 ---
 
@@ -20,20 +23,20 @@ Draft ──submit──▶ Submitted ──review──▶ UnderReview
 
 | État | Description |
 |-------|-------------|
-| `draft` | Créé mais pas encore soumis |
-| `submitted` | En attente d'assignation de révision |
+| `draft` | Créée mais pas encore soumise |
+| `submitted` | En attente d'attribution de révision |
 | `under_review` | Réviseur assigné et en cours de révision |
 | `approved` | Approbation finale accordée |
-| `rejected` | Rejeté avec une raison obligatoire |
+| `rejected` | Rejetée avec une raison obligatoire |
 
-Une demande rejetée peut être retravaillée (retournée à `draft`) pour révision et nouvelle soumission.
+Une demande rejetée peut être retravaillée (retournée à `draft`) pour révision et resoumission.
 Une demande approuvée n'a plus de transitions.
 
 ---
 
 ## Règles de transition encodées dans l'enum
 
-Les règles de transition d'état résident dans l'enum — pas dans le repository ou le contrôleur :
+Les règles de transition d'état vivent dans l'enum — pas dans le repository ni dans le contrôleur :
 
 ```php
 enum ApprovalStatus: string
@@ -63,23 +66,23 @@ enum ApprovalStatus: string
 }
 ```
 
-`canTransitionTo()` est la seule source de vérité pour savoir si une transition est valide.
-Ajouter une nouvelle transition autorisée signifie modifier uniquement cette méthode.
+`canTransitionTo()` est la source unique de vérité pour savoir si une transition est valide.
+Ajouter une nouvelle transition autorisée signifie mettre à jour uniquement cette méthode.
 
 ---
 
 ## Routes
 
-| Méthode | Chemin                          | Description                            |
+| Méthode | Chemin | Description |
 |--------|-------------------------------|----------------------------------------|
-| `POST` | `/requests`                   | Créer une demande brouillon                 |
-| `GET`  | `/requests`                   | Lister toutes les demandes (filtre `?status=`)  |
-| `GET`  | `/requests/{id}`              | Obtenir une demande                   |
-| `POST` | `/requests/{id}/submit`       | Draft → Submitted                      |
-| `POST` | `/requests/{id}/review`       | Submitted → UnderReview (assigne un réviseur) |
-| `POST` | `/requests/{id}/approve`      | UnderReview → Approved                 |
-| `POST` | `/requests/{id}/reject`       | UnderReview → Rejected (raison requise) |
-| `POST` | `/requests/{id}/rework`       | Rejected → Draft (efface réviseur/note) |
+| `POST` | `/requests` | Créer une demande en draft |
+| `GET` | `/requests` | Lister toutes les demandes (filtre `?status=`) |
+| `GET` | `/requests/{id}` | Obtenir une demande unique |
+| `POST` | `/requests/{id}/submit` | Draft → Submitted |
+| `POST` | `/requests/{id}/review` | Submitted → UnderReview (assigne le réviseur) |
+| `POST` | `/requests/{id}/approve` | UnderReview → Approved |
+| `POST` | `/requests/{id}/reject` | UnderReview → Rejected (raison requise) |
+| `POST` | `/requests/{id}/rework` | Rejected → Draft (efface réviseur/note) |
 
 ---
 
@@ -106,7 +109,7 @@ public function submit(int $id, string $now): ?ApprovalRequest
 ```
 
 Retourner `null` pour "non trouvé" et "transition invalide" est une simplification délibérée.
-En production, distinguez entre 404 (non trouvé) et 409 (trouvé mais transition invalide)
+En production, distinguer entre 404 (non trouvé) et 409 (trouvé mais transition invalide)
 en retournant un résultat typé ou en levant des exceptions de domaine.
 
 Le contrôleur mappe `null → 409 Conflict` :
@@ -135,7 +138,7 @@ private function submit(ServerRequestInterface $request): ResponseInterface
 
 ## Le rejet nécessite une raison
 
-La transition `reject` requiert à la fois `reviewer` et `note` :
+La transition `reject` nécessite à la fois `reviewer` et `note` :
 
 ```php
 private function reject(ServerRequestInterface $request): ResponseInterface
@@ -166,17 +169,17 @@ est optionnel pour les approbations.
 ## Retravail : effacement de l'état de révision
 
 Quand une demande rejetée est retravaillée, le réviseur et la note de révision sont effacés pour que
-le prochain réviseur commence à zéro :
+le prochain réviseur parte d'une page blanche :
 
 ```php
-// Repository : retravail (Rejected → Draft)
+// Repository : rework (Rejected → Draft)
 $this->db->execute(
     "UPDATE requests SET status = 'draft', reviewer = NULL, review_note = NULL, reviewed_at = NULL, updated_at = ? WHERE id = ?",
     [$now, $id],
 );
 ```
 
-Le timestamp `submitted_at` est préservé — il enregistre quand la demande a été soumise pour la première fois,
+L'horodatage `submitted_at` est préservé — il enregistre quand la demande a été soumise pour la première fois,
 pas le cycle actuel.
 
 ---
@@ -198,11 +201,11 @@ CREATE TABLE requests (
 );
 ```
 
-Les colonnes nullables (`reviewer`, `review_note`, `submitted_at`, `reviewed_at`) sont remises à
-`NULL` lors du retravail, maintenant le schéma propre sans ajouter une colonne `rework_count`.
+Les colonnes nullable (`reviewer`, `review_note`, `submitted_at`, `reviewed_at`) sont remises à
+`NULL` au retravail, gardant le schéma propre sans ajouter une colonne `rework_count`.
 
-> **Amélioration** : ajoutez un `CHECK(status IN ('draft','submitted','under_review','approved','rejected'))`
-> comme garde-fou au niveau DB correspondant aux valeurs de l'enum.
+> **Amélioration** : ajouter un `CHECK(status IN ('draft','submitted','under_review','approved','rejected'))`
+> comme garde-fou au niveau DB correspondant aux valeurs d'enum.
 
 ---
 
@@ -233,22 +236,23 @@ private function list(ServerRequestInterface $request): ResponseInterface
 
 ## Ajouter une nouvelle transition
 
-Pour ajouter un état `cancelled` accessible depuis tout état non terminal :
+Pour ajouter un état `cancelled` atteignable depuis n'importe quel état non terminal :
 
-1. Ajoutez `case Cancelled = 'cancelled';` à `ApprovalStatus`.
-2. Mettez à jour `allowedTransitions()` pour `Draft`, `Submitted` et `UnderReview` pour
+1. Ajouter `case Cancelled = 'cancelled';` à `ApprovalStatus`.
+2. Mettre à jour `allowedTransitions()` pour `Draft`, `Submitted` et `UnderReview` pour
    inclure `self::Cancelled`.
-3. Ajoutez la route `POST /requests/{id}/cancel` et son gestionnaire.
-4. Écrivez le UPDATE DB dans le repository.
-5. Mettez à jour la contrainte `CHECK` du schéma (si ajoutée).
+3. Ajouter la route `POST /requests/{id}/cancel` et son gestionnaire.
+4. Écrire l'UPDATE DB dans le repository.
+5. Mettre à jour la contrainte `CHECK` du schéma (si ajoutée).
 
-L'enum est la seule source de vérité — aucun autre fichier n'a besoin d'être modifié pour ajouter la garde de transition.
+L'enum est la source unique de vérité — aucun autre fichier n'a besoin de changer pour ajouter
+le garde de transition.
 
 ---
 
 ## Howtos associés
 
-- [`content-draft-lifecycle.md`](content-draft-lifecycle.md) — cycle de vie draft → publish (machine d'état plus simple)
+- [`content-draft-lifecycle.md`](content-draft-lifecycle.md) — cycle de vie draft → publication (machine d'états plus simple)
 - [`media-watchlist.md`](media-watchlist.md) — validation d'enum backed avec `tryFrom()`
 - [`add-custom-route.md`](add-custom-route.md) — pattern d'endpoint d'action POST
-- [`multi-step-workflow.md`](multi-step-workflow.md) — patterns de workflow multi-étapes génériques
+- [`multi-step-workflow.md`](multi-step-workflow.md) — patterns génériques de workflow multi-étapes

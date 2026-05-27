@@ -2,22 +2,22 @@
 
 > **Référence FT** : FT245 (`NENE2-FT/agglog`) — API de rapports agrégés
 
-Démontre une API de rapports agrégés multi-dimensionnelle où une table de commandes unique
-est découpée en totaux récapitulatifs, ventilation quotidienne, distribution des statuts et top articles —
-tout cela avec un filtrage optionnel par plage de dates, `COALESCE` pour des agrégations sans valeur nulle,
-et `COUNT(CASE WHEN...)` pour des comptages conditionnels sans sous-requêtes.
+Démontre une API de rapports agrégés multi-dimensionnelle où une seule table de commandes
+est découpée en totaux récapitulatifs, répartition quotidienne, distribution par statut et articles en tête —
+le tout avec filtrage optionnel par plage de dates, `COALESCE` pour des agrégations sûres sur les zéros, et
+`COUNT(CASE WHEN...)` pour les décomptes conditionnels sans sous-requêtes.
 
 ---
 
 ## Routes
 
-| Méthode | Chemin                 | Description                                          |
+| Méthode | Chemin | Description |
 |--------|----------------------|------------------------------------------------------|
-| `POST` | `/orders`            | Enregistrer une commande                             |
-| `GET`  | `/reports/summary`   | Total des commandes, revenus, valeur moyenne des commandes, nombre de complétées |
-| `GET`  | `/reports/daily`     | Revenus et nombre de commandes par jour              |
-| `GET`  | `/reports/by-status` | Nombre de commandes et revenus groupés par statut    |
-| `GET`  | `/reports/top-items` | Top articles par revenu (limités, classés)           |
+| `POST` | `/orders` | Enregistrer une commande |
+| `GET` | `/reports/summary` | Total commandes, revenu, valeur moyenne, nombre de complétées |
+| `GET` | `/reports/daily` | Revenu et nombre de commandes par jour |
+| `GET` | `/reports/by-status` | Nombre de commandes et revenu groupés par statut |
+| `GET` | `/reports/top-items` | Meilleurs articles par revenu (limités, classés) |
 
 ---
 
@@ -36,15 +36,15 @@ CREATE TABLE IF NOT EXISTS orders (
 ```
 
 `status` est contraint par un `CHECK` au niveau DB comme filet de sécurité. `amount` est
-stocké en entier (plus petite unité monétaire). `created_at` est une chaîne ISO — les comparaisons de dates
-utilisent l'ordre des chaînes au format `YYYY-MM-DD`, qui est lexicographiquement
+stocké comme entier (plus petite unité monétaire). `created_at` est une chaîne ISO — les
+comparaisons de dates utilisent l'ordre des chaînes au format `YYYY-MM-DD`, qui est lexicographiquement
 cohérent avec l'ordre chronologique.
 
 ---
 
-## Agrégation récapitulative : `COALESCE` + `COUNT(CASE WHEN ...)`
+## Agrégation de résumé : `COALESCE` + `COUNT(CASE WHEN ...)`
 
-L'endpoint récapitulatif retourne plusieurs métriques agrégées dans une seule requête :
+L'endpoint de résumé retourne plusieurs métriques agrégées dans une seule requête :
 
 ```php
 $row = $this->db->fetchOne(
@@ -59,18 +59,18 @@ $row = $this->db->fetchOne(
 
 `COALESCE(SUM(amount), 0)` — retourne `0` au lieu de `NULL` quand la table n'a pas de
 lignes correspondantes. `SUM()` et `AVG()` retournent `NULL` sur des ensembles vides ; `COALESCE` convertit
-cela en zéro sécurisé.
+cela en un zéro sûr.
 
 `COUNT(CASE WHEN status = 'completed' THEN 1 END)` — compte uniquement les lignes où `status =
-'completed'`, sans sous-requête ni second passage. `CASE WHEN` retourne `NULL` pour
-les lignes non correspondantes ; `COUNT` ignore `NULL`, donc seules les commandes complétées sont comptées.
+'completed'`, sans sous-requête ni second passage. `CASE WHEN` retourne `NULL` pour les
+lignes non correspondantes ; `COUNT` ignore les `NULL`, donc seules les commandes complétées sont comptées.
 
-C'est équivalent à un `COUNT` filtré mais s'exécute en un seul scan, ce qui le rend plus
+C'est équivalent à un `COUNT` filtré mais s'exécute en un seul scan, le rendant plus
 efficace que des requêtes séparées pour chaque statut.
 
 ---
 
-## Ventilation quotidienne : `substr()` pour la troncature de date
+## Répartition quotidienne : `substr()` pour la troncature de date
 
 ```php
 $rows = $this->db->fetchAll(
@@ -86,15 +86,15 @@ $rows = $this->db->fetchAll(
 
 `substr(created_at, 1, 10)` extrait les 10 premiers caractères (`YYYY-MM-DD`) de la
 chaîne datetime ISO, regroupant tous les événements du même jour calendaire. C'est une
-alternative à `strftime('%Y-%m-%d', created_at)` de SQLite pour les chaînes timestamp au
+alternative à `strftime('%Y-%m-%d', created_at)` de SQLite pour les chaînes de timestamp au
 format ISO 8601 avec un préfixe fixe.
 
-`GROUP BY date` utilise l'alias — SQLite supporte l'aliasing dans `GROUP BY` (contrairement à certaines
+`GROUP BY date` utilise l'alias — SQLite supporte les alias dans `GROUP BY` (contrairement à certaines
 autres bases de données qui nécessitent de répéter l'expression).
 
 ---
 
-## Distribution des statuts : `GROUP BY status ORDER BY count DESC`
+## Distribution par statut : `GROUP BY status ORDER BY count DESC`
 
 ```php
 $rows = $this->db->fetchAll(
@@ -107,11 +107,11 @@ $rows = $this->db->fetchAll(
 ```
 
 `ORDER BY order_count DESC` place le statut le plus courant en premier. L'ensemble de résultats a
-au maximum autant de lignes qu'il y a de valeurs de statut distinctes (quatre dans ce schéma).
+au plus autant de lignes qu'il y a de valeurs de statut distinctes (quatre dans ce schéma).
 
 ---
 
-## Top articles : classés par revenu avec `LIMIT`
+## Meilleurs articles : classés par revenu avec `LIMIT`
 
 ```php
 $rows = $this->db->fetchAll(
@@ -124,8 +124,8 @@ $rows = $this->db->fetchAll(
 );
 ```
 
-`ORDER BY revenue DESC LIMIT ?` — `LIMIT` paramétré sélectionne les N premiers articles par
-revenu total. Le paramètre de chemin `limit` est clampé côté serveur :
+`ORDER BY revenue DESC LIMIT ?` — `LIMIT` paramétré sélectionne les N meilleurs articles par
+revenu total. Le paramètre de chemin `limit` est limité côté serveur :
 
 ```php
 private const int MAX_LIMIT = 100;
@@ -134,15 +134,15 @@ $limit = min((int) $q['limit'], self::MAX_LIMIT);
 ```
 
 `min(..., MAX_LIMIT)` empêche les clients de demander plus de 100 articles. Note :
-`is_numeric($q['limit'])` est utilisé ici (plutôt que `is_int`) parce que les valeurs de query string
-sont toujours des chaînes — `is_int` échouerait toujours sur les entrées de query string.
+`is_numeric($q['limit'])` est utilisé ici (plutôt que `is_int`) car les valeurs de chaîne de requête
+sont toujours des chaînes — `is_int` échouerait toujours sur les entrées de chaîne de requête.
 
 ---
 
 ## Clause `WHERE` dynamique avec `dateFilter()`
 
-Toutes les requêtes d'agrégation partagent un helper `dateFilter()` qui ajoute des conditions uniquement
-quand une borne de date est fournie :
+Toutes les requêtes d'agrégation partagent un helper `dateFilter()` qui n'ajoute des conditions que
+lorsqu'une borne de date est fournie :
 
 ```php
 private function dateFilter(?string $from, ?string $to): array
@@ -162,8 +162,8 @@ private function dateFilter(?string $from, ?string $to): array
 }
 ```
 
-Quand `from` et `to` sont tous les deux `null`, `$where` est `''` — la table complète est scannée.
-L'appelant incorpore `{$where}` dans la chaîne SQL avant l'exécution de la requête. Les
+Quand `from` et `to` sont tous les deux `null`, `$where` est `''` — la table entière est scannée.
+L'appelant intègre `{$where}` dans la chaîne SQL avant que la requête ne soit exécutée. Les
 valeurs réelles sont toujours paramétrées (`?`) — seul le mot-clé `WHERE` est interpolé.
 
 ---
@@ -171,7 +171,7 @@ valeurs réelles sont toujours paramétrées (`?`) — seul le mot-clé `WHERE` 
 ## Validation des dates : aller-retour avec `createFromFormat()`
 
 Accepter `from` et `to` comme chaînes YYYY-MM-DD nécessite de valider que la date est
-à la fois bien formée et sémantiquement valide (par ex. `2026-02-30` est rejeté) :
+à la fois bien formée et sémantiquement valide (ex. `2026-02-30` est rejeté) :
 
 ```php
 private function isValidDate(string $date): bool
@@ -185,9 +185,9 @@ private function isValidDate(string $date): bool
 ```
 
 Validation en deux étapes :
-1. `preg_match` — rejette rapidement le format non correspondant sans overhead d'objet date.
-2. `createFromFormat` + aller-retour `format()` — détecte les dates sémantiquement invalides comme
-   `2026-02-30` (que PHP déborderait en `2026-03-02` si validé uniquement par regex).
+1. `preg_match` — rejette rapidement les formats non correspondants sans surcharge d'objet date.
+2. `createFromFormat` + `format()` en aller-retour — détecte les dates sémantiquement invalides comme
+   `2026-02-30` (que PHP déborderait vers `2026-03-02` si validé uniquement par regex).
 
 La direction de la plage est également validée :
 ```php
@@ -196,14 +196,14 @@ if ($from !== null && $to !== null && $from > $to) {
 }
 ```
 
-La comparaison de chaînes fonctionne correctement ici parce que les deux dates sont au format `YYYY-MM-DD` — un format
+La comparaison de chaînes fonctionne correctement ici car les deux dates sont au format `YYYY-MM-DD` — un format
 où l'ordre lexicographique est égal à l'ordre chronologique.
 
 ---
 
 ## Fonctions intégrées NENE2 utilisées
 
-| Fonction intégrée | Objectif |
+| Intégré | Objectif |
 |---|---|
 | `ValidationException` / `ValidationError` | `422` structuré avec tableau `errors` |
 | `JsonResponseFactory::create()` | Encode la réponse JSON |
@@ -213,7 +213,7 @@ où l'ordre lexicographique est égal à l'ordre chronologique.
 
 ## Howtos associés
 
-- [`event-analytics-api.md`](event-analytics-api.md) — analytique de blob JSON avec `json_extract()`, regroupement `COUNT(DISTINCT)`
-- [`cqrs-pattern.md`](cqrs-pattern.md) — vue SQL comme modèle de lecture pour l'agrégation des commandes
+- [`event-analytics-api.md`](event-analytics-api.md) — analytique de blobs JSON avec `json_extract()`, regroupement `COUNT(DISTINCT)`
+- [`cqrs-pattern.md`](cqrs-pattern.md) — Vue SQL comme modèle de lecture pour l'agrégation de commandes
 - [`credit-ledger.md`](credit-ledger.md) — calcul de solde `COALESCE(SUM(amount * direction), 0)`
-- [`admin-report-aggregation.md`](admin-report-aggregation.md) — patterns d'agrégation limités à l'admin
+- [`admin-report-aggregation.md`](admin-report-aggregation.md) — patterns d'agrégation scopés admin

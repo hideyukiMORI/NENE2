@@ -1,25 +1,25 @@
 # How-to : Versionnage d'API
 
-> **Référence FT** : FT346 (`NENE2-FT/versionlog`) — Versionnage par chemin URL avec namespaces /v1/ et /v2/, V1 dépréciée portant les en-têtes Deprecation/Sunset/Link, V2 avec une réponse enrichie, stockage sous-jacent partagé, 16 tests PASS.
+> **Référence FT** : FT346 (`NENE2-FT/versionlog`) — Versionnage par chemin URL avec namespaces /v1/ et /v2/, V1 dépréciée portant les en-têtes Deprecation/Sunset/Link, V2 avec forme de réponse enrichie, stockage sous-jacent partagé, 16 tests PASS.
 
-Ce guide montre comment implémenter le versionnage par chemin URL : faire tourner deux versions d'API côte à côte avec des formes de réponse différentes, marquer l'ancienne version comme dépréciée avec des en-têtes HTTP, et partager une base de données unique entre les versions.
+Ce guide montre comment implémenter le versionnage par chemin URL : exécuter deux versions d'API côte à côte avec différentes formes de réponse, marquer l'ancienne version comme dépréciée avec des en-têtes HTTP, et partager une seule base de données entre les versions.
 
-## Stratégie de versionnage
+## Stratégie de version
 
-| Version | Statut      | Préfixe  | Enveloppe de liste              |
+| Version | Statut | Préfixe | Enveloppe de liste |
 |---------|-------------|---------|---------------------------|
-| V1      | Dépréciée  | `/v1/`  | `{"notes": [...]}`        |
-| V2      | Actuelle     | `/v2/`  | `{"data": [...], "meta": {...}}` |
+| V1 | Dépréciée | `/v1/` | `{"notes": [...]}` |
+| V2 | Actuelle | `/v2/` | `{"data": [...], "meta": {...}}` |
 
 Les deux versions partagent les mêmes tables de base de données. Les clients V1 peuvent continuer à utiliser leur intégration existante pendant que les en-têtes de dépréciation signalent une date limite de migration.
 
 ## Endpoints
 
-| Méthode   | Chemin V1         | Chemin V2         | Description     |
+| Méthode | Chemin V1 | Chemin V2 | Description |
 |----------|-----------------|-----------------|-----------------|
-| `POST`   | `/v1/notes`     | `/v2/notes`     | Créer une note     |
-| `GET`    | `/v1/notes`     | `/v2/notes`     | Lister les notes      |
-| `GET`    | `/v1/notes/{id}`| `/v2/notes/{id}`| Obtenir une note |
+| `POST` | `/v1/notes` | `/v2/notes` | Créer une note |
+| `GET` | `/v1/notes` | `/v2/notes` | Lister les notes |
+| `GET` | `/v1/notes/{id}`| `/v2/notes/{id}`| Obtenir une note unique |
 
 ## Forme de réponse V1
 
@@ -30,7 +30,7 @@ Les deux versions partagent les mêmes tables de base de données. Les clients V
 {
   "id": 1,
   "title": "Hello",
-  "content": "World",    // ← nom du champ : "content"
+  "content": "World",    // ← nom de champ : "content"
   "created_at": "..."
   // Pas de "body", "tags", ni "updated_at"
 }
@@ -54,7 +54,7 @@ Les deux versions partagent les mêmes tables de base de données. Les clients V
   "data": {               // ← clé d'enveloppe : "data"
     "id": 2,
     "title": "Hello",
-    "body": "World",      // ← nom du champ : "body"
+    "body": "World",      // ← nom de champ : "body"
     "tags": ["php", "api"],  // ← tags ajoutés
     "updated_at": "...",     // ← updated_at ajouté
     "created_at": "..."
@@ -93,16 +93,16 @@ return $response
 Les réponses V2 ne portent **aucun** de ces en-têtes.
 
 ```php
-// En-têtes de GET /v1/notes :
+// En-têtes GET /v1/notes V1 :
 Deprecation: true
 Sunset: Sat, 01 Jan 2027 00:00:00 GMT
 Link: </v2/notes>; rel="successor-version"
 
-// En-têtes de GET /v2/notes :
+// En-têtes GET /v2/notes V2 :
 // (pas de Deprecation, Sunset, ni Link)
 ```
 
-## Stockage partagé — Accès inter-versions
+## Stockage partagé — Accès inter-version
 
 Les deux versions partagent la même table `notes`. Une note créée via V1 est lisible depuis V2 (et vice versa) :
 
@@ -141,7 +141,7 @@ CREATE TABLE notes (
 );
 ```
 
-La colonne sous-jacente est `body`. V1 la mappe vers `content` dans le transformateur de réponse.
+La colonne sous-jacente est `body`. V1 la mappe en `content` dans le transformateur de réponse.
 
 ## Implémentation — Transformateurs de réponse
 
@@ -223,9 +223,9 @@ Les deux versions requièrent `title`. V1 accepte `content` comme champ de corps
 
 | Anti-pattern | Risque |
 |---|---|
-| Tables DB différentes par version | Les lectures inter-versions se cassent ; les données migrent mal quand les versions ne partagent pas d'état |
+| Tables DB différentes par version | Les lectures inter-version se cassent ; les données migrent mal quand les versions ne partagent aucun état |
 | Retourner `Deprecation: true` sur V2 | Les clients ne peuvent pas distinguer quelle version est actuelle |
-| Pas d'en-tête `Link` avec successeur | Les clients dépréciés ne savent pas vers où migrer |
+| Pas d'en-tête `Link` avec successeur | Les clients dépréciés ne savent pas où migrer |
 | Renommer la colonne DB `body` → `content` pour V1 | Tout le code V2 doit changer ; utiliser le transformateur de réponse pour renommer, pas le schéma |
-| Coder en dur la date Sunset dans les tests | Les tests échouent après la date sunset ; utiliser une constante future ou une valeur de configuration |
+| Coder en dur la date Sunset dans les tests | Les tests échouent après la date Sunset ; utiliser une constante future ou une valeur de config |
 | Exposer les `tags` V1 dans la réponse | Les clients V1 reçoivent un champ qu'ils ne comprennent pas ; les contrats de forme se cassent silencieusement |

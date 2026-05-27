@@ -1,27 +1,27 @@
 # Gestion des clés API
 
-> **Référence FT** : FT266 (`NENE2-FT/apikeylog`) — cycle de vie des clés API : génération, stockage du hash SHA-256, recherche basée sur le préfixe, application de la portée, rotation
+> **Référence FT** : FT266 (`NENE2-FT/apikeylog`) — Cycle de vie des clés API : génération, stockage du hash SHA-256, recherche par préfixe, application du scope, rotation
 
-Ce guide couvre l'implémentation de la gestion des clés API dans les applications NENE2 : génération de clés, stockage sécurisé, autorisation basée sur la portée, révocation et rotation.
+Ce guide couvre l'implémentation de la gestion des clés API dans les applications NENE2 : génération de clé, stockage sécurisé, autorisation basée sur le scope, révocation et rotation.
 
 ## Principes de conception fondamentaux
 
-1. **Ne jamais stocker les clés brutes** — uniquement les hashes SHA-256 en base de données.
-2. **Retourner la clé brute une seule fois** — uniquement lors de la création, jamais après.
-3. **Recherche basée sur le préfixe, vérification basée sur le hash** — le préfixe réduit la requête DB ; hash_equals() effectue l'authentification réelle.
-4. **Hiérarchie de portée** — admin ⊃ write ⊃ read ; vérifiée par endpoint.
-5. **Rotation sécurisée** — créer la nouvelle clé avant de révoquer l'ancienne pour éviter le verrouillage.
+1. **Ne jamais stocker les clés brutes** — seulement les hashes SHA-256 dans la base de données.
+2. **Retourner la clé brute une fois** — uniquement à la création, jamais ensuite.
+3. **Recherche par préfixe, vérification par hash** — le préfixe réduit la requête DB ; hash_equals() fait l'authentification réelle.
+4. **Hiérarchie de scope** — admin ⊃ write ⊃ read ; vérifié par endpoint.
+5. **Rotation sécurisée** — créer la nouvelle clé avant de révoquer l'ancienne pour éviter le blocage.
 
-## Format de clé
+## Format de la clé
 
 ```
 nk_Vf3aB2cX9dJkQmHpNrTsUvWxYzAeBfCg
-^   ^----- 43 chars of base64url(32 random bytes) -----^
+^   ^----- 43 chars de base64url(32 octets aléatoires) -----^
 |
-type prefix (identifiable in logs)
+préfixe de type (identifiable dans les logs)
 ```
 
-`random_bytes(32)` donne 256 bits d'entropie. C'est computationnellement infaisable à attaquer par force brute quelle que soit la vitesse du hash, donc SHA-256 (rapide, à usage unique) est approprié — contrairement aux mots de passe, les clés API ne sont pas attaquables par dictionnaire.
+`random_bytes(32)` donne 256 bits d'entropie. C'est informatiquement impossible à forcer par brute-force indépendamment de la vitesse de hachage, donc SHA-256 (rapide, monopurpose) est approprié — contrairement aux mots de passe, les clés API ne sont pas attaquables par dictionnaire.
 
 ## Schéma
 
@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS api_keys (
 
 La colonne `prefix` stocke les **16 premiers caractères de la clé brute** (pas le préfixe de type `nk`). Cela donne ~78 bits de différenciation, rendant chaque préfixe effectivement unique et permettant une recherche d'index O(1).
 
-**Critique** : N'utilisez PAS le préfixe de type (`nk`) comme préfixe de recherche DB. Toutes les clés partagent le même préfixe de type, donc `WHERE prefix = 'nk'` scannerait toute la table — recherche O(n) et canal temporel proportionnel au nombre de clés.
+**Critique** : N'utilisez PAS le préfixe de type (`nk`) comme préfixe de recherche DB. Toutes les clés partagent le même préfixe de type, donc `WHERE prefix = 'nk'` scannerait la table entière — recherche O(n) et canal de timing proportionnel au nombre de clés.
 
 ## Génération de clé
 
@@ -76,7 +76,7 @@ final class ApiKeyGenerator
 }
 ```
 
-`hash_equals()` est obligatoire. Utiliser `===` ou `==` pour la comparaison de hashes laisse filtrer des informations temporelles : une chaîne hexadécimale de 64 caractères comparée avec `===` se termine à la première différence, révélant combien de caractères de tête correspondent.
+`hash_equals()` est obligatoire. Utiliser `===` ou `==` pour la comparaison de hash divulgue des informations de timing : une chaîne hexadécimale de 64 caractères comparée avec `===` sort à la première incompatibilité, révélant combien de caractères initiaux correspondent.
 
 ## Flux d'authentification
 
@@ -105,9 +105,9 @@ L'approche en deux étapes :
 1. Recherche d'index par préfixe (requête DB rapide)
 2. Vérification `hash_equals()` contre le hash stocké
 
-Retournez le même `null` et `401` pour tous les cas d'échec (non trouvé, mauvais hash, expiré, révoqué) — les appelants ne doivent pas pouvoir les distinguer.
+Retourner le même `null` et `401` pour tous les cas d'échec (non trouvé, mauvais hash, expiré, révoqué) — les appelants ne doivent pas les distinguer.
 
-## Hiérarchie de portée
+## Hiérarchie de scope
 
 ```php
 enum ApiKeyScope: string
@@ -127,7 +127,7 @@ enum ApiKeyScope: string
 }
 ```
 
-Appliquez la portée au niveau de l'endpoint :
+Appliquer le scope au niveau de l'endpoint :
 
 ```php
 private function requireScope(ServerRequestInterface $request, ApiKeyScope $required): ApiKey|ResponseInterface
@@ -150,9 +150,9 @@ private function requireScope(ServerRequestInterface $request, ApiKeyScope $requ
 }
 ```
 
-Retournez `401` pour non authentifié, `403` pour authentifié mais portée insuffisante — ne jamais révéler si la clé existe.
+Retourner `401` pour les non-authentifiés, `403` pour les authentifiés avec scope insuffisant — ne jamais divulguer si la clé existe.
 
-## Filtrage des réponses
+## Filtrage de la réponse
 
 La méthode `toArray()` sur `ApiKey` **ne doit pas** inclure `key_hash`. La clé brute n'est disponible que via `ApiKeyCreateResult::toArray()` immédiatement après la création.
 
@@ -186,10 +186,10 @@ public function rotate(int $oldId, int $ownerId, string $now): ?ApiKeyCreateResu
         return null;
     }
 
-    // Créer en premier — si cela échoue, l'ancienne clé reste active (pas de verrouillage)
+    // Créer d'abord — si cela échoue, l'ancienne clé reste active (pas de blocage)
     $result = $this->create($ownerId, $old->scope, $old->description, $now, $old->expiresAt);
 
-    // Révoquer après — si cela échoue, les deux clés existent temporairement (récupérable via liste)
+    // Révoquer ensuite — si cela échoue, les deux clés existent temporairement (récupérable via liste)
     $this->executor->execute(
         'UPDATE api_keys SET revoked_at = ?, updated_at = ? WHERE id = ?',
         [$now, $now, $oldId],
@@ -199,11 +199,11 @@ public function rotate(int $oldId, int $ownerId, string $now): ?ApiKeyCreateResu
 }
 ```
 
-Révoquer-puis-créer est dangereux : si CREATE échoue après REVOKE, le propriétaire est définitivement verrouillé. L'inverse (créer-puis-révoquer) signifie que le pire cas est deux clés actives temporairement — observable et récupérable.
+Révoquer-puis-créer est dangereux : si CREATE échoue après REVOKE, le propriétaire est définitivement bloqué. L'inverse (créer-puis-révoquer) signifie que le pire cas est deux clés actives temporairement — observable et récupérable.
 
 ## Expiration
 
-Stockez `expires_at` comme une chaîne datetime ISO. Vérifiez dans `isActive()` :
+Stocker `expires_at` comme chaîne datetime ISO. Vérifier dans `isActive()` :
 
 ```php
 public function isActive(string $now): bool
@@ -223,10 +223,10 @@ Le flux d'authentification passe `$now` comme paramètre, rendant la logique tes
 
 | Anti-pattern | Risque |
 |---|---|
-| Stocker la clé brute en DB | Exposition complète lors d'une violation de DB |
-| Utiliser `===` pour la comparaison de hashes | L'attaque temporelle révèle la longueur du préfixe du hash |
-| Utiliser le préfixe de type (`nk`) comme index de recherche DB | Scan complet de table O(n) ; canal temporel |
+| Stocker la clé brute en DB | Exposition complète en cas de brèche DB |
+| Utiliser `===` pour la comparaison de hash | L'attaque par timing révèle la longueur du préfixe de hash |
+| Utiliser le préfixe de type (`nk`) comme index de recherche DB | Scan de table O(n) ; canal de timing |
 | Retourner `key_hash` dans les réponses de liste/détail | Attaque par dictionnaire hors ligne sur les hashes |
-| Révoquer l'ancienne clé avant de créer la nouvelle lors de la rotation | Verrouillage du propriétaire en cas d'erreur DB |
-| Retourner des erreurs différentes pour "clé non trouvée" vs "clé expirée" | Oracle pour l'existence de la clé |
-| Logger l'en-tête `X-Api-Key` | Fuite de clé dans le stockage des logs |
+| Révoquer l'ancienne clé avant de créer la nouvelle lors de la rotation | Blocage du propriétaire en cas d'erreur DB |
+| Retourner des erreurs différentes pour "clé non trouvée" vs "clé expirée" | Oracle pour l'existence de clé |
+| Logger l'en-tête `X-Api-Key` | La clé fuit dans le stockage de logs |

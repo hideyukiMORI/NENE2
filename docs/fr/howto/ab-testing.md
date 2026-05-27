@@ -1,8 +1,8 @@
-# How-to : Framework de Tests A/B
+# How-to : Framework de tests A/B
 
-> **Référence FT** : FT293 (`NENE2-FT/ablog`) — framework d'expérimentation A/B : affectation déterministe pondérée via graine crc32, machine d'état draft→active→stopped, affectation idempotente UNIQUE(experiment_id, user_id), agrégation CVR en SQL, 16 tests / 26 assertions PASS.
+> **Référence FT** : FT293 (`NENE2-FT/ablog`) — Framework d'expériences A/B : attribution déterministe de variantes pondérées via crc32, machine d'états draft→active→stopped, attribution idempotente UNIQUE(experiment_id, user_id), agrégation CVR en SQL, 16 tests / 26 assertions PASS.
 
-Exécutez des expériences contrôlées en affectant des utilisateurs à des variantes et en collectant des événements de conversion.
+Exécutez des expériences contrôlées en attribuant des utilisateurs à des variantes et en collectant des événements de conversion.
 
 ## Schéma
 
@@ -38,12 +38,12 @@ CREATE TABLE experiment_events (
 
 | Méthode | Chemin | Description |
 |--------|------|-------------|
-| `POST` | `/experiments` | Créer une expérience (commence en `draft`) |
+| `POST` | `/experiments` | Créer une expérience (démarre en `draft`) |
 | `GET` | `/experiments` | Lister toutes les expériences |
-| `GET` | `/experiments/{id}` | Obtenir une expérience + ses variantes |
-| `PUT` | `/experiments/{id}/status` | Changer le statut |
+| `GET` | `/experiments/{id}` | Obtenir une expérience + variantes |
+| `PUT` | `/experiments/{id}/status` | Transition de statut |
 | `POST` | `/experiments/{id}/variants` | Ajouter une variante |
-| `POST` | `/experiments/{id}/assign` | Affecter un utilisateur à une variante (idempotent) |
+| `POST` | `/experiments/{id}/assign` | Attribuer un utilisateur à une variante (idempotent) |
 | `POST` | `/experiments/{id}/events` | Enregistrer un événement de conversion |
 | `GET` | `/experiments/{id}/results` | CVR agrégé par variante |
 
@@ -53,7 +53,7 @@ CREATE TABLE experiment_events (
 draft → active → stopped
 ```
 
-Rejetez les transitions invalides avec 422 :
+Rejeter les transitions invalides avec 422 :
 
 ```php
 private const array VALID_TRANSITIONS = [
@@ -68,9 +68,9 @@ if (!in_array($status, $allowed, true)) {
 }
 ```
 
-## Affectation déterministe de variante
+## Attribution déterministe de variante
 
-Les utilisateurs doivent toujours tomber dans la même variante — utilisez `crc32` pour un bucket reproductible et sans état :
+Les utilisateurs doivent toujours atterrir dans la même variante — utilisez `crc32` pour un seau reproductible et sans état :
 
 ```php
 class VariantAssigner
@@ -94,17 +94,17 @@ class VariantAssigner
 }
 ```
 
-La base de données stocke l'affectation au premier appel ; les appels suivants retournent la variante stockée — déterminisme + vérité DB.
+La DB stocke l'attribution au premier appel ; les appels suivants retournent la variante stockée — déterminisme + vérité DB.
 
-## Affectation idempotente
+## Attribution idempotente
 
 ```php
-// Retourner l'affectation existante sans recalculer
+// Retourner l'attribution existante sans re-tirer
 $existing = $this->repo->findAssignment($id, $userId);
 if ($existing !== null) {
     return $this->json->create($existing);   // 200, pas 201
 }
-// Premier appel : calculer et stocker
+// Première fois : calculer et stocker
 $variant      = $this->assigner->assign($variants, $userId, $id);
 $assignmentId = $this->repo->createAssignment($id, $userId, $variant['id'], $now);
 return $this->json->create($assignment, 201);
@@ -124,7 +124,7 @@ GROUP BY ev.id, ev.name, ev.weight
 ORDER BY ev.id ASC
 ```
 
-Puis calculez le CVR en PHP :
+Puis calculer le CVR en PHP :
 
 ```php
 $row['cvr'] = $assignments > 0 ? round($events / $assignments, 4) : 0.0;
@@ -132,9 +132,9 @@ $row['cvr'] = $assignments > 0 ? round($events / $assignments, 4) : 0.0;
 
 ## Garde-fous
 
-- Seules les expériences `active` acceptent des affectations (409 sinon).
-- Les événements nécessitent que l'utilisateur soit affecté (404 sinon).
-- `UNIQUE(experiment_id, user_id)` empêche les doubles affectations au niveau DB.
+- Seules les expériences `active` acceptent les attributions (409 sinon).
+- Les événements nécessitent que l'utilisateur soit attribué (404 sinon).
+- `UNIQUE(experiment_id, user_id)` empêche la double attribution au niveau DB.
 - Les poids doivent être des entiers positifs ; les variantes à poids zéro sont rejetées (422).
 
 ---
@@ -143,10 +143,10 @@ $row['cvr'] = $assignments > 0 ? round($events / $assignments, 4) : 0.0;
 
 | Anti-pattern | Risque |
 |---|---|
-| Affectation aléatoire (non déterministe) | Le même utilisateur obtient des variantes différentes à chaque appel ; expérience incohérente |
-| Pas de `UNIQUE(experiment_id, user_id)` | Les affectations concurrentes créent des doublons ; l'utilisateur se retrouve dans plusieurs variantes |
-| Autoriser l'affectation en statut `draft` ou `stopped` | Les expériences draft n'ont pas de variantes valides ; les expériences stopped ne doivent pas collecter de nouvelles données |
-| Autoriser les transitions de statut en arrière | `stopped → active` rouvre une expérience fermée ; les données historiques sont contaminées |
-| Pas de validation des poids (autoriser 0) | Un poids total nul provoque une division par zéro dans le calcul du bucket |
-| Calculer le CVR en application avec toutes les lignes | Récupérer toutes les lignes puis boucler ; utilisez plutôt l'agrégation SQL `GROUP BY` |
-| Pas de validation événement → affectation | Les événements sans affectation valide faussent les taux de conversion par variante |
+| Attribution aléatoire (non déterministe) | Le même utilisateur obtient des variantes différentes à chaque appel ; expérience incohérente |
+| Pas de `UNIQUE(experiment_id, user_id)` | Les attributions concurrentes créent des lignes en doublon ; l'utilisateur se retrouve dans plusieurs variantes |
+| Autoriser l'attribution en statut `draft` ou `stopped` | Les expériences en draft n'ont pas de variantes valides ; les expériences arrêtées ne doivent pas collecter de nouvelles données |
+| Autoriser les transitions de statut inverses | `stopped → active` rouvre une expérience fermée ; données historiques contaminées |
+| Pas de validation du poids (autoriser 0) | Un poids total de zéro cause une division par zéro dans le calcul du seau |
+| Calculer le CVR dans l'application avec toutes les lignes | Récupérer toutes les lignes puis boucler ; utiliser l'agrégation SQL `GROUP BY` à la place |
+| Pas de validation événement → attribution | Les événements sans attribution valide faussent les taux de conversion par variante |
