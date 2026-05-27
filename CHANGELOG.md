@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.311] — 2026-05-27
+
+### Added
+- `docs/howto/soft-delete-trash-restore.md` — FT340 ATK 新規作成: ソフトデリート・ゴミ箱・復元 API howto: 削除後非表示・ゴミ箱一覧・完全削除・一括パージ・ATK アセスメント (FT340)。 (#1241)
+
+---
+
 ## [1.5.310] — 2026-05-27
 
 ### Added
