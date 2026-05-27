@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.261] — 2026-05-27
+
+### Added
+- `docs/howto/otp-authentication.md` — FT290 新規作成: OTP 認証システム howto: 6桁数字 OTP + SHA-256 ハッシュ・brute-force ロックアウト・リプレイ攻撃防止・セッショントークン・user enumeration 防止・ATK-01〜ATK-12 (FT290)。 (#1140)
+
+---
+
 ## [1.5.260] — 2026-05-27
 
 ### Added
