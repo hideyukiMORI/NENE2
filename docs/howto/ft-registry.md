@@ -94,6 +94,7 @@ FT 番号 → プロジェクト名 → howto ファイルの台帳。
 | FT301 | contentlog | [content-negotiation-api.md](content-negotiation-api.md) | 通常 |
 | FT302 | couponlog | [coupon-discount-api.md](coupon-discount-api.md) | 通常 |
 | FT303 | filelog | [file-sharing-api.md](file-sharing-api.md) | VULN |
+| FT304 | salelog | [flash-sale-api.md](flash-sale-api.md) | ATK |
 
 ---
 
