@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.293] — 2026-05-27
+
+### Added
+- `docs/howto/nested-json-validation.md` — FT322 新規作成: ネスト JSON バリデーション howto: items.N.field エラーパス・複数エラー一括返却・エラーコード・合計金額計算 (FT322)。 (#1205)
+
+---
+
 ## [1.5.292] — 2026-05-27
 
 ### Added
