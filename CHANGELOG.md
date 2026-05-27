@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.256] — 2026-05-27
+
+### Added
+- `docs/howto/password-reset-flow.md` — FT285 新規作成: パスワードリセットフロー howto と VULN 脆弱性診断 (V-01〜V-10): ユーザー列挙防止 (202)・SHA-256 ハッシュ保存・1時間 TTL・単一使用・410 Gone・Argon2id (FT285)。 (#1130)
+
+---
+
 ## [1.5.255] — 2026-05-27
 
 ### Added
