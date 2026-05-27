@@ -147,6 +147,22 @@ SCHEMA
 echo "Running dump-autoload..."
 (cd "${TARGET}" && composer dump-autoload --quiet)
 
+# ── ft-registry.md 自動追記 ───────────────────────────────────────────────────
+# "## FT096〜" 以降のテーブルの最終行の直後に追記する
+# テーブルが存在する場合は末尾に追記、なければファイル末尾に追加
+REGISTRY_LINE="| FT${FT_NUM} | ${DIRNAME} | TODO — theme |"
+
+if grep -q "^| FT" "${REGISTRY}" 2>/dev/null; then
+  # 最後の FT テーブル行の直後に挿入
+  last_line=$(grep -n "^| FT" "${REGISTRY}" | tail -1 | cut -d: -f1)
+  sed -i "${last_line}a\\${REGISTRY_LINE}" "${REGISTRY}"
+  echo "✓ ft-registry.md に追記しました (行 $((last_line + 1)))"
+else
+  echo "" >> "${REGISTRY}"
+  echo "${REGISTRY_LINE}" >> "${REGISTRY}"
+  echo "✓ ft-registry.md に追記しました (末尾)"
+fi
+
 # ── done ──────────────────────────────────────────────────────────────────────
 echo ""
 echo "✓ ${TARGET} created"
@@ -154,7 +170,6 @@ echo ""
 echo "Next steps:"
 echo "  1. Edit ${TARGET}/composer.json  (description)"
 echo "  2. Edit ${TARGET}/database/schema.sql"
-echo "  3. Add source files under ${TARGET}/src/"
-echo "  4. Add tests under ${TARGET}/tests/"
-echo "  5. Register in docs/ft-registry.md:"
-echo "     | FT${FT_NUM} | ${DIRNAME} | TODO — theme |"
+echo "  3. Edit docs/ft-registry.md line for FT${FT_NUM} — テーマを記入"
+echo "  4. Add source files under ${TARGET}/src/"
+echo "  5. Add tests under ${TARGET}/tests/"
