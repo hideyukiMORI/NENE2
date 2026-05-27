@@ -1,0 +1,143 @@
+# How-to: Umfrage / Poll-API
+
+Diese Anleitung zeigt, wie ein Umfrage- und Poll-System mit Doppelstimmen-Prävention mit NENE2 erstellt wird.
+Muster demonstriert durch den **polllog**-Feldversuch (FT217).
+
+## Funktionen
+
+- Polls mit 2–20 Optionen erstellen (nur Admin)
+- Öffentliche und private Polls (privat: nur Admin-Zugriff)
+- Eine Stimme pro Benutzer pro Poll (durch UNIQUE-Constraint erzwungen)
+- Live-Ergebnis-Aggregation mit Stimmanzahl pro Option
+- Gesamtstimmenanzahl über alle Optionen
+
+## Schema
+
+```sql
+CREATE TABLE IF NOT EXISTS polls (
+    id         INTEGER PRIMARY KEY AUTOINCREMENT,
+    question   TEXT    NOT NULL,
+    is_public  INTEGER NOT NULL DEFAULT 1,
+    created_at TEXT    NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS poll_options (
+    id         INTEGER PRIMARY KEY AUTOINCREMENT,
+    poll_id    INTEGER NOT NULL,
+    label      TEXT    NOT NULL,
+    sort_order INTEGER NOT NULL DEFAULT 0,
+    FOREIGN KEY (poll_id) REFERENCES polls(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS votes (
+    id         INTEGER PRIMARY KEY AUTOINCREMENT,
+    poll_id    INTEGER NOT NULL,
+    option_id  INTEGER NOT NULL,
+    user_id    INTEGER NOT NULL,
+    created_at TEXT    NOT NULL,
+    UNIQUE (poll_id, user_id),  -- Eine Stimme pro Benutzer pro Poll
+    FOREIGN KEY (poll_id) REFERENCES polls(id) ON DELETE CASCADE,
+    FOREIGN KEY (option_id) REFERENCES poll_options(id) ON DELETE CASCADE
+);
+
+CREATE INDEX IF NOT EXISTS idx_votes_poll ON votes (poll_id, option_id);
+```
+
+## Endpunkte
+
+| Methode | Pfad | Auth | Beschreibung |
+|--------|------|------|-------------|
+| `POST` | `/polls` | Admin | Poll mit Optionen erstellen |
+| `GET` | `/polls/{id}` | Öffentlich | Poll abrufen (privat → 404 für Nicht-Admin) |
+| `POST` | `/polls/{id}/vote` | Benutzer | Stimme abgeben |
+| `GET` | `/polls/{id}/results` | Öffentlich | Ergebnisanzahl pro Option abrufen |
+
+## Options-Validierung
+
+```php
+private const int MIN_OPTIONS   = 2;
+private const int MAX_OPTIONS   = 20;
+private const int MAX_LABEL_LEN = 100;
+
+foreach ($rawOptions as $idx => $label) {
+    if (!is_string($label) || trim($label) === '') {
+        return $this->problem(422, 'validation-failed', "options[{$idx}] must not be empty.");
+    }
+    if (strlen($label) > self::MAX_LABEL_LEN) {
+        return $this->problem(422, 'validation-failed', "options[{$idx}] too long (max 100).");
+    }
+}
+```
+
+## Doppelstimmen-Prävention
+
+```php
+/** @return 'ok'|'already_voted'|'invalid_option' */
+public function vote(int $pollId, int $userId, int $optionId): string
+{
+    // Überprüfen, ob Option zum Poll gehört (verhindert Poll-übergreifende Options-Injection)
+    $stmt = $this->pdo->prepare(
+        'SELECT id FROM poll_options WHERE id = :oid AND poll_id = :pid'
+    );
+    $stmt->execute([':oid' => $optionId, ':pid' => $pollId]);
+    if ($stmt->fetch() === false) {
+        return 'invalid_option'; // → 422
+    }
+
+    // Auf vorhandene Stimme prüfen
+    $stmt2 = $this->pdo->prepare(
+        'SELECT id FROM votes WHERE poll_id = :pid AND user_id = :uid'
+    );
+    if ($stmt2->fetch() !== false) {
+        return 'already_voted'; // → 409
+    }
+
+    // INSERT — UNIQUE(poll_id, user_id)-Constraint als Sicherheitsnetz
+    $this->pdo->prepare('INSERT INTO votes ...')->execute([...]);
+    return 'ok';
+}
+```
+
+## Ergebnis-Aggregation
+
+`LEFT JOIN` sicherstellt, dass Optionen mit null Stimmen trotzdem in den Ergebnissen erscheinen:
+
+```sql
+SELECT o.id, o.label, o.sort_order,
+       COUNT(v.id) AS votes
+FROM poll_options o
+LEFT JOIN votes v ON v.option_id = o.id AND v.poll_id = o.poll_id
+WHERE o.poll_id = :pid
+GROUP BY o.id, o.label, o.sort_order
+ORDER BY o.sort_order ASC, o.id ASC
+```
+
+```php
+$results    = $this->repo->results($id);
+$totalVotes = array_sum(array_column($results, 'votes'));
+
+return $this->json([
+    'poll_id'     => $id,
+    'total_votes' => $totalVotes,
+    'results'     => $results,
+]);
+```
+
+## Zugriffskontrolle für private Polls
+
+Private Polls geben 404 für Nicht-Admin-Benutzer zurück (Existenz verbergen):
+
+```php
+// GET /polls/{id}
+if (!(bool) $poll['is_public'] && !$this->isAdmin($req)) {
+    return $this->problem(404, 'not-found', 'Poll not found.');
+}
+```
+
+## Sicherheitsmuster
+
+- **Admin fail-closed**: `if ($this->adminKey === '') return false;` vor `hash_equals()`
+- **`is_int()`**: Strenge Typprüfung für `option_id` — lehnt Floats/Strings ab
+- **`ctype_digit()`**: ReDoS-sichere Integer-Validierung für Pfad-IDs
+- **Poll-übergreifende Options-Injection**: `WHERE id = :oid AND poll_id = :pid` verhindert Optionen aus anderem Poll
+- **`is_bool()`**: Strenge Prüfung für `is_public`-Flag — lehnt `1`/`0`/`"true"` usw. ab
