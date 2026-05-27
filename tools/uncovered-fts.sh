@@ -26,18 +26,22 @@ fi
 covered() {
   {
     # 新形式: FT reference: FTxxx (NENE2-FT/<name>) または単純な NENE2-FT/<name> 参照
+    # i18nlog (数字入り) / eventstore / projtrack / softdelete も対象
     grep -rh "NENE2-FT/" "$HOWTO_DIR" 2>/dev/null \
-      | grep -oP 'NENE2-FT/\K[a-z]+log'
+      | grep -oP 'NENE2-FT/\K[a-z0-9]*(log|store|track|delete)'
 
     # 旧形式: Pattern proven by FT<number> <name>
     grep -rh "Pattern proven by FT" "$HOWTO_DIR" 2>/dev/null \
-      | grep -oP 'Pattern proven by FT\d+ \K[a-z]+log'
+      | grep -oP 'Pattern proven by FT\d+ \K[a-z0-9]*(log|store|track|delete)'
   } | sort -u
 }
 
 # 全 FT プロジェクト名のリスト (ソート済み)
+# - *log パターン (例: cartlog, ratelog)
+# - i18nlog (数字を含む例外)
+# - log 以外の FT プロジェクト (eventstore / projtrack / softdelete)
 all_fts() {
-  ls "$FT_DIR" | grep -E '^[a-z]+log$' | sort
+  ls "$FT_DIR" | grep -E '^[a-z0-9]*log$|^(eventstore|projtrack|softdelete)$' | sort
 }
 
 MODE="${1:-}"
