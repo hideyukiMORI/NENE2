@@ -538,6 +538,76 @@ FT（フィールドトライアル）を連続してこなすときの専用ル
 - **VULN**（脆弱性診断）: **6 件ごと**（FT249, 255, 261, 267, 273...）
 - 現在のサイクル状態は `docs/todo/current.md` に記載。
 
+### ATK / VULN howto テンプレート
+
+ATK や VULN を書くときは以下の骨格を使う（毎回ゼロから書かなくてよい）。
+
+#### ATK セクション骨格
+
+```markdown
+## ATK Assessment — Cracker-Mindset Attack Test
+
+### ATK-01 — [攻撃名] 🚫 BLOCKED
+
+**Attack**: [具体的な攻撃手法の説明]
+**Result**: BLOCKED — [防御できた理由、どのコードが防いだか]
+
+---
+
+### ATK-02 — [攻撃名] 🚫 BLOCKED
+
+**Attack**: ...
+**Result**: BLOCKED — ...
+
+---
+
+<!-- ATK-03 〜 ATK-12 を同形式で続ける -->
+
+---
+
+### ATK Summary
+
+| ID | Attack | Result |
+|----|--------|--------|
+| ATK-01 | [攻撃名] | 🚫 BLOCKED |
+| ATK-02 | [攻撃名] | 🚫 BLOCKED |
+| ...  | ...  | ... |
+
+**N BLOCKED / SAFE, 0 EXPOSED**
+重大な発見があればここに要約する。なければ "No critical findings." と書く。
+```
+
+**絵文字ルール**: `🚫 BLOCKED`（防御済み）/ `⚠️ EXPOSED`（脆弱性あり）/ `✅ SAFE`（そもそも攻撃面なし）
+
+#### VULN セクション骨格
+
+```markdown
+## Vulnerability Assessment
+
+### V-01 — [脆弱性名] ✅ SAFE / ⚠️ EXPOSED
+
+**Risk**: [リスクの説明]
+**Finding**: SAFE / EXPOSED — [判定理由]
+
+---
+
+<!-- V-02 〜 V-10 を同形式で続ける -->
+
+---
+
+### VULN Summary
+
+| ID | Vulnerability | Finding |
+|----|---------------|---------|
+| V-01 | [脆弱性名] | ✅ SAFE |
+| ...  | ... | ... |
+
+**N SAFE, M EXPOSED**
+重大な発見があればここに要約する。なければ "No critical findings." と書く。
+```
+
+---
+
 ### 引き継ぎドキュメント更新
 
 **5FT ごと**またはセッション終了時に `docs/todo/current.md` を更新する:
