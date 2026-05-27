@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.274] — 2026-05-27
+
+### Added
+- `docs/howto/file-sharing-api.md` — FT303 新規作成: ファイル共有 API howto: プライベート 404 存在秘匿・所有者専用書き込み・共有許可モデル・VULN-A〜L 全 SAFE (FT303)。 (#1166)
+
+---
+
 ## [1.5.273] — 2026-05-27
 
 ### Added
