@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.263] — 2026-05-27
+
+### Added
+- `docs/howto/idempotency-key.md` — FT292 新規作成: 冪等性キー重複排除 ATK howto: UNIQUE(idempotency_key)・TTL 期限後再処理・replayed フラグ・ATK-01〜12 (FT292)。 (#1144)
+
+---
+
 ## [1.5.262] — 2026-05-27
 
 ### Added
