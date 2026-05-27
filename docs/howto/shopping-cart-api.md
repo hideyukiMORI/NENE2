@@ -1,6 +1,8 @@
 # How-to: Shopping Cart API
 
 > **FT reference**: FT269 (`NENE2-FT/cartlog`) — Shopping cart: UNIQUE (user_id, product_id) per-user cart, upsert add-item (quantity accumulation), quantity=0 auto-remove semantics, integer price/subtotal, X-User-Id header identification
+>
+> Also validated in FT155 (`NENE2-FT/cartlog` precursor) — same cart pattern, SQLite, PHP 8.4.
 
 Demonstrates a stateful per-user shopping cart: add items (with quantity accumulation on re-add), update quantities, remove items, and view a running total. All prices are stored as integers (cents or base units) — never floats.
 
@@ -230,6 +232,71 @@ Type checks (`is_int`) reject float or string quantities — `"3"` and `3.0` are
     "count": 1
 }
 ```
+
+---
+
+## AppFactory wiring example
+
+Bootstrap the app for tests or a lightweight entry point:
+
+```php
+class AppFactory
+{
+    public static function createSqlite(string $dbFile): RequestHandlerInterface
+    {
+        $dbConfig = new DatabaseConfig(
+            url: null,
+            environment: 'test',
+            adapter: 'sqlite',
+            host: '',
+            port: 1,
+            name: $dbFile,
+            user: '',
+            password: '',
+            charset: '',
+        );
+        return self::build($dbConfig);
+    }
+
+    private static function build(DatabaseConfig $dbConfig): RequestHandlerInterface
+    {
+        $factory    = new PdoConnectionFactory($dbConfig);
+        $executor   = new PdoDatabaseQueryExecutor($factory);
+        $psr17      = new Psr17Factory();
+        $repo       = new CartRepository($executor);
+        $json       = new JsonResponseFactory($psr17, $psr17);
+        $registrar  = new RouteRegistrar($repo, $json);
+
+        return (new RuntimeApplicationFactory(
+            $psr17,
+            $psr17,
+            routeRegistrars: [static fn (Router $router) => $registrar->register($router)],
+        ))->create();
+    }
+}
+```
+
+Using `RuntimeApplicationFactory` automatically provides: validation-exception → 422 mapping, error handling, and security headers.
+
+---
+
+## Testing patterns
+
+```php
+// Re-adding the same product accumulates quantity
+$this->req('POST', '/cart/items', ['X-User-Id' => '1'], ['product_id' => 1, 'quantity' => 2]);
+$res = $this->req('POST', '/cart/items', ['X-User-Id' => '1'], ['product_id' => 1, 'quantity' => 3]);
+$this->assertSame(200, $res->getStatusCode());
+$data = $this->json($res);
+$this->assertSame(5, $data['quantity']);
+
+// Each user's cart is isolated
+$this->req('POST', '/cart/items', ['X-User-Id' => '1'], ['product_id' => 1, 'quantity' => 3]);
+$res = $this->req('GET', '/cart', ['X-User-Id' => '2']);
+$this->assertSame(0, $this->json($res)['count']);
+```
+
+> **SQLite FK caveat**: `PdoConnectionFactory` sets `PRAGMA foreign_keys = ON`. When seeding test data via a separate PDO instance, set the same pragma on that connection — otherwise JOINs silently drop rows whose FK targets were inserted via a different connection handle.
 
 ---
 
