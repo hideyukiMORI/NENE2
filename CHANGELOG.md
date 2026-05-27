@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.259] — 2026-05-27
+
+### Added
+- `docs/howto/distributed-lock.md` — FT288 新規作成: 分散ロック howto と ATK 攻撃試験 (ATK-01〜ATK-12): UNIQUE(resource)・owner 所有権チェック・TTL 有効期限・期限切れ再取得・ReleaseResult enum・owner ミスマッチ 403 (FT288)。 (#1136)
+
+---
+
 ## [1.5.258] — 2026-05-27
 
 ### Added
