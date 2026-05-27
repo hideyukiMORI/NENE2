@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.252] — 2026-05-27
+
+### Added
+- `docs/howto/refresh-token-pattern.md` — FT281 新規作成: リフレッシュトークンパターン howto: 短命アクセストークン (5分) + 長命リフレッシュトークン・SHA-256 ハッシュ保存・トークンローテーション・リプレイ攻撃検知・ログアウト 204 (FT281)。 (#1122)
+
+---
+
 ## [1.5.251] — 2026-05-27
 
 ### Added
