@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.316] — 2026-05-27
+
+### Added
+- `docs/howto/unicode-aware-text-api.md` — FT345 新規作成: Unicode 対応テキスト API howto: mb_strlen による文字数カウント・Null バイト拒否・多言語スクリプト対応・VULN アセスメント付き (#1251)
+
+---
+
 ## [1.5.315] — 2026-05-27
 
 ### Added
