@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.300] — 2026-05-27
+
+### Added
+- `docs/howto/user-preferences-api.md` — FT329 新規作成: ユーザー設定管理 API howto: 5キー設定・デフォルト値・値バリデーション・unknown key 422+valid_keys・403 他ユーザー (FT329)。 (#1219)
+
+---
+
 ## [1.5.299] — 2026-05-27
 
 ### Added
