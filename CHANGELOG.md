@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.265] — 2026-05-27
+
+### Added
+- `docs/howto/batch-api-partial-success.md` — FT294 新規作成: バッチ API 部分成功パターン howto: MAX_BATCH=50・各行独立バリデーション・created/errors 混合返却・DB CHECK 制約 (FT294)。 (#1148)
+
+---
+
 ## [1.5.264] — 2026-05-27
 
 ### Added
