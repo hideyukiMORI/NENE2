@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.271] — 2026-05-27
+
+### Added
+- `docs/howto/point-ledger-api.md` — FT300 新規作成: ポイント台帳 API howto: earn/spend/adjust/expire・overdraft防止・管理者専用adjust・reference_id べき等性・ATK-01〜12 全 BLOCKED (FT300)。 (#1160)
+
+---
+
 ## [1.5.270] — 2026-05-27
 
 ### Added
