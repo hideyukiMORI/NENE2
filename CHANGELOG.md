@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.314] — 2026-05-27
+
+### Added
+- `docs/howto/threaded-comments-api.md` — FT343 新規作成: スレッドコメント API howto: 2 階層スレッド・トゥームストーン削除・返信深度制限・削除後返信ブロック (FT343)。 (#1247)
+
+---
+
 ## [1.5.313] — 2026-05-27
 
 ### Added
