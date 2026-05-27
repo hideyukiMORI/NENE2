@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.291] — 2026-05-27
+
+### Added
+- `docs/howto/optimistic-locking-etag.md` — FT320 ATK 新規作成: 楽観的ロック ETag/If-Match howto: バージョニング・If-Match 必須 428・スレート 412・ロストアップデート防止・ATK アセスメント (FT320)。 (#1201)
+
+---
+
 ## [1.5.290] — 2026-05-27
 
 ### Added
