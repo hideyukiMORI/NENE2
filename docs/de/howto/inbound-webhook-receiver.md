@@ -1,4 +1,4 @@
-# So fügen Sie einen Inbound-Webhook-Empfänger hinzu
+# How-to: Inbound-Webhook-Empfänger hinzufügen
 
 Webhooks von mehreren externen Diensten empfangen, HMAC-Signaturen pro Quelle validieren und Events mit Idempotenz speichern.
 
@@ -23,14 +23,14 @@ CREATE TABLE inbound_events (
 
 | Methode | Pfad | Beschreibung |
 |--------|------|-------------|
-| `POST` | `/sources` | Webhook-Quelle registrieren |
-| `POST` | `/sources/{id}/receive` | Webhook empfangen |
+| `POST` | `/sources` | Eine Webhook-Quelle registrieren |
+| `POST` | `/sources/{id}/receive` | Einen Webhook empfangen |
 | `GET` | `/sources/{id}/events` | Empfangene Events auflisten |
-| `GET` | `/events/{id}` | Bestimmtes Event abrufen |
+| `GET` | `/events/{id}` | Ein bestimmtes Event abrufen |
 
 ## HMAC-SHA256-Signaturvalidierung
 
-Jede Quelle hat ihr eigenes HMAC-Secret. Es darf niemals in Antworten exponiert werden.
+Jede Quelle hat ihr eigenes HMAC-Secret. Es niemals in Antworten exponieren.
 
 ```php
 private function verifySignature(string $body, string $header, string $secret): bool
@@ -39,11 +39,11 @@ private function verifySignature(string $body, string $header, string $secret): 
         return false;
     }
     $expected = hash_hmac('sha256', $body, $secret);
-    return hash_equals($expected, substr($header, 7)); // zeitkonstant
+    return hash_equals($expected, substr($header, 7)); // zeitkonstanter Vergleich
 }
 ```
 
-Reihenfolge der Aufrufe: **Signatur zuerst validieren**, dann Idempotenz-Prüfung, dann speichern:
+Reihenfolge: **Zuerst Signatur validieren**, dann Idempotenz-Prüfung, dann speichern:
 
 ```php
 if (!$this->verifySignature($rawBody, $sigHeader, $source['secret'])) {
@@ -62,17 +62,17 @@ if ($existing !== null) {
 }
 ```
 
-Der `UNIQUE(source_id, event_id)`-Constraint ist der DB-Level-Backstop. Die PHP-Prüfung oben vermeidet den Ausnahme-Pfad beim ersten Duplikat.
+Der `UNIQUE(source_id, event_id)`-Constraint ist das DB-Level-Sicherheitsnetz. Die obige PHP-Prüfung vermeidet den Exception-Pfad beim ersten Duplikat.
 
 ## Secret niemals exponieren
 
 ```php
 $source = $this->repo->findSource($id);
-unset($source['secret']); // vor der Rückgabe entfernen
+unset($source['secret']); // vor dem Zurückgeben entfernen
 return $this->json->create($source, 201);
 ```
 
-## Inaktive-Quellen-Prüfung
+## Prüfung inaktiver Quellen
 
 ```php
 if (!(bool) $source['active']) {
@@ -82,17 +82,17 @@ if (!(bool) $source['active']) {
 
 ## MySQL-Hinweise
 
-Der `UNIQUE KEY uq_source_event (source_id, event_id)`-Constraint funktioniert in MySQL gleich. `VARCHAR(191)` für indizierte Textspalten verwenden, um innerhalb von InnoDB's Schlüssellängenlimit zu bleiben.
+Der `UNIQUE KEY uq_source_event (source_id, event_id)`-Constraint funktioniert in MySQL genauso. Für indizierte Textspalten `VARCHAR(191)` verwenden, um innerhalb des InnoDB-Schlüssellängenlimits zu bleiben.
 
 ### MySQL-Integrationstests ausführen
 
-Geteilten FT-MySQL-Container starten (Port 3308, persistentes Volume):
+Den gemeinsamen FT-MySQL-Container starten (Port 3308, persistentes Volume):
 
 ```bash
 docker compose -f ../NENE2-FT/docker-compose.yml up -d mysql
 ```
 
-Dann Integrationstests mit Umgebungsvariablen ausführen:
+Dann die Integrationstests mit Umgebungsvariablen ausführen:
 
 ```bash
 MYSQL_HOST=127.0.0.1 MYSQL_PORT=3308 MYSQL_DATABASE=ft_test \
@@ -104,6 +104,6 @@ Ohne `MYSQL_HOST` werden die MySQL-Tests automatisch übersprungen (`markTestSki
 
 ## Sicherheitshinweise
 
-- `hash_equals()` verhindert Timing-Angriffe bei der Signaturprüfung.
+- `hash_equals()` verhindert Timing-Angriffe beim Signaturvergleich.
 - Roher JSON-Body wird unverändert gespeichert; nicht vor der Signaturverifizierung parsen.
 - Dieselbe `event_id` von zwei verschiedenen Quellen erstellt separate Datensätze — der UNIQUE-Constraint gilt für `(source_id, event_id)`, nicht nur `event_id`.

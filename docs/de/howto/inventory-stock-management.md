@@ -1,8 +1,8 @@
-# How-to: Inventory-Bestandsverwaltung
+# How-to: Lagerbestandsverwaltung
 
-## Übersicht
+## Überblick
 
-Diese Anleitung behandelt den Aufbau einer Inventarverwaltungs-API mit NENE2. Zu den Funktionen gehören SKU-basierte Artikelregistrierung, Einlagerungs-/Auslagerungsvorgänge, Verhinderung negativer Bestände und Transaktionsverlauf.
+Diese Anleitung behandelt den Aufbau einer Inventarverwaltungs-API mit NENE2. Zu den Funktionen gehören SKU-basierte Artikelregistrierung, Ein-/Auslagerungsvorgänge, Verhinderung negativer Lagerbestände und Transaktionshistorie.
 
 **Referenzimplementierung**: `../NENE2-FT/inventorylog/`
 
@@ -40,15 +40,15 @@ CREATE TABLE IF NOT EXISTS stock_history (
 | `POST` | `/inventory/items` | Artikel registrieren (SKU + Name) |
 | `GET` | `/inventory/items` | Alle Artikel auflisten |
 | `GET` | `/inventory/items/{id}` | Artikel nach ID abrufen |
-| `POST` | `/inventory/items/{id}/in` | Einlagern (Eingang) |
-| `POST` | `/inventory/items/{id}/out` | Auslagern (Versand) |
-| `GET` | `/inventory/items/{id}/history` | Transaktionsverlauf |
+| `POST` | `/inventory/items/{id}/in` | Einlagerung (Wareneingang) |
+| `POST` | `/inventory/items/{id}/out` | Auslagerung (Versand) |
+| `GET` | `/inventory/items/{id}/history` | Transaktionshistorie |
 
 ---
 
 ## SKU-Validierung
 
-SKU-Format einschränken, um Injection zu verhindern und kanonische Form sicherzustellen:
+SKU-Format einschränken, um Injections zu verhindern und kanonische Form zu gewährleisten:
 
 ```php
 if (!preg_match('/\A[A-Z0-9_-]{1,32}\z/', $sku)) {
@@ -58,9 +58,9 @@ if (!preg_match('/\A[A-Z0-9_-]{1,32}\z/', $sku)) {
 
 ---
 
-## Bestandsvorgänge
+## Lagervorgänge
 
-### Einlagern
+### Einlagerung
 
 Immer sicher — einfach inkrementieren:
 
@@ -69,7 +69,7 @@ $this->pdo->prepare('UPDATE items SET stock = stock + :qty, updated_at = :now WH
     ->execute([':qty' => $quantity, ':now' => $now, ':id' => $itemId]);
 ```
 
-### Auslagern (mit Unzureichend-Bestand-Guard)
+### Auslagerung (mit Schutz vor unzureichendem Lagerbestand)
 
 ```php
 if ((int) $item['stock'] < $quantity) {
@@ -83,7 +83,7 @@ $this->pdo->prepare('UPDATE items SET stock = stock - :qty, updated_at = :now WH
 
 ## Mengenvalidierung
 
-Nicht-Integer und nicht-positive Mengen ablehnen:
+Nicht-Integer- und nicht-positive Mengen ablehnen:
 
 ```php
 $qty = $body['quantity'] ?? null;
@@ -101,19 +101,19 @@ Dies fängt sowohl `"50"` (String) als auch `-1` (negativ) ab.
 | Situation | Status |
 |-----------|--------|
 | Artikel erstellt | 201 |
-| Bestand hinzugefügt / reduziert | 200 |
-| Artikel / Verlauf gefunden | 200 |
+| Lagerbestand hinzugefügt / reduziert | 200 |
+| Artikel / Historie gefunden | 200 |
 | Fehlendes oder leeres Feld | 422 |
 | Ungültiges SKU-Format | 422 |
-| Nicht-Integer oder negative Menge | 422 |
+| Nicht-Integer- oder negative Menge | 422 |
 | Artikel nicht gefunden | 404 |
-| Doppelte SKU | 409 |
-| Unzureichender Bestand | 409 |
+| Doppeltes SKU | 409 |
+| Unzureichender Lagerbestand | 409 |
 
 ---
 
 ## Hinweise
 
-- **Atomische Updates**: `stock = stock + :qty` und `stock = stock - :qty` in SQL verwenden, um den Bestand auch bei gleichzeitigem Zugriff konsistent zu halten.
-- **Prüfpfad**: Jede Bestandsänderung schreibt eine `stock_history`-Zeile für die Rückverfolgbarkeit.
-- **Soft-Constraint**: Die Anwendung prüft den Bestand vor dem Dekrementieren. Für strikte Korrektheit unter Nebenläufigkeit einen `CHECK (stock >= 0)`-Spalten-Constraint in der DB hinzufügen oder Transaktionen mit Zeilensperrung verwenden.
+- **Atomare Updates**: `stock = stock + :qty` und `stock = stock - :qty` in SQL verwenden, um den Saldo auch bei gleichzeitigem Zugriff konsistent zu halten.
+- **Audit-Trail**: Jede Lagerbestandsänderung schreibt eine `stock_history`-Zeile für die Nachverfolgbarkeit.
+- **Soft Constraint**: Die Anwendung prüft den Lagerbestand vor dem Dekrementieren. Für strenge Korrektheit unter Nebenläufigkeit einen `CHECK (stock >= 0)`-Spalten-Constraint in der DB hinzufügen oder Transaktionen mit Zeilensperrung verwenden.
