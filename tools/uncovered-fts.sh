@@ -6,8 +6,10 @@
 #   bash tools/uncovered-fts.sh --all     # 全件（カバー済み・未カバー両方）
 #   bash tools/uncovered-fts.sh --check <name>  # 特定 FT がカバー済みか確認
 #
-# 判定基準: docs/howto/ 内のいずれかのファイルに "NENE2-FT/<name>" への
-#           参照が存在すればカバー済みとみなす。
+# 判定基準: docs/howto/ 内のいずれかのファイルに以下のいずれかが含まれれば
+#           カバー済みとみなす:
+#   - 新形式: "NENE2-FT/<name>"
+#   - 旧形式: "Pattern proven by FT<number> <name>"
 
 set -euo pipefail
 
@@ -22,9 +24,15 @@ fi
 
 # カバー済み FT 名のリスト (ソート済み)
 covered() {
-  grep -rh "NENE2-FT/" "$HOWTO_DIR" 2>/dev/null \
-    | grep -oP 'NENE2-FT/\K[a-z]+log' \
-    | sort -u
+  {
+    # 新形式: FT reference: FTxxx (NENE2-FT/<name>) または単純な NENE2-FT/<name> 参照
+    grep -rh "NENE2-FT/" "$HOWTO_DIR" 2>/dev/null \
+      | grep -oP 'NENE2-FT/\K[a-z]+log'
+
+    # 旧形式: Pattern proven by FT<number> <name>
+    grep -rh "Pattern proven by FT" "$HOWTO_DIR" 2>/dev/null \
+      | grep -oP 'Pattern proven by FT\d+ \K[a-z]+log'
+  } | sort -u
 }
 
 # 全 FT プロジェクト名のリスト (ソート済み)
