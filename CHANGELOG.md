@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.282] — 2026-05-27
+
+### Added
+- `docs/howto/expense-tracking-api.md` — FT311 新規作成: 経費管理 API howto: YYYY-MM-DD 日付バリデーション・カテゴリフィルタ・月次サマリ集計・ページネーション・PATCH 部分更新 (FT311)。 (#1182)
+
+---
+
 ## [1.5.281] — 2026-05-27
 
 ### Added
