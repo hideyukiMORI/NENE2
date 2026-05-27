@@ -9,11 +9,11 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 | 項目 | 値 |
 |------|-----|
-| 最終完了 FT | **FT270** (`NENE2-FT/featureflaglog` — フィーチャーフラグ API) |
-| 現在の VERSION | **1.5.241** |
-| 次の FT | **FT271** |
-| 次の ATK 回 | **FT272**（4件ごと: FT252, 256, 260, 264, 268, 272 ✅ 予定） |
-| 次の VULN 回 | **FT273**（6件ごと: FT249, 255, 261, 267, 273 ✅ 予定） |
+| 最終完了 FT | **FT280** (`NENE2-FT/lockoutlog` — アカウントロックアウト ATK) |
+| 現在の VERSION | **1.5.251** |
+| 次の FT | **FT281** |
+| 次の ATK 回 | **FT284**（4件ごと: 272 ✅, 276 ✅, 280 ✅, 284） |
+| 次の VULN 回 | **FT285**（6件ごと: 273 ✅, 279 ✅, 285） |
 | 進行中ブランチ | なし（main クリーン） |
 
 ---
@@ -22,16 +22,16 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 | FT | タイプ | howto | VERSION |
 |----|--------|-------|---------|
-| FT261 | VULN | `jwt-authentication.md` 更新 | 1.5.232 |
-| FT262 | 通常 | `multi-currency-money-ledger.md` | 1.5.233 |
-| FT263 | 通常 | `emoji-reactions-toggle.md` | 1.5.234 |
-| FT264 | ATK | `sql-injection-defence.md` | 1.5.235 |
-| FT265 | 通常 | `url-bookmark-api.md` | 1.5.236 |
-| FT266 | 通常 | `api-key-management.md` 更新 | 1.5.237 |
-| FT267 | VULN | `encrypted-field-storage.md` 更新 | 1.5.238 |
-| FT268 | ATK | `audit-trail.md` 更新 | 1.5.239 |
-| FT269 | 通常 | `shopping-cart-api.md` | 1.5.240 |
-| FT270 | 通常 | `feature-flags.md` 更新 | 1.5.241 |
+| FT271 | 通常 | `notification-inbox.md` 更新 | 1.5.242 |
+| FT272 | ATK | `token-lifecycle-api.md` 新規 | 1.5.243 |
+| FT273 | VULN | `bearer-token-middleware.md` 新規 | 1.5.244 |
+| FT274 | 通常 | `order-management.md` 更新 | 1.5.245 |
+| FT275 | 通常 | `user-profile-api.md` 新規 | 1.5.246 |
+| FT276 | ATK | `idempotency.md` 更新 | 1.5.247 |
+| FT277 | 通常 | `activity-feed.md` 更新 | 1.5.248 |
+| FT278 | 通常 | `direct-messaging-system.md` 更新 | 1.5.249 |
+| FT279 | VULN | `rbac-jwt-auth.md` 新規 | 1.5.250 |
+| FT280 | ATK | `account-lockout.md` 更新 | 1.5.251 |
 
 ---
 
