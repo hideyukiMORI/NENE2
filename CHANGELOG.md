@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.247] — 2026-05-27
+
+### Changed
+- `docs/howto/idempotency.md` — FT276 ATK クラッカー攻撃試験を追加: Idempotency-Key 必須チェック・リプレイ時ボディ変更無視・UNIQUE 制約レース条件・空キー拒否・負数/ゼロ数量拒否・クロスオリジンは JSON API では CSRF リスク低、ATK-01〜12 全 BLOCKED (FT276/ATK)。 (#1112)
+
+---
+
 ## [1.5.246] — 2026-05-27
 
 ### Added

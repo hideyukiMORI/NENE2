@@ -1,4 +1,8 @@
-# Idempotency-Key Pattern
+# How-to: Idempotency-Key Pattern
+
+> **FT reference**: FT276 (`NENE2-FT/csrflog`) — Idempotency-Key header for state-changing requests: UNIQUE DB constraint, replay returns original result (200), body changes on replay are ignored, race condition handled by DatabaseConstraintException, 15 tests / 30 assertions PASS.
+>
+> **ATK assessment**: ATK-01 through ATK-12 included at the end of this document.
 
 Prevent duplicate orders or resource creation caused by network retries by requiring clients to supply an `Idempotency-Key` header on every state-changing request.
 
@@ -129,3 +133,111 @@ const response = await fetch('/orders', {
 ## Reading the header
 
 PSR-7 header names are case-insensitive. `getHeaderLine('Idempotency-Key')`, `getHeaderLine('idempotency-key')`, and `getHeaderLine('IDEMPOTENCY-KEY')` all return the same value. NENE2 uses Nyholm/PSR-7 which implements this correctly.
+
+---
+
+## ATK Assessment — Cracker-Mindset Attack Test
+
+### ATK-01 — Omit Idempotency-Key to bypass duplicate check 🚫 BLOCKED
+
+**Attack**: Send `POST /orders` without the `Idempotency-Key` header.
+**Result**: BLOCKED — `trim($request->getHeaderLine('Idempotency-Key')) === ''` → 422 with `missing-idempotency-key` problem detail. No order is created.
+
+---
+
+### ATK-02 — Send empty Idempotency-Key 🚫 BLOCKED
+
+**Attack**: Send `Idempotency-Key: ` (whitespace only).
+**Result**: BLOCKED — `trim()` reduces whitespace-only strings to `''` → same 422 as ATK-01.
+
+---
+
+### ATK-03 — Replay with modified body to change order content 🚫 BLOCKED
+
+**Attack**: Send `POST /orders` with key `uuid-abc` and `{quantity: 1}`. On replay, use the same key with `{quantity: 99}`.
+**Result**: BLOCKED — the server finds the existing row by `idempotency_key` and returns it immediately, before reading the body. The new body is never processed.
+
+---
+
+### ATK-04 — Create two orders with different keys 🚫 BLOCKED (intended)
+
+**Attack**: Use two different `Idempotency-Key` values to legitimately create two orders.
+**Result**: SAFE (by design) — different keys are different requests. Both orders are created. This is the intended behavior: idempotency is per-key, not per-body.
+
+---
+
+### ATK-05 — Race condition: two concurrent requests with the same key 🚫 BLOCKED
+
+**Attack**: Send two identical requests concurrently before either completes.
+**Result**: BLOCKED — both requests pass the `findByIdempotencyKey` check (no existing row yet), but only one INSERT succeeds. The loser catches `DatabaseConstraintException`, fetches the winner's row, and returns it with 200. The UNIQUE constraint is the race guard.
+
+---
+
+### ATK-06 — Negative quantity injection 🚫 BLOCKED
+
+**Attack**: Send `{item: "widget", quantity: -1, price: 9.99}` with a valid key.
+**Result**: BLOCKED — `if ($quantity <= 0)` → 422 validation error. No order is created.
+
+---
+
+### ATK-07 — Zero quantity injection 🚫 BLOCKED
+
+**Attack**: Send `{item: "widget", quantity: 0, price: 9.99}`.
+**Result**: BLOCKED — same `quantity <= 0` guard → 422.
+
+---
+
+### ATK-08 — Missing required body fields 🚫 BLOCKED
+
+**Attack**: Send `{quantity: 1}` without `item` field.
+**Result**: BLOCKED — `if ($item === '')` → 422 validation error.
+
+---
+
+### ATK-09 — CSRF via cross-origin browser request 🚫 BLOCKED (design)
+
+**Attack**: Malicious website makes a cross-origin `POST /orders` request from a browser.
+**Result**: BLOCKED (by design) — JSON APIs require `Content-Type: application/json`. Browser CSRF attacks can only send form-encoded or plain-text bodies via `<form>` without a preflight. A JSON body triggers a CORS preflight; the server's CORS policy determines whether cross-origin writes are allowed. Additionally, requiring `Idempotency-Key` provides secondary protection since forged requests cannot predict a unique key.
+
+---
+
+### ATK-10 — Negative price injection 🚫 BLOCKED
+
+**Attack**: Send `{item: "widget", quantity: 1, price: -100.0}`.
+**Result**: BLOCKED — `if ($price < 0)` → 422 validation error.
+
+---
+
+### ATK-11 — Float/string quantity coercion 🚫 BLOCKED
+
+**Attack**: Send `{quantity: "1"}` or `{quantity: 1.5}` (string or float).
+**Result**: BLOCKED — `is_int($body['quantity'])` rejects strings and floats; `1.5` is float → 422.
+
+---
+
+### ATK-12 — SQL injection via Idempotency-Key 🚫 BLOCKED
+
+**Attack**: Send `Idempotency-Key: '; DROP TABLE orders; --`.
+**Result**: BLOCKED — the key is used only in parameterized queries (`WHERE idempotency_key = ?`). SQL injection via header value is not possible.
+
+---
+
+### ATK Summary
+
+| ID | Attack | Result |
+|----|--------|--------|
+| ATK-01 | Missing Idempotency-Key | 🚫 BLOCKED |
+| ATK-02 | Empty/whitespace-only key | 🚫 BLOCKED |
+| ATK-03 | Replay with modified body | 🚫 BLOCKED |
+| ATK-04 | Different keys = different orders | ✅ SAFE (intended) |
+| ATK-05 | Race condition on same key | 🚫 BLOCKED |
+| ATK-06 | Negative quantity | 🚫 BLOCKED |
+| ATK-07 | Zero quantity | 🚫 BLOCKED |
+| ATK-08 | Missing body fields | 🚫 BLOCKED |
+| ATK-09 | CSRF via cross-origin POST | 🚫 BLOCKED |
+| ATK-10 | Negative price | 🚫 BLOCKED |
+| ATK-11 | Float/string quantity coercion | 🚫 BLOCKED |
+| ATK-12 | SQL injection via key header | 🚫 BLOCKED |
+
+**12 BLOCKED / SAFE, 0 EXPOSED**
+The Idempotency-Key pattern, parameterized queries, and strict `is_int()` validation prevent all tested attack vectors.
