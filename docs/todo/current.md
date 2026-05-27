@@ -9,11 +9,11 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 | 項目 | 値 |
 |------|-----|
-| 最終完了 FT | **FT300** (`NENE2-FT/pointlog` — ポイント台帳 API ATK) |
-| 現在の VERSION | **1.5.271** |
-| 次の FT | **FT301** |
-| 次の ATK 回 | **FT304**（4件ごと: 272〜300 ✅, 304） |
-| 次の VULN 回 | **FT303**（6件ごと: 273〜297 ✅, 303） |
+| 最終完了 FT | **FT315** (`NENE2-FT/hierarchylog` — 階層カテゴリ API VULN) |
+| 現在の VERSION | **1.5.286** |
+| 次の FT | **FT316** |
+| 次の ATK 回 | **FT316**（4件ごと: ...304 ✅, 308 ✅, 312, 316） |
+| 次の VULN 回 | **FT321**（6件ごと: ...303 ✅, 309 ✅, 315 ✅, 321） |
 | 進行中ブランチ | なし（main クリーン） |
 
 ---
@@ -22,16 +22,16 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 | FT | タイプ | howto | VERSION |
 |----|--------|-------|---------|
-| FT291 | VULN | `group-member-management.md` 新規 | 1.5.262 |
-| FT292 | ATK | `idempotency-key.md` 新規 | 1.5.263 |
-| FT293 | 通常 | `ab-testing.md` 更新 | 1.5.264 |
-| FT294 | 通常 | `batch-api-partial-success.md` 更新 | 1.5.265 |
-| FT295 | 通常 | `bookmark-api.md` 新規 | 1.5.266 |
-| FT296 | ATK | `geolocation-api.md` 新規 | 1.5.267 |
-| FT297 | VULN | `pii-masking.md` 新規 | 1.5.268 |
-| FT298 | 通常 | `circuit-breaker.md` 更新 | 1.5.269 |
-| FT299 | 通常 | `collection-api.md` 新規 | 1.5.270 |
-| FT300 | ATK | `point-ledger-api.md` 新規 | 1.5.271 |
+| FT306 | 通常 | `emoji-reactions-api.md` 新規 | 1.5.277 |
+| FT307 | 通常 | `etag-conditional-requests.md` 新規 | 1.5.278 |
+| FT308 | ATK | `webhook-delivery-system.md` 新規 | 1.5.279 |
+| FT309 | VULN | `magic-link-authentication.md` 新規 | 1.5.280 |
+| FT310 | 通常 | `event-sourcing-ledger.md` 新規 | 1.5.281 |
+| FT311 | 通常 | `expense-tracking-api.md` 新規 | 1.5.282 |
+| FT312 | 通常 | `data-export-api.md` 新規 | 1.5.283 |
+| FT313 | 通常 | `feature-flag-api.md` 新規 | 1.5.284 |
+| FT314 | 通常 | `follow-api.md` 新規 | 1.5.285 |
+| FT315 | VULN | `category-hierarchy-api.md` 新規 | 1.5.286 |
 
 ---
 
@@ -47,14 +47,14 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 ---
 
-## 次のアクション（FT271〜）
+## 次のアクション（FT316〜）
 
 ```bash
 # 未カバー FT を確認
 bash tools/uncovered-fts.sh
 
 # FT を選んだらバージョンバンプ
-bash tools/bump-ft.sh 1.5.242
+bash tools/bump-ft.sh 1.5.287
 
 # CHANGELOG.md に手動追記してから
 docker compose run --rm app composer check
