@@ -76,6 +76,7 @@ FT 番号 → プロジェクト名 → howto ファイルの台帳。
 | FT283 | invitelog | [invitation-system.md](invitation-system.md) | 通常 |
 | FT284 | throttlelog | [rate-limiting.md](rate-limiting.md) | ATK |
 | FT285 | resetlog | [password-reset-flow.md](password-reset-flow.md) | VULN |
+| FT286 | schedulelog | [timezone-aware-scheduling.md](timezone-aware-scheduling.md) | 通常 |
 
 ---
 
