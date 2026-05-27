@@ -61,6 +61,15 @@ FT 番号 → プロジェクト名 → howto ファイルの台帳。
 | FT268 | auditlog | [audit-trail.md](audit-trail.md) | ATK |
 | FT269 | cartlog | [shopping-cart-api.md](shopping-cart-api.md) | 通常 |
 | FT270 | featureflaglog | [feature-flags.md](feature-flags.md) | 通常 |
+| FT271 | notificationlog | [notification-inbox.md](notification-inbox.md) | 通常 |
+| FT272 | tokenlog | [token-lifecycle-api.md](token-lifecycle-api.md) | ATK |
+| FT273 | authlog | [bearer-token-middleware.md](bearer-token-middleware.md) | VULN |
+| FT274 | orderlog | [order-management.md](order-management.md) | 通常 |
+| FT275 | profilelog | [user-profile-api.md](user-profile-api.md) | 通常 |
+| FT276 | csrflog | [idempotency.md](idempotency.md) | ATK |
+| FT277 | feedlog | [activity-feed.md](activity-feed.md) | 通常 |
+| FT278 | messagelog | [direct-messaging-system.md](direct-messaging-system.md) | 通常 |
+| FT279 | rbaclog | [rbac-jwt-auth.md](rbac-jwt-auth.md) | VULN |
 
 ---
 
