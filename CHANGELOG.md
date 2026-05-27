@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.244] — 2026-05-27
+
+### Added
+- `docs/howto/bearer-token-middleware.md` — FT273 VULN 診断: BearerTokenMiddleware の JWT auth edge cases — alg=none BLOCKED・署名改竄 BLOCKED・期限切れ BLOCKED・nbf 未来 BLOCKED・スキーム誤り BLOCKED・部分トークン BLOCKED・IDOR (404 not 403) BLOCKED・データ分離 BLOCKED・no-exp 受付 SAFE、V-01〜V-10 全 SAFE (FT273/VULN)。 (#1106)
+
+---
+
 ## [1.5.243] — 2026-05-27
 
 ### Added
