@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.257] — 2026-05-27
+
+### Added
+- `docs/howto/timezone-aware-scheduling.md` — FT286 新規作成: タイムゾーン対応スケジューリング howto: UTC 保存 + ローカル時刻変換・InvalidTimezoneException・?timezone 動的変換・DateTimeImmutable + DateTimeZone パターン (FT286)。 (#1132)
+
+---
+
 ## [1.5.256] — 2026-05-27
 
 ### Added
