@@ -9,11 +9,11 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 | 項目 | 値 |
 |------|-----|
-| 最終完了 FT | **FT280** (`NENE2-FT/lockoutlog` — アカウントロックアウト ATK) |
-| 現在の VERSION | **1.5.251** |
-| 次の FT | **FT281** |
-| 次の ATK 回 | **FT284**（4件ごと: 272 ✅, 276 ✅, 280 ✅, 284） |
-| 次の VULN 回 | **FT285**（6件ごと: 273 ✅, 279 ✅, 285） |
+| 最終完了 FT | **FT290** (`NENE2-FT/otplog` — OTP 認証システム ATK) |
+| 現在の VERSION | **1.5.261** |
+| 次の FT | **FT291** |
+| 次の ATK 回 | **FT292**（4件ごと: 272 ✅, 276 ✅, 280 ✅, 284 ✅, 288 ✅, 292） |
+| 次の VULN 回 | **FT291**（6件ごと: 273 ✅, 279 ✅, 285 ✅, 291） |
 | 進行中ブランチ | なし（main クリーン） |
 
 ---
@@ -22,16 +22,16 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 | FT | タイプ | howto | VERSION |
 |----|--------|-------|---------|
-| FT271 | 通常 | `notification-inbox.md` 更新 | 1.5.242 |
-| FT272 | ATK | `token-lifecycle-api.md` 新規 | 1.5.243 |
-| FT273 | VULN | `bearer-token-middleware.md` 新規 | 1.5.244 |
-| FT274 | 通常 | `order-management.md` 更新 | 1.5.245 |
-| FT275 | 通常 | `user-profile-api.md` 新規 | 1.5.246 |
-| FT276 | ATK | `idempotency.md` 更新 | 1.5.247 |
-| FT277 | 通常 | `activity-feed.md` 更新 | 1.5.248 |
-| FT278 | 通常 | `direct-messaging-system.md` 更新 | 1.5.249 |
-| FT279 | VULN | `rbac-jwt-auth.md` 新規 | 1.5.250 |
-| FT280 | ATK | `account-lockout.md` 更新 | 1.5.251 |
+| FT281 | 通常 | `refresh-token-pattern.md` 新規 | 1.5.252 |
+| FT282 | 通常 | `delegated-access-grants.md` 更新 | 1.5.253 |
+| FT283 | 通常 | `invitation-system.md` 新規 | 1.5.254 |
+| FT284 | ATK | `rate-limiting.md` 更新 | 1.5.255 |
+| FT285 | VULN | `password-reset-flow.md` 新規 | 1.5.256 |
+| FT286 | 通常 | `timezone-aware-scheduling.md` 新規 | 1.5.257 |
+| FT287 | 通常 | `waitlist-system.md` 新規 | 1.5.258 |
+| FT288 | ATK | `distributed-lock.md` 新規 | 1.5.259 |
+| FT289 | 通常 | `content-reporting.md` 新規 | 1.5.260 |
+| FT290 | ATK | `otp-authentication.md` 更新 | 1.5.261 |
 
 ---
 
