@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.310] — 2026-05-27
+
+### Added
+- `docs/howto/slug-url-history.md` — FT339 VULN 新規作成: スラグ URL 管理 howto: タイトルから自動生成・衝突時連番・旧スラグ 301 リダイレクト・スラグ履歴・VULN アセスメント (FT339)。 (#1239)
+
+---
+
 ## [1.5.309] — 2026-05-27
 
 ### Added
