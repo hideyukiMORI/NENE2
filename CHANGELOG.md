@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.319] — 2026-05-27
+
+### Added
+- `docs/howto/webhook-delivery-api.md` — FT348 新規作成: Webhook 配信 API howto: 登録・イベント dispatch・配信ログ・リトライ・ATK アセスメント付き (#1257)
+
+---
+
 ## [1.5.318] — 2026-05-27
 
 ### Added
