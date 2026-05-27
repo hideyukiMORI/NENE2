@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.297] — 2026-05-27
+
+### Added
+- `docs/howto/patch-partial-update.md` — FT326 新規作成: JSON Merge Patch 部分更新 API howto: PATCH 部分更新・null フィールドリセット・イミュータブルフィールド拒否・ETag・所有者認証 (FT326)。 (#1213)
+
+---
+
 ## [1.5.296] — 2026-05-27
 
 ### Added
