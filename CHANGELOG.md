@@ -10,6 +10,17 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.323] — 2026-05-27
+
+### Added
+- `docs/howto/event-sourcing-cqrs-api.md` — eventstore 新規作成: イベントソーシング / CQRS howto: append-only ログ・per-aggregate シーケンス・read-model projection (#1265)
+- `docs/howto/soft-delete-restore-permanent.md` — softdelete 新規作成: ソフトデリート / リストア / 永続削除 howto (#1265)
+
+### Changed
+- `tools/uncovered-fts.sh` — i18nlog / eventstore / projtrack / softdelete を検出対象に追加（全 FT カバー確認）(#1265)
+
+---
+
 ## [1.5.322] — 2026-05-27
 
 ### Changed
