@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.309] — 2026-05-27
+
+### Added
+- `docs/howto/signed-url-download.md` — FT338 新規作成: 署名付き URL ダウンロード howto: HMAC-SHA256 トークン・TTL・改ざん検知 401・期限切れ 410・リソース束縛 (FT338)。 (#1237)
+
+---
+
 ## [1.5.308] — 2026-05-27
 
 ### Added
