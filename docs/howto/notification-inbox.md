@@ -1,8 +1,11 @@
 # How-to: Notification Inbox API
 
+> **FT reference**: FT271 (`NENE2-FT/notificationlog`) — Notification inbox: type-allowlisted notification creation, per-user IDOR protection (404 not 403), admin fail-closed pattern, bulk mark-as-read, is_read idempotency, pagination clamping with PDO::PARAM_INT binding, 31 tests / 98 assertions PASS.
+>
+> Also validated in FT222 (`NENE2-FT/notificationlog`) — VULN assessment on the same pattern.
+
 This guide shows how to build a notification inbox system with type-allowlisted push notifications,
 per-user IDOR protection, and bulk mark-as-read using NENE2.
-Pattern demonstrated by the **notificationlog** field trial (FT222 — VULN).
 
 ## Features
 
@@ -155,3 +158,16 @@ multiple times without side effects.
 | **`ctype_digit()`** | Path param ID validation — ReDoS-safe |
 | **Pagination clamping** | `max(1, min(100, $limit))` + `PDO::PARAM_INT` binding |
 | **`is_int()` + `> 0`** | Strict user_id check — rejects floats, strings, negatives |
+
+---
+
+## What NOT to do
+
+| Anti-pattern | Risk |
+|---|---|
+| Accept free-form `type` string | Unvalidated types pollute the inbox; no way to filter by meaningful categories |
+| Return 403 on unauthorized notification access | Reveals whether the notification or user exists — IDOR information leak |
+| Return 404 from mark-as-read before ownership check | An attacker learns the notification exists and belongs to someone |
+| Allow empty `adminKey` to mean "admin allowed" | Fail-open; any request becomes admin if no key is configured |
+| Trust raw `limit` from query string | A request with `limit=999999` causes full table scan |
+| Use string interpolation in LIMIT/OFFSET | `"LIMIT {$limit}"` with unvalidated input enables SQL injection |
