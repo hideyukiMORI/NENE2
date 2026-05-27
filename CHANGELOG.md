@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.299] — 2026-05-27
+
+### Added
+- `docs/howto/subscription-plan-management.md` — FT328 ATK 新規作成: プランサブスクリプション管理 API howto: プラン一覧・サブスクリプション作成/変更/キャンセル・403 他ユーザー操作防止・ATK アセスメント (FT328)。 (#1217)
+
+---
+
 ## [1.5.298] — 2026-05-27
 
 ### Added
