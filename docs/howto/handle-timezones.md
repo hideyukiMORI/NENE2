@@ -132,3 +132,100 @@ if ($viewTz !== null) {
     }
 }
 ```
+
+---
+
+## SQLite-specific: `datetime('now')` always returns UTC
+
+SQLite's built-in date/time functions always operate in **UTC**, regardless of the server's
+OS timezone or PHP's `date.timezone` setting.
+
+```sql
+SELECT datetime('now');          -- → "2026-05-27 11:30:00"  (UTC)
+SELECT date('now');              -- → "2026-05-27"            (UTC date)
+SELECT date('now', '+1 day');    -- → "2026-05-28"            (UTC + 1 day)
+SELECT datetime('now', '-9 hours'); -- → local JST approximate (manual offset — avoid this)
+```
+
+**This is usually what you want**: store timestamps as UTC TEXT and compare in UTC.
+
+### Filtering by "today" in UTC
+
+```sql
+-- Records created today (UTC)
+SELECT * FROM events WHERE DATE(created_at) = DATE('now');
+
+-- Records in the next 30 days (UTC)
+SELECT * FROM reminders WHERE reminder_at <= DATE('now', '+30 days');
+
+-- Records for a specific month (UTC)
+SELECT * FROM logs WHERE STRFTIME('%Y-%m', created_at) = '2026-05';
+```
+
+### The trap: "today" differs by timezone
+
+If your users are in JST (UTC+9), "today" in JST starts 9 hours before "today" in UTC.
+`DATE('now')` in SQLite returns the UTC date — this is a mismatch.
+
+```php
+// Wrong: SQLite DATE('now') = UTC date, not user's local date
+$rows = $this->db->fetchAll("SELECT * FROM tasks WHERE DATE(due_date) = DATE('now')");
+
+// Correct: compute the user's "today" in PHP and pass it as a parameter
+$todayUtc = (new \DateTimeImmutable('now', new \DateTimeZone('UTC')))->format('Y-m-d');
+$rows = $this->db->fetchAll(
+    "SELECT * FROM tasks WHERE DATE(due_date) = ?",
+    [$todayUtc],
+);
+```
+
+For a service where "today" means UTC, `DATE('now')` is fine. For user-facing "due today"
+features, compute the boundary in PHP using the user's timezone and pass it as a bind parameter.
+
+### Dynamic interval with a column value
+
+SQLite allows combining `date()` with a string built from a column value:
+
+```sql
+-- Records where next_review_at = today based on interval_days column
+SELECT * FROM cards WHERE next_review_at <= DATE('now');
+
+-- Computing next review date dynamically (store result, don't rely on this in SELECT)
+SELECT DATE('now', '+' || interval_days || ' days') AS next_date FROM cards;
+```
+
+This is useful in a `UPDATE` statement when advancing a schedule:
+
+```php
+$this->db->execute(
+    "UPDATE cards SET next_review_at = DATE('now', '+' || interval_days || ' days') WHERE id = ?",
+    [$cardId],
+);
+```
+
+### `STRFTIME` format reference
+
+| Pattern | Output | Use |
+|---------|--------|-----|
+| `%Y-%m-%d` | `2026-05-27` | Full date |
+| `%Y-%m` | `2026-05` | Year-month grouping |
+| `%Y-%W` | `2026-22` | Year + **Sunday-starting** week number (0–53) |
+| `%H:%M:%S` | `11:30:00` | Time only |
+| `%s` | Unix timestamp | Integer seconds since epoch |
+
+**`%W` is Sunday-starting**, not ISO 8601 (Monday-starting). For Monday-starting week
+numbers, compute the week boundary in PHP:
+
+```php
+// Get the Monday of the current ISO week
+$monday = (new \DateTimeImmutable('now', new \DateTimeZone('UTC')))
+    ->modify('Monday this week')
+    ->format('Y-m-d');
+
+$sunday = (new \DateTimeImmutable($monday))->modify('+6 days')->format('Y-m-d');
+
+$rows = $this->db->fetchAll(
+    "SELECT * FROM workouts WHERE workout_date BETWEEN ? AND ?",
+    [$monday, $sunday],
+);
+```
