@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.296] — 2026-05-27
+
+### Added
+- `docs/howto/offset-cursor-pagination.md` — FT325 新規作成: オフセット・カーソルページネーション howto: next_offset/next_cursor・has_more・カテゴリフィルター (FT325)。 (#1211)
+
+---
+
 ## [1.5.295] — 2026-05-27
 
 ### Added
