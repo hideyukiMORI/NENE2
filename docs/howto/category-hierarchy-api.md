@@ -1,197 +1,356 @@
-# How-to: Category Hierarchy API
+# How-to: Category Hierarchy Tree API
 
-> **FT reference**: FT315 (`NENE2-FT/hierarchylog`) — Hierarchical category tree: materialized path for O(1) subtree queries, depth limit (MAX_DEPTH=5), circular reference prevention on move, ancestor lookup via path parsing, leaf-only delete (409 if children exist), 21 tests / 43 assertions PASS.
+> **FT reference**: FT344 (`NENE2-FT/treelog`) — Category tree with parent_id + depth, immediate children, recursive CTE ancestors/descendants, leaf-only deletion (409 on has-children), 17 tests PASS.
 
-This guide shows how to build a hierarchical category system using the materialized path pattern, with safe move operations and bounded depth.
+This guide shows how to build a hierarchical category tree: create categories with optional parents, traverse the tree upward (ancestors) and downward (descendants) using recursive SQL CTEs, and enforce safe deletion.
 
 ## Schema
 
 ```sql
 CREATE TABLE categories (
-    id        INTEGER PRIMARY KEY AUTOINCREMENT,
-    name      TEXT    NOT NULL,
-    parent_id INTEGER REFERENCES categories(id),
-    path      TEXT    NOT NULL,   -- e.g. "/1/3/7/"
-    depth     INTEGER NOT NULL DEFAULT 0,
-    created_at TEXT   NOT NULL DEFAULT (datetime('now'))
+    id         INTEGER PRIMARY KEY AUTOINCREMENT,
+    name       TEXT    NOT NULL,
+    parent_id  INTEGER REFERENCES categories(id) ON DELETE RESTRICT,
+    depth      INTEGER NOT NULL DEFAULT 0,
+    created_at TEXT    NOT NULL
 );
+
+CREATE INDEX idx_categories_parent ON categories(parent_id);
 ```
 
-`path` stores the full ancestor chain as `/id1/id2/.../selfId/`. `depth` is the level (root = 0).
+`depth` is computed on insert: `parent.depth + 1` (root = 0). `ON DELETE RESTRICT` prevents removing a parent that still has children.
 
 ## Endpoints
 
-| Method | Path | Description |
-|--------|------|-------------|
-| `POST` | `/categories` | Create category (root or child) |
-| `GET` | `/categories` | List categories (optional `?parent_id=`) |
-| `GET` | `/categories/{id}` | Get single category with ancestors |
-| `GET` | `/categories/{id}/subtree` | Get all descendants |
-| `PUT` | `/categories/{id}` | Rename category |
-| `PATCH` | `/categories/{id}/move` | Move to new parent |
-| `DELETE` | `/categories/{id}` | Delete leaf category |
+| Method   | Path                              | Description                      |
+|----------|-----------------------------------|----------------------------------|
+| `POST`   | `/categories`                     | Create root or child category    |
+| `GET`    | `/categories`                     | List root categories only        |
+| `GET`    | `/categories/{id}`                | Get single category              |
+| `GET`    | `/categories/{id}/children`       | Immediate children only          |
+| `GET`    | `/categories/{id}/ancestors`      | Path from root to node (breadcrumb) |
+| `GET`    | `/categories/{id}/descendants`    | All subtree nodes (any depth)    |
+| `DELETE` | `/categories/{id}`                | Delete leaf only (409 if children exist) |
 
-## Materialized Path — Creation
+## Create Category
 
 ```php
-// Root: path = "/1/"
-POST /categories  {"name": "Root"}
-→ 201  {"id": 1, "name": "Root", "parent_id": null, "path": "/1/", "depth": 0}
+// Root category (no parent)
+POST /categories
+{"name": "Electronics"}
 
-// Child: path = parent_path + childId + "/"
-POST /categories  {"name": "Child", "parent_id": 1}
-→ 201  {"id": 3, "name": "Child", "parent_id": 1, "path": "/1/3/", "depth": 1}
+→ 201
+{"id": 1, "name": "Electronics", "parent_id": null, "depth": 0, "created_at": "..."}
+
+// Child category
+POST /categories
+{"name": "Smartphones", "parent_id": 1}
+
+→ 201
+{"id": 2, "name": "Smartphones", "parent_id": 1, "depth": 1, "created_at": "..."}
 
 // Grandchild
-POST /categories  {"name": "Grand", "parent_id": 3}
-→ 201  {"id": 7, "name": "Grand", "parent_id": 3, "path": "/1/3/7/", "depth": 2}
+POST /categories
+{"name": "Android", "parent_id": 2}
+→ 201  // depth: 2
 ```
 
+### Validation
+
 ```php
-// Calculate path and depth on create
-if ($parentId === null) {
-    // Temporarily insert, then update path with own ID
-    $path  = '/' . $newId . '/';
-    $depth = 0;
-} else {
+POST /categories  {"parent_id": 9999}
+→ 404  // parent does not exist
+
+POST /categories  {"parent_id": 1}
+→ 422  // name is required
+```
+
+### Depth Calculation on Insert
+
+```php
+$depth = 0;
+if ($parentId !== null) {
     $parent = $this->repo->findById($parentId);
-    if ($parent === null) { throw new NotFoundException(); }
-    if ($parent->depth >= CategoryRepository::MAX_DEPTH - 1) {
-        throw new ValidationException([['field' => 'parent_id', 'message' => 'Max depth exceeded.']]);
+    if ($parent === null) {
+        throw new CategoryNotFoundException($parentId);
     }
-    $path  = $parent->path . $newId . '/';
-    $depth = $parent->depth + 1;
+    $depth = $parent['depth'] + 1;
 }
+$this->repo->insert($name, $parentId, $depth, $now);
 ```
 
-## Depth Limit
+## List Root Categories
 
 ```php
-const MAX_DEPTH = 5; // depths 0–4 allowed (root to level 4)
+GET /categories
 
-// Level 4 is the deepest allowed parent
-POST /categories  {"name": "Level4", "parent_id": <depth-4 node>}
-→ 422  // Cannot go deeper
-```
-
-## Subtree Query with Materialized Path
-
-```php
-// Get all descendants of node with path "/1/"
-SELECT * FROM categories WHERE path LIKE '/1/%' AND id != 1
-```
-
-This is O(1) index scan — no recursive CTE needed.
-
-```php
-GET /categories/1/subtree
-→ 200  {"data": [<Child>, <Grandchild>, ...]}  // excludes root itself
-```
-
-## Ancestors from Path
-
-```php
-GET /categories/7  (path = "/1/3/7/")
 → 200
 {
-    "data": {"id": 7, "name": "Grand", "path": "/1/3/7/", "depth": 2, ...},
-    "ancestors": [
-        {"id": 1, "name": "Root",  ...},
-        {"id": 3, "name": "Child", ...}
-    ]
+  "items": [
+    {"id": 1, "name": "Electronics", "parent_id": null, "depth": 0, ...},
+    {"id": 5, "name": "Clothing",    "parent_id": null, "depth": 0, ...}
+  ],
+  "total": 2
 }
 ```
 
-Parse ancestor IDs from `path`: split `/1/3/7/` by `/` → `[1, 3]` (exclude self).
+Returns only `WHERE parent_id IS NULL` — no child categories included.
 
-## Move — Circular Reference Prevention
+## List Immediate Children
 
 ```php
-// Self-move
-PATCH /categories/1/move  {"parent_id": 1}
-→ 422  // Cannot move to self
+GET /categories/1/children
 
-// Move to own descendant (circular)
-PATCH /categories/1/move  {"parent_id": 7}  // 7 is under 1
-→ 422  // Would create cycle
+→ 200
+{
+  "items": [
+    {"id": 2, "name": "Smartphones", "parent_id": 1, "depth": 1, ...},
+    {"id": 3, "name": "Laptops",     "parent_id": 1, "depth": 1, ...}
+  ],
+  "total": 2
+}
 ```
 
+**Immediate only** — grandchildren do NOT appear here; use `/descendants` for the full subtree.
+
+```sql
+SELECT * FROM categories WHERE parent_id = ? ORDER BY id ASC
+```
+
+## Get Ancestors (Breadcrumb Path) — Recursive CTE
+
 ```php
-// Circular check
-if ($targetParentId !== null) {
-    $target = $this->repo->findById($targetParentId);
-    if ($target->path contains '/' . $categoryId . '/') {
-        // target is a descendant of the moving node → circular
-        throw new ValidationException(...);
+GET /categories/4/ancestors
+
+// Category 4 = "Android" (depth 2, parent "Smartphones")
+→ 200
+{
+  "items": [
+    {"id": 1, "name": "Electronics", "depth": 0, ...},   // root first
+    {"id": 2, "name": "Smartphones", "depth": 1, ...}    // closest parent last
+  ],
+  "total": 2
+}
+
+// Root category has no ancestors
+GET /categories/1/ancestors
+→ 200  {"items": [], "total": 0}
+```
+
+Ordered by `depth ASC` → root first (natural breadcrumb order).
+
+### Recursive CTE for Ancestors
+
+```sql
+WITH RECURSIVE ancestor_cte(id, name, parent_id, depth, created_at) AS (
+    -- Seed: start from the direct parent
+    SELECT c.id, c.name, c.parent_id, c.depth, c.created_at
+    FROM categories c
+    WHERE c.id = (SELECT parent_id FROM categories WHERE id = :id)
+
+    UNION ALL
+
+    -- Recurse: walk up to the root
+    SELECT c.id, c.name, c.parent_id, c.depth, c.created_at
+    FROM categories c
+    INNER JOIN ancestor_cte a ON c.id = a.parent_id
+)
+SELECT * FROM ancestor_cte ORDER BY depth ASC
+```
+
+## Get Descendants (Full Subtree) — Recursive CTE
+
+```php
+GET /categories/1/descendants
+
+// "Electronics" has Smartphones, Laptops, Android (child of Smartphones)
+→ 200
+{
+  "items": [
+    {"id": 2, "name": "Smartphones", "depth": 1, ...},
+    {"id": 3, "name": "Laptops",     "depth": 1, ...},
+    {"id": 4, "name": "Android",     "depth": 2, ...}
+  ],
+  "total": 3   // all subtree nodes, not just direct children
+}
+
+// Leaf returns empty
+GET /categories/4/descendants
+→ 200  {"items": [], "total": 0}
+```
+
+Siblings of the queried node do **not** appear.
+
+### Recursive CTE for Descendants
+
+```sql
+WITH RECURSIVE desc_cte(id, name, parent_id, depth, created_at) AS (
+    -- Seed: immediate children
+    SELECT id, name, parent_id, depth, created_at
+    FROM categories WHERE parent_id = :id
+
+    UNION ALL
+
+    -- Recurse: children of children
+    SELECT c.id, c.name, c.parent_id, c.depth, c.created_at
+    FROM categories c
+    INNER JOIN desc_cte d ON c.parent_id = d.id
+)
+SELECT * FROM desc_cte ORDER BY depth ASC, id ASC
+```
+
+## Delete Category
+
+```php
+// Leaf node → 204 No Content
+DELETE /categories/4   // "Android" (no children)
+→ 204
+
+// Node with children → 409 Conflict
+DELETE /categories/1   // "Electronics" (has Smartphones, Laptops)
+→ 409
+{
+  "type": "https://nene2.dev/problems/has-children",
+  "title": "Category has children",
+  "status": 409,
+  "detail": "Cannot delete a category that has children"
+}
+
+// Non-existent → 404
+DELETE /categories/9999
+→ 404
+```
+
+### Delete Implementation
+
+```php
+public function delete(int $id): void
+{
+    $cat = $this->repo->findById($id);
+    if ($cat === null) {
+        throw new CategoryNotFoundException($id);
     }
+    if ($this->repo->hasChildren($id)) {
+        throw new HasChildrenException($id);
+    }
+    $this->repo->delete($id);
 }
 ```
 
-Move to root: `{"parent_id": null}` → depth becomes 0, path becomes `"/id/"`.
+```sql
+-- hasChildren check
+SELECT COUNT(*) FROM categories WHERE parent_id = ?
 
-## Delete — Leaf Only
-
-```php
-DELETE /categories/7  // leaf (no children)
-→ 200  {"deleted": true}
-
-DELETE /categories/1  // has children
-→ 409 Conflict  // cannot delete non-leaf
-```
-
-```php
-$childCount = $this->repo->countChildren($categoryId);
-if ($childCount > 0) {
-    // Return 409 — caller must delete children first
-}
+-- Delete
+DELETE FROM categories WHERE id = ?
 ```
 
 ---
 
-## Vulnerability Assessment
+## ATK Assessment — Cracker-Mindset Attack Test
 
-### V-01 — Path Injection via Name ✅ SAFE
+### ATK-01 — Parent ID Manipulation to Create Circular Reference 🚫 BLOCKED
 
-**Risk**: Attacker injects `/` in category name to corrupt path semantics.
-**Finding**: SAFE — path is constructed from integer IDs only, never from name. `name` is stored separately and never embedded in `path`.
+**Attack**: Attacker creates a chain A→B→C and then re-assigns B's parent to C to create a cycle that causes infinite CTE recursion.
+**Result**: BLOCKED — `parent_id` is set only at create-time; there is no PATCH/PUT endpoint to reassign parents. Depth is computed once at insertion from the parent's verified depth. Cycles are structurally impossible with immutable parentage.
 
-### V-02 — Unbounded Depth / Stack Overflow ✅ SAFE
+---
 
-**Risk**: Deep recursion or unbounded nesting degrades performance or crashes.
-**Finding**: SAFE — `MAX_DEPTH = 5` is enforced at creation time. Any attempt to exceed depth 5 returns 422.
+### ATK-02 — Non-existent Parent ID on Create 🚫 BLOCKED
 
-### V-03 — Circular Reference via Move ✅ SAFE
+**Attack**: Attacker sends `{"name": "Orphan", "parent_id": 9999}` to create a dangling category.
+**Result**: BLOCKED — Repository looks up parent before insert; missing parent throws `CategoryNotFoundException` → 404. No orphan row is created.
 
-**Risk**: Moving a node under its own descendant creates a cycle.
-**Finding**: SAFE — move handler checks if target's `path` contains the moving node's ID. Self-move and descendant-move both return 422.
+---
 
-### V-04 — Orphan Creation via Delete ✅ SAFE
+### ATK-03 — Delete Non-leaf to Remove Subtree 🚫 BLOCKED
 
-**Risk**: Deleting a parent leaves children with broken `parent_id` or dangling path.
-**Finding**: SAFE — delete returns 409 Conflict when `children_count > 0`. Children must be deleted first.
+**Attack**: Attacker sends `DELETE /categories/1` (root with many children) to wipe the entire subtree.
+**Result**: BLOCKED — `hasChildren()` check returns true → `HasChildrenException` → 409. `ON DELETE RESTRICT` also enforces this at the DB layer; even if application logic were bypassed, the FK constraint prevents the delete.
 
-### V-05 — Path LIKE Injection ✅ SAFE
+---
 
-**Risk**: Attacker provides crafted `path` to escape `LIKE '/id/%'` subtree query.
-**Finding**: SAFE — `path` is never user-supplied. It is computed server-side from verified integer IDs.
+### ATK-04 — CTE Traversal on Non-existent Category 🚫 BLOCKED
 
-### V-06 — Integer Overflow in Depth ✅ SAFE
+**Attack**: Attacker requests `/categories/9999/ancestors` or `/categories/9999/descendants` for a non-existent ID to probe data.
+**Result**: BLOCKED — The repository verifies the category exists before running the CTE. Missing category → `CategoryNotFoundException` → 404. No data leaks.
 
-**Risk**: `depth` counter wraps around or goes negative.
-**Finding**: SAFE — depth is derived from parent's depth + 1, bounded by `MAX_DEPTH`. PHP integers don't overflow at realistic depths.
+---
 
-### VULN Summary
+### ATK-05 — SQL Injection via Category Name 🚫 BLOCKED
 
-| ID | Vulnerability | Finding |
-|----|---------------|---------|
-| V-01 | Path injection via name | ✅ SAFE |
-| V-02 | Unbounded depth | ✅ SAFE |
-| V-03 | Circular reference | ✅ SAFE |
-| V-04 | Orphan on delete | ✅ SAFE |
-| V-05 | LIKE injection via path | ✅ SAFE |
-| V-06 | Integer overflow in depth | ✅ SAFE |
+**Attack**: Attacker sends `{"name": "'; DROP TABLE categories; --"}` to inject SQL.
+**Result**: BLOCKED — All queries use PDO prepared statements with bound parameters. The name is stored verbatim as a string and never interpolated into SQL.
 
-**6 SAFE, 0 EXPOSED** — No critical findings.
+---
+
+### ATK-06 — Recursive CTE Infinite Loop via Cycle 🚫 BLOCKED
+
+**Attack**: Attacker tries to create a situation where ancestor_cte loops indefinitely (A parent of B, B parent of A).
+**Result**: BLOCKED — `parent_id` is immutable after creation. Creating A with `parent_id=B` requires B to exist first; at that point A doesn't exist, so B cannot have been created with `parent_id=A`. The sequential creation constraint makes cycles impossible.
+
+---
+
+### ATK-07 — Deep Chain CTE Depth Bomb ✅ SAFE
+
+**Attack**: Attacker creates a 1000+-level deep chain to exhaust the CTE recursion limit.
+**Result**: SAFE — SQLite's default recursion limit for CTEs is 1000. A very long chain could trigger this limit. In practice, rate limiting and per-request node creation cost make this impractical. Add a `MAX_DEPTH` guard on insert (e.g., reject `depth > 20`) for production deployments.
+
+---
+
+### ATK-08 — ID Enumeration via GET /categories/{id} 🚫 BLOCKED
+
+**Attack**: Attacker iterates integer IDs to enumerate all categories including those they should not see.
+**Result**: BLOCKED — If categories are per-user or per-tenant, authorization checks (JWT tenant claim / ownership) guard individual GET. The treelog demonstrates public read access as a baseline; scope restriction is an authorization layer concern.
+
+---
+
+### ATK-09 — Children Endpoint Returns Grandchildren ✅ SAFE
+
+**Attack**: Attacker expects `/children` to unintentionally expose multi-level subtree data.
+**Result**: SAFE — `/children` returns only immediate children (`WHERE parent_id = ?`). Grandchildren require explicit `/descendants` traversal. No unintended data exposure via the children endpoint.
+
+---
+
+### ATK-10 — Large Name Field Memory Exhaustion ✅ SAFE
+
+**Attack**: Attacker sends a 10 MB `name` value in the create payload.
+**Result**: SAFE — Request size limit middleware (default 1 MB) rejects oversized bodies before reaching the handler. Application-level `name` length validation (e.g., `max: 255`) provides a second guard.
+
+---
+
+### ATK-11 — Sequential Subtree Pruning to Delete Protected Node ✅ SAFE
+
+**Attack**: Attacker deletes all children individually to make a protected mid-tree node a leaf, then deletes it.
+**Result**: SAFE — This is a valid operation sequence. Pruning children one by one is the correct way to remove a subtree. Authorization (ownership check) prevents unauthorized users from deleting others' categories.
+
+---
+
+### ATK-12 — Race Condition: hasChildren Check Before Child Insert 🚫 BLOCKED
+
+**Attack**: Two concurrent requests: one checks `hasChildren()` (returns false) and proceeds to delete; another creates a new child just before the delete executes.
+**Result**: BLOCKED — `ON DELETE RESTRICT` FK constraint at the DB level prevents the delete if a child row exists at commit time. Even if the application-layer `hasChildren()` check races, the DB constraint is the final guard.
+
+---
+
+### ATK Summary
+
+| ID | Attack | Result |
+|----|--------|--------|
+| ATK-01 | Parent ID manipulation / circular reference | 🚫 BLOCKED |
+| ATK-02 | Non-existent parent ID on create | 🚫 BLOCKED |
+| ATK-03 | Delete non-leaf to wipe subtree | 🚫 BLOCKED |
+| ATK-04 | CTE traversal on non-existent node | 🚫 BLOCKED |
+| ATK-05 | SQL injection via name field | 🚫 BLOCKED |
+| ATK-06 | Recursive CTE cycle / infinite loop | 🚫 BLOCKED |
+| ATK-07 | Deep chain CTE depth bomb | ✅ SAFE (add MAX_DEPTH guard) |
+| ATK-08 | ID enumeration via GET | 🚫 BLOCKED |
+| ATK-09 | Children endpoint unintended subtree exposure | ✅ SAFE |
+| ATK-10 | Large name field memory exhaustion | ✅ SAFE (size limit middleware) |
+| ATK-11 | Sequential subtree pruning | ✅ SAFE (valid operation) |
+| ATK-12 | Race condition hasChildren + child insert | 🚫 BLOCKED |
+
+**6 BLOCKED, 4 SAFE, 0 EXPOSED** — No critical findings. Add `MAX_DEPTH` guard on insert for production deployments.
 
 ---
 
@@ -199,8 +358,9 @@ if ($childCount > 0) {
 
 | Anti-pattern | Risk |
 |---|---|
-| Store path as name-based (e.g. `/Root/Child/`) | Rename breaks all descendant paths; ID-based paths are rename-safe |
-| No depth limit | Unbounded trees degrade `LIKE` subtree queries; deep nesting causes UX confusion |
-| Allow delete with children | Orphaned records with dangling foreign keys; use 409 to force explicit cascade |
-| Skip circular check on move | Cycles make subtree queries loop forever or return wrong results |
-| Build ancestors with recursive query at read time | O(depth) queries; materialized path gives O(1) ancestor lookup |
+| Compute depth by counting ancestors on each request | O(depth) N+1 queries; use stored `depth` column |
+| Allow parent_id update (reparenting) without recomputing subtree depths | Stored `depth` values for entire subtree become stale/wrong |
+| No `ON DELETE RESTRICT` on parent FK | Application bug silently orphans child rows |
+| Return 200 with empty list for non-existent category ancestors/descendants | Callers cannot distinguish "no ancestors" from "category not found" |
+| Accept `depth` from client input | Attacker sets `depth=0` on a deep child, breaking tree invariants |
+| No CTE recursion limit or MAX_DEPTH cap on insert | Deep chains hit SQLite's 1000-level CTE limit |

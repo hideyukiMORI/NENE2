@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.315] — 2026-05-27
+
+### Added
+- `docs/howto/category-hierarchy-api.md` — FT344 新規作成: カテゴリ階層ツリー API howto: parent_id+depth 管理・再帰 CTE (ancestors/descendants)・子持ち削除禁止・ATK アセスメント付き (#1249)
+
+---
+
 ## [1.5.314] — 2026-05-27
 
 ### Added
