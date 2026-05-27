@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.243] — 2026-05-27
+
+### Added
+- `docs/howto/token-lifecycle-api.md` — FT272 ATK クラッカー攻撃試験: SHA-256 ハッシュ保存（平文 DB なし）・スコープ列挙型 (read/write/admin) の CHECK 制約・IDOR ガード（actorId≠userId で 403）・revoked_at による無効化とリプレイ防止・ATK-01〜12 全 BLOCKED (FT272/ATK)。 (#1104)
+
+---
+
 ## [1.5.242] — 2026-05-27
 
 ### Changed
