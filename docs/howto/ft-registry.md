@@ -60,6 +60,7 @@ FT 番号 → プロジェクト名 → howto ファイルの台帳。
 | FT267 | encryptlog | [encrypted-field-storage.md](encrypted-field-storage.md) | VULN |
 | FT268 | auditlog | [audit-trail.md](audit-trail.md) | ATK |
 | FT269 | cartlog | [shopping-cart-api.md](shopping-cart-api.md) | 通常 |
+| FT270 | featureflaglog | [feature-flags.md](feature-flags.md) | 通常 |
 
 ---
 
