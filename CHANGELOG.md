@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.279] — 2026-05-27
+
+### Added
+- `docs/howto/webhook-delivery-system.md` — FT308 新規作成: Webhook 配信システム howto: SSRF防止 UrlValidator・HTTPS 強制・プライベート IP ブロック・HMAC-SHA256+タイムスタンプ署名・秘密鍵 SHA-256 ハッシュ保存・ATK-01〜12 全 BLOCKED (FT308)。 (#1176)
+
+---
+
 ## [1.5.278] — 2026-05-27
 
 ### Added
