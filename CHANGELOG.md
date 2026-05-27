@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.292] — 2026-05-27
+
+### Added
+- `docs/howto/api-usage-metering.md` — FT321 VULN 新規作成: API 使用量メタリング・クォータ管理 howto: 管理者クォータ設定・マシンキー使用量記録・日次ブレークダウン・IDOR 保護・VULN アセスメント (FT321)。 (#1203)
+
+---
+
 ## [1.5.291] — 2026-05-27
 
 ### Added
