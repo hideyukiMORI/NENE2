@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.284] — 2026-05-27
+
+### Added
+- `docs/howto/feature-flag-api.md` — FT313 新規作成: フィーチャーフラグ API howto: 環境別フラグ管理・rollout_percent 段階的ロールアウト・ユーザー上書き override・evaluate エンドポイント・snake_case キーバリデーション (FT313)。 (#1186)
+
+---
+
 ## [1.5.283] — 2026-05-27
 
 ### Added
