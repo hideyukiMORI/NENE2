@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.268] — 2026-05-27
+
+### Added
+- `docs/howto/pii-masking.md` — FT297 新規作成: PII マスキング VULN howto: email/phone/name 部分マスク・admin 生データアクセス + X-Accessor 監査・VULN-A〜L 全 SAFE (FT297)。 (#1154)
+
+---
+
 ## [1.5.267] — 2026-05-27
 
 ### Added

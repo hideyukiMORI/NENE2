@@ -87,6 +87,7 @@ FT 番号 → プロジェクト名 → howto ファイルの台帳。
 | FT294 | batchlog | [batch-api-partial-success.md](batch-api-partial-success.md) | 通常 |
 | FT295 | bookmarklog | [bookmark-api.md](bookmark-api.md) | 通常 |
 | FT296 | geoloclog | [geolocation-api.md](geolocation-api.md) | ATK |
+| FT297 | masklog | [pii-masking.md](pii-masking.md) | VULN |
 
 ---
 
