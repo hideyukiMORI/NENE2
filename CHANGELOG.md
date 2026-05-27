@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.322] — 2026-05-27
+
+### Changed
+- `docs/todo/current.md` — FT349 完了・全 FT カバー達成・引き継ぎ状態更新 (#1263)
+
+---
+
 ## [1.5.321] — 2026-05-27
 
 ### Changed
