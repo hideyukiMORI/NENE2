@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.294] — 2026-05-27
+
+### Added
+- `docs/howto/optimistic-concurrency-version.md` — FT323 新規作成: 楽観的同時書き込み制御（バージョンフィールド）howto: PUT ボディ version・409 スレートバージョン・ロストアップデート防止 (FT323)。 (#1207)
+
+---
+
 ## [1.5.293] — 2026-05-27
 
 ### Added
