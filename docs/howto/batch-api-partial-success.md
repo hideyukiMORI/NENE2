@@ -1,6 +1,10 @@
-# Batch Write API & Partial Success Pattern
+# How-to: Batch API with Partial Success
 
-**FT182** — `batchlog` field trial.
+> **FT reference**: FT294 (`NENE2-FT/batchlog`) — Batch INSERT with partial success: MAX_BATCH=50 guard, per-item independent validation with index tracking, mixed created/errors response (200 always), DB CHECK constraints, strict JSON type validation via `is_int()`, 36 tests / 79 assertions PASS.
+>
+> **FT precursor**: FT182 (first batchlog coverage).
+
+When clients submit an array of items in a single request, some items may be
 
 When clients submit an array of items in a single request, some items may be
 valid and others invalid. Rejecting the whole batch on any error wastes the
