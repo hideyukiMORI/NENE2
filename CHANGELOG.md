@@ -10,6 +10,16 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.321] — 2026-05-27
+
+### Changed
+- `docs/howto/hierarchical-data.md` — FT171 (hierarchylog) NENE2-FT マーカー追加 (#1261)
+
+### Added
+- `docs/howto/game-score-leaderboard-api.md` — FT259 新規作成: ゲームスコア API howto: 単一提出・bulk 提出・leaderboard (best_score RANK・play_count) (#1261)
+
+---
+
 ## [1.5.320] — 2026-05-27
 
 ### Added

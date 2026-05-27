@@ -1,11 +1,10 @@
 # Hierarchical Data — Self-Referential FK + Materialized Path
 
+> **FT reference**: FT171 (`NENE2-FT/hierarchylog`) — Hierarchical categories with self-referential FK and materialized path for O(1) subtree queries.
+
 Store a tree of categories (or any hierarchy) in a single SQL table using a
 **self-referential foreign key** (`parent_id`) plus a **materialized path**
 (`/1/3/7/`) to enable O(1) subtree queries.
-
-**Reference implementation:** `FT171 hierarchylog` in
-[hideyukiMORI/NENE2-examples](https://github.com/hideyukiMORI/NENE2-examples)
 
 ---
 
