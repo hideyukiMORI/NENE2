@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.280] — 2026-05-27
+
+### Added
+- `docs/howto/magic-link-authentication.md` — FT309 新規作成: マジックリンク認証 VULN howto: トークン SHA-256 ハッシュ保存・TTL 15分・使用済み再利用防止・セッション失効・ユーザー列挙 202 防止・VULN-A〜L 全 SAFE (FT309)。 (#1178)
+
+---
+
 ## [1.5.279] — 2026-05-27
 
 ### Added

@@ -99,6 +99,7 @@ FT 番号 → プロジェクト名 → howto ファイルの台帳。
 | FT306 | emojilog | [emoji-reactions-api.md](emoji-reactions-api.md) | 通常 |
 | FT307 | etaglog | [etag-conditional-requests.md](etag-conditional-requests.md) | 通常 |
 | FT308 | webhookdeliverylog | [webhook-delivery-system.md](webhook-delivery-system.md) | ATK |
+| FT309 | magiclog | [magic-link-authentication.md](magic-link-authentication.md) | VULN |
 
 ---
 
