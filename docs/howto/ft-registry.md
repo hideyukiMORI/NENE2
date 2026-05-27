@@ -89,6 +89,7 @@ FT 番号 → プロジェクト名 → howto ファイルの台帳。
 | FT296 | geoloclog | [geolocation-api.md](geolocation-api.md) | ATK |
 | FT297 | masklog | [pii-masking.md](pii-masking.md) | VULN |
 | FT298 | circuitlog | [circuit-breaker.md](circuit-breaker.md) | 通常 |
+| FT299 | collectionlog | [collection-api.md](collection-api.md) | 通常 |
 
 ---
 
