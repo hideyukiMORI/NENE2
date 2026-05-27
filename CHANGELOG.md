@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.253] — 2026-05-27
+
+### Added
+- `docs/howto/delegated-access-grants.md` — FT282 新規作成: 委任アクセス許可 (Delegated Access Grants) howto: read/write/admin スコープ・30日最大 TTL・UNIQUE 重複防止・CHECK 自己グラント禁止・IDOR 404・使用カウンタ (FT282)。 (#1124)
+
+---
+
 ## [1.5.252] — 2026-05-27
 
 ### Added

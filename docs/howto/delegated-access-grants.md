@@ -1,6 +1,8 @@
 # How-to: Delegated Access Grants
 
-**FT176 — grantlog**
+> **FT reference**: FT282 (`NENE2-FT/grantlog`) — Delegated access grants: scoped (read/write/admin) time-limited resource access, UNIQUE(grantor, grantee, resource) + CHECK(grantor != grantee), IDOR → 404, soft-delete revocation, use-count tracking, GrantScope.satisfies() hierarchy, 23 tests / 71 assertions PASS.
+>
+> Also validated in FT176 — original implementation.
 
 Per-user, time-limited, revocable access delegation — a grantor gives a grantee
 scoped access to a named resource for a bounded time window.
@@ -199,3 +201,20 @@ Same pattern applies to `POST /grants/{id}/use` — return 404 if caller is not 
   from int after PHP json_encode).
 - **ATK-10**: Use `"\u{202E}"` (BIDI override) and Cyrillic homoglyphs to confirm verbatim storage.
 - **ATK-11**: Assert `revoked_at` value is unchanged in DB after second revoke attempt.
+
+---
+
+## What NOT to do
+
+| Anti-pattern | Risk |
+|---|---|
+| No `UNIQUE (grantor_id, grantee_id, resource)` | Same pair can create duplicate grants; grantee has stale and active grants for same resource |
+| Hard delete on revocation | Loses audit history; cannot tell when access was removed or how many times it was used |
+| Return 403 instead of 404 for ownership check | Reveals grant existence to unauthorized callers; IDOR enumeration surface |
+| No `CHECK (grantor_id != grantee_id)` | Defense-in-depth missing; self-grants could slip through if app-layer check is bypassed |
+| Accept free-form scope string | Typos silently default to `read`; use `GrantScope::tryFrom()` to reject unknown values |
+| Scope check without `satisfies()` hierarchy | `write` user must separately pass `read` checks; use hierarchy to check all lower levels |
+| No max TTL on `expires_at` | Grantor creates 100-year grants; effectively permanent access with no review |
+| No resource length limit | 10MB resource string causes slow index lookups and memory allocation |
+| Check expiry before revocation | Revoked + expired grant should show "revoked" — revocation wins in state machine |
+| Track `used_count` client-side | Client reports usage count; server must own the counter |
