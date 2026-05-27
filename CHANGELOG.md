@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.289] — 2026-05-27
+
+### Added
+- `docs/howto/tenant-isolation-idor.md` — FT318 新規作成: テナント分離・IDOR 防止 API howto: X-Tenant-Id/X-User-Id 認証・クロステナント 404・ボディ tenant_id 無視・ヘッダー型検証・クエリパラメータ整数検証 (FT318)。 (#1197)
+
+---
+
 ## [1.5.288] — 2026-05-27
 
 ### Added
