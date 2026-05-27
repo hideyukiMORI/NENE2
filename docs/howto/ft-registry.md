@@ -101,6 +101,7 @@ FT 番号 → プロジェクト名 → howto ファイルの台帳。
 | FT308 | webhookdeliverylog | [webhook-delivery-system.md](webhook-delivery-system.md) | ATK |
 | FT309 | magiclog | [magic-link-authentication.md](magic-link-authentication.md) | VULN |
 | FT310 | eventsourcelog | [event-sourcing-ledger.md](event-sourcing-ledger.md) | 通常 |
+| FT311 | expenselog | [expense-tracking-api.md](expense-tracking-api.md) | 通常 |
 
 ---
 
