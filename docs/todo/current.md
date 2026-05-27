@@ -9,12 +9,12 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 | 項目 | 値 |
 |------|-----|
-| 最終完了 FT | **FT315** (`NENE2-FT/hierarchylog` — 階層カテゴリ API VULN) |
-| 現在の VERSION | **1.5.286** |
-| 次の FT | **FT316** |
-| 次の ATK 回 | **FT316**（4件ごと: ...304 ✅, 308 ✅, 312, 316） |
-| 次の VULN 回 | **FT321**（6件ごと: ...303 ✅, 309 ✅, 315 ✅, 321） |
-| 進行中ブランチ | なし（main クリーン） |
+| 最終完了 FT | **FT339** (`NENE2-FT/sluglog` — スラグ URL VULN) |
+| 現在の VERSION | **1.5.310** |
+| 次の FT | **FT340** |
+| 次の ATK 回 | **FT340**（4件ごと: ...332 ✅, 336 ✅, 340） |
+| 次の VULN 回 | **FT345**（6件ごと: ...333 ✅, 339 ✅, 345） |
+| 進行中ブランチ | docs/1239-ft339-sluglog (PR #1240 CI 待ち) |
 
 ---
 
@@ -22,16 +22,16 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 | FT | タイプ | howto | VERSION |
 |----|--------|-------|---------|
-| FT306 | 通常 | `emoji-reactions-api.md` 新規 | 1.5.277 |
-| FT307 | 通常 | `etag-conditional-requests.md` 新規 | 1.5.278 |
-| FT308 | ATK | `webhook-delivery-system.md` 新規 | 1.5.279 |
-| FT309 | VULN | `magic-link-authentication.md` 新規 | 1.5.280 |
-| FT310 | 通常 | `event-sourcing-ledger.md` 新規 | 1.5.281 |
-| FT311 | 通常 | `expense-tracking-api.md` 新規 | 1.5.282 |
-| FT312 | 通常 | `data-export-api.md` 新規 | 1.5.283 |
-| FT313 | 通常 | `feature-flag-api.md` 新規 | 1.5.284 |
-| FT314 | 通常 | `follow-api.md` 新規 | 1.5.285 |
-| FT315 | VULN | `category-hierarchy-api.md` 新規 | 1.5.286 |
+| FT330 | 通常 | `scheduled-publish-article.md` 新規 | 1.5.301 |
+| FT331 | 通常 | `password-auth-argon2id.md` 新規 | 1.5.302 |
+| FT332 | ATK | `leaderboard-ranking-api.md` 新規 | 1.5.303 |
+| FT333 | VULN | `rating-review-api.md` 新規 | 1.5.304 |
+| FT334 | 通常 | `article-relations-api.md` 新規 | 1.5.305 |
+| FT335 | 通常 | `resource-reservation-booking.md` 新規 | 1.5.306 |
+| FT336 | ATK | `reservation-availability-api.md` 新規 | 1.5.307 |
+| FT337 | 通常 | `url-shortener-ssrf-prevention.md` 新規 | 1.5.308 |
+| FT338 | 通常 | `signed-url-download.md` 新規 | 1.5.309 |
+| FT339 | VULN | `slug-url-history.md` 新規 | 1.5.310 |
 
 ---
 
