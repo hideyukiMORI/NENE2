@@ -73,6 +73,7 @@ FT 番号 → プロジェクト名 → howto ファイルの台帳。
 | FT280 | lockoutlog | [account-lockout.md](account-lockout.md) | ATK |
 | FT281 | refreshlog | [refresh-token-pattern.md](refresh-token-pattern.md) | 通常 |
 | FT282 | grantlog | [delegated-access-grants.md](delegated-access-grants.md) | 通常 |
+| FT283 | invitelog | [invitation-system.md](invitation-system.md) | 通常 |
 
 ---
 
