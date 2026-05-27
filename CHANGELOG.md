@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.308] — 2026-05-27
+
+### Added
+- `docs/howto/url-shortener-ssrf-prevention.md` — FT337 新規作成: URL 短縮 SSRF 防止 howto: プライベート IP ブロック・スキーム制限・slug バリデーション・mass assignment 防止・ISO 8601 日付検証 (FT337)。 (#1235)
+
+---
+
 ## [1.5.307] — 2026-05-27
 
 ### Added
