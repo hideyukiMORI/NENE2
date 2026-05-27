@@ -97,6 +97,7 @@ FT 番号 → プロジェクト名 → howto ファイルの台帳。
 | FT304 | salelog | [flash-sale-api.md](flash-sale-api.md) | ATK |
 | FT305 | draftlog | [draft-publish-workflow.md](draft-publish-workflow.md) | 通常 |
 | FT306 | emojilog | [emoji-reactions-api.md](emoji-reactions-api.md) | 通常 |
+| FT307 | etaglog | [etag-conditional-requests.md](etag-conditional-requests.md) | 通常 |
 
 ---
 

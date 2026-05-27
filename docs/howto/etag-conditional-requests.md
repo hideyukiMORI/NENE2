@@ -1,5 +1,7 @@
 # ETag & Conditional Requests
 
+> **FT reference**: FT307 (`NENE2-FT/etaglog`) — ETag conditional requests: `If-None-Match`→304, `If-Modified-Since`→304, `If-Match`→412 stale / 428 absent, wildcard `If-Match: *` passes, ETag changes after every update, 15 tests PASS.
+
 ETags let clients avoid re-downloading unchanged content and detect stale state before writing. NENE2 provides two helpers for the most common patterns.
 
 | Scenario | Header | Helper | On match |

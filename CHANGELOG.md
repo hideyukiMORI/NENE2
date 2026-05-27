@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.278] — 2026-05-27
+
+### Added
+- `docs/howto/etag-conditional-requests.md` — FT307 新規作成: ETag 条件付きリクエスト howto: If-None-Match→304・If-Modified-Since→304・If-Match→412/428・wildcard * 対応 (FT307)。 (#1174)
+
+---
+
 ## [1.5.277] — 2026-05-27
 
 ### Added
