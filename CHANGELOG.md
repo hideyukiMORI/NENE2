@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.264] — 2026-05-27
+
+### Added
+- `docs/howto/ab-testing.md` — FT293 新規作成: A/B テスト実験フレームワーク howto: 重み付き確定的バリアント割当・draft→active→stopped ステートマシン・冪等割当 (FT293)。 (#1146)
+
+---
+
 ## [1.5.263] — 2026-05-27
 
 ### Added
