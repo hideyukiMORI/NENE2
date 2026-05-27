@@ -10,6 +10,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.262] — 2026-05-27
+
+### Added
+- `docs/howto/group-member-management.md` — FT291 新規作成: グループメンバー管理 VULN howto: MemberRole enum・UNIQUE(group_id, user_id)・オーナー削除防止・クロスグループ IDOR ブロック・VULN-A〜L (FT291)。 (#1142)
+
+---
+
 ## [1.5.261] — 2026-05-27
 
 ### Added

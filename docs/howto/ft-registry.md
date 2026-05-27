@@ -81,6 +81,7 @@ FT 番号 → プロジェクト名 → howto ファイルの台帳。
 | FT288 | distlocklog | [distributed-lock.md](distributed-lock.md) | ATK |
 | FT289 | reportlog | [content-reporting.md](content-reporting.md) | 通常 |
 | FT290 | otplog | [otp-authentication.md](otp-authentication.md) | ATK |
+| FT291 | grouplog | [group-member-management.md](group-member-management.md) | VULN |
 
 ---
 
