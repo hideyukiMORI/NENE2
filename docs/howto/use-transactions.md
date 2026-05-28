@@ -6,6 +6,20 @@ This guide explains how to perform atomic multi-step operations using
 **Prerequisite**: You have a repository backed by `DatabaseQueryExecutorInterface`.
 If not, start with [Add a database-backed endpoint](./add-database-endpoint.md).
 
+> **🚫 SQLite `:memory:` is incompatible with `transactional()`.**
+>
+> `PdoDatabaseTransactionManager` opens a *new* connection per call. Each
+> `:memory:` connection points at a *different* empty in-memory database, so
+> the executor and the transaction see different data and rollbacks have no
+> effect on the executor's view. The symptom is silent: queries return `null`
+> mid-callback, or rollbacks fail to undo writes the test made through a
+> separate executor.
+>
+> Use a **file-based SQLite** database in tests (see "[Test with a file-based
+> SQLite database](#test-with-a-file-based-sqlite-database)" below).
+> `Nene2\Testing\DatabaseTestKit::sqlite(':memory:')` rejects `:memory:` with
+> `InvalidArgumentException` to make this fail-fast.
+
 ---
 
 ## Why transactions in NENE2
@@ -123,32 +137,25 @@ In-memory SQLite (`sqlite::memory:`) creates a **separate database per connectio
 `PdoDatabaseTransactionManager` (which opens a new connection per `transactional()` call)
 would not see rows written by the `PdoDatabaseQueryExecutor` and vice versa.
 
-Use a **temp file** instead:
+Use a **temp file** instead. `Nene2\Testing\DatabaseTestKit` wires the executor and
+the transaction manager onto the same file in one line:
 
 ```php
+use Nene2\Testing\DatabaseTestKit;
+
 protected function setUp(): void
 {
-    $this->dbFile = sys_get_temp_dir() . '/test-' . bin2hex(random_bytes(8)) . '.sqlite';
+    $this->dbFile = sys_get_temp_dir() . '/' . uniqid('test-', true) . '.sqlite';
+
+    // Seed schema on a throwaway connection, then close it before the kit opens its own.
     $pdo = new \PDO('sqlite:' . $this->dbFile, options: [\PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION]);
     $pdo->exec(file_get_contents(dirname(__DIR__) . '/database/schema.sql'));
-    unset($pdo); // close the init connection before the factory opens its own
+    unset($pdo);
 
-    $dbConfig = new DatabaseConfig(
-        url:         null,
-        environment: 'test',
-        adapter:     'sqlite',
-        host:        '',      // unused for SQLite
-        port:        1,       // unused for SQLite
-        name:        $this->dbFile,
-        user:        '',      // unused for SQLite
-        password:    '',      // unused for SQLite
-        charset:     '',      // unused for SQLite
-    );
-
-    $factory   = new PdoConnectionFactory($dbConfig);
-    $executor  = new PdoDatabaseQueryExecutor($factory);
-    $txManager = new PdoDatabaseTransactionManager($factory);
-    // ... wire repositories and use cases
+    $this->kit = DatabaseTestKit::sqlite($this->dbFile);
+    // $this->kit->queryExecutor       — for read repositories
+    // $this->kit->transactionManager  — for use cases
+    // $this->kit->connectionFactory   — if you need to build extra executors
 }
 
 protected function tearDown(): void
@@ -159,22 +166,63 @@ protected function tearDown(): void
 }
 ```
 
-Each test gets a fresh file, both `PdoDatabaseQueryExecutor` and
-`PdoDatabaseTransactionManager` connect to the same file, and `tearDown` deletes it.
+The kit lives at `Nene2\Testing\DatabaseTestKit` (ADR 0012, public API). It
+wires `PdoConnectionFactory` + `PdoDatabaseQueryExecutor` +
+`PdoDatabaseTransactionManager` internally, all sharing the same file, so
+tests do not need to reference any `@internal` class by name. Both
+`DatabaseTestKit::sqlite(':memory:')` and the underlying configuration
+combinations are blocked at the factory.
 
-> **Note on SQLite `DatabaseConfig` fields**: For SQLite, only `adapter` and `name`
-> are required. Pass empty strings for `host`, `user`, `password`, and `charset` — they
-> are not validated when `adapter` is `'sqlite'`.
-
-> **Note**: `PdoDatabaseQueryExecutor` does not accept a raw `PDO` as its constructor
-> argument — it requires a `DatabaseConnectionFactoryInterface`. Use `PdoConnectionFactory`
-> (shown above) to bridge a raw `PDO` setup to the executor.
+> **`DatabaseConfig::sqlite(string $path)`** is the equivalent shortcut when
+> you want to keep wiring explicit (e.g. to inject your own subclass of
+> `PdoConnectionFactory`). It replaces the 9-argument `new DatabaseConfig(...)`
+> form shown in older guides.
 
 ---
 
 ## Verifying rollback behaviour
 
-Test that a failure mid-transaction undoes all preceding changes:
+A use case that wraps multiple writes is only correct if the rollback path
+**actually undoes** preceding writes. A test that only happy-paths the success
+case will pass even when the use case forgets to use `$tx` — `$this->products`
+will execute outside the transaction and silently commit. The rollback test is
+the one that catches the bug.
+
+### Unit-level rollback
+
+Drive the use case directly with `DatabaseTestKit` and assert on the database
+state after the exception:
+
+```php
+public function testRollbackUndoesStockDecrementWhenOrderInsertFails(): void
+{
+    $kit = DatabaseTestKit::sqlite($this->dbFile);
+    $kit->queryExecutor->execute(/* seed: product 1 with stock=10 */);
+
+    $useCase = new CreateOrderUseCase($kit->transactionManager);
+
+    try {
+        // Pass a quantity that succeeds at decrementStock but triggers a
+        // unique-constraint violation in orders.save (e.g. duplicate idempotency key).
+        $useCase->execute(productId: 1, qty: 3, idempotencyKey: $existingKey);
+        self::fail('Expected order creation to fail.');
+    } catch (DatabaseConstraintException) {
+        // expected
+    }
+
+    // The decrementStock from step 1 must have been rolled back.
+    $row = $kit->queryExecutor->fetchOne('SELECT stock FROM products WHERE id = ?', [1]);
+    self::assertSame(10, $row['stock']);
+}
+```
+
+This test fails fast if the use case calls `$this->products->decrementStock()`
+instead of building a repository from `$tx` — the stock decrement leaks past
+the rollback and the assertion catches it.
+
+### HTTP-level rollback
+
+The same property at the integration level:
 
 ```php
 public function testTransactionRollsBackOnDomainException(): void
