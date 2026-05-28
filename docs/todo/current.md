@@ -98,8 +98,9 @@ docker compose run --rm app composer check
 
 | 項目 | 状態 |
 |------|------|
+| howto 資産化・検索性向上（Phase A → Phase B） | 📋 方針提案あり — [`howto-curation-strategy.md`](howto-curation-strategy.md) (#1323) |
 | src/ 還元 batch 2（JSON ボディ整数バリデーター等） | 📋 候補 |
-| v2.0 設計検討（FT ループ摩擦点の還元 / ロードマップ Phase 74） | 📋 候補 |
+| v2.0 設計検討（FT ループ摩擦点の還元 / ロードマップ Phase 75） | 📋 候補 |
 | 新規 FT 追加（FT350〜）の ATK/VULN サイクル継続 | 📋 候補（全 FT カバー後の継続） |
 | DX シナリオ 50 件から howto 候補を抽出・優先度付け | 📋 候補 |
 
