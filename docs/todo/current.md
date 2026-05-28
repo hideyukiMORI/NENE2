@@ -70,8 +70,8 @@ bash tools/uncovered-fts.sh
 |---|------|------|------|
 | IMP-07 | `DatabaseConstraintException` を公開 API に昇格 | 全78試験で workaround が発生。最大インパクト | ✅ 完了済み（v1.5.114+ で Packagist 公開済み・#1305 で TODO 整理） |
 | IMP-04 | `DatabaseConfig::sqlite(string $path): self` ファクトリメソッド追加 | テストの DatabaseConfig コンストラクタ8引数を1行に短縮 | ✅ 完了 (#1303/#1304) |
-| IMP-14 | テスト用 PDO 直注入パターンを `Nene2\Testing\DatabaseTestKit` で公式化 | `@internal` 回避の匿名クラス不要に | 🚧 着手中（ADR 0012） |
-| IMP-01 | `Router::param()` を vendor に収録 or 乖離を howto に明記 | シニアが毎回実行時 500 を踏む | 📋 未着手 |
+| IMP-14 | テスト用 PDO 直注入パターンを `Nene2\Testing\DatabaseTestKit` で公式化 | `@internal` 回避の匿名クラス不要に | ✅ 完了 (#1307/#1308・ADR 0012) |
+| IMP-01 | `Router::param()` を vendor に収録 or 乖離を howto に明記 | シニアが毎回実行時 500 を踏む | ✅ 完了済み（v1.5.31+ で公開済み・#1317 で ADR 0009 stable API に正式記載） |
 
 ### Phase 2 — howto 追記（最優先・`add-database-endpoint.md` 中心）
 
