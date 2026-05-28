@@ -24,6 +24,53 @@ This is the same separation you get in FastAPI with a service layer, or in Node.
 
 ---
 
+## PSR-4 namespace and file placement
+
+Before the example below makes sense, get the autoload mapping right. NENE2 (and any
+Composer package) maps a **namespace prefix** to a **filesystem directory** via PSR-4.
+If you mismatch them, the class loads as "not found" at runtime even though the file
+exists.
+
+```jsonc
+// composer.json
+{
+  "autoload": {
+    "psr-4": {
+      "MyApp\\": "src/MyApp/"     // namespace prefix → directory
+    }
+  }
+}
+```
+
+Given the mapping above, every file under `src/MyApp/` must declare `namespace MyApp;`
+(or a sub-namespace like `MyApp\Product;`) — **not** `namespace MyApp\MyApp;`.
+
+```
+composer.json:  "MyApp\\": "src/MyApp/"
+
+src/MyApp/Product/Product.php          → namespace MyApp\Product;
+src/MyApp/Product/PdoProductRepository → namespace MyApp\Product;
+src/MyApp/AppFactory.php               → namespace MyApp;
+```
+
+Two traps to avoid:
+
+- **Files directly under `src/` are NOT autoloaded.** With the mapping above,
+  `src/AppFactory.php` is invisible to the autoloader. Put it at
+  `src/MyApp/AppFactory.php` with `namespace MyApp;`. Laravel-style flat layouts
+  (`app/MyClass.php` with `namespace App;`) work because Laravel maps `"App\\": "app/"` —
+  the directory and prefix are at the same level. The same convention here would
+  require either `"MyApp\\": "src/"` (one directory level) or keeping files inside
+  the mapped subdirectory.
+- **Don't repeat the prefix in the namespace.** `src/MyApp/Service.php` with
+  `namespace MyApp\MyApp;` is a common typo; the PSR-4 loader looks for
+  `src/MyApp/MyApp/Service.php` and reports the class as missing.
+
+After editing `composer.json`, run `composer dump-autoload` so the loader picks up
+the new mapping.
+
+---
+
 ## Example: a `Product` resource
 
 We will build `GET /products/{id}` as a concrete example.
@@ -234,6 +281,32 @@ assert($result->name === 'Widget');
 
 This is the same pattern as mocking a service in Jest or using a test double in pytest.
 
+### Two test-writing traps worth memorizing
+
+**1. An empty JSON body is `'{}'`, not `[]`.**
+
+```php
+// BROKEN — '[]' parses as a JSON array, JsonRequestBodyParser returns 400
+$request = $request->withBody($stream(json_encode([])));
+
+// CORRECT — '{}' parses as a JSON object (empty object literal)
+$request = $request->withBody($stream(json_encode(new \stdClass())));
+```
+
+JSON `[]` is an array, not an object; the request body parser rejects it. Passing
+an empty `stdClass` makes `json_encode()` emit `{}`.
+
+**2. Use `array<int|string, ...>` when keys can be numeric strings.**
+
+PHP silently converts numeric string array keys to `int` (`['1' => 'a']` becomes
+`[1 => 'a']`), so PHPStan flags a `@var array<string, int>` declaration as wrong
+when one of the keys is `'1'`. Common in aggregations like rating distributions:
+
+```php
+/** @var array<int|string, int> $distribution */
+$distribution = ['1' => 0, '2' => 0, '3' => 0, '4' => 0, '5' => 0];
+```
+
 ---
 
 ## Directory layout
@@ -252,6 +325,26 @@ public/
 ```
 
 Each resource gets its own directory. Keep the handler thin and the use case focused on one operation.
+
+---
+
+## JSON response: which factory method?
+
+`JsonResponseFactory` ships three methods. Pick the one that matches your payload
+shape — they exist to express intent, not just to vary syntax.
+
+| Method | Use for | Returns | Notes |
+|---|---|---|---|
+| `create(array $data, int $status = 200)` | Single object / scalar payload | `{...}` (JSON object) | The default. Throws if `$data` is a list. |
+| `createList(array $items, int $status = 200)` | Top-level array payload | `[...]` (JSON array) | Use for `GET /things` endpoints that return a plain list (no envelope). |
+| `createEmpty(int $status = 204)` | No body | `` (empty body, no `Content-Type`) | Use for `204 No Content` after a successful DELETE/PUT/PATCH. Do not call `create(null, 204)` — pass nothing through `create()`. |
+
+```php
+return $json->create(['id' => 1, 'name' => 'Widget']);     // 200, {"id":1,"name":"Widget"}
+return $json->createList([['id' => 1], ['id' => 2]]);       // 200, [{"id":1},{"id":2}]
+return $json->createEmpty(204);                             // 204, no body
+return $json->createEmpty(201)->withHeader('Location', '/things/42'); // 201 Created
+```
 
 ---
 
@@ -727,17 +820,22 @@ $rows = $executor->fetchAll(
 );
 ```
 
-This only affects `HAVING` clauses with aggregate aliases. Regular `WHERE` comparisons
-against integer columns work correctly without the cast because the column's declared type
-provides the affinity.
+### Where the cast is needed
+
+The rule of thumb on SQLite: **wrap any integer placeholder that is being compared
+against a value that does not have integer affinity**. That includes:
+
+| Comparison context | CAST needed? | Why |
+|---|---|---|
+| `WHERE id = ?` against an `INTEGER` column | No | Column affinity wins |
+| `HAVING SUM(qty) <= ?` against an aggregate alias | **Yes** | Aliases have no affinity |
+| `HAVING COUNT(DISTINCT tag) = ?` for AND-mode filtering | **Yes** | Same reason — bound int vs aggregate |
+| `WHERE sub.max_score > ?` in a subquery result | **Yes** | Subquery columns lose affinity |
+| `WHERE CASE WHEN ... THEN ? END` | **Yes** | CASE branches lose affinity |
 
 > **MySQL / PostgreSQL**: This issue does not occur on MySQL or PostgreSQL, which always
 > apply numeric affinity for integer column comparisons. The `CAST` is harmless on those
 > databases, so keeping it is safe for cross-database code.
-
-> **Pattern also applies to `HAVING COUNT(DISTINCT ...) = ?`**: The cast is required any time
-> a bound integer placeholder appears in a `HAVING` clause, not just for aggregate alias comparisons.
-> Example: `HAVING COUNT(DISTINCT tag) = CAST(? AS INTEGER)` for AND-mode tag filtering.
 
 ---
 
@@ -749,33 +847,51 @@ so that either **all** writes succeed or **none** do.
 A common example: create an order **and** decrement stock atomically.
 
 ```php
+use Nene2\Database\DatabaseQueryExecutorInterface;
 use Nene2\Database\DatabaseTransactionManagerInterface;
 
 final readonly class CreateOrderUseCase
 {
     public function __construct(
-        private OrderRepositoryInterface   $orders,
-        private ProductRepositoryInterface $products,
         private DatabaseTransactionManagerInterface $txManager,
     ) {}
 
     public function execute(int $productId, int $quantity): Order
     {
-        return $this->txManager->transactional(function () use ($productId, $quantity): Order {
-            // 1. Check and decrement stock atomically
-            $affected = $this->products->decrementStock($productId, $quantity);
-            if ($affected === 0) {
-                throw new OutOfStockException("Product {$productId} is out of stock.");
-            }
+        return $this->txManager->transactional(
+            function (DatabaseQueryExecutorInterface $db) use ($productId, $quantity): Order {
+                // Build repositories from the transactional executor, not from $this.
+                $products = new PdoProductRepository($db);
+                $orders   = new PdoOrderRepository($db);
 
-            // 2. Create the order record
-            return $this->orders->create($productId, $quantity);
+                // 1. Check and decrement stock atomically.
+                $affected = $products->decrementStock($productId, $quantity);
+                if ($affected === 0) {
+                    throw new OutOfStockException("Product {$productId} is out of stock.");
+                }
 
-            // If an exception is thrown anywhere in this block, both writes are rolled back.
-        });
+                // 2. Create the order record.
+                return $orders->create($productId, $quantity);
+
+                // If an exception is thrown anywhere in this block, both writes are rolled back.
+            },
+        );
     }
 }
 ```
+
+> **The `$db` trap (read this once).** The transaction manager opens its own
+> connection and hands a fresh `DatabaseQueryExecutorInterface` to your callback.
+> **Use that `$db` parameter**, not `$this->db` and not pre-injected
+> `$this->products`. Repositories built from `$this->db` operate on a different
+> connection and will:
+>
+> - read rows the transaction has not committed yet as `null` (silent bug — `findById` returns `null` mid-callback)
+> - write rows outside the transaction so a rollback does not undo them
+>
+> The shape above (construct repositories inside the callback from `$db`) is the
+> idiomatic fix. See `use-transactions.md` for the variant that injects repository
+> factories instead of constructing them inline.
 
 The repository's `decrementStock` uses an atomic `UPDATE ... WHERE stock >= ?` to
 avoid race conditions:
@@ -792,14 +908,12 @@ public function decrementStock(int $productId, int $quantity): int
 
 ### Injecting `DatabaseTransactionManagerInterface`
 
-Register it in your service provider alongside the repository:
+Register it in your service provider:
 
 ```php
 $container->bind(
     CreateOrderUseCase::class,
     fn ($c) => new CreateOrderUseCase(
-        orders:    $c->get(OrderRepositoryInterface::class),
-        products:  $c->get(ProductRepositoryInterface::class),
         txManager: $c->get(DatabaseTransactionManagerInterface::class),
     ),
 );
@@ -807,6 +921,13 @@ $container->bind(
 
 `DatabaseTransactionManagerInterface` is already registered by NENE2's core
 `DatabaseServiceProvider` — you only need to declare it as a constructor dependency.
+
+The use case **does not** receive repositories from the container. Repositories
+are built inside the callback from the `$db` parameter (see the snippet above).
+If you also need read-only repository access outside transactional scope in the
+same class, inject a `RepositoryFactoryInterface` or pre-build repositories from
+the default executor; just keep the transactional path and the non-transactional
+path on separate connections.
 
 ### When to use transactions
 
