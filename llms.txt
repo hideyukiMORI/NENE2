@@ -25,7 +25,7 @@ The spec covers all shipped JSON endpoints including health, examples (Note/Tag 
 
 ## How-to guides
 
-100 task-focused guides. Full index: [docs/howto/README.md](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/README.md)
+256 task-focused guides. Full index: [docs/howto/README.md](https://github.com/hideyukiMORI/NENE2/blob/main/docs/howto/README.md)
 
 ### Getting Started
 
@@ -164,7 +164,7 @@ The spec covers all shipped JSON endpoints including health, examples (Note/Tag 
 
 ## Reference implementations
 
-73 field-trial applications built with `hideyukimori/nene2` as a Composer dependency, each corresponding to one howto guide.
+93 field-trial applications built with `hideyukimori/nene2` as a Composer dependency, each corresponding to one howto guide.
 
 **Repository**: [hideyukiMORI/NENE2-examples](https://github.com/hideyukiMORI/NENE2-examples)
 

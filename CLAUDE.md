@@ -388,6 +388,7 @@ src/                  フレームワークコア
   View/               ビューレンダリング抽象
   Database/           DB 接続・クエリ・トランザクション境界
   Mcp/                ローカル MCP サーバー
+  Testing/            テスト用配線ヘルパー（DatabaseTestKit / ADR 0012）
   Validation/         バリデーション例外・エラー
 
 tests/                PHPUnit テスト（src/ を鏡像）

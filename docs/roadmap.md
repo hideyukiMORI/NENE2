@@ -785,7 +785,7 @@ reaching ~100 self-contained guides with full test coverage and security assessm
 
 Tracked by `docs/milestones/2026-05-howto-library-sprint.md`.
 
-## Phase 73: Howto Library Consolidation 🔄
+## Phase 73: Howto Library Consolidation ✅
 
 Goal: make the 100+ guide library navigable and publish it as a reference corpus.
 
@@ -793,12 +793,29 @@ Goal: make the 100+ guide library navigable and publish it as a reference corpus
 - VitePress documentation site updated with all new howto pages
 - Sidebar / nav restructured around pattern categories
   (Auth, Security, Database, API Design, Social, E-commerce, System Patterns)
-- "Pattern finder" guide: map business requirements to howto guides
+- VitePress 全ロケールで howto 全 256 件を動的サイドバー生成（#1302）
 - Tag the library milestone as **Howto Library v1**
+- **Result**: 256 howto guides, 6 locales (en/ja/fr/zh/de/pt-br) で完全同期
 
-## Phase 74: v2.0 Design and Framework Evolution
+## Phase 74: DX Trial Improvements v1.5.x ✅
 
-Goal: review the friction and gaps accumulated across FT96–FT170 and decide
+Goal: convert the friction collected from DX Trial 01〜26 (78 試験) into shipped
+public APIs, ADRs, and howto callouts so the next FT loop does not re-hit the
+same gotchas.
+
+- IMP-04 `DatabaseConfig::sqlite($path)` ファクトリ追加（#1304）
+- IMP-07 `DatabaseConstraintException` の Packagist 公開状態確認 + TODO 整理（#1306）
+- IMP-14 `Nene2\Testing\DatabaseTestKit` 新規 stable public API + ADR 0012（#1308）
+- IMP-01 `Router::param()` を ADR 0009 stable API に正式記載（#1318）
+- IMP-09/19/15/12/20/02/11/16: `add-database-endpoint.md` 一括追記（#1310）
+- IMP-18/10/05: `use-transactions.md` 追記（#1312）
+- IMP-13/17: PSR-15 namespace + `withParsedBody` バイパス trap（#1314）
+- IMP-03/21: SQLite `FOR UPDATE` 不可 + PHP regex `$` デリミタ干渉（#1316）
+- **Result**: 全 14 IMP 完了、ADR 0009 stable API 表に 3 surface 追加、新規 ADR 0012
+
+## Phase 75: v2.0 Design and Framework Evolution
+
+Goal: review the friction and gaps accumulated across FT96–FT349 and decide
 what moves into the framework core vs. remains as howto-only patterns.
 
 - Collect top-friction patterns from field trial reports
