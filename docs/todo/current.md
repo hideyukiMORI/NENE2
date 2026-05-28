@@ -62,15 +62,15 @@ bash tools/uncovered-fts.sh
 
 詳細: `docs/todo/dx-trial-improvements.md`
 
-### Phase 1 — コードリリース（v1.5.23）
+### Phase 1 — コードリリース
 
-フレームワーク本体の変更が必要。まとめて v1.5.23 としてリリースする。
+フレームワーク本体の変更が必要。
 
 | # | 内容 | 効果 | 状態 |
 |---|------|------|------|
-| IMP-07 | `DatabaseConstraintException` を公開 API に昇格 | 全78試験で workaround が発生。最大インパクト | 📋 未着手 |
-| IMP-04 | `DatabaseConfig::sqlite(string $path): self` ファクトリメソッド追加 | テストの DatabaseConfig コンストラクタ8引数を1行に短縮 | 📋 未着手 |
-| IMP-14 | IMP-04 と合わせてテスト用 PDO 直注入パターンを公式化 | `@internal` 回避の匿名クラス不要に | 📋 未着手 |
+| IMP-07 | `DatabaseConstraintException` を公開 API に昇格 | 全78試験で workaround が発生。最大インパクト | ✅ 完了済み（v1.5.114+ で Packagist 公開済み・#1305 で TODO 整理） |
+| IMP-04 | `DatabaseConfig::sqlite(string $path): self` ファクトリメソッド追加 | テストの DatabaseConfig コンストラクタ8引数を1行に短縮 | ✅ 完了 (#1303/#1304) |
+| IMP-14 | テスト用 PDO 直注入パターンを `Nene2\Testing\DatabaseTestKit` で公式化 | `@internal` 回避の匿名クラス不要に | 🚧 着手中（ADR 0012） |
 | IMP-01 | `Router::param()` を vendor に収録 or 乖離を howto に明記 | シニアが毎回実行時 500 を踏む | 📋 未着手 |
 
 ### Phase 2 — howto 追記（最優先・`add-database-endpoint.md` 中心）
