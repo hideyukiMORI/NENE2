@@ -345,6 +345,29 @@ use Psr\Http\Message\RequestHandlerInterface;    // ❌ does not exist
 If a class autoload error mentions `Psr\Http\Message\RequestHandlerInterface`,
 the use statement is on the wrong namespace.
 
+**5. Prefer `\z` over `$` when the regex ends right before the delimiter.**
+
+PCRE's `$` anchor (end of string) is fine in isolation, but a pattern like
+`#type/subtype$#` is visually ambiguous: it scans like `#…#` plus a modifier.
+Worse, the literal `$` in a double-quoted PHP string starts variable
+interpolation (`"$type"` would be substituted), so a copy-paste from a regex
+explainer into PHP source code can silently change the pattern.
+
+```php
+// AMBIGUOUS — works, but easy to misread and brittle to copy/paste
+preg_match('#^[a-z]+/[a-z]+$#', $contentType);
+
+// CLEARER — \z is the same anchor (end of subject), no syntax collision
+preg_match('#^[a-z]+/[a-z]+\z#', $contentType);
+
+// OR — drop regex entirely when the structure is exactly "a/b"
+[$type, $subtype] = explode('/', $contentType, 2) + [null, null];
+```
+
+The `\z` anchor matches only at the very end of the subject (no trailing
+newline), which is usually what you want for content-type / MIME / slug
+validation.
+
 ---
 
 ## Directory layout
@@ -943,6 +966,14 @@ public function decrementStock(int $productId, int $quantity): int
     ); // returns number of affected rows; 0 = insufficient stock
 }
 ```
+
+> **No `SELECT ... FOR UPDATE` on SQLite.** SQLite does not support row-level
+> pessimistic locking. A `SELECT ... FOR UPDATE` parses on MySQL/PostgreSQL but
+> raises a syntax error on SQLite. The atomic `UPDATE ... WHERE` pattern above
+> is the cross-database alternative: the row whose stock is sufficient is
+> updated, and the affected-row count tells you whether you won the race.
+> Apply the same shape to "claim one of N", "reserve a slot", or "consume a
+> token" use cases.
 
 ### Injecting `DatabaseTransactionManagerInterface`
 
