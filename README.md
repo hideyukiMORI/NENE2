@@ -188,7 +188,7 @@ NENE2's quality baseline includes PHP-CS-Fixer for backend style checks and npm,
 
 ## How-to guides
 
-100 task-focused guides covering authentication, security, database patterns, API design, background jobs, and 40+ product feature recipes.
+256 task-focused guides covering authentication, security, database patterns, API design, background jobs, and 100+ product feature recipes.
 
 **[Full guide index →](docs/howto/README.md)**
 
@@ -203,7 +203,7 @@ Common entry points:
 
 ## Reference Implementations
 
-**[hideyukiMORI/NENE2-examples](https://github.com/hideyukiMORI/NENE2-examples)** — 73 field-trial applications built with `hideyukimori/nene2` as a Composer dependency. Each directory is a self-contained, runnable JSON API corresponding to one howto guide.
+**[hideyukiMORI/NENE2-examples](https://github.com/hideyukiMORI/NENE2-examples)** — 93 field-trial applications built with `hideyukimori/nene2` as a Composer dependency. Each directory is a self-contained, runnable JSON API corresponding to one howto guide.
 
 ```bash
 git clone https://github.com/hideyukiMORI/NENE2-examples.git
@@ -250,7 +250,7 @@ NENE2 is designed to be AI-readable and usable as a tool by AI agents.
 - **[AGENTS.md](./AGENTS.md)** — entry point for AI agents working in this repository.
 - **OpenAPI contract** — `GET /openapi.php` or `docs/openapi/openapi.yaml` — the authoritative API contract for LLM tool use.
 - **Local MCP server** — `composer mcp` validates the MCP tool catalog; `docker compose run --rm -e NENE2_LOCAL_API_BASE_URL=http://app app php tools/local-mcp-server.php` starts the local server.
-- **Reference implementations** — **[hideyukiMORI/NENE2-examples](https://github.com/hideyukiMORI/NENE2-examples)**: 73 runnable field-trial apps covering every major howto pattern (auth, security, queues, social features, and more). Each app is `composer install && phpunit`-ready.
+- **Reference implementations** — **[hideyukiMORI/NENE2-examples](https://github.com/hideyukiMORI/NENE2-examples)**: 93 runnable field-trial apps covering every major howto pattern (auth, security, queues, social features, and more). Each app is `composer install && phpunit`-ready.
 
 ## License
 
