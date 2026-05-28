@@ -41,6 +41,28 @@ final readonly class DatabaseConfig
         }
     }
 
+    /**
+     * Build a SQLite configuration from a file path (or `:memory:`).
+     *
+     * Convenience factory that fills the host / user / password / charset slots
+     * the SQLite adapter does not use. Intended for tests and small scripts;
+     * production configuration should still flow through {@see ConfigLoader}.
+     */
+    public static function sqlite(string $path, string $environment = 'local'): self
+    {
+        return new self(
+            url: null,
+            environment: $environment,
+            adapter: 'sqlite',
+            host: 'localhost',
+            port: 1,
+            name: $path,
+            user: 'sqlite',
+            password: '',
+            charset: 'utf8',
+        );
+    }
+
     public function usesUrl(): bool
     {
         return $this->url !== null;
