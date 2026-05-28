@@ -281,7 +281,7 @@ assert($result->name === 'Widget');
 
 This is the same pattern as mocking a service in Jest or using a test double in pytest.
 
-### Two test-writing traps worth memorizing
+### Test-writing traps worth memorizing
 
 **1. An empty JSON body is `'{}'`, not `[]`.**
 
@@ -306,6 +306,44 @@ when one of the keys is `'1'`. Common in aggregations like rating distributions:
 /** @var array<int|string, int> $distribution */
 $distribution = ['1' => 0, '2' => 0, '3' => 0, '4' => 0, '5' => 0];
 ```
+
+**3. `withParsedBody()` bypasses `JsonRequestBodyParser`. Use `withBody()` instead.**
+
+```php
+// BROKEN — JsonRequestBodyParser checks Content-Type and parses the raw body.
+// withParsedBody() sets neither, so the parser sees no Content-Type and returns
+// an empty body, leading to a 400 in the handler.
+$request = $request->withParsedBody(['name' => 'Widget']);
+
+// CORRECT — set the body stream and the Content-Type header so the parser runs.
+$request = $request
+    ->withBody($psr17->createStream(json_encode(['name' => 'Widget'])))
+    ->withHeader('Content-Type', 'application/json');
+```
+
+PSR-7's `withParsedBody()` is for frameworks that pre-parse form-encoded
+bodies; NENE2 parses JSON on demand inside the handler via
+`JsonRequestBodyParser::parse($request)`, which inspects the raw stream and the
+`Content-Type` header. The pre-parsed cache is ignored.
+
+**4. PSR-7 lives at `Psr\Http\Message`, PSR-15 lives at `Psr\Http\Server`.**
+
+The two namespaces are easy to mix up because both contain types with similar
+names. The compiler catches it, but the error message points at the wrong
+namespace, which can stall low-experience contributors:
+
+```php
+use Psr\Http\Message\ServerRequestInterface;     // PSR-7  ✅
+use Psr\Http\Message\ResponseInterface;          // PSR-7  ✅
+
+use Psr\Http\Server\RequestHandlerInterface;     // PSR-15 ✅
+use Psr\Http\Server\MiddlewareInterface;         // PSR-15 ✅
+
+use Psr\Http\Message\RequestHandlerInterface;    // ❌ does not exist
+```
+
+If a class autoload error mentions `Psr\Http\Message\RequestHandlerInterface`,
+the use statement is on the wrong namespace.
 
 ---
 
