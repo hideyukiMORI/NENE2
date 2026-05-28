@@ -8,6 +8,9 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Added
+- `Nene2\Config\DatabaseConfig::sqlite(string $path, string $environment = 'local')` — テスト・小規模スクリプト向けの SQLite 設定ファクトリ。9 引数コンストラクタを 1 行に短縮（IMP-04 / #1303）
+
 ---
 
 ## [1.5.323] — 2026-05-27
