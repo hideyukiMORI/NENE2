@@ -1,3 +1,11 @@
+---
+title: Use Database Transactions
+category: database
+tags: [transactions, atomicity, rollback]
+difficulty: intermediate
+related: [transactions, optimistic-locking]
+---
+
 # Use Database Transactions
 
 This guide explains how to perform atomic multi-step operations using

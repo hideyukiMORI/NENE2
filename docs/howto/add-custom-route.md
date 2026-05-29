@@ -1,3 +1,11 @@
+---
+title: Add a Custom Route
+category: getting-started
+tags: [routing, http]
+difficulty: beginner
+related: [add-database-endpoint, add-health-check]
+---
+
 # Add a Custom Route
 
 This guide shows how to add GET and POST routes with path parameters to a NENE2 application.

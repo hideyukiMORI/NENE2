@@ -58,3 +58,6 @@ jobs:
         run: |
           composer howto:index
           git diff --exit-code docs/howto/README.md 'docs/*/howto/README.md'
+
+      - name: Validate howto frontmatter
+        run: composer howto:frontmatter

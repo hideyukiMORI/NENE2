@@ -1,3 +1,11 @@
+---
+title: SQL injection defense
+category: security
+tags: [sql-injection, pdo, validation]
+difficulty: intermediate
+related: [mass-assignment, validate-unicode-input]
+---
+
 # SQL injection defense
 
 NENE2's database methods (`execute`, `insert`, `fetchOne`, `fetchAll`) use PDO prepared statements internally. Any value passed in the `$parameters` array is bound as a PDO parameter — never interpolated into the SQL string.
