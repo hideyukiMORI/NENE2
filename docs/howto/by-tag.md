@@ -161,8 +161,9 @@ Auto-generated from each guide's frontmatter `tags`. Regenerate with `composer h
 
 - [Tagging System (M:N)](tagging-system.md)
 
-## `atomicity` (1)
+## `atomicity` (2)
 
+- [Bulk Reorder (Drag-and-Drop Ordering) API](bulk-reorder-api.md)
 - [Use Database Transactions](use-transactions.md)
 
 ## `attack-hardening` (3)
@@ -341,6 +342,10 @@ Auto-generated from each guide's frontmatter `tags`. Regenerate with `composer h
 
 - [How-to: Soft Delete, Trash & Restore API](soft-delete-trash-restore.md)
 
+## `bulk-update` (1)
+
+- [Bulk Reorder (Drag-and-Drop Ordering) API](bulk-reorder-api.md)
+
 ## `cache` (1)
 
 - [ETag & Conditional Requests](etag-conditional-requests.md)
@@ -366,6 +371,10 @@ Auto-generated from each guide's frontmatter `tags`. Regenerate with `composer h
 ## `cart` (1)
 
 - [How to Build a Guest Order System (Cart → Order → Order Items) with NENE2](guest-order-system.md)
+
+## `case-when` (1)
+
+- [Bulk Reorder (Drag-and-Drop Ordering) API](bulk-reorder-api.md)
 
 ## `catalog` (1)
 
@@ -1050,8 +1059,9 @@ Auto-generated from each guide's frontmatter `tags`. Regenerate with `composer h
 - [How-to: Content Reporting System](content-reporting.md)
 - [コンテンツコレクション](content-collection.md)
 
-## `idor` (17)
+## `idor` (18)
 
+- [Bulk Reorder (Drag-and-Drop Ordering) API](bulk-reorder-api.md)
 - [How to Build a Multi-Device Session Manager](session-management.md)
 - [How to enforce resource ownership (IDOR prevention)](enforce-resource-ownership.md)
 - [How-to: Group Member Management](group-member-management.md)
@@ -1497,8 +1507,9 @@ Auto-generated from each guide's frontmatter `tags`. Regenerate with `composer h
 - [How to Prevent SQL ORDER BY Injection](sql-orderby-injection.md)
 - [How-to: SQL Injection Defence](sql-injection-defence.md)
 
-## `ordering` (4)
+## `ordering` (5)
 
+- [Bulk Reorder (Drag-and-Drop Ordering) API](bulk-reorder-api.md)
 - [Content Pinning](content-pinning.md)
 - [How-to: Collection API (User Curated Lists)](collection-api.md)
 - [How-to: Pin / Bookmark with Ordering](pin-bookmark-ordering.md)
