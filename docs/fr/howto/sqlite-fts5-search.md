@@ -140,8 +140,9 @@ FTS5 supporte un langage de requête riche passé comme valeur MATCH :
 | Requête | Correspond à |
 |---------|-------------|
 | `php` | Tout post contenant "php" |
-| `php api` | Posts contenant "php" OU "api" (défaut : OR implicite) |
-| `php AND api` | Posts contenant "php" et "api" |
+| `php api` | Posts contenant **à la fois** "php" ET "api" (défaut : AND implicite) |
+| `php AND api` | Posts contenant "php" et "api" (explicite, identique ci-dessus) |
+| `php OR api` | Posts contenant "php" ou "api" |
 | `"quick brown"` | Posts contenant la phrase exacte "quick brown" |
 | `php*` | Posts où n'importe quel token commence par "php" (recherche de préfixe) |
 | `title:php` | Posts où la colonne title contient "php" |
