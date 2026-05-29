@@ -11,7 +11,7 @@ function howtoItems(langDir: string, urlPrefix: string) {
   const howtoDir = join(langDir, 'howto')
   if (!existsSync(howtoDir)) return []
   return readdirSync(howtoDir)
-    .filter(f => f.endsWith('.md') && f !== 'README.md')
+    .filter(f => f.endsWith('.md') && f !== 'README.md' && f !== 'by-tag.md')
     .sort()
     .map(file => {
       const slug = file.replace('.md', '')

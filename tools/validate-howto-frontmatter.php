@@ -38,6 +38,9 @@ const ALLOWED_DIFFICULTY = ['beginner', 'intermediate', 'advanced'];
 const REQUIRED_FIELDS = ['title', 'category', 'tags', 'difficulty'];
 const OPTIONAL_FIELDS = ['related', 'ft'];
 
+/** Files in the howto directory that are indexes, not guides. */
+const NON_GUIDE_FILES = ['README.md', 'by-tag.md'];
+
 /**
  * Extract the raw YAML frontmatter block from a Markdown file, or null when the
  * file does not open with a `---` fence.
@@ -64,9 +67,8 @@ function knownSlugs(string $howtoDir): array
 {
     $slugs = [];
     foreach (glob($howtoDir . '/*.md') ?: [] as $file) {
-        $name = basename($file, '.md');
-        if ($name !== 'README') {
-            $slugs[$name] = true;
+        if (!in_array(basename($file), NON_GUIDE_FILES, true)) {
+            $slugs[basename($file, '.md')] = true;
         }
     }
 
@@ -150,7 +152,7 @@ function validateFrontmatter(array $fm, array $slugs): array
 
 $slugs       = knownSlugs($howtoDir);
 $files       = glob($howtoDir . '/*.md') ?: [];
-$files       = array_filter($files, static fn (string $f): bool => basename($f) !== 'README.md');
+$files       = array_filter($files, static fn (string $f): bool => !in_array(basename($f), NON_GUIDE_FILES, true));
 sort($files, SORT_STRING);
 
 $annotated   = 0;

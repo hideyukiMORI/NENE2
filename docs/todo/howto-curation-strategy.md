@@ -4,7 +4,7 @@ Date: 2026-05-29 / Issue: #1323
 
 `docs/howto/` が 256 件まで成長した結果、手動キュレーション索引が追いつかなくなった。本ドキュメントは、howto を「ストック資産」として持続的に検索・発見可能にするための方針案を記録する。
 
-着手判断はまだ。次セッションで本ドキュメントを読んだ上で Phase A から始めるかを決める。
+> **状態（2026-05-29 更新）**: 本方針は Phase A〜B-3 まですべて実装済み。詳細は末尾「7. 関連 Issue / 状態」を参照。以下は当初の方針記録。
 
 ---
 
@@ -151,4 +151,6 @@ tutorial / explanation / reference は別象限なので混ぜない。
 | 後続 (Phase A 実装) | #1325 | 完了 — `tools/build-howto-index.php` + 6 ロケール全索引 + CI lock |
 | 後続 (Phase B-1: スキーマ実証) | #1327 | 完了 — frontmatter スキーマ確定 + validator + 代表 5 件で実証 |
 | 後続 (Phase B-2: 全件 annotate) | #1329 | 完了 — 全 256 件 annotate 済み、`--require-all` 通過 |
-| 後続 (Phase B-3: 索引統合 + 必須化) | 未起票 | カテゴリ/タグ別索引を frontmatter から再生成、CI を `--require-all` 常時必須化 |
+| 後続 (Phase B-3: 索引統合 + 必須化) | #1331 | 完了 — カテゴリ別ブラウズ + `by-tag.md` を frontmatter から再生成、CI を `--require-all` で恒久必須化 |
+
+**全 Phase 完了（2026-05-29）。** 256 件すべてが frontmatter を持ち、README のカテゴリ別ブラウズ・`by-tag.md`・各ロケールのフラット索引は `composer howto:index` で再生成され、CI drift チェックと `--require-all` で恒久維持される。
