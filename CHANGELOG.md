@@ -16,6 +16,10 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ### Changed
 - `docs/adr/0009-v1.0-public-api-scope.md` — stable public API 表に `Nene2\Testing\DatabaseTestKit` 行を追加
 
+### Fixed
+- `Nene2\Validation\V::isoDatetime()` — 範囲外の UTC オフセット（`+25:00` / `+99:00` 等、正規表現が時間部 00–99 を通すため）を許容していたバグを修正。絶対値が `±14:00` を超えるオフセットを拒否（実在 TZ は全て範囲内）。分 ≥ 60 は従来どおり round-trip で拒否（#1351）
+- `Nene2\Validation\V::futureDatetime()` — ISO 文字列の字句比較で未来判定していたため、`$raw` と `$now` の TZ オフセットが異なると瞬時の前後が逆転しても誤判定するバグを修正。`DateTimeImmutable` の instant 比較に変更し、異なるオフセット間でも正しく比較。`$now` がパース不能な場合は `null` を返す（#1351）
+
 ---
 
 ## [1.5.326] — 2026-05-29

@@ -257,6 +257,21 @@ final class VTest extends TestCase
         self::assertNull(V::isoDatetime([]));
     }
 
+    public function testIsoDatetimeRejectsOutOfRangeOffset(): void
+    {
+        // The regex accepts hours 00-99; reject offsets beyond ±14:00.
+        self::assertNull(V::isoDatetime('2026-01-01T00:00:00+25:00'));
+        self::assertNull(V::isoDatetime('2026-01-01T00:00:00+99:00'));
+        self::assertNull(V::isoDatetime('2026-01-01T00:00:00+14:30'));
+        self::assertNull(V::isoDatetime('2026-01-01T00:00:00-15:00'));
+    }
+
+    public function testIsoDatetimeAcceptsBoundaryOffsets(): void
+    {
+        self::assertSame('2026-01-01T00:00:00+14:00', V::isoDatetime('2026-01-01T00:00:00+14:00'));
+        self::assertSame('2026-01-01T00:00:00-12:00', V::isoDatetime('2026-01-01T00:00:00-12:00'));
+    }
+
     // ── V::futureDatetime ────────────────────────────────────────────────────
 
     public function testFutureDatetimeAcceptsFuture(): void
@@ -286,6 +301,24 @@ final class VTest extends TestCase
     {
         self::assertNull(V::futureDatetime('2024-01-15', '2024-01-01T00:00:00+00:00'));
         self::assertNull(V::futureDatetime(null, '2024-01-01T00:00:00+00:00'));
+    }
+
+    public function testFutureDatetimeComparesByInstantAcrossOffsets(): void
+    {
+        // raw is midnight in +09:00 = 2026-05-31T15:00:00Z, which is BEFORE $now
+        // (16:00Z). Lexicographic string compare would wrongly call it future.
+        $raw = '2026-06-01T00:00:00+09:00';
+        $now = '2026-05-31T16:00:00+00:00';
+        self::assertNull(V::futureDatetime($raw, $now));
+
+        // The same instant one hour later than $now is correctly accepted.
+        $future = '2026-06-01T02:00:00+09:00'; // = 2026-05-31T17:00:00Z
+        self::assertSame($future, V::futureDatetime($future, $now));
+    }
+
+    public function testFutureDatetimeRejectsUnparseableNow(): void
+    {
+        self::assertNull(V::futureDatetime('2026-06-01T00:00:00+00:00', 'not-a-datetime'));
     }
 
     // ── V::enum ──────────────────────────────────────────────────────────────
