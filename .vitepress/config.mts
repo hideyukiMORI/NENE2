@@ -88,6 +88,7 @@ function sidebar(t: {
           { text: 'Authentication',         link: `${p}/development/authentication-boundary` },
           { text: 'Test database strategy', link: `${p}/development/test-database-strategy` },
           { text: 'Client project start',   link: `${p}/development/client-project-start` },
+          { text: 'Howto frontmatter',      link: `${p}/development/howto-frontmatter` },
         ],
       },
       {
