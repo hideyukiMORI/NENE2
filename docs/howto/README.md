@@ -139,7 +139,7 @@ Auto-generated from each guide's frontmatter (`category` / `difficulty` / `tags`
 | [URL Shortener API & SSRF Prevention](url-shortener-ssrf.md) | advanced | `ssrf` `url-shortener` `vulnerability-assessment` |
 | [Webhook Signature Verification](webhook-signature.md) | intermediate | `webhook` `hmac` `signature` `timing-safe` |
 
-### Database (17)
+### Database (18)
 
 | Guide | Difficulty | Tags |
 |---|---|---|
@@ -160,6 +160,7 @@ Auto-generated from each guide's frontmatter (`category` / `difficulty` / `tags`
 | [Soft Delete (Logical Deletion)](soft-delete.md) | beginner | `soft-delete` `deleted-at` `logical-deletion` `audit-trail` |
 | [Use Database Transactions](use-transactions.md) | intermediate | `transactions` `atomicity` `rollback` |
 | [Use SQLite FTS5 Full-Text Search](use-fts5-search.md) | intermediate | `fts5` `sqlite` `full-text-search` `inverted-index` |
+| [Use SQLite Window Functions](use-window-functions.md) | intermediate | `window-functions` `sqlite` `ranking` `running-total` `lag-lead` |
 
 ### API Design (31)
 

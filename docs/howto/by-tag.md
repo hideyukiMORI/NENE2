@@ -1211,6 +1211,10 @@ Auto-generated from each guide's frontmatter `tags`. Regenerate with `composer h
 
 - [How-to: Tag / Label API](tag-label-api.md)
 
+## `lag-lead` (1)
+
+- [Use SQLite Window Functions](use-window-functions.md)
+
 ## `leaderboard` (5)
 
 - [How to Build a Leaderboard (Ranking System) with NENE2](leaderboard-ranking-system.md)
@@ -1801,13 +1805,14 @@ Auto-generated from each guide's frontmatter `tags`. Regenerate with `composer h
 - [How-to: Flash Sale API](flash-sale-api.md)
 - [How-to: Idempotency-Key Pattern](idempotency.md)
 
-## `ranking` (5)
+## `ranking` (6)
 
 - [How to Build a Leaderboard (Ranking System) with NENE2](leaderboard-ranking-system.md)
 - [How-to: Game Leaderboard & Ranking API](leaderboard-ranking.md)
 - [How-to: Game Score & Leaderboard API](game-score-leaderboard-api.md)
 - [How-to: Leaderboard & Score Tracking API](leaderboard-scores.md)
 - [How-to: Leaderboard Ranking API](leaderboard-ranking-api.md)
+- [Use SQLite Window Functions](use-window-functions.md)
 
 ## `rate-limiting` (7)
 
@@ -2009,6 +2014,10 @@ Auto-generated from each guide's frontmatter `tags`. Regenerate with `composer h
 
 - [Add a Custom Route](add-custom-route.md)
 
+## `running-total` (1)
+
+- [Use SQLite Window Functions](use-window-functions.md)
+
 ## `scheduling` (4)
 
 - [Content Scheduling — Time-Based Publish with Lifecycle States](content-scheduling.md)
@@ -2187,11 +2196,12 @@ Auto-generated from each guide's frontmatter `tags`. Regenerate with `composer h
 - [How-to: SQL Injection Defence](sql-injection-defence.md)
 - [SQL injection defense](sql-injection.md)
 
-## `sqlite` (3)
+## `sqlite` (4)
 
 - [How-to: Fixed-window Rate Limiter](fixed-window-rate-limiter.md)
 - [How-to: SQLite FTS5 Full-Text Search](sqlite-fts5-search.md)
 - [Use SQLite FTS5 Full-Text Search](use-fts5-search.md)
+- [Use SQLite Window Functions](use-window-functions.md)
 
 ## `ssrf` (4)
 
@@ -2655,6 +2665,10 @@ Auto-generated from each guide's frontmatter `tags`. Regenerate with `composer h
 
 - [How-to: Mass Assignment Defence with Explicit DTO](mass-assignment-defence.md)
 - [Mass Assignment Defence](mass-assignment.md)
+
+## `window-functions` (1)
+
+- [Use SQLite Window Functions](use-window-functions.md)
 
 ## `windowed-counter` (1)
 
