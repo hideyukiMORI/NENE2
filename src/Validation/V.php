@@ -140,6 +140,14 @@ final class V
             return null;
         }
 
+        // Reject out-of-range UTC offsets. The regex alone accepts e.g. "+25:00"
+        // or "+99:00" (hours 00-99); every real timezone offset is within ±14:00.
+        // (Offset minutes ≥ 60 are already rejected by the round-trip below.)
+        $offsetTotalMinutes = ((int) substr($raw, -5, 2)) * 60 + (int) substr($raw, -2);
+        if ($offsetTotalMinutes > 14 * 60) {
+            return null;
+        }
+
         // createFromFormat preserves the input timezone offset; format() re-emits it.
         $dt = DateTimeImmutable::createFromFormat(DATE_ATOM, $raw);
 
@@ -157,12 +165,14 @@ final class V
     /**
      * Validates an ISO 8601 datetime that must be strictly after $now.
      *
-     * $now should be the current moment in the same format (e.g., date('c')).
-     * String comparison is used — both strings must share the same timezone
-     * offset for the comparison to be meaningful; callers are responsible for
-     * normalising to a common offset when comparing across zones.
+     * $now should be the current moment as an ISO 8601 datetime string
+     * (e.g., date('c')). The comparison is by instant via DateTimeImmutable, so
+     * $raw and $now may carry different timezone offsets and still compare
+     * correctly — e.g. "...T00:00:00+09:00" is correctly seen as earlier than the
+     * same wall-clock time at "+00:00".
      *
-     * Returns null if the datetime is invalid or not strictly in the future.
+     * Returns null if $raw is an invalid datetime, if $now cannot be parsed, or
+     * if $raw is not strictly after $now.
      *
      * @param string $now Current moment as an ISO 8601 datetime string
      */
@@ -174,7 +184,16 @@ final class V
             return null;
         }
 
-        return $dt > $now ? $dt : null;
+        try {
+            // $dt is already validated by isoDatetime(); $now is parsed leniently
+            // (it is the server-provided current time, not untrusted input).
+            $target = new DateTimeImmutable($dt);
+            $reference = new DateTimeImmutable($now);
+        } catch (\Exception) {
+            return null;
+        }
+
+        return $target > $reference ? $dt : null;
     }
 
     /**
