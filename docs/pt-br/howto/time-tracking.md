@@ -2,7 +2,7 @@
 
 > **Referência FT**: FT246 (`NENE2-FT/timelog`) — API de Controle de Tempo
 
-Demonstra uma API de controle de tempo estilo cronômetro onde uma entrada de timer tem um `start_time` e um `end_time` nullable (`NULL` = rodando, não-`NULL` = parado), apenas um timer pode rodar por vez, a duração é computada via `julianday()` do SQLite e resumos diários agregam o total de segundos rastreados por dia de calendário.
+Demonstra uma API de controle de tempo estilo cronômetro onde uma entrada de timer tem um `start_time` e um `end_time` nullable (`NULL` = rodando, não-`NULL` = parado), apenas um timer pode rodar por vez, a duração é computada via `strftime('%s', ...)` do SQLite e resumos diários agregam o total de segundos rastreados por dia de calendário.
 
 ---
 
@@ -129,15 +129,17 @@ public function stop(string $endTime): TimeEntry
 
 ---
 
-## Cálculo de Duração: `julianday()` em SQL
+## Cálculo de Duração: `strftime('%s', ...)` em SQL
 
-Para resumos agregados, a duração é computada em SQL usando a função `julianday()` do SQLite:
+Para resumos agregados, a duração é computada em SQL usando a função `strftime('%s', ...)` do SQLite, que retorna os segundos Unix epoch de uma string de datetime como inteiro:
 
 ```sql
-SUM(CAST((julianday(end_time) - julianday(start_time)) * 86400 AS INTEGER)) AS total_seconds
+SUM(strftime('%s', end_time) - strftime('%s', start_time)) AS total_seconds
 ```
 
-`julianday()` converte uma string de datetime ISO para um Número de Dia Juliano (um número real representando dias desde o meio-dia de 1º de janeiro de 4713 a.C.). Subtrair dois Números de Dia Juliano dá a diferença em dias. Multiplicar por `86400` converte dias para segundos. `CAST(... AS INTEGER)` trunca para segundos inteiros.
+`strftime('%s', ...)` analisa a string de datetime ISO (incluindo qualquer offset `±HH:MM`, que normaliza para UTC) e retorna segundos epoch inteiros. Subtrair os dois dá a duração exata em segundos — correspondendo à diferença `getTimestamp()` no lado PHP.
+
+> **Armadilha — não use `julianday()` para precisão de segundos.** Uma fórmula tentadora é `CAST((julianday(end_time) - julianday(start_time)) * 86400 AS INTEGER)`, mas a diferença `julianday` é um valor de ponto flutuante um pouco abaixo do segundo inteiro, então o `CAST(... AS INTEGER)` trunca uma entrada de 60 segundos para **59**. Use `strftime('%s', ...)` (segundos epoch inteiros) — é exato. (Encontrado pela suíte PHPUnit do exemplo `timelog` FT246.)
 
 `SUM(...)` totaliza todas as entradas concluídas do dia. `WHERE end_time IS NOT NULL` filtra quaisquer timers ainda em execução do resumo.
 
@@ -157,7 +159,7 @@ Ambas as abordagens produzem o mesmo resultado para timestamps UTC. A abordagem 
 
 ```php
 $sql = 'SELECT date(start_time) AS day,
-               SUM(CAST((julianday(end_time) - julianday(start_time)) * 86400 AS INTEGER)) AS total_seconds,
+               SUM(strftime('%s', end_time) - strftime('%s', start_time)) AS total_seconds,
                COUNT(*) AS entry_count
           FROM time_entries
          WHERE ' . implode(' AND ', $where) . '

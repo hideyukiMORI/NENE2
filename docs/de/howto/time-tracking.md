@@ -4,7 +4,7 @@
 
 Demonstriert eine Stoppuhr-basierte Zeiterfassungs-API, bei der ein Zeiterfassungs-Eintrag eine `start_time`
 und eine nullable `end_time` hat (`NULL` = läuft, nicht-`NULL` = gestoppt), nur ein Timer gleichzeitig
-laufen kann, die Dauer über SQLites `julianday()` berechnet wird und tägliche Zusammenfassungen
+laufen kann, die Dauer über SQLites `strftime('%s', ...)` berechnet wird und tägliche Zusammenfassungen
 die gesamten erfassten Sekunden pro Kalendertag aggregieren.
 
 ---
@@ -141,18 +141,23 @@ der berechneten Dauer zurück. `NoRunningTimerException` wird geworfen, wenn kei
 
 ---
 
-## Dauerberechnung: `julianday()` in SQL
+## Dauerberechnung: `strftime('%s', ...)` in SQL
 
-Für aggregierte Zusammenfassungen wird die Dauer in SQL über SQLites `julianday()`-Funktion berechnet:
+Für aggregierte Zusammenfassungen wird die Dauer in SQL über SQLites `strftime('%s', ...)`-Funktion berechnet, die die Unix-Epochensekunden eines Datumszeit-Strings als Ganzzahl zurückgibt:
 
 ```sql
-SUM(CAST((julianday(end_time) - julianday(start_time)) * 86400 AS INTEGER)) AS total_seconds
+SUM(strftime('%s', end_time) - strftime('%s', start_time)) AS total_seconds
 ```
 
-`julianday()` konvertiert einen ISO-Datumszeit-String in eine Julianische Tagesnummer (eine reelle Zahl,
-die Tage seit Mittag des 1. Januar 4713 v. Chr. darstellt). Das Subtrahieren zweier Julianischer Tagesnummern
-ergibt die Differenz in Tagen. Das Multiplizieren mit `86400` konvertiert Tage in Sekunden.
-`CAST(... AS INTEGER)` kürzt auf ganze Sekunden.
+`strftime('%s', ...)` parst den ISO-Datumszeit-String (einschließlich eines `±HH:MM`-Offsets, der nach UTC
+normalisiert wird) und gibt ganze Epochensekunden zurück. Die Subtraktion der beiden ergibt die exakte
+Dauer in Sekunden — passend zur PHP-seitigen `getTimestamp()`-Differenz.
+
+> **Fallstrick — `julianday()` nicht für Sekundengenauigkeit verwenden.** Die Formel
+> `CAST((julianday(end_time) - julianday(start_time)) * 86400 AS INTEGER)` ist verlockend, aber die
+> `julianday`-Differenz ist ein Gleitkommawert knapp unter der ganzen Sekunde, sodass das `CAST(... AS INTEGER)`
+> einen 60-Sekunden-Eintrag auf **59** kürzt. Verwenden Sie stattdessen `strftime('%s', ...)` (ganze
+> Epochensekunden) — das ist exakt. (Gefunden durch die PHPUnit-Suite des FT246-`timelog`-Beispiels.)
 
 `SUM(...)` summiert alle abgeschlossenen Einträge für den Tag. `WHERE end_time IS NOT NULL`
 filtert alle noch laufenden Timer aus der Zusammenfassung.
@@ -175,7 +180,7 @@ Serialisierung einzelner Einträge verwendet.
 
 ```php
 $sql = 'SELECT date(start_time) AS day,
-               SUM(CAST((julianday(end_time) - julianday(start_time)) * 86400 AS INTEGER)) AS total_seconds,
+               SUM(strftime('%s', end_time) - strftime('%s', start_time)) AS total_seconds,
                COUNT(*) AS entry_count
           FROM time_entries
          WHERE ' . implode(' AND ', $where) . '
