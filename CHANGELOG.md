@@ -8,6 +8,10 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+---
+
+## [1.5.327] — 2026-05-29
+
 ### Added
 - `Nene2\Testing\DatabaseTestKit` — テスト用 DB 配線ヘルパー（stable public API）。`PdoConnectionFactory` / `PdoDatabaseQueryExecutor` / `PdoDatabaseTransactionManager` をまとめて配線し、3 つのインターフェースを readonly コンストラクタプロパティで公開。`DatabaseTestKit::sqlite($path)` は `:memory:` を明示的に拒否し、`transactional()` 非互換罠（IMP-18）を構造的に塞ぐ。`fromConfig(DatabaseConfig)` で任意 adapter にも対応（IMP-14 / ADR 0012 / #1307）
 - `docs/adr/0012-sanctioned-test-database-wiring.md` — `Nene2\Testing` 名前空間導入の決定記録
