@@ -18,6 +18,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.324] — 2026-05-29
+
+### Added
+- `docs/howto/use-window-functions.md` — FT350 windowfunc 新規作成: SQLite ウィンドウ関数 howto: ROW_NUMBER/RANK/DENSE_RANK ランキング・SUM OVER 移動合計・LAG/LEAD 期間比較・top-N-per-group CTE・readonly DTO マッピング (#1337)
+
+---
+
 ## [1.5.323] — 2026-05-27
 
 ### Added
