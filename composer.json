@@ -34,6 +34,7 @@
     "openapi": "php tools/validate-openapi.php",
     "openapi:docs": "php tools/openapi-to-md.php",
     "howto:index": "php tools/build-howto-index.php",
+    "howto:frontmatter": "php tools/validate-howto-frontmatter.php",
     "mcp": "php tools/validate-mcp-tools.php",
     "version:check": "php tools/validate-version.php",
     "migrations:status": "phinx status -c phinx.php",

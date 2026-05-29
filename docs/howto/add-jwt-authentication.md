@@ -1,3 +1,11 @@
+---
+title: Add JWT Authentication
+category: auth
+tags: [jwt, bearer, authentication]
+difficulty: intermediate
+related: [use-bearer-auth, refresh-token-rotation, rbac]
+---
+
 # Add JWT Authentication
 
 This guide shows how to add JWT Bearer authentication to a NENE2 application — user

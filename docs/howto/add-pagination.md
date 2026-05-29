@@ -1,3 +1,11 @@
+---
+title: Add pagination
+category: api-design
+tags: [pagination, query-params]
+difficulty: beginner
+related: [pagination, dynamic-filter-query]
+---
+
 # Add pagination
 
 This guide shows how to add `?limit=` / `?offset=` pagination to a collection endpoint using the
