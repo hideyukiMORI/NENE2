@@ -128,8 +128,9 @@ FTS5 suporta uma linguagem de query rica passada como valor MATCH:
 | Query | Corresponde |
 |-------|-------------|
 | `php` | Qualquer postagem contendo "php" |
-| `php api` | Postagens contendo "php" OU "api" (padrão: OR implícito) |
-| `php AND api` | Postagens contendo ambos "php" e "api" |
+| `php api` | Postagens contendo **ambos** "php" E "api" (padrão: AND implícito) |
+| `php AND api` | Postagens contendo ambos "php" e "api" (explícito, igual acima) |
+| `php OR api` | Postagens contendo "php" ou "api" |
 | `"quick brown"` | Postagens contendo a frase exata "quick brown" |
 | `php*` | Postagens onde algum token começa com "php" (busca por prefixo) |
 | `title:php` | Postagens onde a coluna title contém "php" |

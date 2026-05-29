@@ -128,8 +128,9 @@ FTS5 支持丰富的查询语言作为 MATCH 值：
 | 查询 | 匹配内容 |
 |------|----------|
 | `php` | 包含"php"的任何文章 |
-| `php api` | 包含"php"或"api"的文章（默认：隐式 OR） |
-| `php AND api` | 同时包含"php"和"api"的文章 |
+| `php api` | **同时**包含"php"和"api"的文章（默认：隐式 AND） |
+| `php AND api` | 同时包含"php"和"api"的文章（显式，同上） |
+| `php OR api` | 包含"php"或"api"的文章 |
 | `"quick brown"` | 包含精确短语"quick brown"的文章 |
 | `php*` | 任何 token 以"php"开头的文章（前缀搜索） |
 | `title:php` | title 列包含"php"的文章 |

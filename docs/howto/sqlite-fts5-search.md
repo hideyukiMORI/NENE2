@@ -148,8 +148,9 @@ FTS5 supports a rich query language passed as the MATCH value:
 | Query | Matches |
 |-------|---------|
 | `php` | Any post containing "php" |
-| `php api` | Posts containing "php" OR "api" (default: implicit OR) |
-| `php AND api` | Posts containing both "php" and "api" |
+| `php api` | Posts containing both "php" AND "api" (default: **implicit AND**) |
+| `php AND api` | Posts containing both "php" and "api" (explicit, same as above) |
+| `php OR api` | Posts containing "php" or "api" |
 | `"quick brown"` | Posts containing the exact phrase "quick brown" |
 | `php*` | Posts where any token starts with "php" (prefix search) |
 | `title:php` | Posts where the title column contains "php" |
@@ -157,6 +158,9 @@ FTS5 supports a rich query language passed as the MATCH value:
 
 Phrase search (`"..."`) matches exact token sequences.
 Column-scoped search (`title:php`) limits matching to one column.
+
+> **Gotcha**: FTS5's default operator between bare terms is **AND**, not OR — `php api`
+> requires *both* terms. Use the explicit `OR` operator (`php OR api`) for OR semantics.
 
 ---
 

@@ -141,8 +141,9 @@ FTS5 unterstützt eine umfangreiche Abfragesprache, die als MATCH-Wert übergebe
 | Abfrage | Trifft |
 |---------|--------|
 | `php` | Jeden Beitrag, der „php" enthält |
-| `php api` | Beiträge, die „php" ODER „api" enthalten (Standard: implizites OR) |
-| `php AND api` | Beiträge, die sowohl „php" als auch „api" enthalten |
+| `php api` | Beiträge, die **sowohl** „php" als auch „api" enthalten (Standard: implizites AND) |
+| `php AND api` | Beiträge, die sowohl „php" als auch „api" enthalten (explizit, wie oben) |
+| `php OR api` | Beiträge, die „php" oder „api" enthalten |
 | `"quick brown"` | Beiträge, die die exakte Phrase „quick brown" enthalten |
 | `php*` | Beiträge, bei denen ein Token mit „php" beginnt (Präfixsuche) |
 | `title:php` | Beiträge, bei denen die Titelspalte „php" enthält |
