@@ -53,3 +53,8 @@ jobs:
         run: |
           composer openapi:docs
           git diff --exit-code docs/reference/http-endpoints.md
+
+      - name: Verify howto index is up to date
+        run: |
+          composer howto:index
+          git diff --exit-code docs/howto/README.md 'docs/*/howto/README.md'
