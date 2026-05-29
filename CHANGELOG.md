@@ -18,6 +18,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.326] — 2026-05-29
+
+### Added
+- `docs/howto/bulk-reorder-api.md` — FT352 reorderlog (ATK) 新規作成: 一括並べ替え（drag-and-drop ordering）API: `CASE WHEN` 単文 UPDATE による原子的 reorder・board スコープ・affected 件数検証・ATK-01〜12 攻撃試験 (#1343)
+
+---
+
 ## [1.5.325] — 2026-05-29
 
 ### Added

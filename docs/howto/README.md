@@ -163,11 +163,12 @@ Auto-generated from each guide's frontmatter (`category` / `difficulty` / `tags`
 | [Use SQLite FTS5 Full-Text Search](use-fts5-search.md) | intermediate | `fts5` `sqlite` `full-text-search` `inverted-index` |
 | [Use SQLite Window Functions](use-window-functions.md) | intermediate | `window-functions` `sqlite` `ranking` `running-total` `lag-lead` |
 
-### API Design (31)
+### API Design (32)
 
 | Guide | Difficulty | Tags |
 |---|---|---|
 | [Add pagination](add-pagination.md) | beginner | `pagination` `query-params` |
+| [Bulk Reorder (Drag-and-Drop Ordering) API](bulk-reorder-api.md) | intermediate | `ordering` `bulk-update` `case-when` `idor` `atomicity` |
 | [Content negotiation](content-negotiation.md) | beginner | `content-negotiation` `json` `accept-header` `problem-json` |
 | [CSV バルクインポート API の実装ガイド](csv-bulk-import.md) | intermediate | `csv` `bulk-import` `partial-success` `validation` `history` |
 | [ETag & Conditional Requests](etag-conditional-requests.md) | intermediate | `etag` `conditional-request` `cache` `optimistic-locking` `http` |
