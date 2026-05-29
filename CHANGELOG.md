@@ -18,6 +18,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.325] — 2026-05-29
+
+### Added
+- `docs/howto/csv-export-formula-injection.md` — FT351 csvexport (VULN) 新規作成: CSV/表計算エクスポートの数式インジェクション防止 howto: 先頭 `= + - @` タブ/CR の中和・RFC 4180 クォート・Content-Disposition ファイル名インジェクション・V-01〜V-10 脆弱性診断 (#1339)
+
+---
+
 ## [1.5.324] — 2026-05-29
 
 ### Added

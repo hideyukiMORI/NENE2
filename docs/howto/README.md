@@ -100,7 +100,7 @@ Auto-generated from each guide's frontmatter (`category` / `difficulty` / `tags`
 | [TOTP 二要素認証の実装ガイド](totp-authentication.md) | advanced | `totp` `two-factor` `otp` `authentication` |
 | [User Invitation System](user-invitation.md) | intermediate | `invitation` `token` `expiry` `email` |
 
-### Security (34)
+### Security (35)
 
 | Guide | Difficulty | Tags |
 |---|---|---|
@@ -134,6 +134,7 @@ Auto-generated from each guide's frontmatter (`category` / `difficulty` / `tags`
 | [HOWTO: Audit Trail — Recording Who Changed What](audit-trail.md) | intermediate | `audit-trail` `immutable-log` `jwt` `change-tracking` `compliance` |
 | [Mass Assignment Defence](mass-assignment.md) | beginner | `mass-assignment` `dto` `whitelist` `input-validation` |
 | [Personal Data Export](personal-data-export.md) | intermediate | `gdpr` `data-export` `pii` `download-token` `expiry` |
+| [Prevent CSV / Spreadsheet Formula Injection on Export](csv-export-formula-injection.md) | intermediate | `csv` `formula-injection` `export` `sanitization` `rfc-4180` |
 | [Signed URLs](signed-urls.md) | intermediate | `signed-url` `hmac` `presigned` `time-limited` `token` |
 | [SQL injection defense](sql-injection.md) | intermediate | `sql-injection` `pdo` `validation` |
 | [URL Shortener API & SSRF Prevention](url-shortener-ssrf.md) | advanced | `ssrf` `url-shortener` `vulnerability-assessment` |
