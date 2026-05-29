@@ -4,7 +4,7 @@
 
 Démontre une API de suivi du temps de type chronomètre où une entrée de minuterie a un `start_time`
 et un `end_time` nullable (`NULL` = en cours, non-`NULL` = arrêtée). Une seule minuterie peut
-tourner à la fois. La durée est calculée via `julianday()` de SQLite. Des résumés journaliers
+tourner à la fois. La durée est calculée via `strftime('%s', ...)` de SQLite. Des résumés journaliers
 agrègent le total des secondes suivies par jour calendaire.
 
 ---
@@ -143,18 +143,24 @@ la durée calculée. `NoRunningTimerException` est levée si aucune minuterie ne
 
 ---
 
-## Calcul de durée : `julianday()` en SQL
+## Calcul de durée : `strftime('%s', ...)` en SQL
 
-Pour les résumés agrégés, la durée est calculée en SQL avec la fonction `julianday()` de SQLite :
+Pour les résumés agrégés, la durée est calculée en SQL avec la fonction `strftime('%s', ...)` de SQLite, qui renvoie les secondes Unix epoch d'une chaîne datetime sous forme d'entier :
 
 ```sql
-SUM(CAST((julianday(end_time) - julianday(start_time)) * 86400 AS INTEGER)) AS total_seconds
+SUM(strftime('%s', end_time) - strftime('%s', start_time)) AS total_seconds
 ```
 
-`julianday()` convertit une chaîne datetime ISO en Nombre de Jour Julien (un nombre réel
-représentant les jours depuis midi le 1er janvier 4713 avant J.-C.). Soustraire deux Nombres de
-Jour Juliens donne la différence en jours. Multiplier par `86400` convertit les jours en secondes.
-`CAST(... AS INTEGER)` tronque aux secondes entières.
+`strftime('%s', ...)` analyse la chaîne datetime ISO (y compris un décalage `±HH:MM`, normalisé en UTC)
+et renvoie des secondes epoch entières. Soustraire les deux donne la durée exacte en secondes —
+correspondant à la différence `getTimestamp()` côté PHP.
+
+> **Piège — ne pas utiliser `julianday()` pour la précision à la seconde.** La formule
+> `CAST((julianday(end_time) - julianday(start_time)) * 86400 AS INTEGER)` est tentante, mais la
+> différence `julianday` est une valeur à virgule flottante juste en dessous de la seconde entière, donc
+> le `CAST(... AS INTEGER)` tronque une entrée de 60 secondes à **59**. Utilisez plutôt
+> `strftime('%s', ...)` (secondes epoch entières) — c'est exact. (Découvert par la suite PHPUnit de
+> l'exemple `timelog` FT246.)
 
 `SUM(...)` totalise toutes les entrées terminées pour la journée. `WHERE end_time IS NOT NULL`
 exclut les minuteries encore en cours du résumé.
@@ -177,7 +183,7 @@ l'approche PHP est utilisée pour la sérialisation des entrées individuelles.
 
 ```php
 $sql = 'SELECT date(start_time) AS day,
-               SUM(CAST((julianday(end_time) - julianday(start_time)) * 86400 AS INTEGER)) AS total_seconds,
+               SUM(strftime('%s', end_time) - strftime('%s', start_time)) AS total_seconds,
                COUNT(*) AS entry_count
           FROM time_entries
          WHERE ' . implode(' AND ', $where) . '

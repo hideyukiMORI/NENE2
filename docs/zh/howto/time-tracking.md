@@ -2,7 +2,7 @@
 
 > **FT 参考**：FT246（`NENE2-FT/timelog`）— 时间追踪 API
 
-演示一个秒表式时间追踪 API：计时条目有 `start_time` 和可为空的 `end_time`（`NULL` = 运行中，非 `NULL` = 已停止），同一时间只能运行一个计时器，时长通过 SQLite 的 `julianday()` 计算，每日汇总按日历日聚合追踪的总秒数。
+演示一个秒表式时间追踪 API：计时条目有 `start_time` 和可为空的 `end_time`（`NULL` = 运行中，非 `NULL` = 已停止），同一时间只能运行一个计时器，时长通过 SQLite 的 `strftime('%s', ...)` 计算，每日汇总按日历日聚合追踪的总秒数。
 
 ---
 
@@ -130,15 +130,17 @@ public function stop(string $endTime): TimeEntry
 
 ---
 
-## 时长计算：SQL 中的 `julianday()`
+## 时长计算：SQL 中的 `strftime('%s', ...)`
 
-对于聚合汇总，时长使用 SQLite 的 `julianday()` 函数在 SQL 中计算：
+对于聚合汇总，时长使用 SQLite 的 `strftime('%s', ...)` 函数在 SQL 中计算，该函数以整数形式返回 datetime 字符串的 Unix epoch 秒数：
 
 ```sql
-SUM(CAST((julianday(end_time) - julianday(start_time)) * 86400 AS INTEGER)) AS total_seconds
+SUM(strftime('%s', end_time) - strftime('%s', start_time)) AS total_seconds
 ```
 
-`julianday()` 将 ISO datetime 字符串转换为儒略日数（表示自公元前 4713 年 1 月 1 日正午以来的天数的实数）。两个儒略日数相减得到天数差。乘以 `86400` 将天数转换为秒数。`CAST(... AS INTEGER)` 截断为整秒。
+`strftime('%s', ...)` 解析 ISO datetime 字符串（包括 `±HH:MM` 偏移量，会归一化为 UTC）并返回整数 epoch 秒数。两者相减得到精确的秒数差，与 PHP 端的 `getTimestamp()` 差值一致。
+
+> **陷阱 — 不要用 `julianday()` 做秒级精度计算。** 一个诱人的公式是 `CAST((julianday(end_time) - julianday(start_time)) * 86400 AS INTEGER)`，但 `julianday` 差值是略低于整秒的浮点数，所以 `CAST(... AS INTEGER)` 截断会把 60 秒的条目变成 **59 秒**。改用 `strftime('%s', ...)`（整数 epoch 秒）才是精确的。（由 FT246 `timelog` 示例的 PHPUnit 测试发现）
 
 `SUM(...)` 汇总当天所有已完成的条目。`WHERE end_time IS NOT NULL` 从汇总中过滤掉正在运行的计时器。
 
@@ -158,7 +160,7 @@ return (int) $end->getTimestamp() - (int) $start->getTimestamp();
 
 ```php
 $sql = 'SELECT date(start_time) AS day,
-               SUM(CAST((julianday(end_time) - julianday(start_time)) * 86400 AS INTEGER)) AS total_seconds,
+               SUM(strftime('%s', end_time) - strftime('%s', start_time)) AS total_seconds,
                COUNT(*) AS entry_count
           FROM time_entries
          WHERE ' . implode(' AND ', $where) . '

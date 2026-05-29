@@ -2,7 +2,7 @@
 
 > **FT リファレンス**: FT246 (`NENE2-FT/timelog`) — タイムトラッキング API
 
-タイマーエントリが `start_time` と nullable な `end_time`（`NULL` = 実行中、非 `NULL` = 停止済み）を持ち、一度に 1 つのタイマーしか実行できず、SQLite の `julianday()` で時間が計算され、日次サマリーがカレンダー日ごとの合計トラッキング秒数を集計するストップウォッチスタイルのタイムトラッキング API を実演します。
+タイマーエントリが `start_time` と nullable な `end_time`（`NULL` = 実行中、非 `NULL` = 停止済み）を持ち、一度に 1 つのタイマーしか実行できず、SQLite の `strftime('%s', ...)` で時間が計算され、日次サマリーがカレンダー日ごとの合計トラッキング秒数を集計するストップウォッチスタイルのタイムトラッキング API を実演します。
 
 ---
 
@@ -130,15 +130,17 @@ public function stop(string $endTime): TimeEntry
 
 ---
 
-## 時間計算: SQL での `julianday()`
+## 時間計算: SQL での `strftime('%s', ...)`
 
-集計サマリーの場合、時間は SQLite の `julianday()` 関数を使って SQL で計算されます:
+集計サマリーの場合、時間は SQLite の `strftime('%s', ...)` 関数を使って SQL で計算されます。この関数は日時文字列の Unix エポック秒を整数で返します:
 
 ```sql
-SUM(CAST((julianday(end_time) - julianday(start_time)) * 86400 AS INTEGER)) AS total_seconds
+SUM(strftime('%s', end_time) - strftime('%s', start_time)) AS total_seconds
 ```
 
-`julianday()` は ISO 日時文字列をユリウス日数（紀元前 4713 年 1 月 1 日正午からの日数を表す実数）に変換します。2 つのユリウス日数を引くと日数の差が得られます。`86400` を掛けると日数が秒数に変換されます。`CAST(... AS INTEGER)` で整数秒に切り捨てます。
+`strftime('%s', ...)` は ISO 日時文字列（`±HH:MM` オフセットがあれば UTC に正規化）を解析し、整数のエポック秒を返します。2 つを引くと正確な秒数の差が得られ、PHP 側の `getTimestamp()` の差分と一致します。
+
+> **落とし穴 — 秒精度に `julianday()` を使わないこと。** `CAST((julianday(end_time) - julianday(start_time)) * 86400 AS INTEGER)` という式を使いたくなりますが、`julianday` の差はちょうどの秒数をわずかに下回る浮動小数点値のため、`CAST(... AS INTEGER)` の切り捨てで 60 秒のエントリが **59 秒**になります。整数エポック秒を返す `strftime('%s', ...)` を使えば正確です。（FT246 `timelog` example の PHPUnit で発見）
 
 `SUM(...)` はその日のすべての完了エントリを合計します。`WHERE end_time IS NOT NULL` はサマリーからまだ実行中のタイマーをフィルタリングします。
 
@@ -158,7 +160,7 @@ return (int) $end->getTimestamp() - (int) $start->getTimestamp();
 
 ```php
 $sql = 'SELECT date(start_time) AS day,
-               SUM(CAST((julianday(end_time) - julianday(start_time)) * 86400 AS INTEGER)) AS total_seconds,
+               SUM(strftime('%s', end_time) - strftime('%s', start_time)) AS total_seconds,
                COUNT(*) AS entry_count
           FROM time_entries
          WHERE ' . implode(' AND ', $where) . '

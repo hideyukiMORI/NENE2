@@ -12,7 +12,7 @@ related: [habit-tracker, shift-management]
 
 Demonstrates a stopwatch-style time tracking API where a timer entry has a `start_time`
 and a nullable `end_time` (`NULL` = running, non-`NULL` = stopped), only one timer can
-run at a time, duration is computed via SQLite's `julianday()`, and daily summaries
+run at a time, duration is computed via SQLite's `strftime('%s', ...)`, and daily summaries
 aggregate total tracked seconds per calendar day.
 
 ---
@@ -150,22 +150,29 @@ the computed duration. `NoRunningTimerException` is thrown if no timer is runnin
 
 ---
 
-## Duration calculation: `julianday()` in SQL
+## Duration calculation: `strftime('%s', ...)` in SQL
 
-For aggregate summaries, duration is computed in SQL using SQLite's `julianday()`
-function:
+For aggregate summaries, duration is computed in SQL using SQLite's
+`strftime('%s', ...)` function, which returns the Unix epoch seconds of a datetime
+string as an integer:
 
 ```sql
-SUM(CAST((julianday(end_time) - julianday(start_time)) * 86400 AS INTEGER)) AS total_seconds
+SUM(strftime('%s', end_time) - strftime('%s', start_time)) AS total_seconds
 ```
 
-`julianday()` converts an ISO datetime string to a Julian Day Number (a real number
-representing days since noon on January 1, 4713 BC). Subtracting two Julian Day Numbers
-gives the difference in days. Multiplying by `86400` converts days to seconds.
-`CAST(... AS INTEGER)` truncates to whole seconds.
+`strftime('%s', ...)` parses the ISO datetime string (including any `±HH:MM` offset,
+which it normalises to UTC) and returns whole epoch seconds. Subtracting the two gives
+the exact duration in seconds — matching the PHP-side `getTimestamp()` difference.
 
 `SUM(...)` totals all completed entries for the day. `WHERE end_time IS NOT NULL`
 filters out any still-running timers from the summary.
+
+> **Pitfall — do not use `julianday()` for second precision.** A tempting formula is
+> `CAST((julianday(end_time) - julianday(start_time)) * 86400 AS INTEGER)`. But the
+> `julianday` difference is a floating-point value a hair below the whole second, so
+> the `CAST(... AS INTEGER)` truncation turns a 60-second entry into **59**. Use
+> `strftime('%s', ...)` (integer epoch seconds) instead — it is exact. (Found by the
+> FT246 `timelog` example's PHPUnit suite.)
 
 The PHP-side calculation for individual entries:
 
@@ -175,9 +182,9 @@ $end   = new \DateTimeImmutable($this->endTime);
 return (int) $end->getTimestamp() - (int) $start->getTimestamp();
 ```
 
-Both approaches produce the same result for UTC timestamps. The SQL approach is used
-for aggregation (it avoids fetching all rows to sum); the PHP approach is used for
-individual entry serialization.
+Both approaches produce the same result. The SQL approach is used for aggregation (it
+avoids fetching all rows to sum); the PHP approach is used for individual entry
+serialization.
 
 ---
 
@@ -185,7 +192,7 @@ individual entry serialization.
 
 ```php
 $sql = 'SELECT date(start_time) AS day,
-               SUM(CAST((julianday(end_time) - julianday(start_time)) * 86400 AS INTEGER)) AS total_seconds,
+               SUM(strftime(\'%s\', end_time) - strftime(\'%s\', start_time)) AS total_seconds,
                COUNT(*) AS entry_count
           FROM time_entries
          WHERE ' . implode(' AND ', $where) . '
