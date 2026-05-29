@@ -57,7 +57,7 @@ jobs:
       - name: Verify howto index is up to date
         run: |
           composer howto:index
-          git diff --exit-code docs/howto/README.md 'docs/*/howto/README.md'
+          git diff --exit-code docs/howto/README.md 'docs/*/howto/README.md' docs/howto/by-tag.md
 
       - name: Validate howto frontmatter
-        run: composer howto:frontmatter
+        run: composer howto:frontmatter -- --require-all

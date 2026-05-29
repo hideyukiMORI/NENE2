@@ -50,10 +50,25 @@ through `tags`, not by inventing new categories.
 ## Validation
 
 ```bash
-composer howto:frontmatter
+composer howto:frontmatter                 # strict on annotated guides, lenient on missing
+composer howto:frontmatter -- --require-all # also fail when any guide is unannotated
 ```
 
-During the Phase B rollout, guides without a frontmatter block are allowed and
-reported as "unannotated". Once every guide is annotated, the validator will be
-switched to require frontmatter on all guides (CI fails on a missing block).
-Guides that *do* have a block are always validated strictly.
+Every guide is now annotated, so CI runs the `--require-all` form: a new guide
+without a frontmatter block fails the build. `README.md` and `by-tag.md` are
+indexes, not guides, and are excluded from validation.
+
+## Generated indexes
+
+The frontmatter is the data source for `composer howto:index`
+(`tools/build-howto-index.php`), which regenerates:
+
+- `docs/howto/README.md` — the "Browse by category" section (between the
+  `AUTO-INDEX` markers), grouping every guide by `category` with its
+  `difficulty` and `tags`. The hand-picked "I want to…" finder table above the
+  markers is left untouched.
+- `docs/howto/by-tag.md` — every guide grouped by `tag`.
+- Other locales' `README.md` — a flat, `# H1`-based index (translations carry
+  no frontmatter).
+
+CI re-runs the generator and fails on any drift, so the indexes never go stale.

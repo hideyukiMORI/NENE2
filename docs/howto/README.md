@@ -2,7 +2,11 @@
 
 Task-focused guides for building with NENE2. Each guide is self-contained and links to related topics.
 
-**100+ guides** in this directory (excluding this index). VitePress sidebar lists common entry points; use this page for the full catalog.
+Three ways to find a guide:
+
+- **By goal** — the hand-picked "I want to…" table below.
+- **By category** — auto-generated from guide frontmatter; lists every guide.
+- **By tag** — see [Browse by tag](by-tag.md).
 
 ---
 
@@ -44,415 +48,301 @@ Task-focused guides for building with NENE2. Each guide is self-contained and li
 
 ---
 
-## Getting Started
-
-| Guide | Description |
-|---|---|
-| [Add a custom route](add-custom-route.md) | Register a new GET/POST/PUT/DELETE route |
-| [Add a database-backed endpoint](add-database-endpoint.md) | Repository + executor + migration |
-| [Add a second entity](add-second-entity.md) | FK relationships, JOIN queries |
-| [Add a health check](add-health-check.md) | Liveness probe endpoint |
-| [Add an HTML view](add-html-view.md) | Server-side rendering with native PHP templates |
-| [Quality tools](quality-tools.md) | PHPStan, CS Fixer, PHPUnit setup |
-
----
-
-## Authentication & Authorization
-
-| Guide | Description |
-|---|---|
-| [JWT authentication](jwt-authentication.md) | Bearer token with LocalBearerTokenVerifier |
-| [Use Bearer auth](use-bearer-auth.md) | Apply BearerTokenMiddleware |
-| [RBAC](rbac.md) | Role-based access control via JWT claims |
-| [Multi-tenant isolation](multi-tenant-isolation.md) | Per-tenant query filtering |
-| [JWT Refresh Token Rotation](refresh-token-rotation.md) | Secure token refresh, replay detection |
-| [API key management](api-key-management.md) | SHA-256 key storage, scoped access |
-| [OTP authentication](otp-authentication.md) | Time-based or single-use OTP |
-| [Passwordless auth (Magic Link)](passwordless-auth-magic-link.md) | Email token login |
-| [Password hashing](password-hashing.md) | Argon2id, timing-safe compare |
-| [Password reset](password-reset.md) | Secure token flow, constant-time response |
-| [Access token management](access-token-management.md) | Scoped tokens, rotate, revoke |
-
----
-
-## Security
-
-| Guide | Description |
-|---|---|
-| [SQL injection prevention](sql-injection.md) | Parameterized queries, RouterParam casting |
-| [Mass assignment defense](mass-assignment.md) | Allowlist via DTO |
-| [CSRF and JSON APIs](csrf-and-json-api.md) | CORS ≠ CSRF; Content-Type lock |
-| [Idempotency](idempotency.md) | Idempotency keys, 201/200 design |
-| [Webhook signature verification](webhook-signature.md) | HMAC-SHA256, hash_equals |
-| [Enforce resource ownership](enforce-resource-ownership.md) | 404 vs 403 for IDOR prevention |
-| [Signed URLs](signed-urls.md) | Stateless HMAC tokens, expiry |
-| [Account lockout](account-lockout.md) | Failed login counting, locked_until |
-
----
-
-## Database
-
-| Guide | Description |
-|---|---|
-| [Database transactions](transactions.md) | transactional() pattern overview |
-| [Use database transactions](use-transactions.md) | Step-by-step with rollback testing |
-| [Optimistic locking](optimistic-locking.md) | version column, 409 on conflict |
-| [Soft delete](soft-delete.md) | deleted_at filter, purge guard |
-| [Prevent double booking](prevent-double-booking.md) | Time-range overlap queries |
-| [Use FTS5 search](use-fts5-search.md) | SQLite full-text search |
-| [Use PostgreSQL](use-postgresql.md) | Switch adapter to pgsql |
-| [Migrations](add-database-endpoint.md) | Phinx migrations (see add-database-endpoint) |
-
----
-
-## API Design
-
-| Guide | Description |
-|---|---|
-| [Pagination](pagination.md) | OFFSET vs cursor trade-offs |
-| [Add pagination](add-pagination.md) | Implement cursor or offset pagination |
-| [API versioning](api-versioning.md) | URI prefix, Deprecation/Sunset headers |
-| [Content negotiation](content-negotiation.md) | Accept header handling |
-| [ETag and conditional requests](etag-conditional-requests.md) | 304, 412, 428 |
-| [Rate limiting](rate-limiting.md) | ThrottleMiddleware, per-user limits |
-| [Nested JSON validation](nested-json-validation.md) | Dot-notation errors, deep validation |
-| [Implement bulk endpoint](implement-bulk-endpoint.md) | Batch create/update patterns |
-| [Implement PATCH endpoint](implement-patch-endpoint.md) | Partial updates |
-| [Handle timezones](handle-timezones.md) | UTC storage, ISO 8601 |
-| [Validate unicode input](validate-unicode-input.md) | mb_strlen, grapheme clusters |
-| [Request scoped state](request-scoped-state.md) | Pass data through middleware pipeline |
-
----
-
-## Background & Infrastructure
-
-| Guide | Description |
-|---|---|
-| [Job queue](job-queue.md) | Priority queue, retry, idempotency key |
-| [Circuit breaker](circuit-breaker.md) | 3-state, lazy Half-Open, DB persistence |
-| [Webhook delivery](webhook-delivery.md) | Outbound SSRF-safe, signed, retry |
-| [Event sourcing](event-sourcing.md) | Append-only log, replay |
-| [Feature flags](feature-flags.md) | Rollout %, targeting, kill switch |
-| [Distributed locking](distributed-locking.md) | Owner enforcement, stale claim |
-| [Audit trail](audit-trail.md) | Before/after snapshot, immutable log |
-| [File upload](file-upload.md) | Base64, MIME detection, path traversal |
-| [Add MCP tools](add-mcp-tools.md) | Expose API as MCP tool |
-| [Deploy to production](deploy-production.md) | Environment, secrets, health check |
-
----
-
-## Product Features (Recipe Patterns)
-
-| Guide | Description |
-|---|---|
-| [Activity feed](activity-feed.md) | Follow-based feed, cursor pagination, privacy |
-| [User follow system](user-follow-system.md) | Idempotent follow/unfollow, mutual follow |
-| [Direct messaging](direct-messaging-system.md) | Conversation model, participant access |
-| [Notification inbox](notification-inbox.md) | Idempotent mark-read, bulk, IDOR |
-| [Comment threads](threaded-comments.md) | Parent-child, MAX_DEPTH, soft delete |
-| [Voting system](voting-system.md) | Upvote/downvote toggle, score |
-| [Emoji reactions](emoji-reaction-system.md) | UNIQUE constraint, GROUP BY count |
-| [Bookmark system](bookmark-system.md) | Idempotent add, collection filter |
-| [Wishlist management](wishlist-management.md) | Privacy, priority metadata, IDOR |
-| [Tagging system](tagging-system.md) | M:N join, atomic replace, tag search |
-| [User profile](user-profile-management.md) | Avatar URL, duplicate email 409 |
-| [User preferences](user-preferences-management.md) | Typed upsert, enum keys |
-| [Content drafts](content-draft-lifecycle.md) | Status enum transitions, 404 hide |
-| [Content pinning](content-pinning.md) | Position management, reorder |
-| [Content collection](content-collection.md) | Idempotent add, position fill |
-| [Content moderation](content-report-moderation.md) | RBAC, idempotent report, state machine |
-| [Leaderboard](leaderboard-ranking-system.md) | Best score, COUNT rank, cursor |
-| [Point/loyalty system](point-loyalty-system.md) | Ledger model, reference_id idempotency |
-| [Flash sale](flash-sale-system.md) | Inventory race, UNIQUE prevention |
-| [Guest order](guest-order-system.md) | Price snapshot, cart, stock check |
-| [Subscription plan](subscription-plan-management.md) | Plan lifecycle, re-subscribe |
-| [User invitation](user-invitation.md) | Token, expiry, cancel ownership |
-| [Group membership](group-membership-management.md) | Roles, owner auto-join, self-leave |
-| [Coupon/promo codes](coupon-promo-code.md) | Admin RBAC, per-user limit |
-| [Product reviews](product-review-system.md) | 1-user-1-product, rating aggregation |
-| [Shopping cart](shopping-cart.md) | UNIQUE constraint, quantity accumulation, quantity=0 delete |
-| [File metadata sharing](file-metadata-sharing.md) | 3-tier access control, IDOR prevention, visibility guard |
-| [Search & autocomplete](search-autocomplete.md) | LIKE escape, relevance scoring, prefix autocomplete |
-| [CSV bulk import](csv-bulk-import.md) | Partial success, batch duplicate detection, CRLF |
-| [TOTP two-factor auth](totp-authentication.md) | RFC 6238, Base32, replay prevention |
-| [OAuth2 social login](oauth2-social-login.md) | Authorization Code Flow, state CSRF, code replay guard |
-| [Application caching](application-caching.md) | Cache-Aside, TTL injection, write invalidation |
-| [Content versioning](content-versioning.md) | Append-only history, rollback as new version |
-| [Payment webhook](payment-webhook.md) | HMAC signature, event_id idempotency, status guard |
-| [Geolocation](geolocation.md) | Haversine distance, bounding box, coordinate validation |
-| [A/B testing](ab-testing.md) | Experiment lifecycle, deterministic assignment, CVR |
-| [Multi-step workflow](multi-step-workflow.md) | Ordered steps, approve/reject, action history |
-| [Inbound webhook receiver](inbound-webhook-receiver.md) | Per-source HMAC, signature→idempotency→persist |
-| [Admin report aggregation](admin-report-aggregation.md) | Date validation, from>to guard, limit clamp |
-| [Data masking](data-masking.md) | Default mask, admin unmask, append-only audit |
-| [Request deduplication](request-deduplication.md) | Idempotency-Key, 24h TTL, replayed flag |
-| [Personal data export](personal-data-export.md) | Opaque token, PII expiry |
-
----
-
 <!-- AUTO-INDEX:START (generated by `composer howto:index` — do not edit by hand) -->
 
-## Full Index (auto-generated)
+## Browse by category
 
-Every guide in this directory, sorted by file name. Regenerate with `composer howto:index`.
+Auto-generated from each guide's frontmatter (`category` / `difficulty` / `tags`); lists every guide. See also [Browse by tag](by-tag.md). Regenerate with `composer howto:index`.
 
-| Guide | Title |
-|---|---|
-| [ab-testing.md](ab-testing.md) | How-to: A/B Testing Framework |
-| [access-token-management.md](access-token-management.md) | How to Build Access Token Management with NENE2 |
-| [account-lockout.md](account-lockout.md) | Account Lockout (Brute-Force Protection) |
-| [activity-feed.md](activity-feed.md) | How-to: Activity Feed / Timeline API |
-| [add-custom-route.md](add-custom-route.md) | Add a Custom Route |
-| [add-database-endpoint.md](add-database-endpoint.md) | Add a Database-backed Endpoint |
-| [add-domain-exception-handler.md](add-domain-exception-handler.md) | How to add a domain exception handler |
-| [add-health-check.md](add-health-check.md) | Add a Health Check |
-| [add-html-view.md](add-html-view.md) | Add HTML Views |
-| [add-jwt-authentication.md](add-jwt-authentication.md) | Add JWT Authentication |
-| [add-mcp-tools.md](add-mcp-tools.md) | Add MCP Tools |
-| [add-optimistic-locking.md](add-optimistic-locking.md) | How to add optimistic concurrency control (ETag / If-Match) |
-| [add-pagination.md](add-pagination.md) | Add pagination |
-| [add-rate-limiting.md](add-rate-limiting.md) | Add Rate Limiting |
-| [add-second-entity.md](add-second-entity.md) | Add a Second Domain Entity |
-| [admin-report-aggregation.md](admin-report-aggregation.md) | How to Add Admin Report Aggregation |
-| [aggregate-reporting.md](aggregate-reporting.md) | How-to: Aggregate Reporting API |
-| [api-key-management.md](api-key-management.md) | API Key Management |
-| [api-usage-metering.md](api-usage-metering.md) | How-to: API Usage Metering & Quota Management |
-| [api-versioning.md](api-versioning.md) | How-to: API Versioning |
-| [application-caching.md](application-caching.md) | Application Caching の実装ガイド |
-| [approval-workflow.md](approval-workflow.md) | How-to: Approval Workflow API |
-| [article-relations-api.md](article-relations-api.md) | How-to: Article Relations API |
-| [article-versioning-api.md](article-versioning-api.md) | How-to: Article Versioning API |
-| [asset-checkout.md](asset-checkout.md) | How-To: Asset Check-out / Check-in Management |
-| [audit-trail.md](audit-trail.md) | HOWTO: Audit Trail — Recording Who Changed What |
-| [batch-api-partial-success.md](batch-api-partial-success.md) | How-to: Batch API with Partial Success |
-| [bearer-token-middleware.md](bearer-token-middleware.md) | How-to: Bearer Token Middleware (JWT Auth Edge Cases) |
-| [bookmark-api.md](bookmark-api.md) | How-to: Bookmark API |
-| [bookmark-system.md](bookmark-system.md) | Bookmark System |
-| [budget-tracking.md](budget-tracking.md) | How-to: Budget Tracking API |
-| [bulk-operations-partial-success.md](bulk-operations-partial-success.md) | How-to: Bulk Operations with Partial-Success Semantics |
-| [bulk-status-update.md](bulk-status-update.md) | How-to: Bulk Status Update API |
-| [category-hierarchy-api.md](category-hierarchy-api.md) | How-to: Category Hierarchy Tree API |
-| [circuit-breaker.md](circuit-breaker.md) | How-to: Circuit Breaker |
-| [collection-api.md](collection-api.md) | How-to: Collection API (User Curated Lists) |
-| [comment-thread.md](comment-thread.md) | How-to: Comment Thread API |
-| [contact-management.md](contact-management.md) | How-to: Contact Management API |
-| [content-approval-workflow.md](content-approval-workflow.md) | How-to: Content Approval Workflow |
-| [content-collection.md](content-collection.md) | コンテンツコレクション |
-| [content-draft-lifecycle.md](content-draft-lifecycle.md) | How to Build a Content Draft Lifecycle (Draft → Published → Archived) with NENE2 |
-| [content-negotiation-api.md](content-negotiation-api.md) | How-to: Content Negotiation — JSON API |
-| [content-negotiation.md](content-negotiation.md) | Content negotiation |
-| [content-pinning.md](content-pinning.md) | Content Pinning |
-| [content-relations.md](content-relations.md) | Content Relations — Typed M:N Self-Referential Links |
-| [content-report-moderation.md](content-report-moderation.md) | Content Report & Moderation |
-| [content-reporting.md](content-reporting.md) | How-to: Content Reporting System |
-| [content-scheduling.md](content-scheduling.md) | Content Scheduling — Time-Based Publish with Lifecycle States |
-| [content-versioning.md](content-versioning.md) | Content Versioning の実装ガイド |
-| [coupon-discount-api.md](coupon-discount-api.md) | How-to: Coupon Discount Code API |
-| [coupon-promo-code.md](coupon-promo-code.md) | クーポン・プロモコード管理 |
-| [coupon-redemption.md](coupon-redemption.md) | How-to: Coupon / Discount Code Redemption API |
-| [cqrs-pattern.md](cqrs-pattern.md) | How-to: CQRS Pattern |
-| [credit-ledger.md](credit-ledger.md) | How-to: Credit Ledger API |
-| [csrf-and-json-api.md](csrf-and-json-api.md) | CSRF and JSON APIs |
-| [csv-bulk-import.md](csv-bulk-import.md) | CSV バルクインポート API の実装ガイド |
-| [cursor-pagination.md](cursor-pagination.md) | How-to: Cursor-Based Pagination |
-| [data-export-api.md](data-export-api.md) | How-to: Data Export API |
-| [data-masking.md](data-masking.md) | How to Add Data Masking |
-| [dead-letter-queue.md](dead-letter-queue.md) | How-to: Dead Letter Queue (DLQ) |
-| [delegated-access-grants.md](delegated-access-grants.md) | How-to: Delegated Access Grants |
-| [deploy-production.md](deploy-production.md) | Deploy to Production |
-| [direct-messaging-system.md](direct-messaging-system.md) | How to Build a Direct Messaging System with NENE2 |
-| [distributed-lock.md](distributed-lock.md) | How-to: Distributed Lock |
-| [distributed-locking.md](distributed-locking.md) | Distributed Locking |
-| [document-template-engine.md](document-template-engine.md) | How-To: Document Template Engine |
-| [document-versioning.md](document-versioning.md) | How-to: Document Versioning API |
-| [draft-publish-workflow.md](draft-publish-workflow.md) | How-to: Draft → Publish → Archive Workflow |
-| [dynamic-filter-query.md](dynamic-filter-query.md) | How-to: Dynamic Filter Query (Dynamic WHERE Clause) |
-| [dynamic-sort-order-injection.md](dynamic-sort-order-injection.md) | How-to: Dynamic Sort & Filter with ORDER BY Injection Prevention |
-| [emoji-reaction-system.md](emoji-reaction-system.md) | How to Build an Emoji Reaction System with NENE2 |
-| [emoji-reactions-api.md](emoji-reactions-api.md) | How-to: Emoji Reactions API |
-| [emoji-reactions-toggle.md](emoji-reactions-toggle.md) | How-to: Emoji Reactions with Toggle and Grouped Counts |
-| [encrypted-field-storage.md](encrypted-field-storage.md) | How to Build Encrypted Field Storage |
-| [enforce-resource-ownership.md](enforce-resource-ownership.md) | How to enforce resource ownership (IDOR prevention) |
-| [etag-conditional-requests.md](etag-conditional-requests.md) | ETag & Conditional Requests |
-| [event-analytics-api.md](event-analytics-api.md) | How-to: Event Analytics API |
-| [event-analytics.md](event-analytics.md) | How-to: Event Analytics API |
-| [event-sourcing-cqrs-api.md](event-sourcing-cqrs-api.md) | How-to: Event Sourcing & CQRS API |
-| [event-sourcing-ledger.md](event-sourcing-ledger.md) | How-to: Event Sourcing Ledger |
-| [event-sourcing.md](event-sourcing.md) | Event Sourcing (Basic) |
-| [event-ticket-booking.md](event-ticket-booking.md) | How-To: Event Ticket Booking |
-| [expense-tracker.md](expense-tracker.md) | How-to: Expense Tracker API |
-| [expense-tracking-api.md](expense-tracking-api.md) | How-to: Expense Tracking API |
-| [feature-flag-api.md](feature-flag-api.md) | How-to: Feature Flag API |
-| [feature-flags.md](feature-flags.md) | How-to: Feature Flags API |
-| [feedback-collection.md](feedback-collection.md) | How-to: Feedback Collection API |
-| [file-metadata-sharing.md](file-metadata-sharing.md) | ファイルメタデータ管理・共有 API の実装ガイド |
-| [file-sharing-api.md](file-sharing-api.md) | How-to: File Sharing API |
-| [file-upload-metadata.md](file-upload-metadata.md) | How-to: File Upload Metadata API (VULN-A~L) |
-| [file-upload.md](file-upload.md) | File upload (base64 JSON) |
-| [fixed-window-rate-limiter.md](fixed-window-rate-limiter.md) | How-to: Fixed-window Rate Limiter |
-| [flash-sale-api.md](flash-sale-api.md) | How-to: Flash Sale API |
-| [flash-sale-system.md](flash-sale-system.md) | How to Build a Flash Sale System with NENE2 |
-| [follow-api.md](follow-api.md) | How-to: Follow / Unfollow API |
-| [ft-registry.md](ft-registry.md) | FT Registry |
-| [game-score-leaderboard-api.md](game-score-leaderboard-api.md) | How-to: Game Score & Leaderboard API |
-| [geolocation-api.md](geolocation-api.md) | How-to: Geolocation API |
-| [geolocation.md](geolocation.md) | How to Add Geolocation Search |
-| [group-member-management.md](group-member-management.md) | How-to: Group Member Management |
-| [group-membership-management.md](group-membership-management.md) | How to Build Group Membership Management with NENE2 |
-| [guest-order-system.md](guest-order-system.md) | How to Build a Guest Order System (Cart → Order → Order Items) with NENE2 |
-| [habit-tracker.md](habit-tracker.md) | How-to: Habit Tracker API |
-| [handle-timezones.md](handle-timezones.md) | How to handle timezones |
-| [hierarchical-data.md](hierarchical-data.md) | Hierarchical Data — Self-Referential FK + Materialized Path |
-| [idempotency-key-api.md](idempotency-key-api.md) | How-to: Idempotency Key API |
-| [idempotency-key.md](idempotency-key.md) | How-to: Idempotency Key (Request Deduplication) |
-| [idempotency.md](idempotency.md) | How-to: Idempotency-Key Pattern |
-| [implement-bulk-endpoint.md](implement-bulk-endpoint.md) | How-to: Implement a Bulk Create Endpoint |
-| [implement-patch-endpoint.md](implement-patch-endpoint.md) | How-to: Implement a PATCH Endpoint |
-| [inbound-webhook-gateway.md](inbound-webhook-gateway.md) | How-to: Inbound Webhook Gateway |
-| [inbound-webhook-receiver.md](inbound-webhook-receiver.md) | How to Add an Inbound Webhook Receiver |
-| [inventory-management.md](inventory-management.md) | How-to: Inventory Management API |
-| [inventory-stock-management.md](inventory-stock-management.md) | How-to: Inventory Stock Management |
-| [invitation-referral.md](invitation-referral.md) | How-to: Invitation / Referral API |
-| [invitation-system.md](invitation-system.md) | How-to: Invitation System |
-| [iso-datetime-validation.md](iso-datetime-validation.md) | How to Validate ISO 8601 Datetimes with Timezone |
-| [job-queue-with-retry.md](job-queue-with-retry.md) | How-to: Background Job Queue with Retry and Idempotency |
-| [job-queue.md](job-queue.md) | Background Job Queue with Retry and Idempotency |
-| [json-merge-patch.md](json-merge-patch.md) | How-to: JSON Merge Patch & ETag Conflict Detection |
-| [jwt-authentication.md](jwt-authentication.md) | How-To: JWT Authentication |
-| [jwt-tenant-isolation.md](jwt-tenant-isolation.md) | How-to: JWT Multi-Tenant Isolation |
-| [leaderboard-ranking-api.md](leaderboard-ranking-api.md) | How-to: Leaderboard Ranking API |
-| [leaderboard-ranking-system.md](leaderboard-ranking-system.md) | How to Build a Leaderboard (Ranking System) with NENE2 |
-| [leaderboard-ranking.md](leaderboard-ranking.md) | How-to: Game Leaderboard & Ranking API |
-| [leaderboard-scores.md](leaderboard-scores.md) | How-to: Leaderboard & Score Tracking API |
-| [live-poll-system.md](live-poll-system.md) | How-to: Live Poll System |
-| [magic-link-authentication.md](magic-link-authentication.md) | How-to: Magic Link Authentication |
-| [mass-assignment-defence.md](mass-assignment-defence.md) | How-to: Mass Assignment Defence with Explicit DTO |
-| [mass-assignment.md](mass-assignment.md) | Mass Assignment Defence |
-| [media-watchlist.md](media-watchlist.md) | How-to: Media Watchlist API |
-| [money-integer-arithmetic.md](money-integer-arithmetic.md) | How-to: Money and Integer Arithmetic |
-| [multi-currency-money-ledger.md](multi-currency-money-ledger.md) | How-to: Multi-Currency Money Ledger with Integer Cents |
-| [multi-currency-wallet.md](multi-currency-wallet.md) | How-To: Multi-Currency Wallet |
-| [multi-step-workflow.md](multi-step-workflow.md) | How to Add a Multi-step Workflow |
-| [multi-tenant-isolation.md](multi-tenant-isolation.md) | How-To: Multi-Tenant Isolation |
-| [multi-value-tag-filter.md](multi-value-tag-filter.md) | How-to: Multi-value Tag Filter API |
-| [multilingual-content.md](multilingual-content.md) | How-to: Multilingual Content API |
-| [nested-json-validation.md](nested-json-validation.md) | How-to: Nested JSON Validation |
-| [note-management-ownership.md](note-management-ownership.md) | How-to: Note Management with Ownership |
-| [note-management-with-tags.md](note-management-with-tags.md) | How-to: Note Management with Tags |
-| [notification-inbox.md](notification-inbox.md) | How-to: Notification Inbox API |
-| [notification-queue.md](notification-queue.md) | How-to: Notification Queue API |
-| [numeric-verification-code.md](numeric-verification-code.md) | How to Build Numeric Verification Code |
-| [oauth2-social-login.md](oauth2-social-login.md) | OAuth2 Social Login の実装ガイド |
-| [offset-cursor-pagination.md](offset-cursor-pagination.md) | How-to: Offset & Cursor Pagination |
-| [one-time-secrets.md](one-time-secrets.md) | How-To: One-Time Secret API & ATK-01~12 Cracker Attack Test |
-| [optimistic-concurrency-version.md](optimistic-concurrency-version.md) | How-to: Optimistic Concurrency Control (Version Field) |
-| [optimistic-lock-patch-version.md](optimistic-lock-patch-version.md) | How-to: Optimistic Lock with PATCH + Version Field |
-| [optimistic-locking-etag.md](optimistic-locking-etag.md) | How-to: Optimistic Locking with ETag / If-Match |
-| [optimistic-locking.md](optimistic-locking.md) | Optimistic Locking |
-| [order-management.md](order-management.md) | How-to: Order Management API |
-| [otp-authentication.md](otp-authentication.md) | How-to: OTP Authentication System |
-| [pagination-boundary-attack.md](pagination-boundary-attack.md) | How-to: Pagination Boundary & Limit Injection |
-| [pagination-limit-injection.md](pagination-limit-injection.md) | How-to: Pagination Boundary & Limit Injection Prevention |
-| [pagination.md](pagination.md) | Pagination |
-| [password-auth-argon2id.md](password-auth-argon2id.md) | How-to: Password Authentication with Argon2id |
-| [password-hashing.md](password-hashing.md) | How-To: Password Hashing |
-| [password-reset-flow.md](password-reset-flow.md) | How-to: Password Reset Flow |
-| [password-reset.md](password-reset.md) | Password Reset Flow |
-| [passwordless-auth-magic-link.md](passwordless-auth-magic-link.md) | Passwordless Auth (Magic Link) |
-| [patch-partial-update.md](patch-partial-update.md) | How-to: PATCH Partial Update (JSON Merge Patch) |
-| [payment-webhook.md](payment-webhook.md) | Payment Webhook 受信の実装ガイド |
-| [personal-data-export.md](personal-data-export.md) | Personal Data Export |
-| [pii-masking.md](pii-masking.md) | How-to: PII Masking API |
-| [pin-bookmark-ordering.md](pin-bookmark-ordering.md) | How-to: Pin / Bookmark with Ordering |
-| [pin-verification-lockout.md](pin-verification-lockout.md) | PIN 認証・ロックアウト |
-| [point-ledger-api.md](point-ledger-api.md) | How-to: Point Ledger API |
-| [point-loyalty-system.md](point-loyalty-system.md) | ポイント・ロイヤルティシステム |
-| [poll-survey.md](poll-survey.md) | How-to: Poll / Survey API |
-| [prevent-double-booking.md](prevent-double-booking.md) | How to prevent double-booking (reservation and capacity enforcement) |
-| [price-history.md](price-history.md) | How-to: Product Price History API |
-| [privacy-consent-management.md](privacy-consent-management.md) | How to Build Privacy Consent Management |
-| [product-catalog.md](product-catalog.md) | How-to: Product Catalog API (ATK-01~12) |
-| [product-review-system.md](product-review-system.md) | Product Review & Rating System |
-| [project-task-management.md](project-task-management.md) | How-to: Project and Task Management with Nested Resources |
-| [quality-tools.md](quality-tools.md) | Quality Tools |
-| [quota-management.md](quota-management.md) | How-to: Quota Management API |
-| [rate-limiting.md](rate-limiting.md) | Rate Limiting |
-| [rating-review-api.md](rating-review-api.md) | How-to: Rating & Review API |
-| [rbac-jwt-auth.md](rbac-jwt-auth.md) | How-to: RBAC + JWT Authentication |
-| [rbac.md](rbac.md) | How-To: Role-Based Access Control (RBAC) |
-| [refresh-token-pattern.md](refresh-token-pattern.md) | How-to: Refresh Token Pattern |
-| [refresh-token-rotation.md](refresh-token-rotation.md) | How-To: JWT Refresh Token Rotation |
-| [request-deduplication.md](request-deduplication.md) | How to Add Request Deduplication |
-| [request-scoped-state.md](request-scoped-state.md) | How to pass request-scoped state between middleware and handlers |
-| [reservation-availability-api.md](reservation-availability-api.md) | How-to: Reservation & Availability API |
-| [resource-booking.md](resource-booking.md) | How-to: Resource Booking System |
-| [resource-reservation-booking.md](resource-reservation-booking.md) | How-to: Resource Reservation & Booking API |
-| [resource-reservation.md](resource-reservation.md) | How-to: Resource Reservation / Time Slot Booking API |
-| [scheduled-publish-article.md](scheduled-publish-article.md) | How-to: Scheduled Publish Article |
-| [scheduled-reminders.md](scheduled-reminders.md) | How-to: Scheduled Reminders API |
-| [search-autocomplete.md](search-autocomplete.md) | 全文検索・オートコンプリート API の実装ガイド |
-| [secret-vault.md](secret-vault.md) | How-To: Personal Secret Vault API |
-| [service-status-page.md](service-status-page.md) | How-To: Service Status Page API |
-| [session-management.md](session-management.md) | How to Build a Multi-Device Session Manager |
-| [session-token-management.md](session-token-management.md) | How-to: Session / Token Management API (ATK-01~12) |
-| [shift-management.md](shift-management.md) | How-to: Shift Management API |
-| [shopping-cart-api.md](shopping-cart-api.md) | How-to: Shopping Cart API |
-| [signed-url-download.md](signed-url-download.md) | How-to: Signed URL for Secure Downloads |
-| [signed-urls.md](signed-urls.md) | Signed URLs |
-| [sliding-window-rate-limiter.md](sliding-window-rate-limiter.md) | How-to: Sliding-Window Rate Limiter |
-| [slug-management.md](slug-management.md) | Slug Management — Unique URL Slugs with Collision Resolution and History |
-| [slug-url-history.md](slug-url-history.md) | How-to: Slug URL Management with History |
-| [soft-delete-restore-permanent.md](soft-delete-restore-permanent.md) | How-to: Soft Delete, Restore, and Permanent Delete |
-| [soft-delete-trash-purge.md](soft-delete-trash-purge.md) | How-to: Soft Delete, Trash Bin, and Permanent Purge |
-| [soft-delete-trash-restore.md](soft-delete-trash-restore.md) | How-to: Soft Delete, Trash & Restore API |
-| [soft-delete.md](soft-delete.md) | Soft Delete (Logical Deletion) |
-| [sql-injection-defence.md](sql-injection-defence.md) | How-to: SQL Injection Defence |
-| [sql-injection.md](sql-injection.md) | SQL injection defense |
-| [sql-orderby-injection.md](sql-orderby-injection.md) | How to Prevent SQL ORDER BY Injection |
-| [sqlite-fts5-search.md](sqlite-fts5-search.md) | How-to: SQLite FTS5 Full-Text Search |
-| [state-machine-audit-log.md](state-machine-audit-log.md) | How-to: State Machine with Audit Log |
-| [state-machine-workflow-api.md](state-machine-workflow-api.md) | How-to: State Machine Workflow API |
-| [step-workflow-approval.md](step-workflow-approval.md) | How-to: Step-Based Workflow with Approval |
-| [subscription-plan-management.md](subscription-plan-management.md) | How-to: Subscription Plan Management |
-| [subscription-plan.md](subscription-plan.md) | How-to: Subscription / Plan Management API (VULN-A~L) |
-| [system-announcement-management.md](system-announcement-management.md) | How to Build System Announcement Management |
-| [tag-label-api.md](tag-label-api.md) | How-to: Tag / Label API |
-| [tagging-system.md](tagging-system.md) | Tagging System (M:N) |
-| [tenant-isolation-idor.md](tenant-isolation-idor.md) | How-to: Tenant Isolation & IDOR Prevention |
-| [tenant-isolation.md](tenant-isolation.md) | How-to: Tenant Isolation & Cross-Tenant IDOR Prevention |
-| [threaded-comments-api.md](threaded-comments-api.md) | How-to: Threaded Comments API |
-| [threaded-comments.md](threaded-comments.md) | Threaded Comments |
-| [time-tracking.md](time-tracking.md) | How-to: Time Tracking API |
-| [timezone-aware-scheduling.md](timezone-aware-scheduling.md) | How-to: Timezone-aware Event Scheduling |
-| [token-lifecycle-api.md](token-lifecycle-api.md) | How-to: API Token Lifecycle Management |
-| [totp-authentication.md](totp-authentication.md) | TOTP 二要素認証の実装ガイド |
-| [transaction-scope-pattern.md](transaction-scope-pattern.md) | How-to: Transaction Scope Pattern |
-| [transactions.md](transactions.md) | Database Transactions |
-| [unicode-aware-text-api.md](unicode-aware-text-api.md) | How-to: Unicode-Aware Text API |
-| [upvote-downvote-api.md](upvote-downvote-api.md) | How-to: Upvote / Downvote API |
-| [url-bookmark-api.md](url-bookmark-api.md) | How-to: URL Bookmark API with Tag Filtering |
-| [url-shortener-ssrf-prevention.md](url-shortener-ssrf-prevention.md) | How-to: URL Shortener with SSRF Prevention |
-| [url-shortener-ssrf.md](url-shortener-ssrf.md) | URL Shortener API & SSRF Prevention |
-| [use-bearer-auth.md](use-bearer-auth.md) | How to use Bearer token authentication |
-| [use-fts5-search.md](use-fts5-search.md) | Use SQLite FTS5 Full-Text Search |
-| [use-postgresql.md](use-postgresql.md) | How to use PostgreSQL |
-| [use-transactions.md](use-transactions.md) | Use Database Transactions |
-| [user-follow-system.md](user-follow-system.md) | How to Build a User Follow System with NENE2 |
-| [user-invitation.md](user-invitation.md) | User Invitation System |
-| [user-preferences-api.md](user-preferences-api.md) | How-to: User Preferences API |
-| [user-preferences-management.md](user-preferences-management.md) | User Preferences Management |
-| [user-profile-api.md](user-profile-api.md) | How-to: User Profile API |
-| [user-profile-management.md](user-profile-management.md) | User Profile Management |
-| [validate-unicode-input.md](validate-unicode-input.md) | How to validate Unicode input |
-| [voting-system.md](voting-system.md) | Voting System (Upvote / Downvote) |
-| [waitlist-management.md](waitlist-management.md) | ウェイティングリスト管理 |
-| [waitlist-system.md](waitlist-system.md) | How-to: Waitlist System |
-| [webhook-delivery-api.md](webhook-delivery-api.md) | How-to: Webhook Delivery API |
-| [webhook-delivery-system.md](webhook-delivery-system.md) | How-to: Webhook Delivery System |
-| [webhook-delivery.md](webhook-delivery.md) | Outbound Webhook Delivery |
-| [webhook-signature-verification.md](webhook-signature-verification.md) | How-to: Webhook Signature Verification with HMAC-SHA256 |
-| [webhook-signature.md](webhook-signature.md) | Webhook Signature Verification |
-| [wish-list-api.md](wish-list-api.md) | How-to: Wish List API (VULN-A~L Security Assessment) |
-| [wishlist-management.md](wishlist-management.md) | ウィッシュリスト管理 |
+### Getting Started (9)
+
+| Guide | Difficulty | Tags |
+|---|---|---|
+| [Add a Custom Route](add-custom-route.md) | beginner | `routing` `http` |
+| [Add a Database-backed Endpoint](add-database-endpoint.md) | beginner | `database` `endpoint` `repository` `usecase` `dto` |
+| [Add a Health Check](add-health-check.md) | beginner | `health-check` `monitoring` `endpoint` |
+| [Add a Second Domain Entity](add-second-entity.md) | beginner | `domain` `entity` `repository` `usecase` `multi-entity` |
+| [Add HTML Views](add-html-view.md) | beginner | `html` `views` `templates` `server-rendering` |
+| [FT Registry](ft-registry.md) | beginner | `field-trial` `registry` `reference` |
+| [How to add a domain exception handler](add-domain-exception-handler.md) | intermediate | `error-handling` `exceptions` `middleware` `domain` |
+| [How to pass request-scoped state between middleware and handlers](request-scoped-state.md) | intermediate | `middleware` `request-context` `dependency-injection` `holder-pattern` |
+| [Quality Tools](quality-tools.md) | beginner | `phpstan` `php-cs-fixer` `static-analysis` `code-style` |
+
+### Authentication & Authorization (27)
+
+| Guide | Difficulty | Tags |
+|---|---|---|
+| [Add JWT Authentication](add-jwt-authentication.md) | intermediate | `jwt` `bearer` `authentication` |
+| [API Key Management](api-key-management.md) | intermediate | `api-keys` `sha256` `scopes` `rotation` `authentication` |
+| [How to Build a Multi-Device Session Manager](session-management.md) | intermediate | `session` `multi-device` `idor` `token` `revocation` |
+| [How to Build Access Token Management with NENE2](access-token-management.md) | intermediate | `access-token` `pat` `api-keys` `sha256` `scopes` |
+| [How to Build Numeric Verification Code](numeric-verification-code.md) | intermediate | `verification-code` `otp` `brute-force-protection` `sms` `email` |
+| [How to use Bearer token authentication](use-bearer-auth.md) | beginner | `bearer` `jwt` `middleware` `authentication` |
+| [How-to: API Token Lifecycle Management](token-lifecycle-api.md) | advanced | `api-key` `token` `sha256` `scope` `revocation` |
+| [How-to: Bearer Token Middleware (JWT Auth Edge Cases)](bearer-token-middleware.md) | advanced | `jwt` `bearer` `middleware` `authentication` `security` |
+| [How-to: Delegated Access Grants](delegated-access-grants.md) | advanced | `delegation` `access-control` `scoped-access` `time-limited` `rbac` |
+| [How-To: JWT Authentication](jwt-authentication.md) | intermediate | `jwt` `bearer` `authentication` `argon2id` `password` |
+| [How-to: JWT Multi-Tenant Isolation](jwt-tenant-isolation.md) | advanced | `jwt` `multi-tenant` `isolation` `idor` |
+| [How-To: JWT Refresh Token Rotation](refresh-token-rotation.md) | intermediate | `refresh-token` `jwt` `token-rotation` `replay-attack` `session` |
+| [How-to: Magic Link Authentication](magic-link-authentication.md) | intermediate | `magic-link` `passwordless` `token` `ttl` |
+| [How-to: OTP Authentication System](otp-authentication.md) | advanced | `otp` `passwordless` `brute-force-protection` `session-token` `lockout` |
+| [How-to: Password Authentication with Argon2id](password-auth-argon2id.md) | intermediate | `password` `argon2id` `authentication` `user-enumeration-prevention` `rehash` |
+| [How-To: Password Hashing](password-hashing.md) | beginner | `password` `hashing` `argon2id` `bcrypt` `security` |
+| [How-to: Password Reset Flow](password-reset-flow.md) | intermediate | `password-reset` `token` `single-use` `user-enumeration-prevention` `argon2id` |
+| [How-to: RBAC + JWT Authentication](rbac-jwt-auth.md) | intermediate | `rbac` `jwt` `argon2id` `bearer-token` `authorization` |
+| [How-to: Refresh Token Pattern](refresh-token-pattern.md) | intermediate | `refresh-token` `jwt` `token-rotation` `replay-attack` |
+| [How-To: Role-Based Access Control (RBAC)](rbac.md) | intermediate | `rbac` `jwt` `bearer-token` `authorization` `roles` |
+| [How-to: Session / Token Management API (ATK-01~12)](session-token-management.md) | intermediate | `session` `token` `revocation` `attack-hardening` `opaque-token` |
+| [OAuth2 Social Login の実装ガイド](oauth2-social-login.md) | advanced | `oauth2` `social-login` `authorization-code-flow` `jwt` |
+| [Password Reset Flow](password-reset.md) | beginner | `password-reset` `token` `email` `security` |
+| [Passwordless Auth (Magic Link)](passwordless-auth-magic-link.md) | intermediate | `passwordless` `magic-link` `one-time-token` `email-auth` |
+| [PIN 認証・ロックアウト](pin-verification-lockout.md) | intermediate | `pin` `lockout` `brute-force-protection` `verification` |
+| [TOTP 二要素認証の実装ガイド](totp-authentication.md) | advanced | `totp` `two-factor` `otp` `authentication` |
+| [User Invitation System](user-invitation.md) | intermediate | `invitation` `token` `expiry` `email` |
+
+### Security (34)
+
+| Guide | Difficulty | Tags |
+|---|---|---|
+| [Account Lockout (Brute-Force Protection)](account-lockout.md) | intermediate | `brute-force` `lockout` `argon2id` `rate-limiting` `authentication` |
+| [Add Rate Limiting](add-rate-limiting.md) | beginner | `rate-limiting` `throttle` `middleware` `protection` |
+| [CSRF and JSON APIs](csrf-and-json-api.md) | intermediate | `csrf` `cors` `json-api` `security` `bearer-token` |
+| [How to Add Data Masking](data-masking.md) | intermediate | `pii` `masking` `admin` `audit` `privacy` |
+| [How to Build Encrypted Field Storage](encrypted-field-storage.md) | advanced | `encryption` `aes-256-gcm` `pii` `blind-index` `field-level-encryption` |
+| [How to Build Privacy Consent Management](privacy-consent-management.md) | intermediate | `gdpr` `consent` `privacy` `idor-prevention` `audit-log` |
+| [How to enforce resource ownership (IDOR prevention)](enforce-resource-ownership.md) | intermediate | `idor` `ownership` `access-control` `authorization` `security` |
+| [How to Prevent SQL ORDER BY Injection](sql-orderby-injection.md) | beginner | `sql-injection` `orderby-injection` `allowlist` `parameterized-queries` |
+| [How to validate Unicode input](validate-unicode-input.md) | beginner | `unicode` `validation` `multibyte` `encoding` |
+| [How-to: Data Export API](data-export-api.md) | intermediate | `gdpr` `data-export` `pii` `token` `async` |
+| [How-to: Dynamic Sort & Filter with ORDER BY Injection Prevention](dynamic-sort-order-injection.md) | intermediate | `sql-injection` `order-by` `allowlist` `sorting` `filtering` |
+| [How-to: File Upload Metadata API (VULN-A~L)](file-upload-metadata.md) | advanced | `file-upload` `metadata` `vulnerability-assessment` `ownership` |
+| [How-to: Fixed-window Rate Limiter](fixed-window-rate-limiter.md) | intermediate | `rate-limiting` `fixed-window` `sqlite` `throttle` |
+| [How-to: Mass Assignment Defence with Explicit DTO](mass-assignment-defence.md) | intermediate | `mass-assignment` `dto` `whitelist` `input-validation` |
+| [How-To: Multi-Tenant Isolation](multi-tenant-isolation.md) | advanced | `multi-tenant` `isolation` `idor` `authorization` `jwt` |
+| [How-To: One-Time Secret API & ATK-01~12 Cracker Attack Test](one-time-secrets.md) | advanced | `one-time-secret` `token` `atomic-consumption` `brute-force-protection` |
+| [How-to: Pagination Boundary & Limit Injection](pagination-boundary-attack.md) | intermediate | `pagination` `limit-injection` `integer-validation` `boundary-attack` |
+| [How-to: Pagination Boundary & Limit Injection Prevention](pagination-limit-injection.md) | intermediate | `pagination` `limit-injection` `integer-validation` `redos` |
+| [How-To: Personal Secret Vault API](secret-vault.md) | intermediate | `hmac` `idor-prevention` `encrypted-storage` `admin-auth` `user-isolation` |
+| [How-to: PII Masking API](pii-masking.md) | intermediate | `pii` `masking` `rbac` `audit-trail` `data-privacy` |
+| [How-to: Signed URL for Secure Downloads](signed-url-download.md) | intermediate | `signed-url` `hmac` `time-limited` `file-download` `tamper-detection` |
+| [How-to: SQL Injection Defence](sql-injection-defence.md) | intermediate | `sql-injection` `parameterized-queries` `like-injection` `orderby-injection` `attack-hardening` |
+| [How-to: Tenant Isolation & Cross-Tenant IDOR Prevention](tenant-isolation.md) | advanced | `multi-tenant` `idor` `isolation` `authorization` |
+| [How-to: Tenant Isolation & IDOR Prevention](tenant-isolation-idor.md) | advanced | `multi-tenant` `idor` `isolation` `authorization` |
+| [How-to: Unicode-Aware Text API](unicode-aware-text-api.md) | intermediate | `unicode` `validation` `encoding` `null-byte` `multibyte` |
+| [How-to: URL Shortener with SSRF Prevention](url-shortener-ssrf-prevention.md) | advanced | `ssrf` `url-shortener` `private-ip` `mass-assignment` |
+| [How-to: Webhook Signature Verification with HMAC-SHA256](webhook-signature-verification.md) | advanced | `webhook` `hmac` `signature` `replay-attack` `timing-safe` |
+| [HOWTO: Audit Trail — Recording Who Changed What](audit-trail.md) | intermediate | `audit-trail` `immutable-log` `jwt` `change-tracking` `compliance` |
+| [Mass Assignment Defence](mass-assignment.md) | beginner | `mass-assignment` `dto` `whitelist` `input-validation` |
+| [Personal Data Export](personal-data-export.md) | intermediate | `gdpr` `data-export` `pii` `download-token` `expiry` |
+| [Signed URLs](signed-urls.md) | intermediate | `signed-url` `hmac` `presigned` `time-limited` `token` |
+| [SQL injection defense](sql-injection.md) | intermediate | `sql-injection` `pdo` `validation` |
+| [URL Shortener API & SSRF Prevention](url-shortener-ssrf.md) | advanced | `ssrf` `url-shortener` `vulnerability-assessment` |
+| [Webhook Signature Verification](webhook-signature.md) | intermediate | `webhook` `hmac` `signature` `timing-safe` |
+
+### Database (17)
+
+| Guide | Difficulty | Tags |
+|---|---|---|
+| [Database Transactions](transactions.md) | beginner | `transactions` `atomic` `rollback` `database` |
+| [Hierarchical Data — Self-Referential FK + Materialized Path](hierarchical-data.md) | advanced | `hierarchical` `tree` `materialized-path` `self-referential` |
+| [How to add optimistic concurrency control (ETag / If-Match)](add-optimistic-locking.md) | intermediate | `optimistic-locking` `etag` `concurrency` `lost-update` |
+| [How to prevent double-booking (reservation and capacity enforcement)](prevent-double-booking.md) | advanced | `booking` `double-booking` `capacity` `transactions` `concurrency` |
+| [How to use PostgreSQL](use-postgresql.md) | beginner | `postgresql` `pdo` `adapter` `database` |
+| [How-to: Optimistic Concurrency Control (Version Field)](optimistic-concurrency-version.md) | intermediate | `optimistic-locking` `concurrency` `version-field` `lost-update` |
+| [How-to: Optimistic Lock with PATCH + Version Field](optimistic-lock-patch-version.md) | intermediate | `optimistic-locking` `patch` `version-field` `concurrency` |
+| [How-to: Optimistic Locking with ETag / If-Match](optimistic-locking-etag.md) | intermediate | `optimistic-locking` `etag` `if-match` `concurrency` `http-headers` |
+| [How-to: Soft Delete, Restore, and Permanent Delete](soft-delete-restore-permanent.md) | beginner | `soft-delete` `restore` `hard-delete` `deleted-at` |
+| [How-to: Soft Delete, Trash & Restore API](soft-delete-trash-restore.md) | intermediate | `soft-delete` `trash` `restore` `hard-delete` `bulk-purge` |
+| [How-to: Soft Delete, Trash Bin, and Permanent Purge](soft-delete-trash-purge.md) | beginner | `soft-delete` `trash` `purge` `deleted-at` `lifecycle` |
+| [How-to: SQLite FTS5 Full-Text Search](sqlite-fts5-search.md) | intermediate | `sqlite` `fts5` `full-text-search` `virtual-table` `triggers` |
+| [How-to: Transaction Scope Pattern](transaction-scope-pattern.md) | intermediate | `transactions` `atomic` `database` `inventory` |
+| [Optimistic Locking](optimistic-locking.md) | intermediate | `optimistic-locking` `concurrency` `lost-update` `version-field` |
+| [Soft Delete (Logical Deletion)](soft-delete.md) | beginner | `soft-delete` `deleted-at` `logical-deletion` `audit-trail` |
+| [Use Database Transactions](use-transactions.md) | intermediate | `transactions` `atomicity` `rollback` |
+| [Use SQLite FTS5 Full-Text Search](use-fts5-search.md) | intermediate | `fts5` `sqlite` `full-text-search` `inverted-index` |
+
+### API Design (31)
+
+| Guide | Difficulty | Tags |
+|---|---|---|
+| [Add pagination](add-pagination.md) | beginner | `pagination` `query-params` |
+| [Content negotiation](content-negotiation.md) | beginner | `content-negotiation` `json` `accept-header` `problem-json` |
+| [CSV バルクインポート API の実装ガイド](csv-bulk-import.md) | intermediate | `csv` `bulk-import` `partial-success` `validation` `history` |
+| [ETag & Conditional Requests](etag-conditional-requests.md) | intermediate | `etag` `conditional-request` `cache` `optimistic-locking` `http` |
+| [File upload (base64 JSON)](file-upload.md) | beginner | `file-upload` `base64` `json-api` `request-body` |
+| [How to Add Geolocation Search](geolocation.md) | intermediate | `geolocation` `proximity-search` `coordinates` `bounding-box` |
+| [How to Add Request Deduplication](request-deduplication.md) | intermediate | `idempotency` `deduplication` `idempotency-key` `retry` |
+| [How to handle timezones](handle-timezones.md) | intermediate | `timezone` `datetime` `iso-8601` `validation` |
+| [How to Validate ISO 8601 Datetimes with Timezone](iso-datetime-validation.md) | intermediate | `datetime` `iso-8601` `timezone` `validation` |
+| [How-to: API Versioning](api-versioning.md) | intermediate | `versioning` `deprecation` `url-path` `headers` `sunset` |
+| [How-to: Batch API with Partial Success](batch-api-partial-success.md) | intermediate | `batch` `partial-success` `validation` `bulk-operations` |
+| [How-to: Bulk Operations with Partial-Success Semantics](bulk-operations-partial-success.md) | intermediate | `bulk` `partial-success` `multi-status` `http-207` `validation` |
+| [How-to: Bulk Status Update API](bulk-status-update.md) | intermediate | `bulk` `status-update` `batch` `state-machine` |
+| [How-to: Content Negotiation — JSON API](content-negotiation-api.md) | beginner | `content-negotiation` `accept-header` `json` `problem-details` |
+| [How-to: Cursor-Based Pagination](cursor-pagination.md) | intermediate | `pagination` `cursor` `keyset` `performance` |
+| [How-to: Dynamic Filter Query (Dynamic WHERE Clause)](dynamic-filter-query.md) | beginner | `filtering` `query-params` `sql` `where-clause` `list-endpoint` |
+| [How-to: Geolocation API](geolocation-api.md) | intermediate | `geolocation` `proximity-search` `coordinates` `haversine` |
+| [How-to: Idempotency Key (Request Deduplication)](idempotency-key.md) | intermediate | `idempotency` `deduplication` `retry` `ttl` |
+| [How-to: Idempotency Key API](idempotency-key-api.md) | intermediate | `idempotency` `deduplication` `payment` `retry` |
+| [How-to: Idempotency-Key Pattern](idempotency.md) | intermediate | `idempotency` `deduplication` `race-condition` `retry` |
+| [How-to: Implement a Bulk Create Endpoint](implement-bulk-endpoint.md) | intermediate | `bulk` `batch` `validation` `partial-success` |
+| [How-to: Implement a PATCH Endpoint](implement-patch-endpoint.md) | intermediate | `patch` `partial-update` `json-merge-patch` `dto` |
+| [How-to: JSON Merge Patch & ETag Conflict Detection](json-merge-patch.md) | intermediate | `patch` `json-merge-patch` `etag` `conflict-detection` |
+| [How-to: Money and Integer Arithmetic](money-integer-arithmetic.md) | intermediate | `money` `integer-arithmetic` `precision` `financial` |
+| [How-to: Multi-value Tag Filter API](multi-value-tag-filter.md) | intermediate | `filtering` `tags` `query-params` `many-to-many` |
+| [How-to: Nested JSON Validation](nested-json-validation.md) | intermediate | `validation` `nested-json` `error-paths` `line-items` |
+| [How-to: Offset & Cursor Pagination](offset-cursor-pagination.md) | intermediate | `pagination` `offset` `cursor` `keyset` |
+| [How-to: PATCH Partial Update (JSON Merge Patch)](patch-partial-update.md) | intermediate | `patch` `json-merge-patch` `partial-update` `etag` `immutable-fields` |
+| [How-to: Timezone-aware Event Scheduling](timezone-aware-scheduling.md) | intermediate | `timezone` `utc` `scheduling` `datetime` `iana` |
+| [Pagination](pagination.md) | beginner | `pagination` `offset` `cursor` `keyset` |
+| [全文検索・オートコンプリート API の実装ガイド](search-autocomplete.md) | intermediate | `search` `autocomplete` `full-text-search` `like-query` |
+
+### Background & Infrastructure (32)
+
+| Guide | Difficulty | Tags |
+|---|---|---|
+| [Add MCP Tools](add-mcp-tools.md) | intermediate | `mcp` `ai-integration` `tools` `api-exposure` |
+| [Application Caching の実装ガイド](application-caching.md) | intermediate | `caching` `cache-aside` `ttl` `invalidation` `performance` |
+| [Background Job Queue with Retry and Idempotency](job-queue.md) | intermediate | `job-queue` `retry` `idempotency` `priority-queue` |
+| [Content Scheduling — Time-Based Publish with Lifecycle States](content-scheduling.md) | intermediate | `scheduling` `state-machine` `content` `cron` `publish` |
+| [Deploy to Production](deploy-production.md) | intermediate | `deploy` `docker` `production` `environment` `reverse-proxy` |
+| [Distributed Locking](distributed-locking.md) | advanced | `distributed-lock` `concurrency` `database` `ttl` `critical-section` |
+| [Event Sourcing (Basic)](event-sourcing.md) | intermediate | `event-sourcing` `append-only` `immutable` `replay` `domain-events` |
+| [How to Add an Inbound Webhook Receiver](inbound-webhook-receiver.md) | intermediate | `webhook` `hmac` `signature-verification` `idempotency` |
+| [How-to: API Usage Metering & Quota Management](api-usage-metering.md) | intermediate | `metering` `quota` `rate-limiting` `idor-prevention` `usage-tracking` |
+| [How-to: Background Job Queue with Retry and Idempotency](job-queue-with-retry.md) | intermediate | `job-queue` `retry` `idempotency` `background-jobs` |
+| [How-to: Circuit Breaker](circuit-breaker.md) | advanced | `circuit-breaker` `resilience` `state-machine` `fault-tolerance` |
+| [How-to: CQRS Pattern](cqrs-pattern.md) | advanced | `cqrs` `read-model` `write-model` `event-sourcing` `architecture` |
+| [How-to: Dead Letter Queue (DLQ)](dead-letter-queue.md) | advanced | `queue` `dead-letter-queue` `retry` `backoff` `reliability` |
+| [How-to: Distributed Lock](distributed-lock.md) | advanced | `distributed-lock` `concurrency` `ttl` `database` `race-condition` |
+| [How-to: Event Analytics API](event-analytics-api.md) | intermediate | `analytics` `event-tracking` `aggregation` `json-extract` `statistics` |
+| [How-to: Event Analytics API](event-analytics.md) | intermediate | `analytics` `event-tracking` `aggregation` `json-extract` `statistics` |
+| [How-to: Event Sourcing & CQRS API](event-sourcing-cqrs-api.md) | advanced | `event-sourcing` `cqrs` `append-only` `read-model` `projection` |
+| [How-to: Event Sourcing Ledger](event-sourcing-ledger.md) | advanced | `event-sourcing` `ledger` `append-only` `balance` `replay` |
+| [How-to: Feature Flag API](feature-flag-api.md) | intermediate | `feature-flags` `rollout` `environment` `override` `gradual-rollout` |
+| [How-to: Feature Flags API](feature-flags.md) | intermediate | `feature-flags` `rollout` `percentage` `kill-switch` `tenant` |
+| [How-to: Inbound Webhook Gateway](inbound-webhook-gateway.md) | intermediate | `webhook` `hmac` `signature-verification` `idempotency` |
+| [How-to: Notification Queue API](notification-queue.md) | intermediate | `notifications` `queue` `admin` `messaging` |
+| [How-to: Quota Management API](quota-management.md) | intermediate | `quota` `rate-limiting` `windowed-counter` `http-429` |
+| [How-to: Sliding-Window Rate Limiter](sliding-window-rate-limiter.md) | intermediate | `rate-limiting` `sliding-window` `http-429` `per-user` |
+| [How-to: State Machine with Audit Log](state-machine-audit-log.md) | intermediate | `state-machine` `audit-log` `transitions` `domain-events` `workflow` |
+| [How-to: State Machine Workflow API](state-machine-workflow-api.md) | intermediate | `state-machine` `workflow` `transitions` `terminal-state` `audit-log` |
+| [How-to: Step-Based Workflow with Approval](step-workflow-approval.md) | advanced | `workflow` `state-machine` `approval` `multi-step` |
+| [How-to: Webhook Delivery API](webhook-delivery-api.md) | intermediate | `webhook` `delivery` `retry` `event-dispatch` |
+| [How-to: Webhook Delivery System](webhook-delivery-system.md) | advanced | `webhook` `ssrf` `hmac` `signature` `secret-hashing` |
+| [Outbound Webhook Delivery](webhook-delivery.md) | intermediate | `webhook` `outbound` `ssrf` `signature` |
+| [Payment Webhook 受信の実装ガイド](payment-webhook.md) | intermediate | `webhook` `payment` `signature-verification` `idempotency` |
+| [Rate Limiting](rate-limiting.md) | intermediate | `rate-limiting` `throttle` `fixed-window` `middleware` `http-429` |
+
+### Product Features (106)
+
+| Guide | Difficulty | Tags |
+|---|---|---|
+| [Bookmark System](bookmark-system.md) | beginner | `bookmarks` `collections` `idempotent` `user-scoped` |
+| [Content Pinning](content-pinning.md) | intermediate | `pinning` `ordering` `idempotent` `position-management` |
+| [Content Relations — Typed M:N Self-Referential Links](content-relations.md) | intermediate | `relations` `self-referential` `many-to-many` `inverse` `typed-links` |
+| [Content Report & Moderation](content-report-moderation.md) | intermediate | `moderation` `reporting` `rbac` `idor-prevention` `state-machine` |
+| [Content Versioning の実装ガイド](content-versioning.md) | intermediate | `versioning` `append-only` `rollback` `history` `content` |
+| [How to Add a Multi-step Workflow](multi-step-workflow.md) | intermediate | `workflow` `approval` `state-machine` `multi-step` |
+| [How to Add Admin Report Aggregation](admin-report-aggregation.md) | intermediate | `admin` `reporting` `aggregation` `dashboard` `date-range` |
+| [How to Build a Content Draft Lifecycle (Draft → Published → Archived) with NENE2](content-draft-lifecycle.md) | intermediate | `draft` `publish` `state-machine` `content` `lifecycle` |
+| [How to Build a Direct Messaging System with NENE2](direct-messaging-system.md) | intermediate | `messaging` `conversation` `threading` `access-control` `idempotency` |
+| [How to Build a Flash Sale System with NENE2](flash-sale-system.md) | advanced | `flash-sale` `inventory` `time-window` `race-condition` |
+| [How to Build a Guest Order System (Cart → Order → Order Items) with NENE2](guest-order-system.md) | intermediate | `order` `cart` `inventory` `price-snapshot` `guest` |
+| [How to Build a Leaderboard (Ranking System) with NENE2](leaderboard-ranking-system.md) | intermediate | `leaderboard` `ranking` `scores` `personal-best` |
+| [How to Build a User Follow System with NENE2](user-follow-system.md) | intermediate | `follow` `social` `mutual-follow` `many-to-many` |
+| [How to Build an Emoji Reaction System with NENE2](emoji-reaction-system.md) | intermediate | `emoji` `reactions` `unique-constraint` `group-by` `social` |
+| [How to Build Group Membership Management with NENE2](group-membership-management.md) | intermediate | `group` `membership` `roles` `invitation` |
+| [How to Build System Announcement Management](system-announcement-management.md) | intermediate | `announcement` `admin` `dismissal` `priority` |
+| [How-to: A/B Testing Framework](ab-testing.md) | advanced | `ab-testing` `experimentation` `state-machine` `analytics` |
+| [How-to: Activity Feed / Timeline API](activity-feed.md) | intermediate | `activity-feed` `timeline` `pagination` `idor-prevention` |
+| [How-to: Aggregate Reporting API](aggregate-reporting.md) | intermediate | `reporting` `aggregation` `analytics` `sql` `grouping` |
+| [How-to: Approval Workflow API](approval-workflow.md) | intermediate | `workflow` `approval` `state-machine` `multi-step` |
+| [How-to: Article Relations API](article-relations-api.md) | intermediate | `relations` `many-to-many` `self-referential` `inverse` `content` |
+| [How-to: Article Versioning API](article-versioning-api.md) | intermediate | `versioning` `content` `snapshot` `history` `draft` |
+| [How-To: Asset Check-out / Check-in Management](asset-checkout.md) | intermediate | `asset-management` `checkout` `exclusive-lock` `audit-log` |
+| [How-to: Bookmark API](bookmark-api.md) | beginner | `bookmarks` `collections` `deduplication` `idor-prevention` |
+| [How-to: Budget Tracking API](budget-tracking.md) | intermediate | `budget` `finance` `tracking` `spending` `categories` |
+| [How-to: Category Hierarchy Tree API](category-hierarchy-api.md) | advanced | `hierarchy` `tree` `recursive-cte` `parent-child` `categories` |
+| [How-to: Collection API (User Curated Lists)](collection-api.md) | intermediate | `collections` `curated-lists` `visibility` `ordering` `deduplication` |
+| [How-to: Comment Thread API](comment-thread.md) | intermediate | `comments` `threads` `pagination` `moderation` `rbac` |
+| [How-to: Contact Management API](contact-management.md) | intermediate | `contacts` `crud` `many-to-many` `owner-scoped` `tagging` |
+| [How-to: Content Approval Workflow](content-approval-workflow.md) | intermediate | `approval` `workflow` `state-machine` `content` `moderation` |
+| [How-to: Content Reporting System](content-reporting.md) | intermediate | `reporting` `moderation` `enum` `state-machine` `idempotent` |
+| [How-to: Coupon / Discount Code Redemption API](coupon-redemption.md) | intermediate | `coupon` `redemption` `discount` `usage-limit` `expiry` |
+| [How-to: Coupon Discount Code API](coupon-discount-api.md) | intermediate | `coupon` `discount` `redemption` `admin` `usage-limit` |
+| [How-to: Credit Ledger API](credit-ledger.md) | intermediate | `ledger` `credits` `append-only` `balance` `idempotency` |
+| [How-To: Document Template Engine](document-template-engine.md) | beginner | `template` `substitution` `admin` `crud` `rendering` |
+| [How-to: Document Versioning API](document-versioning.md) | intermediate | `versioning` `append-only` `rollback` `transactions` `document` |
+| [How-to: Draft → Publish → Archive Workflow](draft-publish-workflow.md) | intermediate | `state-machine` `draft` `publish` `archive` `content-lifecycle` |
+| [How-to: Emoji Reactions API](emoji-reactions-api.md) | intermediate | `emoji` `reactions` `unique-constraint` `social` `unicode` |
+| [How-to: Emoji Reactions with Toggle and Grouped Counts](emoji-reactions-toggle.md) | intermediate | `emoji` `reactions` `toggle` `concurrency` `unique-constraint` |
+| [How-To: Event Ticket Booking](event-ticket-booking.md) | intermediate | `booking` `tickets` `capacity` `concurrency` `inventory` |
+| [How-to: Expense Tracker API](expense-tracker.md) | beginner | `expense` `tracker` `categories` `date-range` `aggregation` |
+| [How-to: Expense Tracking API](expense-tracking-api.md) | intermediate | `expense` `tracking` `pagination` `patch` `aggregation` |
+| [How-to: Feedback Collection API](feedback-collection.md) | beginner | `feedback` `rating` `aggregation` `admin` `score` |
+| [How-to: File Sharing API](file-sharing-api.md) | intermediate | `file-sharing` `permissions` `visibility` `access-control` `ownership` |
+| [How-to: Flash Sale API](flash-sale-api.md) | advanced | `flash-sale` `inventory` `race-condition` `time-window` |
+| [How-to: Follow / Unfollow API](follow-api.md) | intermediate | `follow` `social` `graph` `pagination` |
+| [How-to: Game Leaderboard & Ranking API](leaderboard-ranking.md) | intermediate | `leaderboard` `ranking` `scores` `personal-best` |
+| [How-to: Game Score & Leaderboard API](game-score-leaderboard-api.md) | intermediate | `leaderboard` `scores` `ranking` `bulk-insert` `pagination` |
+| [How-to: Group Member Management](group-member-management.md) | advanced | `group` `membership` `rbac` `role-hierarchy` `idor` |
+| [How-to: Habit Tracker API](habit-tracker.md) | intermediate | `habit` `streak` `tracking` `daily` |
+| [How-to: Inventory Management API](inventory-management.md) | intermediate | `inventory` `stock` `adjustment` `history` |
+| [How-to: Inventory Stock Management](inventory-stock-management.md) | intermediate | `inventory` `stock` `sku` `transactions` |
+| [How-to: Invitation / Referral API](invitation-referral.md) | intermediate | `invitation` `referral` `token` `one-time-use` |
+| [How-to: Invitation System](invitation-system.md) | intermediate | `invitation` `token` `one-time-use` `entropy` |
+| [How-to: Leaderboard & Score Tracking API](leaderboard-scores.md) | intermediate | `leaderboard` `scores` `ranking` `aggregation` |
+| [How-to: Leaderboard Ranking API](leaderboard-ranking-api.md) | intermediate | `leaderboard` `ranking` `personal-best` `scores` |
+| [How-to: Live Poll System](live-poll-system.md) | intermediate | `poll` `voting` `deduplication` `lifecycle` |
+| [How-to: Media Watchlist API](media-watchlist.md) | beginner | `watchlist` `media` `enum` `status` |
+| [How-to: Multi-Currency Money Ledger with Integer Cents](multi-currency-money-ledger.md) | advanced | `money` `ledger` `multi-currency` `integer-arithmetic` `transactions` |
+| [How-To: Multi-Currency Wallet](multi-currency-wallet.md) | advanced | `wallet` `multi-currency` `deposit` `withdraw` `transfer` |
+| [How-to: Multilingual Content API](multilingual-content.md) | intermediate | `i18n` `multilingual` `localization` `content` |
+| [How-to: Note Management with Ownership](note-management-ownership.md) | intermediate | `notes` `ownership` `idor` `crud` `authorization` |
+| [How-to: Note Management with Tags](note-management-with-tags.md) | intermediate | `notes` `tags` `full-text-search` `ownership` `crud` |
+| [How-to: Notification Inbox API](notification-inbox.md) | intermediate | `notifications` `inbox` `pagination` `mark-as-read` `idor` |
+| [How-to: Order Management API](order-management.md) | intermediate | `orders` `status-lifecycle` `line-items` `idor` `admin` |
+| [How-to: Pin / Bookmark with Ordering](pin-bookmark-ordering.md) | intermediate | `pins` `bookmarks` `ordering` `reorder` `user-isolation` |
+| [How-to: Point Ledger API](point-ledger-api.md) | intermediate | `points` `ledger` `loyalty` `idempotency` `overdraft-prevention` |
+| [How-to: Poll / Survey API](poll-survey.md) | intermediate | `poll` `survey` `voting` `duplicate-prevention` |
+| [How-to: Product Catalog API (ATK-01~12)](product-catalog.md) | intermediate | `catalog` `soft-delete` `search` `admin-auth` `attack-hardening` |
+| [How-to: Product Price History API](price-history.md) | intermediate | `price` `history` `timeline` `temporal-data` |
+| [How-to: Project and Task Management with Nested Resources](project-task-management.md) | intermediate | `nested-resources` `patch` `task-management` `pagination` |
+| [How-to: Rating & Review API](rating-review-api.md) | intermediate | `rating` `review` `upsert` `aggregate` `distribution` |
+| [How-to: Reservation & Availability API](reservation-availability-api.md) | intermediate | `reservation` `booking` `availability` `overlap-detection` `cancel` |
+| [How-to: Resource Booking System](resource-booking.md) | intermediate | `booking` `capacity` `double-booking` `idor` `soft-delete` |
+| [How-to: Resource Reservation & Booking API](resource-reservation-booking.md) | intermediate | `reservation` `booking` `overlap-prevention` `idor` `admin-auth` |
+| [How-to: Resource Reservation / Time Slot Booking API](resource-reservation.md) | intermediate | `reservation` `time-slot` `overlap-detection` `idor` |
+| [How-to: Scheduled Publish Article](scheduled-publish-article.md) | intermediate | `content-scheduling` `state-machine` `draft` `publish` `lifecycle` |
+| [How-to: Scheduled Reminders API](scheduled-reminders.md) | intermediate | `reminders` `scheduling` `timezone` `idor` `ownership` |
+| [How-To: Service Status Page API](service-status-page.md) | intermediate | `status-page` `incident-management` `admin-auth` `state-machine` |
+| [How-to: Shift Management API](shift-management.md) | intermediate | `scheduling` `shift` `overlap-detection` `employee` `transactions` |
+| [How-to: Shopping Cart API](shopping-cart-api.md) | intermediate | `shopping-cart` `upsert` `integer-money` `per-user` |
+| [How-to: Slug URL Management with History](slug-url-history.md) | intermediate | `slug` `url` `redirect` `history` `collision` |
+| [How-to: Subscription / Plan Management API (VULN-A~L)](subscription-plan.md) | advanced | `subscription` `plan` `idor` `security-assessment` |
+| [How-to: Subscription Plan Management](subscription-plan-management.md) | intermediate | `subscription` `plan` `lifecycle` `billing` |
+| [How-to: Tag / Label API](tag-label-api.md) | intermediate | `tagging` `label` `many-to-many` `entity` |
+| [How-to: Threaded Comments API](threaded-comments-api.md) | intermediate | `comments` `threaded` `tombstone` `depth-limit` |
+| [How-to: Time Tracking API](time-tracking.md) | intermediate | `time-tracking` `stopwatch` `timer` `duration` |
+| [How-to: Upvote / Downvote API](upvote-downvote-api.md) | intermediate | `voting` `upvote` `downvote` `toggle` `score` |
+| [How-to: URL Bookmark API with Tag Filtering](url-bookmark-api.md) | intermediate | `bookmark` `url` `tagging` `filtering` |
+| [How-to: User Preferences API](user-preferences-api.md) | intermediate | `preferences` `settings` `typed-values` `defaults` |
+| [How-to: User Profile API](user-profile-api.md) | intermediate | `profile` `user` `ownership` `validation` `url-security` |
+| [How-to: Waitlist System](waitlist-system.md) | intermediate | `waitlist` `state-machine` `queue` `approval` |
+| [How-to: Wish List API (VULN-A~L Security Assessment)](wish-list-api.md) | advanced | `wishlist` `crud` `idor` `security-assessment` |
+| [Product Review & Rating System](product-review-system.md) | intermediate | `review` `rating` `cursor-pagination` `ownership` |
+| [Slug Management — Unique URL Slugs with Collision Resolution and History](slug-management.md) | intermediate | `slug` `url` `collision-resolution` `redirect` `history` |
+| [Tagging System (M:N)](tagging-system.md) | intermediate | `tagging` `many-to-many` `atomic-update` `n-plus-one` |
+| [Threaded Comments](threaded-comments.md) | intermediate | `comments` `threaded` `soft-delete` `depth-limit` |
+| [User Preferences Management](user-preferences-management.md) | intermediate | `preferences` `settings` `typed-values` `ownership` |
+| [User Profile Management](user-profile-management.md) | beginner | `profile` `user` `bio` `avatar` |
+| [Voting System (Upvote / Downvote)](voting-system.md) | intermediate | `voting` `upvote` `downvote` `toggle` |
+| [ウィッシュリスト管理](wishlist-management.md) | intermediate | `wishlist` `priority` `visibility` `idor` |
+| [ウェイティングリスト管理](waitlist-management.md) | intermediate | `waitlist` `state-machine` `queue` `admin` |
+| [クーポン・プロモコード管理](coupon-promo-code.md) | intermediate | `coupon` `promo-code` `rbac` `discount` `expiry` |
+| [コンテンツコレクション](content-collection.md) | intermediate | `collections` `visibility` `idor-prevention` `idempotent` `ordering` |
+| [ファイルメタデータ管理・共有 API の実装ガイド](file-metadata-sharing.md) | intermediate | `file-sharing` `metadata` `permissions` `access-control` `visibility` |
+| [ポイント・ロイヤルティシステム](point-loyalty-system.md) | intermediate | `points` `loyalty` `idempotency` `rbac` `balance` |
 
 <!-- AUTO-INDEX:END -->
