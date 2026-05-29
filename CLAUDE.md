@@ -296,6 +296,8 @@ docker compose run --rm app composer cs
 docker compose run --rm app composer cs:fix
 docker compose run --rm app composer openapi
 docker compose run --rm app composer mcp
+docker compose run --rm app composer howto:index                       # howto 索引再生成（README/by-tag.md）
+docker compose run --rm app composer howto:frontmatter -- --require-all # howto frontmatter 検証
 
 # DB
 docker compose run --rm app composer test:database
@@ -539,10 +541,15 @@ bash tools/start-ft.sh <ft-number> <ft-name> "<howto テーマ>"
 4. bash tools/bump-ft.sh           # 引数なしで自動 +1（FrameworkInfo.php + openapi.yaml）
 5. CHANGELOG.md を Read してから Edit（ブランチ切替後は必ず Read が必要）
 6. docs/ft-registry.md に FT エントリが存在するか確認（new-ft.sh が自動追記済みのはず）
-7. docs/howto/<topic>.md を Write または Edit
-8. docker compose run --rm app composer check
-9. git commit / push / gh pr create / CI 待ち / merge / git pull
+7. docs/howto/<topic>.md を Write または Edit。
+   **先頭に YAML frontmatter（title/category/tags/difficulty 必須）を必ず付ける**
+   — スキーマ: docs/development/howto-frontmatter.md
+8. docker compose run --rm app composer howto:index   # README/by-tag.md を再生成（コミット対象）
+9. docker compose run --rm app composer check
+10. git commit / push / gh pr create / CI 待ち / merge / git pull
 ```
+
+> **重要（#1331）**: CI は frontmatter を必須化（`composer howto:frontmatter -- --require-all`）し、索引の drift（`composer howto:index && git diff --exit-code`）でも fail する。frontmatter を付け忘れる／`composer howto:index` の再生成結果をコミットし忘れると **CI が落ちる**。`README.md` と `by-tag.md` は索引であり guide ではない（frontmatter 不要）。
 
 ### ATK / VULN サイクル
 
@@ -642,6 +649,10 @@ bash tools/uncovered-fts.sh --check cartlog  # 特定 FT の確認
 bash tools/bump-ft.sh                    # バージョン自動 +1（引数なし推奨）
 bash tools/bump-ft.sh 1.5.241            # バージョン明示指定
 bash tools/new-ft.sh 350 newfeaturelog   # FT プロジェクト生成（ft-registry.md 自動追記）
+
+# howto 索引（新規・更新 howto を追加したら必ず実行）
+docker compose run --rm app composer howto:index                      # README/by-tag.md を frontmatter から再生成
+docker compose run --rm app composer howto:frontmatter -- --require-all # frontmatter を検証（CI と同条件）
 ```
 
 ---
