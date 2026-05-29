@@ -147,6 +147,6 @@ tutorial / explanation / reference は別象限なので混ぜない。
 
 | 種別 | 番号 | 状態 |
 |---|---|---|
-| 本ドキュメント発行 | #1323 | 着手前 |
-| 後続 (Phase A 実装) | 未起票 | — |
+| 本ドキュメント発行 | #1323 | 完了 |
+| 後続 (Phase A 実装) | #1325 | 実装中 — `tools/build-howto-index.php` + 6 ロケール全索引 + CI lock |
 | 後続 (Phase B 実装) | 未起票 | — |
