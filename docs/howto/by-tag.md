@@ -518,9 +518,10 @@ Auto-generated from each guide's frontmatter `tags`. Regenerate with `composer h
 
 - [CSRF and JSON APIs](csrf-and-json-api.md)
 
-## `csv` (1)
+## `csv` (2)
 
 - [CSV バルクインポート API の実装ガイド](csv-bulk-import.md)
+- [Prevent CSV / Spreadsheet Formula Injection on Export](csv-export-formula-injection.md)
 
 ## `curated-lists` (1)
 
@@ -812,6 +813,10 @@ Auto-generated from each guide's frontmatter `tags`. Regenerate with `composer h
 - [User Invitation System](user-invitation.md)
 - [クーポン・プロモコード管理](coupon-promo-code.md)
 
+## `export` (1)
+
+- [Prevent CSV / Spreadsheet Formula Injection on Export](csv-export-formula-injection.md)
+
 ## `fault-tolerance` (1)
 
 - [How-to: Circuit Breaker](circuit-breaker.md)
@@ -876,6 +881,10 @@ Auto-generated from each guide's frontmatter `tags`. Regenerate with `composer h
 
 - [How to Build a User Follow System with NENE2](user-follow-system.md)
 - [How-to: Follow / Unfollow API](follow-api.md)
+
+## `formula-injection` (1)
+
+- [Prevent CSV / Spreadsheet Formula Injection on Export](csv-export-formula-injection.md)
 
 ## `fts5` (2)
 
@@ -1985,6 +1994,10 @@ Auto-generated from each guide's frontmatter `tags`. Regenerate with `composer h
 - [How-to: API Token Lifecycle Management](token-lifecycle-api.md)
 - [How-to: Session / Token Management API (ATK-01~12)](session-token-management.md)
 
+## `rfc-4180` (1)
+
+- [Prevent CSV / Spreadsheet Formula Injection on Export](csv-export-formula-injection.md)
+
 ## `role-hierarchy` (1)
 
 - [How-to: Group Member Management](group-member-management.md)
@@ -2017,6 +2030,10 @@ Auto-generated from each guide's frontmatter `tags`. Regenerate with `composer h
 ## `running-total` (1)
 
 - [Use SQLite Window Functions](use-window-functions.md)
+
+## `sanitization` (1)
+
+- [Prevent CSV / Spreadsheet Formula Injection on Export](csv-export-formula-injection.md)
 
 ## `scheduling` (4)
 
