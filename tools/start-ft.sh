@@ -96,23 +96,26 @@ CHANGELOG="${REPO_ROOT}/CHANGELOG.md"
 # [Unreleased] セクションの直後に新バージョンエントリを挿入
 ENTRY="## [${NEW_VER}] — ${TODAY}\n\n### Added\n- \`docs/howto/TODO.md\` — FT${FT_NUM} ${FT_NAME}: ${TOPIC} (#${ISSUE_NUM})\n\n---\n"
 
-# "## [Unreleased]" と "---" の間に挿入
+# 最新のリリース版見出し ("## [<数字>") の直前に挿入する。
+# [Unreleased] に未リリース項目があっても確実に動くよう、Unreleased 直後の
+# "---" に依存しない。マッチしなければ明示エラーで停止する。
 python3 - "$CHANGELOG" "$ENTRY" <<'PYEOF'
 import sys, re
 
 path = sys.argv[1]
-entry = sys.argv[2]
+# bash の二重引用符内では \n は literal なので実改行へ変換する
+entry = sys.argv[2].replace('\\n', '\n')
 
 with open(path, 'r') as f:
     content = f.read()
 
-# "[Unreleased]\n\n---\n" の直後に挿入
-new_content = re.sub(
-    r'(## \[Unreleased\]\n\n---\n)',
-    r'\1\n' + entry,
-    content,
-    count=1
-)
+m = re.search(r'^## \[\d', content, re.M)
+if m is None:
+    sys.stderr.write('start-ft.sh: CHANGELOG にリリース版見出しが見つかりません\n')
+    sys.exit(1)
+
+idx = m.start()
+new_content = content[:idx] + entry.rstrip('\n') + '\n\n' + content[idx:]
 
 with open(path, 'w') as f:
     f.write(new_content)
