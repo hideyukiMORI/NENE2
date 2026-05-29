@@ -8,17 +8,19 @@ related: [content-pinning, pin-bookmark-ordering, use-transactions]
 
 # Bulk Reorder (Drag-and-Drop Ordering) API
 
-A drag-and-drop UI sends the *whole* new order of a list in one request: `[itemC, itemA, itemD, itemB]`. The naive server does one `UPDATE` per item — N round-trips, a window where positions collide (breaking a `UNIQUE(board_id, position)` constraint mid-loop), and a half-applied order if one fails.
+A drag-and-drop UI sends the *whole* new order of a list in one request: `[itemC, itemA, itemD, itemB]`. The naive server does one `UPDATE` per item — N round-trips and a half-applied order if one fails.
 
-The right shape is **one atomic statement** that rewrites every position with a `CASE` expression, scoped to the owner's board.
+The right shape is **one transaction** that rewrites every position with server-assigned values, scoped to the owner's board. How it's written depends on one thing: **whether `position` carries a `UNIQUE (board_id, position)` constraint.**
+
+> **Verified gotcha (FT352).** SQLite checks `UNIQUE` **per row** as an `UPDATE` is applied. So *any* statement that swaps positions — even a single `CASE WHEN` over all rows — transiently puts two rows at the same position and fails with `UNIQUE constraint failed: items.board_id, items.position`. A single statement is enough **only when `position` has no `UNIQUE` constraint** (§1). With the constraint, you need a two-phase write inside a transaction (§1.1). The runnable proof is in [`NENE2-examples/reorderlog`](https://github.com/hideyukiMORI/NENE2-examples/tree/main/reorderlog).
 
 **Prerequisite**: A table with an integer `position` column scoped to a parent (`board_id`, `list_id`, …). See [Content pinning](content-pinning.md) for the single-item case.
 
 ---
 
-## 1. One statement, server-assigned positions
+## 1. One statement (no `UNIQUE` constraint on `position`)
 
-The client sends only the *ordered list of ids*. The server derives positions from the array index — it never trusts client-supplied position numbers.
+The client sends only the *ordered list of ids*. The server derives positions from the array index — it never trusts client-supplied position numbers. When `position` is just an indexed column (no `UNIQUE`), a single statement is enough:
 
 ```php
 /**
@@ -58,6 +60,41 @@ position 3 -> item 2
 ```
 
 Positions are reassigned `0..n-1` from the array index, so the result is always contiguous regardless of what the client sent.
+
+---
+
+## 1.1. Two-phase write when `position` is `UNIQUE`
+
+If `UNIQUE (board_id, position)` guards your ordering (recommended — it stops duplicate positions at the database level), the single statement above fails the moment it swaps two rows. Shift every position into a collision-free range first, then assign the final values — both steps in **one transaction** so the intermediate state is never observable:
+
+```php
+public function reorder(int $boardId, array $orderedIds): void
+{
+    $this->tx->transactional(function ($executor) use ($boardId, $orderedIds): void {
+        // Phase 1: move every position to a unique negative value (no collisions).
+        $executor->execute(
+            'UPDATE items SET position = -1 - position WHERE board_id = ?',
+            [$boardId],
+        );
+
+        // Phase 2: assign final positions from the array index.
+        $cases = '';
+        $params = [];
+        foreach ($orderedIds as $position => $id) {
+            $cases   .= ' WHEN id = ? THEN ?';
+            $params[] = $id;
+            $params[] = $position;
+        }
+        $placeholders = implode(',', array_fill(0, count($orderedIds), '?'));
+        $executor->execute(
+            "UPDATE items SET position = CASE{$cases} END WHERE board_id = ? AND id IN ({$placeholders})",
+            [...$params, $boardId, ...$orderedIds],
+        );
+    });
+}
+```
+
+`-1 - position` maps `0,1,2,…` to `-1,-2,-3,…` — distinct values that cannot clash with the final `0..n-1`. See [Use transactions](use-transactions.md) for the `transactional()` rule (instantiate repositories *inside* the callback). `reorderlog`'s `testReorderAdjacentSwapDoesNotCollide` exercises exactly the swap that breaks a single statement.
 
 ---
 
@@ -142,7 +179,7 @@ Target: `PUT /boards/{boardId}/order` with body `{ "ids": [...] }`, authenticate
 ### ATK-09 — Concurrent reorder race 🚫 BLOCKED
 
 **Attack**: Fire two reorders simultaneously to interleave positions.
-**Result**: BLOCKED — each reorder is a single atomic `UPDATE`; the last writer wins with a fully-consistent `0..n-1` ordering, never an interleaved mix. No transient `UNIQUE` violation because positions are not updated row-by-row.
+**Result**: BLOCKED — each reorder runs in one transaction; the last writer wins with a fully-consistent `0..n-1` ordering, never an interleaved mix. The two-phase write (§1.1) keeps the intermediate state inside the transaction, so a concurrent reader never sees a partial or colliding order.
 
 ---
 
@@ -184,7 +221,7 @@ Target: `PUT /boards/{boardId}/order` with body `{ "ids": [...] }`, authenticate
 | ATK-11 | Empty order | 🚫 BLOCKED |
 | ATK-12 | Board id enumeration | 🚫 BLOCKED |
 
-**12 BLOCKED, 0 EXPOSED.** No critical findings. The combination of *server-assigned positions* (array index, never client input) and the *affected-count integrity check* against a board-scoped `WHERE` closes the reorder surface; the single-statement `CASE` form additionally removes the transient `UNIQUE`-collision window that a per-row update loop would open.
+**12 BLOCKED, 0 EXPOSED.** No critical findings. The combination of *server-assigned positions* (array index, never client input) and the *affected-count / id-set integrity check* against a board-scoped `WHERE` closes the reorder surface. The one *correctness* trap (not a security finding) is the `UNIQUE (board_id, position)` constraint: it makes a single `CASE` statement fail on any swap, so use the two-phase transactional write of §1.1 — verified in [`NENE2-examples/reorderlog`](https://github.com/hideyukiMORI/NENE2-examples/tree/main/reorderlog).
 
 ---
 
