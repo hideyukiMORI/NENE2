@@ -1,3 +1,11 @@
+---
+title: "How-to: Content Reporting System"
+category: product
+tags: [reporting, moderation, enum, state-machine, idempotent]
+difficulty: intermediate
+related: [content-report-moderation, content-approval-workflow, comment-thread]
+---
+
 # How-to: Content Reporting System
 
 > **FT reference**: FT289 (`NENE2-FT/reportlog`) — Content reporting: allowlisted reasons (ReportReason enum), UNIQUE(reporter_id, article_id) with idempotent 200 on duplicate, pending→resolved/dismissed state machine, moderator-only list/resolve/dismiss, DB-level CHECK constraints, 32 tests / 58 assertions PASS.

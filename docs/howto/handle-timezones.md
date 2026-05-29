@@ -1,3 +1,11 @@
+---
+title: "How to handle timezones"
+category: api-design
+tags: [timezone, datetime, iso-8601, validation]
+difficulty: intermediate
+related: [iso-datetime-validation, timezone-aware-scheduling]
+---
+
 # How to handle timezones
 
 PHP's timezone handling has several silent failure modes. This guide covers the patterns and pitfalls encountered in real NENE2 field trials.

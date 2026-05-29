@@ -1,3 +1,11 @@
+---
+title: "Soft Delete (Logical Deletion)"
+category: database
+tags: [soft-delete, deleted-at, logical-deletion, audit-trail]
+difficulty: beginner
+related: [soft-delete-restore-permanent, soft-delete-trash-purge, soft-delete-trash-restore]
+---
+
 # Soft Delete (Logical Deletion)
 
 Soft delete keeps a record in the database but marks it as deleted by setting a `deleted_at` timestamp. This enables:

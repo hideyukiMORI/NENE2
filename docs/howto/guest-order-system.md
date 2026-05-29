@@ -1,3 +1,12 @@
+---
+title: "How to Build a Guest Order System (Cart → Order → Order Items) with NENE2"
+category: product
+tags: [order, cart, inventory, price-snapshot, guest]
+difficulty: intermediate
+related: [shopping-cart-api, inventory-management, inventory-stock-management]
+ft: FT139
+---
+
 # How to Build a Guest Order System (Cart → Order → Order Items) with NENE2
 
 This guide walks through building an e-commerce ordering flow where users add products to a cart, check stock, and place an order that captures price snapshots in order items.

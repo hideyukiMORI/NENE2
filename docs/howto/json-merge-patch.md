@@ -1,3 +1,12 @@
+---
+title: "How-to: JSON Merge Patch & ETag Conflict Detection"
+category: api-design
+tags: [patch, json-merge-patch, etag, conflict-detection]
+difficulty: intermediate
+related: [implement-patch-endpoint, etag-conditional-requests, optimistic-locking-etag]
+ft: FT178
+---
+
 # How-to: JSON Merge Patch & ETag Conflict Detection
 
 **FT178 — patchlog**

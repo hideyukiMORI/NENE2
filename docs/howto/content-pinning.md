@@ -1,3 +1,11 @@
+---
+title: "Content Pinning"
+category: product
+tags: [pinning, ordering, idempotent, position-management]
+difficulty: intermediate
+related: [pin-bookmark-ordering, bookmark-api, content-collection]
+---
+
 # Content Pinning
 
 コンテンツ（記事）のピン留め機能の実装ガイド。

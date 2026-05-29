@@ -1,3 +1,11 @@
+---
+title: "How-to: PII Masking API"
+category: security
+tags: [pii, masking, rbac, audit-trail, data-privacy]
+difficulty: intermediate
+related: [personal-data-export, data-masking, audit-trail]
+---
+
 # How-to: PII Masking API
 
 > **FT reference**: FT297 (`NENE2-FT/masklog`) — PII masking: email/phone/name partial masking, role-based raw data access (admin only) with mandatory X-Accessor audit trail, immutable audit log, VULN-A~L all SAFE, 24 tests / 49 assertions PASS.

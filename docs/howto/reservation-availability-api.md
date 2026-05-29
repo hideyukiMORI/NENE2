@@ -1,3 +1,11 @@
+---
+title: "How-to: Reservation & Availability API"
+category: product
+tags: [reservation, booking, availability, overlap-detection, cancel]
+difficulty: intermediate
+related: [resource-reservation-booking, resource-booking, prevent-double-booking]
+---
+
 # How-to: Reservation & Availability API
 
 > **FT reference**: FT336 (`NENE2-FT/reservelog`) — Resource reservation system with half-open interval overlap detection, status-aware availability query, cancel-and-rebook semantics, and ATK cracker-mindset attack assessment, 16 tests / 30+ assertions PASS.

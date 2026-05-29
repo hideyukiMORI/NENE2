@@ -1,3 +1,11 @@
+---
+title: "ウィッシュリスト管理"
+category: product
+tags: [wishlist, priority, visibility, idor]
+difficulty: intermediate
+related: [wish-list-api, media-watchlist]
+---
+
 # ウィッシュリスト管理
 
 優先度・メモ付きウィッシュリストの実装ガイド。

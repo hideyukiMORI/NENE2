@@ -1,3 +1,11 @@
+---
+title: "How to Build a Direct Messaging System with NENE2"
+category: product
+tags: [messaging, conversation, threading, access-control, idempotency]
+difficulty: intermediate
+related: [notification-inbox, comment-thread]
+---
+
 # How to Build a Direct Messaging System with NENE2
 
 > **FT reference**: FT278 (`NENE2-FT/messagelog`) — Direct messaging: conversation threading, UNIQUE(initiator_id, recipient_id) + CHECK(initiator_id != recipient_id), participant-only access control, direction-agnostic lookup, idempotent conversation start, 31 tests / 96 assertions PASS.

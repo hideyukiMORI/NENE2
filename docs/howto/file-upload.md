@@ -1,3 +1,11 @@
+---
+title: "File upload (base64 JSON)"
+category: api-design
+tags: [file-upload, base64, json-api, request-body]
+difficulty: beginner
+related: [file-upload-metadata, file-sharing-api]
+---
+
 # File upload (base64 JSON)
 
 NENE2 is a JSON-first framework. It does not have built-in multipart/form-data parsing. The recommended pattern for file upload in a JSON API is to receive files as base64-encoded strings in the JSON request body.

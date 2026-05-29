@@ -1,3 +1,12 @@
+---
+title: "How-to: Fixed-window Rate Limiter"
+category: security
+tags: [rate-limiting, fixed-window, sqlite, throttle]
+difficulty: intermediate
+related: [sliding-window-rate-limiter, add-rate-limiting, rate-limiting]
+ft: FT251
+---
+
 # How-to: Fixed-window Rate Limiter
 
 > **FT reference**: FT251 (`NENE2-FT/ratelimitlog`) — Fixed-window rate limiting with SQLite upsert

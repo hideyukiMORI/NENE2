@@ -1,3 +1,11 @@
+---
+title: "How-to: API Versioning"
+category: api-design
+tags: [versioning, deprecation, url-path, headers, sunset]
+difficulty: intermediate
+related: [content-negotiation, content-negotiation-api]
+---
+
 # How-to: API Versioning
 
 > **FT reference**: FT346 (`NENE2-FT/versionlog`) — URL path versioning with /v1/ and /v2/ namespaces, deprecated V1 carrying Deprecation/Sunset/Link headers, V2 with enriched response shape, shared underlying storage, 16 tests PASS.

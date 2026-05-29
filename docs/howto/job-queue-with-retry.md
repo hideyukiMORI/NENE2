@@ -1,3 +1,12 @@
+---
+title: "How-to: Background Job Queue with Retry and Idempotency"
+category: infrastructure
+tags: [job-queue, retry, idempotency, background-jobs]
+difficulty: intermediate
+related: [job-queue, dead-letter-queue, notification-queue]
+ft: FT255
+---
+
 # How-to: Background Job Queue with Retry and Idempotency
 
 > **FT reference**: FT255 (`NENE2-FT/queuelog`) — Background Job Queue with Retry and Idempotency

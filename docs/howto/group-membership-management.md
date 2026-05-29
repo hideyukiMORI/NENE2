@@ -1,3 +1,12 @@
+---
+title: "How to Build Group Membership Management with NENE2"
+category: product
+tags: [group, membership, roles, invitation]
+difficulty: intermediate
+related: [group-member-management, rbac, invitation-system]
+ft: FT138
+---
+
 # How to Build Group Membership Management with NENE2
 
 This guide walks through building a group system where users create groups, invite members with roles (owner/admin/member), manage membership, and control role promotion.

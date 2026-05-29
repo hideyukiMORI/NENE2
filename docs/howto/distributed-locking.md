@@ -1,3 +1,11 @@
+---
+title: "Distributed Locking"
+category: infrastructure
+tags: [distributed-lock, concurrency, database, ttl, critical-section]
+difficulty: advanced
+related: [distributed-lock, prevent-double-booking, optimistic-locking]
+---
+
 # Distributed Locking
 
 A distributed lock prevents concurrent processes from executing a critical section at the same time. DB-backed locks trade throughput for simplicity — no Redis required, and the same DB that holds your data holds your locks.

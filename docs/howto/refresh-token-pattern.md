@@ -1,3 +1,11 @@
+---
+title: "How-to: Refresh Token Pattern"
+category: auth
+tags: [refresh-token, jwt, token-rotation, replay-attack]
+difficulty: intermediate
+related: [refresh-token-rotation, add-jwt-authentication, session-management]
+---
+
 # How-to: Refresh Token Pattern
 
 > **FT reference**: FT281 (`NENE2-FT/refreshlog`) — Refresh token pattern: short-lived access token (5 min JWT) + long-lived refresh token (7 days), SHA-256 hash storage, token rotation on use, replay attack detection (revoked token → revoke all), logout returns 204 always, 15 tests / 63 assertions PASS.

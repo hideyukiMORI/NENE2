@@ -1,3 +1,11 @@
+---
+title: "How-to: Shopping Cart API"
+category: product
+tags: [shopping-cart, upsert, integer-money, per-user]
+difficulty: intermediate
+related: [product-catalog, money-integer-arithmetic, order-management]
+---
+
 # How-to: Shopping Cart API
 
 > **FT reference**: FT269 (`NENE2-FT/cartlog`) — Shopping cart: UNIQUE (user_id, product_id) per-user cart, upsert add-item (quantity accumulation), quantity=0 auto-remove semantics, integer price/subtotal, X-User-Id header identification

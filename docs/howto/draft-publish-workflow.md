@@ -1,3 +1,11 @@
+---
+title: "How-to: Draft → Publish → Archive Workflow"
+category: product
+tags: [state-machine, draft, publish, archive, content-lifecycle]
+difficulty: intermediate
+related: [content-scheduling, content-draft-lifecycle, content-versioning]
+---
+
 # How-to: Draft → Publish → Archive Workflow
 
 > **FT reference**: FT305 (`NENE2-FT/draftlog`) — Article lifecycle state machine: draft→published→archived one-way transitions, author-only write access, non-authors see only published articles (drafts return 404), cannot edit published articles, published list excludes drafts and archived, 20 tests / 28 assertions PASS.

@@ -1,3 +1,11 @@
+---
+title: "How-to: Point Ledger API"
+category: product
+tags: [points, ledger, loyalty, idempotency, overdraft-prevention]
+difficulty: intermediate
+related: [point-loyalty-system, credit-ledger, multi-currency-money-ledger]
+---
+
 # How-to: Point Ledger API
 
 > **FT reference**: FT300 (`NENE2-FT/pointlog`) — Point ledger API: earn/spend/adjust/expire transactions, balance tracking, overdraft prevention (CHECK balance_after >= 0), admin-only adjust, reference_id idempotency, MAX_EARN=10000 / MAX_ADJUST=100000 caps, ATK-01〜12 all BLOCKED, 30 tests / 66 assertions PASS.

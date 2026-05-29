@@ -1,3 +1,11 @@
+---
+title: "How-to: Coupon / Discount Code Redemption API"
+category: product
+tags: [coupon, redemption, discount, usage-limit, expiry]
+difficulty: intermediate
+related: [coupon-discount-api, coupon-promo-code]
+---
+
 # How-to: Coupon / Discount Code Redemption API
 
 This guide shows how to build a coupon redemption system with usage limits and expiry using NENE2.

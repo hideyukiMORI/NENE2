@@ -1,3 +1,11 @@
+---
+title: "CSV バルクインポート API の実装ガイド"
+category: api-design
+tags: [csv, bulk-import, partial-success, validation, history]
+difficulty: intermediate
+related: [bulk-operations-partial-success, batch-api-partial-success]
+---
+
 # CSV バルクインポート API の実装ガイド
 
 ## 概要

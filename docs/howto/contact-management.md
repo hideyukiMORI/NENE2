@@ -1,3 +1,11 @@
+---
+title: "How-to: Contact Management API"
+category: product
+tags: [contacts, crud, many-to-many, owner-scoped, tagging]
+difficulty: intermediate
+related: [add-second-entity, note-management-ownership]
+---
+
 # How-to: Contact Management API
 
 > **FT reference**: FT238 (`NENE2-FT/contactlog`) — Contact Management API

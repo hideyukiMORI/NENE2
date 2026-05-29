@@ -1,3 +1,11 @@
+---
+title: "How-to: OTP Authentication System"
+category: auth
+tags: [otp, passwordless, brute-force-protection, session-token, lockout]
+difficulty: advanced
+related: [numeric-verification-code, pin-verification-lockout, passwordless-auth-magic-link]
+---
+
 # How-to: OTP Authentication System
 
 > **FT reference**: FT290 (`NENE2-FT/otplog`) — OTP authentication: 6-digit numeric code with SHA-256 hash storage, brute-force lockout (3 attempts → 10 min), OTP TTL (5 min), replay attack prevention via `used_at`, session token with SHA-256 + revocation, user enumeration prevention via always-202 request endpoint, ATK-01~12 PASS, 35 tests / 44 assertions PASS.

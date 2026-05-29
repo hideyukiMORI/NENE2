@@ -1,3 +1,11 @@
+---
+title: "How-to: Coupon Discount Code API"
+category: product
+tags: [coupon, discount, redemption, admin, usage-limit]
+difficulty: intermediate
+related: [coupon-promo-code, coupon-redemption]
+---
+
 # How-to: Coupon Discount Code API
 
 > **FT reference**: FT302 (`NENE2-FT/couponlog`) — Coupon discount code API: admin-only creation with `X-Admin-Key` (hash_equals), CODE_PATTERN `[A-Z0-9]{4,32}` auto-normalize to uppercase, UNIQUE(coupon_id, user_id) prevents double-redeem, expired/exhausted/duplicate → 409, 26 tests / 50 assertions PASS.

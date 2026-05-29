@@ -1,3 +1,11 @@
+---
+title: "How-to: Optimistic Lock with PATCH + Version Field"
+category: database
+tags: [optimistic-locking, patch, version-field, concurrency]
+difficulty: intermediate
+related: [optimistic-concurrency-version, optimistic-locking-etag, patch-partial-update]
+---
+
 # How-to: Optimistic Lock with PATCH + Version Field
 
 > **FT reference**: FT324 (`NENE2-FT/optlocklog`) — PATCH-based optimistic locking, 409 includes `current_version` for zero-GET retry, strict integer version type, ATK assessment, 12 tests / 24 assertions PASS.

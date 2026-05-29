@@ -1,3 +1,12 @@
+---
+title: "How-to: Inventory Management API"
+category: product
+tags: [inventory, stock, adjustment, history]
+difficulty: intermediate
+related: [inventory-stock-management, order-management]
+ft: FT220
+---
+
 # How-to: Inventory Management API
 
 This guide shows how to build an inventory / stock management API with stock adjustments and history tracking using NENE2.

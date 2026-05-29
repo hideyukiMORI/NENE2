@@ -1,3 +1,11 @@
+---
+title: "How-to: Notification Inbox API"
+category: product
+tags: [notifications, inbox, pagination, mark-as-read, idor]
+difficulty: intermediate
+related: [notification-queue, activity-feed]
+---
+
 # How-to: Notification Inbox API
 
 > **FT reference**: FT271 (`NENE2-FT/notificationlog`) — Notification inbox: type-allowlisted notification creation, per-user IDOR protection (404 not 403), admin fail-closed pattern, bulk mark-as-read, is_read idempotency, pagination clamping with PDO::PARAM_INT binding, 31 tests / 98 assertions PASS.

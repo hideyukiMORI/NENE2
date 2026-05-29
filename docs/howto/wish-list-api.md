@@ -1,3 +1,11 @@
+---
+title: "How-to: Wish List API (VULN-A~L Security Assessment)"
+category: product
+tags: [wishlist, crud, idor, security-assessment]
+difficulty: advanced
+related: [wishlist-management, media-watchlist]
+---
+
 # How-to: Wish List API (VULN-A~L Security Assessment)
 
 This guide demonstrates a personal wish list API with full CRUD, admin override, and security hardening covering VULN-A through VULN-L.

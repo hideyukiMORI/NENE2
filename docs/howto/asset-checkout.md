@@ -1,3 +1,11 @@
+---
+title: "How-To: Asset Check-out / Check-in Management"
+category: product
+tags: [asset-management, checkout, exclusive-lock, audit-log]
+difficulty: intermediate
+related: [audit-trail, resource-reservation, optimistic-locking]
+---
+
 # How-To: Asset Check-out / Check-in Management
 
 Demonstrates exclusive asset hold tracking with an append-only audit log.

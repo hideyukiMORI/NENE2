@@ -1,3 +1,11 @@
+---
+title: "How-to: Webhook Delivery API"
+category: infrastructure
+tags: [webhook, delivery, retry, event-dispatch]
+difficulty: intermediate
+related: [webhook-delivery-system, webhook-delivery, webhook-signature-verification]
+---
+
 # How-to: Webhook Delivery API
 
 > **FT reference**: FT348 (`NENE2-FT/webhooklog`) — Webhook registration with URL/secret/event filters, event dispatch with per-subscriber delivery logging, secret masking, retry mechanism, success/failed status tracking, 18 tests PASS.

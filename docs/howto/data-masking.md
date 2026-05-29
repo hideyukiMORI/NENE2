@@ -1,3 +1,11 @@
+---
+title: "How to Add Data Masking"
+category: security
+tags: [pii, masking, admin, audit, privacy]
+difficulty: intermediate
+related: [pii-masking, data-export-api, encrypted-field-storage]
+---
+
 # How to Add Data Masking
 
 Mask PII fields (email, phone, name) in API responses by default, with an audited admin unmask path.

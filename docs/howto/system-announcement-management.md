@@ -1,3 +1,11 @@
+---
+title: "How to Build System Announcement Management"
+category: product
+tags: [announcement, admin, dismissal, priority]
+difficulty: intermediate
+related: [notification-inbox, notification-queue]
+---
+
 # How to Build System Announcement Management
 
 > **Pattern proven by FT190 announcelog** — Time-based system announcements with admin key authentication, per-user dismissal, and priority ordering. 38 tests / 93 assertions PASS。

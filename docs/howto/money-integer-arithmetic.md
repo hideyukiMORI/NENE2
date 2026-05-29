@@ -1,3 +1,11 @@
+---
+title: "How-to: Money and Integer Arithmetic"
+category: api-design
+tags: [money, integer-arithmetic, precision, financial]
+difficulty: intermediate
+related: [credit-ledger, multi-currency-money-ledger, point-ledger-api]
+---
+
 # How-to: Money and Integer Arithmetic
 
 > **Related scenarios**: DX Scenario 10, 23, 32, 36, 40, 43, 44, 50 — the most frequently cited source of silent precision bugs across financial scenarios.

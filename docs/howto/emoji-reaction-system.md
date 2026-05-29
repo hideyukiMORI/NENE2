@@ -1,3 +1,11 @@
+---
+title: "How to Build an Emoji Reaction System with NENE2"
+category: product
+tags: [emoji, reactions, unique-constraint, group-by, social]
+difficulty: intermediate
+related: [emoji-reactions-api, emoji-reactions-toggle, upvote-downvote-api]
+---
+
 # How to Build an Emoji Reaction System with NENE2
 
 This guide walks through building a reaction system where users react to posts with emojis, with grouped counts and per-user reaction tracking.

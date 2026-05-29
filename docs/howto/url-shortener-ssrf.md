@@ -1,3 +1,11 @@
+---
+title: "URL Shortener API & SSRF Prevention"
+category: security
+tags: [ssrf, url-shortener, vulnerability-assessment]
+difficulty: advanced
+related: [url-shortener-ssrf-prevention]
+---
+
 # URL Shortener API & SSRF Prevention
 
 **FT183** — `shortlog` field trial (脆弱性診断 VULN-A〜L).

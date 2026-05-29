@@ -1,3 +1,11 @@
+---
+title: "How-to: URL Shortener with SSRF Prevention"
+category: security
+tags: [ssrf, url-shortener, private-ip, mass-assignment]
+difficulty: advanced
+related: [url-shortener-ssrf]
+---
+
 # How-to: URL Shortener with SSRF Prevention
 
 > **FT reference**: FT337 (`NENE2-FT/shortlog`) — URL shortener with SSRF blocking (private IPs, loopback, link-local, dangerous schemes), slug validation, mass assignment prevention, ISO 8601 date validation, ReDoS-safe limit parsing, 50+ tests PASS.

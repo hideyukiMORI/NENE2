@@ -1,3 +1,11 @@
+---
+title: "How to Add Admin Report Aggregation"
+category: product
+tags: [admin, reporting, aggregation, dashboard, date-range]
+difficulty: intermediate
+related: [aggregate-reporting, api-usage-metering]
+---
+
 # How to Add Admin Report Aggregation
 
 Build dashboard-style aggregation endpoints with date-range filters, grouping, and limit clamping.

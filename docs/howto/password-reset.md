@@ -1,3 +1,11 @@
+---
+title: "Password Reset Flow"
+category: auth
+tags: [password-reset, token, email, security]
+difficulty: beginner
+related: [password-reset-flow, password-auth-argon2id, password-hashing]
+---
+
 # Password Reset Flow
 
 Implement a secure token-based password reset: request → verify → complete.

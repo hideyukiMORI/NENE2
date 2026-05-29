@@ -1,3 +1,11 @@
+---
+title: "How-to: Tag / Label API"
+category: product
+tags: [tagging, label, many-to-many, entity]
+difficulty: intermediate
+related: [tagging-system, note-management-with-tags, multi-value-tag-filter]
+---
+
 # How-to: Tag / Label API
 
 This guide demonstrates a generic entity tagging API where arbitrary tags can be attached to any entity ID, with tag-based reverse lookup.

@@ -1,3 +1,11 @@
+---
+title: "How-to: Dead Letter Queue (DLQ)"
+category: infrastructure
+tags: [queue, dead-letter-queue, retry, backoff, reliability]
+difficulty: advanced
+related: [job-queue-with-retry, job-queue, notification-queue]
+---
+
 # How-to: Dead Letter Queue (DLQ)
 
 > **FT reference**: FT72 (`NENE2-FT/deadletterlog`) — Dead Letter Queue API

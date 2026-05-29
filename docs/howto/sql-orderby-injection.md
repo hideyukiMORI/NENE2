@@ -1,3 +1,11 @@
+---
+title: "How to Prevent SQL ORDER BY Injection"
+category: security
+tags: [sql-injection, orderby-injection, allowlist, parameterized-queries]
+difficulty: beginner
+related: [sql-injection-defence, dynamic-sort-order-injection, dynamic-filter-query]
+---
+
 # How to Prevent SQL ORDER BY Injection
 
 SQL `ORDER BY` clauses cannot be parameterized with standard placeholders (`?`). This means

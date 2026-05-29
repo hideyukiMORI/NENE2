@@ -1,3 +1,11 @@
+---
+title: "How to pass request-scoped state between middleware and handlers"
+category: getting-started
+tags: [middleware, request-context, dependency-injection, holder-pattern]
+difficulty: intermediate
+related: [bearer-token-middleware, add-jwt-authentication, add-custom-route]
+---
+
 # How to pass request-scoped state between middleware and handlers
 
 Some middlewares extract a value from the incoming request — a tenant ID, a decoded JWT claim, a

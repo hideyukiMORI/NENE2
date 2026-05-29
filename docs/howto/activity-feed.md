@@ -1,3 +1,11 @@
+---
+title: "How-to: Activity Feed / Timeline API"
+category: product
+tags: [activity-feed, timeline, pagination, idor-prevention]
+difficulty: intermediate
+related: [notification-inbox, follow-api, user-follow-system]
+---
+
 # How-to: Activity Feed / Timeline API
 
 > **FT reference**: FT277 (`NENE2-FT/feedlog`) — Activity feed: type-allowlisted events (9 types), JSON payload per event, user-scoped feed with IDOR → 404, pagination clamping (max 100), admin fail-closed, 24 tests / 37 assertions PASS.

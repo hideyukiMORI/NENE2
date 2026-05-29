@@ -1,3 +1,11 @@
+---
+title: "Webhook Signature Verification"
+category: security
+tags: [webhook, hmac, signature, timing-safe]
+difficulty: intermediate
+related: [webhook-signature-verification, inbound-webhook-receiver]
+---
+
 # Webhook Signature Verification
 
 When receiving webhooks from external services (Stripe, GitHub, etc.), always verify the signature before processing the payload. This proves the webhook came from the expected sender and the body has not been tampered with.

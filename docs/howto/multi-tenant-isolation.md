@@ -1,3 +1,11 @@
+---
+title: "How-To: Multi-Tenant Isolation"
+category: security
+tags: [multi-tenant, isolation, idor, authorization, jwt]
+difficulty: advanced
+related: [tenant-isolation, jwt-tenant-isolation, tenant-isolation-idor]
+---
+
 # How-To: Multi-Tenant Isolation
 
 This guide covers building a multi-tenant API with NENE2 where each tenant's data is

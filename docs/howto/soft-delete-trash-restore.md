@@ -1,3 +1,11 @@
+---
+title: "How-to: Soft Delete, Trash & Restore API"
+category: database
+tags: [soft-delete, trash, restore, hard-delete, bulk-purge]
+difficulty: intermediate
+related: [soft-delete, soft-delete-trash-purge, soft-delete-restore-permanent]
+---
+
 # How-to: Soft Delete, Trash & Restore API
 
 > **FT reference**: FT340 (`NENE2-FT/softlog`) — Notes API with soft delete (deleted_at), trash view, restore, permanent hard delete, bulk purge, pinned-first ordering, and ATK cracker-mindset attack assessment, 26 tests / 60+ assertions PASS.

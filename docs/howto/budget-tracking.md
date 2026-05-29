@@ -1,3 +1,11 @@
+---
+title: "How-to: Budget Tracking API"
+category: product
+tags: [budget, finance, tracking, spending, categories]
+difficulty: intermediate
+related: [expense-tracker, expense-tracking-api, credit-ledger]
+---
+
 # How-to: Budget Tracking API
 
 > **FT reference**: FT244 (`NENE2-FT/budgetlog`) — Budget Tracking API

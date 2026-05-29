@@ -1,3 +1,11 @@
+---
+title: "How-to: Offset & Cursor Pagination"
+category: api-design
+tags: [pagination, offset, cursor, keyset]
+difficulty: intermediate
+related: [pagination, cursor-pagination, pagination-limit-injection]
+---
+
 # How-to: Offset & Cursor Pagination
 
 > **FT reference**: FT325 (`NENE2-FT/pagelog`) — Dual pagination strategy (offset-based and cursor-based) with `next_offset`/`next_cursor`, `has_more`, category filter, 15 tests / 47 assertions PASS.

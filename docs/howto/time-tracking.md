@@ -1,3 +1,11 @@
+---
+title: "How-to: Time Tracking API"
+category: product
+tags: [time-tracking, stopwatch, timer, duration]
+difficulty: intermediate
+related: [habit-tracker, shift-management]
+---
+
 # How-to: Time Tracking API
 
 > **FT reference**: FT246 (`NENE2-FT/timelog`) — Time Tracking API

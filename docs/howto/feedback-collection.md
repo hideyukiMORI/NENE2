@@ -1,3 +1,11 @@
+---
+title: "How-to: Feedback Collection API"
+category: product
+tags: [feedback, rating, aggregation, admin, score]
+difficulty: beginner
+related: [rating-review-api, product-review-system]
+---
+
 # How-to: Feedback Collection API
 
 ## Overview

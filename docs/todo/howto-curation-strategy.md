@@ -149,6 +149,6 @@ tutorial / explanation / reference は別象限なので混ぜない。
 |---|---|---|
 | 本ドキュメント発行 | #1323 | 完了 |
 | 後続 (Phase A 実装) | #1325 | 完了 — `tools/build-howto-index.php` + 6 ロケール全索引 + CI lock |
-| 後続 (Phase B-1: スキーマ実証) | #1327 | 実装中 — frontmatter スキーマ確定 + validator + 代表 5 件で実証 |
-| 後続 (Phase B-2: 全件 annotate) | 未起票 | 残り 251 件。Agent 並列想定 |
-| 後続 (Phase B-3: 索引統合 + 必須化) | 未起票 | カテゴリ/タグ別索引を frontmatter から再生成、`--require-all` で CI 必須化 |
+| 後続 (Phase B-1: スキーマ実証) | #1327 | 完了 — frontmatter スキーマ確定 + validator + 代表 5 件で実証 |
+| 後続 (Phase B-2: 全件 annotate) | #1329 | 完了 — 全 256 件 annotate 済み、`--require-all` 通過 |
+| 後続 (Phase B-3: 索引統合 + 必須化) | 未起票 | カテゴリ/タグ別索引を frontmatter から再生成、CI を `--require-all` 常時必須化 |

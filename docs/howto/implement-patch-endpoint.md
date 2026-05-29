@@ -1,3 +1,11 @@
+---
+title: "How-to: Implement a PATCH Endpoint"
+category: api-design
+tags: [patch, partial-update, json-merge-patch, dto]
+difficulty: intermediate
+related: [json-merge-patch, patch-partial-update, optimistic-lock-patch-version]
+---
+
 # How-to: Implement a PATCH Endpoint
 
 PATCH is for **partial updates**: only the fields the client sends should change.

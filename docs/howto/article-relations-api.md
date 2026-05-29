@@ -1,3 +1,11 @@
+---
+title: "How-to: Article Relations API"
+category: product
+tags: [relations, many-to-many, self-referential, inverse, content]
+difficulty: intermediate
+related: [content-relations, article-versioning-api]
+---
+
 # How-to: Article Relations API
 
 > **FT reference**: FT334 (`NENE2-FT/relatedlog`) — Typed article-to-article relations with automatic inverse creation, symmetric and asymmetric relation types, filter-by-type, and embedded relation stubs in GET responses, 17 tests / 40+ assertions PASS.

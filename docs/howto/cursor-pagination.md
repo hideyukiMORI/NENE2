@@ -1,3 +1,11 @@
+---
+title: "How-to: Cursor-Based Pagination"
+category: api-design
+tags: [pagination, cursor, keyset, performance]
+difficulty: intermediate
+related: [offset-cursor-pagination, add-pagination]
+---
+
 # How-to: Cursor-Based Pagination
 
 > **FT reference**: FT242 (`NENE2-FT/cursorlog`) — Cursor-Based Pagination API

@@ -1,3 +1,11 @@
+---
+title: "How-to: Approval Workflow API"
+category: product
+tags: [workflow, approval, state-machine, multi-step]
+difficulty: intermediate
+related: [content-approval-workflow, step-workflow-approval, draft-publish-workflow]
+---
+
 # How-to: Approval Workflow API
 
 > **FT reference**: FT68 (`NENE2-FT/approvallog`) — Approval Workflow API

@@ -1,3 +1,11 @@
+---
+title: "How to Build Privacy Consent Management"
+category: security
+tags: [gdpr, consent, privacy, idor-prevention, audit-log]
+difficulty: intermediate
+related: [pii-masking, personal-data-export, data-masking]
+---
+
 # How to Build Privacy Consent Management
 
 > **Pattern proven by FT189 consentlog** — GDPR-style consent tracking with immutable history, IDOR prevention, and user enumeration resistance. VULN-A〜L 全 Pass。

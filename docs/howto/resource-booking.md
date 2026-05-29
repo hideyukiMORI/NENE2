@@ -1,3 +1,11 @@
+---
+title: "How-to: Resource Booking System"
+category: product
+tags: [booking, capacity, double-booking, idor, soft-delete]
+difficulty: intermediate
+related: [resource-reservation, reservation-availability-api, prevent-double-booking]
+---
+
 # How-to: Resource Booking System
 
 ## Overview

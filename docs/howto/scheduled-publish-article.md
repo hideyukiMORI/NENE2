@@ -1,3 +1,11 @@
+---
+title: "How-to: Scheduled Publish Article"
+category: product
+tags: [content-scheduling, state-machine, draft, publish, lifecycle]
+difficulty: intermediate
+related: [content-draft-lifecycle, state-machine-audit-log, content-scheduling]
+---
+
 # How-to: Scheduled Publish Article
 
 > **FT reference**: FT330 (`NENE2-FT/pubschedulelog`) — Article draft/schedule/publish/archive lifecycle, owner-only draft access, public published articles, scheduled publish trigger, 34 tests / 95 assertions PASS.

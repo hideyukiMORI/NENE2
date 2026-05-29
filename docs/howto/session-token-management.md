@@ -1,3 +1,11 @@
+---
+title: "How-to: Session / Token Management API (ATK-01~12)"
+category: auth
+tags: [session, token, revocation, attack-hardening, opaque-token]
+difficulty: intermediate
+related: [session-management, access-token-management, token-lifecycle-api]
+---
+
 # How-to: Session / Token Management API (ATK-01~12)
 
 This guide demonstrates a secure session token API covering all ATK-01~12 cracker-mindset attack vectors.

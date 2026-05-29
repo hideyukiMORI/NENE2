@@ -1,3 +1,11 @@
+---
+title: "How-To: JWT Refresh Token Rotation"
+category: auth
+tags: [refresh-token, jwt, token-rotation, replay-attack, session]
+difficulty: intermediate
+related: [refresh-token-pattern, add-jwt-authentication, session-management]
+---
+
 # How-To: JWT Refresh Token Rotation
 
 This guide covers implementing short-lived access tokens combined with long-lived refresh

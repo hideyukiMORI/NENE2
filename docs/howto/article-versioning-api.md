@@ -1,3 +1,11 @@
+---
+title: "How-to: Article Versioning API"
+category: product
+tags: [versioning, content, snapshot, history, draft]
+difficulty: intermediate
+related: [content-versioning, document-versioning, content-draft-lifecycle]
+---
+
 # How-to: Article Versioning API
 
 > **FT reference**: FT249 (`NENE2-FT/contentvlog`) — Article Versioning API

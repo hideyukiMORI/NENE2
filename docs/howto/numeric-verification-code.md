@@ -1,3 +1,11 @@
+---
+title: "How to Build Numeric Verification Code"
+category: auth
+tags: [verification-code, otp, brute-force-protection, sms, email]
+difficulty: intermediate
+related: [otp-authentication, pin-verification-lockout, one-time-secrets]
+---
+
 # How to Build Numeric Verification Code
 
 > **Pattern proven by FT188 verifylog** — 6-digit SMS/email verification code with brute-force protection, constant-time comparison, and replay prevention. ATK-01〜12 全 Pass。

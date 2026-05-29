@@ -1,3 +1,11 @@
+---
+title: "How-to: User Preferences API"
+category: product
+tags: [preferences, settings, typed-values, defaults]
+difficulty: intermediate
+related: [user-preferences-management]
+---
+
 # How-to: User Preferences API
 
 > **FT reference**: FT329 (`NENE2-FT/preflog`) — Per-user preference store with typed value validation, default fallback, unknown-key rejection, owner-only mutation, 20 tests / 70 assertions PASS.

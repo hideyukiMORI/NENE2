@@ -1,3 +1,11 @@
+---
+title: "How to Build a User Follow System with NENE2"
+category: product
+tags: [follow, social, mutual-follow, many-to-many]
+difficulty: intermediate
+related: [follow-api, user-invitation]
+---
+
 # How to Build a User Follow System with NENE2
 
 This guide walks through building a Twitter/Instagram-style social follow system — users follow each other, view follower/following lists, and check mutual follow status.

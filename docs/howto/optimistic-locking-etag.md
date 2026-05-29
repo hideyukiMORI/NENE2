@@ -1,3 +1,11 @@
+---
+title: "How-to: Optimistic Locking with ETag / If-Match"
+category: database
+tags: [optimistic-locking, etag, if-match, concurrency, http-headers]
+difficulty: intermediate
+related: [optimistic-locking, optimistic-concurrency-version, etag-conditional-requests]
+---
+
 # How-to: Optimistic Locking with ETag / If-Match
 
 > **FT reference**: FT320 (`NENE2-FT/locklog`) — Document versioning with ETag header, If-Match required for mutation (428), stale ETag rejection (412), lost-update prevention, 15 tests / 30 assertions PASS.

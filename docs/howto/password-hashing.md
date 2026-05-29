@@ -1,3 +1,11 @@
+---
+title: "How-To: Password Hashing"
+category: auth
+tags: [password, hashing, argon2id, bcrypt, security]
+difficulty: beginner
+related: [password-auth-argon2id, password-reset]
+---
+
 # How-To: Password Hashing
 
 Storing and verifying passwords securely using PHP's native `password_hash()` / `password_verify()` with NENE2.

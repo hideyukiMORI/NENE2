@@ -1,3 +1,12 @@
+---
+title: "How-to: Leaderboard & Score Tracking API"
+category: product
+tags: [leaderboard, scores, ranking, aggregation]
+difficulty: intermediate
+related: [leaderboard-ranking-api, leaderboard-ranking, game-score-leaderboard-api]
+ft: FT206
+---
+
 # How-to: Leaderboard & Score Tracking API
 
 This guide shows how to build a leaderboard system with score submission, top-N rankings using

@@ -1,3 +1,11 @@
+---
+title: "Add Rate Limiting"
+category: security
+tags: [rate-limiting, throttle, middleware, protection]
+difficulty: beginner
+related: [fixed-window-rate-limiter, sliding-window-rate-limiter, account-lockout]
+---
+
 # Add Rate Limiting
 
 This guide shows how to protect your NENE2 application with request rate limiting using

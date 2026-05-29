@@ -1,3 +1,11 @@
+---
+title: "How to Build a Content Draft Lifecycle (Draft → Published → Archived) with NENE2"
+category: product
+tags: [draft, publish, state-machine, content, lifecycle]
+difficulty: intermediate
+related: [draft-publish-workflow, content-approval-workflow, article-versioning-api]
+---
+
 # How to Build a Content Draft Lifecycle (Draft → Published → Archived) with NENE2
 
 This guide walks through building an article management system with a draft/publish/archive state machine, where only the author can transition states and only published articles are visible to readers.

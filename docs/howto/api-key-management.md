@@ -1,3 +1,11 @@
+---
+title: "API Key Management"
+category: auth
+tags: [api-keys, sha256, scopes, rotation, authentication]
+difficulty: intermediate
+related: [access-token-management, bearer-token-middleware, use-bearer-auth]
+---
+
 # API Key Management
 
 > **FT reference**: FT266 (`NENE2-FT/apikeylog`) — API key lifecycle: generation, SHA-256 hash storage, prefix-based lookup, scope enforcement, rotation

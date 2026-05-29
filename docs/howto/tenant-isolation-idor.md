@@ -1,3 +1,11 @@
+---
+title: "How-to: Tenant Isolation & IDOR Prevention"
+category: security
+tags: [multi-tenant, idor, isolation, authorization]
+difficulty: advanced
+related: [tenant-isolation, jwt-tenant-isolation, enforce-resource-ownership]
+---
+
 # How-to: Tenant Isolation & IDOR Prevention
 
 > **FT reference**: FT318 (`NENE2-FT/isolationlog`) — Multi-tenant data isolation, cross-tenant IDOR prevention, header type-confusion hardening, body tenant_id injection prevention, 34 tests / 133 assertions PASS.

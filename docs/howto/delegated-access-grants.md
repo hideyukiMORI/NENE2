@@ -1,3 +1,11 @@
+---
+title: "How-to: Delegated Access Grants"
+category: auth
+tags: [delegation, access-control, scoped-access, time-limited, rbac]
+difficulty: advanced
+related: [enforce-resource-ownership, rbac, api-key-management]
+---
+
 # How-to: Delegated Access Grants
 
 > **FT reference**: FT282 (`NENE2-FT/grantlog`) — Delegated access grants: scoped (read/write/admin) time-limited resource access, UNIQUE(grantor, grantee, resource) + CHECK(grantor != grantee), IDOR → 404, soft-delete revocation, use-count tracking, GrantScope.satisfies() hierarchy, 23 tests / 71 assertions PASS.

@@ -1,3 +1,11 @@
+---
+title: "How to Validate ISO 8601 Datetimes with Timezone"
+category: api-design
+tags: [datetime, iso-8601, timezone, validation]
+difficulty: intermediate
+related: [handle-timezones, timezone-aware-scheduling]
+---
+
 # How to Validate ISO 8601 Datetimes with Timezone
 
 Accepting user-controlled datetime strings requires careful validation. This guide covers

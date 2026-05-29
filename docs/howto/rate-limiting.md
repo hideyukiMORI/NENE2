@@ -1,3 +1,11 @@
+---
+title: "Rate Limiting"
+category: infrastructure
+tags: [rate-limiting, throttle, fixed-window, middleware, http-429]
+difficulty: intermediate
+related: [sliding-window-rate-limiter, fixed-window-rate-limiter, quota-management]
+---
+
 # Rate Limiting
 
 > **FT reference**: FT284 (`NENE2-FT/throttlelog`) — ThrottleMiddleware rate limiting: IP-based fixed-window, custom key extractor (user/API key), X-RateLimit-* headers, 429 Problem Details with Retry-After, InMemoryRateLimitStorage for tests, 9 tests / 33 assertions PASS.

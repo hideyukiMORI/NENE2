@@ -1,3 +1,11 @@
+---
+title: "How-to: Circuit Breaker"
+category: infrastructure
+tags: [circuit-breaker, resilience, state-machine, fault-tolerance]
+difficulty: advanced
+related: [job-queue, dead-letter-queue]
+---
+
 # How-to: Circuit Breaker
 
 > **FT reference**: FT298 (`NENE2-FT/circuitlog`) — Circuit breaker pattern: closed/open/half_open three-state machine, configurable failure threshold, timeout-based automatic half_open transition, 503 Service Unavailable on open circuit, `isCallAllowed()` readonly check, 15 tests / 28 assertions PASS.

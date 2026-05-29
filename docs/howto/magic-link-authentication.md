@@ -1,3 +1,12 @@
+---
+title: "How-to: Magic Link Authentication"
+category: auth
+tags: [magic-link, passwordless, token, ttl]
+difficulty: intermediate
+related: [passwordless-auth-magic-link, otp-authentication, session-management]
+ft: FT309
+---
+
 # How-to: Magic Link Authentication
 
 > **FT reference**: FT309 (`NENE2-FT/magiclog`) — Magic link authentication: token stored as SHA-256 hash (never plaintext), 15-minute TTL, used-at prevents reuse, expiry checked before used-at, session token 64+ hex chars SHA-256 stored, revoked/expired sessions denied, 202 always on /auth/request (user enumeration prevention), Bearer token required (X-User-Id header ignored), VULN-A〜L all SAFE, 43 tests / 91 assertions PASS.

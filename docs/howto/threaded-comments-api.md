@@ -1,3 +1,11 @@
+---
+title: "How-to: Threaded Comments API"
+category: product
+tags: [comments, threaded, tombstone, depth-limit]
+difficulty: intermediate
+related: [threaded-comments, comment-thread]
+---
+
 # How-to: Threaded Comments API
 
 > **FT reference**: FT343 (`NENE2-FT/threadlog`) — Two-level threaded comment system with tombstone deletion (content replaced with `[deleted]`), reply depth enforcement, post-scoped isolation, and reply-to-deleted prevention, 14 tests / 40+ assertions PASS.

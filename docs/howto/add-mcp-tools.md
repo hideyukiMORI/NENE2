@@ -1,3 +1,11 @@
+---
+title: "Add MCP Tools"
+category: infrastructure
+tags: [mcp, ai-integration, tools, api-exposure]
+difficulty: intermediate
+related: [add-database-endpoint, add-health-check]
+---
+
 # Add MCP Tools
 
 This guide shows how to expose your NENE2 application's API endpoints as MCP tools,

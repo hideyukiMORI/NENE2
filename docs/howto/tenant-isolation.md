@@ -1,3 +1,11 @@
+---
+title: "How-to: Tenant Isolation & Cross-Tenant IDOR Prevention"
+category: security
+tags: [multi-tenant, idor, isolation, authorization]
+difficulty: advanced
+related: [tenant-isolation-idor, jwt-tenant-isolation, enforce-resource-ownership]
+---
+
 # How-to: Tenant Isolation & Cross-Tenant IDOR Prevention
 
 **FT179 — isolationlog**

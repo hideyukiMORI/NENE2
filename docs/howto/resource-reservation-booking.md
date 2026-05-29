@@ -1,3 +1,11 @@
+---
+title: "How-to: Resource Reservation & Booking API"
+category: product
+tags: [reservation, booking, overlap-prevention, idor, admin-auth]
+difficulty: intermediate
+related: [resource-reservation, reservation-availability-api, prevent-double-booking]
+---
+
 # How-to: Resource Reservation & Booking API
 
 > **FT reference**: FT335 (`NENE2-FT/reservationlog`) — Resource time-slot booking with half-open interval overlap prevention, user_id excluded from public responses, cancel IDOR protection (403), admin/user dual-level access, 30 tests / 70+ assertions PASS.

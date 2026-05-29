@@ -1,3 +1,11 @@
+---
+title: "How-to: Inventory Stock Management"
+category: product
+tags: [inventory, stock, sku, transactions]
+difficulty: intermediate
+related: [inventory-management, order-management]
+---
+
 # How-to: Inventory Stock Management
 
 ## Overview

@@ -1,3 +1,11 @@
+---
+title: "User Profile Management"
+category: product
+tags: [profile, user, bio, avatar]
+difficulty: beginner
+related: [user-profile-api]
+---
+
 # User Profile Management
 
 Store and update user-facing profile data: display name, bio, and avatar URL. Profile creation is separate from user creation — users exist first, then a profile is created once and updated in place.

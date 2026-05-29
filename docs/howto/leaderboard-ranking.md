@@ -1,3 +1,12 @@
+---
+title: "How-to: Game Leaderboard & Ranking API"
+category: product
+tags: [leaderboard, ranking, scores, personal-best]
+difficulty: intermediate
+related: [leaderboard-ranking-api, leaderboard-scores, game-score-leaderboard-api]
+ft: FT206
+---
+
 # How-to: Game Leaderboard & Ranking API
 
 This guide demonstrates building a leaderboard API where players submit scores per game, and the system tracks personal bests and produces ranked leaderboards.

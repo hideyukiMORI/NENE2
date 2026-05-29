@@ -1,3 +1,11 @@
+---
+title: "How-to: Multi-value Tag Filter API"
+category: api-design
+tags: [filtering, tags, query-params, many-to-many]
+difficulty: intermediate
+related: [dynamic-filter-query, tagging-system, tag-label-api]
+---
+
 # How-to: Multi-value Tag Filter API
 
 > **FT reference**: FT250 (`NENE2-FT/tagfilterlog`) — Multi-value query parameter tag filtering

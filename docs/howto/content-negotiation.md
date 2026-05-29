@@ -1,3 +1,11 @@
+---
+title: "Content negotiation"
+category: api-design
+tags: [content-negotiation, json, accept-header, problem-json]
+difficulty: beginner
+related: [content-negotiation-api, api-versioning]
+---
+
 # Content negotiation
 
 NENE2 is a JSON-first framework. It does not implement content negotiation — all responses use `application/json` (or `application/problem+json` for errors) regardless of what the client sends in the `Accept` header.

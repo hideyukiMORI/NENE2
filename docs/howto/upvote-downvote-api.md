@@ -1,3 +1,11 @@
+---
+title: "How-to: Upvote / Downvote API"
+category: product
+tags: [voting, upvote, downvote, toggle, score]
+difficulty: intermediate
+related: [voting-system, emoji-reactions-toggle]
+---
+
 # How-to: Upvote / Downvote API
 
 > **FT reference**: FT347 (`NENE2-FT/votelog`) — Per-user upvote/downvote with toggle-off (same direction twice removes vote), direction change (up→down atomically), score aggregation (upvotes − downvotes), UNIQUE(user_id, item_id) constraint, 15 tests PASS.

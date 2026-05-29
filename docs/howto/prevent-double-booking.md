@@ -1,3 +1,11 @@
+---
+title: "How to prevent double-booking (reservation and capacity enforcement)"
+category: database
+tags: [booking, double-booking, capacity, transactions, concurrency]
+difficulty: advanced
+related: [resource-reservation, event-ticket-booking, distributed-locking]
+---
+
 # How to prevent double-booking (reservation and capacity enforcement)
 
 Reservation systems have two distinct failure modes that must be handled separately:

@@ -1,3 +1,11 @@
+---
+title: "How-to: Aggregate Reporting API"
+category: product
+tags: [reporting, aggregation, analytics, sql, grouping]
+difficulty: intermediate
+related: [admin-report-aggregation, api-usage-metering, event-analytics]
+---
+
 # How-to: Aggregate Reporting API
 
 > **FT reference**: FT245 (`NENE2-FT/agglog`) — Aggregate Reporting API

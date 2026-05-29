@@ -1,3 +1,11 @@
+---
+title: "How-to: Waitlist System"
+category: product
+tags: [waitlist, state-machine, queue, approval]
+difficulty: intermediate
+related: [waitlist-management]
+---
+
 # How-to: Waitlist System
 
 > **FT reference**: FT287 (`NENE2-FT/waitlistlog`) — Waitlist system: UNIQUE(user_id) one-entry constraint, waiting→approved/declined state machine, isTerminal() guard, /waitlist/me registered before /{id} to prevent route capture, X-Admin-Key authentication, queue position tracking, 39 tests / 98 assertions PASS.

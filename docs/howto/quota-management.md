@@ -1,3 +1,11 @@
+---
+title: "How-to: Quota Management API"
+category: infrastructure
+tags: [quota, rate-limiting, windowed-counter, http-429]
+difficulty: intermediate
+related: [rate-limiting, sliding-window-rate-limiter, fixed-window-rate-limiter]
+---
+
 # How-to: Quota Management API
 
 > **FT reference**: FT236 (`NENE2-FT/quotalog`) — Quota Management API

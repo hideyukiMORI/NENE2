@@ -1,3 +1,11 @@
+---
+title: "How-to: Implement a Bulk Create Endpoint"
+category: api-design
+tags: [bulk, batch, validation, partial-success]
+difficulty: intermediate
+related: [batch-api-partial-success, bulk-operations-partial-success, bulk-status-update]
+---
+
 # How-to: Implement a Bulk Create Endpoint
 
 A bulk endpoint accepts multiple resources in a single request — reducing round trips for

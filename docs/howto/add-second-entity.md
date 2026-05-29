@@ -1,3 +1,11 @@
+---
+title: "Add a Second Domain Entity"
+category: getting-started
+tags: [domain, entity, repository, usecase, multi-entity]
+difficulty: beginner
+related: [add-database-endpoint, use-transactions]
+---
+
 # Add a Second Domain Entity
 
 This guide shows how to add a second domain entity alongside the built-in `Note` and `Tag` examples, following NENE2's multi-entity pattern.

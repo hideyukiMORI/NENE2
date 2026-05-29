@@ -1,3 +1,12 @@
+---
+title: "How-to: Group Member Management"
+category: product
+tags: [group, membership, rbac, role-hierarchy, idor]
+difficulty: advanced
+related: [group-membership-management, rbac, enforce-resource-ownership]
+ft: FT291
+---
+
 # How-to: Group Member Management
 
 > **FT reference**: FT291 (`NENE2-FT/grouplog`) — Group membership: MemberRole enum (owner/admin/member), UNIQUE(group_id, user_id), owner-cannot-be-removed guard, cross-group IDOR prevention, canManageMembers()/canChangeRoles() role hierarchy, VULN-A~L all SAFE, 38 tests / 101 assertions PASS.

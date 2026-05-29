@@ -1,3 +1,11 @@
+---
+title: "How-to: Event Sourcing Ledger"
+category: infrastructure
+tags: [event-sourcing, ledger, append-only, balance, replay]
+difficulty: advanced
+related: [event-sourcing, event-sourcing-cqrs-api, credit-ledger]
+---
+
 # How-to: Event Sourcing Ledger
 
 > **FT reference**: FT310 (`NENE2-FT/eventsourcelog`) — Event sourcing account ledger: immutable event log (append-only), `replayBalance()` replays all events to compute current balance, deposit/withdraw events never deleted, `is_int()` strict amount validation, max amount 1,000,000,000, separate accounts don't share balance, 17 tests / 24 assertions PASS.

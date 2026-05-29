@@ -1,3 +1,11 @@
+---
+title: "How-to: Slug URL Management with History"
+category: product
+tags: [slug, url, redirect, history, collision]
+difficulty: intermediate
+related: [slug-management, article-versioning-api, content-versioning]
+---
+
 # How-to: Slug URL Management with History
 
 > **FT reference**: FT339 (`NENE2-FT/sluglog`) — Auto-generated slugs from titles, collision counter, slug history for old-slug 301 redirects, explicit slug override, vulnerability assessment, 17 tests / 50+ assertions PASS.

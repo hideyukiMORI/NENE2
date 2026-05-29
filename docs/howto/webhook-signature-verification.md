@@ -1,3 +1,11 @@
+---
+title: "How-to: Webhook Signature Verification with HMAC-SHA256"
+category: security
+tags: [webhook, hmac, signature, replay-attack, timing-safe]
+difficulty: advanced
+related: [webhook-signature, inbound-webhook-gateway, inbound-webhook-receiver]
+---
+
 # How-to: Webhook Signature Verification with HMAC-SHA256
 
 > **FT reference**: FT260 (`NENE2-FT/hmaclog`) — Webhook signature verification: HMAC-SHA256, timing-safe comparison, replay attack prevention

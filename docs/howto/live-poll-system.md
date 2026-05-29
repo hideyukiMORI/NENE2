@@ -1,3 +1,11 @@
+---
+title: "How-to: Live Poll System"
+category: product
+tags: [poll, voting, deduplication, lifecycle]
+difficulty: intermediate
+related: [poll-survey, voting-system]
+---
+
 # How-to: Live Poll System
 
 ## Overview

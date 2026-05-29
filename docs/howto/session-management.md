@@ -1,3 +1,11 @@
+---
+title: "How to Build a Multi-Device Session Manager"
+category: auth
+tags: [session, multi-device, idor, token, revocation]
+difficulty: intermediate
+related: [session-token-management, refresh-token-pattern, access-token-management]
+---
+
 # How to Build a Multi-Device Session Manager
 
 > **Pattern proven by FT186 sessionlog** — multi-device session tracking, IDOR prevention, mass-assignment guard, timing-oracle-free revocation.

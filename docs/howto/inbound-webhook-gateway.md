@@ -1,3 +1,12 @@
+---
+title: "How-to: Inbound Webhook Gateway"
+category: infrastructure
+tags: [webhook, hmac, signature-verification, idempotency]
+difficulty: intermediate
+related: [inbound-webhook-receiver, webhook-signature-verification, webhook-signature]
+ft: FT317
+---
+
 # How-to: Inbound Webhook Gateway
 
 > **FT reference**: FT317 (`NENE2-FT/inboundlog`) — Inbound webhook gateway with per-source HMAC-SHA256 signature verification, duplicate event_id idempotency, secret never exposed in responses, 17 tests / 18 assertions PASS.

@@ -1,3 +1,11 @@
+---
+title: "Add a Database-backed Endpoint"
+category: getting-started
+tags: [database, endpoint, repository, usecase, dto]
+difficulty: beginner
+related: [add-second-entity, add-health-check, use-transactions]
+---
+
 # Add a Database-backed Endpoint
 
 This guide shows how to add an endpoint that reads from and writes to a database, following NENE2's domain layer pattern.

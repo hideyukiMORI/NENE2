@@ -1,3 +1,12 @@
+---
+title: "Hierarchical Data — Self-Referential FK + Materialized Path"
+category: database
+tags: [hierarchical, tree, materialized-path, self-referential]
+difficulty: advanced
+related: [category-hierarchy-api, threaded-comments, threaded-comments-api]
+ft: FT171
+---
+
 # Hierarchical Data — Self-Referential FK + Materialized Path
 
 > **FT reference**: FT171 (`NENE2-FT/hierarchylog`) — Hierarchical categories with self-referential FK and materialized path for O(1) subtree queries.

@@ -1,3 +1,11 @@
+---
+title: "ETag & Conditional Requests"
+category: api-design
+tags: [etag, conditional-request, cache, optimistic-locking, http]
+difficulty: intermediate
+related: [optimistic-locking-etag, optimistic-lock-patch-version, optimistic-locking]
+---
+
 # ETag & Conditional Requests
 
 > **FT reference**: FT307 (`NENE2-FT/etaglog`) — ETag conditional requests: `If-None-Match`→304, `If-Modified-Since`→304, `If-Match`→412 stale / 428 absent, wildcard `If-Match: *` passes, ETag changes after every update, 15 tests PASS.

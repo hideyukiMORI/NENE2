@@ -1,3 +1,11 @@
+---
+title: "How to Build Encrypted Field Storage"
+category: security
+tags: [encryption, aes-256-gcm, pii, blind-index, field-level-encryption]
+difficulty: advanced
+related: [data-masking, pii-masking, secret-vault]
+---
+
 # How to Build Encrypted Field Storage
 
 > **FT reference**: FT267 (`NENE2-FT/encryptlog`) — AES-256-GCM field-level encryption: encrypt-on-write / decrypt-on-read, blind index for searchable ciphertext, key separation between encryption and index keys

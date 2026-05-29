@@ -1,3 +1,12 @@
+---
+title: "How-to: Idempotency Key (Request Deduplication)"
+category: api-design
+tags: [idempotency, deduplication, retry, ttl]
+difficulty: intermediate
+related: [idempotency-key-api, idempotency, request-deduplication]
+ft: FT292
+---
+
 # How-to: Idempotency Key (Request Deduplication)
 
 > **FT reference**: FT292 (`NENE2-FT/deduplog`) — Idempotency key deduplication: UNIQUE(idempotency_key) DB constraint, 24h TTL with re-processable expiry, `replayed: true` flag on cached responses, parameterized queries prevent injection, ATK-01~12 all BLOCKED, 24 tests / 57 assertions PASS.

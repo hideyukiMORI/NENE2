@@ -1,3 +1,11 @@
+---
+title: "How-to: A/B Testing Framework"
+category: product
+tags: [ab-testing, experimentation, state-machine, analytics]
+difficulty: advanced
+related: [feature-flags, feature-flag-api]
+---
+
 # How-to: A/B Testing Framework
 
 > **FT reference**: FT293 (`NENE2-FT/ablog`) — A/B experiment framework: weighted deterministic variant assignment via crc32 seed, draft→active→stopped state machine, UNIQUE(experiment_id, user_id) idempotent assignment, CVR aggregation in SQL, 16 tests / 26 assertions PASS.

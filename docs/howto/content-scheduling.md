@@ -1,3 +1,11 @@
+---
+title: "Content Scheduling — Time-Based Publish with Lifecycle States"
+category: infrastructure
+tags: [scheduling, state-machine, content, cron, publish]
+difficulty: intermediate
+related: [draft-publish-workflow, content-versioning, scheduled-publish-article]
+---
+
 # Content Scheduling — Time-Based Publish with Lifecycle States
 
 Schedule content to publish at a future datetime using a `publish_at` column,

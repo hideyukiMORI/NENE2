@@ -1,3 +1,11 @@
+---
+title: "How to Add Request Deduplication"
+category: api-design
+tags: [idempotency, deduplication, idempotency-key, retry]
+difficulty: intermediate
+related: [idempotency-key, idempotency, idempotency-key-api]
+---
+
 # How to Add Request Deduplication
 
 Prevent duplicate processing from network retries or double-clicks using an `Idempotency-Key` header. The server caches responses per key and replays them on subsequent identical requests.

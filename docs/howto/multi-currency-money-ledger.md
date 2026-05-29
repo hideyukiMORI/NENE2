@@ -1,3 +1,11 @@
+---
+title: "How-to: Multi-Currency Money Ledger with Integer Cents"
+category: product
+tags: [money, ledger, multi-currency, integer-arithmetic, transactions]
+difficulty: advanced
+related: [multi-currency-wallet, point-ledger-api, money-integer-arithmetic]
+---
+
 # How-to: Multi-Currency Money Ledger with Integer Cents
 
 > **FT reference**: FT262 (`NENE2-FT/moneylog`) — Multi-currency ledger API using integer minor units (cents) and a `Money` value object

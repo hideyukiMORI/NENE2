@@ -1,3 +1,11 @@
+---
+title: "How-to: API Token Lifecycle Management"
+category: auth
+tags: [api-key, token, sha256, scope, revocation]
+difficulty: advanced
+related: [api-key-management, access-token-management]
+---
+
 # How-to: API Token Lifecycle Management
 
 > **FT reference**: FT272 (`NENE2-FT/tokenlog`) — API token lifecycle: SHA-256 hash storage (plaintext never persisted), scope enum (read/write/admin) with DB CHECK constraint, IDOR guard (actorId must match userId), soft-revoke via revoked_at, verify endpoint returns valid/user_id/scope, 29 tests / 70 assertions PASS.

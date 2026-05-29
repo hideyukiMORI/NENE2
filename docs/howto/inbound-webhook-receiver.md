@@ -1,3 +1,11 @@
+---
+title: "How to Add an Inbound Webhook Receiver"
+category: infrastructure
+tags: [webhook, hmac, signature-verification, idempotency]
+difficulty: intermediate
+related: [inbound-webhook-gateway, webhook-signature-verification, webhook-signature]
+---
+
 # How to Add an Inbound Webhook Receiver
 
 Receive webhooks from multiple external services, validate HMAC signatures per source, and store events with idempotency.

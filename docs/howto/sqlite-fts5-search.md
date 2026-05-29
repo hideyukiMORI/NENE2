@@ -1,3 +1,11 @@
+---
+title: "How-to: SQLite FTS5 Full-Text Search"
+category: database
+tags: [sqlite, fts5, full-text-search, virtual-table, triggers]
+difficulty: intermediate
+related: [use-fts5-search, search-autocomplete, dynamic-filter-query]
+---
+
 # How-to: SQLite FTS5 Full-Text Search
 
 > **FT reference**: FT254 (`NENE2-FT/ftslog`) — Full-text search with SQLite FTS5

@@ -1,3 +1,11 @@
+---
+title: "How-to: Collection API (User Curated Lists)"
+category: product
+tags: [collections, curated-lists, visibility, ordering, deduplication]
+difficulty: intermediate
+related: [bookmark-api, content-collection, content-pinning]
+---
+
 # How-to: Collection API (User Curated Lists)
 
 > **FT reference**: FT299 (`NENE2-FT/collectionlog`) — User-curated article collections: is_public/private visibility (404 to non-owners for private), UNIQUE(collection_id, article_id) deduplication, position ordering, owner-only write access, 20 tests / 34 assertions PASS.

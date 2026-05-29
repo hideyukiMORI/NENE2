@@ -1,3 +1,12 @@
+---
+title: "How-to: Flash Sale API"
+category: product
+tags: [flash-sale, inventory, race-condition, time-window]
+difficulty: advanced
+related: [flash-sale-system, inventory-management, prevent-double-booking]
+ft: FT304
+---
+
 # How-to: Flash Sale API
 
 > **FT reference**: FT304 (`NENE2-FT/salelog`) — Flash sale API: time-window validation (sale not started → 422, ended → 422), UNIQUE(sale_id, user_id) prevents double-purchase, sold-out stock check, negative price/zero quantity → 422, inverted dates rejected, ATK-01〜12 all BLOCKED, 29 tests / 42 assertions PASS.

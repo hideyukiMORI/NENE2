@@ -1,3 +1,11 @@
+---
+title: "How-To: Document Template Engine"
+category: product
+tags: [template, substitution, admin, crud, rendering]
+difficulty: beginner
+related: [document-versioning, draft-publish-workflow]
+---
+
 # How-To: Document Template Engine
 
 Demonstrates template CRUD with `{{variable}}` substitution and admin-gated writes.

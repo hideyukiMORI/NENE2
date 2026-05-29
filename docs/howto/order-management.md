@@ -1,3 +1,11 @@
+---
+title: "How-to: Order Management API"
+category: product
+tags: [orders, status-lifecycle, line-items, idor, admin]
+difficulty: intermediate
+related: [shopping-cart-api, nested-json-validation, inventory-management]
+---
+
 # How-to: Order Management API
 
 > **FT reference**: FT274 (`NENE2-FT/orderlog`) — Order management: SKU-validated line items, total_cents auto-calculation, status lifecycle (pending→confirmed→shipped→delivered→cancelled), IDOR → 404, admin override, cancel conflict detection, 36 tests PASS.

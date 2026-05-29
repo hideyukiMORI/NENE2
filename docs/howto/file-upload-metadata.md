@@ -1,3 +1,11 @@
+---
+title: "How-to: File Upload Metadata API (VULN-A~L)"
+category: security
+tags: [file-upload, metadata, vulnerability-assessment, ownership]
+difficulty: advanced
+related: [file-upload, file-metadata-sharing, file-sharing-api]
+---
+
 # How-to: File Upload Metadata API (VULN-A~L)
 
 This guide demonstrates secure file upload metadata management covering VULN-A through VULN-L.

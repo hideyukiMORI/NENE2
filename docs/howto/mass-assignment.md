@@ -1,3 +1,11 @@
+---
+title: "Mass Assignment Defence"
+category: security
+tags: [mass-assignment, dto, whitelist, input-validation]
+difficulty: beginner
+related: [mass-assignment-defence, enforce-resource-ownership]
+---
+
 # Mass Assignment Defence
 
 Mass assignment is a vulnerability where an attacker adds extra fields to a request body — such as `role=admin` or `is_active=false` — and the server persists them without intending to.

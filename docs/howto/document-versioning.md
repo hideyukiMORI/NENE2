@@ -1,3 +1,11 @@
+---
+title: "How-to: Document Versioning API"
+category: product
+tags: [versioning, append-only, rollback, transactions, document]
+difficulty: intermediate
+related: [content-versioning, article-versioning-api, draft-publish-workflow]
+---
+
 # How-to: Document Versioning API
 
 > **FT reference**: FT239 (`NENE2-FT/doclog`) — Document Versioning API

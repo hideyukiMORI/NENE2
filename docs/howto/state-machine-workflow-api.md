@@ -1,3 +1,11 @@
+---
+title: "How-to: State Machine Workflow API"
+category: infrastructure
+tags: [state-machine, workflow, transitions, terminal-state, audit-log]
+difficulty: intermediate
+related: [state-machine-audit-log, multi-step-workflow, approval-workflow]
+---
+
 # How-to: State Machine Workflow API
 
 > **FT reference**: FT349 (`NENE2-FT/workflowlog`) — State machine workflow instances with hardcoded transition map, `allowed_next` in responses, transition history log, terminal state enforcement, state filter on list, 13 tests PASS.

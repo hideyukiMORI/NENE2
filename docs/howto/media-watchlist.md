@@ -1,3 +1,12 @@
+---
+title: "How-to: Media Watchlist API"
+category: product
+tags: [watchlist, media, enum, status]
+difficulty: beginner
+related: [bookmark-api, bookmark-system, wish-list-api]
+ft: FT59
+---
+
 # How-to: Media Watchlist API
 
 > **FT reference**: FT59 (`NENE2-FT/watchlog`) — Media Watch List API

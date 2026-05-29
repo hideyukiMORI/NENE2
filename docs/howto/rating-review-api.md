@@ -1,3 +1,11 @@
+---
+title: "How-to: Rating & Review API"
+category: product
+tags: [rating, review, upsert, aggregate, distribution]
+difficulty: intermediate
+related: [product-review-system, upvote-downvote-api, voting-system]
+---
+
 # How-to: Rating & Review API
 
 > **FT reference**: FT333 (`NENE2-FT/ratinglog`) — Per-item, per-user rating system with score validation (1–5), upsert semantics, summary with distribution breakdown, and vulnerability assessment, 16 tests / 40+ assertions PASS.

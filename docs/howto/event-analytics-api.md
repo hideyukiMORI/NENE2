@@ -1,3 +1,11 @@
+---
+title: "How-to: Event Analytics API"
+category: infrastructure
+tags: [analytics, event-tracking, aggregation, json-extract, statistics]
+difficulty: intermediate
+related: [event-analytics, api-usage-metering, aggregate-reporting]
+---
+
 # How-to: Event Analytics API
 
 > **FT reference**: FT243 (`NENE2-FT/statslog`) — Event Analytics API

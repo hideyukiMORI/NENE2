@@ -1,3 +1,11 @@
+---
+title: "How-to: Expense Tracking API"
+category: product
+tags: [expense, tracking, pagination, patch, aggregation]
+difficulty: intermediate
+related: [expense-tracker, budget-tracking, time-tracking]
+---
+
 # How-to: Expense Tracking API
 
 > **FT reference**: FT311 (`NENE2-FT/expenselog`) — Expense tracking: YYYY-MM-DD date format validation, category string (open, no enum), monthly summary aggregation by category, offset pagination with limit/offset, PATCH partial update (only provided fields changed), date-range filter, static `/summary` route before dynamic `/{id}`, 34 tests / 67 assertions PASS.

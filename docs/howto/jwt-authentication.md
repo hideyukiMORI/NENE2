@@ -1,3 +1,12 @@
+---
+title: "How-To: JWT Authentication"
+category: auth
+tags: [jwt, bearer, authentication, argon2id, password]
+difficulty: intermediate
+related: [add-jwt-authentication, refresh-token-rotation, bearer-token-middleware]
+ft: FT261
+---
+
 # How-To: JWT Authentication
 
 > **FT reference**: FT261 (`NENE2-FT/jwtlog`) — JWT Authentication with Argon2id password hashing and BearerTokenMiddleware

@@ -1,3 +1,11 @@
+---
+title: "How-to: Dynamic Filter Query (Dynamic WHERE Clause)"
+category: api-design
+tags: [filtering, query-params, sql, where-clause, list-endpoint]
+difficulty: beginner
+related: [dynamic-sort-order-injection, multi-value-tag-filter]
+---
+
 # How-to: Dynamic Filter Query (Dynamic WHERE Clause)
 
 > **Related scenarios**: DX Scenario 03, 18, 22, 25, 29, 30, 33, 37, 38, 41, 47, 48 — the most frequently cited missing howto across 50 DX scenarios.
