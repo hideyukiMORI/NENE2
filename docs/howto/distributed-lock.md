@@ -1,3 +1,11 @@
+---
+title: "How-to: Distributed Lock"
+category: infrastructure
+tags: [distributed-lock, concurrency, ttl, database, race-condition]
+difficulty: advanced
+related: [distributed-locking, prevent-double-booking, optimistic-locking]
+---
+
 # How-to: Distributed Lock
 
 > **FT reference**: FT288 (`NENE2-FT/distlocklog`) — Distributed lock: UNIQUE(resource) DB constraint, owner verification, TTL-based expiry, expired lock re-acquisition by design, ReleaseResult enum (Released/NotFound/Forbidden), 403 on owner mismatch, 16 tests / 27 assertions PASS.

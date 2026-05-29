@@ -1,3 +1,11 @@
+---
+title: "How-to: Optimistic Concurrency Control (Version Field)"
+category: database
+tags: [optimistic-locking, concurrency, version-field, lost-update]
+difficulty: intermediate
+related: [optimistic-locking, optimistic-lock-patch-version, optimistic-locking-etag]
+---
+
 # How-to: Optimistic Concurrency Control (Version Field)
 
 > **FT reference**: FT323 (`NENE2-FT/optimisticlog`) — Document API with version field in PUT body, 409 on stale version, lost-update prevention, 18 tests / 34 assertions PASS.

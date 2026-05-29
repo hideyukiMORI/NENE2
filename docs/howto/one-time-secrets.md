@@ -1,3 +1,11 @@
+---
+title: "How-To: One-Time Secret API & ATK-01~12 Cracker Attack Test"
+category: security
+tags: [one-time-secret, token, atomic-consumption, brute-force-protection]
+difficulty: advanced
+related: [numeric-verification-code, otp-authentication, secret-vault]
+---
+
 # How-To: One-Time Secret API & ATK-01~12 Cracker Attack Test
 
 > **NENE2 Field Trial 184** — Cracker Attack Test Cycle (ATK-01~12).

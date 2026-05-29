@@ -1,3 +1,11 @@
+---
+title: "How-to: Resource Reservation / Time Slot Booking API"
+category: product
+tags: [reservation, time-slot, overlap-detection, idor]
+difficulty: intermediate
+related: [resource-reservation-booking, reservation-availability-api, prevent-double-booking]
+---
+
 # How-to: Resource Reservation / Time Slot Booking API
 
 This guide shows how to build a time-slot booking system with overlap prevention using NENE2.

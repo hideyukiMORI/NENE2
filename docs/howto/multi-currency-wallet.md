@@ -1,3 +1,11 @@
+---
+title: "How-To: Multi-Currency Wallet"
+category: product
+tags: [wallet, multi-currency, deposit, withdraw, transfer]
+difficulty: advanced
+related: [multi-currency-money-ledger, point-ledger-api, point-loyalty-system]
+---
+
 # How-To: Multi-Currency Wallet
 
 Per-user currency balances with deposit/withdraw/transfer operations.

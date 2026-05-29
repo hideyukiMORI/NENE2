@@ -1,3 +1,12 @@
+---
+title: "How-to: Habit Tracker API"
+category: product
+tags: [habit, streak, tracking, daily]
+difficulty: intermediate
+related: [time-tracking, scheduled-reminders]
+ft: FT24
+---
+
 # How-to: Habit Tracker API
 
 > **FT reference**: FT24 (`NENE2-FT/habitlog`) — Habit Tracking API with streak calculation

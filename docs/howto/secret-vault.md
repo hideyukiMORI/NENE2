@@ -1,3 +1,11 @@
+---
+title: "How-To: Personal Secret Vault API"
+category: security
+tags: [hmac, idor-prevention, encrypted-storage, admin-auth, user-isolation]
+difficulty: intermediate
+related: [encrypted-field-storage, one-time-secrets, data-masking]
+---
+
 # How-To: Personal Secret Vault API
 
 Demonstrates per-user key-value storage with HMAC integrity, IDOR prevention, and admin-only metadata access.

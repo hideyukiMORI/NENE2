@@ -1,3 +1,11 @@
+---
+title: "Use SQLite FTS5 Full-Text Search"
+category: database
+tags: [fts5, sqlite, full-text-search, inverted-index]
+difficulty: intermediate
+related: [sqlite-fts5-search, search-autocomplete]
+---
+
 # Use SQLite FTS5 Full-Text Search
 
 SQLite's FTS5 extension provides full-text search using an inverted index. This guide covers the schema pattern, trigger-based sync, and the query syntax gotchas you will encounter when accepting user input.

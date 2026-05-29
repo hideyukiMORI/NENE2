@@ -1,3 +1,11 @@
+---
+title: "How-to: Credit Ledger API"
+category: product
+tags: [ledger, credits, append-only, balance, idempotency]
+difficulty: intermediate
+related: [event-sourcing-ledger, multi-currency-money-ledger, point-ledger-api]
+---
+
 # How-to: Credit Ledger API
 
 > **FT reference**: FT234 (`NENE2-FT/creditslog`) — Credit Ledger API

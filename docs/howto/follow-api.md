@@ -1,3 +1,12 @@
+---
+title: "How-to: Follow / Unfollow API"
+category: product
+tags: [follow, social, graph, pagination]
+difficulty: intermediate
+related: [user-follow-system, activity-feed, follow-api]
+ft: FT314
+---
+
 # How-to: Follow / Unfollow API
 
 > **FT reference**: FT314 (`NENE2-FT/followlog`) — Social follow graph: idempotent follow (POST 201 first time, 200 on repeat), self-follow prevention (422), unfollow (DELETE 204), followers/following counts via stats, paginated lists ordered by most-recent-first, is-following check, mutual follow support, 20 tests / 72 assertions PASS.

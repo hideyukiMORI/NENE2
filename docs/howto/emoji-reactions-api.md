@@ -1,3 +1,11 @@
+---
+title: "How-to: Emoji Reactions API"
+category: product
+tags: [emoji, reactions, unique-constraint, social, unicode]
+difficulty: intermediate
+related: [emoji-reaction-system, emoji-reactions-toggle, upvote-downvote-api]
+---
+
 # How-to: Emoji Reactions API
 
 > **FT reference**: FT306 (`NENE2-FT/emojilog`) — Emoji reactions: UNIQUE(post_id, user_id, emoji) allows same emoji by multiple users but prevents one user reacting with the same emoji twice, mb_strlen max 8 characters, urldecode() for emoji in DELETE path, user_reactions shows the current actor's reactions, reactions ordered by count DESC, 18 tests / 28 assertions PASS.

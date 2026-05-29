@@ -1,3 +1,11 @@
+---
+title: "How-to: Product Price History API"
+category: product
+tags: [price, history, timeline, temporal-data]
+difficulty: intermediate
+related: [product-catalog, money-integer-arithmetic]
+---
+
 # How-to: Product Price History API
 
 > **FT reference**: FT67 (`NENE2-FT/pricelog`) — Product Price History API

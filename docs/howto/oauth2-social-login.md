@@ -1,3 +1,11 @@
+---
+title: "OAuth2 Social Login の実装ガイド"
+category: auth
+tags: [oauth2, social-login, authorization-code-flow, jwt]
+difficulty: advanced
+related: [add-jwt-authentication, delegated-access-grants]
+---
+
 # OAuth2 Social Login の実装ガイド
 
 ## 概要

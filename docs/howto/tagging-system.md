@@ -1,3 +1,11 @@
+---
+title: "Tagging System (M:N)"
+category: product
+tags: [tagging, many-to-many, atomic-update, n-plus-one]
+difficulty: intermediate
+related: [tag-label-api, note-management-with-tags, multi-value-tag-filter]
+---
+
 # Tagging System (M:N)
 
 Attach tags to posts using a many-to-many join table, with atomic tag replacement and N+1-free tag fetching.

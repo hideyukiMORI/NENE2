@@ -1,3 +1,11 @@
+---
+title: "Bookmark System"
+category: product
+tags: [bookmarks, collections, idempotent, user-scoped]
+difficulty: beginner
+related: [bookmark-api, url-bookmark-api, wishlist-management]
+---
+
 # Bookmark System
 
 Allow users to save items into named collections. Bookmarking is idempotent — bookmarking the same item twice returns the existing bookmark without error.

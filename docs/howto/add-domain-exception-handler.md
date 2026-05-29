@@ -1,3 +1,11 @@
+---
+title: "How to add a domain exception handler"
+category: getting-started
+tags: [error-handling, exceptions, middleware, domain]
+difficulty: intermediate
+related: [add-database-endpoint, add-health-check]
+---
+
 # How to add a domain exception handler
 
 When a route handler throws a domain exception (e.g. `OrderNotFoundException`, `InsufficientStockException`),

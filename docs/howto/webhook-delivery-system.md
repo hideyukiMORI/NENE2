@@ -1,3 +1,11 @@
+---
+title: "How-to: Webhook Delivery System"
+category: infrastructure
+tags: [webhook, ssrf, hmac, signature, secret-hashing]
+difficulty: advanced
+related: [webhook-delivery-api, webhook-delivery, webhook-signature-verification]
+---
+
 # How-to: Webhook Delivery System
 
 > **FT reference**: FT308 (`NENE2-FT/webhookdeliverylog`) — Webhook delivery system: SSRF protection via UrlValidator (HTTPS-only, private IP blocklist, CRLF injection prevention), HMAC-SHA256 signature with timestamp binding, secret stored as SHA-256 hash (never plaintext), secret not returned in GET responses, deactivated endpoints skip delivery, event type isolation, ATK-01〜12 all BLOCKED, 31 tests / 47 assertions PASS.

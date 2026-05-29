@@ -1,3 +1,11 @@
+---
+title: "クーポン・プロモコード管理"
+category: product
+tags: [coupon, promo-code, rbac, discount, expiry]
+difficulty: intermediate
+related: [coupon-discount-api, coupon-redemption]
+---
+
 # クーポン・プロモコード管理
 
 admin RBAC・ユーザーごとの利用追跡・有効期限・上限制御を備えたクーポンシステムの実装ガイド。

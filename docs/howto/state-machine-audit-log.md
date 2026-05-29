@@ -1,3 +1,11 @@
+---
+title: "How-to: State Machine with Audit Log"
+category: infrastructure
+tags: [state-machine, audit-log, transitions, domain-events, workflow]
+difficulty: intermediate
+related: [state-machine-workflow-api, content-draft-lifecycle, multi-step-workflow]
+---
+
 # How-to: State Machine with Audit Log
 
 > **FT reference**: FT237 (`NENE2-FT/statemachinelog`) — State Machine with Audit Log

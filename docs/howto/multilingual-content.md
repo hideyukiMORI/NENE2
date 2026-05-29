@@ -1,3 +1,11 @@
+---
+title: "How-to: Multilingual Content API"
+category: product
+tags: [i18n, multilingual, localization, content]
+difficulty: intermediate
+related: [content-versioning, content-draft-lifecycle]
+---
+
 # How-to: Multilingual Content API
 
 > **FT reference**: FT232 (`NENE2-FT/i18nlog`) — Multilingual Content API

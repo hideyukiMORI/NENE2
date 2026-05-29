@@ -1,3 +1,12 @@
+---
+title: "How to Build a Leaderboard (Ranking System) with NENE2"
+category: product
+tags: [leaderboard, ranking, scores, personal-best]
+difficulty: intermediate
+related: [leaderboard-ranking-api, leaderboard-scores, game-score-leaderboard-api]
+ft: FT141
+---
+
 # How to Build a Leaderboard (Ranking System) with NENE2
 
 This guide walks through building a leaderboard where users submit scores, see rankings, and check their own rank. Only the best score per user per leaderboard is kept.

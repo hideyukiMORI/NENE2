@@ -1,3 +1,11 @@
+---
+title: "Outbound Webhook Delivery"
+category: infrastructure
+tags: [webhook, outbound, ssrf, signature]
+difficulty: intermediate
+related: [webhook-delivery-api, webhook-delivery-system, webhook-signature]
+---
+
 # Outbound Webhook Delivery
 
 Outbound webhooks notify third-party systems when events occur in your application. The primary security concerns are SSRF (sending requests to internal infrastructure), secret leakage, and signature integrity.

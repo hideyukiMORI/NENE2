@@ -1,3 +1,11 @@
+---
+title: "How-to: Event Sourcing & CQRS API"
+category: infrastructure
+tags: [event-sourcing, cqrs, append-only, read-model, projection]
+difficulty: advanced
+related: [event-sourcing, cqrs-pattern, event-sourcing-ledger]
+---
+
 # How-to: Event Sourcing & CQRS API
 
 > **FT reference**: `NENE2-FT/eventstore` — Append-only event log with per-aggregate sequence numbers, allowlisted event types, read-model projection rebuilt from events, balance tracking, 17 tests PASS.

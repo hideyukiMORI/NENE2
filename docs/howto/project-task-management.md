@@ -1,3 +1,11 @@
+---
+title: "How-to: Project and Task Management with Nested Resources"
+category: product
+tags: [nested-resources, patch, task-management, pagination]
+difficulty: intermediate
+related: [add-second-entity, implement-patch-endpoint, add-pagination]
+---
+
 # How-to: Project and Task Management with Nested Resources
 
 > **FT reference**: FT241 (`NENE2-FT/projtrack`) — Project & Task Management API

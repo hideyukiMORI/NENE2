@@ -1,3 +1,11 @@
+---
+title: "How-to: RBAC + JWT Authentication"
+category: auth
+tags: [rbac, jwt, argon2id, bearer-token, authorization]
+difficulty: intermediate
+related: [rbac, add-jwt-authentication, bearer-token-middleware]
+---
+
 # How-to: RBAC + JWT Authentication
 
 > **FT reference**: FT279 (`NENE2-FT/rbaclog`) — Role-Based Access Control with JWT: Argon2id password hashing with timing-attack protection, role claim in JWT, 401 vs 403 distinction, BearerTokenMiddleware with manual fallback, 14 tests / 48 assertions PASS.

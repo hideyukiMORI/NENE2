@@ -1,3 +1,11 @@
+---
+title: "How-to: Unicode-Aware Text API"
+category: security
+tags: [unicode, validation, encoding, null-byte, multibyte]
+difficulty: intermediate
+related: [validate-unicode-input]
+---
+
 # How-to: Unicode-Aware Text API
 
 > **FT reference**: FT345 (`NENE2-FT/unicodelog`) — Profile API with Unicode-safe validation: mb_strlen for character counting, null byte rejection, multi-script support (Japanese, emoji, ZWJ sequences, Arabic, mixed), JSON_UNESCAPED_UNICODE handling, 22 tests PASS.

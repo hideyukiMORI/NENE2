@@ -1,3 +1,11 @@
+---
+title: "Personal Data Export"
+category: security
+tags: [gdpr, data-export, pii, download-token, expiry]
+difficulty: intermediate
+related: [pii-masking, data-export-api]
+---
+
 # Personal Data Export
 
 A GDPR-style data export lets users download all their personal data. The primary concerns are: sensitive field exclusion from the export payload, secure download tokens, and expiry enforcement.

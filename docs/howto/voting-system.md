@@ -1,3 +1,11 @@
+---
+title: "Voting System (Upvote / Downvote)"
+category: product
+tags: [voting, upvote, downvote, toggle]
+difficulty: intermediate
+related: [upvote-downvote-api]
+---
+
 # Voting System (Upvote / Downvote)
 
 Allow users to upvote or downvote items. Each user can cast at most one vote per item. Voting in the same direction twice toggles the vote off. Voting in the opposite direction switches the vote.

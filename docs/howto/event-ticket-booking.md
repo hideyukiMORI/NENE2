@@ -1,3 +1,11 @@
+---
+title: "How-To: Event Ticket Booking"
+category: product
+tags: [booking, tickets, capacity, concurrency, inventory]
+difficulty: intermediate
+related: [resource-booking, prevent-double-booking, resource-reservation]
+---
+
 # How-To: Event Ticket Booking
 
 Demonstrates event capacity management with per-user ticket purchasing.

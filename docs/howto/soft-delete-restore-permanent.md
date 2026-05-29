@@ -1,3 +1,11 @@
+---
+title: "How-to: Soft Delete, Restore, and Permanent Delete"
+category: database
+tags: [soft-delete, restore, hard-delete, deleted-at]
+difficulty: beginner
+related: [soft-delete, soft-delete-trash-purge, soft-delete-trash-restore]
+---
+
 # How-to: Soft Delete, Restore, and Permanent Delete
 
 > **FT reference**: `NENE2-FT/softdelete` — Soft delete via `deleted_at` timestamp, restore (only soft-deleted notes can be restored), permanent hard delete (only soft-deleted notes can be permanently deleted), 14 tests PASS.

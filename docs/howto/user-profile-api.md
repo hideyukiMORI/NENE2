@@ -1,3 +1,11 @@
+---
+title: "How-to: User Profile API"
+category: product
+tags: [profile, user, ownership, validation, url-security]
+difficulty: intermediate
+related: [user-profile-management]
+---
+
 # How-to: User Profile API
 
 > **FT reference**: FT275 (`NENE2-FT/profilelog`) — User profile: one-profile-per-user (UNIQUE user_id), email validated with FILTER_VALIDATE_EMAIL, field length limits (display_name 100 / bio 500 / avatar_url 2048), https-only avatar URL, DatabaseConstraintException → 409, ownership guard via X-User-Id, 32 tests PASS.

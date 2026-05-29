@@ -1,3 +1,11 @@
+---
+title: "How-to: File Sharing API"
+category: product
+tags: [file-sharing, permissions, visibility, access-control, ownership]
+difficulty: intermediate
+related: [file-metadata-sharing, enforce-resource-ownership, signed-url-download]
+---
+
 # How-to: File Sharing API
 
 > **FT reference**: FT303 (`NENE2-FT/filelog`) — File sharing API: private files return 404 (not 403) to non-owners, owner-only delete/visibility-change, view-share vs edit-share permission tiers, body `user_id` ignored (ownership from header), name length limit 255, size `is_int()` strict, VULN-A〜L all SAFE, 59 tests / 82 assertions PASS.

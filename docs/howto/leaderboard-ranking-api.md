@@ -1,3 +1,12 @@
+---
+title: "How-to: Leaderboard Ranking API"
+category: product
+tags: [leaderboard, ranking, personal-best, scores]
+difficulty: intermediate
+related: [leaderboard-ranking, leaderboard-scores, game-score-leaderboard-api]
+ft: FT332
+---
+
 # How-to: Leaderboard Ranking API
 
 > **FT reference**: FT332 (`NENE2-FT/ranklog`) — Leaderboard with per-user personal-best tracking, descending ranking, own-rank lookup, score deletion, and ATK cracker-mindset attack assessment, 19 tests / 50+ assertions PASS.

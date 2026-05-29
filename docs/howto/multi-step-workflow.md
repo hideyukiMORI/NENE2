@@ -1,3 +1,11 @@
+---
+title: "How to Add a Multi-step Workflow"
+category: product
+tags: [workflow, approval, state-machine, multi-step]
+difficulty: intermediate
+related: [approval-workflow, step-workflow-approval, content-approval-workflow]
+---
+
 # How to Add a Multi-step Workflow
 
 Model sequential approval flows where each step must be approved before advancing to the next.

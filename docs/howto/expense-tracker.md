@@ -1,3 +1,11 @@
+---
+title: "How-to: Expense Tracker API"
+category: product
+tags: [expense, tracker, categories, date-range, aggregation]
+difficulty: beginner
+related: [expense-tracking-api, budget-tracking, time-tracking]
+---
+
 # How-to: Expense Tracker API
 
 This guide shows how to build a personal expense tracking system with category-based filtering,

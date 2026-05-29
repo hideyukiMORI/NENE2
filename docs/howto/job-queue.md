@@ -1,3 +1,11 @@
+---
+title: "Background Job Queue with Retry and Idempotency"
+category: infrastructure
+tags: [job-queue, retry, idempotency, priority-queue]
+difficulty: intermediate
+related: [job-queue-with-retry, dead-letter-queue, notification-queue]
+---
+
 # Background Job Queue with Retry and Idempotency
 
 This guide covers implementing a persistent background job queue in NENE2 applications. The pattern supports priority queues, automatic retry with backoff counters, and idempotent job creation.

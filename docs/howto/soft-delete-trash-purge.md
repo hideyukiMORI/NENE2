@@ -1,3 +1,11 @@
+---
+title: "How-to: Soft Delete, Trash Bin, and Permanent Purge"
+category: database
+tags: [soft-delete, trash, purge, deleted-at, lifecycle]
+difficulty: beginner
+related: [soft-delete, soft-delete-restore-permanent, soft-delete-trash-restore]
+---
+
 # How-to: Soft Delete, Trash Bin, and Permanent Purge
 
 > **FT reference**: FT257 (`NENE2-FT/softdeletelog`) — Soft delete / trash bin / permanent purge pattern with `deleted_at` column

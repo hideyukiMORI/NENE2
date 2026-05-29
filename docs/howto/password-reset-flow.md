@@ -1,3 +1,11 @@
+---
+title: "How-to: Password Reset Flow"
+category: auth
+tags: [password-reset, token, single-use, user-enumeration-prevention, argon2id]
+difficulty: intermediate
+related: [password-reset, password-auth-argon2id, one-time-secrets]
+---
+
 # How-to: Password Reset Flow
 
 > **FT reference**: FT285 (`NENE2-FT/resetlog`) — Password reset flow: user enumeration prevention (always 202), SHA-256 token hash storage, 1-hour TTL, single-use token (409 on reuse), 410 Gone on expiry, Argon2id new password hash, 15 tests / 23 assertions PASS.

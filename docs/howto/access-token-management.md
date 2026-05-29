@@ -1,3 +1,11 @@
+---
+title: "How to Build Access Token Management with NENE2"
+category: auth
+tags: [access-token, pat, api-keys, sha256, scopes]
+difficulty: intermediate
+related: [api-key-management, bearer-token-middleware, use-bearer-auth]
+---
+
 # How to Build Access Token Management with NENE2
 
 This guide walks through building a personal access token (PAT) system — users issue, list, and revoke their own API tokens, each with a scope (`read`/`write`/`admin`). Tokens are never stored in plaintext; only their SHA-256 hash is kept.

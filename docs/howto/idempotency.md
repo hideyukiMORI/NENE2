@@ -1,3 +1,12 @@
+---
+title: "How-to: Idempotency-Key Pattern"
+category: api-design
+tags: [idempotency, deduplication, race-condition, retry]
+difficulty: intermediate
+related: [idempotency-key, idempotency-key-api, request-deduplication]
+ft: FT276
+---
+
 # How-to: Idempotency-Key Pattern
 
 > **FT reference**: FT276 (`NENE2-FT/csrflog`) — Idempotency-Key header for state-changing requests: UNIQUE DB constraint, replay returns original result (200), body changes on replay are ignored, race condition handled by DatabaseConstraintException, 15 tests / 30 assertions PASS.

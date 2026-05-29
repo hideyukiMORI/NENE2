@@ -1,3 +1,11 @@
+---
+title: "How to use Bearer token authentication"
+category: auth
+tags: [bearer, jwt, middleware, authentication]
+difficulty: beginner
+related: [add-jwt-authentication, bearer-token-middleware, jwt-authentication]
+---
+
 # How to use Bearer token authentication
 
 NENE2 ships `BearerTokenMiddleware` and `LocalBearerTokenVerifier` for JWT-based authentication. This guide covers setup, configuration, token issuance, and common pitfalls.

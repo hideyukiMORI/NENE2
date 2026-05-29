@@ -1,3 +1,11 @@
+---
+title: "PIN 認証・ロックアウト"
+category: auth
+tags: [pin, lockout, brute-force-protection, verification]
+difficulty: intermediate
+related: [numeric-verification-code, otp-authentication, account-lockout]
+---
+
 # PIN 認証・ロックアウト
 
 > **FT reference**: FT252 (`NENE2-FT/pinverifylog`) — PIN Verification with Lockout

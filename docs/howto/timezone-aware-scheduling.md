@@ -1,3 +1,11 @@
+---
+title: "How-to: Timezone-aware Event Scheduling"
+category: api-design
+tags: [timezone, utc, scheduling, datetime, iana]
+difficulty: intermediate
+related: [handle-timezones, iso-datetime-validation]
+---
+
 # How-to: Timezone-aware Event Scheduling
 
 > **FT reference**: FT286 (`NENE2-FT/schedulelog`) — Timezone-aware scheduling: UTC storage + local time conversion, IANA timezone validation via DateTimeZone::listIdentifiers(), InvalidTimezoneException, dynamic ?timezone query parameter, 19 tests / 39 assertions PASS.

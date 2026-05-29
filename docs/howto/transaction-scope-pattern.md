@@ -1,3 +1,11 @@
+---
+title: "How-to: Transaction Scope Pattern"
+category: database
+tags: [transactions, atomic, database, inventory]
+difficulty: intermediate
+related: [transactions, use-transactions]
+---
+
 # How-to: Transaction Scope Pattern
 
 > **FT reference**: FT253 (`NENE2-FT/txlog`) — Database transaction boundaries: atomic order-with-inventory

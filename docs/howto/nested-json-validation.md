@@ -1,3 +1,11 @@
+---
+title: "How-to: Nested JSON Validation"
+category: api-design
+tags: [validation, nested-json, error-paths, line-items]
+difficulty: intermediate
+related: [order-management, patch-partial-update]
+---
+
 # How-to: Nested JSON Validation
 
 > **FT reference**: FT322 (`NENE2-FT/nestedlog`) — Order API with nested items validation, `items.N.field` error paths, multi-error single response, error codes, total calculation, 19 tests / 43 assertions PASS.

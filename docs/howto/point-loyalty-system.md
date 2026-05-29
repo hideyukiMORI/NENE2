@@ -1,3 +1,11 @@
+---
+title: "ポイント・ロイヤルティシステム"
+category: product
+tags: [points, loyalty, idempotency, rbac, balance]
+difficulty: intermediate
+related: [point-ledger-api, credit-ledger]
+---
+
 # ポイント・ロイヤルティシステム
 
 ポイント付与・消費・残高管理・admin 調整を備えたロイヤルティシステムの実装ガイド。

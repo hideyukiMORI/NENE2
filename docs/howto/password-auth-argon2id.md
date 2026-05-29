@@ -1,3 +1,11 @@
+---
+title: "How-to: Password Authentication with Argon2id"
+category: auth
+tags: [password, argon2id, authentication, user-enumeration-prevention, rehash]
+difficulty: intermediate
+related: [password-hashing, password-reset-flow, password-reset]
+---
+
 # How-to: Password Authentication with Argon2id
 
 > **FT reference**: FT331 (`NENE2-FT/pwdlog`) — User registration and login with Argon2id password hashing, password/hash never exposed in responses, user enumeration prevention (same 401 for wrong password and unknown email), algorithm-migration rehash, 14 tests / 40 assertions PASS.

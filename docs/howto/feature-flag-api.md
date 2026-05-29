@@ -1,3 +1,11 @@
+---
+title: "How-to: Feature Flag API"
+category: infrastructure
+tags: [feature-flags, rollout, environment, override, gradual-rollout]
+difficulty: intermediate
+related: [feature-flags, ab-testing]
+---
+
 # How-to: Feature Flag API
 
 > **FT reference**: FT313 (`NENE2-FT/flaglog`) — Feature flag management: per-environment flags, rollout_percent gradual rollout, per-user overrides, evaluate endpoint with override resolution, snake_case key validation, 18 tests / 29 assertions PASS.

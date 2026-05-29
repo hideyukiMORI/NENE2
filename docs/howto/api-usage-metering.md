@@ -1,3 +1,11 @@
+---
+title: "How-to: API Usage Metering & Quota Management"
+category: infrastructure
+tags: [metering, quota, rate-limiting, idor-prevention, usage-tracking]
+difficulty: intermediate
+related: [add-rate-limiting, quota-management, admin-report-aggregation]
+---
+
 # How-to: API Usage Metering & Quota Management
 
 > **FT reference**: FT321 (`NENE2-FT/meterlog`) — Per-user daily quota management, machine-key protected usage recording, per-endpoint breakdown, IDOR protection, remaining-never-negative guarantee, 24 tests / 92 assertions PASS.

@@ -1,3 +1,11 @@
+---
+title: "How-to: Bearer Token Middleware (JWT Auth Edge Cases)"
+category: auth
+tags: [jwt, bearer, middleware, authentication, security]
+difficulty: advanced
+related: [use-bearer-auth, add-jwt-authentication, refresh-token-rotation]
+---
+
 # How-to: Bearer Token Middleware (JWT Auth Edge Cases)
 
 > **FT reference**: FT273 (`NENE2-FT/authlog`) — BearerTokenMiddleware JWT auth: alg=none rejection, signature tampering detection, exp/nbf enforcement, WWW-Authenticate header, per-sub data isolation, IDOR → 404, 18 tests / 26 assertions PASS.

@@ -1,3 +1,12 @@
+---
+title: "How-to: Mass Assignment Defence with Explicit DTO"
+category: security
+tags: [mass-assignment, dto, whitelist, input-validation]
+difficulty: intermediate
+related: [mass-assignment, enforce-resource-ownership]
+ft: FT256
+---
+
 # How-to: Mass Assignment Defence with Explicit DTO
 
 > **FT reference**: FT256 (`NENE2-FT/masslog`) — Mass assignment defence pattern with explicit DTO whitelisting

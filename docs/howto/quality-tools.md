@@ -1,3 +1,11 @@
+---
+title: "Quality Tools"
+category: getting-started
+tags: [phpstan, php-cs-fixer, static-analysis, code-style]
+difficulty: beginner
+related: [add-health-check, add-custom-route]
+---
+
 # Quality Tools
 
 This guide covers PHPStan, PHP-CS-Fixer, and common issues when running them in NENE2-based projects.

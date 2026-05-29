@@ -1,3 +1,11 @@
+---
+title: "Content Report & Moderation"
+category: product
+tags: [moderation, reporting, rbac, idor-prevention, state-machine]
+difficulty: intermediate
+related: [content-reporting, comment-thread]
+---
+
 # Content Report & Moderation
 
 コンテンツ（記事）の通報・モデレーションシステムの実装ガイド。

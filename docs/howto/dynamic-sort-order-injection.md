@@ -1,3 +1,11 @@
+---
+title: "How-to: Dynamic Sort & Filter with ORDER BY Injection Prevention"
+category: security
+tags: [sql-injection, order-by, allowlist, sorting, filtering]
+difficulty: intermediate
+related: [dynamic-filter-query, sql-orderby-injection, sql-injection-defence]
+---
+
 # How-to: Dynamic Sort & Filter with ORDER BY Injection Prevention
 
 > **FT reference**: FT341 (`NENE2-FT/sortlog`) — Dynamic sort/filter API with SQL ORDER BY injection prevention via allowlist, status filter allowlist, ReDoS-immune O(n) validation, 40+ tests covering VULN-A through VULN-L and ATK-01 through ATK-12, all PASS.

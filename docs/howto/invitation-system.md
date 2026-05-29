@@ -1,3 +1,12 @@
+---
+title: "How-to: Invitation System"
+category: product
+tags: [invitation, token, one-time-use, entropy]
+difficulty: intermediate
+related: [invitation-referral, user-invitation]
+ft: FT283
+---
+
 # How-to: Invitation System
 
 > **FT reference**: FT283 (`NENE2-FT/invitelog`) — Invitation code system: 32-char hex token (128-bit entropy), ISO 8601 datetime validation, pending→used status lifecycle, match expression status mapping, IDOR-protected invitation list, 23 tests / 47 assertions PASS.

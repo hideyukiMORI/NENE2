@@ -1,3 +1,11 @@
+---
+title: "Add HTML Views"
+category: getting-started
+tags: [html, views, templates, server-rendering]
+difficulty: beginner
+related: [add-health-check, add-database-endpoint]
+---
+
 # Add HTML Views
 
 This guide shows how to add server-rendered HTML responses to a NENE2 application

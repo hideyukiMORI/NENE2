@@ -1,3 +1,11 @@
+---
+title: "How-to: CQRS Pattern"
+category: infrastructure
+tags: [cqrs, read-model, write-model, event-sourcing, architecture]
+difficulty: advanced
+related: [event-sourcing, event-sourcing-cqrs-api, event-sourcing-ledger]
+---
+
 # How-to: CQRS Pattern
 
 > **FT reference**: FT233 (`NENE2-FT/cqrslog`) — CQRS Pattern API

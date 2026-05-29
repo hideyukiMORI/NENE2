@@ -1,3 +1,11 @@
+---
+title: "User Invitation System"
+category: auth
+tags: [invitation, token, expiry, email]
+difficulty: intermediate
+related: [invitation-system, invitation-referral, magic-link-authentication]
+---
+
 # User Invitation System
 
 Invite new users by email, enforce expiry, and prevent abuse with token-based invitations.

@@ -1,3 +1,11 @@
+---
+title: "全文検索・オートコンプリート API の実装ガイド"
+category: api-design
+tags: [search, autocomplete, full-text-search, like-query]
+difficulty: intermediate
+related: [sqlite-fts5-search, use-fts5-search, dynamic-filter-query]
+---
+
 # 全文検索・オートコンプリート API の実装ガイド
 
 ## 概要

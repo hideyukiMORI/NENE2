@@ -1,3 +1,11 @@
+---
+title: "How to Add Geolocation Search"
+category: api-design
+tags: [geolocation, proximity-search, coordinates, bounding-box]
+difficulty: intermediate
+related: [geolocation-api]
+---
+
 # How to Add Geolocation Search
 
 Store latitude/longitude points and search by proximity (nearby radius) or bounding box.

@@ -1,3 +1,11 @@
+---
+title: "Event Sourcing (Basic)"
+category: infrastructure
+tags: [event-sourcing, append-only, immutable, replay, domain-events]
+difficulty: intermediate
+related: [event-sourcing-ledger, event-sourcing-cqrs-api, cqrs-pattern]
+---
+
 # Event Sourcing (Basic)
 
 Persist state as an immutable sequence of domain events. Derive current state by replaying the event stream.

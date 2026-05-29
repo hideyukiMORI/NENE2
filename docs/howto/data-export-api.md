@@ -1,3 +1,11 @@
+---
+title: "How-to: Data Export API"
+category: security
+tags: [gdpr, data-export, pii, token, async]
+difficulty: intermediate
+related: [data-masking, personal-data-export, privacy-consent-management]
+---
+
 # How-to: Data Export API
 
 > **FT reference**: FT312 (`NENE2-FT/exportlog`) — Data export (GDPR-style): async `pending→ready` state machine via token-based download, PII exclusion via `toPublicArray()` (password_hash and phone never in GET response or export payload), ARGON2ID password hashing, 64-hex-char export token, 410 Gone for expired exports, 409 for pending download attempt, 19 tests / 32 assertions PASS.

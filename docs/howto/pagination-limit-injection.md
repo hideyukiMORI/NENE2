@@ -1,3 +1,11 @@
+---
+title: "How-to: Pagination Boundary & Limit Injection Prevention"
+category: security
+tags: [pagination, limit-injection, integer-validation, redos]
+difficulty: intermediate
+related: [pagination-boundary-attack, pagination, offset-cursor-pagination]
+---
+
 # How-to: Pagination Boundary & Limit Injection Prevention
 
 > **FT reference**: FT319 (`NENE2-FT/limitlog`) — Offset and cursor pagination with strict limit/page validation, MAX_LIMIT cap enforcement, ReDoS-safe ctype_digit validation, 20 tests / 384 assertions PASS.

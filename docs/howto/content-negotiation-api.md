@@ -1,3 +1,11 @@
+---
+title: "How-to: Content Negotiation — JSON API"
+category: api-design
+tags: [content-negotiation, accept-header, json, problem-details]
+difficulty: beginner
+related: [content-negotiation, api-versioning]
+---
+
 # How-to: Content Negotiation — JSON API
 
 > **FT reference**: FT301 (`NENE2-FT/contentlog`) — JSON API content negotiation: always returns `application/json` regardless of `Accept` header, `application/problem+json` for errors (404/422/405), 415 on non-JSON `Content-Type` for POST, 16 tests / 28 assertions PASS.

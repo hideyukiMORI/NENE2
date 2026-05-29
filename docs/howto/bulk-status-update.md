@@ -1,3 +1,11 @@
+---
+title: "How-to: Bulk Status Update API"
+category: api-design
+tags: [bulk, status-update, batch, state-machine]
+difficulty: intermediate
+related: [bulk-operations-partial-success, batch-api-partial-success, implement-bulk-endpoint]
+---
+
 # How-to: Bulk Status Update API
 
 > **FT reference**: FT85 (`NENE2-FT/bulkupdatelog`) — Bulk Status Update API

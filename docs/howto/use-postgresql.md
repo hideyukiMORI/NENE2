@@ -1,3 +1,10 @@
+---
+title: "How to use PostgreSQL"
+category: database
+tags: [postgresql, pdo, adapter, database]
+difficulty: beginner
+---
+
 # How to use PostgreSQL
 
 NENE2's `PdoConnectionFactory` supports the `pgsql` adapter out of the box. This guide covers

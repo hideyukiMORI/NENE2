@@ -1,3 +1,11 @@
+---
+title: "Database Transactions"
+category: database
+tags: [transactions, atomic, rollback, database]
+difficulty: beginner
+related: [transaction-scope-pattern, use-transactions]
+---
+
 # Database Transactions
 
 Use `DatabaseTransactionManagerInterface::transactional()` for atomic multi-step operations.

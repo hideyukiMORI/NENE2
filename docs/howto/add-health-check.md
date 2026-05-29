@@ -1,3 +1,11 @@
+---
+title: "Add a Health Check"
+category: getting-started
+tags: [health-check, monitoring, endpoint]
+difficulty: beginner
+related: [add-database-endpoint, quality-tools]
+---
+
 # Add a Health Check
 
 This guide shows how to extend the `GET /health` endpoint with dependency health checks using

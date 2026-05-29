@@ -1,3 +1,11 @@
+---
+title: "How-to: Notification Queue API"
+category: infrastructure
+tags: [notifications, queue, admin, messaging]
+difficulty: intermediate
+related: [notification-inbox, job-queue]
+---
+
 # How-to: Notification Queue API
 
 This guide demonstrates a notification queue where admins send targeted notifications to users, who can list, read, and delete them.

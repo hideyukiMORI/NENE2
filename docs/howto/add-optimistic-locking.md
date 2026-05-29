@@ -1,3 +1,11 @@
+---
+title: "How to add optimistic concurrency control (ETag / If-Match)"
+category: database
+tags: [optimistic-locking, etag, concurrency, lost-update]
+difficulty: intermediate
+related: [etag-conditional-requests, optimistic-locking, add-database-endpoint]
+---
+
 # How to add optimistic concurrency control (ETag / If-Match)
 
 Optimistic locking prevents the **lost update problem**: two clients read the same resource,

@@ -1,3 +1,11 @@
+---
+title: "How to validate Unicode input"
+category: security
+tags: [unicode, validation, multibyte, encoding]
+difficulty: beginner
+related: [unicode-aware-text-api]
+---
+
 # How to validate Unicode input
 
 NENE2 stores and returns strings as UTF-8. This guide covers the pitfalls of Unicode-aware validation and how to handle them.

@@ -1,3 +1,11 @@
+---
+title: "How-to: Bulk Operations with Partial-Success Semantics"
+category: api-design
+tags: [bulk, partial-success, multi-status, http-207, validation]
+difficulty: intermediate
+related: [batch-api-partial-success, bulk-status-update, implement-bulk-endpoint]
+---
+
 # How-to: Bulk Operations with Partial-Success Semantics
 
 > **FT reference**: FT258 (`NENE2-FT/bulklog`) — Bulk create / bulk delete with partial-success semantics and HTTP 207 Multi-Status

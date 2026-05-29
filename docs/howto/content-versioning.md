@@ -1,3 +1,11 @@
+---
+title: "Content Versioning の実装ガイド"
+category: product
+tags: [versioning, append-only, rollback, history, content]
+difficulty: intermediate
+related: [document-versioning, article-versioning-api, draft-publish-workflow]
+---
+
 # Content Versioning の実装ガイド
 
 ## 概要

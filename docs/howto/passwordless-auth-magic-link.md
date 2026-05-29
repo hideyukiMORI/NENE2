@@ -1,3 +1,11 @@
+---
+title: "Passwordless Auth (Magic Link)"
+category: auth
+tags: [passwordless, magic-link, one-time-token, email-auth]
+difficulty: intermediate
+related: [magic-link-authentication, otp-authentication, one-time-secrets]
+---
+
 # Passwordless Auth (Magic Link)
 
 パスワードレス認証（Magic Link）の実装ガイド。メールアドレスだけで認証できる

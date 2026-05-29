@@ -1,3 +1,11 @@
+---
+title: "How-to: Note Management with Tags"
+category: product
+tags: [notes, tags, full-text-search, ownership, crud]
+difficulty: intermediate
+related: [note-management-ownership, tagging-system]
+---
+
 # How-to: Note Management with Tags
 
 ## Overview

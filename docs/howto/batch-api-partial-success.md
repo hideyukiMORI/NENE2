@@ -1,3 +1,11 @@
+---
+title: "How-to: Batch API with Partial Success"
+category: api-design
+tags: [batch, partial-success, validation, bulk-operations]
+difficulty: intermediate
+related: [bulk-operations-partial-success, implement-bulk-endpoint, bulk-status-update]
+---
+
 # How-to: Batch API with Partial Success
 
 > **FT reference**: FT294 (`NENE2-FT/batchlog`) — Batch INSERT with partial success: MAX_BATCH=50 guard, per-item independent validation with index tracking, mixed created/errors response (200 always), DB CHECK constraints, strict JSON type validation via `is_int()`, 36 tests / 79 assertions PASS.

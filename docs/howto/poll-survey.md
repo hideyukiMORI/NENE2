@@ -1,3 +1,11 @@
+---
+title: "How-to: Poll / Survey API"
+category: product
+tags: [poll, survey, voting, duplicate-prevention]
+difficulty: intermediate
+related: [voting-system, live-poll-system, feedback-collection]
+---
+
 # How-to: Poll / Survey API
 
 This guide shows how to build a poll and survey system with duplicate vote prevention using NENE2.

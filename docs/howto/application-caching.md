@@ -1,3 +1,11 @@
+---
+title: "Application Caching の実装ガイド"
+category: infrastructure
+tags: [caching, cache-aside, ttl, invalidation, performance]
+difficulty: intermediate
+related: [circuit-breaker, add-database-endpoint]
+---
+
 # Application Caching の実装ガイド
 
 ## 概要

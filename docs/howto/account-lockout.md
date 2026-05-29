@@ -1,3 +1,11 @@
+---
+title: "Account Lockout (Brute-Force Protection)"
+category: security
+tags: [brute-force, lockout, argon2id, rate-limiting, authentication]
+difficulty: intermediate
+related: [password-auth-argon2id, add-rate-limiting, pin-verification-lockout]
+---
+
 # Account Lockout (Brute-Force Protection)
 
 > **FT reference**: FT280 (`NENE2-FT/lockoutlog`) — Account lockout: 5 failed attempts trigger 15-minute lockout (423 Locked), correct password blocked while locked, success resets counter, Argon2id password verification, MySQL integration tests, 27 tests pass / 5 skipped (MySQL), 44 assertions PASS.

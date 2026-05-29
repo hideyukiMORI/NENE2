@@ -1,3 +1,11 @@
+---
+title: "How to enforce resource ownership (IDOR prevention)"
+category: security
+tags: [idor, ownership, access-control, authorization, security]
+difficulty: intermediate
+related: [delegated-access-grants, mass-assignment-defence, tenant-isolation]
+---
+
 # How to enforce resource ownership (IDOR prevention)
 
 Insecure Direct Object Reference (IDOR) is the #1 API vulnerability (OWASP API Security Top 10).

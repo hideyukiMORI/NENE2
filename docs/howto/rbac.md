@@ -1,3 +1,11 @@
+---
+title: "How-To: Role-Based Access Control (RBAC)"
+category: auth
+tags: [rbac, jwt, bearer-token, authorization, roles]
+difficulty: intermediate
+related: [rbac-jwt-auth, add-jwt-authentication, bearer-token-middleware]
+---
+
 # How-To: Role-Based Access Control (RBAC)
 
 Implementing role-based access control with JWT claims and `BearerTokenMiddleware`.

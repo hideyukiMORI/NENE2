@@ -1,3 +1,11 @@
+---
+title: "How-to: Bookmark API"
+category: product
+tags: [bookmarks, collections, deduplication, idor-prevention]
+difficulty: beginner
+related: [bookmark-system, url-bookmark-api, content-collection]
+---
+
 # How-to: Bookmark API
 
 > **FT reference**: FT295 (`NENE2-FT/bookmarklog`) — Bookmark management: UNIQUE(user_id, item_id) prevents duplicate bookmarks, collection grouping with optional filter, user-scoped access (IDOR prevention), 409 on duplicate, 22 tests / 64 assertions PASS.

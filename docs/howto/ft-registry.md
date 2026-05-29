@@ -1,3 +1,10 @@
+---
+title: "FT Registry"
+category: getting-started
+tags: [field-trial, registry, reference]
+difficulty: beginner
+---
+
 # FT Registry
 
 FT 番号 → プロジェクト名 → howto ファイルの台帳。

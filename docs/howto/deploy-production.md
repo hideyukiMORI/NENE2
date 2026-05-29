@@ -1,3 +1,10 @@
+---
+title: "Deploy to Production"
+category: infrastructure
+tags: [deploy, docker, production, environment, reverse-proxy]
+difficulty: intermediate
+---
+
 # Deploy to Production
 
 This guide covers the minimum steps to run a NENE2-based application in a production environment: building a production image, managing environment variables securely, and placing a reverse proxy in front.

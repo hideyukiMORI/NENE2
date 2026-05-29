@@ -1,3 +1,11 @@
+---
+title: "Pagination"
+category: api-design
+tags: [pagination, offset, cursor, keyset]
+difficulty: beginner
+related: [offset-cursor-pagination, cursor-pagination, add-pagination]
+---
+
 # Pagination
 
 Two patterns are available for paginating list endpoints: **OFFSET** and **cursor** (keyset). Choose based on your data volume and UI requirements.

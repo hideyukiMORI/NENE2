@@ -1,3 +1,12 @@
+---
+title: "How-to: Idempotency Key API"
+category: api-design
+tags: [idempotency, deduplication, payment, retry]
+difficulty: intermediate
+related: [idempotency-key, idempotency, request-deduplication]
+ft: FT316
+---
+
 # How-to: Idempotency Key API
 
 > **FT reference**: FT316 (`NENE2-FT/idempotencylog`) — Idempotency key pattern for payment API: SHA-256 key hashing, X-Idempotent-Replayed header, duplicate prevention, 15 tests / 25 assertions PASS.

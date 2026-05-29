@@ -1,3 +1,11 @@
+---
+title: "How-to: Subscription / Plan Management API (VULN-A~L)"
+category: product
+tags: [subscription, plan, idor, security-assessment]
+difficulty: advanced
+related: [subscription-plan-management]
+---
+
 # How-to: Subscription / Plan Management API (VULN-A~L)
 
 This guide demonstrates a subscription management API where users subscribe to plans, with duplicate prevention, cancellation, and IDOR protection.

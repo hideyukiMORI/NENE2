@@ -1,3 +1,12 @@
+---
+title: "How-to: Game Score & Leaderboard API"
+category: product
+tags: [leaderboard, scores, ranking, bulk-insert, pagination]
+difficulty: intermediate
+related: [leaderboard-ranking-api, leaderboard-scores, leaderboard-ranking]
+ft: FT259
+---
+
 # How-to: Game Score & Leaderboard API
 
 > **FT reference**: FT259 (`NENE2-FT/scorelog`) — Game score submission with bulk insert (max 100, all-or-nothing), per-player leaderboard with `best_score` aggregation and `play_count`, negative score prevention, pagination, 20 tests PASS.

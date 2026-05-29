@@ -1,3 +1,11 @@
+---
+title: "How-to: Scheduled Reminders API"
+category: product
+tags: [reminders, scheduling, timezone, idor, ownership]
+difficulty: intermediate
+related: [scheduled-publish-article, handle-timezones, timezone-aware-scheduling]
+---
+
 # How-to: Scheduled Reminders API
 
 > **FT reference**: FT235 (`NENE2-FT/reminderlog`) — Scheduled Reminders API

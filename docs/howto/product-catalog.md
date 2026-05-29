@@ -1,3 +1,11 @@
+---
+title: "How-to: Product Catalog API (ATK-01~12)"
+category: product
+tags: [catalog, soft-delete, search, admin-auth, attack-hardening]
+difficulty: intermediate
+related: [product-review-system, shopping-cart-api, soft-delete]
+---
+
 # How-to: Product Catalog API (ATK-01~12)
 
 This guide demonstrates a product catalog API with admin-only write operations, keyword search, and soft delete — covering ATK-01~12 cracker attack vectors.

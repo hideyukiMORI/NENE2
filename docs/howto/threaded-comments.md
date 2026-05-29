@@ -1,3 +1,11 @@
+---
+title: "Threaded Comments"
+category: product
+tags: [comments, threaded, soft-delete, depth-limit]
+difficulty: intermediate
+related: [threaded-comments-api, comment-thread]
+---
+
 # Threaded Comments
 
 Implement self-referencing comment threads with depth limits and soft delete.

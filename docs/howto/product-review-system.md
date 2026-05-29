@@ -1,3 +1,11 @@
+---
+title: "Product Review & Rating System"
+category: product
+tags: [review, rating, cursor-pagination, ownership]
+difficulty: intermediate
+related: [rating-review-api, product-catalog, shopping-cart-api]
+---
+
 # Product Review & Rating System
 
 商品レビュー・評価システムを NENE2 で実装する方法。

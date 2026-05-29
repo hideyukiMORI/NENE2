@@ -1,3 +1,11 @@
+---
+title: "User Preferences Management"
+category: product
+tags: [preferences, settings, typed-values, ownership]
+difficulty: intermediate
+related: [user-preferences-api]
+---
+
 # User Preferences Management
 
 ユーザー設定（Preferences）管理の実装ガイド。

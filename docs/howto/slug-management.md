@@ -1,3 +1,11 @@
+---
+title: "Slug Management — Unique URL Slugs with Collision Resolution and History"
+category: product
+tags: [slug, url, collision-resolution, redirect, history]
+difficulty: intermediate
+related: [slug-url-history, article-versioning-api, content-versioning]
+---
+
 # Slug Management — Unique URL Slugs with Collision Resolution and History
 
 Generate URL-safe slugs from titles, resolve collisions automatically, and keep

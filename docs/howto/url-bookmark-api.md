@@ -1,3 +1,11 @@
+---
+title: "How-to: URL Bookmark API with Tag Filtering"
+category: product
+tags: [bookmark, url, tagging, filtering]
+difficulty: intermediate
+related: [bookmark-api, bookmark-system]
+---
+
 # How-to: URL Bookmark API with Tag Filtering
 
 > **FT reference**: FT265 (`NENE2-FT/linklog`) — URL Bookmark API: UNIQUE URL constraint, comma-separated tag storage, LIKE-based tag matching

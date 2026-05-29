@@ -1,3 +1,11 @@
+---
+title: "How-to: Content Approval Workflow"
+category: product
+tags: [approval, workflow, state-machine, content, moderation]
+difficulty: intermediate
+related: [approval-workflow, content-draft-lifecycle, step-workflow-approval]
+---
+
 # How-to: Content Approval Workflow
 
 > **FT reference**: FT248 (`NENE2-FT/flowlog`) — Content Approval Workflow API

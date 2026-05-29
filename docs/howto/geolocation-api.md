@@ -1,3 +1,12 @@
+---
+title: "How-to: Geolocation API"
+category: api-design
+tags: [geolocation, proximity-search, coordinates, haversine]
+difficulty: intermediate
+related: [geolocation]
+ft: FT296
+---
+
 # How-to: Geolocation API
 
 > **FT reference**: FT296 (`NENE2-FT/geoloclog`) — Geolocation API: Haversine distance calculation, coordinate validation (lat ±90, lng ±180), nearby search with bounding-box pre-filter, max radius clamp (20,000 km), inverted bounding-box guard, ATK-01~12 all BLOCKED, 25 tests / 40 assertions PASS.

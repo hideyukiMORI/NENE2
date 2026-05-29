@@ -1,3 +1,11 @@
+---
+title: "How-to: Shift Management API"
+category: product
+tags: [scheduling, shift, overlap-detection, employee, transactions]
+difficulty: intermediate
+related: [reservation-availability-api, state-machine-audit-log, prevent-double-booking]
+---
+
 # How-to: Shift Management API
 
 > **FT reference**: FT43 (`NENE2-FT/shiftlog`) — Employee Shift Scheduling API

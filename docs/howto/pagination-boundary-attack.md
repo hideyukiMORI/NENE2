@@ -1,3 +1,11 @@
+---
+title: "How-to: Pagination Boundary & Limit Injection"
+category: security
+tags: [pagination, limit-injection, integer-validation, boundary-attack]
+difficulty: intermediate
+related: [pagination-limit-injection, pagination, offset-cursor-pagination]
+---
+
 # How-to: Pagination Boundary & Limit Injection
 
 **FT177 — limitlog**

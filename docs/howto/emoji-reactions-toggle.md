@@ -1,3 +1,11 @@
+---
+title: "How-to: Emoji Reactions with Toggle and Grouped Counts"
+category: product
+tags: [emoji, reactions, toggle, concurrency, unique-constraint]
+difficulty: intermediate
+related: [emoji-reactions-api, emoji-reaction-system, upvote-downvote-api]
+---
+
 # How-to: Emoji Reactions with Toggle and Grouped Counts
 
 > **FT reference**: FT263 (`NENE2-FT/reactionlog`) — Emoji reactions: toggle (add/remove), grouped counts, per-user reaction list

@@ -1,3 +1,11 @@
+---
+title: "How-to: SQL Injection Defence"
+category: security
+tags: [sql-injection, parameterized-queries, like-injection, orderby-injection, attack-hardening]
+difficulty: intermediate
+related: [sql-orderby-injection, dynamic-sort-order-injection, mass-assignment-defence]
+---
+
 # How-to: SQL Injection Defence
 
 > **FT reference**: FT264 (`NENE2-FT/injectionlog`) — SQL injection defence: parameterized queries, LIKE injection, ORDER BY allowlist

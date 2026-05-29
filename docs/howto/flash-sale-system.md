@@ -1,3 +1,12 @@
+---
+title: "How to Build a Flash Sale System with NENE2"
+category: product
+tags: [flash-sale, inventory, time-window, race-condition]
+difficulty: advanced
+related: [flash-sale-api, inventory-management, prevent-double-booking]
+ft: FT140
+---
+
 # How to Build a Flash Sale System with NENE2
 
 This guide walks through building a time-limited, quantity-constrained flash sale system where users can purchase a product at a discounted price during a sale window.

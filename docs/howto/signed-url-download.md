@@ -1,3 +1,11 @@
+---
+title: "How-to: Signed URL for Secure Downloads"
+category: security
+tags: [signed-url, hmac, time-limited, file-download, tamper-detection]
+difficulty: intermediate
+related: [signed-urls, file-upload, file-sharing-api]
+---
+
 # How-to: Signed URL for Secure Downloads
 
 > **FT reference**: FT338 (`NENE2-FT/signedlog`) — HMAC-SHA256 signed URL generation with TTL, tamper detection (401), expiry (410 Gone), resource-bound tokens, and wrong-secret rejection, 16 tests / 40+ assertions PASS.

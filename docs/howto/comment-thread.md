@@ -1,3 +1,11 @@
+---
+title: "How-to: Comment Thread API"
+category: product
+tags: [comments, threads, pagination, moderation, rbac]
+difficulty: intermediate
+related: [threaded-comments, threaded-comments-api, content-report-moderation]
+---
+
 # How-to: Comment Thread API
 
 This guide demonstrates resource-scoped comment threads with pagination, author-only deletion, and admin override.

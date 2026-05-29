@@ -1,3 +1,11 @@
+---
+title: "How-to: Feature Flags API"
+category: infrastructure
+tags: [feature-flags, rollout, percentage, kill-switch, tenant]
+difficulty: intermediate
+related: [feature-flag-api, ab-testing]
+---
+
 # How-to: Feature Flags API
 
 > **FT reference**: FT270 (`NENE2-FT/featureflaglog`) — Feature flag API: priority-chain evaluation (user target → tenant target → globally_enabled → rollout_pct hash), crc32-based deterministic bucket assignment, user/tenant kill switches, flag UNIQUE name constraint, 21 tests / 31 assertions PASS.

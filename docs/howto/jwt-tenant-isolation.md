@@ -1,3 +1,12 @@
+---
+title: "How-to: JWT Multi-Tenant Isolation"
+category: auth
+tags: [jwt, multi-tenant, isolation, idor]
+difficulty: advanced
+related: [jwt-authentication, multi-tenant-isolation, tenant-isolation]
+ft: FT342
+---
+
 # How-to: JWT Multi-Tenant Isolation
 
 > **FT reference**: FT342 (`NENE2-FT/tenantlog`) — Multi-tenant notes API with JWT Bearer authentication, tenant_id embedded in token claims, strict per-tenant query scoping, cross-tenant IDOR blocked with 404, tenant_id never exposed in responses, 13 tests / 30+ assertions PASS.

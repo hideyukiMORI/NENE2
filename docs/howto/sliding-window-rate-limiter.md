@@ -1,3 +1,11 @@
+---
+title: "How-to: Sliding-Window Rate Limiter"
+category: infrastructure
+tags: [rate-limiting, sliding-window, http-429, per-user]
+difficulty: intermediate
+related: [rate-limiting, fixed-window-rate-limiter, quota-management]
+---
+
 # How-to: Sliding-Window Rate Limiter
 
 ## Overview

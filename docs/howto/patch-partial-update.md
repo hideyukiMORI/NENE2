@@ -1,3 +1,11 @@
+---
+title: "How-to: PATCH Partial Update (JSON Merge Patch)"
+category: api-design
+tags: [patch, json-merge-patch, partial-update, etag, immutable-fields]
+difficulty: intermediate
+related: [implement-patch-endpoint, json-merge-patch, optimistic-lock-patch-version]
+---
+
 # How-to: PATCH Partial Update (JSON Merge Patch)
 
 > **FT reference**: FT326 (`NENE2-FT/patchlog`) — JSON Merge Patch (RFC 7396) partial update: null field reset, immutable field rejection, ETag/If-Match, owner-only mutation, 42 tests / 141 assertions PASS.

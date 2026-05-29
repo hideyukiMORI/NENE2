@@ -1,3 +1,11 @@
+---
+title: "ファイルメタデータ管理・共有 API の実装ガイド"
+category: product
+tags: [file-sharing, metadata, permissions, access-control, visibility]
+difficulty: intermediate
+related: [file-sharing-api, enforce-resource-ownership, delegated-access-grants]
+---
+
 # ファイルメタデータ管理・共有 API の実装ガイド
 
 ## 概要

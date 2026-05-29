@@ -1,3 +1,11 @@
+---
+title: "How-to: Pin / Bookmark with Ordering"
+category: product
+tags: [pins, bookmarks, ordering, reorder, user-isolation]
+difficulty: intermediate
+related: [bookmark-api, content-pinning, bookmark-system]
+---
+
 # How-to: Pin / Bookmark with Ordering
 
 > **FT reference**: FT327 (`NENE2-FT/pinlog`) — Per-user article pins with sequential positions, max-pin limit, gap-free recompaction on delete, reorder via PUT, user isolation, VULN assessment, 19 tests / 26 assertions PASS.

@@ -1,3 +1,11 @@
+---
+title: "How-to: Note Management with Ownership"
+category: product
+tags: [notes, ownership, idor, crud, authorization]
+difficulty: intermediate
+related: [note-management-with-tags, enforce-resource-ownership]
+---
+
 # How-to: Note Management with Ownership
 
 > **FT reference**: FT240 (`NENE2-FT/noteslog`) — Note Management API

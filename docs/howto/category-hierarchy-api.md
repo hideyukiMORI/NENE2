@@ -1,3 +1,11 @@
+---
+title: "How-to: Category Hierarchy Tree API"
+category: product
+tags: [hierarchy, tree, recursive-cte, parent-child, categories]
+difficulty: advanced
+related: [hierarchical-data, add-second-entity]
+---
+
 # How-to: Category Hierarchy Tree API
 
 > **FT reference**: FT344 (`NENE2-FT/treelog`) — Category tree with parent_id + depth, immediate children, recursive CTE ancestors/descendants, leaf-only deletion (409 on has-children), 17 tests PASS.

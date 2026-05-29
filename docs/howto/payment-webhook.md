@@ -1,3 +1,11 @@
+---
+title: "Payment Webhook 受信の実装ガイド"
+category: infrastructure
+tags: [webhook, payment, signature-verification, idempotency]
+difficulty: intermediate
+related: [webhook-delivery, inbound-webhook-receiver, webhook-signature-verification]
+---
+
 # Payment Webhook 受信の実装ガイド
 
 ## 概要

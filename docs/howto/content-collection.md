@@ -1,3 +1,11 @@
+---
+title: "コンテンツコレクション"
+category: product
+tags: [collections, visibility, idor-prevention, idempotent, ordering]
+difficulty: intermediate
+related: [collection-api, bookmark-api, content-pinning]
+---
+
 # コンテンツコレクション
 
 記事のキュレーションコレクション（公開/非公開）システムの実装ガイド。

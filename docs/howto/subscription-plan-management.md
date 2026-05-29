@@ -1,3 +1,11 @@
+---
+title: "How-to: Subscription Plan Management"
+category: product
+tags: [subscription, plan, lifecycle, billing]
+difficulty: intermediate
+related: [subscription-plan]
+---
+
 # How-to: Subscription Plan Management
 
 > **FT reference**: FT328 (`NENE2-FT/planlog`) — Plan catalog, per-user subscription lifecycle (subscribe / change / cancel), owner-only access, ATK assessment, 20 tests / 69 assertions PASS.

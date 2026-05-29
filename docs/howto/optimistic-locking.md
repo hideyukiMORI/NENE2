@@ -1,3 +1,11 @@
+---
+title: "Optimistic Locking"
+category: database
+tags: [optimistic-locking, concurrency, lost-update, version-field]
+difficulty: intermediate
+related: [optimistic-concurrency-version, optimistic-locking-etag, add-optimistic-locking]
+---
+
 # Optimistic Locking
 
 Optimistic locking prevents the **lost-update problem** — when two concurrent writers both read the same record, make independent changes, and the second writer silently overwrites the first writer's changes.

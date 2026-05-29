@@ -1,3 +1,11 @@
+---
+title: "TOTP 二要素認証の実装ガイド"
+category: auth
+tags: [totp, two-factor, otp, authentication]
+difficulty: advanced
+related: [otp-authentication, numeric-verification-code]
+---
+
 # TOTP 二要素認証の実装ガイド
 
 ## 概要

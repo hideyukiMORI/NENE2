@@ -1,3 +1,12 @@
+---
+title: "How-to: Invitation / Referral API"
+category: product
+tags: [invitation, referral, token, one-time-use]
+difficulty: intermediate
+related: [invitation-system, user-invitation]
+ft: FT221
+---
+
 # How-to: Invitation / Referral API
 
 This guide shows how to build a token-based invitation system with expiry and one-time use using NENE2.

@@ -1,3 +1,11 @@
+---
+title: "Content Relations — Typed M:N Self-Referential Links"
+category: product
+tags: [relations, self-referential, many-to-many, inverse, typed-links]
+difficulty: intermediate
+related: [article-relations-api, content-collection]
+---
+
 # Content Relations — Typed M:N Self-Referential Links
 
 Link articles (or any resource) to each other using a **join table with a

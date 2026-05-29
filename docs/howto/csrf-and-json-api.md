@@ -1,3 +1,11 @@
+---
+title: "CSRF and JSON APIs"
+category: security
+tags: [csrf, cors, json-api, security, bearer-token]
+difficulty: intermediate
+related: [enforce-resource-ownership, mass-assignment-defence]
+---
+
 # CSRF and JSON APIs
 
 ## CORS ≠ CSRF protection

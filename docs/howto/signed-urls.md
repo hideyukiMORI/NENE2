@@ -1,3 +1,11 @@
+---
+title: "Signed URLs"
+category: security
+tags: [signed-url, hmac, presigned, time-limited, token]
+difficulty: intermediate
+related: [signed-url-download, file-sharing-api, file-upload]
+---
+
 # Signed URLs
 
 Signed URLs provide time-limited, resource-scoped access to protected resources without requiring the caller to authenticate with an account. The pattern is used for file downloads, presigned upload slots, and any case where you need to share temporary access with a third party.

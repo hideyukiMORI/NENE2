@@ -1,3 +1,11 @@
+---
+title: "ウェイティングリスト管理"
+category: product
+tags: [waitlist, state-machine, queue, admin]
+difficulty: intermediate
+related: [waitlist-system]
+---
+
 # ウェイティングリスト管理
 
 位置ベースのウェイティングリスト（順番待ち）の実装ガイド。

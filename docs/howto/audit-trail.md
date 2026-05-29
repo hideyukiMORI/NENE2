@@ -1,3 +1,11 @@
+---
+title: "HOWTO: Audit Trail — Recording Who Changed What"
+category: security
+tags: [audit-trail, immutable-log, jwt, change-tracking, compliance]
+difficulty: intermediate
+related: [asset-checkout, state-machine-audit-log]
+---
+
 # HOWTO: Audit Trail — Recording Who Changed What
 
 > **FT reference**: FT268 (`NENE2-FT/auditlog`) — append-only audit trail: JWT actor extraction, before/after payload snapshots, immutable audit table, unauthenticated audit read gap

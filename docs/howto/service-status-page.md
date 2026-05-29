@@ -1,3 +1,11 @@
+---
+title: "How-To: Service Status Page API"
+category: product
+tags: [status-page, incident-management, admin-auth, state-machine]
+difficulty: intermediate
+related: [state-machine-audit-log, content-approval-workflow]
+---
+
 # How-To: Service Status Page API
 
 > **NENE2 Field Trial 185** — Component health tracking, incident lifecycle management,

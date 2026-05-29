@@ -1,3 +1,11 @@
+---
+title: "How-to: Step-Based Workflow with Approval"
+category: infrastructure
+tags: [workflow, state-machine, approval, multi-step]
+difficulty: advanced
+related: [multi-step-workflow, approval-workflow, content-approval-workflow]
+---
+
 # How-to: Step-Based Workflow with Approval
 
 > **FT reference**: FT247 (`NENE2-FT/stepflowlog`) — Step Workflow Approval API
