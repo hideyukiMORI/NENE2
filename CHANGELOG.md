@@ -8,6 +8,10 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+---
+
+## [1.5.328] — 2026-05-30
+
 ### Fixed
 - `Nene2\Http\RuntimeApplicationFactory` — framework レベルの Problem Details（`validation-failed` / 404 / 405 / 413 / 500 等）が `PROBLEM_DETAILS_BASE_URL` を無視して常に `https://nene2.dev/problems/` を返していたバグを修正。`$problemDetailsBaseUrl` コンストラクタ引数（既定 `https://nene2.dev/problems/`）を追加し、内部の `ProblemDetailsResponseFactory` へ配線。consumer は `AppConfig::$problemDetailsBaseUrl` を渡すだけで framework / domain 双方の Problem `type` namespace が揃う。既定値は据え置きのため既存 consumer は無変更で従来動作（#1355）
 
