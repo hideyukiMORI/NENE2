@@ -49,6 +49,22 @@ final class HttpRuntimeTest extends TestCase
         self::assertSame('Not Found', $payload['title']);
     }
 
+    public function testProblemDetailsBaseUrlAppliesToFrameworkErrors(): void
+    {
+        $factory = new Psr17Factory();
+        $application = (new RuntimeApplicationFactory(
+            $factory,
+            $factory,
+            problemDetailsBaseUrl: 'https://example.dev/problems/',
+        ))->create();
+
+        $response = $application->handle($factory->createServerRequest('GET', 'https://example.test/missing'));
+        $payload = $this->decodeJson($response);
+
+        self::assertSame(404, $response->getStatusCode());
+        self::assertSame('https://example.dev/problems/not-found', $payload['type']);
+    }
+
     public function testHealthEndpointRunsThroughRuntime(): void
     {
         $factory = new Psr17Factory();
