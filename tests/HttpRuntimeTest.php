@@ -9,6 +9,8 @@ use Nene2\Http\HealthStatus;
 use Nene2\Http\JsonResponseFactory;
 use Nene2\Http\RuntimeApplicationFactory;
 use Nene2\Routing\Router;
+use Nene2\Validation\ValidationError;
+use Nene2\Validation\ValidationException;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
@@ -63,6 +65,39 @@ final class HttpRuntimeTest extends TestCase
 
         self::assertSame(404, $response->getStatusCode());
         self::assertSame('https://example.dev/problems/not-found', $payload['type']);
+    }
+
+    public function testProblemDetailsBaseUrlAppliesToValidationFailures(): void
+    {
+        $factory = new Psr17Factory();
+        $application = (new RuntimeApplicationFactory(
+            $factory,
+            $factory,
+            routeRegistrars: [
+                static function (Router $router): void {
+                    $router->get(
+                        '/validate',
+                        static function (ServerRequestInterface $req): ResponseInterface {
+                            throw new ValidationException([
+                                new ValidationError('name', 'name is required', 'required'),
+                            ]);
+                        },
+                    );
+                },
+            ],
+            problemDetailsBaseUrl: 'https://example.dev/problems/',
+        ))->create();
+
+        $response = $application->handle($factory->createServerRequest('GET', 'https://example.test/validate'));
+        $payload = $this->decodeJson($response);
+
+        self::assertSame(422, $response->getStatusCode());
+        self::assertSame('application/problem+json; charset=utf-8', $response->getHeaderLine('Content-Type'));
+        self::assertSame('https://example.dev/problems/validation-failed', $payload['type']);
+        self::assertSame('Validation Failed', $payload['title']);
+        self::assertSame([
+            ['field' => 'name', 'message' => 'name is required', 'code' => 'required'],
+        ], $payload['errors']);
     }
 
     public function testHealthEndpointRunsThroughRuntime(): void
