@@ -75,6 +75,12 @@ final readonly class RuntimeApplicationFactory
      *                                 this limit are rejected with a 413 Problem Details response.
      *                                 Defaults to 1 MiB (1 048 576 bytes). Increase for bulk-import
      *                                 or large-payload endpoints.
+     * @param string $problemDetailsBaseUrl Base URL prefixed to the `type` field of framework-level
+     *                                       Problem Details responses (validation failures, 404, 405,
+     *                                       413, 500, etc.). Pass `AppConfig::$problemDetailsBaseUrl`
+     *                                       (env `PROBLEM_DETAILS_BASE_URL`) so framework and domain
+     *                                       errors share the same `type` namespace. Defaults to
+     *                                       `https://nene2.dev/problems/` for backward compatibility.
      */
     public function __construct(
         private ResponseFactoryInterface $responseFactory,
@@ -94,6 +100,7 @@ final readonly class RuntimeApplicationFactory
         private array $machineApiKeyProtectedPathPrefixes = [],
         private array $machineApiKeyProtectedMethods = [],
         private int $requestMaxBodyBytes = 1_048_576,
+        private string $problemDetailsBaseUrl = 'https://nene2.dev/problems/',
     ) {
     }
 
@@ -114,7 +121,11 @@ final readonly class RuntimeApplicationFactory
         ]);
 
         $jsonResponses = new JsonResponseFactory($this->responseFactory, $this->streamFactory);
-        $problemDetails = new ProblemDetailsResponseFactory($this->responseFactory, $this->streamFactory);
+        $problemDetails = new ProblemDetailsResponseFactory(
+            $this->responseFactory,
+            $this->streamFactory,
+            $this->problemDetailsBaseUrl,
+        );
         $framework = new FrameworkInfo();
 
         $router = (new Router())
