@@ -8,6 +8,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Fixed
+- `docker/php/Dockerfile` — `output_buffering=4096` / `display_errors=Off` / `log_errors=On` / `expose_php=Off` を追加。PHP 起動時 Warning がレスポンスに漏洩しセキュリティヘッダーを無効化していた問題（FIND-01 / #1361）
+- `docker/php/Dockerfile` — `ServerTokens Prod` / `ServerSignature Off` / `Header always unset X-Powered-By` を Apache に追加。サーバー構成情報（Apache バージョン・PHP バージョン）がレスポンスヘッダーに露出していた問題（FIND-03 / #1361）
+- `src/Auth/LocalBearerTokenVerifier` — `exp` クレームの存在と整数型を必須化。`exp` なし JWT が永久に有効だった問題（FIND-02 / #1361）
+- `public_html/openapi.php` — `APP_ENV=production` 時に 404 を返すガードを追加。本番環境で全ルート・スキーマ・バージョン情報が認証不要で取得できた問題（FIND-04 / #1361）
+- `src/Database/PdoConnectionFactory` — MySQL / PostgreSQL DSN に `connect_timeout=3` を追加。DB 未起動時のルート存在タイミングオラクル（有効ルートの列挙）を緩和（FIND-05 / #1361）
+- `docs/openapi/openapi.yaml` — `servers[0].url` を `http://localhost:8080` → `http://localhost:8200` に更新（#1361）
+
 ---
 
 ## [1.5.328] — 2026-05-30

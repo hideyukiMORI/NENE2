@@ -63,7 +63,7 @@ final class ProtectedEndpointHttpTest extends TestCase
 
     public function testValidTokenReturns200WithClaims(): void
     {
-        $token = $this->verifier->issue(['sub' => 'user-42', 'scope' => 'read:system']);
+        $token = $this->verifier->issue(['sub' => 'user-42', 'exp' => time() + 3600, 'scope' => 'read:system']);
         $response = $this->request('GET', '/examples/protected', ['Authorization' => 'Bearer ' . $token]);
 
         $payload = $this->decodeBody($response);

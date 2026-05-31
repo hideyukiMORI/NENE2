@@ -53,7 +53,11 @@ final readonly class LocalBearerTokenVerifier implements TokenVerifierInterface,
             throw new TokenVerificationException('Token is not yet valid.');
         }
 
-        if (isset($claims['exp']) && is_int($claims['exp']) && $claims['exp'] < time()) {
+        if (!isset($claims['exp']) || !is_int($claims['exp'])) {
+            throw new TokenVerificationException('Token must contain a numeric exp claim.');
+        }
+
+        if ($claims['exp'] < time()) {
             throw new TokenVerificationException('Token has expired.');
         }
 
