@@ -8,6 +8,10 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+---
+
+## [1.5.329] — 2026-05-31
+
 ### Fixed
 - `docker/php/Dockerfile` — `output_buffering=4096` / `display_errors=Off` / `log_errors=On` / `expose_php=Off` を追加。PHP 起動時 Warning がレスポンスに漏洩しセキュリティヘッダーを無効化していた問題（FIND-01 / #1361）
 - `docker/php/Dockerfile` — `ServerTokens Prod` / `ServerSignature Off` / `Header always unset X-Powered-By` を Apache に追加。サーバー構成情報（Apache バージョン・PHP バージョン）がレスポンスヘッダーに露出していた問題（FIND-03 / #1361）
