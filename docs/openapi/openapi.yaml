@@ -5,7 +5,7 @@ info:
   description: >
     NENE2 API contract. This file is the source of truth for public JSON APIs.
 servers:
-  - url: http://localhost:8080
+  - url: http://localhost:8200
     description: Local Docker development server
 tags:
   - name: System

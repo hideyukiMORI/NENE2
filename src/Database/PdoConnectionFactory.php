@@ -49,7 +49,7 @@ final readonly class PdoConnectionFactory implements DatabaseConnectionFactoryIn
         return match ($this->config->adapter) {
             'sqlite' => $this->sqliteDsn(),
             'mysql' => sprintf(
-                'mysql:host=%s;port=%d;dbname=%s;charset=%s',
+                'mysql:host=%s;port=%d;dbname=%s;charset=%s;connect_timeout=3',
                 $this->config->host,
                 $this->config->port,
                 $this->config->name,
@@ -61,7 +61,7 @@ final readonly class PdoConnectionFactory implements DatabaseConnectionFactoryIn
             // DATABASE_URL with ?options=--client_encoding%3DUTF8 or issue a
             // SET client_encoding query after the connection is established.
             'pgsql' => sprintf(
-                'pgsql:host=%s;port=%d;dbname=%s',
+                'pgsql:host=%s;port=%d;dbname=%s;connect_timeout=3',
                 $this->config->host,
                 $this->config->port,
                 $this->config->name,
