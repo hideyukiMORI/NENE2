@@ -148,6 +148,10 @@ Auto-generated from each guide's frontmatter `tags`. Regenerate with `composer h
 
 - [How-to: Data Export API](data-export-api.md)
 
+## `atk` (1)
+
+- [Live Container Penetration Testing](live-penetration-testing.md)
+
 ## `atomic` (2)
 
 - [Database Transactions](transactions.md)
@@ -502,6 +506,10 @@ Auto-generated from each guide's frontmatter `tags`. Regenerate with `composer h
 
 - [How-to: CQRS Pattern](cqrs-pattern.md)
 - [How-to: Event Sourcing & CQRS API](event-sourcing-cqrs-api.md)
+
+## `cracker-mindset` (1)
+
+- [Live Container Penetration Testing](live-penetration-testing.md)
 
 ## `credits` (1)
 
@@ -1279,6 +1287,10 @@ Auto-generated from each guide's frontmatter `tags`. Regenerate with `composer h
 
 - [How-to: Dynamic Filter Query (Dynamic WHERE Clause)](dynamic-filter-query.md)
 
+## `live-test` (1)
+
+- [Live Container Penetration Testing](live-penetration-testing.md)
+
 ## `localization` (1)
 
 - [How-to: Multilingual Content API](multilingual-content.md)
@@ -1639,6 +1651,10 @@ Auto-generated from each guide's frontmatter `tags`. Regenerate with `composer h
 
 - [How to use PostgreSQL](use-postgresql.md)
 - [SQL injection defense](sql-injection.md)
+
+## `penetration-testing` (1)
+
+- [Live Container Penetration Testing](live-penetration-testing.md)
 
 ## `per-user` (2)
 
@@ -2100,6 +2116,10 @@ Auto-generated from each guide's frontmatter `tags`. Regenerate with `composer h
 
 - [How-to: Subscription / Plan Management API (VULN-A~L)](subscription-plan.md)
 - [How-to: Wish List API (VULN-A~L Security Assessment)](wish-list-api.md)
+
+## `security-hardening` (1)
+
+- [Live Container Penetration Testing](live-penetration-testing.md)
 
 ## `self-referential` (3)
 

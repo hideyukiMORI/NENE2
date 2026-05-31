@@ -100,7 +100,7 @@ Auto-generated from each guide's frontmatter (`category` / `difficulty` / `tags`
 | [TOTP 二要素認証の実装ガイド](totp-authentication.md) | advanced | `totp` `two-factor` `otp` `authentication` |
 | [User Invitation System](user-invitation.md) | intermediate | `invitation` `token` `expiry` `email` |
 
-### Security (35)
+### Security (36)
 
 | Guide | Difficulty | Tags |
 |---|---|---|
@@ -132,6 +132,7 @@ Auto-generated from each guide's frontmatter (`category` / `difficulty` / `tags`
 | [How-to: URL Shortener with SSRF Prevention](url-shortener-ssrf-prevention.md) | advanced | `ssrf` `url-shortener` `private-ip` `mass-assignment` |
 | [How-to: Webhook Signature Verification with HMAC-SHA256](webhook-signature-verification.md) | advanced | `webhook` `hmac` `signature` `replay-attack` `timing-safe` |
 | [HOWTO: Audit Trail — Recording Who Changed What](audit-trail.md) | intermediate | `audit-trail` `immutable-log` `jwt` `change-tracking` `compliance` |
+| [Live Container Penetration Testing](live-penetration-testing.md) | advanced | `penetration-testing` `cracker-mindset` `live-test` `security-hardening` `atk` |
 | [Mass Assignment Defence](mass-assignment.md) | beginner | `mass-assignment` `dto` `whitelist` `input-validation` |
 | [Personal Data Export](personal-data-export.md) | intermediate | `gdpr` `data-export` `pii` `download-token` `expiry` |
 | [Prevent CSV / Spreadsheet Formula Injection on Export](csv-export-formula-injection.md) | intermediate | `csv` `formula-injection` `export` `sanitization` `rfc-4180` |
