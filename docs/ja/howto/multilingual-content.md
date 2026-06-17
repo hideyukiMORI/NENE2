@@ -188,7 +188,7 @@ CREATE TABLE IF NOT EXISTS article_translations (
 **攻撃**: 認証情報なしでアーティクルを作成または変更する。
 
 ```bash
-curl -s -X POST http://localhost:8080/articles \
+curl -s -X POST http://localhost:8200/articles \
   -H 'Content-Type: application/json' \
   -d '{"default_locale":"en","published":true}'
 ```
@@ -238,7 +238,7 @@ PUT /articles/1/translations/en" OR "1"="1
 
 ```bash
 # 攻撃者はアーティクル ID 1 が他のユーザーによって作成されたことを知っている
-curl -s -X PUT http://localhost:8080/articles/1/translations/fr \
+curl -s -X PUT http://localhost:8200/articles/1/translations/fr \
   -H 'Content-Type: application/json' \
   -d '{"title":"Hacked","body":"Attacker content"}'
 ```
@@ -327,7 +327,7 @@ PUT /articles/1/translations/fra       → 3 文字の ISO 639-2 コード
 **攻撃**: 存在しないアーティクル ID を対象にする。
 
 ```bash
-curl -s -X PUT http://localhost:8080/articles/99999/translations/en \
+curl -s -X PUT http://localhost:8200/articles/99999/translations/en \
   -H 'Content-Type: application/json' \
   -d '{"title":"Ghost","body":"Body"}'
 ```

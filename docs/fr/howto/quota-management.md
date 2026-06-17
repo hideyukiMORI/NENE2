@@ -188,7 +188,7 @@ La vérification stricte `is_int()` rejette les floats et les chaînes JSON. `li
 **Attaque** : Créer une politique de quota ou consommer au nom de n'importe quel utilisateur sans credentials.
 
 ```bash
-curl -s -X PUT http://localhost:8080/quotas/user-123/api-calls \
+curl -s -X PUT http://localhost:8200/quotas/user-123/api-calls \
   -H 'Content-Type: application/json' \
   -d '{"window":"daily","limit_count":10}'
 ```
@@ -249,7 +249,7 @@ POST /quotas/user-1/" OR "1"="1/consume
 **Attaque** : Appeler `POST .../consume` pour un utilisateur/ressource sans politique configurée.
 
 ```bash
-curl -s -X POST http://localhost:8080/quotas/user-ghost/api-calls/consume
+curl -s -X POST http://localhost:8200/quotas/user-ghost/api-calls/consume
 ```
 
 **Observé** : `findPolicy()` retourne `null` → `404 Not Found` avec une réponse Problem Details.
@@ -330,7 +330,7 @@ POST /quotas/user-1/; DROP TABLE quota_usage;--/consume
 **Attaque** : Réinitialiser le compteur de quota d'un utilisateur différent pour contourner leur limitation.
 
 ```bash
-curl -s -X POST http://localhost:8080/quotas/target-user/api-calls/reset
+curl -s -X POST http://localhost:8200/quotas/target-user/api-calls/reset
 ```
 
 **Observé** : `200 OK` — pas de vérification de propriété. N'importe quel appelant peut réinitialiser l'utilisation du quota de n'importe quel utilisateur, re-activant immédiatement leur accès.

@@ -114,10 +114,10 @@ CREATE INDEX IF NOT EXISTS idx_notes_owner ON notes (owner_id);
 **Attaque** : Se faire passer pour un autre utilisateur en envoyant son ID dans l'en-tête.
 
 ```bash
-curl -s -X GET http://localhost:8080/notes \
+curl -s -X GET http://localhost:8200/notes \
   -H 'X-Auth-User: alice'
 
-curl -s -X GET http://localhost:8080/notes \
+curl -s -X GET http://localhost:8200/notes \
   -H 'X-Auth-User: bob'
 ```
 
@@ -146,7 +146,7 @@ X-Auth-User: alice\r\nX-Injected: evil
 **Attaque** : Deviner ou énumérer les IDs de notes appartenant à un autre utilisateur.
 
 ```bash
-curl -s http://localhost:8080/notes/1 -H 'X-Auth-User: bob'
+curl -s http://localhost:8200/notes/1 -H 'X-Auth-User: bob'
 # La note 1 a été créée par alice
 ```
 
@@ -190,7 +190,7 @@ curl -s http://localhost:8080/notes/1 -H 'X-Auth-User: bob'
 **Attaque** : Envoyer une requête sans l'en-tête `X-Auth-User`.
 
 ```bash
-curl -s http://localhost:8080/notes
+curl -s http://localhost:8200/notes
 ```
 
 **Observé** : `getHeaderLine('X-Auth-User')` retourne `""`. Après `trim()` c'est toujours `""`. `$userId !== ''` échoue → `resolveAuthUser()` retourne `null` → `401 Unauthorized` avec une réponse Problem Details structurée.
@@ -205,7 +205,7 @@ curl -s http://localhost:8080/notes
 
 ```bash
 # En supposant que 'admin' est un utilisateur spécial
-curl -s -X POST http://localhost:8080/notes \
+curl -s -X POST http://localhost:8200/notes \
   -H 'X-Auth-User: admin' \
   -H 'Content-Type: application/json' \
   -d '{"title":"Admin note"}'
@@ -268,8 +268,8 @@ GET /notes/1.5
 **Attaque** : DELETE d'un ID de note qui n'existe pas ou appartient à un autre utilisateur.
 
 ```bash
-curl -s -X DELETE http://localhost:8080/notes/99999 -H 'X-Auth-User: alice'
-curl -s -X DELETE http://localhost:8080/notes/1    -H 'X-Auth-User: eve'
+curl -s -X DELETE http://localhost:8200/notes/99999 -H 'X-Auth-User: alice'
+curl -s -X DELETE http://localhost:8200/notes/1    -H 'X-Auth-User: eve'
 # (la note 1 appartient à alice)
 ```
 

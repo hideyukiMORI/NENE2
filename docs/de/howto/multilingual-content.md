@@ -188,7 +188,7 @@ Wichtige Designentscheidungen:
 **Angriff**: Artikel ohne Anmeldedaten erstellen oder ändern.
 
 ```bash
-curl -s -X POST http://localhost:8080/articles \
+curl -s -X POST http://localhost:8200/articles \
   -H 'Content-Type: application/json' \
   -d '{"default_locale":"en","published":true}'
 ```
@@ -238,7 +238,7 @@ PUT /articles/1/translations/en" OR "1"="1
 
 ```bash
 # Angreifer kennt Artikel-ID 1, die von einem anderen Benutzer erstellt wurde
-curl -s -X PUT http://localhost:8080/articles/1/translations/fr \
+curl -s -X PUT http://localhost:8200/articles/1/translations/fr \
   -H 'Content-Type: application/json' \
   -d '{"title":"Hacked","body":"Attacker content"}'
 ```
@@ -327,7 +327,7 @@ PUT /articles/1/translations/fra       → Dreistelliger ISO-639-2-Code
 **Angriff**: Eine Artikel-ID angeben, die nicht existiert.
 
 ```bash
-curl -s -X PUT http://localhost:8080/articles/99999/translations/en \
+curl -s -X PUT http://localhost:8200/articles/99999/translations/en \
   -H 'Content-Type: application/json' \
   -d '{"title":"Ghost","body":"Body"}'
 ```

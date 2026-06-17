@@ -16,7 +16,7 @@ docker compose up -d app
 验证 API 是否可访问：
 
 ```bash
-curl -i http://localhost:8080/health
+curl -i http://localhost:8200/health
 ```
 
 MCP 服务器是 stdio 进程。它不是 HTTP 服务器——需要由 MCP 客户端启动。

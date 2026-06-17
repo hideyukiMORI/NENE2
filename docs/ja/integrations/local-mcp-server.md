@@ -23,10 +23,10 @@ NENE2 にはローカル専用の stdio MCP サーバーが含まれています
 docker compose run --rm app php tools/local-mcp-server.php
 ```
 
-デフォルトでは `http://localhost:8080` のローカル API を呼び出します。必要に応じてリポジトリ外でベース URL を上書きします:
+デフォルトでは `http://localhost:8200` のローカル API を呼び出します。必要に応じてリポジトリ外でベース URL を上書きします:
 
 ```bash
-docker compose run --rm -e NENE2_LOCAL_API_BASE_URL=http://localhost:8080 app php tools/local-mcp-server.php
+docker compose run --rm -e NENE2_LOCAL_API_BASE_URL=http://localhost:8200 app php tools/local-mcp-server.php
 ```
 
 Compose の `app` サービスに対して Docker 内でサーバーを実行する場合は、サービス名を API ベース URL として使用します:
@@ -76,7 +76,7 @@ Write ツール（`createExampleNote`・`updateExampleNoteById`・`deleteExample
 ローカル MCP サーバーで許可される操作:
 
 - コミットされた MCP カタログを読み取る
-- `http://localhost:8080/` と他の文書化されたローカル API ルートを呼び出す
+- `http://localhost:8200/` と他の文書化されたローカル API ルートを呼び出す
 - HTTP レスポンスの `X-Request-Id` メタデータを返す
 - `docs/integrations/local-ai-commands.md` の文書化された検証コマンドを実行する
 - コミットされたプロジェクトドキュメントを読み取ってプロジェクト構造に関する質問に答える
@@ -90,7 +90,7 @@ Write ツール（`createExampleNote`・`updateExampleNoteById`・`deleteExample
 許可される例:
 
 ```text
-NENE2_LOCAL_API_BASE_URL=http://localhost:8080
+NENE2_LOCAL_API_BASE_URL=http://localhost:8200
 NENE2_LOCAL_MCP_API_KEY=<リポジトリ外で設定する>
 ```
 

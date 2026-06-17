@@ -200,7 +200,7 @@ Escolhas principais de design:
 **Ataque**: Criar ou modificar artigos sem nenhuma credencial.
 
 ```bash
-curl -s -X POST http://localhost:8080/articles \
+curl -s -X POST http://localhost:8200/articles \
   -H 'Content-Type: application/json' \
   -d '{"default_locale":"en","published":true}'
 ```
@@ -255,7 +255,7 @@ PUT /articles/1/translations/en" OR "1"="1
 
 ```bash
 # O atacante sabe que o artigo ID 1 foi criado por outro usuário
-curl -s -X PUT http://localhost:8080/articles/1/translations/fr \
+curl -s -X PUT http://localhost:8200/articles/1/translations/fr \
   -H 'Content-Type: application/json' \
   -d '{"title":"Hacked","body":"Attacker content"}'
 ```
@@ -351,7 +351,7 @@ PUT /articles/1/translations/fra       → código ISO 639-2 de três letras
 **Ataque**: Alvejar um ID de artigo que não existe.
 
 ```bash
-curl -s -X PUT http://localhost:8080/articles/99999/translations/en \
+curl -s -X PUT http://localhost:8200/articles/99999/translations/en \
   -H 'Content-Type: application/json' \
   -d '{"title":"Ghost","body":"Body"}'
 ```

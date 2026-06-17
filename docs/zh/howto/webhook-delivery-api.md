@@ -225,7 +225,7 @@ POST /deliveries/9999/retry
 
 ### ATK-02 — 注册包含内部/私有 URL 的 Webhook（SSRF）⚠️ EXPOSED
 
-**攻击**：攻击者注册 `url: "http://169.254.169.254/latest/meta-data"`（AWS 元数据端点）或 `http://localhost:8080/admin`。事件分发时，服务器请求内部 URL。
+**攻击**：攻击者注册 `url: "http://169.254.169.254/latest/meta-data"`（AWS 元数据端点）或 `http://localhost:8200/admin`。事件分发时，服务器请求内部 URL。
 **结果**：EXPOSED — webhooklog FT 对已注册 URL 没有实现 URL 验证或 SSRF 阻断。在生产环境中，注册前应验证 URL 解析到公开 IP（非回环、私有 RFC1918、链路本地或元数据服务）。SSRF 阻断模式参见 `docs/howto/url-shortener-ssrf-prevention.md`。
 
 ---

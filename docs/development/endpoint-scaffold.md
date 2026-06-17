@@ -107,7 +107,7 @@ docker compose run --rm app composer check
 For endpoints served by Docker, run a local smoke check:
 
 ```bash
-curl -i http://localhost:8080/examples/ping
+curl -i http://localhost:8200/examples/ping
 ```
 
 ## MCP Relationship

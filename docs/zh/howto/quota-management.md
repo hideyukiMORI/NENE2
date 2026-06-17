@@ -188,7 +188,7 @@ if ($limitCount < 1) {
 **攻击**：无凭证即为任意用户创建配额策略或消耗配额。
 
 ```bash
-curl -s -X PUT http://localhost:8080/quotas/user-123/api-calls \
+curl -s -X PUT http://localhost:8200/quotas/user-123/api-calls \
   -H 'Content-Type: application/json' \
   -d '{"window":"daily","limit_count":10}'
 ```
@@ -249,7 +249,7 @@ POST /quotas/user-1/" OR "1"="1/consume
 **攻击**：对没有配置策略的用户/资源调用 `POST .../consume`。
 
 ```bash
-curl -s -X POST http://localhost:8080/quotas/user-ghost/api-calls/consume
+curl -s -X POST http://localhost:8200/quotas/user-ghost/api-calls/consume
 ```
 
 **结果**：`findPolicy()` 返回 `null` → `404 Not Found`，带有 Problem Details 响应。
@@ -330,7 +330,7 @@ POST /quotas/user-1/; DROP TABLE quota_usage;--/consume
 **攻击**：重置不同用户的配额计数器以绕过其限流。
 
 ```bash
-curl -s -X POST http://localhost:8080/quotas/target-user/api-calls/reset
+curl -s -X POST http://localhost:8200/quotas/target-user/api-calls/reset
 ```
 
 **结果**：`200 OK`——无所有权检查。任何调用方都可以重置任意用户的配额使用量，立即恢复其访问。

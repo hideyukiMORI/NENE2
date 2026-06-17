@@ -52,7 +52,7 @@ docker compose up -d app
 Prüfen, ob er läuft:
 
 ```bash
-curl -i http://localhost:8080/health
+curl -i http://localhost:8200/health
 ```
 
 Erwartete Antwort:
@@ -65,12 +65,12 @@ Andere nützliche lokale Endpunkte:
 
 | URL | Beschreibung |
 |---|---|
-| `http://localhost:8080/` | Framework-Informationen |
-| `http://localhost:8080/health` | Gesundheitsprüfung |
-| `http://localhost:8080/examples/ping` | Ping-Beispiel |
-| `http://localhost:8080/examples/notes/{id}` | Notiz nach ID (benötigt DB) |
-| `http://localhost:8080/openapi.php` | Raw OpenAPI JSON |
-| `http://localhost:8080/docs/` | Swagger UI |
+| `http://localhost:8200/` | Framework-Informationen |
+| `http://localhost:8200/health` | Gesundheitsprüfung |
+| `http://localhost:8200/examples/ping` | Ping-Beispiel |
+| `http://localhost:8200/examples/notes/{id}` | Notiz nach ID (benötigt DB) |
+| `http://localhost:8200/openapi.php` | Raw OpenAPI JSON |
+| `http://localhost:8200/docs/` | Swagger UI |
 
 ## 5. Server stoppen
 
@@ -97,7 +97,7 @@ Der Endpunkt `/machine/health` erfordert einen API-Schlüssel. Zum lokalen Teste
 3. Den geschützten Endpunkt aufrufen:
 
 ```bash
-curl -i -H 'X-NENE2-API-Key: local-dev-key' http://localhost:8080/machine/health
+curl -i -H 'X-NENE2-API-Key: local-dev-key' http://localhost:8200/machine/health
 ```
 
 ## Optional: Frontend-Einrichtung
@@ -120,7 +120,7 @@ Jede Anfrage erzeugt eine `X-Request-Id`, die im Antwort-Header zurückgegeben u
 1. App starten: `docker compose up -d app`
 2. Anfrage senden:
    ```bash
-   curl -i http://localhost:8080/health
+   curl -i http://localhost:8200/health
    # X-Request-Id in den Antwort-Headern suchen
    ```
 3. Strukturierte Log-Ausgabe beobachten:
@@ -131,7 +131,7 @@ Jede Anfrage erzeugt eine `X-Request-Id`, die im Antwort-Header zurückgegeben u
 
 Sie können auch Ihre eigene ID angeben:
 ```bash
-curl -i -H 'X-Request-Id: my-trace-id' http://localhost:8080/health
+curl -i -H 'X-Request-Id: my-trace-id' http://localhost:8200/health
 ```
 
 ## Fehlerbehebung
@@ -139,11 +139,11 @@ curl -i -H 'X-Request-Id: my-trace-id' http://localhost:8080/health
 **`composer check` schlägt bei einem sauberen Klon fehl**
 Führen Sie zuerst `docker compose run --rm app composer install` aus. Das `vendor/`-Verzeichnis ist nicht versioniert.
 
-**Port 8080 bereits belegt**
+**Port 8200 bereits belegt**
 Stoppen Sie was ihn nutzt, oder ändern Sie die Port-Zuordnung in `compose.yaml`:
 ```yaml
 ports:
-  - "8081:80"   # stattdessen 8081 verwenden
+  - "8201:80"   # stattdessen 8201 verwenden
 ```
 
 **MySQL-Verbindung bei Migrationen abgelehnt**

@@ -23,10 +23,10 @@ NENE2 包含一个仅限本地的 stdio MCP 服务器：
 docker compose run --rm app php tools/local-mcp-server.php
 ```
 
-默认调用 `http://localhost:8080` 上的本地 API。必要时在仓库外覆盖基础 URL：
+默认调用 `http://localhost:8200` 上的本地 API。必要时在仓库外覆盖基础 URL：
 
 ```bash
-docker compose run --rm -e NENE2_LOCAL_API_BASE_URL=http://localhost:8080 app php tools/local-mcp-server.php
+docker compose run --rm -e NENE2_LOCAL_API_BASE_URL=http://localhost:8200 app php tools/local-mcp-server.php
 ```
 
 在 Docker 中针对 Compose `app` 服务运行服务器时：
@@ -68,7 +68,7 @@ Write 工具（`createExampleNote`、`updateExampleNoteById`、`deleteExampleNot
 ## 本地工具允许的操作
 
 - 读取已提交的 MCP 目录
-- 调用 `http://localhost:8080/` 和其他文档化的本地 API 路由
+- 调用 `http://localhost:8200/` 和其他文档化的本地 API 路由
 - 从 HTTP 响应中返回 `X-Request-Id` 元数据
 - 执行 `docs/integrations/local-ai-commands.md` 中文档化的验证命令
 

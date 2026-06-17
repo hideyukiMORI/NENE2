@@ -159,8 +159,8 @@ if ($raw !== '') {
 **Attack**: 認証情報なしで投稿を承認または却下する。
 
 ```bash
-curl -X POST http://localhost:8080/posts/1/approve
-curl -X POST http://localhost:8080/posts/1/reject
+curl -X POST http://localhost:8200/posts/1/approve
+curl -X POST http://localhost:8200/posts/1/reject
 ```
 
 **Observed**: どちらも `200 OK` で成功する。任意の呼び出し元が任意の投稿を
@@ -177,7 +177,7 @@ curl -X POST http://localhost:8080/posts/1/reject
 **Attack**: まだ `draft` ステータスの投稿を承認しようとする。
 
 ```bash
-curl -X POST http://localhost:8080/posts/1/approve
+curl -X POST http://localhost:8200/posts/1/approve
 # 投稿 1 は draft
 ```
 
@@ -193,9 +193,9 @@ curl -X POST http://localhost:8080/posts/1/approve
 **Attack**: 投稿を 2 度承認する。
 
 ```bash
-curl -X POST http://localhost:8080/posts/1/submit
-curl -X POST http://localhost:8080/posts/1/approve
-curl -X POST http://localhost:8080/posts/1/approve  # 2 回目の approve
+curl -X POST http://localhost:8200/posts/1/submit
+curl -X POST http://localhost:8200/posts/1/approve
+curl -X POST http://localhost:8200/posts/1/approve  # 2 回目の approve
 ```
 
 **Observed**: 3 回目のリクエスト: `Approved` からの `canTransitionTo(Approved)` は `false`
@@ -329,9 +329,9 @@ POST /posts/1.5/approve
 **Attack**: 空ボディまたは `reason` フィールドなしで却下する。
 
 ```bash
-curl -X POST http://localhost:8080/posts/1/reject
-curl -X POST http://localhost:8080/posts/1/reject -d '{}'
-curl -X POST http://localhost:8080/posts/1/reject -d '{"reason": ""}'
+curl -X POST http://localhost:8200/posts/1/reject
+curl -X POST http://localhost:8200/posts/1/reject -d '{}'
+curl -X POST http://localhost:8200/posts/1/reject -d '{"reason": ""}'
 ```
 
 **Observed**: 3 ケースすべてで `reject_reason` は `null` になる。理由なしの却下は
@@ -347,9 +347,9 @@ curl -X POST http://localhost:8080/posts/1/reject -d '{"reason": ""}'
 **Attack**: すでに却下された投稿を再度却下しようとする。
 
 ```bash
-curl -X POST http://localhost:8080/posts/1/submit
-curl -X POST http://localhost:8080/posts/1/reject
-curl -X POST http://localhost:8080/posts/1/reject  # 2 回目の reject
+curl -X POST http://localhost:8200/posts/1/submit
+curl -X POST http://localhost:8200/posts/1/reject
+curl -X POST http://localhost:8200/posts/1/reject  # 2 回目の reject
 ```
 
 **Observed**: `Rejected` からの `canTransitionTo(Rejected)` は `false` を返す

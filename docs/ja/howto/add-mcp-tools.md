@@ -181,7 +181,7 @@ $authMiddleware = $secret !== null
 ## 6. MCP サーバーを起動する
 
 ```bash
-NENE2_LOCAL_API_BASE_URL=http://localhost:8080 \
+NENE2_LOCAL_API_BASE_URL=http://localhost:8200 \
 NENE2_LOCAL_JWT_SECRET=your-local-secret \
 php vendor/hideyukimori/nene2/tools/local-mcp-server.php
 ```

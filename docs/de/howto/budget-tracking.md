@@ -184,8 +184,8 @@ ORDER BY total DESC
 **Angriff**: Alle Konten ohne Anmeldeinformationen auflisten.
 
 ```bash
-curl -s http://localhost:8080/accounts
-curl -s http://localhost:8080/accounts/1/transactions
+curl -s http://localhost:8200/accounts
+curl -s http://localhost:8200/accounts/1/transactions
 ```
 
 **Beobachtet**: Beide Endpunkte geben Daten ohne Authentifizierung zurück. Jeder Aufrufer kann alle Konten und ihre Salden enumerieren.
@@ -316,7 +316,7 @@ Die `balance`-Spalte endet bei `20` statt dem korrekten `-60` — aber noch krit
 **Angriff**: Transaktionen lesen, die einem anderen Benutzerkonto gehören.
 
 ```bash
-curl -s http://localhost:8080/accounts/2/transactions
+curl -s http://localhost:8200/accounts/2/transactions
 ```
 
 **Beobachtet**: Der Endpunkt gibt alle Transaktionen für Konto 2 ohne Eigentümerprüfung zurück. Da keine Authentifizierung vorhanden ist, kann jeder Aufrufer jedes Konto lesen.

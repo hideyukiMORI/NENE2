@@ -225,7 +225,7 @@ POST /deliveries/9999/retry
 
 ### ATK-02 — 内部/プライベート URL への Webhook 登録（SSRF） ⚠️ EXPOSED
 
-**Attack**: 攻撃者が `url: "http://169.254.169.254/latest/meta-data"`（AWS メタデータエンドポイント）または `http://localhost:8080/admin` を登録する。イベントがディスパッチされると、サーバーが内部 URL を取得する。
+**Attack**: 攻撃者が `url: "http://169.254.169.254/latest/meta-data"`（AWS メタデータエンドポイント）または `http://localhost:8200/admin` を登録する。イベントがディスパッチされると、サーバーが内部 URL を取得する。
 **Result**: EXPOSED — webhooklog FT は登録 URL に URL バリデーションや SSRF ブロックを実装していない。本番環境では、登録前に URL がパブリック IP（ループバック、プライベート RFC1918、リンクローカル、メタデータサービスでない）に解決されることを検証してください。SSRF ブロックパターンについては `docs/howto/url-shortener-ssrf-prevention.md` を参照してください。
 
 ---

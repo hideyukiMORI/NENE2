@@ -83,7 +83,7 @@ final class LocalMcpServerTest extends TestCase
             ],
         ]);
 
-        self::assertSame('http://localhost:8080', $client->baseUrl);
+        self::assertSame('http://localhost:8200', $client->baseUrl);
         self::assertSame('/health', $client->path);
         self::assertSame('get', $client->lastMethod);
         self::assertSame(false, $response['result']['isError'] ?? null);
@@ -264,7 +264,7 @@ final class LocalMcpServerTest extends TestCase
         return new LocalMcpServer(
             new LocalMcpToolCatalog(dirname(__DIR__, 2) . '/docs/mcp/tools.json'),
             $client ?? new RecordingLocalMcpHttpClient(new LocalMcpHttpResponse(200, [], '{}')),
-            'http://localhost:8080',
+            'http://localhost:8200',
         );
     }
 }

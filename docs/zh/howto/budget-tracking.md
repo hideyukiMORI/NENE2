@@ -179,8 +179,8 @@ ORDER BY total DESC
 **攻击**：不提供任何凭据列出所有账户。
 
 ```bash
-curl -s http://localhost:8080/accounts
-curl -s http://localhost:8080/accounts/1/transactions
+curl -s http://localhost:8200/accounts
+curl -s http://localhost:8200/accounts/1/transactions
 ```
 
 **观察结果**：两个端点不需要任何认证就返回数据。任何调用者都可以枚举所有账户及其余额。
@@ -311,7 +311,7 @@ curl -X POST /accounts/1/transactions \
 **攻击**：读取属于不同用户账户的交易。
 
 ```bash
-curl -s http://localhost:8080/accounts/2/transactions
+curl -s http://localhost:8200/accounts/2/transactions
 ```
 
 **观察结果**：端点返回账户 2 的所有交易，没有任何所有权检查。由于没有认证，任何调用者都可以读取任何账户。

@@ -114,10 +114,10 @@ CREATE INDEX IF NOT EXISTS idx_notes_owner ON notes (owner_id);
 **攻击**：通过在请求头中发送他人的用户 ID 来冒充其身份。
 
 ```bash
-curl -s -X GET http://localhost:8080/notes \
+curl -s -X GET http://localhost:8200/notes \
   -H 'X-Auth-User: alice'
 
-curl -s -X GET http://localhost:8080/notes \
+curl -s -X GET http://localhost:8200/notes \
   -H 'X-Auth-User: bob'
 ```
 
@@ -146,7 +146,7 @@ X-Auth-User: alice\r\nX-Injected: evil
 **攻击**：猜测或枚举属于另一个用户的笔记 ID。
 
 ```bash
-curl -s http://localhost:8080/notes/1 -H 'X-Auth-User: bob'
+curl -s http://localhost:8200/notes/1 -H 'X-Auth-User: bob'
 # 笔记 1 由 alice 创建
 ```
 
@@ -190,7 +190,7 @@ curl -s http://localhost:8080/notes/1 -H 'X-Auth-User: bob'
 **攻击**：发送不带 `X-Auth-User` 请求头的请求。
 
 ```bash
-curl -s http://localhost:8080/notes
+curl -s http://localhost:8200/notes
 ```
 
 **观察结果**：`getHeaderLine('X-Auth-User')` 返回 `""`。`trim()` 之后仍然是 `""`。`$userId !== ''` 失败 → `resolveAuthUser()` 返回 `null` → `401 Unauthorized`，带结构化 Problem Details 响应。
@@ -205,7 +205,7 @@ curl -s http://localhost:8080/notes
 
 ```bash
 # 假设 'admin' 是特殊用户
-curl -s -X POST http://localhost:8080/notes \
+curl -s -X POST http://localhost:8200/notes \
   -H 'X-Auth-User: admin' \
   -H 'Content-Type: application/json' \
   -d '{"title":"Admin note"}'
@@ -268,8 +268,8 @@ GET /notes/1.5
 **攻击**：DELETE 一个不存在或属于另一个用户的笔记 ID。
 
 ```bash
-curl -s -X DELETE http://localhost:8080/notes/99999 -H 'X-Auth-User: alice'
-curl -s -X DELETE http://localhost:8080/notes/1    -H 'X-Auth-User: eve'
+curl -s -X DELETE http://localhost:8200/notes/99999 -H 'X-Auth-User: alice'
+curl -s -X DELETE http://localhost:8200/notes/1    -H 'X-Auth-User: eve'
 # （笔记 1 属于 alice）
 ```
 

@@ -16,7 +16,7 @@ docker compose up -d app
 Verifique se a API está acessível:
 
 ```bash
-curl -i http://localhost:8080/health
+curl -i http://localhost:8200/health
 ```
 
 O servidor MCP é um processo stdio. Não é um servidor HTTP — precisa ser iniciado pelo cliente MCP.

@@ -199,7 +199,7 @@ The list is ordered by `id ASC` so history is chronological.
 **Attack**: Create orders and apply transitions without credentials.
 
 ```bash
-curl -s -X POST http://localhost:8080/orders/1/transitions \
+curl -s -X POST http://localhost:8200/orders/1/transitions \
   -H 'Content-Type: application/json' \
   -d '{"status":"approved"}'
 ```

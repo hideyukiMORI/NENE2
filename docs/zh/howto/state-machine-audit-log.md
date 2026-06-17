@@ -182,7 +182,7 @@ CREATE TABLE IF NOT EXISTS order_transitions (
 **攻击**：无凭据创建订单并应用转换。
 
 ```bash
-curl -s -X POST http://localhost:8080/orders/1/transitions \
+curl -s -X POST http://localhost:8200/orders/1/transitions \
   -H 'Content-Type: application/json' \
   -d '{"status":"approved"}'
 ```

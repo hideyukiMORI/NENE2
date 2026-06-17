@@ -92,7 +92,7 @@ docker compose run --rm app composer check
 对通过 Docker 提供的端点，运行本地冒烟检查：
 
 ```bash
-curl -i http://localhost:8080/examples/ping
+curl -i http://localhost:8200/examples/ping
 ```
 
 ## 与 MCP 的关系

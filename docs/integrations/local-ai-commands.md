@@ -21,9 +21,9 @@ Use `docker compose up -d app` when the local HTTP API needs to be inspected thr
 Read-only HTTP inspection may call:
 
 ```bash
-curl -fsS http://localhost:8080/
-curl -fsS http://localhost:8080/health
-curl -fsS http://localhost:8080/openapi.php
+curl -fsS http://localhost:8200/
+curl -fsS http://localhost:8200/health
+curl -fsS http://localhost:8200/openapi.php
 ```
 
 MCP smoke checks may use the helper script (requires `docker compose up -d app` first):

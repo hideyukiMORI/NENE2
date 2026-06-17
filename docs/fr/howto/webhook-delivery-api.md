@@ -225,7 +225,7 @@ POST /deliveries/9999/retry
 
 ### ATK-02 — Enregistrement d'un webhook avec URL interne/privée (SSRF) ⚠️ EXPOSED
 
-**Attack** : L'attaquant enregistre `url: "http://169.254.169.254/latest/meta-data"` (endpoint de métadonnées AWS) ou `http://localhost:8080/admin`. Quand un événement est dispatché, le serveur récupère l'URL interne.
+**Attack** : L'attaquant enregistre `url: "http://169.254.169.254/latest/meta-data"` (endpoint de métadonnées AWS) ou `http://localhost:8200/admin`. Quand un événement est dispatché, le serveur récupère l'URL interne.
 **Result** : EXPOSED — Le FT webhooklog n'implémente pas de validation d'URL ni de blocage SSRF sur les URLs enregistrées. En production, valider que l'URL se résout vers une IP publique (pas loopback, RFC1918 privée, lien-local, ou services de métadonnées) avant l'enregistrement. Voir `docs/howto/url-shortener-ssrf-prevention.md` pour le pattern de blocage SSRF.
 
 ---

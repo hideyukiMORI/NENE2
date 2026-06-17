@@ -179,8 +179,8 @@ ORDER BY total DESC
 **Attaque** : Lister tous les comptes sans accréditations.
 
 ```bash
-curl -s http://localhost:8080/accounts
-curl -s http://localhost:8080/accounts/1/transactions
+curl -s http://localhost:8200/accounts
+curl -s http://localhost:8200/accounts/1/transactions
 ```
 
 **Observé** : Les deux endpoints retournent des données sans authentification. N'importe quel appelant peut énumérer tous les comptes et leurs soldes.
@@ -311,7 +311,7 @@ La colonne `balance` se retrouve à `20` au lieu du correct `-60` — mais plus 
 **Attaque** : Lire les transactions appartenant au compte d'un autre utilisateur.
 
 ```bash
-curl -s http://localhost:8080/accounts/2/transactions
+curl -s http://localhost:8200/accounts/2/transactions
 ```
 
 **Observé** : L'endpoint retourne toutes les transactions du compte 2 sans vérification de propriété. Comme il n'y a pas d'authentification, n'importe quel appelant peut lire n'importe quel compte.

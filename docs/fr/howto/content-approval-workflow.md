@@ -146,8 +146,8 @@ Un corps vide `{}` ou un champ `reason` manquant résultent tous deux en `null`.
 **Attaque** : Approuver ou rejeter un post sans aucune accréditation.
 
 ```bash
-curl -X POST http://localhost:8080/posts/1/approve
-curl -X POST http://localhost:8080/posts/1/reject
+curl -X POST http://localhost:8200/posts/1/approve
+curl -X POST http://localhost:8200/posts/1/reject
 ```
 
 **Observé** : Les deux réussissent avec `200 OK`. N'importe quel appelant peut pousser n'importe quel post dans n'importe quelle transition autorisée.
@@ -161,7 +161,7 @@ curl -X POST http://localhost:8080/posts/1/reject
 **Attaque** : Tenter d'approuver un post encore en statut `draft`.
 
 ```bash
-curl -X POST http://localhost:8080/posts/1/approve
+curl -X POST http://localhost:8200/posts/1/approve
 # le post 1 est en draft
 ```
 
@@ -176,9 +176,9 @@ curl -X POST http://localhost:8080/posts/1/approve
 **Attaque** : Approuver un post une deuxième fois.
 
 ```bash
-curl -X POST http://localhost:8080/posts/1/submit
-curl -X POST http://localhost:8080/posts/1/approve
-curl -X POST http://localhost:8080/posts/1/approve  # deuxième approbation
+curl -X POST http://localhost:8200/posts/1/submit
+curl -X POST http://localhost:8200/posts/1/approve
+curl -X POST http://localhost:8200/posts/1/approve  # deuxième approbation
 ```
 
 **Observé** : Troisième requête : `canTransitionTo(Approved)` depuis `Approved` → `false` → `409 Conflict`. Le post reste dans l'état `Approved`.
@@ -296,9 +296,9 @@ POST /posts/1.5/approve
 **Attaque** : Rejeter avec un corps vide ou sans champ `reason`.
 
 ```bash
-curl -X POST http://localhost:8080/posts/1/reject
-curl -X POST http://localhost:8080/posts/1/reject -d '{}'
-curl -X POST http://localhost:8080/posts/1/reject -d '{"reason": ""}'
+curl -X POST http://localhost:8200/posts/1/reject
+curl -X POST http://localhost:8200/posts/1/reject -d '{}'
+curl -X POST http://localhost:8200/posts/1/reject -d '{"reason": ""}'
 ```
 
 **Observé** : Les trois cas produisent `null` pour `reject_reason`. Le rejet sans raison est accepté — la colonne est nullable.
@@ -312,9 +312,9 @@ curl -X POST http://localhost:8080/posts/1/reject -d '{"reason": ""}'
 **Attaque** : Tenter de rejeter un post déjà rejeté.
 
 ```bash
-curl -X POST http://localhost:8080/posts/1/submit
-curl -X POST http://localhost:8080/posts/1/reject
-curl -X POST http://localhost:8080/posts/1/reject  # deuxième rejet
+curl -X POST http://localhost:8200/posts/1/submit
+curl -X POST http://localhost:8200/posts/1/reject
+curl -X POST http://localhost:8200/posts/1/reject  # deuxième rejet
 ```
 
 **Observé** : `canTransitionTo(Rejected)` depuis `Rejected` → `false` → `409 Conflict`.

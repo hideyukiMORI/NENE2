@@ -188,7 +188,7 @@ CREATE TABLE IF NOT EXISTS article_translations (
 **攻击**：无需任何凭据创建或修改文章。
 
 ```bash
-curl -s -X POST http://localhost:8080/articles \
+curl -s -X POST http://localhost:8200/articles \
   -H 'Content-Type: application/json' \
   -d '{"default_locale":"en","published":true}'
 ```
@@ -238,7 +238,7 @@ PUT /articles/1/translations/en" OR "1"="1
 
 ```bash
 # 攻击者知道文章 ID 1 是由另一个用户创建的
-curl -s -X PUT http://localhost:8080/articles/1/translations/fr \
+curl -s -X PUT http://localhost:8200/articles/1/translations/fr \
   -H 'Content-Type: application/json' \
   -d '{"title":"Hacked","body":"Attacker content"}'
 ```
@@ -327,7 +327,7 @@ PUT /articles/1/translations/fra       → 三字母 ISO 639-2 代码
 **攻击**：针对不存在的文章 ID。
 
 ```bash
-curl -s -X PUT http://localhost:8080/articles/99999/translations/en \
+curl -s -X PUT http://localhost:8200/articles/99999/translations/en \
   -H 'Content-Type: application/json' \
   -d '{"title":"Ghost","body":"Body"}'
 ```
