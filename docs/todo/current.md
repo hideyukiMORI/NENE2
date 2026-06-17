@@ -9,11 +9,11 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 | 項目 | 値 |
 |------|-----|
-| 最終完了 FT | **FT349** (`NENE2-FT/workflowlog` — ステートマシン型ワークフロー) |
-| 現在の VERSION | **1.5.323** |
-| 次の FT | **なし（全 FT カバー完了）** |
-| 次の ATK 回 | FT352（4件ごと: ...340 ✅, 344 ✅, 348 ✅, 352） |
-| 次の VULN 回 | FT351（6件ごと: ...339 ✅, 345 ✅, 351） |
+| 最終完了 FT | **FT352** (`bulk-reorder-api.md` — ドラッグ&ドロップ並べ替え API / ATK) |
+| 現在の VERSION | **1.5.329** |
+| 次の FT | **FT353** |
+| 次の ATK 回 | FT356（4件ごと: ...344 ✅, 348 ✅, 352 ✅, 356） |
+| 次の VULN 回 | FT357（6件ごと: ...345 ✅, 351 ✅, 357） |
 | 進行中ブランチ | なし |
 
 ---
@@ -31,9 +31,6 @@ bash tools/uncovered-fts.sh
 
 | FT | タイプ | howto | VERSION |
 |----|--------|-------|---------|
-| FT340 | ATK | `soft-delete-trash-restore.md` 新規 | 1.5.311 |
-| FT341 | 通常 | `dynamic-sort-order-injection.md` 新規 | 1.5.312 |
-| FT342 | 通常 | `jwt-tenant-isolation.md` 新規 | 1.5.313 |
 | FT343 | 通常 | `threaded-comments-api.md` 新規 | 1.5.314 |
 | FT344 | ATK | `category-hierarchy-api.md` 新規 | 1.5.315 |
 | FT345 | VULN | `unicode-aware-text-api.md` 新規 | 1.5.316 |
@@ -41,6 +38,9 @@ bash tools/uncovered-fts.sh
 | FT347 | 通常 | `upvote-downvote-api.md` 新規 | 1.5.318 |
 | FT348 | ATK | `webhook-delivery-api.md` 新規 | 1.5.319 |
 | FT349 | 通常 | `state-machine-workflow-api.md` 新規 | 1.5.320 |
+| FT350 | 通常 | `use-window-functions.md` 新規 | 1.5.324 |
+| FT351 | VULN | `csv-export-formula-injection.md` 新規 | 1.5.325 |
+| FT352 | ATK | `bulk-reorder-api.md` 新規 | 1.5.326 |
 
 ---
 
