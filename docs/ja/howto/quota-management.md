@@ -188,7 +188,7 @@ if ($limitCount < 1) {
 **Attack**: 認証情報なしで任意のユーザーのクォータポリシーを作成または代理消費する。
 
 ```bash
-curl -s -X PUT http://localhost:8080/quotas/user-123/api-calls \
+curl -s -X PUT http://localhost:8200/quotas/user-123/api-calls \
   -H 'Content-Type: application/json' \
   -d '{"window":"daily","limit_count":10}'
 ```
@@ -249,7 +249,7 @@ POST /quotas/user-1/" OR "1"="1/consume
 **Attack**: ポリシーが設定されていないユーザー/リソースに `POST .../consume` を呼び出す。
 
 ```bash
-curl -s -X POST http://localhost:8080/quotas/user-ghost/api-calls/consume
+curl -s -X POST http://localhost:8200/quotas/user-ghost/api-calls/consume
 ```
 
 **Observed**: `findPolicy()` が `null` を返す → Problem Details レスポンスで `404 Not Found`。
@@ -330,7 +330,7 @@ POST /quotas/user-1/; DROP TABLE quota_usage;--/consume
 **Attack**: 別のユーザーのクォータカウンターをリセットしてスロットリングを回避する。
 
 ```bash
-curl -s -X POST http://localhost:8080/quotas/target-user/api-calls/reset
+curl -s -X POST http://localhost:8200/quotas/target-user/api-calls/reset
 ```
 
 **Observed**: `200 OK` — 所有権チェックなし。任意の呼び出し元が任意のユーザーのクォータ使用量をリセットし、即座にアクセスを再有効化できます。

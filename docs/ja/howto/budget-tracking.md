@@ -179,8 +179,8 @@ ORDER BY total DESC
 **攻撃**: 資格情報なしですべてのアカウントを一覧表示する。
 
 ```bash
-curl -s http://localhost:8080/accounts
-curl -s http://localhost:8080/accounts/1/transactions
+curl -s http://localhost:8200/accounts
+curl -s http://localhost:8200/accounts/1/transactions
 ```
 
 **観測結果**: 両エンドポイントとも認証なしでデータを返します。任意の呼び出し元がすべてのアカウントとその残高を列挙できます。
@@ -311,7 +311,7 @@ curl -X POST /accounts/1/transactions \
 **攻撃**: 別のユーザーのアカウントに属するトランザクションを読み取る。
 
 ```bash
-curl -s http://localhost:8080/accounts/2/transactions
+curl -s http://localhost:8200/accounts/2/transactions
 ```
 
 **観測結果**: エンドポイントは所有権チェックなしにアカウント 2 のすべてのトランザクションを返します。認証がないため、任意の呼び出し元が任意のアカウントを読み取れます。

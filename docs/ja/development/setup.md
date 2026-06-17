@@ -52,7 +52,7 @@ docker compose up -d app
 動作確認:
 
 ```bash
-curl -i http://localhost:8080/health
+curl -i http://localhost:8200/health
 ```
 
 期待されるレスポンス:
@@ -65,12 +65,12 @@ curl -i http://localhost:8080/health
 
 | URL | 説明 |
 |---|---|
-| `http://localhost:8080/` | フレームワーク情報 |
-| `http://localhost:8080/health` | ヘルスチェック |
-| `http://localhost:8080/examples/ping` | Ping サンプル |
-| `http://localhost:8080/examples/notes/{id}` | Note 取得（DB 必要） |
-| `http://localhost:8080/openapi.php` | OpenAPI JSON |
-| `http://localhost:8080/docs/` | Swagger UI |
+| `http://localhost:8200/` | フレームワーク情報 |
+| `http://localhost:8200/health` | ヘルスチェック |
+| `http://localhost:8200/examples/ping` | Ping サンプル |
+| `http://localhost:8200/examples/notes/{id}` | Note 取得（DB 必要） |
+| `http://localhost:8200/openapi.php` | OpenAPI JSON |
+| `http://localhost:8200/docs/` | Swagger UI |
 
 ## 5. サーバーの停止
 
@@ -99,7 +99,7 @@ SQLite と MySQL の比較については `docs/development/docker.md` を参照
 3. 保護されたエンドポイントを呼び出す:
 
 ```bash
-curl -i -H 'X-NENE2-API-Key: local-dev-key' http://localhost:8080/machine/health
+curl -i -H 'X-NENE2-API-Key: local-dev-key' http://localhost:8200/machine/health
 ```
 
 マシンクライアントのスモークワークフロー全体は `docs/development/machine-client-smoke.md` を参照してください。
@@ -128,7 +128,7 @@ MCP クライアントの設定については `docs/integrations/local-mcp-serv
 1. アプリを起動する: `docker compose up -d app`
 2. リクエストを送信する:
    ```bash
-   curl -i http://localhost:8080/health
+   curl -i http://localhost:8200/health
    # レスポンスヘッダーの X-Request-Id を確認する
    ```
 3. 構造化ログの出力を確認する:
@@ -139,7 +139,7 @@ MCP クライアントの設定については `docs/integrations/local-mcp-serv
 
 独自の ID を指定することもできます:
 ```bash
-curl -i -H 'X-Request-Id: my-trace-id' http://localhost:8080/health
+curl -i -H 'X-Request-Id: my-trace-id' http://localhost:8200/health
 # 同じ ID がレスポンスヘッダーと docker compose logs の両方に現れる
 ```
 
@@ -148,11 +148,11 @@ curl -i -H 'X-Request-Id: my-trace-id' http://localhost:8080/health
 **クリーンなクローン後に `composer check` が失敗する**
 先に `docker compose run --rm app composer install` を実行してください。`vendor/` ディレクトリはリポジトリにコミットされていません。
 
-**ポート 8080 がすでに使用中**
+**ポート 8200 がすでに使用中**
 使用中のプロセスを停止するか、`compose.yaml` のポートマッピングを変更します:
 ```yaml
 ports:
-  - "8081:80"   # 8081 を代わりに使用する
+  - "8201:80"   # 8201 を代わりに使用する
 ```
 
 **マイグレーション実行時に MySQL 接続が拒否される**

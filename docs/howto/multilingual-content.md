@@ -208,7 +208,7 @@ Key design choices:
 **Attack**: Create or modify articles without any credentials.
 
 ```bash
-curl -s -X POST http://localhost:8080/articles \
+curl -s -X POST http://localhost:8200/articles \
   -H 'Content-Type: application/json' \
   -d '{"default_locale":"en","published":true}'
 ```
@@ -264,7 +264,7 @@ PUT /articles/1/translations/en" OR "1"="1
 
 ```bash
 # Attacker knows article ID 1 was created by another user
-curl -s -X PUT http://localhost:8080/articles/1/translations/fr \
+curl -s -X PUT http://localhost:8200/articles/1/translations/fr \
   -H 'Content-Type: application/json' \
   -d '{"title":"Hacked","body":"Attacker content"}'
 ```
@@ -360,7 +360,7 @@ PUT /articles/1/translations/fra       → three-letter ISO 639-2 code
 **Attack**: Target an article ID that does not exist.
 
 ```bash
-curl -s -X PUT http://localhost:8080/articles/99999/translations/en \
+curl -s -X PUT http://localhost:8200/articles/99999/translations/en \
   -H 'Content-Type: application/json' \
   -d '{"title":"Ghost","body":"Body"}'
 ```

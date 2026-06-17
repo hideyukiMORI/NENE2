@@ -16,7 +16,7 @@ docker compose up -d app
 API が到達可能か確認します:
 
 ```bash
-curl -i http://localhost:8080/health
+curl -i http://localhost:8200/health
 ```
 
 MCP サーバーは stdio プロセスです。HTTP サーバーではなく、MCP クライアントによって起動される必要があります。

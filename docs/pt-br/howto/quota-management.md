@@ -199,7 +199,7 @@ pelo menos 1 — valores zero e negativos são rejeitados.
 **Ataque**: Criar uma política de cota ou consumir em nome de qualquer usuário sem credenciais.
 
 ```bash
-curl -s -X PUT http://localhost:8080/quotas/user-123/api-calls \
+curl -s -X PUT http://localhost:8200/quotas/user-123/api-calls \
   -H 'Content-Type: application/json' \
   -d '{"window":"daily","limit_count":10}'
 ```
@@ -264,7 +264,7 @@ para `window`.
 **Ataque**: Chamar `POST .../consume` para um usuário/recurso sem política configurada.
 
 ```bash
-curl -s -X POST http://localhost:8080/quotas/user-ghost/api-calls/consume
+curl -s -X POST http://localhost:8200/quotas/user-ghost/api-calls/consume
 ```
 
 **Observado**: `findPolicy()` retorna `null` → `404 Not Found` com uma resposta Problem Details.
@@ -355,7 +355,7 @@ recurso devem ser restritos a valores conhecidos.
 **Ataque**: Resetar o contador de cota de um usuário diferente para contornar seu throttling.
 
 ```bash
-curl -s -X POST http://localhost:8080/quotas/target-user/api-calls/reset
+curl -s -X POST http://localhost:8200/quotas/target-user/api-calls/reset
 ```
 
 **Observado**: `200 OK` — sem verificação de propriedade. Qualquer chamador pode resetar o uso

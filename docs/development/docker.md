@@ -37,14 +37,14 @@ docker compose up -d app
 Then open:
 
 ```text
-http://localhost:8080/
+http://localhost:8200/
 ```
 
 API documentation endpoints:
 
 ```text
-http://localhost:8080/openapi.php
-http://localhost:8080/docs/
+http://localhost:8200/openapi.php
+http://localhost:8200/docs/
 ```
 
 Stop it with:

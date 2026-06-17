@@ -200,8 +200,8 @@ ORDER BY total DESC
 **Attack**: List all accounts without any credentials.
 
 ```bash
-curl -s http://localhost:8080/accounts
-curl -s http://localhost:8080/accounts/1/transactions
+curl -s http://localhost:8200/accounts
+curl -s http://localhost:8200/accounts/1/transactions
 ```
 
 **Observed**: Both endpoints return data without any authentication. Any caller can
@@ -354,7 +354,7 @@ and (2) wrapping the read-then-update in a DB transaction.
 **Attack**: Read transactions belonging to a different user's account.
 
 ```bash
-curl -s http://localhost:8080/accounts/2/transactions
+curl -s http://localhost:8200/accounts/2/transactions
 ```
 
 **Observed**: The endpoint returns all transactions for account 2 without any ownership

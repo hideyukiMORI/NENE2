@@ -207,7 +207,7 @@ least 1 — zero and negative values are rejected.
 **Attack**: Create a quota policy or consume on behalf of any user without credentials.
 
 ```bash
-curl -s -X PUT http://localhost:8080/quotas/user-123/api-calls \
+curl -s -X PUT http://localhost:8200/quotas/user-123/api-calls \
   -H 'Content-Type: application/json' \
   -d '{"window":"daily","limit_count":10}'
 ```
@@ -273,7 +273,7 @@ error for `window`.
 **Attack**: Call `POST .../consume` for a user/resource with no policy configured.
 
 ```bash
-curl -s -X POST http://localhost:8080/quotas/user-ghost/api-calls/consume
+curl -s -X POST http://localhost:8200/quotas/user-ghost/api-calls/consume
 ```
 
 **Observed**: `findPolicy()` returns `null` → `404 Not Found` with a Problem Details
@@ -367,7 +367,7 @@ be restricted to known values.
 **Attack**: Reset a different user's quota counter to bypass their throttling.
 
 ```bash
-curl -s -X POST http://localhost:8080/quotas/target-user/api-calls/reset
+curl -s -X POST http://localhost:8200/quotas/target-user/api-calls/reset
 ```
 
 **Observed**: `200 OK` — no ownership check. Any caller can reset any user's quota

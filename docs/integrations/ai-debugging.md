@@ -16,7 +16,7 @@ When debugging a local API response:
 Example:
 
 ```bash
-curl -i http://localhost:8080/health
+curl -i http://localhost:8200/health
 ```
 
 The response should include:

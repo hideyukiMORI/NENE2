@@ -124,10 +124,10 @@ string livre (o valor de `X-Auth-User`); sem chave estrangeira para uma tabela d
 **Ataque**: Personificar outro usuário enviando seu ID de usuário no header.
 
 ```bash
-curl -s -X GET http://localhost:8080/notes \
+curl -s -X GET http://localhost:8200/notes \
   -H 'X-Auth-User: alice'
 
-curl -s -X GET http://localhost:8080/notes \
+curl -s -X GET http://localhost:8200/notes \
   -H 'X-Auth-User: bob'
 ```
 
@@ -162,7 +162,7 @@ de chegarem à camada de aplicação.
 **Ataque**: Adivinhar ou enumerar IDs de notas pertencentes a outro usuário.
 
 ```bash
-curl -s http://localhost:8080/notes/1 -H 'X-Auth-User: bob'
+curl -s http://localhost:8200/notes/1 -H 'X-Auth-User: bob'
 # Nota 1 foi criada por alice
 ```
 
@@ -209,7 +209,7 @@ dispara → `422 Unprocessable Entity`.
 **Ataque**: Enviar uma requisição sem o header `X-Auth-User`.
 
 ```bash
-curl -s http://localhost:8080/notes
+curl -s http://localhost:8200/notes
 ```
 
 **Observado**: `getHeaderLine('X-Auth-User')` retorna `""`. Após `trim()` ainda é
@@ -226,7 +226,7 @@ com uma resposta Problem Details estruturada.
 
 ```bash
 # Assumindo que 'admin' é um usuário especial
-curl -s -X POST http://localhost:8080/notes \
+curl -s -X POST http://localhost:8200/notes \
   -H 'X-Auth-User: admin' \
   -H 'Content-Type: application/json' \
   -d '{"title":"Admin note"}'
@@ -298,8 +298,8 @@ truncados silenciosamente. Adicione guarda `ctype_digit()` para validação estr
 **Ataque**: DELETE em um ID de nota que não existe ou pertence a outro usuário.
 
 ```bash
-curl -s -X DELETE http://localhost:8080/notes/99999 -H 'X-Auth-User: alice'
-curl -s -X DELETE http://localhost:8080/notes/1    -H 'X-Auth-User: eve'
+curl -s -X DELETE http://localhost:8200/notes/99999 -H 'X-Auth-User: alice'
+curl -s -X DELETE http://localhost:8200/notes/1    -H 'X-Auth-User: eve'
 # (nota 1 pertence a alice)
 ```
 

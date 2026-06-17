@@ -43,7 +43,7 @@ This passes the key through `compose.yaml` into the app container for local test
 Call the protected path without a key:
 
 ```bash
-curl -i http://localhost:8080/machine/health
+curl -i http://localhost:8200/machine/health
 ```
 
 Expected result:
@@ -58,7 +58,7 @@ Expected result:
 Call the same path with the configured key:
 
 ```bash
-curl -i -H 'X-NENE2-API-Key: local-dev-key' http://localhost:8080/machine/health
+curl -i -H 'X-NENE2-API-Key: local-dev-key' http://localhost:8200/machine/health
 ```
 
 Expected result:

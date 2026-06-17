@@ -21,7 +21,7 @@ declare(strict_types=1);
  *
  * Example:
  *   TOKEN=$(php tools/issue-jwt.php --sub ft6-user)
- *   curl -H "Authorization: Bearer $TOKEN" http://localhost:8080/examples/protected
+ *   curl -H "Authorization: Bearer $TOKEN" http://localhost:8200/examples/protected
  */
 
 require dirname(__DIR__) . '/vendor/autoload.php';

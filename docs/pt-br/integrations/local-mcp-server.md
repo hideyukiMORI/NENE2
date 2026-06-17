@@ -23,10 +23,10 @@ O NENE2 inclui um servidor MCP stdio apenas local:
 docker compose run --rm app php tools/local-mcp-server.php
 ```
 
-Por padrão, chama a API local em `http://localhost:8080`. Substitua a URL base fora do repositório se necessário:
+Por padrão, chama a API local em `http://localhost:8200`. Substitua a URL base fora do repositório se necessário:
 
 ```bash
-docker compose run --rm -e NENE2_LOCAL_API_BASE_URL=http://localhost:8080 app php tools/local-mcp-server.php
+docker compose run --rm -e NENE2_LOCAL_API_BASE_URL=http://localhost:8200 app php tools/local-mcp-server.php
 ```
 
 Ao executar o servidor no Docker contra o serviço Compose `app`:
@@ -68,7 +68,7 @@ Ferramentas de Escrita (`createExampleNote`, `updateExampleNoteById`, `deleteExa
 ## Operações Permitidas para Ferramentas Locais
 
 - Ler o catálogo MCP versionado
-- Chamar `http://localhost:8080/` e outras rotas de API locais documentadas
+- Chamar `http://localhost:8200/` e outras rotas de API locais documentadas
 - Retornar metadados `X-Request-Id` de respostas HTTP
 - Executar comandos de validação documentados de `docs/integrations/local-ai-commands.md`
 

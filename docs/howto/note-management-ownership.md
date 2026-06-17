@@ -132,10 +132,10 @@ string (the `X-Auth-User` value); no foreign key to a users table exists.
 **Attack**: Impersonate another user by sending their user ID in the header.
 
 ```bash
-curl -s -X GET http://localhost:8080/notes \
+curl -s -X GET http://localhost:8200/notes \
   -H 'X-Auth-User: alice'
 
-curl -s -X GET http://localhost:8080/notes \
+curl -s -X GET http://localhost:8200/notes \
   -H 'X-Auth-User: bob'
 ```
 
@@ -170,7 +170,7 @@ they reach the application layer.
 **Attack**: Guess or enumerate note IDs belonging to another user.
 
 ```bash
-curl -s http://localhost:8080/notes/1 -H 'X-Auth-User: bob'
+curl -s http://localhost:8200/notes/1 -H 'X-Auth-User: bob'
 # Note 1 was created by alice
 ```
 
@@ -217,7 +217,7 @@ fires → `422 Unprocessable Entity`.
 **Attack**: Send a request without the `X-Auth-User` header.
 
 ```bash
-curl -s http://localhost:8080/notes
+curl -s http://localhost:8200/notes
 ```
 
 **Observed**: `getHeaderLine('X-Auth-User')` returns `""`. After `trim()` it's still
@@ -234,7 +234,7 @@ with a structured Problem Details response.
 
 ```bash
 # Assuming 'admin' is a special user
-curl -s -X POST http://localhost:8080/notes \
+curl -s -X POST http://localhost:8200/notes \
   -H 'X-Auth-User: admin' \
   -H 'Content-Type: application/json' \
   -d '{"title":"Admin note"}'
@@ -306,8 +306,8 @@ silently truncated. Add `ctype_digit()` guard for strict validation.
 **Attack**: DELETE a note ID that doesn't exist or belongs to another user.
 
 ```bash
-curl -s -X DELETE http://localhost:8080/notes/99999 -H 'X-Auth-User: alice'
-curl -s -X DELETE http://localhost:8080/notes/1    -H 'X-Auth-User: eve'
+curl -s -X DELETE http://localhost:8200/notes/99999 -H 'X-Auth-User: alice'
+curl -s -X DELETE http://localhost:8200/notes/1    -H 'X-Auth-User: eve'
 # (note 1 belongs to alice)
 ```
 

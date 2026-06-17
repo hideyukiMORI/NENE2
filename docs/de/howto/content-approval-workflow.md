@@ -146,8 +146,8 @@ Ein leerer Body `{}` oder ein fehlendes `reason`-Feld führen beide zu `null`. E
 **Angriff**: Einen Post ohne Anmeldedaten genehmigen oder ablehnen.
 
 ```bash
-curl -X POST http://localhost:8080/posts/1/approve
-curl -X POST http://localhost:8080/posts/1/reject
+curl -X POST http://localhost:8200/posts/1/approve
+curl -X POST http://localhost:8200/posts/1/reject
 ```
 
 **Beobachtet**: Beide gelingen mit `200 OK`. Jeder Aufrufer kann jeden Post durch jeden erlaubten Übergang schieben.
@@ -161,7 +161,7 @@ curl -X POST http://localhost:8080/posts/1/reject
 **Angriff**: Versuchen, einen Post im `draft`-Status zu genehmigen.
 
 ```bash
-curl -X POST http://localhost:8080/posts/1/approve
+curl -X POST http://localhost:8200/posts/1/approve
 # Post 1 befindet sich im Draft-Status
 ```
 
@@ -176,9 +176,9 @@ curl -X POST http://localhost:8080/posts/1/approve
 **Angriff**: Einen Post ein zweites Mal genehmigen.
 
 ```bash
-curl -X POST http://localhost:8080/posts/1/submit
-curl -X POST http://localhost:8080/posts/1/approve
-curl -X POST http://localhost:8080/posts/1/approve  # zweite Genehmigung
+curl -X POST http://localhost:8200/posts/1/submit
+curl -X POST http://localhost:8200/posts/1/approve
+curl -X POST http://localhost:8200/posts/1/approve  # zweite Genehmigung
 ```
 
 **Beobachtet**: Dritte Anfrage: `canTransitionTo(Approved)` von `Approved` → `false` → `409 Conflict`. Der Post verbleibt im `Approved`-Status.
@@ -296,9 +296,9 @@ POST /posts/1.5/approve
 **Angriff**: Mit leerem Body oder ohne `reason`-Feld ablehnen.
 
 ```bash
-curl -X POST http://localhost:8080/posts/1/reject
-curl -X POST http://localhost:8080/posts/1/reject -d '{}'
-curl -X POST http://localhost:8080/posts/1/reject -d '{"reason": ""}'
+curl -X POST http://localhost:8200/posts/1/reject
+curl -X POST http://localhost:8200/posts/1/reject -d '{}'
+curl -X POST http://localhost:8200/posts/1/reject -d '{"reason": ""}'
 ```
 
 **Beobachtet**: Alle drei Fälle erzeugen `null` für `reject_reason`. Ablehnung ohne Grund wird akzeptiert — die Spalte ist nullable.
@@ -312,9 +312,9 @@ curl -X POST http://localhost:8080/posts/1/reject -d '{"reason": ""}'
 **Angriff**: Versuchen, einen bereits abgelehnten Post abzulehnen.
 
 ```bash
-curl -X POST http://localhost:8080/posts/1/submit
-curl -X POST http://localhost:8080/posts/1/reject
-curl -X POST http://localhost:8080/posts/1/reject  # zweite Ablehnung
+curl -X POST http://localhost:8200/posts/1/submit
+curl -X POST http://localhost:8200/posts/1/reject
+curl -X POST http://localhost:8200/posts/1/reject  # zweite Ablehnung
 ```
 
 **Beobachtet**: `canTransitionTo(Rejected)` von `Rejected` → `false` → `409 Conflict`.

@@ -32,13 +32,13 @@ docs/openapi/
 Swagger UI is served from:
 
 ```text
-http://localhost:8080/docs/
+http://localhost:8200/docs/
 ```
 
 The raw OpenAPI contract is served from:
 
 ```text
-http://localhost:8080/openapi.php
+http://localhost:8200/openapi.php
 ```
 
 ## Local Verification
@@ -51,9 +51,9 @@ docker compose up -d app
 
 Then verify:
 
-- `http://localhost:8080/` returns the smoke JSON response.
-- `http://localhost:8080/openapi.php` returns the OpenAPI YAML.
-- `http://localhost:8080/docs/` loads Swagger UI.
+- `http://localhost:8200/` returns the smoke JSON response.
+- `http://localhost:8200/openapi.php` returns the OpenAPI YAML.
+- `http://localhost:8200/docs/` loads Swagger UI.
 
 Validate the contract file locally:
 

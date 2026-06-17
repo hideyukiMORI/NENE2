@@ -52,7 +52,7 @@ docker compose up -d app
 验证运行状态：
 
 ```bash
-curl -i http://localhost:8080/health
+curl -i http://localhost:8200/health
 ```
 
 预期响应：
@@ -65,12 +65,12 @@ curl -i http://localhost:8080/health
 
 | URL | 描述 |
 |---|---|
-| `http://localhost:8080/` | 框架信息 |
-| `http://localhost:8080/health` | 健康检查 |
-| `http://localhost:8080/examples/ping` | Ping 示例 |
-| `http://localhost:8080/examples/notes/{id}` | 按 ID 获取笔记（需要数据库） |
-| `http://localhost:8080/openapi.php` | 原始 OpenAPI JSON |
-| `http://localhost:8080/docs/` | Swagger UI |
+| `http://localhost:8200/` | 框架信息 |
+| `http://localhost:8200/health` | 健康检查 |
+| `http://localhost:8200/examples/ping` | Ping 示例 |
+| `http://localhost:8200/examples/notes/{id}` | 按 ID 获取笔记（需要数据库） |
+| `http://localhost:8200/openapi.php` | 原始 OpenAPI JSON |
+| `http://localhost:8200/docs/` | Swagger UI |
 
 ## 5. 停止服务器
 
@@ -97,7 +97,7 @@ docker compose run --rm app composer test:database:mysql
 3. 调用受保护的端点：
 
 ```bash
-curl -i -H 'X-NENE2-API-Key: local-dev-key' http://localhost:8080/machine/health
+curl -i -H 'X-NENE2-API-Key: local-dev-key' http://localhost:8200/machine/health
 ```
 
 ## 可选：前端设置
@@ -120,7 +120,7 @@ docker compose run --rm -e NENE2_LOCAL_API_BASE_URL=http://app app php tools/loc
 1. 启动 app：`docker compose up -d app`
 2. 发送请求：
    ```bash
-   curl -i http://localhost:8080/health
+   curl -i http://localhost:8200/health
    # 在响应头中查找 X-Request-Id
    ```
 3. 查看结构化日志输出：
@@ -131,7 +131,7 @@ docker compose run --rm -e NENE2_LOCAL_API_BASE_URL=http://app app php tools/loc
 
 您也可以提供自己的 ID：
 ```bash
-curl -i -H 'X-Request-Id: my-trace-id' http://localhost:8080/health
+curl -i -H 'X-Request-Id: my-trace-id' http://localhost:8200/health
 ```
 
 ## 故障排除
@@ -139,11 +139,11 @@ curl -i -H 'X-Request-Id: my-trace-id' http://localhost:8080/health
 **全新克隆时 `composer check` 失败**
 先运行 `docker compose run --rm app composer install`。`vendor/` 目录未被提交。
 
-**端口 8080 已被占用**
+**端口 8200 已被占用**
 停止占用它的进程，或修改 `compose.yaml` 中的端口映射：
 ```yaml
 ports:
-  - "8081:80"   # 使用 8081 代替
+  - "8201:80"   # 使用 8201 代替
 ```
 
 **迁移时 MySQL 连接被拒绝**

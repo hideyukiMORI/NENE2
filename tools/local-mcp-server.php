@@ -14,7 +14,7 @@ $root = dirname(__DIR__);
 $apiBaseUrl = getenv('NENE2_LOCAL_API_BASE_URL');
 
 if (!is_string($apiBaseUrl) || $apiBaseUrl === '') {
-    $apiBaseUrl = 'http://localhost:8080';
+    $apiBaseUrl = 'http://localhost:8200';
 }
 
 $bearerToken = null;

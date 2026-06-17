@@ -146,8 +146,8 @@ if ($raw !== '') {
 **攻击**：不提供任何凭据批准或拒绝帖子。
 
 ```bash
-curl -X POST http://localhost:8080/posts/1/approve
-curl -X POST http://localhost:8080/posts/1/reject
+curl -X POST http://localhost:8200/posts/1/approve
+curl -X POST http://localhost:8200/posts/1/reject
 ```
 
 **观察结果**：两者都以 `200 OK` 成功。任何调用者都可以推动任何帖子通过任何允许的转换。
@@ -161,7 +161,7 @@ curl -X POST http://localhost:8080/posts/1/reject
 **攻击**：尝试批准仍处于 `draft` 状态的帖子。
 
 ```bash
-curl -X POST http://localhost:8080/posts/1/approve
+curl -X POST http://localhost:8200/posts/1/approve
 # 帖子 1 处于 draft 状态
 ```
 
@@ -176,9 +176,9 @@ curl -X POST http://localhost:8080/posts/1/approve
 **攻击**：对帖子进行第二次批准。
 
 ```bash
-curl -X POST http://localhost:8080/posts/1/submit
-curl -X POST http://localhost:8080/posts/1/approve
-curl -X POST http://localhost:8080/posts/1/approve  # 第二次批准
+curl -X POST http://localhost:8200/posts/1/submit
+curl -X POST http://localhost:8200/posts/1/approve
+curl -X POST http://localhost:8200/posts/1/approve  # 第二次批准
 ```
 
 **观察结果**：第三个请求：从 `Approved` 调用 `canTransitionTo(Approved)` → `false` → `409 Conflict`。帖子保持 `Approved` 状态。
@@ -296,9 +296,9 @@ POST /posts/1.5/approve
 **攻击**：使用空请求体或无 `reason` 字段拒绝。
 
 ```bash
-curl -X POST http://localhost:8080/posts/1/reject
-curl -X POST http://localhost:8080/posts/1/reject -d '{}'
-curl -X POST http://localhost:8080/posts/1/reject -d '{"reason": ""}'
+curl -X POST http://localhost:8200/posts/1/reject
+curl -X POST http://localhost:8200/posts/1/reject -d '{}'
+curl -X POST http://localhost:8200/posts/1/reject -d '{"reason": ""}'
 ```
 
 **观察结果**：三种情况都产生 `null` 作为 `reject_reason`。不提供原因的拒绝是被接受的——该列可为 null。
@@ -312,9 +312,9 @@ curl -X POST http://localhost:8080/posts/1/reject -d '{"reason": ""}'
 **攻击**：尝试拒绝已经被拒绝的帖子。
 
 ```bash
-curl -X POST http://localhost:8080/posts/1/submit
-curl -X POST http://localhost:8080/posts/1/reject
-curl -X POST http://localhost:8080/posts/1/reject  # 第二次拒绝
+curl -X POST http://localhost:8200/posts/1/submit
+curl -X POST http://localhost:8200/posts/1/reject
+curl -X POST http://localhost:8200/posts/1/reject  # 第二次拒绝
 ```
 
 **观察结果**：从 `Rejected` 调用 `canTransitionTo(Rejected)` → `false` → `409 Conflict`。

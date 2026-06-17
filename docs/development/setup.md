@@ -52,7 +52,7 @@ docker compose up -d app
 Verify it is running:
 
 ```bash
-curl -i http://localhost:8080/health
+curl -i http://localhost:8200/health
 ```
 
 Expected response:
@@ -65,12 +65,12 @@ Other useful local endpoints:
 
 | URL | Description |
 |---|---|
-| `http://localhost:8080/` | Framework info |
-| `http://localhost:8080/health` | Health check |
-| `http://localhost:8080/examples/ping` | Ping example |
-| `http://localhost:8080/examples/notes/{id}` | Note by ID (requires DB) |
-| `http://localhost:8080/openapi.php` | Raw OpenAPI JSON |
-| `http://localhost:8080/docs/` | Swagger UI |
+| `http://localhost:8200/` | Framework info |
+| `http://localhost:8200/health` | Health check |
+| `http://localhost:8200/examples/ping` | Ping example |
+| `http://localhost:8200/examples/notes/{id}` | Note by ID (requires DB) |
+| `http://localhost:8200/openapi.php` | Raw OpenAPI JSON |
+| `http://localhost:8200/docs/` | Swagger UI |
 
 ## 5. Stop the Server
 
@@ -99,7 +99,7 @@ The `/machine/health` endpoint requires an API key. To test it locally:
 3. Call the protected endpoint:
 
 ```bash
-curl -i -H 'X-NENE2-API-Key: local-dev-key' http://localhost:8080/machine/health
+curl -i -H 'X-NENE2-API-Key: local-dev-key' http://localhost:8200/machine/health
 ```
 
 See `docs/development/machine-client-smoke.md` for the full machine-client smoke workflow.
@@ -128,7 +128,7 @@ Every request generates an `X-Request-Id` that is echoed in the response header 
 1. Start the app: `docker compose up -d app`
 2. Send a request:
    ```bash
-   curl -i http://localhost:8080/health
+   curl -i http://localhost:8200/health
    # Look for X-Request-Id in the response headers
    ```
 3. Watch the structured log output:
@@ -139,7 +139,7 @@ Every request generates an `X-Request-Id` that is echoed in the response header 
 
 You can also supply your own ID:
 ```bash
-curl -i -H 'X-Request-Id: my-trace-id' http://localhost:8080/health
+curl -i -H 'X-Request-Id: my-trace-id' http://localhost:8200/health
 # The same id appears in the response header and in docker compose logs
 ```
 
@@ -148,11 +148,11 @@ curl -i -H 'X-Request-Id: my-trace-id' http://localhost:8080/health
 **`composer check` fails on a clean clone**
 Run `docker compose run --rm app composer install` first. The `vendor/` directory is not committed.
 
-**Port 8080 already in use**
+**Port 8200 already in use**
 Stop whatever is using it, or change the port mapping in `compose.yaml`:
 ```yaml
 ports:
-  - "8081:80"   # use 8081 instead
+  - "8201:80"   # use 8201 instead
 ```
 
 **MySQL connection refused during migrations**

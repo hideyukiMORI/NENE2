@@ -168,8 +168,8 @@ nullable `reject_reason` column.
 **Attack**: Approve or reject a post without any credentials.
 
 ```bash
-curl -X POST http://localhost:8080/posts/1/approve
-curl -X POST http://localhost:8080/posts/1/reject
+curl -X POST http://localhost:8200/posts/1/approve
+curl -X POST http://localhost:8200/posts/1/reject
 ```
 
 **Observed**: Both succeed with `200 OK`. Any caller can push any post through any
@@ -186,7 +186,7 @@ the post's author to be authenticated.
 **Attack**: Try to approve a post that is still in `draft` status.
 
 ```bash
-curl -X POST http://localhost:8080/posts/1/approve
+curl -X POST http://localhost:8200/posts/1/approve
 # post 1 is in draft
 ```
 
@@ -202,9 +202,9 @@ curl -X POST http://localhost:8080/posts/1/approve
 **Attack**: Approve a post a second time.
 
 ```bash
-curl -X POST http://localhost:8080/posts/1/submit
-curl -X POST http://localhost:8080/posts/1/approve
-curl -X POST http://localhost:8080/posts/1/approve  # second approve
+curl -X POST http://localhost:8200/posts/1/submit
+curl -X POST http://localhost:8200/posts/1/approve
+curl -X POST http://localhost:8200/posts/1/approve  # second approve
 ```
 
 **Observed**: Third request: `canTransitionTo(Approved)` from `Approved` → `false`
@@ -337,9 +337,9 @@ whitespace-only values.
 **Attack**: Reject with an empty body or no `reason` field.
 
 ```bash
-curl -X POST http://localhost:8080/posts/1/reject
-curl -X POST http://localhost:8080/posts/1/reject -d '{}'
-curl -X POST http://localhost:8080/posts/1/reject -d '{"reason": ""}'
+curl -X POST http://localhost:8200/posts/1/reject
+curl -X POST http://localhost:8200/posts/1/reject -d '{}'
+curl -X POST http://localhost:8200/posts/1/reject -d '{"reason": ""}'
 ```
 
 **Observed**: All three cases produce `null` for `reject_reason`. Rejection without a
@@ -355,9 +355,9 @@ workflows requiring a mandatory rejection reason, add `if ($reason === null) →
 **Attack**: Try to reject a post that is already rejected.
 
 ```bash
-curl -X POST http://localhost:8080/posts/1/submit
-curl -X POST http://localhost:8080/posts/1/reject
-curl -X POST http://localhost:8080/posts/1/reject  # second reject
+curl -X POST http://localhost:8200/posts/1/submit
+curl -X POST http://localhost:8200/posts/1/reject
+curl -X POST http://localhost:8200/posts/1/reject  # second reject
 ```
 
 **Observed**: `canTransitionTo(Rejected)` from `Rejected` → `false` → `409 Conflict`.

@@ -115,10 +115,10 @@ CREATE INDEX IF NOT EXISTS idx_notes_owner ON notes (owner_id);
 **Angriff**: Einen anderen Benutzer imitieren, indem ihre Benutzer-ID im Header gesendet wird.
 
 ```bash
-curl -s -X GET http://localhost:8080/notes \
+curl -s -X GET http://localhost:8200/notes \
   -H 'X-Auth-User: alice'
 
-curl -s -X GET http://localhost:8080/notes \
+curl -s -X GET http://localhost:8200/notes \
   -H 'X-Auth-User: bob'
 ```
 
@@ -147,7 +147,7 @@ X-Auth-User: alice\r\nX-Injected: evil
 **Angriff**: Notiz-IDs eines anderen Benutzers erraten oder enumerieren.
 
 ```bash
-curl -s http://localhost:8080/notes/1 -H 'X-Auth-User: bob'
+curl -s http://localhost:8200/notes/1 -H 'X-Auth-User: bob'
 # Notiz 1 wurde von alice erstellt
 ```
 
@@ -191,7 +191,7 @@ curl -s http://localhost:8080/notes/1 -H 'X-Auth-User: bob'
 **Angriff**: Eine Anfrage ohne den `X-Auth-User`-Header senden.
 
 ```bash
-curl -s http://localhost:8080/notes
+curl -s http://localhost:8200/notes
 ```
 
 **Beobachtet**: `getHeaderLine('X-Auth-User')` gibt `""` zurück. Nach `trim()` ist es immer noch `""`. `$userId !== ''` schlägt fehl → `resolveAuthUser()` gibt `null` zurück → `401 Unauthorized` mit einer strukturierten Problem-Details-Antwort.
@@ -206,7 +206,7 @@ curl -s http://localhost:8080/notes
 
 ```bash
 # Angenommen, 'admin' ist ein spezieller Benutzer
-curl -s -X POST http://localhost:8080/notes \
+curl -s -X POST http://localhost:8200/notes \
   -H 'X-Auth-User: admin' \
   -H 'Content-Type: application/json' \
   -d '{"title":"Admin note"}'
@@ -269,8 +269,8 @@ GET /notes/1.5
 **Angriff**: Eine Notiz-ID löschen, die nicht existiert oder einem anderen Benutzer gehört.
 
 ```bash
-curl -s -X DELETE http://localhost:8080/notes/99999 -H 'X-Auth-User: alice'
-curl -s -X DELETE http://localhost:8080/notes/1    -H 'X-Auth-User: eve'
+curl -s -X DELETE http://localhost:8200/notes/99999 -H 'X-Auth-User: alice'
+curl -s -X DELETE http://localhost:8200/notes/1    -H 'X-Auth-User: eve'
 # (Notiz 1 gehört alice)
 ```
 

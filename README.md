@@ -7,7 +7,7 @@
 
 PHP micro-framework: JSON APIs first, minimal server HTML, easy React starter integration, structure friendly to AI tooling.
 
-**[OpenAPI contract](https://raw.githubusercontent.com/hideyukiMORI/NENE2/main/docs/openapi/openapi.yaml)** — machine-readable API spec (OpenAPI 3.1). Live Swagger UI at `http://localhost:8080/docs/` after `docker compose up -d app`.
+**[OpenAPI contract](https://raw.githubusercontent.com/hideyukiMORI/NENE2/main/docs/openapi/openapi.yaml)** — machine-readable API spec (OpenAPI 3.1). Live Swagger UI at `http://localhost:8200/docs/` after `docker compose up -d app`.
 
 NENE2 is a small, modern PHP framework foundation designed for projects that want to ship JSON APIs quickly, keep server-rendered HTML thin, and add a React frontend starter without turning the backend into frontend build glue.
 
@@ -74,14 +74,14 @@ Start the local web runtime:
 docker compose up -d app
 ```
 
-The web entry point is served from `public_html/` at `http://localhost:8080/`.
+The web entry point is served from `public_html/` at `http://localhost:8200/`.
 
 Useful local URLs:
 
-- API health: `http://localhost:8080/health`
-- Example endpoint: `http://localhost:8080/examples/ping`
-- OpenAPI: `http://localhost:8080/openapi.php`
-- Swagger UI: `http://localhost:8080/docs/`
+- API health: `http://localhost:8200/health`
+- Example endpoint: `http://localhost:8200/examples/ping`
+- OpenAPI: `http://localhost:8200/openapi.php`
+- Swagger UI: `http://localhost:8200/docs/`
 
 Run optional real MySQL verification when database adapter behavior should be checked against a service database:
 
@@ -106,7 +106,7 @@ docker compose run --rm app composer test:database:mysql
 | OpenAPI | `docs/openapi/openapi.yaml` — `GET/POST/PUT/DELETE /examples/notes` paths |
 | Tests | `tests/Example/Note/` — unit, HTTP-level, PDO integration |
 
-All Note endpoints are live at `http://localhost:8080/examples/notes` after `docker compose up -d app`.
+All Note endpoints are live at `http://localhost:8200/examples/notes` after `docker compose up -d app`.
 
 ---
 
@@ -188,7 +188,7 @@ NENE2's quality baseline includes PHP-CS-Fixer for backend style checks and npm,
 
 ## How-to guides
 
-256 task-focused guides covering authentication, security, database patterns, API design, background jobs, and 100+ product feature recipes.
+260 task-focused guides covering authentication, security, database patterns, API design, background jobs, and 100+ product feature recipes.
 
 **[Full guide index →](docs/howto/README.md)**
 

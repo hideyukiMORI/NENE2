@@ -182,7 +182,7 @@ A lista é ordenada por `id ASC` para que o histórico seja cronológico.
 **Ataque**: Criar pedidos e aplicar transições sem credenciais.
 
 ```bash
-curl -s -X POST http://localhost:8080/orders/1/transitions \
+curl -s -X POST http://localhost:8200/orders/1/transitions \
   -H 'Content-Type: application/json' \
   -d '{"status":"approved"}'
 ```

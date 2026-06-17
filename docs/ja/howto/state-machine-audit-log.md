@@ -182,7 +182,7 @@ CREATE TABLE IF NOT EXISTS order_transitions (
 **攻撃**: 認証情報なしでオーダーを作成し、トランジションを適用する。
 
 ```bash
-curl -s -X POST http://localhost:8080/orders/1/transitions \
+curl -s -X POST http://localhost:8200/orders/1/transitions \
   -H 'Content-Type: application/json' \
   -d '{"status":"approved"}'
 ```

@@ -106,7 +106,7 @@ docker compose run --rm app composer check
 Docker 経由で提供されるエンドポイントには、ローカルスモークチェックを実行します:
 
 ```bash
-curl -i http://localhost:8080/examples/ping
+curl -i http://localhost:8200/examples/ping
 ```
 
 ## MCP との関係
