@@ -55,3 +55,10 @@ updates:
     labels:
       - dependencies
       - frontend
+    groups:
+      react:
+        patterns:
+          - "react"
+          - "react-dom"
+          - "@types/react"
+          - "@types/react-dom"
