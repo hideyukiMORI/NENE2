@@ -42,6 +42,7 @@ Tous les guides de ce répertoire, triés par nom de fichier. Régénérer avec 
 | [bookmark-system.md](bookmark-system.md) | Système de marque-pages |
 | [budget-tracking.md](budget-tracking.md) | How-to : API de suivi budgétaire |
 | [bulk-operations-partial-success.md](bulk-operations-partial-success.md) | How-to : Opérations en lot avec sémantique de succès partiel |
+| [bulk-reorder-api.md](bulk-reorder-api.md) | How-to : API de réorganisation en masse (ordre par glisser-déposer) |
 | [bulk-status-update.md](bulk-status-update.md) | How-to : API de mise à jour de statut en lot |
 | [category-hierarchy-api.md](category-hierarchy-api.md) | How-to : API d'arbre de hiérarchie de catégories |
 | [circuit-breaker.md](circuit-breaker.md) | How-to : Disjoncteur (Circuit Breaker) |
@@ -66,6 +67,7 @@ Tous les guides de ce répertoire, triés par nom de fichier. Régénérer avec 
 | [credit-ledger.md](credit-ledger.md) | How-to : API de grand livre de crédits |
 | [csrf-and-json-api.md](csrf-and-json-api.md) | CSRF et APIs JSON |
 | [csv-bulk-import.md](csv-bulk-import.md) | Guide d'implémentation de l'API d'import CSV en masse |
+| [csv-export-formula-injection.md](csv-export-formula-injection.md) | How-to : Prévenir l'injection de formule CSV / tableur à l'export |
 | [cursor-pagination.md](cursor-pagination.md) | How-to : Pagination basée sur curseur |
 | [data-export-api.md](data-export-api.md) | How-to : API d'export de données |
 | [data-masking.md](data-masking.md) | How-to : Ajouter le masquage de données |
@@ -136,6 +138,7 @@ Tous les guides de ce répertoire, triés par nom de fichier. Régénérer avec 
 | [leaderboard-ranking-system.md](leaderboard-ranking-system.md) | Comment construire un classement (système de ranking) avec NENE2 |
 | [leaderboard-ranking.md](leaderboard-ranking.md) | How-to : API de classement de jeu |
 | [leaderboard-scores.md](leaderboard-scores.md) | How-to : API de suivi de scores et leaderboard |
+| [live-penetration-testing.md](live-penetration-testing.md) | How-to : Test de pénétration en conteneur live |
 | [live-poll-system.md](live-poll-system.md) | How-to : Système de sondage en direct |
 | [magic-link-authentication.md](magic-link-authentication.md) | How-to : Authentification par magic link |
 | [mass-assignment-defence.md](mass-assignment-defence.md) | How-to : Défense contre la mass assignment avec DTO explicite |
@@ -249,6 +252,7 @@ Tous les guides de ce répertoire, triés par nom de fichier. Régénérer avec 
 | [use-fts5-search.md](use-fts5-search.md) | Utiliser la recherche plein texte FTS5 de SQLite |
 | [use-postgresql.md](use-postgresql.md) | Comment utiliser PostgreSQL |
 | [use-transactions.md](use-transactions.md) | Utiliser les transactions de base de données |
+| [use-window-functions.md](use-window-functions.md) | How-to : Utiliser les fonctions de fenêtre SQLite |
 | [user-follow-system.md](user-follow-system.md) | Comment construire un système de suivi d'utilisateurs avec NENE2 |
 | [user-invitation.md](user-invitation.md) | Système d'invitation d'utilisateurs |
 | [user-preferences-api.md](user-preferences-api.md) | How-to : API de préférences utilisateur |

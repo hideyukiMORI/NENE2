@@ -42,6 +42,7 @@ Todos os guias deste diretório, ordenados por nome de arquivo. Regenere com `co
 | [bookmark-system.md](bookmark-system.md) | Sistema de Favoritos |
 | [budget-tracking.md](budget-tracking.md) | Como Fazer: API de Rastreamento de Orçamento |
 | [bulk-operations-partial-success.md](bulk-operations-partial-success.md) | Como Fazer: Operações em Lote com Semântica de Sucesso Parcial |
+| [bulk-reorder-api.md](bulk-reorder-api.md) | Como Fazer: API de Reordenação em Massa (Ordenação Drag-and-Drop) |
 | [bulk-status-update.md](bulk-status-update.md) | Como Fazer: API de Atualização de Status em Lote |
 | [category-hierarchy-api.md](category-hierarchy-api.md) | Como Fazer: API de Árvore de Hierarquia de Categorias |
 | [circuit-breaker.md](circuit-breaker.md) | Como Fazer: Circuit Breaker |
@@ -66,6 +67,7 @@ Todos os guias deste diretório, ordenados por nome de arquivo. Regenere com `co
 | [credit-ledger.md](credit-ledger.md) | Como Fazer: API de Ledger de Créditos |
 | [csrf-and-json-api.md](csrf-and-json-api.md) | CSRF e APIs JSON |
 | [csv-bulk-import.md](csv-bulk-import.md) | Guia de Implementação de API de Importação em Massa via CSV |
+| [csv-export-formula-injection.md](csv-export-formula-injection.md) | Como Fazer: Prevenir Injeção de Fórmula em CSV / Planilha na Exportação |
 | [cursor-pagination.md](cursor-pagination.md) | Como Fazer: Paginação Baseada em Cursor |
 | [data-export-api.md](data-export-api.md) | Como Fazer: API de Exportação de Dados |
 | [data-masking.md](data-masking.md) | Como Adicionar Mascaramento de Dados |
@@ -136,6 +138,7 @@ Todos os guias deste diretório, ordenados por nome de arquivo. Regenere com `co
 | [leaderboard-ranking-system.md](leaderboard-ranking-system.md) | Como Construir um Placar (Sistema de Ranking) com NENE2 |
 | [leaderboard-ranking.md](leaderboard-ranking.md) | Como Fazer: API de Placar de Jogo e Ranking |
 | [leaderboard-scores.md](leaderboard-scores.md) | Como Fazer: API de Placar e Rastreamento de Pontuação |
+| [live-penetration-testing.md](live-penetration-testing.md) | Como Fazer: Teste de Penetração ao Vivo em Container |
 | [live-poll-system.md](live-poll-system.md) | Como Fazer: Sistema de Votação ao Vivo |
 | [magic-link-authentication.md](magic-link-authentication.md) | Como Fazer: Autenticação por Magic Link |
 | [mass-assignment-defence.md](mass-assignment-defence.md) | Como Fazer: Defesa Contra Mass Assignment com DTO Explícito |
@@ -249,6 +252,7 @@ Todos os guias deste diretório, ordenados por nome de arquivo. Regenere com `co
 | [use-fts5-search.md](use-fts5-search.md) | Usar Busca Full-Text FTS5 do SQLite |
 | [use-postgresql.md](use-postgresql.md) | Como usar PostgreSQL |
 | [use-transactions.md](use-transactions.md) | Usar Transações de Banco de Dados |
+| [use-window-functions.md](use-window-functions.md) | Como Fazer: Usar Window Functions do SQLite |
 | [user-follow-system.md](user-follow-system.md) | Como Construir um Sistema de Seguir Usuários com NENE2 |
 | [user-invitation.md](user-invitation.md) | Sistema de Convite de Usuários |
 | [user-preferences-api.md](user-preferences-api.md) | Como fazer: API de Preferências de Usuário |
