@@ -815,7 +815,7 @@ same gotchas.
 
 ## Phase 75: v2.0 Design and Framework Evolution
 
-Goal: review the friction and gaps accumulated across FT96–FT349 and decide
+Goal: review the friction and gaps accumulated across FT96–FT352 and decide
 what moves into the framework core vs. remains as howto-only patterns.
 
 - Collect top-friction patterns from field trial reports
