@@ -40,7 +40,7 @@ treelog unicodelog uploadlog votelog waitlistlog watchlog webhookdeliverylog
 webhooklog wishlistlog workflowlog
 ```
 
-## FT096〜FT170（番号 ↔ ディレクトリ対応）
+## FT096〜FT214（番号 ↔ ディレクトリ対応）
 
 | FT | ディレクトリ | テーマ |
 |---|---|---|
@@ -126,3 +126,34 @@ webhooklog wishlistlog workflowlog
 | FT175 | meterlog | API Usage Metering（per-user 日次クォータ・usage_events 追記・ゲートチェック） |
 | FT176 | grantlog | Delegated Access Grants（multi-party 委譲・time-limited・revocable・state machine 攻撃試験） |
 | FT177 | limitlog | Pagination Boundary Attack（ctype_digit・overflow guard・ReDoS safe・VULN-A〜L） |
+| FT178 | patchlog | JSON Merge Patch & ETag Conflict Detection — partial update, immutable field protection, V.php first real usage |
+| FT179 | isolationlog | Tenant Isolation & Cross-Tenant IDOR Prevention — multi-tenant resource scoping, X-Tenant-Id validation, V.php reuse |
+| FT180 | sortlog | SQL ORDER BY Injection Prevention — allowlist-based sort/filter, VULN-A~L + ATK-01~12 double special FT |
+| FT181 | reminderlog | ISO 8601 Datetime Validation & Timezone-Aware API — V::isoDatetime + V::futureDatetime real-world usage |
+| FT183 | shortlog | URL Shortener API & SSRF Prevention — 脆弱性診断 VULN-A~L |
+| FT184 | onetimelog | One-Time Secret API & ATK-01~12 Cracker Attack Test |
+| FT185 | statuslog | Service Status Page API — component health, incident lifecycle, admin key auth |
+| FT187 | encryptlog | Encrypted Field Storage — AES-256-GCM per-field encryption + blind index search |
+| FT188 | verifylog | Numeric Verification Code — 6-digit code with brute-force protection, ATK-01~12 |
+| FT189 | consentlog | Privacy Consent Management — GDPR-style consent tracking with VULN-A~L security audit |
+| FT190 | announcelog | System Announcement Management — time-based activation, admin key auth, per-user dismissal |
+| FT192 | pinverifylog | PIN Verification with Lockout — HMAC-SHA256 PIN, brute force lockout, admin unlock, VULN-A~L & ATK-01~12 |
+| FT193 | reservationlog | Resource Reservation / Time Slot Booking — overlap prevention, IDOR protection, ISO 8601 range comparison |
+| FT194 | assetlog | Asset Check-out / Check-in — exclusive hold, ownership check, append-only history |
+| FT195 | vaultlog | Personal Secret Vault — per-user key-value store with HMAC integrity and IDOR prevention |
+| FT196 | ticketlog | Event Ticket Booking — capacity management, per-user purchase, ATK-01~12 |
+| FT197 | templatelog | Document Template Engine — variable substitution, version tracking |
+| FT198 | walletlog | Multi-Currency Wallet — balance tracking, deposit/withdraw, transfer |
+| FT202 | notelog | Note management API with tag-based search |
+| FT205 | feedbacklog | Feedback collection API (score + comment + stats) |
+| FT212 | productlog | Product Catalog API (ATK-01~12 cracker attack test) |
+| FT214 | notiflog | Notification Queue API (send, list, read, delete) |
+
+## FT215 以降（howto-only 運用）
+
+新規 FT プロジェクトディレクトリの作成は **FT214（notiflog）が最後**。以降の運用は次のとおりで、本台帳の番号 ↔ ディレクトリ対応表もここで打ち止めとする。
+
+- **FT215〜FT221**: 既存ディレクトリ名を再利用（例: FT209→`taglog`(初出 FT125)、FT215→`orderlog`(初出 FT139)）。再利用名は初出エントリで衝突検出されるため、本表に新規行は追加しない。
+- **FT222 以降**: howto-only 運用。`../NENE2-FT/` に新しいプロジェクトディレクトリを作らず、howto で新パターンを文書化する（実装 example は別リポジトリ NENE2-examples 側に寄せる方針）。
+
+> **重複検出は 2 段**: `tools/new-ft.sh` は ① 本台帳の `grep` ② `../NENE2-FT/<name>` の実在チェック で名前衝突を防ぐ。新規ディレクトリを作る運用に戻る場合は、この表へ追記して台帳側の検出も維持すること。
