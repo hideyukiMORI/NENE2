@@ -19,5 +19,5 @@ npm run check --prefix frontend
 
 The starter calls the NENE2 `/health` endpoint through `src/api/health.ts`.
 
-During local development, Vite proxies `/api/*` to the Docker backend at `http://localhost:8080`.
+During local development, Vite proxies `/api/*` to the Docker backend at `http://localhost:8200`.
 Set `VITE_NENE2_API_BASE_URL` when an application needs a different API base URL.
