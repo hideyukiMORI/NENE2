@@ -4,7 +4,7 @@
 # This MCP server runs alongside a local NENE2 application.
 # Prerequisites:
 #   1. Clone this repository and run: docker compose up -d app
-#   2. The app will be available at http://localhost:8080
+#   2. The app will be available at http://localhost:8200
 #   3. Set NENE2_LOCAL_JWT_SECRET in .env to enable write tools and Bearer auth.
 
 startCommand:
@@ -18,7 +18,7 @@ startCommand:
           Base URL of the running NENE2 application.
           Use "http://app" when the app is running via "docker compose up -d app"
           (the MCP server container shares the same Docker network).
-          Use "http://host.docker.internal:8080" if the app is running directly on the host.
+          Use "http://host.docker.internal:8200" if the app is running directly on the host.
         default: http://app
       jwtSecret:
         type: string
