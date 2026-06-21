@@ -42,6 +42,7 @@
 | [bookmark-system.md](bookmark-system.md) | 书签系统 |
 | [budget-tracking.md](budget-tracking.md) | 操作指南：预算追踪 API |
 | [bulk-operations-partial-success.md](bulk-operations-partial-success.md) | 操作指南：带部分成功语义的批量操作 |
+| [bulk-reorder-api.md](bulk-reorder-api.md) | 操作指南：批量重排序（拖放排序）API |
 | [bulk-status-update.md](bulk-status-update.md) | 操作指南：批量状态更新 API |
 | [category-hierarchy-api.md](category-hierarchy-api.md) | 操作指南：分类层级树 API |
 | [circuit-breaker.md](circuit-breaker.md) | 操作指南：熔断器 |
@@ -66,6 +67,7 @@
 | [credit-ledger.md](credit-ledger.md) | 操作指南：积分账本 API |
 | [csrf-and-json-api.md](csrf-and-json-api.md) | CSRF 与 JSON API |
 | [csv-bulk-import.md](csv-bulk-import.md) | CSV 批量导入 API 实现指南 |
+| [csv-export-formula-injection.md](csv-export-formula-injection.md) | 操作指南：在导出时防止 CSV / 电子表格公式注入 |
 | [cursor-pagination.md](cursor-pagination.md) | 操作指南：基于游标的分页 |
 | [data-export-api.md](data-export-api.md) | 操作指南：数据导出 API |
 | [data-masking.md](data-masking.md) | 操作指南：数据脱敏 |
@@ -136,6 +138,7 @@
 | [leaderboard-ranking-system.md](leaderboard-ranking-system.md) | 如何使用 NENE2 构建排行榜（排名系统） |
 | [leaderboard-ranking.md](leaderboard-ranking.md) | 操作指南：游戏排行榜与排名 API |
 | [leaderboard-scores.md](leaderboard-scores.md) | 操作指南：排行榜与分数追踪 API |
+| [live-penetration-testing.md](live-penetration-testing.md) | 操作指南：实时容器渗透测试 |
 | [live-poll-system.md](live-poll-system.md) | 操作指南：实时投票系统 |
 | [magic-link-authentication.md](magic-link-authentication.md) | 操作指南：魔法链接认证 |
 | [mass-assignment-defence.md](mass-assignment-defence.md) | 操作指南：使用显式 DTO 的批量赋值防御 |
@@ -249,6 +252,7 @@
 | [use-fts5-search.md](use-fts5-search.md) | 使用 SQLite FTS5 全文搜索 |
 | [use-postgresql.md](use-postgresql.md) | 如何使用 PostgreSQL |
 | [use-transactions.md](use-transactions.md) | 使用数据库事务 |
+| [use-window-functions.md](use-window-functions.md) | 操作指南：使用 SQLite 窗口函数 |
 | [user-follow-system.md](user-follow-system.md) | 使用 NENE2 构建用户关注系统 |
 | [user-invitation.md](user-invitation.md) | 用户邀请系统 |
 | [user-preferences-api.md](user-preferences-api.md) | 操作指南：用户偏好设置 API |

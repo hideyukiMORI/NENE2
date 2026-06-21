@@ -42,6 +42,7 @@ Alle Anleitungen in diesem Verzeichnis, nach Dateiname sortiert. Mit `composer h
 | [bookmark-system.md](bookmark-system.md) | Lesezeichen-System |
 | [budget-tracking.md](budget-tracking.md) | How-to: Budget-Tracking-API |
 | [bulk-operations-partial-success.md](bulk-operations-partial-success.md) | How-to: Bulk-Operationen mit Teilerfolg-Semantik |
+| [bulk-reorder-api.md](bulk-reorder-api.md) | How-to: Bulk-Reorder-API (Drag-and-Drop-Sortierung) |
 | [bulk-status-update.md](bulk-status-update.md) | How-to: Bulk-Status-Update-API |
 | [category-hierarchy-api.md](category-hierarchy-api.md) | How-to: Kategoriehierarchie-Tree-API |
 | [circuit-breaker.md](circuit-breaker.md) | How-to: Circuit Breaker |
@@ -66,6 +67,7 @@ Alle Anleitungen in diesem Verzeichnis, nach Dateiname sortiert. Mit `composer h
 | [credit-ledger.md](credit-ledger.md) | How-to: Credit-Ledger-API |
 | [csrf-and-json-api.md](csrf-and-json-api.md) | CSRF und JSON-APIs |
 | [csv-bulk-import.md](csv-bulk-import.md) | Implementierungsleitfaden für CSV-Massenimport-API |
+| [csv-export-formula-injection.md](csv-export-formula-injection.md) | How-to: CSV-/Tabellenkalkulations-Formel-Injection beim Export verhindern |
 | [cursor-pagination.md](cursor-pagination.md) | How-to: Cursor-basierte Paginierung |
 | [data-export-api.md](data-export-api.md) | How-to: Datenexport-API |
 | [data-masking.md](data-masking.md) | How-to: Datenmaskierung hinzufügen |
@@ -136,6 +138,7 @@ Alle Anleitungen in diesem Verzeichnis, nach Dateiname sortiert. Mit `composer h
 | [leaderboard-ranking-system.md](leaderboard-ranking-system.md) | Anleitung: Bestenliste (Ranking-System) mit NENE2 aufbauen |
 | [leaderboard-ranking.md](leaderboard-ranking.md) | How-to: Spiel-Bestenliste & Ranking-API |
 | [leaderboard-scores.md](leaderboard-scores.md) | How-to: Bestenliste & Punktzahl-Tracking-API |
+| [live-penetration-testing.md](live-penetration-testing.md) | How-to: Live-Container-Penetrationstests |
 | [live-poll-system.md](live-poll-system.md) | How-to: Live-Umfragesystem |
 | [magic-link-authentication.md](magic-link-authentication.md) | How-to: Magic-Link-Authentifizierung |
 | [mass-assignment-defence.md](mass-assignment-defence.md) | How-to: Mass-Assignment-Schutz mit explizitem DTO |
@@ -249,6 +252,7 @@ Alle Anleitungen in diesem Verzeichnis, nach Dateiname sortiert. Mit `composer h
 | [use-fts5-search.md](use-fts5-search.md) | SQLite FTS5 Volltextsuche verwenden |
 | [use-postgresql.md](use-postgresql.md) | PostgreSQL verwenden |
 | [use-transactions.md](use-transactions.md) | Datenbanktransaktionen verwenden |
+| [use-window-functions.md](use-window-functions.md) | How-to: SQLite-Fensterfunktionen verwenden |
 | [user-follow-system.md](user-follow-system.md) | Benutzer-Follow-System mit NENE2 aufbauen |
 | [user-invitation.md](user-invitation.md) | Benutzer-Einladungssystem |
 | [user-preferences-api.md](user-preferences-api.md) | How-to: Benutzereinstellungen-API |
