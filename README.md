@@ -38,6 +38,10 @@ The foundation currently includes:
 - Local MCP server support for read/write tools aligned with OpenAPI, with an authentication guard on write operations.
 - React + TypeScript + Vite starter kept optional and decoupled from backend runtime behavior.
 
+## Article
+
+- [I built a tiny PHP framework for AI-readable business APIs](https://dev.to/hideyukimori/i-built-a-tiny-php-framework-for-ai-readable-business-apis-48eo) — DEV Community introduction to NENE2's API-first, OpenAPI, and MCP-ready design.
+
 ## Installation
 
 NENE2 is available on [Packagist](https://packagist.org/packages/hideyukimori/nene2).
