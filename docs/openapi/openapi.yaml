@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: NENE2 API
-  version: 1.5.329
+  version: 1.5.330
   description: >
     NENE2 API contract. This file is the source of truth for public JSON APIs.
 servers:
@@ -110,6 +110,15 @@ paths:
                   value:
                     status: ok
                     service: NENE2
+                    framework_version: 1.5.330
+                    credential_type: api_key
+                withAppVersion:
+                  summary: When the application injects its own version
+                  value:
+                    status: ok
+                    service: NENE2
+                    version: 1.4.2
+                    framework_version: 1.5.330
                     credential_type: api_key
         '401':
           $ref: '#/components/responses/Unauthorized'
@@ -851,6 +860,7 @@ components:
       required:
         - status
         - service
+        - framework_version
         - credential_type
       properties:
         status:
@@ -861,6 +871,17 @@ components:
         service:
           type: string
           example: NENE2
+        version:
+          type: string
+          description: >-
+            The consuming application's own semantic version. Present only when the application
+            injects it via RuntimeApplicationFactory's `appVersion`; omitted otherwise. Distinct
+            from `framework_version`. Consumers must treat a missing value as "unknown".
+          example: 1.4.2
+        framework_version:
+          type: string
+          description: The NENE2 framework version the application runs on (FrameworkInfo::VERSION).
+          example: 1.5.330
         credential_type:
           type: string
           enum:

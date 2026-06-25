@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Nene2\Tests;
 
+use Nene2\FrameworkInfo;
 use Nene2\Http\HealthCheckInterface;
 use Nene2\Http\HealthStatus;
 use Nene2\Http\JsonResponseFactory;
@@ -144,6 +145,31 @@ final class HttpRuntimeTest extends TestCase
         self::assertSame('ok', $payload['status']);
         self::assertSame('NENE2', $payload['service']);
         self::assertSame('api_key', $payload['credential_type']);
+        // framework_version is always reported; the application version is omitted unless injected.
+        self::assertSame(FrameworkInfo::VERSION, $payload['framework_version']);
+        self::assertArrayNotHasKey('version', $payload);
+    }
+
+    public function testMachineHealthIncludesAppVersionWhenInjected(): void
+    {
+        $factory = new Psr17Factory();
+        $application = (new RuntimeApplicationFactory(
+            $factory,
+            $factory,
+            machineApiKey: 'test-key',
+            appVersion: '2.3.4',
+        ))->create();
+
+        $response = $application->handle(
+            $factory
+                ->createServerRequest('GET', 'https://example.test/machine/health')
+                ->withHeader('X-NENE2-API-Key', 'test-key'),
+        );
+        $payload = $this->decodeJson($response);
+
+        self::assertSame(200, $response->getStatusCode());
+        self::assertSame('2.3.4', $payload['version']);
+        self::assertSame(FrameworkInfo::VERSION, $payload['framework_version']);
     }
 
     public function testExamplePingEndpointRunsThroughRuntime(): void

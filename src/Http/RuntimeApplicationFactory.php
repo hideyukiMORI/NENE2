@@ -81,6 +81,16 @@ final readonly class RuntimeApplicationFactory
      *                                       (env `PROBLEM_DETAILS_BASE_URL`) so framework and domain
      *                                       errors share the same `type` namespace. Defaults to
      *                                       `https://nene2.dev/problems/` for backward compatibility.
+     * @param string|null $appVersion The consuming application's own semantic version (e.g. `'1.4.2'`),
+     *                                surfaced on `GET /machine/health` as the `version` field. Each app
+     *                                injects its own value from wherever it tracks its release (its
+     *                                `composer.json`, a `VERSION` constant, or an environment variable);
+     *                                leave it null to omit the field entirely. This is the *application*
+     *                                version and is intentionally distinct from the *framework* version
+     *                                ({@see FrameworkInfo::VERSION}), which is always reported separately
+     *                                as `framework_version`. Surfacing it on the auth-gated machine
+     *                                endpoint lets a suite/orchestrator track each app's installed
+     *                                version without exposing it on the public `GET /health`.
      */
     public function __construct(
         private ResponseFactoryInterface $responseFactory,
@@ -101,6 +111,7 @@ final readonly class RuntimeApplicationFactory
         private array $machineApiKeyProtectedMethods = [],
         private int $requestMaxBodyBytes = 1_048_576,
         private string $problemDetailsBaseUrl = 'https://nene2.dev/problems/',
+        private ?string $appVersion = null,
     ) {
     }
 
@@ -127,6 +138,7 @@ final readonly class RuntimeApplicationFactory
             $this->problemDetailsBaseUrl,
         );
         $framework = new FrameworkInfo();
+        $appVersion = $this->appVersion;
 
         $router = (new Router())
             ->get(
@@ -176,11 +188,21 @@ final readonly class RuntimeApplicationFactory
             )
             ->get(
                 '/machine/health',
-                static fn (ServerRequestInterface $request) => $jsonResponses->create([
-                    'status' => 'ok',
-                    'service' => $framework->name(),
-                    'credential_type' => $request->getAttribute('nene2.auth.credential_type'),
-                ]),
+                function (ServerRequestInterface $request) use ($jsonResponses, $framework, $appVersion) {
+                    $payload = [
+                        'status' => 'ok',
+                        'service' => $framework->name(),
+                    ];
+
+                    if ($appVersion !== null) {
+                        $payload['version'] = $appVersion;
+                    }
+
+                    $payload['framework_version'] = FrameworkInfo::VERSION;
+                    $payload['credential_type'] = $request->getAttribute('nene2.auth.credential_type');
+
+                    return $jsonResponses->create($payload);
+                },
             )
             ->get(
                 '/examples/ping',
