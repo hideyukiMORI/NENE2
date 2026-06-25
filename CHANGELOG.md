@@ -13,7 +13,7 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ## [1.5.330] — 2026-06-25
 
 ### Added
-- `Nene2\Http\RuntimeApplicationFactory` — `appVersion` コンストラクタ引数（`?string`、既定 `null`）を追加。設定すると `GET /machine/health` のレスポンスに消費側アプリ自身の semver を `version` フィールドとして返す。`null` の場合は `version` を省略するため後方互換。アプリ版（`version`）はフレームワーク版とは別物で、フレームワーク版は常に `framework_version`（= `FrameworkInfo::VERSION`）として返す。suite / orchestrator が公開 `/health` に版情報を晒さずに各アプリの installed version を追跡できるよう、認証済みの machine エンドポイントに載せた（#1414）
+- `Nene2\Http\RuntimeApplicationFactory` — `appVersion` コンストラクタ引数（`?string`、既定 `null`）を追加。設定すると `GET /machine/health` のレスポンスに消費側アプリ自身の semver を `version` フィールドとして返す。`null` の場合は `version` を省略するため後方互換。アプリ版（`version`）はフレームワーク版とは別物で、フレームワーク版は常に `framework_version`（= `FrameworkInfo::VERSION`）として返す。machine クライアント（監視・運用・デプロイツール等）が公開 `/health` に版情報を晒さずにアプリ版を読めるよう、認証済みの machine エンドポイントに載せた（#1414）
 - `docs/openapi/openapi.yaml` — `MachineHealthResponse` に `version`（任意）と `framework_version`（必須）を追記。`withAppVersion` example を追加
 
 ### Changed
