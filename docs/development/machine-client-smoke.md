@@ -24,9 +24,15 @@ The expected success response includes:
 {
   "status": "ok",
   "service": "NENE2",
+  "framework_version": "1.5.330",
   "credential_type": "api_key"
 }
 ```
+
+`framework_version` always reports the running NENE2 framework version. When the application
+injects its own version (`RuntimeApplicationFactory`'s `appVersion`), the response also includes a
+top-level `version` field with the application's own semver; it is omitted otherwise. Consumers must
+treat a missing `version` as "unknown".
 
 ## Start With a Local Key
 

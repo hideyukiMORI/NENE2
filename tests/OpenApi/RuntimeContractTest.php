@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Nene2\Tests\OpenApi;
 
+use Nene2\FrameworkInfo;
 use Nene2\Http\RuntimeApplicationFactory;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -90,6 +91,14 @@ final class RuntimeContractTest extends TestCase
 
                 if (!is_array($example) || !is_string($schemaRef)) {
                     continue;
+                }
+
+                // framework_version is reported dynamically from FrameworkInfo::VERSION and changes on
+                // every release. Normalize the documented example to the running version so the strict
+                // example-vs-response contract assertion verifies the field is present and equals the
+                // framework version, without breaking on each version bump.
+                if (array_key_exists('framework_version', $example)) {
+                    $example['framework_version'] = FrameworkInfo::VERSION;
                 }
 
                 yield sprintf('%s %s', strtoupper($method), $path) => [
