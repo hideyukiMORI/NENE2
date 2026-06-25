@@ -89,8 +89,9 @@ final readonly class RuntimeApplicationFactory
      *                                version and is intentionally distinct from the *framework* version
      *                                ({@see FrameworkInfo::VERSION}), which is always reported separately
      *                                as `framework_version`. Surfacing it on the auth-gated machine
-     *                                endpoint lets a suite/orchestrator track each app's installed
-     *                                version without exposing it on the public `GET /health`.
+     *                                endpoint keeps the application version readable by machine clients
+     *                                (monitoring, operators, deployment tooling) without exposing it on
+     *                                the public `GET /health`.
      */
     public function __construct(
         private ResponseFactoryInterface $responseFactory,
