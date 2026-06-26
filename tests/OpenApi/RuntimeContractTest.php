@@ -74,6 +74,12 @@ final class RuntimeContractTest extends TestCase
                     continue;
                 }
 
+                // The preflight endpoint requires an opt-in DatabaseCandidateInspector and a candidate
+                // body; it is covered by MachineDatabasePreflightHttpTest with a SQLite-backed candidate.
+                if ($path === '/machine/database/preflight') {
+                    continue;
+                }
+
                 $successResponse = $operation['responses']['200'] ?? null;
 
                 if (!is_array($successResponse)) {

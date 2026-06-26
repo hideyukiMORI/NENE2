@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Nene2\Http;
 
+use Nene2\Database\Preflight\CandidateProfile;
+use Nene2\Database\Preflight\DatabaseCandidateInspector;
 use Nene2\Error\DomainExceptionHandlerInterface;
 use Nene2\Error\ErrorHandlerMiddleware;
 use Nene2\Error\ProblemDetailsResponseFactory;
@@ -18,6 +20,8 @@ use Nene2\Middleware\RequestSizeLimitMiddleware;
 use Nene2\Middleware\SecurityHeadersMiddleware;
 use Nene2\Middleware\ThrottleMiddleware;
 use Nene2\Routing\Router;
+use Nene2\Validation\ValidationError;
+use Nene2\Validation\ValidationException;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamFactoryInterface;
@@ -92,6 +96,17 @@ final readonly class RuntimeApplicationFactory
      *                                endpoint keeps the application version readable by machine clients
      *                                (monitoring, operators, deployment tooling) without exposing it on
      *                                the public `GET /health`.
+     * @param DatabaseCandidateInspector|null $databaseCandidateInspector When provided, registers the
+     *                                auth-gated `POST /machine/database/preflight` endpoint, which
+     *                                inspects a candidate database read-only and returns a structured
+     *                                verdict (see issue #1419). Leave null to omit the endpoint entirely
+     *                                — the framework core stays database-agnostic for applications that
+     *                                do not opt in. The path is automatically added to the machine API
+     *                                key protected paths when an allowlist is in effect.
+     * @param array<string, CandidateProfile> $databaseCandidateProfiles Candidate profiles keyed by the
+     *                                id the caller references. The endpoint resolves a profile from this
+     *                                map; connection details and credentials are never read from the
+     *                                request body. Only consulted when $databaseCandidateInspector is set.
      */
     public function __construct(
         private ResponseFactoryInterface $responseFactory,
@@ -113,6 +128,8 @@ final readonly class RuntimeApplicationFactory
         private int $requestMaxBodyBytes = 1_048_576,
         private string $problemDetailsBaseUrl = 'https://nene2.dev/problems/',
         private ?string $appVersion = null,
+        private ?DatabaseCandidateInspector $databaseCandidateInspector = null,
+        private array $databaseCandidateProfiles = [],
     ) {
     }
 
@@ -224,8 +241,54 @@ final readonly class RuntimeApplicationFactory
             );
         }
 
+        if ($this->databaseCandidateInspector !== null) {
+            $inspector = $this->databaseCandidateInspector;
+            $profiles = $this->databaseCandidateProfiles;
+
+            $router->post(
+                '/machine/database/preflight',
+                static function (ServerRequestInterface $request) use ($jsonResponses, $inspector, $profiles) {
+                    $body = JsonRequestBodyParser::parse($request);
+                    $candidateId = $body['candidate'] ?? null;
+
+                    // Connection details / credentials in the body are intentionally ignored — only the
+                    // candidate id is read, and the profile (and its connection) is resolved from the
+                    // application's own configuration. This blocks SSRF and keeps credentials off the wire.
+                    if (!is_string($candidateId) || $candidateId === '') {
+                        throw new ValidationException([
+                            new ValidationError('candidate', 'A candidate profile id is required.', 'required'),
+                        ]);
+                    }
+
+                    $profile = $profiles[$candidateId] ?? null;
+
+                    if (!$profile instanceof CandidateProfile) {
+                        throw new ValidationException([
+                            new ValidationError('candidate', 'Unknown candidate profile.', 'unknown_candidate'),
+                        ]);
+                    }
+
+                    return $jsonResponses->create($inspector->inspect($profile)->toArray());
+                },
+            );
+        }
+
         foreach ($this->routeRegistrars as $registrar) {
             $registrar($router);
+        }
+
+        // Auto-protect the preflight endpoint with the machine API key. Only append when an allowlist
+        // is already in effect — appending to "protect all" mode (both lists empty) would silently
+        // switch it to allowlist mode and un-protect every other path.
+        $machineProtectedPaths = $this->machineApiKeyProtectedPaths;
+        $allowlistMode = $this->machineApiKeyProtectedPaths !== [] || $this->machineApiKeyProtectedPathPrefixes !== [];
+
+        if (
+            $this->databaseCandidateInspector !== null
+            && $allowlistMode
+            && !in_array('/machine/database/preflight', $machineProtectedPaths, true)
+        ) {
+            $machineProtectedPaths[] = '/machine/database/preflight';
         }
 
         $middlewareStack = [
@@ -238,7 +301,7 @@ final readonly class RuntimeApplicationFactory
             new ApiKeyAuthenticationMiddleware(
                 $problemDetails,
                 $this->machineApiKey,
-                $this->machineApiKeyProtectedPaths,
+                $machineProtectedPaths,
                 excludedPaths:          $this->machineApiKeyExcludedPaths,
                 protectedPathPrefixes:  $this->machineApiKeyProtectedPathPrefixes,
                 protectedMethods:       $this->machineApiKeyProtectedMethods,

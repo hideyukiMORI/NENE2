@@ -341,6 +341,29 @@
         }
       },
       "responseSchemaRef": null
+    },
+    {
+      "name": "machineDatabasePreflight",
+      "title": "Machine Database Preflight",
+      "description": "Run a read-only self-diagnosis on a candidate database (resolved from the application's own configuration by id) and return a structured verdict. The candidate connection and credentials are never passed through this tool. Auth-gated machine endpoint.",
+      "safety": "read",
+      "source": {
+        "type": "openapi",
+        "operationId": "machineDatabasePreflight",
+        "method": "POST",
+        "path": "/machine/database/preflight"
+      },
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["candidate"],
+        "properties": {
+          "candidate": {
+            "type": "string"
+          }
+        }
+      },
+      "responseSchemaRef": "#/components/schemas/MachineDatabasePreflightResponse"
     }
   ]
 }
