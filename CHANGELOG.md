@@ -10,6 +10,21 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.332] — 2026-06-27
+
+### Added
+- `Nene2\Database\Preflight\ApplicationIdentity` / `ApplicationIdentityMarker` — アプリ識別マーカーの value object と書き込みパス（#1420 / B）。`stamp()` は `nene2_app_identity` テーブルを作成し単一行を冪等に書き込む。init/マイグレーション時、および既存 DB の backfill（採用時の一度きり）に使う。
+- `Nene2\Database\Preflight\DefaultDatabaseCandidateInspector` — `applicationIdentity`（`?ApplicationIdentity`）と `identityTable`（既定 `nene2_app_identity`）コンストラクタ引数を追加。設定すると verdict の `app_identity`（`match` / `mismatch` / `absent`）と、マルチテナント identity では `tenant`（`match` / `mismatch`）を read-only で評価する。
+- **既存 DB の fail-closed 回避**（#1420 の核心）: identity マーカー不在は `refuse` にせず `app_identity: absent` + `identity_unverified` を返し、マイグレーション由来の recommendation（`safe` / `needs_migration`）を維持する。`mismatch`（別アプリのマーカー）のみ自動 `refuse`。`tenant: mismatch` も自動 `refuse`。
+- 識別マーカーテーブルは framework 内部テーブルとして扱い、`populated` / `foreign` 判定から除外する（マーカーのみの DB は `foreign` でなく `fresh`）。
+- `docs/development/machine-database-preflight.md` — エンドポイント・identity マーカー・**既存 DB の backfill 手順**を記載。
+- `docs/openapi/openapi.yaml` — `MachineDatabasePreflightResponse` の `app_identity` / `tenant` に enum を追加。
+
+### Notes
+- `applicationIdentity` 未設定時は A スコープの挙動を維持（`app_identity: not_evaluated` / `tenant: not_applicable` + 旧マルチテナントガード `tenant_unevaluated`）。後方互換。
+
+---
+
 ## [1.5.331] — 2026-06-27
 
 ### Added
