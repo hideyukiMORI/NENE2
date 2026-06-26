@@ -41,6 +41,7 @@ The foundation currently includes:
 ## Article
 
 - [I built a tiny PHP framework for AI-readable business APIs](https://dev.to/hideyukimori/i-built-a-tiny-php-framework-for-ai-readable-business-apis-48eo) — DEV Community introduction to NENE2's API-first, OpenAPI, and MCP-ready design.
+- [MCP should not mean letting AI touch your database](https://dev.to/hideyukimori/mcp-should-not-mean-letting-ai-touch-your-database-57p1) — DEV Community article on keeping MCP tools behind documented HTTP/API boundaries.
 
 ## Installation
 
