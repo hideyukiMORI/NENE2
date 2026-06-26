@@ -10,6 +10,18 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.331] — 2026-06-27
+
+### Added
+- `Nene2\Database\Preflight` — 候補データベースを **read-only で自己診断**する framework 機能の MVP（#1419 / A）。`DatabaseCandidateInspector` インターフェース、無設定で動く `DefaultDatabaseCandidateInspector`（マイグレーション台帳 `phinx_log` ベース）、`CandidateProfile` / `PreflightVerdict` value object、`MigrationState` / `PreflightRecommendation` enum を追加。
+- `Nene2\Http\RuntimeApplicationFactory` — `databaseCandidateInspector`（`?DatabaseCandidateInspector`、既定 `null`）と `databaseCandidateProfiles`（`array<string, CandidateProfile>`、既定 `[]`）コンストラクタ引数を追加。inspector を渡したときのみ `POST /machine/database/preflight` を登録する。`null` のままなら framework コアは従来どおり DB 非依存で、エンドポイントは生えない（後方互換）。エンドポイントは machine API キーで自動保護される（allowlist モード時）。
+- エンドポイントは候補プロファイル **ID のみ**を受け取り、接続情報・認証情報はアプリ自身の設定から解決する（DSN/creds を wire に載せない・SSRF 封じ）。verdict は reason code のみで生の DB 名/ホスト/データを含まない。read-only はトランザクション機構で保証（SQLite `PRAGMA query_only`、MySQL/PostgreSQL `START TRANSACTION READ ONLY`）。
+- マルチテナント構成のガード（#1419）: tenant 未評価（B / #1420 未導入）の間は無条件 `safe` を返さず、`reason_codes` に `tenant_unevaluated` を付けて `needs_review` に倒す。`app_identity` は `not_evaluated`、`tenant` は `not_applicable`（いずれも #1420 で有効化）。
+- `docs/openapi/openapi.yaml` — `machineDatabasePreflight` 操作、`MachineDatabasePreflightRequest` / `MachineDatabasePreflightResponse` スキーマを追加。
+- `docs/mcp/tools.json` — `machineDatabasePreflight` ツール（`safety: read`）を追加。
+
+---
+
 ## [1.5.330] — 2026-06-25
 
 ### Added

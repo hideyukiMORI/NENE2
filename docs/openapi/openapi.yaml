@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: NENE2 API
-  version: 1.5.330
+  version: 1.5.331
   description: >
     NENE2 API contract. This file is the source of truth for public JSON APIs.
 servers:
@@ -124,6 +124,64 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '413':
           $ref: '#/components/responses/PayloadTooLarge'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /machine/database/preflight:
+    post:
+      tags:
+        - System
+      summary: Candidate database preflight (read-only self-diagnosis)
+      description: >-
+        Inspects a candidate database read-only and returns a structured verdict answering
+        "is this candidate database legitimate for me?". The candidate is resolved from the
+        application's own configuration by id; connection details and credentials are never
+        accepted in the request body (SSRF protection, no credentials on the wire). The verdict
+        carries reason codes only — never raw database names, hosts, or row data. Auth-gated for
+        machine clients. Scope A (issue #1419): single-tenant; app_identity and tenant are
+        placeholders enabled by #1420.
+      operationId: machineDatabasePreflight
+      security:
+        - ApiKeyAuth:
+            - read:database
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MachineDatabasePreflightRequest'
+            examples:
+              candidate:
+                summary: Reference a candidate profile by id
+                value:
+                  candidate: restore-2026-06
+      responses:
+        '200':
+          description: Structured read-only verdict for the candidate database.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MachineDatabasePreflightResponse'
+              examples:
+                ok:
+                  summary: A compatible candidate, safe to use
+                  value:
+                    reachable: true
+                    schema_recognized: true
+                    migration_state: compatible
+                    populated: true
+                    recommendation: safe
+                    reason_codes:
+                      - compatible
+                    app_identity: not_evaluated
+                    tenant: not_applicable
+        '400':
+          $ref: '#/components/responses/InvalidJson'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '413':
+          $ref: '#/components/responses/PayloadTooLarge'
+        '422':
+          $ref: '#/components/responses/ValidationFailed'
         '500':
           $ref: '#/components/responses/InternalServerError'
   /examples/protected:
@@ -887,6 +945,86 @@ components:
           enum:
             - api_key
           example: api_key
+    MachineDatabasePreflightRequest:
+      type: object
+      additionalProperties: false
+      required:
+        - candidate
+      properties:
+        candidate:
+          type: string
+          description: >-
+            The id of a candidate profile configured on the application. The application resolves the
+            connection from its own configuration; DSN, host, and credentials are never read from the body.
+          example: restore-2026-06
+    MachineDatabasePreflightResponse:
+      type: object
+      required:
+        - reachable
+        - schema_recognized
+        - migration_state
+        - populated
+        - recommendation
+        - reason_codes
+        - app_identity
+        - tenant
+      properties:
+        reachable:
+          type: boolean
+          description: Whether a read-only connection to the candidate could be opened.
+          example: true
+        schema_recognized:
+          type:
+            - boolean
+            - 'null'
+          description: Whether the candidate carries this framework's migration ledger. Null when unreachable.
+          example: true
+        migration_state:
+          type:
+            - string
+            - 'null'
+          enum:
+            - fresh
+            - compatible
+            - ahead
+            - foreign
+            - partial
+            - null
+          description: Migration state of the candidate relative to the application. Null when unreachable.
+          example: compatible
+        populated:
+          type:
+            - boolean
+            - 'null'
+          description: Whether the candidate holds application tables or migration history. Null when unreachable.
+          example: true
+        recommendation:
+          type: string
+          enum:
+            - safe
+            - needs_migration
+            - needs_review
+            - refuse
+          description: The actionable recommendation. A diagnosis, not an authorization.
+          example: safe
+        reason_codes:
+          type: array
+          items:
+            type: string
+          description: Machine-readable codes explaining the recommendation. Never raw database names, hosts, or data.
+          example:
+            - compatible
+        app_identity:
+          type: string
+          description: >-
+            Application-identity match state. Always "not_evaluated" in scope A (#1419); identity-marker
+            matching is enabled by #1420.
+          example: not_evaluated
+        tenant:
+          type: string
+          description: >-
+            Tenant match state. Always "not_applicable" in scope A (#1419); tenant matching is enabled by #1420.
+          example: not_applicable
     ExamplePingResponse:
       type: object
       required:
