@@ -6,6 +6,7 @@ namespace Nene2\Tests\Database\Preflight;
 
 use Nene2\Database\DatabaseConnectionException;
 use Nene2\Database\DatabaseConnectionFactoryInterface;
+use Nene2\Database\Preflight\ApplicationIdentity;
 use Nene2\Database\Preflight\CandidateProfile;
 use Nene2\Database\Preflight\DefaultDatabaseCandidateInspector;
 use Nene2\Database\Preflight\MigrationState;
@@ -139,6 +140,98 @@ final class DefaultDatabaseCandidateInspectorTest extends TestCase
         self::assertSame(['foreign_schema'], $verdict->reasonCodes);
     }
 
+    public function testIdentityMatchIsSafe(): void
+    {
+        $pdo = $this->sqlite();
+        $this->seedLedger($pdo, ['20260101']);
+        $this->seedMarker($pdo, 'app-A');
+
+        $verdict = (new DefaultDatabaseCandidateInspector(['20260101'], applicationIdentity: new ApplicationIdentity('app-A')))
+            ->inspect($this->profile($pdo));
+
+        self::assertSame('match', $verdict->appIdentity);
+        self::assertSame('not_applicable', $verdict->tenant);
+        self::assertSame(PreflightRecommendation::Safe, $verdict->recommendation);
+        self::assertSame(['compatible'], $verdict->reasonCodes);
+    }
+
+    public function testIdentityMismatchIsRefused(): void
+    {
+        $pdo = $this->sqlite();
+        $this->seedLedger($pdo, ['20260101']);
+        $this->seedMarker($pdo, 'app-OTHER');
+
+        $verdict = (new DefaultDatabaseCandidateInspector(['20260101'], applicationIdentity: new ApplicationIdentity('app-A')))
+            ->inspect($this->profile($pdo));
+
+        self::assertSame('mismatch', $verdict->appIdentity);
+        self::assertSame(PreflightRecommendation::Refuse, $verdict->recommendation);
+        self::assertSame(['compatible', 'identity_mismatch'], $verdict->reasonCodes);
+    }
+
+    public function testAbsentIdentityMarkerDoesNotFailClosed(): void
+    {
+        // The core #1420 guard: a legitimate pre-existing database without an identity marker must not
+        // be refused as foreign — it stays at its migration-based recommendation, flagged unverified.
+        $pdo = $this->sqlite();
+        $this->seedLedger($pdo, ['20260101']);
+
+        $verdict = (new DefaultDatabaseCandidateInspector(['20260101'], applicationIdentity: new ApplicationIdentity('app-A')))
+            ->inspect($this->profile($pdo));
+
+        self::assertSame('absent', $verdict->appIdentity);
+        self::assertSame(PreflightRecommendation::Safe, $verdict->recommendation);
+        self::assertSame(['compatible', 'identity_unverified'], $verdict->reasonCodes);
+    }
+
+    public function testTenantMatchIsSafe(): void
+    {
+        $pdo = $this->sqlite();
+        $this->seedLedger($pdo, ['20260101']);
+        $this->seedMarker($pdo, 'app-A', 'tenant-1');
+
+        $verdict = (new DefaultDatabaseCandidateInspector(
+            ['20260101'],
+            applicationIdentity: new ApplicationIdentity('app-A', 'tenant-1'),
+        ))->inspect($this->profile($pdo));
+
+        self::assertSame('match', $verdict->appIdentity);
+        self::assertSame('match', $verdict->tenant);
+        self::assertSame(PreflightRecommendation::Safe, $verdict->recommendation);
+    }
+
+    public function testTenantMismatchIsRefused(): void
+    {
+        $pdo = $this->sqlite();
+        $this->seedLedger($pdo, ['20260101']);
+        $this->seedMarker($pdo, 'app-A', 'tenant-2');
+
+        $verdict = (new DefaultDatabaseCandidateInspector(
+            ['20260101'],
+            applicationIdentity: new ApplicationIdentity('app-A', 'tenant-1'),
+        ))->inspect($this->profile($pdo));
+
+        self::assertSame('match', $verdict->appIdentity);
+        self::assertSame('mismatch', $verdict->tenant);
+        self::assertSame(PreflightRecommendation::Refuse, $verdict->recommendation);
+        self::assertSame(['compatible', 'tenant_mismatch'], $verdict->reasonCodes);
+    }
+
+    public function testIdentityMarkerTableIsNotTreatedAsApplicationSchema(): void
+    {
+        // A database holding only the framework's identity marker (no ledger, no app tables) is fresh,
+        // not foreign — the marker table must be excluded from the "populated / foreign" decision.
+        $pdo = $this->sqlite();
+        $this->seedMarker($pdo, 'app-A');
+
+        $verdict = (new DefaultDatabaseCandidateInspector(['20260101'], applicationIdentity: new ApplicationIdentity('app-A')))
+            ->inspect($this->profile($pdo));
+
+        self::assertSame(MigrationState::Fresh, $verdict->migrationState);
+        self::assertFalse($verdict->populated);
+        self::assertSame('match', $verdict->appIdentity);
+    }
+
     public function testUnreachableCandidateIsRefused(): void
     {
         $factory = new class () implements DatabaseConnectionFactoryInterface {
@@ -193,6 +286,13 @@ final class DefaultDatabaseCandidateInspectorTest extends TestCase
             $statement = $pdo->prepare('INSERT INTO phinx_log (version, migration_name) VALUES (:v, :n)');
             $statement->execute([':v' => $version, ':n' => 'Migration' . $version]);
         }
+    }
+
+    private function seedMarker(PDO $pdo, string $applicationId, ?string $tenantId = null): void
+    {
+        $pdo->exec('CREATE TABLE nene2_app_identity (application_id TEXT NOT NULL, tenant_id TEXT NULL)');
+        $statement = $pdo->prepare('INSERT INTO nene2_app_identity (application_id, tenant_id) VALUES (:a, :t)');
+        $statement->execute([':a' => $applicationId, ':t' => $tenantId]);
     }
 
     private function profile(PDO $pdo, bool $multiTenant = false): CandidateProfile

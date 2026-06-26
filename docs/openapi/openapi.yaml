@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: NENE2 API
-  version: 1.5.331
+  version: 1.5.332
   description: >
     NENE2 API contract. This file is the source of truth for public JSON APIs.
 servers:
@@ -1016,14 +1016,25 @@ components:
             - compatible
         app_identity:
           type: string
+          enum:
+            - not_evaluated
+            - match
+            - mismatch
+            - absent
           description: >-
-            Application-identity match state. Always "not_evaluated" in scope A (#1419); identity-marker
-            matching is enabled by #1420.
-          example: not_evaluated
+            Application-identity match state against the candidate's identity marker. `not_evaluated`
+            when the application did not configure its identity; `absent` when the candidate carries no
+            marker (does not refuse); `mismatch` when the marker belongs to a different application (refuses).
+          example: match
         tenant:
           type: string
+          enum:
+            - not_applicable
+            - match
+            - mismatch
           description: >-
-            Tenant match state. Always "not_applicable" in scope A (#1419); tenant matching is enabled by #1420.
+            Tenant match state. `not_applicable` for single-tenant applications or when identity could
+            not be evaluated; `mismatch` when the candidate belongs to a different tenant (refuses).
           example: not_applicable
     ExamplePingResponse:
       type: object
