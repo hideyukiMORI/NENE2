@@ -27,8 +27,10 @@ use Psr\Http\Server\RequestHandlerInterface;
  * In all modes, `OPTIONS` requests are always skipped (CORS preflight).
  *
  * Method filtering (`$protectedMethods`): when non-empty, only requests whose HTTP method appears
- * in the list are protected. Use this to allow safe methods (GET, HEAD) while requiring an API
- * key only for state-changing operations (POST, PUT, PATCH, DELETE).
+ * in the list are protected. Use this to require an API key only for state-changing operations
+ * (POST, PUT, PATCH, DELETE) while leaving reads open. `HEAD` is normalized to `GET` before the
+ * check — because the router serves HEAD via the GET handler, listing `GET` also protects `HEAD`
+ * (and listing only `HEAD` has no effect). OPTIONS is always excluded.
  *
  * Part of the public API stability guarantee (see ADR 0009).
  */
@@ -40,8 +42,9 @@ final readonly class ApiKeyAuthenticationMiddleware implements MiddlewareInterfa
      * @param list<string> $protectedPathPrefixes  Path prefixes to protect (e.g. `/admin/` matches `/admin/users/42`).
      *                                             Combined with $protectedPaths in union mode.
      * @param list<string> $protectedMethods       HTTP methods to protect (uppercase). When non-empty, only requests
-     *                                             whose method appears here are protected. Useful to allow GET while
-     *                                             requiring an API key for POST/PUT/DELETE. OPTIONS is always excluded.
+     *                                             whose method appears here are protected. Useful to require an API key
+     *                                             for POST/PUT/DELETE while leaving reads open. HEAD is normalized to GET
+     *                                             (listing GET also protects HEAD); OPTIONS is always excluded.
      * @param list<string> $excludedPaths          Exact paths that are always public, checked before any protect mode.
      *                                             Combine with the "protect all" default to make specific paths public:
      *                                             `excludedPaths: ['/', '/health', '/examples/ping']`.
@@ -84,7 +87,13 @@ final readonly class ApiKeyAuthenticationMiddleware implements MiddlewareInterfa
             return false;
         }
 
-        if ($this->protectedMethods !== [] && !in_array($method, $this->protectedMethods, true)) {
+        // The router serves HEAD through the GET handler (RFC 7231 §4.3.2), so HEAD
+        // must be gated exactly like GET. Normalizing here closes the bypass where a
+        // `protectedMethods: ['GET']` config would otherwise let an unauthenticated
+        // HEAD reach — and return the body of — the protected GET handler.
+        $effectiveMethod = $method === 'HEAD' ? 'GET' : $method;
+
+        if ($this->protectedMethods !== [] && !in_array($effectiveMethod, $this->protectedMethods, true)) {
             return false;
         }
 
