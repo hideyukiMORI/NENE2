@@ -297,7 +297,7 @@ final readonly class RuntimeApplicationFactory
             new SecurityHeadersMiddleware(),
             new CorsMiddleware($this->responseFactory, $this->allowedOrigins),
             new ErrorHandlerMiddleware($problemDetails, $this->domainExceptionHandlers, $this->debug, $logger),
-            new RequestSizeLimitMiddleware($problemDetails, $this->requestMaxBodyBytes),
+            new RequestSizeLimitMiddleware($problemDetails, $this->requestMaxBodyBytes, $this->streamFactory),
             new ApiKeyAuthenticationMiddleware(
                 $problemDetails,
                 $this->machineApiKey,
