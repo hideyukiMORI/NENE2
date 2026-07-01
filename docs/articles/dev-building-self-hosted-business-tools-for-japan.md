@@ -1,7 +1,7 @@
 ---
 title: I am building self-hosted business tools for small teams in Japan
 published: true
-description: A look at the NeNe OSS series: API-first, self-hosted business tools built on NENE2 for teams operating in Japan.
+description: "A look at the NeNe OSS series: API-first, self-hosted business tools built on NENE2 for teams operating in Japan."
 tags: opensource, php, api, ai
 ---
 
