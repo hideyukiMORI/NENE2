@@ -10,6 +10,38 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.333] — 2026-07-02
+
+セキュリティ強化リリース。横断セキュリティ監査（コード5系統＋捨てコンテナ実機 ATK）で検出した全 EXPOSED を是正し、修正後の再テストで 0 EXPOSED を確認・文書化した。加えて再利用可能な TOTP プリミティブを追加。
+
+### Added
+- `Nene2\Auth\TotpAuthenticator` — RFC 6238 TOTP プリミティブ。Base32 シークレット生成 / `otpauth://` プロビジョニング URI 生成 / 時間ステップ計算 / 許容ウィンドウ付き定数時間検証（一致 time_step を返しリプレイ防止に使える）。digits/period/algorithm/window 設定可（#1427）。
+- `Nene2\Auth\RecoveryCodes` — リカバリコードの生成・SHA-256 ハッシュ化・定数時間検証。書式/大小を正規化（#1427）。両クラスを ADR 0009 の安定 public API に追記。
+- `SecurityHeadersMiddleware` に opt-in の `Strict-Transport-Security`（`$enableHsts` / `$hstsValue`）を追加。`RuntimeApplicationFactory` に `$enableHsts` を配線（既定 off・後方互換）（#1447）。
+- `ResponseEmitter::emit()` に任意引数 `$requestMethod` を追加し、HEAD 応答の本文を抑制（RFC 7231 §4.3.2）（#1443）。
+- `RequestSizeLimitMiddleware` に任意引数 `$streamFactory` を追加（サイズ不明ボディ計測後の再供給用）（#1444）。
+- `LocalMcpServer` に任意の PSR-3 logger を追加し、状態変更ツール呼び出しを監査。`destructive` ツールは明示的な `confirm` を要求（#1446）。
+- `docs/security/` — セキュリティ評価レポート（修正後の実機 ATK・回帰検証）と索引（#1459）。
+
+### Changed
+- `SecurityHeadersMiddleware` の既定 `Referrer-Policy` を `no-referrer-when-downgrade` → `strict-origin-when-cross-origin` に強化（#1447）。
+- `RecoveryCodes::generate()` の既定エントロピーを 40bit → **80bit**（既定 `$bytes` 5→10）。無塩 SHA-256 でも DB 漏洩時のオフライン総当たりを非現実的にする（#1442）。
+- example Note/Tag ハンドラ: title/name の最大長（255 文字）・body のバイト長（65535）・非 string 型を検証し、超過/不正型を 500 でなく 422 で拒否（#1450）。
+
+### Fixed (Security)
+- **HEAD による認証回避**: Router は HEAD を GET ハンドラで処理する一方 `ApiKeyAuthenticationMiddleware` が HEAD を別メソッド扱いし、`protectedMethods:['GET']` 構成で HEAD が認証をスキップして本文を返していた。HEAD を GET と同一に正規化して封鎖（#1443）。
+- **サイズ制限回避**: `Content-Length` 欠如かつサイズ不明（chunked/`php://input`）のボディが `RequestSizeLimitMiddleware` を素通りしていた。読みながら上限で打ち切るよう修正（#1444）。
+- **エラーログ衛生**: 未処理例外の完全なオブジェクト（`PDOException` の SQL・列名・DSN/host を含む）と生の `X-Request-Id` をログしていた。静的メッセージ＋sanitize 済み request id に修正、詳細は debug 時のみ（#1445）。
+- 過大/不正型の入力が DB に到達して 500 を誘発していた問題を 422 で防止（#1450）。
+
+### Security
+- `undici`（high）/ `brace-expansion` を `npm audit fix` で解消（frontend の dev 依存）（#1448）。
+
+### Docs
+- 記事 frontmatter の YAML 不正で失敗していた VitePress(Docs) ビルドを修復（#1439）。DEV ポートフォリオ記事（#1436）・Zenn 設計メモ下書き（#1454）を追加。
+
+---
+
 ## [1.5.332] — 2026-06-27
 
 ### Added
