@@ -7,6 +7,7 @@ namespace Nene2\Tests\Error;
 use Nene2\Error\DomainExceptionHandlerInterface;
 use Nene2\Error\ErrorHandlerMiddleware;
 use Nene2\Error\ProblemDetailsResponseFactory;
+use Nene2\Middleware\RequestIdMiddleware;
 use Nene2\Routing\MethodNotAllowedException;
 use Nene2\Routing\RouteNotFoundException;
 use Nene2\Validation\ValidationError;
@@ -243,24 +244,31 @@ final class ErrorHandlerMiddlewareTest extends TestCase
         };
 
         $middleware = new ErrorHandlerMiddleware($this->problemDetails, [], debug: false, logger: $spyLogger);
+        // The sanitized request id arrives via the RequestIdMiddleware attribute,
+        // not the raw client header.
         $request = $this->factory->createServerRequest('GET', 'https://example.test/crash')
-            ->withHeader('X-Request-Id', 'req-test-123');
+            ->withAttribute(RequestIdMiddleware::ATTRIBUTE, 'req-test-123');
 
         $middleware->process(
             $request,
             new class () implements RequestHandlerInterface {
                 public function handle(ServerRequestInterface $request): ResponseInterface
                 {
-                    throw new RuntimeException('db connection refused');
+                    throw new RuntimeException("SQLSTATE[HY000] [1045] Access denied for user 'nene2'@'db-host'");
                 }
             },
         );
 
         self::assertCount(1, $spyLogger->records);
         self::assertSame('error', $spyLogger->records[0]['level']);
-        self::assertSame('db connection refused', $spyLogger->records[0]['message']);
+        // Log message is static — the raw (secret-bearing) exception message must not leak.
+        self::assertSame('Unhandled exception while processing request.', $spyLogger->records[0]['message']);
+        self::assertStringNotContainsString('Access denied', $spyLogger->records[0]['message']);
         self::assertSame('req-test-123', $spyLogger->records[0]['context']['request_id']);
-        self::assertInstanceOf(RuntimeException::class, $spyLogger->records[0]['context']['exception']);
+        // In non-debug mode only the class + location are kept; the full exception
+        // object (which serializes the SQL/DSN-bearing message) is not logged.
+        self::assertSame(RuntimeException::class, $spyLogger->records[0]['context']['exception_class']);
+        self::assertArrayNotHasKey('exception', $spyLogger->records[0]['context']);
     }
 
     public function testUnhandledExceptionIsLoggedEvenInDebugMode(): void
@@ -290,6 +298,8 @@ final class ErrorHandlerMiddlewareTest extends TestCase
 
         self::assertCount(1, $spyLogger->records);
         self::assertSame('error', $spyLogger->records[0]['level']);
+        // In debug mode the full exception object is attached for local diagnosis.
+        self::assertInstanceOf(RuntimeException::class, $spyLogger->records[0]['context']['exception']);
     }
 
     public function testDomainHandledExceptionIsNotLogged(): void
