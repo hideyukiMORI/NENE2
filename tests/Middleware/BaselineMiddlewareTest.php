@@ -71,6 +71,57 @@ final class BaselineMiddlewareTest extends TestCase
 
         self::assertSame('nosniff', $response->getHeaderLine('X-Content-Type-Options'));
         self::assertSame('DENY', $response->getHeaderLine('X-Frame-Options'));
+        // Referrer-Policy defaults to the stronger strict-origin-when-cross-origin (#1447).
+        self::assertSame('strict-origin-when-cross-origin', $response->getHeaderLine('Referrer-Policy'));
+        // HSTS is opt-in — absent by default.
+        self::assertFalse($response->hasHeader('Strict-Transport-Security'));
+    }
+
+    public function testHstsIsEmittedWhenEnabled(): void
+    {
+        $factory = new Psr17Factory();
+        $middleware = new SecurityHeadersMiddleware(enableHsts: true);
+
+        $response = $middleware->process(
+            $factory->createServerRequest('GET', 'https://example.test/'),
+            new class ($factory) implements RequestHandlerInterface {
+                public function __construct(private readonly Psr17Factory $factory)
+                {
+                }
+
+                public function handle(ServerRequestInterface $request): ResponseInterface
+                {
+                    return $this->factory->createResponse(200);
+                }
+            },
+        );
+
+        self::assertSame('max-age=31536000; includeSubDomains', $response->getHeaderLine('Strict-Transport-Security'));
+    }
+
+    public function testHstsValueIsConfigurable(): void
+    {
+        $factory = new Psr17Factory();
+        $middleware = new SecurityHeadersMiddleware(
+            enableHsts: true,
+            hstsValue: 'max-age=63072000; includeSubDomains; preload',
+        );
+
+        $response = $middleware->process(
+            $factory->createServerRequest('GET', 'https://example.test/'),
+            new class ($factory) implements RequestHandlerInterface {
+                public function __construct(private readonly Psr17Factory $factory)
+                {
+                }
+
+                public function handle(ServerRequestInterface $request): ResponseInterface
+                {
+                    return $this->factory->createResponse(200);
+                }
+            },
+        );
+
+        self::assertSame('max-age=63072000; includeSubDomains; preload', $response->getHeaderLine('Strict-Transport-Security'));
     }
 
     public function testCorsAddsHeadersForAllowedOrigin(): void
