@@ -23,8 +23,18 @@ final class RecoveryCodesTest extends TestCase
     public function generateReturnsFormattedCodes(): void
     {
         foreach (RecoveryCodes::generate() as $code) {
-            // default 5 bytes → 10 hex chars grouped as "xxxxx-xxxxx"
-            self::assertMatchesRegularExpression('/^[0-9a-f]{5}-[0-9a-f]{5}$/', $code);
+            // default 10 bytes → 20 hex chars grouped as "xxxxx-xxxxx-xxxxx-xxxxx"
+            self::assertMatchesRegularExpression('/^[0-9a-f]{5}-[0-9a-f]{5}-[0-9a-f]{5}-[0-9a-f]{5}$/', $code);
+        }
+    }
+
+    #[Test]
+    public function generateDefaultHasAtLeast80BitsOfEntropy(): void
+    {
+        // Regression guard (#1442): default must be >= 10 bytes (80 bits) so the
+        // unsalted stored hashes are not offline-brute-forceable after a breach.
+        foreach (RecoveryCodes::generate() as $code) {
+            self::assertGreaterThanOrEqual(20, strlen(str_replace('-', '', $code)));
         }
     }
 
@@ -102,6 +112,13 @@ final class RecoveryCodesTest extends TestCase
     {
         self::assertFalse(RecoveryCodes::verify('', RecoveryCodes::hash('abcde-12345')));
         self::assertFalse(RecoveryCodes::verify('abcde-12345', ''));
+    }
+
+    #[Test]
+    public function verifyRejectsAllSeparatorInputThatNormalizesToEmpty(): void
+    {
+        // "-----" normalizes to "" and must not match a hash of the empty string.
+        self::assertFalse(RecoveryCodes::verify('-----', hash('sha256', '')));
     }
 
     // ------------------------------------------------------------------ normalize
