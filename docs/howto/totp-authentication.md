@@ -55,6 +55,43 @@ CREATE TABLE used_totp_steps (
 
 ---
 
+## フレームワーク組み込みプリミティブ（推奨）
+
+v1.5 以降、危険な暗号部分は framework が提供する `Nene2\Auth\TotpAuthenticator` と
+`Nene2\Auth\RecoveryCodes` をそのまま使える（ADR 0009 の安定 public API）。
+RFC 6238 の計算・Base32・定数時間比較を各アプリで再実装する必要はない。
+`SecureTokenHelper` と同じく「危険な暗号は framework の1実装、enroll/challenge の
+HTTP フロー・enforce ポリシー・シークレットの at-rest 暗号化・リプレイ防止の永続化は
+アプリの責務」という分担。
+
+```php
+use Nene2\Auth\TotpAuthenticator;
+use Nene2\Auth\RecoveryCodes;
+
+$totp = new TotpAuthenticator();          // digits=6 / period=30 / sha1 / window=1
+
+// 登録: シークレット生成 → QR 用 otpauth URI
+$secret = $totp->generateSecret();
+$uri    = $totp->provisioningUri($secret, 'alice@example.com', 'NENE2');
+
+// 検証: 一致した time_step が返る（null なら無効）。リプレイ防止は step を永続化して判定。
+$step = $totp->verify($secret, $submittedCode);
+if ($step === null || $repo->isStepUsed($userId, $step)) {
+    // 無効 or リプレイ
+} else {
+    $repo->markStepUsed($userId, $step);  // 使用済み step を記録（1回限り）
+}
+
+// リカバリコード: 生成して一度だけ表示、hash のみ保存、redeem 時に verify → consume
+$codes = RecoveryCodes::generate();       // 例: ["3f9ac-1b0e7", ...]
+$repo->storeRecoveryHash($userId, RecoveryCodes::hash($codes[0]));
+```
+
+次節以降は、このプリミティブが内部で行っている計算とセキュリティ設計の解説。
+自前実装や理解のための参考として残す。
+
+---
+
 ## RFC 6238 TOTP の実装
 
 ```php
