@@ -9,9 +9,25 @@ use Nene2\Mcp\LocalMcpHttpResponse;
 use Nene2\Mcp\LocalMcpServer;
 use Nene2\Mcp\LocalMcpToolCatalog;
 use PHPUnit\Framework\TestCase;
+use Psr\Log\AbstractLogger;
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
+use Stringable;
 
 final class LocalMcpServerTest extends TestCase
 {
+    /** @var list<string> */
+    private array $tempFiles = [];
+
+    protected function tearDown(): void
+    {
+        foreach ($this->tempFiles as $file) {
+            @unlink($file);
+        }
+
+        $this->tempFiles = [];
+    }
+
     public function testInitializeReturnsServerCapabilities(): void
     {
         $server = $this->server();
@@ -259,12 +275,138 @@ final class LocalMcpServerTest extends TestCase
         ]));
     }
 
-    private function server(?RecordingLocalMcpHttpClient $client = null): LocalMcpServer
+    private function server(?RecordingLocalMcpHttpClient $client = null, ?LoggerInterface $logger = null): LocalMcpServer
     {
         return new LocalMcpServer(
             new LocalMcpToolCatalog(dirname(__DIR__, 2) . '/docs/mcp/tools.json'),
             $client ?? new RecordingLocalMcpHttpClient(new LocalMcpHttpResponse(200, [], '{}')),
             'http://localhost:8200',
+            $logger ?? new NullLogger(),
+        );
+    }
+
+    /**
+     * @return AbstractLogger&object{records: list<array{level: string, message: string, context: array<string, mixed>}>}
+     */
+    private function spyLogger(): AbstractLogger
+    {
+        return new class () extends AbstractLogger {
+            /** @var list<array{level: string, message: string, context: array<string, mixed>}> */
+            public array $records = [];
+
+            public function log(mixed $level, string|Stringable $message, array $context = []): void
+            {
+                $this->records[] = ['level' => (string) $level, 'message' => (string) $message, 'context' => $context];
+            }
+        };
+    }
+
+    // --- audit logging (#1446) ---
+
+    public function testStateChangingToolCallIsAudited(): void
+    {
+        $client = new RecordingLocalMcpHttpClient(new LocalMcpHttpResponse(
+            201,
+            ['x-request-id' => 'req-audit-1'],
+            '{"id":1,"title":"n","body":"b"}',
+        ));
+        $logger = $this->spyLogger();
+        $server = $this->server($client, $logger);
+
+        $server->handle([
+            'jsonrpc' => '2.0',
+            'id' => 20,
+            'method' => 'tools/call',
+            'params' => ['name' => 'createExampleNote', 'arguments' => ['title' => 'n', 'body' => 'b']],
+        ]);
+
+        self::assertCount(1, $logger->records);
+        $record = $logger->records[0];
+        self::assertSame('info', $record['level']);
+        self::assertSame('createExampleNote', $record['context']['tool']);
+        self::assertSame('write', $record['context']['safety']);
+        self::assertSame('req-audit-1', $record['context']['request_id']);
+        self::assertSame(201, $record['context']['status_code']);
+        // The audit record must not carry the request arguments (no secret/PII leakage).
+        self::assertArrayNotHasKey('arguments', $record['context']);
+    }
+
+    public function testReadToolCallIsNotAudited(): void
+    {
+        $client = new RecordingLocalMcpHttpClient(new LocalMcpHttpResponse(200, [], '{"items":[]}'));
+        $logger = $this->spyLogger();
+        $server = $this->server($client, $logger);
+
+        $server->handle([
+            'jsonrpc' => '2.0',
+            'id' => 21,
+            'method' => 'tools/call',
+            'params' => ['name' => 'listExampleNotes', 'arguments' => []],
+        ]);
+
+        self::assertSame([], $logger->records);
+    }
+
+    // --- destructive confirmation gate (#1446) ---
+
+    public function testDestructiveToolRequiresConfirmation(): void
+    {
+        $client = new RecordingLocalMcpHttpClient(new LocalMcpHttpResponse(204, [], ''));
+        $server = $this->destructiveServer($client);
+
+        $response = $server->handle([
+            'jsonrpc' => '2.0',
+            'id' => 22,
+            'method' => 'tools/call',
+            'params' => ['name' => 'purgeEverything', 'arguments' => []],
+        ]);
+
+        self::assertNull($client->lastMethod, 'The API must not be called without confirmation.');
+        self::assertArrayHasKey('error', $response ?? []);
+        self::assertStringContainsString('confirm', (string) ($response['error']['message'] ?? ''));
+    }
+
+    public function testDestructiveToolProceedsWithConfirmationAndDoesNotForwardFlag(): void
+    {
+        $client = new RecordingLocalMcpHttpClient(new LocalMcpHttpResponse(204, [], ''));
+        $logger = $this->spyLogger();
+        $server = $this->destructiveServer($client, $logger);
+
+        $server->handle([
+            'jsonrpc' => '2.0',
+            'id' => 23,
+            'method' => 'tools/call',
+            'params' => ['name' => 'purgeEverything', 'arguments' => ['confirm' => true]],
+        ]);
+
+        self::assertSame('delete', $client->lastMethod);
+        self::assertCount(1, $logger->records);
+        self::assertSame('destructive', $logger->records[0]['context']['safety']);
+    }
+
+    private function destructiveServer(RecordingLocalMcpHttpClient $client, ?LoggerInterface $logger = null): LocalMcpServer
+    {
+        $path = tempnam(sys_get_temp_dir(), 'mcp-cat-');
+        self::assertIsString($path);
+        $this->tempFiles[] = $path;
+
+        file_put_contents($path, (string) json_encode([
+            'tools' => [[
+                'name' => 'purgeEverything',
+                'title' => 'Purge Everything',
+                'description' => 'Deletes all records.',
+                'safety' => 'destructive',
+                'source' => ['type' => 'openapi', 'operationId' => 'purgeAll', 'method' => 'DELETE', 'path' => '/purge'],
+                'inputSchema' => ['type' => 'object'],
+                'responseSchemaRef' => null,
+            ]],
+        ], JSON_THROW_ON_ERROR));
+
+        return new LocalMcpServer(
+            new LocalMcpToolCatalog($path),
+            $client,
+            'http://localhost:8200',
+            $logger ?? new NullLogger(),
         );
     }
 }
