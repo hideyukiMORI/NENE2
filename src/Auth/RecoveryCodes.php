@@ -26,7 +26,7 @@ namespace Nene2\Auth;
  *
  * ```php
  * // Enrollment: generate and display once, persist the hashes.
- * $codes = RecoveryCodes::generate();            // e.g. ["3f9ac-1b0e7", ...]
+ * $codes = RecoveryCodes::generate();            // e.g. ["3f9ac-1b0e7-8d2f4-0a6c1", ...]
  * foreach ($codes as $code) {
  *     $repo->storeRecoveryHash($userId, RecoveryCodes::hash($code));
  * }
@@ -43,7 +43,13 @@ namespace Nene2\Auth;
  *
  * Security notes:
  * - `generate()` uses `random_bytes()` — a CSPRNG suitable for security tokens.
- * - `hash()` uses SHA-256; a database breach exposes only hashes.
+ * - `hash()` uses SHA-256 without a salt. This is safe *only* because each code
+ *   carries high entropy (80 bits by default): a database breach exposes hashes
+ *   whose 2^80 preimage space is infeasible to brute-force offline, even
+ *   unsalted and even shared across users. Do not lower `$bytes` below ~10
+ *   (80 bits) — a low-entropy code space (e.g. 40 bits) is GPU-crackable from
+ *   the stolen hashes, which would let one offline pass recover every user's
+ *   codes.
  * - `verify()` uses `hash_equals()` for constant-time comparison.
  * - Codes are single-use secrets — the application must consume a code on
  *   success and rate-limit redemption attempts.
@@ -57,22 +63,24 @@ final class RecoveryCodes
      *
      * Each code is `$bytes` random bytes rendered as hex and grouped into
      * five-character blocks joined by hyphens for readability. The default of
-     * 5 bytes gives 40 bits of entropy per code; increase `$bytes` for a wider
-     * margin when redemption is not strongly rate-limited.
+     * 10 bytes gives 80 bits of entropy per code, which keeps the stored
+     * unsalted SHA-256 hashes infeasible to brute-force offline after a breach.
+     * Do not lower `$bytes` below 10 unless codes are hashed with a slow,
+     * salted KDF instead; raise it for an even wider margin.
      *
      * ```php
-     * $codes = RecoveryCodes::generate();       // 10 codes like "3f9ac-1b0e7"
-     * $codes = RecoveryCodes::generate(8, 8);   // 8 codes, 64-bit each
+     * $codes = RecoveryCodes::generate();       // 10 codes like "3f9ac-1b0e7-8d2f4-0a6c1"
+     * $codes = RecoveryCodes::generate(8, 16);  // 8 codes, 128-bit each
      * ```
      *
      * @param int $count Number of codes to generate. Must be at least 1.
-     * @param int $bytes Random bytes per code. Must be at least 1.
+     * @param int $bytes Random bytes per code. Must be at least 1 (≥10 recommended for 80-bit entropy).
      *
      * @return list<string>
      *
      * @throws \InvalidArgumentException When `$count` or `$bytes` is less than 1.
      */
-    public static function generate(int $count = 10, int $bytes = 5): array
+    public static function generate(int $count = 10, int $bytes = 10): array
     {
         if ($count < 1) {
             throw new \InvalidArgumentException('Recovery code count must be at least 1.');
@@ -105,16 +113,20 @@ final class RecoveryCodes
      * Verifies a submitted recovery code against a stored SHA-256 hash.
      *
      * Normalizes the input, then compares with `hash_equals()` in constant time.
-     * Always returns `false` for empty inputs. A `true` result means the caller
-     * should now **consume** the matching stored hash to enforce single use.
+     * Always returns `false` when the normalized code or the stored hash is
+     * empty (so all-separator input like `"-----"` cannot match). A `true`
+     * result means the caller should now **consume** the matching stored hash
+     * to enforce single use.
      */
     public static function verify(string $code, string $storedHash): bool
     {
-        if ($code === '' || $storedHash === '') {
+        $normalized = self::normalize($code);
+
+        if ($normalized === '' || $storedHash === '') {
             return false;
         }
 
-        return hash_equals($storedHash, self::hash($code));
+        return hash_equals($storedHash, hash('sha256', $normalized));
     }
 
     /**

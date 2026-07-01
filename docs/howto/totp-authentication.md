@@ -83,7 +83,7 @@ if ($step === null || $repo->isStepUsed($userId, $step)) {
 }
 
 // リカバリコード: 生成して一度だけ表示、hash のみ保存、redeem 時に verify → consume
-$codes = RecoveryCodes::generate();       // 例: ["3f9ac-1b0e7", ...]
+$codes = RecoveryCodes::generate();       // 例: ["3f9ac-1b0e7-8d2f4-0a6c1", ...]（既定 80bit）
 $repo->storeRecoveryHash($userId, RecoveryCodes::hash($codes[0]));
 ```
 
