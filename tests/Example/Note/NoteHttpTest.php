@@ -140,6 +140,52 @@ final class NoteHttpTest extends TestCase
         self::assertContains('body', $fields);
     }
 
+    public function testPostNoteReturns422WhenTitleExceedsMaxLength(): void
+    {
+        // Regression (#1450): an over-length title must be rejected with 422,
+        // not reach the VARCHAR(255) column and surface as a 500.
+        $body = $this->factory->createStream(
+            json_encode(['title' => str_repeat('a', 256), 'body' => 'Content'], JSON_THROW_ON_ERROR),
+        );
+        $response = $this->application->handle(
+            $this->factory->createServerRequest('POST', 'https://example.test/examples/notes')->withBody($body),
+        );
+        $payload = $this->decodeJson($response);
+
+        self::assertSame(422, $response->getStatusCode());
+        $codes = array_column($payload['errors'], 'code');
+        self::assertContains('max_length', $codes);
+    }
+
+    public function testPostNoteReturns422WhenBodyExceedsMaxBytes(): void
+    {
+        // Regression (#1450): an over-length body must be rejected with 422.
+        $body = $this->factory->createStream(
+            json_encode(['title' => 'ok', 'body' => str_repeat('a', 65_536)], JSON_THROW_ON_ERROR),
+        );
+        $response = $this->application->handle(
+            $this->factory->createServerRequest('POST', 'https://example.test/examples/notes')->withBody($body),
+        );
+
+        self::assertSame(422, $response->getStatusCode());
+    }
+
+    public function testPostNoteReturns422WhenTitleIsNotAString(): void
+    {
+        // Regression (#1450): a non-string title must be rejected, not coerced to "Array".
+        $body = $this->factory->createStream(
+            json_encode(['title' => ['x'], 'body' => 'Content'], JSON_THROW_ON_ERROR),
+        );
+        $response = $this->application->handle(
+            $this->factory->createServerRequest('POST', 'https://example.test/examples/notes')->withBody($body),
+        );
+        $payload = $this->decodeJson($response);
+
+        self::assertSame(422, $response->getStatusCode());
+        $codes = array_column($payload['errors'], 'code');
+        self::assertContains('invalid', $codes);
+    }
+
     public function testDeleteNoteReturns204(): void
     {
         $id = $this->repository->save(new Note(title: 'To delete', body: 'Body'));

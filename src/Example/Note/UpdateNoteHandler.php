@@ -14,6 +14,12 @@ use Psr\Http\Message\ServerRequestInterface;
 
 final readonly class UpdateNoteHandler
 {
+    /** Matches the `notes.title` VARCHAR(255) column (character count). */
+    private const int TITLE_MAX_LENGTH = 255;
+
+    /** Matches the `notes.body` TEXT column (byte length). */
+    private const int BODY_MAX_BYTES = 65535;
+
     public function __construct(
         private UpdateNoteUseCaseInterface $useCase,
         private JsonResponseFactory $response,
@@ -33,15 +39,29 @@ final readonly class UpdateNoteHandler
 
         $errors = [];
 
-        $title = trim((string) ($body['title'] ?? ''));
-        $noteBody = trim((string) ($body['body'] ?? ''));
+        $titleRaw = $body['title'] ?? '';
+        $bodyRaw = $body['body'] ?? '';
 
-        if ($title === '') {
+        $title = is_string($titleRaw) ? trim($titleRaw) : '';
+        $noteBody = is_string($bodyRaw) ? trim($bodyRaw) : '';
+
+        // Reject non-strings and over-length input with 422 rather than letting
+        // an oversized value reach the database and surface as a 500 (title is a
+        // VARCHAR(255) character column; body is a TEXT byte column).
+        if (!is_string($titleRaw)) {
+            $errors[] = new ValidationError('title', 'Title must be a string.', 'invalid');
+        } elseif ($title === '') {
             $errors[] = new ValidationError('title', 'Title is required.', 'required');
+        } elseif (mb_strlen($title) > self::TITLE_MAX_LENGTH) {
+            $errors[] = new ValidationError('title', 'Title must not exceed 255 characters.', 'max_length');
         }
 
-        if ($noteBody === '') {
+        if (!is_string($bodyRaw)) {
+            $errors[] = new ValidationError('body', 'Body must be a string.', 'invalid');
+        } elseif ($noteBody === '') {
             $errors[] = new ValidationError('body', 'Body is required.', 'required');
+        } elseif (strlen($noteBody) > self::BODY_MAX_BYTES) {
+            $errors[] = new ValidationError('body', 'Body must not exceed 65535 bytes.', 'max_length');
         }
 
         if ($errors !== []) {

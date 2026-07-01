@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Nene2\Error;
 
 use Nene2\Http\JsonBodyParseException;
+use Nene2\Middleware\RequestIdMiddleware;
 use Nene2\Routing\MethodNotAllowedException;
 use Nene2\Routing\RouteNotFoundException;
 use Nene2\Validation\ValidationException;
@@ -81,10 +82,27 @@ final readonly class ErrorHandlerMiddleware implements MiddlewareInterface
                 }
             }
 
-            $this->logger->error($exception->getMessage(), [
-                'exception' => $exception,
-                'request_id' => $request->getHeaderLine('X-Request-Id'),
-            ]);
+            $requestId = $request->getAttribute(RequestIdMiddleware::ATTRIBUTE);
+
+            // Never log the raw exception message or the full exception object at
+            // ERROR level: driver exceptions (e.g. PDOException) embed SQL text,
+            // table/column names, and DSN/host fragments, which the logging policy
+            // forbids. The message stays static and only class + location are kept.
+            // Full detail (message + trace) is attached only in debug for local
+            // diagnosis; production should route full context to an error-tracking
+            // adapter, not the default logger. The request id comes from the
+            // sanitized RequestIdMiddleware attribute, never the raw client header.
+            $context = [
+                'exception_class' => $exception::class,
+                'exception_at' => $exception->getFile() . ':' . $exception->getLine(),
+                'request_id' => is_string($requestId) ? $requestId : '',
+            ];
+
+            if ($this->debug) {
+                $context['exception'] = $exception;
+            }
+
+            $this->logger->error('Unhandled exception while processing request.', $context);
 
             return $this->problemDetails->create(
                 $request,

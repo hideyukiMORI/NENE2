@@ -128,6 +128,27 @@ final class TagHttpTest extends TestCase
         self::assertNotEmpty($payload['errors']);
     }
 
+    public function testCreateTagReturns422WhenNameExceedsMaxLength(): void
+    {
+        // Regression (#1450): an over-length name must be rejected with 422,
+        // not reach the VARCHAR(255) column and surface as a 500.
+        $response = $this->request('POST', '/examples/tags', ['name' => str_repeat('a', 256)]);
+        $payload = $this->decode($response);
+
+        self::assertSame(422, $response->getStatusCode());
+        self::assertContains('max_length', array_column($payload['errors'], 'code'));
+    }
+
+    public function testCreateTagReturns422WhenNameIsNotAString(): void
+    {
+        // Regression (#1450): a non-string name must be rejected, not coerced to "Array".
+        $response = $this->request('POST', '/examples/tags', ['name' => ['x']]);
+        $payload = $this->decode($response);
+
+        self::assertSame(422, $response->getStatusCode());
+        self::assertContains('invalid', array_column($payload['errors'], 'code'));
+    }
+
     public function testUpdateTagReturns200(): void
     {
         $id = $this->repository->save(new Tag(name: 'php'));
