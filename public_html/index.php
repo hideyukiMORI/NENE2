@@ -27,4 +27,4 @@ $response = $application->handle($request);
 
 $emitter = $container->get(ResponseEmitter::class);
 assert($emitter instanceof ResponseEmitter);
-$emitter->emit($response);
+$emitter->emit($response, $request->getMethod());

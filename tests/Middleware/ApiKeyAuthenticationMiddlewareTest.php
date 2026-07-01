@@ -154,6 +154,31 @@ final class ApiKeyAuthenticationMiddlewareTest extends TestCase
         self::assertSame(401, $mw->process($request, $this->okHandler($factory))->getStatusCode());
     }
 
+    public function testMethodFilterProtectsHeadWhenGetIsProtected(): void
+    {
+        // #1443: the router serves HEAD via the GET handler, so gating GET must also
+        // gate HEAD — otherwise HEAD reaches (and returns the body of) the protected
+        // GET handler unauthenticated.
+        $factory = new Psr17Factory();
+        $mw = $this->make($factory, protectedMethods: ['GET']);
+
+        $getRequest = $factory->createServerRequest('GET', 'https://example.test/tags');
+        self::assertSame(401, $mw->process($getRequest, $this->okHandler($factory))->getStatusCode());
+
+        $headRequest = $factory->createServerRequest('HEAD', 'https://example.test/tags');
+        self::assertSame(401, $mw->process($headRequest, $this->okHandler($factory))->getStatusCode());
+    }
+
+    public function testMethodFilterLeavesHeadOpenWhenGetIsNotProtected(): void
+    {
+        // Symmetry: when reads are open (only writes protected), HEAD passes like GET.
+        $factory = new Psr17Factory();
+        $mw = $this->make($factory, protectedMethods: ['POST', 'PUT', 'DELETE']);
+        $request = $factory->createServerRequest('HEAD', 'https://example.test/tags');
+
+        self::assertSame(200, $mw->process($request, $this->okHandler($factory))->getStatusCode());
+    }
+
     public function testMethodFilterCombinedWithPrefix(): void
     {
         $factory = new Psr17Factory();
