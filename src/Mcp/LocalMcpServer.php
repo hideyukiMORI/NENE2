@@ -5,12 +5,21 @@ declare(strict_types=1);
 namespace Nene2\Mcp;
 
 use Nene2\FrameworkInfo;
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 
 /**
  * JSON-RPC 2.0 / MCP server that exposes framework API operations as tools.
  *
  * Run via `tools/local-mcp-server.php`. Reads its tool catalog from
  * `docs/mcp/tools.json` and proxies tool calls through {@see LocalMcpHttpClientInterface}.
+ *
+ * Non-`read` (state-changing) tools go through additional guards, aligned with the MCP
+ * write-tool policy: bearer authentication is required, `destructive` tools require an
+ * explicit confirmation flag, and every state-changing call is audited via `$logger`
+ * (tool, safety level, operation, and the downstream API request id — never the
+ * arguments or any secret). Authorization of the underlying operation is enforced at
+ * the HTTP/JWT boundary the call is proxied through.
  *
  * Part of the public API stability guarantee (see ADR 0009).
  *
@@ -22,6 +31,7 @@ final readonly class LocalMcpServer
         private LocalMcpToolCatalog $catalog,
         private LocalMcpHttpClientInterface $httpClient,
         private string $apiBaseUrl,
+        private LoggerInterface $logger = new NullLogger(),
     ) {
     }
 
@@ -134,7 +144,9 @@ final readonly class LocalMcpServer
             throw new LocalMcpException(sprintf('MCP tool "%s" was not found.', $name));
         }
 
-        if ($tool['safety'] !== 'read' && !$this->httpClient->hasAuthentication()) {
+        $safety = $tool['safety'];
+
+        if ($safety !== 'read' && !$this->httpClient->hasAuthentication()) {
             throw new LocalMcpException(
                 sprintf(
                     'Write tool "%s" requires bearer authentication. Set NENE2_LOCAL_JWT_SECRET in the MCP server environment.',
@@ -143,11 +155,52 @@ final readonly class LocalMcpServer
             );
         }
 
+        // Destructive tools require an explicit confirmation so an agent cannot delete or
+        // purge data by inference. The flag is consumed here and never forwarded to the API.
+        if ($safety === 'destructive') {
+            if (($arguments['confirm'] ?? null) !== true) {
+                throw new LocalMcpException(
+                    sprintf('Destructive tool "%s" requires an explicit "confirm": true argument.', $name),
+                );
+            }
+
+            unset($arguments['confirm']);
+        }
+
         if ($tool['source']['type'] !== 'openapi') {
             throw new LocalMcpException(sprintf('MCP tool "%s" does not map to a local OpenAPI operation.', $name));
         }
 
-        return $this->httpToolResult($tool, $arguments);
+        $result = $this->httpToolResult($tool, $arguments);
+
+        if ($safety !== 'read') {
+            $this->auditSensitiveCall($tool, $result);
+        }
+
+        return $result;
+    }
+
+    /**
+     * Emits a structured audit record for a state-changing tool call. Records the tool,
+     * safety level, operation, and the downstream API request id for correlation — never
+     * the request arguments or any secret, per the logging policy.
+     *
+     * @param McpTool $tool
+     * @param array<string, mixed> $result
+     */
+    private function auditSensitiveCall(array $tool, array $result): void
+    {
+        $structured = $result['structuredContent'] ?? null;
+
+        $this->logger->info('MCP state-changing tool invoked.', [
+            'tool' => $tool['name'],
+            'safety' => $tool['safety'],
+            'operation_id' => $tool['source']['operationId'],
+            'method' => $tool['source']['method'],
+            'status_code' => is_array($structured) ? ($structured['statusCode'] ?? null) : null,
+            'request_id' => is_array($structured) ? ($structured['requestId'] ?? null) : null,
+            'is_error' => $result['isError'] ?? null,
+        ]);
     }
 
     /**

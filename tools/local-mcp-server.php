@@ -2,6 +2,10 @@
 
 declare(strict_types=1);
 
+use Monolog\Formatter\JsonFormatter;
+use Monolog\Handler\StreamHandler;
+use Monolog\Level;
+use Monolog\Logger;
 use Nene2\Auth\LocalBearerTokenVerifier;
 use Nene2\Mcp\LocalMcpException;
 use Nene2\Mcp\LocalMcpServer;
@@ -25,10 +29,17 @@ if (is_string($jwtSecret) && $jwtSecret !== '') {
     $bearerToken = $v->issue(['sub' => 'mcp-server', 'scope' => 'read:system write:example', 'iat' => time(), 'exp' => time() + 86400]);
 }
 
+// Audit log for state-changing tool calls goes to STDERR (STDOUT carries the JSON-RPC
+// protocol and must not be polluted).
+$auditHandler = new StreamHandler('php://stderr', Level::Info);
+$auditHandler->setFormatter(new JsonFormatter());
+$auditLogger = new Logger('mcp-audit', [$auditHandler]);
+
 $server = new LocalMcpServer(
     new LocalMcpToolCatalog($root . '/docs/mcp/tools.json'),
     new NativeLocalMcpHttpClient($bearerToken),
     $apiBaseUrl,
+    $auditLogger,
 );
 
 while (($line = fgets(STDIN)) !== false) {
