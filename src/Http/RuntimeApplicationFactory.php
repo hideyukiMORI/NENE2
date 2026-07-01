@@ -107,6 +107,9 @@ final readonly class RuntimeApplicationFactory
      *                                id the caller references. The endpoint resolves a profile from this
      *                                map; connection details and credentials are never read from the
      *                                request body. Only consulted when $databaseCandidateInspector is set.
+     * @param bool $enableHsts Emit `Strict-Transport-Security` from the security-headers middleware.
+     *                         Off by default; enable only when the app is served over HTTPS (directly or
+     *                         behind a TLS-terminating proxy). See {@see SecurityHeadersMiddleware}.
      */
     public function __construct(
         private ResponseFactoryInterface $responseFactory,
@@ -130,6 +133,7 @@ final readonly class RuntimeApplicationFactory
         private ?string $appVersion = null,
         private ?DatabaseCandidateInspector $databaseCandidateInspector = null,
         private array $databaseCandidateProfiles = [],
+        private bool $enableHsts = false,
     ) {
     }
 
@@ -294,7 +298,7 @@ final readonly class RuntimeApplicationFactory
         $middlewareStack = [
             new RequestIdMiddleware('X-Request-Id', $this->requestIdHolder),
             new RequestLoggingMiddleware($logger),
-            new SecurityHeadersMiddleware(),
+            new SecurityHeadersMiddleware(enableHsts: $this->enableHsts),
             new CorsMiddleware($this->responseFactory, $this->allowedOrigins),
             new ErrorHandlerMiddleware($problemDetails, $this->domainExceptionHandlers, $this->debug, $logger),
             new RequestSizeLimitMiddleware($problemDetails, $this->requestMaxBodyBytes, $this->streamFactory),
