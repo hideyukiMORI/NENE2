@@ -38,10 +38,11 @@ The foundation currently includes:
 - Local MCP server support for read/write tools aligned with OpenAPI, with an authentication guard on write operations.
 - React + TypeScript + Vite starter kept optional and decoupled from backend runtime behavior.
 
-## Article
+## Articles
 
 - [I built a tiny PHP framework for AI-readable business APIs](https://dev.to/hideyukimori/i-built-a-tiny-php-framework-for-ai-readable-business-apis-48eo) — DEV Community introduction to NENE2's API-first, OpenAPI, and MCP-ready design.
 - [MCP should not mean letting AI touch your database](https://dev.to/hideyukimori/mcp-should-not-mean-letting-ai-touch-your-database-57p1) — DEV Community article on keeping MCP tools behind documented HTTP/API boundaries.
+- [I am building self-hosted business tools for small teams in Japan](https://dev.to/hideyukimori/i-am-building-self-hosted-business-tools-for-small-teams-in-japan-4i26) — DEV Community overview of the NeNe OSS product family built on NENE2.
 
 ## Installation
 
@@ -208,7 +209,7 @@ Common entry points:
 
 ## Reference Implementations
 
-**[hideyukiMORI/NENE2-examples](https://github.com/hideyukiMORI/NENE2-examples)** — 93 field-trial applications built with `hideyukimori/nene2` as a Composer dependency. Each directory is a self-contained, runnable JSON API corresponding to one howto guide.
+**[hideyukiMORI/NENE2-examples](https://github.com/hideyukiMORI/NENE2-examples)** — 125 field-trial applications built with `hideyukimori/nene2` as a Composer dependency. Each directory is a self-contained, runnable JSON API corresponding to one howto guide.
 
 ```bash
 git clone https://github.com/hideyukiMORI/NENE2-examples.git
@@ -255,7 +256,7 @@ NENE2 is designed to be AI-readable and usable as a tool by AI agents.
 - **[AGENTS.md](./AGENTS.md)** — entry point for AI agents working in this repository.
 - **OpenAPI contract** — `GET /openapi.php` or `docs/openapi/openapi.yaml` — the authoritative API contract for LLM tool use.
 - **Local MCP server** — `composer mcp` validates the MCP tool catalog; `docker compose run --rm -e NENE2_LOCAL_API_BASE_URL=http://app app php tools/local-mcp-server.php` starts the local server.
-- **Reference implementations** — **[hideyukiMORI/NENE2-examples](https://github.com/hideyukiMORI/NENE2-examples)**: 93 runnable field-trial apps covering every major howto pattern (auth, security, queues, social features, and more). Each app is `composer install && phpunit`-ready.
+- **Reference implementations** — **[hideyukiMORI/NENE2-examples](https://github.com/hideyukiMORI/NENE2-examples)**: 125 runnable field-trial apps covering every major howto pattern (auth, security, queues, social features, and more). Each app is `composer install && phpunit`-ready.
 
 ## License
 
