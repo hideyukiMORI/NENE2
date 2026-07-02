@@ -19,7 +19,8 @@ use RuntimeException;
  *
  * The write is atomic — a sibling temp file is written, `chmod`ed to 0640, then
  * renamed over the target — so an interrupted install never leaves a half-written
- * `.env`. Part of the opt-in installer toolkit.
+ * `.env`. If the file cannot be made non-world-readable it fails closed rather than
+ * persist the secret in the clear. Part of the opt-in installer toolkit.
  */
 final readonly class EnvironmentWriter
 {
@@ -47,6 +48,20 @@ final readonly class EnvironmentWriter
         }
 
         @chmod($tmp, 0640);
+
+        // .env carries the DB password and JWT secret. If chmod could not restrict it
+        // (e.g. an unsupported filesystem left it world-readable at the umask default),
+        // fail closed rather than persist a secret the whole host can read.
+        $perms = fileperms($tmp);
+
+        if ($perms !== false && ($perms & 0007) !== 0) {
+            @unlink($tmp);
+
+            throw new RuntimeException(
+                'The .env file could not be restricted to non-world-readable permissions; '
+                . 'refusing to write the database password where any host user could read it.',
+            );
+        }
 
         if (!@rename($tmp, $path)) {
             @unlink($tmp);
