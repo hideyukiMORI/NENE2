@@ -50,5 +50,9 @@ final class ZipEntrySafetyTest extends TestCase
         yield 'leading slash stripped' => ['/vendor/autoload.php', 'vendor'];
         yield 'backslash normalised' => ['public_html\\index.php', 'public_html'];
         yield 'trailing slash directory' => ['database/', 'database'];
+        // Empty / slash-only entries have no top segment; PayloadInstaller rejects these.
+        yield 'empty entry' => ['', ''];
+        yield 'slash only' => ['/', ''];
+        yield 'double slash only' => ['//', ''];
     }
 }

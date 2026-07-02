@@ -16,7 +16,12 @@ use ZipArchive;
  *      {@see PayloadSignatureVerifier} is injected;
  *   3. every entry is rejected for zip-slip and confined to the product's allow-list
  *      of top-level entries;
- *   4. only then is the archive extracted — never a partial extraction.
+ *   4. only then is the archive extracted.
+ *
+ * The verify-before-extract order guarantees a *rejected* release writes nothing. It does
+ * NOT make extraction itself atomic: an error partway through (e.g. the disk fills) can
+ * leave a partial tree. Callers must therefore extract into a fresh staging directory and
+ * swap it into place atomically — never extract directly over a live installation.
  *
  * The allow-list is supplied by the caller, so the toolkit carries no product
  * assumptions. Framework-level and opt-in: nothing here runs unless a product's
@@ -32,13 +37,17 @@ final readonly class PayloadInstaller
     /**
      * @param string       $zipPath           Absolute path to the release ZIP.
      * @param string       $expectedSha256    Expected SHA-256 (64 hexadecimal characters).
-     * @param string       $destination       Directory to extract into (must exist and be writable).
+     * @param string       $destination       Staging directory to extract into (must exist and be
+     *                                         writable; see the class docblock on atomic swap).
      * @param list<string> $allowedTopEntries Top-level entries the product's release may contain,
      *                                         e.g. `['src', 'vendor', 'database', 'public_html',
      *                                         'composer.json', 'phinx.php', '.env.example', 'var']`.
      *
      * @throws RuntimeException on any verification or extraction failure. Verification always runs
-     *         before extraction, so a failure never leaves a partially written destination.
+     *         before extraction, so a rejected release never writes to $destination. Extraction
+     *         itself is not atomic, though: a failure partway through can leave a partial tree, so
+     *         $destination should be a throwaway staging directory (see the class docblock), not a
+     *         live install root.
      */
     public function verifyAndExtract(
         string $zipPath,
@@ -113,7 +122,11 @@ final readonly class PayloadInstaller
 
                 $top = ZipEntrySafety::topSegment($entry);
 
-                if ($top !== '' && !in_array($top, $allowedTopEntries, true)) {
+                if ($top === '') {
+                    throw new RuntimeException('The release ZIP contains an entry with an empty path.');
+                }
+
+                if (!in_array($top, $allowedTopEntries, true)) {
                     throw new RuntimeException(
                         sprintf('The release ZIP contains an unexpected top-level entry: %s', $top),
                     );
