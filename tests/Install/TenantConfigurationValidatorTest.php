@@ -12,7 +12,7 @@ final class TenantConfigurationValidatorTest extends TestCase
 {
     public function testSingleModeNormalisesBaseDomainAway(): void
     {
-        $result = TenantConfigurationValidator::standard()->validate('single');
+        $result = $this->invoiceValidator()->validate('single');
 
         self::assertTrue($result->valid);
         self::assertNotNull($result->configuration);
@@ -25,7 +25,7 @@ final class TenantConfigurationValidatorTest extends TestCase
     public function testModesThatDoNotNeedABaseDomainDiscardIt(string $mode): void
     {
         // Even if a base domain is supplied, a mode that does not need one drops it.
-        $result = TenantConfigurationValidator::standard()->validate($mode, 'example.com');
+        $result = $this->invoiceValidator()->validate($mode, 'example.com');
 
         self::assertTrue($result->valid);
         self::assertNotNull($result->configuration);
@@ -45,7 +45,7 @@ final class TenantConfigurationValidatorTest extends TestCase
 
     public function testSubdomainWithAValidBaseDomainIsAcceptedAndTrimmed(): void
     {
-        $result = TenantConfigurationValidator::standard()->validate('subdomain', '  records.example.com  ');
+        $result = $this->invoiceValidator()->validate('subdomain', '  records.example.com  ');
 
         self::assertTrue($result->valid);
         self::assertNotNull($result->configuration);
@@ -56,7 +56,7 @@ final class TenantConfigurationValidatorTest extends TestCase
     #[DataProvider('blankBaseDomains')]
     public function testSubdomainRequiresANonEmptyBaseDomain(?string $baseDomain): void
     {
-        $result = TenantConfigurationValidator::standard()->validate('subdomain', $baseDomain);
+        $result = $this->invoiceValidator()->validate('subdomain', $baseDomain);
 
         self::assertFalse($result->valid);
         self::assertNull($result->configuration);
@@ -76,7 +76,7 @@ final class TenantConfigurationValidatorTest extends TestCase
     #[DataProvider('malformedBaseDomains')]
     public function testSubdomainRejectsAMalformedBaseDomain(string $baseDomain): void
     {
-        $result = TenantConfigurationValidator::standard()->validate('subdomain', $baseDomain);
+        $result = $this->invoiceValidator()->validate('subdomain', $baseDomain);
 
         self::assertFalse($result->valid);
         self::assertSame(['base_domain_invalid'], $result->errors);
@@ -97,10 +97,22 @@ final class TenantConfigurationValidatorTest extends TestCase
 
     public function testUnknownModeIsRejected(): void
     {
-        $result = TenantConfigurationValidator::standard()->validate('galaxy');
+        $result = $this->invoiceValidator()->validate('galaxy');
 
         self::assertFalse($result->valid);
         self::assertSame(['unknown_mode'], $result->errors);
+    }
+
+    /**
+     * The invoice runtime vocabulary. There is no shared default factory — each product
+     * declares its own set — so tests construct the one they exercise explicitly.
+     */
+    private function invoiceValidator(): TenantConfigurationValidator
+    {
+        return new TenantConfigurationValidator(
+            ['single', 'path', 'subdomain', 'custom_domain'],
+            ['subdomain'],
+        );
     }
 
     public function testHonoursAnInjectedModeVocabulary(): void
