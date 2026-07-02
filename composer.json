@@ -51,7 +51,8 @@
     ]
   },
   "suggest": {
-    "symfony/yaml": "Required to run validate-mcp-tools.php from a consumer project (add to your require-dev)"
+    "symfony/yaml": "Required to run validate-mcp-tools.php from a consumer project (add to your require-dev)",
+    "robmorgan/phinx": "Required by Nene2\\Install\\DatabaseSchemaApplier. A consumer that uses it MUST add phinx to its require (NOT require-dev) — it is here only as a dev dependency, so a --no-dev production build would omit it and installs would fatally fail when applying migrations."
   },
   "config": {
     "sort-packages": true

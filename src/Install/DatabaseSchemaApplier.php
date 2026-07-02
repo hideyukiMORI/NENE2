@@ -23,6 +23,12 @@ use Throwable;
  *
  * Generic and opt-in: the caller supplies the phinx configuration (its own `phinx.php`),
  * so the toolkit bakes in no product paths, connection details, or environment names.
+ *
+ * ⚠️ Packaging: this class hard-depends on `robmorgan/phinx` (and `symfony/console`),
+ * which NENE2 declares only under `require-dev`. A consumer that uses it MUST add phinx
+ * to its own `require` — NOT `require-dev`. Otherwise a `composer install --no-dev`
+ * production build omits phinx and the installer fatals at migrate time, even though CI
+ * and local dev (which have dev dependencies) stay green.
  */
 final readonly class DatabaseSchemaApplier
 {
@@ -63,8 +69,13 @@ final readonly class DatabaseSchemaApplier
         try {
             $manager->migrate($environment ?? $config->getDefaultEnvironment());
         } catch (Throwable $exception) {
+            // Surface whatever phinx printed before it failed — on shared hosting the
+            // installer screen is often the only place an operator can see it.
+            $captured = trim($output->fetch());
+            $detail = $captured === '' ? '' : ' — phinx output: ' . $captured;
+
             throw new RuntimeException(
-                sprintf('Applying database migrations failed: %s', $exception->getMessage()),
+                sprintf('Applying database migrations failed: %s%s', $exception->getMessage(), $detail),
                 0,
                 $exception,
             );
