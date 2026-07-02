@@ -82,6 +82,7 @@ final readonly class CurlHttpTransport implements HttpTransport
             throw new RuntimeException($this->failure('download the release', $url, $error));
         }
 
+        clearstatcache(true, $destinationPath);
         $size = filesize($destinationPath);
 
         if ($size === false || $size > $maxBytes) {
@@ -101,9 +102,20 @@ final readonly class CurlHttpTransport implements HttpTransport
 
         curl_setopt($handle, CURLOPT_FOLLOWLOCATION, true);
         curl_setopt($handle, CURLOPT_MAXREDIRS, 5);
-        // Confine the request and any redirect it follows to https only.
-        curl_setopt($handle, CURLOPT_PROTOCOLS_STR, 'https');
-        curl_setopt($handle, CURLOPT_REDIR_PROTOCOLS_STR, 'https');
+
+        // Confine the request AND every redirect to https. Use the legacy bitmask, not the
+        // CURLOPT_*_STR variants: those need libcurl 7.85+, and on the older libcurl still
+        // common on shared hosting curl_setopt() would merely return false and silently leave
+        // the protocol restriction off. So we also check the return value and fail closed.
+        $restricted = curl_setopt($handle, CURLOPT_PROTOCOLS, CURLPROTO_HTTPS)
+            && curl_setopt($handle, CURLOPT_REDIR_PROTOCOLS, CURLPROTO_HTTPS);
+
+        if (!$restricted) {
+            curl_close($handle);
+
+            throw new RuntimeException('Could not restrict the HTTP client to https; refusing to fetch a release.');
+        }
+
         curl_setopt($handle, CURLOPT_SSL_VERIFYPEER, true);
         curl_setopt($handle, CURLOPT_SSL_VERIFYHOST, 2);
         curl_setopt($handle, CURLOPT_CONNECTTIMEOUT, max(1, $timeoutSeconds));
