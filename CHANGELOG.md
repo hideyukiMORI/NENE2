@@ -10,6 +10,22 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.6.0] — 2026-07-04
+
+共有ホスティング向け **opt-in インストーラ toolkit `Nene2\Install`** を追加するマイナーリリース。製品ごとに巨大な install.php を複製せず、危険な核（zip 安全性・SHA-256/署名・.env 原子書込・DB migration・再インストール阻止・リリース取得）をフレームワークに一箇所だけ置き、各製品が再利用する（第1 consumer = NeNe Invoice #562）。すべて opt-in・generic — wire しなければ dormant、製品固有の前提（UI/ブランド/語彙/パス）は core に焼かない。
+
+### Added
+- `Nene2\Install` payload セキュリティ核 — `PayloadInstaller`（検証は必ず展開前・使い捨て staging→原子 swap）/ `ZipEntrySafety`（zip-slip・絶対パス・許可トップレベル検査）/ `PayloadSignatureVerifier`（SHA-256＋署名フック）（#1464）
+- preflight & config — `ServerRequirementChecker`（+`ServerRequirements`/`RequirementCheck`/`SystemProbe`/`LiveSystemProbe`・診断のみ FS 非変更）/ `EnvironmentWriter`（.env 原子書込・phpdotenv 文法エスケープ・`generateSecret()`）/ `ReInstallationGuard`（+`ProvisioningProbe`・marker 短絡＋DB probe の二層）（#1466）
+- `TenantConfigurationValidator`（+`TenantConfiguration`/`TenantConfigurationResult`）— テナント解決モード検証。共有 default なし・語彙と base domain 必須集合は製品が注入し、reason code で返す（#1468）
+- `DatabaseSchemaApplier` — phinx Manager API による programmatic migration 適用（CLI 不可の共有ホスティング向け）。⚠️ 利用する consumer は `robmorgan/phinx` を **`require`**（not require-dev）に置くこと — `--no-dev` 本番 vendor でクラス不在のまま CI/dev だけ緑になる（#1470）
+- release manifest 契約 — `ReleaseDescriptor` / `ReleaseManifestParser`（+`ReleaseManifestResult`）。origin `targets.schema.json` 逐語 parse・unknown schema major は reject（#1472）
+- リリース取得 — `ReleaseSource` / `HttpReleaseSource` / `HttpTransport` / `CurlHttpTransport`（https 限定・artifact の temp download。検証/展開は PayloadInstaller の責務）（#1474）
+- ウィザード提示契約 — `InstallerMessages` / `DefaultInstallerMessages`（無ブランド英文既定・reason code→文言）/ `InstallerStep` / `InstallerFlow`（baked flow なし・製品がステップを渡す）（#1476）
+- 無ブランド参照 UI — `InstallerTemplate` / `InstallerRenderer` / `Html`（毎ステップ guard 評価・全 escape・error は reason-code のみ）（#1478）
+
+---
+
 ## [1.5.333] — 2026-07-02
 
 セキュリティ強化リリース。横断セキュリティ監査（コード5系統＋捨てコンテナ実機 ATK）で検出した全 EXPOSED を是正し、修正後の再テストで 0 EXPOSED を確認・文書化した。加えて再利用可能な TOTP プリミティブを追加。
