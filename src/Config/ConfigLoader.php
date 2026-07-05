@@ -20,6 +20,7 @@ final readonly class ConfigLoader
             'APP_NAME' => 'NENE2',
             'NENE2_MACHINE_API_KEY' => '',
             'NENE2_LOCAL_JWT_SECRET' => '',
+            'NENE2_ALLOW_DEV_SECRET' => '',
             'PROBLEM_DETAILS_BASE_URL' => 'https://nene2.dev/problems/',
             'DATABASE_URL' => '',
             'DB_ENV' => 'local',
@@ -65,6 +66,7 @@ final readonly class ConfigLoader
             $this->optionalString($values['NENE2_MACHINE_API_KEY']),
             $this->optionalString($values['NENE2_LOCAL_JWT_SECRET']),
             trim($values['PROBLEM_DETAILS_BASE_URL']),
+            $this->parseDevSecretOptIn($values['NENE2_ALLOW_DEV_SECRET']),
         );
     }
 
@@ -103,6 +105,20 @@ final readonly class ConfigLoader
             '0', 'false', 'no', 'off' => false,
             default => throw new ConfigException(sprintf('%s must be a boolean value.', $key)),
         };
+    }
+
+    /**
+     * Parse the development-secret opt-in strictly.
+     *
+     * Unlike {@see parseBoolean}, this never throws and accepts only `1`, `true`, or
+     * `yes` (case-insensitive, trimmed) as truthy. Any other value — including empty,
+     * `0`, `false`, `off`, or an arbitrary string — is treated as opted out, so a
+     * typo never silently permits the development secret. Consumed by
+     * {@see \Nene2\Auth\GuardedJwtSecretResolver} via {@see AppConfig::$allowDevSecret}.
+     */
+    private function parseDevSecretOptIn(string $value): bool
+    {
+        return in_array(strtolower(trim($value)), ['1', 'true', 'yes'], true);
     }
 
     private function optionalString(string $value): ?string

@@ -18,6 +18,7 @@ Architecture decisions are recorded here as lightweight ADRs. Each record captur
 | [0010](0010-rate-limiting.md) | Rate limiting design |
 | [0011](0011-security-review-policy.md) | Security review policy — adversarial review and HTTP security invariants |
 | [0012](0012-sanctioned-test-database-wiring.md) | Sanctioned test database wiring via `Nene2\Testing` |
+| [0013](0013-guarded-jwt-secret-resolution.md) | Guarded JWT secret resolution — fail-closed framework default |
 
 ## Template
 

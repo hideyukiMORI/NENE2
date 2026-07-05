@@ -7,6 +7,7 @@ namespace Nene2\Tests\Config;
 use Nene2\Config\AppEnvironment;
 use Nene2\Config\ConfigException;
 use Nene2\Config\ConfigLoader;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 final class ConfigLoaderTest extends TestCase
@@ -194,6 +195,49 @@ final class ConfigLoaderTest extends TestCase
             'DB_ADAPTER' => 'mysql',
             'DB_PORT' => '65536',
         ]);
+    }
+
+    public function testAllowDevSecretDefaultsToFalse(): void
+    {
+        $config = (new ConfigLoader($this->emptyProjectRoot()))->load();
+
+        self::assertFalse($config->allowDevSecret);
+    }
+
+    /**
+     * @return list<array{string}>
+     */
+    public static function truthyDevSecretOptInValues(): array
+    {
+        return [['1'], ['true'], ['yes'], ['YES'], ['  true  ']];
+    }
+
+    #[DataProvider('truthyDevSecretOptInValues')]
+    public function testAllowDevSecretIsTrueForStrictTruthyValues(string $value): void
+    {
+        $config = (new ConfigLoader($this->emptyProjectRoot()))->load([
+            'NENE2_ALLOW_DEV_SECRET' => $value,
+        ]);
+
+        self::assertTrue($config->allowDevSecret);
+    }
+
+    /**
+     * @return list<array{string}>
+     */
+    public static function nonTruthyDevSecretOptInValues(): array
+    {
+        return [['0'], ['false'], ['no'], ['off'], ['on'], ['2'], ['maybe'], ['']];
+    }
+
+    #[DataProvider('nonTruthyDevSecretOptInValues')]
+    public function testAllowDevSecretIsFalseForNonStrictTruthyValues(string $value): void
+    {
+        $config = (new ConfigLoader($this->emptyProjectRoot()))->load([
+            'NENE2_ALLOW_DEV_SECRET' => $value,
+        ]);
+
+        self::assertFalse($config->allowDevSecret);
     }
 
     private function emptyProjectRoot(): string

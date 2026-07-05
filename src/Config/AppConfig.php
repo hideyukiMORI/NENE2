@@ -10,6 +10,9 @@ namespace Nene2\Config;
  * Inject this value object wherever application-level settings are needed; never call
  * `getenv()` or `$_ENV` directly outside `ConfigLoader`.
  *
+ * `$allowDevSecret` reflects the `NENE2_ALLOW_DEV_SECRET` opt-in (strictly `1`/`true`/`yes`)
+ * consumed by {@see \Nene2\Auth\GuardedJwtSecretResolver}; it is ignored in production.
+ *
  * Part of the public API stability guarantee (see ADR 0009).
  */
 final readonly class AppConfig
@@ -22,6 +25,7 @@ final readonly class AppConfig
         public ?string $machineApiKey,
         public ?string $localJwtSecret = null,
         public string $problemDetailsBaseUrl = 'https://nene2.dev/problems/',
+        public bool $allowDevSecret = false,
     ) {
         if ($this->name === '') {
             throw new ConfigException('APP_NAME must not be empty.');
