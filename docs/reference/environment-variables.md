@@ -17,7 +17,8 @@ Set them in `.env` (loaded by phpdotenv) or export them before starting the serv
 | Variable | Type | Default | Description |
 |---|---|---|---|
 | `NENE2_MACHINE_API_KEY` | string | *(empty — disabled)* | API key expected in the `X-NENE2-API-Key` request header for machine client endpoints. Leave empty to disable the machine key path entirely. |
-| `NENE2_LOCAL_JWT_SECRET` | string | *(empty — disabled)* | HMAC-HS256 secret used by `LocalBearerTokenVerifier`. Enables Bearer JWT validation for `GET /examples/protected` and gates write tools in the local MCP server. Leave empty to disable JWT auth and allow read-only MCP access only. |
+| `NENE2_LOCAL_JWT_SECRET` | string | *(empty — disabled)* | HMAC-HS256 secret used by `LocalBearerTokenVerifier`. Enables Bearer JWT validation for `GET /examples/protected` and gates write tools in the local MCP server. Leave empty to disable JWT auth and allow read-only MCP access only. When resolved through `Nene2\Auth\GuardedJwtSecretResolver`, an empty value fails closed unless the development-secret opt-in below is set (never in production). |
+| `NENE2_ALLOW_DEV_SECRET` | boolean (strict) | `false` | Development-secret opt-in consumed by `Nene2\Auth\GuardedJwtSecretResolver` (exposed as `AppConfig::$allowDevSecret`). Accepts **only** `1`, `true`, or `yes` (case-insensitive, trimmed); any other value — including a typo — means opted out. When `NENE2_LOCAL_JWT_SECRET` is unset in a `local`/`test` environment, this permits the product-injected development secret. **Ignored in production** — production always fails closed. See [ADR 0013](../adr/0013-guarded-jwt-secret-resolution.md). |
 
 ## Local MCP server
 

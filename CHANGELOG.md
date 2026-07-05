@@ -9,6 +9,8 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ## [Unreleased]
 
 ### Added
+- fail-closed な JWT secret 解決の framework 既定 — `Nene2\Auth\GuardedJwtSecretResolver`（`final readonly`・公開安定 API）と `Nene2\Auth\JwtSecretException`（`RuntimeException` 継承・公開安定 API）。bearer トークンの HMAC secret は全 operator/service トークンを署名するため、推測可能な値は完全な認証バイパスになる。resolver は **ハイブリッド dev 鍵許可モデル**で解決する: 設定済み secret が非空なら全環境で採用（空文字＝未設定扱い）／`AppEnvironment::Production` は常に拒否（opt-in があっても dev 鍵を絶対使わない＝ハード fail）／local・test で明示 opt-in（`NENE2_ALLOW_DEV_SECRET` を strict に `1`/`true`/`yes`）かつ製品注入の dev 鍵があれば dev 鍵を採用／それ以外は例外。dev 鍵は framework が持たず製品が注入（`?string $devSecret`・null＝dev 経路無効）し、製品ごとの dev 鍵分離を保つ。`GuardedJwtSecretResolver::fromConfig(AppConfig, ?string): string` で `NENE2_LOCAL_JWT_SECRET` 経路を1行化。ADR 0013。**製品の自前ガード撤去は別 PR**（今回はコア追加のみ）（#1490）
+- `AppConfig::$allowDevSecret`（型付き bool・既定 `false`）— `NENE2_ALLOW_DEV_SECRET` の strict 真偽（`1`/`true`/`yes` のみ真・typo は opted-out）を `ConfigLoader` が読み取り公開する。raw env 読取は `ConfigLoader` 内のみの規約を守り、resolver は env を直読みしない。コンストラクタ末尾に既定付きで追加＝**後方互換**（#1490）
 - `Nene2\Install` のインストーラフィールドに入力型を追加 — `InstallerInputType`（`text` / `password`）と `InstallerField`（name + type、`InstallerField::text()` / `password()` ファクトリ）。`InstallerRenderer` が型に応じた `<input type="...">` を出力し、**password は送信値をページに反映しない**（平文の再表示を防ぐ）（#1482）
 
 ### Changed
