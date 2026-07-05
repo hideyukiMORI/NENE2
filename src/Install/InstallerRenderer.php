@@ -54,11 +54,19 @@ final readonly class InstallerRenderer
 
         $html .= '<form method="post">';
 
-        foreach ($step->inputs as $input) {
-            $name = Html::escape($input);
-            $value = Html::escape($values[$input] ?? '');
+        foreach ($step->inputs as $field) {
+            $name = Html::escape($field->name);
+            // The type comes from a product-controlled enum, never operator input,
+            // so its literal value is safe to place in the attribute unescaped.
+            $type = $field->type->value;
+
+            // Secrets are never reflected: a submitted password must not reappear in page source.
+            $valueAttr = $field->type->reflectsValue()
+                ? ' value="' . Html::escape($values[$field->name] ?? '') . '"'
+                : '';
+
             $html .= '<label class="installer-field">' . $name
-                . '<input type="text" name="' . $name . '" value="' . $value . '"></label>';
+                . '<input type="' . $type . '" name="' . $name . '"' . $valueAttr . '></label>';
         }
 
         $html .= '</form></section>';

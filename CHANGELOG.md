@@ -8,6 +8,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Added
+- `Nene2\Install` のインストーラフィールドに入力型を追加 — `InstallerInputType`（`text` / `password`）と `InstallerField`（name + type、`InstallerField::text()` / `password()` ファクトリ）。`InstallerRenderer` が型に応じた `<input type="...">` を出力し、**password は送信値をページに反映しない**（平文の再表示を防ぐ）（#1482）
+
+### Changed
+- `InstallerStep::$inputs` が `list<string>` から正規化済み `list<InstallerField>` になった。**後方互換**: bare な文字列名は従来どおり text フィールドへ昇格するため、`new InstallerStep('database', ['db_name'])` は変わらず動作する。`$step->inputs` を直接読む場合のみ要素が `InstallerField` になる（新モジュール `Nene2\Install` は 1.6.0 で導入されたばかりで、唯一の consumer の採用と協調済み）（#1482）
+
 ---
 
 ## [1.6.0] — 2026-07-04

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Nene2\Tests\Install;
 
 use Nene2\Install\DefaultInstallerMessages;
+use Nene2\Install\InstallerField;
 use Nene2\Install\InstallerFlow;
 use Nene2\Install\InstallerMessages;
 use Nene2\Install\InstallerRenderer;
@@ -51,6 +52,33 @@ final class InstallerRendererTest extends TestCase
 
         self::assertStringNotContainsString('<script>', $html);
         self::assertStringContainsString('&lt;script&gt;', $html);
+    }
+
+    public function testRendersDeclaredInputTypes(): void
+    {
+        $html = (new InstallerRenderer())->render($this->template($this->openGuard()), 'database');
+
+        // A bare field name defaults to a text input.
+        self::assertStringContainsString('type="text" name="db_name"', $html);
+        // A declared password field renders as a password input.
+        self::assertStringContainsString('type="password" name="db_password"', $html);
+    }
+
+    public function testNeverReflectsASubmittedPasswordValue(): void
+    {
+        $html = (new InstallerRenderer())->render(
+            $this->template($this->openGuard()),
+            'database',
+            [],
+            ['db_name' => 'shop', 'db_password' => 'hunter2'],
+        );
+
+        // The secret must never appear in the page source...
+        self::assertStringNotContainsString('hunter2', $html);
+        // ...and the password input must carry no value attribute at all.
+        self::assertStringContainsString('type="password" name="db_password">', $html);
+        // A non-secret field still reflects its submitted value.
+        self::assertStringContainsString('value="shop"', $html);
     }
 
     public function testRendersErrorCodesThroughTheMessageCatalogue(): void
@@ -100,7 +128,8 @@ final class InstallerRendererTest extends TestCase
             public function flow(): InstallerFlow
             {
                 return new InstallerFlow([
-                    new InstallerStep('database', ['db_name', 'db_user']),
+                    // Bare names default to text fields; the password field declares its type.
+                    new InstallerStep('database', ['db_name', 'db_user', InstallerField::password('db_password')]),
                     new InstallerStep('complete'),
                 ]);
             }
