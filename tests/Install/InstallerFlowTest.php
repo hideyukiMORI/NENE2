@@ -23,7 +23,10 @@ final class InstallerFlowTest extends TestCase
         self::assertFalse($flow->has('nope'));
 
         self::assertSame('database', $flow->step('database')->id);
-        self::assertSame(['db_name', 'db_user'], $flow->step('database')->inputs);
+        self::assertSame(
+            ['db_name', 'db_user'],
+            array_map(static fn ($field): string => $field->name, $flow->step('database')->inputs),
+        );
 
         self::assertSame('database', $flow->next('requirements')?->id);
         self::assertSame('complete', $flow->next('database')?->id);
