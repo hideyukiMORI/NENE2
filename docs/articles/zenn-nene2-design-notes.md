@@ -74,7 +74,7 @@ NENE2 の方向性は、ひとことで言うとこうです。
 - MCP は DB 直結ではなく、アプリケーション境界の後ろに置く
 - AI に読みやすい構造は、人間にも読みやすい構造にする
 
-現在の NENE2 は `v1.5.332` で、認証、DB 境界、OpenAPI、MCP、React starter、260 本の howto などを持っています。
+現在の NENE2 は `v1.5.332` で、認証、DB 境界、OpenAPI、MCP、React starter、262 本の howto などを持っています。
 
 ただし、ここで大事なのは機能数ではありません。
 
@@ -343,10 +343,12 @@ NeNe シリーズを作る中で、NENE2 は少しずつ「自分用の小さな
 
 ## リンク
 
-| 種類 | URL |
-| --- | --- |
-| NENE2 | <https://github.com/hideyukiMORI/NENE2> |
-| OpenAPI | <https://github.com/hideyukiMORI/NENE2/blob/main/docs/openapi/openapi.yaml> |
-| NENE2 howto | <https://github.com/hideyukiMORI/NENE2/tree/main/docs/howto> |
-| NeNe series overview | <https://dev.to/hideyukimori/i-am-building-self-hosted-business-tools-for-small-teams-in-japan-4i26> |
-| MCP boundary article | <https://dev.to/hideyukimori/mcp-should-not-mean-letting-ai-touch-your-database-57p1> |
+@[card](https://github.com/hideyukiMORI/NENE2)
+
+@[card](https://github.com/hideyukiMORI/NENE2/blob/main/docs/openapi/openapi.yaml)
+
+@[card](https://github.com/hideyukiMORI/NENE2/tree/main/docs/howto)
+
+@[card](https://dev.to/hideyukimori/i-am-building-self-hosted-business-tools-for-small-teams-in-japan-4i26)
+
+@[card](https://dev.to/hideyukimori/mcp-should-not-mean-letting-ai-touch-your-database-57p1)
