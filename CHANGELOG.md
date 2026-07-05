@@ -8,6 +8,9 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Added
+- 監査ログ基盤 `Nene2\Audit` — 複数製品（invoice/payout/profile/vault/clear）が同型に自作していた監査ログを framework の 1 モジュールに集約する（ADR 0014）。**公開安定 API**: `AuditEvent`（`final readonly` VO・種別 `action` は製品所有の free string で framework は enum を同梱しない・scalar id は `string|int|null` で auto-increment と ULID の両対応・`before`/`after`/`metadata`/`occurredAt` 受け皿付き）／`AuditQuery`（共通フィルタ VO・sort 列と方向をコンストラクタで**ホワイトリスト検証**し不正 sort を境界で拒否）／`AuditPayloadMode`（`BeforeAfter`＝canonical・`SinglePayload`＝過渡）／`AuditTableConfig`（既存テーブルへ**再 migration せず**向けるカラム/モード/id 型の写像・`canonical()` が収斂先）／契約 `AuditRecorderInterface`・`AuditRecorderFactoryInterface`（監査行を業務ミューテーションと同一 TX に束ねる `forExecutor()`＝invoice/payout の良形を既定化）・`AuditEventRepositoryInterface`（**append-only**: append/query/count・更新削除の経路なし）。既定実装 `AuditRecorder`（`occurredAt`↔`ClockInterface`／`organizationId`↔`RequestScopedHolder` を補完し、profile の repo 内 `date()` ドリフト・非原子を構造的に解消）・`AuditRecorderFactory`・`PdoAuditEventRepository`（生パラメタ化 SQL・`JSON_THROW_ON_ERROR | JSON_UNESCAPED_UNICODE`）と参照配線 `AuditServiceProvider` は**安定保証外**（`src/Example/` 同様 copy-and-adapt）。canonical 参照スキーマ `database/migrations/*_create_audit_events_table` ＋ `database/schema/audit_events.sql`（before/after・`metadata_json`・`occurred_at`・BIGINT autoinc 既定／ULID は config 対応）も安定保証外の参照。**製品の自作撤去・移行は別 PR**（今回はコア追加のみ・一覧 route/CSV export/actor_email join は製品の read 層に据え置き）（#1494）
+
 ---
 
 ## [1.7.0] — 2026-07-05

@@ -19,6 +19,7 @@ Architecture decisions are recorded here as lightweight ADRs. Each record captur
 | [0011](0011-security-review-policy.md) | Security review policy — adversarial review and HTTP security invariants |
 | [0012](0012-sanctioned-test-database-wiring.md) | Sanctioned test database wiring via `Nene2\Testing` |
 | [0013](0013-guarded-jwt-secret-resolution.md) | Guarded JWT secret resolution — fail-closed framework default |
+| [0014](0014-audit-log-framework-module.md) | Audit log framework module (`Nene2\Audit`) |
 
 ## Template
 
