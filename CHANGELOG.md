@@ -8,6 +8,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+---
+
+## [1.8.0] — 2026-07-06
+
+framework に横断で再実装されていた共通処理を集約するマイナーリリース。監査ログ基盤 `Nene2\Audit`（ADR 0014）と CSV 出力基盤 `Nene2\Export\CsvWriter`（ADR 0015）を framework の各 1 モジュールとして追加し、複数製品が同型に自作していた監査ログ／CSV 出力を安定 API に収斂させる。あわせて `LocalBearerTokenVerifier` に任意の時刻源 `Nene2\Http\ClockInterface` を後方互換で注入可能にし（ADR 0009 公開サーフェス）、`exp`/`nbf` の境界を固定時計で決定論テストできるようにする。いずれも公開 API への加算・後方互換で、製品側の自作撤去・consumer 移行は別 PR / Issue に分離する。
+
 ### Added
 - `Nene2\Auth\LocalBearerTokenVerifier` に任意の時刻源 `Nene2\Http\ClockInterface` を注入可能にする — コンストラクタ末尾に `ClockInterface $clock = new UtcClock()`（PHP 8.1+ new-in-initializer・既定は現行と同じ system/UTC clock）を**既定引数として加算**し、`verify()` は `now` を1回だけ読んで `exp`/`nbf` を注入 clock 由来の同一 instant で判定する（従来の `time()` 直書き2箇所を置換）。既定挙動は `UtcClock::now()->getTimestamp()` ＝ `time()` で**完全同値**、既存 caller `new LocalBearerTokenVerifier($secret)` は無改修＝**後方互換**（optional param 追加の非破壊加算・ADR 0009 公開サーフェス）。issuer `issue()` は呼び出し側が `exp`/`nbf` を計算して渡す設計のため、同一インスタンスに 1 個の clock を注入すれば発行/検証で時刻源が対称になり、固定時計で exp/nbf 境界を**決定論テスト**できる（field #19 の時刻源非対称による時限フレークの根治）。now を1回読みに変えたことで2回読みの秒跨ぎ競合も解消（#1506）
 - 監査ログ基盤 `Nene2\Audit` — 複数製品（invoice/payout/profile/vault/clear）が同型に自作していた監査ログを framework の 1 モジュールに集約する（ADR 0014）。**公開安定 API**: `AuditEvent`（`final readonly` VO・種別 `action` は製品所有の free string で framework は enum を同梱しない・scalar id は `string|int|null` で auto-increment と ULID の両対応・`before`/`after`/`metadata`/`occurredAt` 受け皿付き）／`AuditQuery`（共通フィルタ VO・sort 列と方向をコンストラクタで**ホワイトリスト検証**し不正 sort を境界で拒否）／`AuditPayloadMode`（`BeforeAfter`＝canonical・`SinglePayload`＝過渡）／`AuditTableConfig`（既存テーブルへ**再 migration せず**向けるカラム/モード/id 型の写像・`canonical()` が収斂先）／契約 `AuditRecorderInterface`・`AuditRecorderFactoryInterface`（監査行を業務ミューテーションと同一 TX に束ねる `forExecutor()`＝invoice/payout の良形を既定化）・`AuditEventRepositoryInterface`（**append-only**: append/query/count・更新削除の経路なし）。既定実装 `AuditRecorder`（`occurredAt`↔`ClockInterface`／`organizationId`↔`RequestScopedHolder` を補完し、profile の repo 内 `date()` ドリフト・非原子を構造的に解消）・`AuditRecorderFactory`・`PdoAuditEventRepository`（生パラメタ化 SQL・`JSON_THROW_ON_ERROR | JSON_UNESCAPED_UNICODE`）と参照配線 `AuditServiceProvider` は**安定保証外**（`src/Example/` 同様 copy-and-adapt）。canonical 参照スキーマ `database/migrations/*_create_audit_events_table` ＋ `database/schema/audit_events.sql`（before/after・`metadata_json`・`occurred_at`・BIGINT autoinc 既定／ULID は config 対応）も安定保証外の参照。**製品の自作撤去・移行は別 PR**（今回はコア追加のみ・一覧 route/CSV export/actor_email join は製品の read 層に据え置き）（#1494）
