@@ -240,6 +240,23 @@ final class ConfigLoaderTest extends TestCase
         self::assertFalse($config->allowDevSecret);
     }
 
+    public function testPartialConstructorDefaultsLayerOverCanonicalDefaults(): void
+    {
+        // A consumer that preseeds the loader with a partial defaults map (omitting keys
+        // it does not care about, e.g. NENE2_ALLOW_DEV_SECRET) must not trigger a
+        // TypeError: unspecified keys fall back to the canonical defaults, and the
+        // dev-secret opt-in stays opted out.
+        $config = (new ConfigLoader($this->emptyProjectRoot(), [
+            'DB_ADAPTER' => 'sqlite',
+            'DB_NAME' => ':memory:',
+        ]))->load();
+
+        self::assertSame('sqlite', $config->database->adapter);
+        self::assertSame(':memory:', $config->database->name);
+        self::assertFalse($config->allowDevSecret);
+        self::assertSame(AppEnvironment::Local, $config->environment);
+    }
+
     private function emptyProjectRoot(): string
     {
         return sys_get_temp_dir();

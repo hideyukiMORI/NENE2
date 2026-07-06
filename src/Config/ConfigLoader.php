@@ -10,29 +10,48 @@ use Dotenv\Dotenv;
 final readonly class ConfigLoader
 {
     /**
-     * @param array<string, string> $defaults
+     * Canonical framework configuration defaults.
+     *
+     * Every key {@see load()} reads is present here, so the loader can treat each
+     * `$values[...]` access as a guaranteed string. Custom values passed to the
+     * constructor are layered *over* this base rather than replacing it (see
+     * {@see __construct()}), so a partial map can never drop a key and trigger a
+     * `TypeError` deep inside parsing.
+     *
+     * @var array<string, string>
+     */
+    private const DEFAULTS = [
+        'APP_ENV' => 'local',
+        'APP_DEBUG' => 'false',
+        'APP_NAME' => 'NENE2',
+        'NENE2_MACHINE_API_KEY' => '',
+        'NENE2_LOCAL_JWT_SECRET' => '',
+        'NENE2_ALLOW_DEV_SECRET' => '',
+        'PROBLEM_DETAILS_BASE_URL' => 'https://nene2.dev/problems/',
+        'DATABASE_URL' => '',
+        'DB_ENV' => 'local',
+        'DB_ADAPTER' => 'mysql',
+        'DB_HOST' => '127.0.0.1',
+        'DB_PORT' => '3306',
+        'DB_NAME' => 'nene2',
+        'DB_USER' => 'nene2',
+        'DB_PASSWORD' => '',
+        'DB_CHARSET' => 'utf8mb4',
+    ];
+
+    /** @var array<string, string> */
+    private array $defaults;
+
+    /**
+     * @param array<string, string> $defaults Values layered over {@see self::DEFAULTS};
+     *        any unspecified key falls back to the canonical default, so a partial map
+     *        is safe (it never omits a key that {@see load()} requires).
      */
     public function __construct(
         private string $projectRoot,
-        private array $defaults = [
-            'APP_ENV' => 'local',
-            'APP_DEBUG' => 'false',
-            'APP_NAME' => 'NENE2',
-            'NENE2_MACHINE_API_KEY' => '',
-            'NENE2_LOCAL_JWT_SECRET' => '',
-            'NENE2_ALLOW_DEV_SECRET' => '',
-            'PROBLEM_DETAILS_BASE_URL' => 'https://nene2.dev/problems/',
-            'DATABASE_URL' => '',
-            'DB_ENV' => 'local',
-            'DB_ADAPTER' => 'mysql',
-            'DB_HOST' => '127.0.0.1',
-            'DB_PORT' => '3306',
-            'DB_NAME' => 'nene2',
-            'DB_USER' => 'nene2',
-            'DB_PASSWORD' => '',
-            'DB_CHARSET' => 'utf8mb4',
-        ],
+        array $defaults = [],
     ) {
+        $this->defaults = array_merge(self::DEFAULTS, $defaults);
     }
 
     /**
