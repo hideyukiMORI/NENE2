@@ -43,7 +43,14 @@ comments and docblocks never trip a rule):
   `T_CONSTANT_ENCAPSED_STRING` values matching a development-secret shape
   (`*-dev-secret`, `changeme`, `secret-key`, ...), excluding whitespace-bearing
   prose, upper snake-case env-variable *names* (`NENE2_ALLOW_DEV_SECRET`), and
-  array-key positions.
+  array-key positions. A literal fed to the fail-closed
+  `GuardedJwtSecretResolver::fromConfig()` as its second argument (the
+  product-injected dev secret) — directly, or via the constant it initialises in
+  the same file — is exempt, since the resolver refuses it in production (this is
+  the design's "+ `GuardedJwtSecretResolver` unused" condition, and the canonical
+  2026-07-05 fleet fail-close shape). The exemption is narrow: a naked fallback
+  (`getenv('X') ?: 'acme-dev-secret'`) never reaches the resolver and stays
+  flagged even alongside resolver use in the same file.
 - **D2** — Composer dependency pinned to a feature branch. Parse `composer.json`
   requires and `composer.lock` package versions; flag `dev-feat/...`-style
   feature-branch pins (mainline `dev-main` / `@dev` are the design's `warn`
@@ -90,5 +97,9 @@ Gradual adoption and false-positive relief use three mechanisms:
 
 - Issue: `#1511`
 - PR: `#1512`
+- Fan-out fixes (fleet CI pilot, 2026-07-07): `#1514` — consumer autoload path
+  (the CLI must require the resolved consumer `vendor/autoload.php`, matching
+  `tools/validate-mcp-tools.php`, not NENE2's own nested vendor) and the D1
+  `GuardedJwtSecretResolver` guarded-literal exemption above.
 - Supersedes: none
 - Superseded by: none

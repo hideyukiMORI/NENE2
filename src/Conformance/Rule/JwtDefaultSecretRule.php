@@ -24,6 +24,18 @@ use Nene2\Conformance\Severity;
  * `<slug>-secret`, etc. Env-variable **names** such as `NENE2_LOCAL_JWT_SECRET`
  * (upper snake case) are intentionally excluded, keeping false positives near
  * zero.
+ *
+ * Guarded-literal exemption (design 04 "+ GuardedJwtSecretResolver 不使用"):
+ * the canonical fail-close pattern injects a product development secret **into**
+ * {@see \Nene2\Auth\GuardedJwtSecretResolver::fromConfig()} as its second
+ * argument, e.g. `GuardedJwtSecretResolver::fromConfig($config,
+ * self::DEFAULT_DEV_SECRET)` with `const DEFAULT_DEV_SECRET = '<slug>-dev-secret'`.
+ * Such a literal is *not* a naked default secret — the resolver refuses it in
+ * production (ADR 0013) — so a literal that is passed (directly, or via the
+ * constant it initialises) as `fromConfig()`'s second argument in the same file
+ * is exempt. The exemption is narrow on purpose: a truly naked secret
+ * (`getenv('X') ?: 'acme-dev-secret'`) is never fed to the resolver, so it stays
+ * flagged even in a file that also uses `GuardedJwtSecretResolver` elsewhere.
  */
 final class JwtDefaultSecretRule implements RuleInterface
 {
@@ -91,6 +103,7 @@ final class JwtDefaultSecretRule implements RuleInterface
 
         $hits = [];
         $count = count($tokens);
+        [$guardedLiteralIndices, $guardedConstNames] = $this->guardedDevSecrets($tokens, $count);
 
         for ($i = 0; $i < $count; $i++) {
             $token = $tokens[$i];
@@ -122,12 +135,174 @@ final class JwtDefaultSecretRule implements RuleInterface
                 continue;
             }
 
-            if (preg_match(self::SECRET_PATTERN, $value) === 1) {
-                $hits[] = [$token[2], $value];
+            if (preg_match(self::SECRET_PATTERN, $value) !== 1) {
+                continue;
             }
+
+            // Guarded-literal exemption: the literal is handed to the fail-closed
+            // GuardedJwtSecretResolver (ADR 0013), so it is not a naked default.
+            // Either the literal is itself `fromConfig()`'s second argument, or it
+            // initialises the constant that is passed there in the same file.
+            if (isset($guardedLiteralIndices[$i])) {
+                continue;
+            }
+
+            if ($this->isToken($prev, '=')
+                && $this->isGuardedConstAssignment($tokens[$i - 2] ?? null, $guardedConstNames)
+            ) {
+                continue;
+            }
+
+            $hits[] = [$token[2], $value];
         }
 
         return $hits;
+    }
+
+    /**
+     * Collects the development-secret literals that feed
+     * `GuardedJwtSecretResolver::fromConfig(..., <literal|CONST>)` in this file.
+     *
+     * The resolver's second parameter is the product-injected development secret,
+     * which the resolver refuses in production — so those literals are not naked
+     * defaults and must not trip D1. Returns two lookups: token indices of literals
+     * passed directly, and the names of constants passed there (whose initialiser
+     * literal is then exempt).
+     *
+     * @param list<array{0: int, 1: string, 2: int}|string> $tokens
+     * @return array{0: array<int, true>, 1: array<string, true>}
+     */
+    private function guardedDevSecrets(array $tokens, int $count): array
+    {
+        $literalIndices = [];
+        $constNames = [];
+
+        for ($i = 0; $i < $count; $i++) {
+            if (!$this->isGuardedResolverName($tokens[$i])) {
+                continue;
+            }
+
+            $colon = $tokens[$i + 1] ?? null;
+            $method = $tokens[$i + 2] ?? null;
+            $paren = $tokens[$i + 3] ?? null;
+
+            if (!is_array($colon) || $colon[0] !== T_DOUBLE_COLON) {
+                continue;
+            }
+
+            if (!is_array($method) || $method[0] !== T_STRING || $method[1] !== 'fromConfig') {
+                continue;
+            }
+
+            if (!$this->isToken($paren, '(')) {
+                continue;
+            }
+
+            $secondArg = $this->secondArgumentTokens($tokens, $count, $i + 3);
+
+            if ($secondArg === null || $secondArg === []) {
+                continue;
+            }
+
+            if (count($secondArg) === 1) {
+                [$index, $only] = $secondArg[0];
+
+                if (is_array($only) && $only[0] === T_CONSTANT_ENCAPSED_STRING) {
+                    $literalIndices[$index] = true;
+                    continue;
+                }
+            }
+
+            // `self::DEFAULT_DEV_SECRET`, `Foo::DEFAULT_DEV_SECRET`, or a bare
+            // `DEFAULT_DEV_SECRET`: the trailing identifier is the constant name.
+            $last = $secondArg[count($secondArg) - 1][1];
+
+            if (is_array($last) && $last[0] === T_STRING) {
+                $constNames[$last[1]] = true;
+            }
+        }
+
+        return [$literalIndices, $constNames];
+    }
+
+    /**
+     * Top-level tokens of the second argument of the call whose `(` is at
+     * `$openParenIndex`, or null when there is no second argument. Commas nested
+     * inside `()`/`[]`/`{}` do not separate arguments.
+     *
+     * @param list<array{0: int, 1: string, 2: int}|string> $tokens
+     * @return list<array{0: int, 1: array{0: int, 1: string, 2: int}|string}>|null
+     */
+    private function secondArgumentTokens(array $tokens, int $count, int $openParenIndex): ?array
+    {
+        $depth = 0;
+        $argIndex = 0;
+        $current = [];
+
+        for ($j = $openParenIndex + 1; $j < $count; $j++) {
+            $token = $tokens[$j];
+
+            if (is_string($token)) {
+                if ($token === '(' || $token === '[' || $token === '{') {
+                    $depth++;
+                    $current[] = [$j, $token];
+                    continue;
+                }
+
+                if ($token === ')' || $token === ']' || $token === '}') {
+                    if ($depth === 0) {
+                        return $argIndex === 1 ? $current : null;
+                    }
+
+                    $depth--;
+                    $current[] = [$j, $token];
+                    continue;
+                }
+
+                if ($token === ',' && $depth === 0) {
+                    if ($argIndex === 1) {
+                        return $current;
+                    }
+
+                    $argIndex++;
+                    $current = [];
+                    continue;
+                }
+            }
+
+            $current[] = [$j, $token];
+        }
+
+        return null;
+    }
+
+    /**
+     * Whether the token is a reference to `GuardedJwtSecretResolver`, imported or
+     * written as a (fully) qualified name.
+     *
+     * @param array{0: int, 1: string, 2: int}|string|null $token
+     */
+    private function isGuardedResolverName(array|string|null $token): bool
+    {
+        if (!is_array($token) || !in_array($token[0], [T_STRING, T_NAME_QUALIFIED, T_NAME_FULLY_QUALIFIED], true)) {
+            return false;
+        }
+
+        $position = strrpos($token[1], '\\');
+        $base = $position === false ? $token[1] : substr($token[1], $position + 1);
+
+        return $base === 'GuardedJwtSecretResolver';
+    }
+
+    /**
+     * Whether the token is a constant identifier that names a guarded dev secret.
+     *
+     * @param array{0: int, 1: string, 2: int}|string|null $token
+     * @param array<string, true> $constNames
+     */
+    private function isGuardedConstAssignment(array|string|null $token, array $constNames): bool
+    {
+        return is_array($token) && $token[0] === T_STRING && isset($constNames[$token[1]]);
     }
 
     /**
