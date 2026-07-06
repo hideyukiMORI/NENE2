@@ -8,8 +8,17 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+---
+
+## [1.8.1] — 2026-07-07
+
+ランタイム後方互換なパッチリリース。`@internal` な `ConfigLoader` の部分 defaults 頑健化（fix）と、フリート横断で再発するドリフトを機械検出する開発者向け準拠リンタ `tools/conformance.php`（ADR 0016）を収録する。いずれもランタイム公開 API は不変で、後者は `tools/` 開発者ツール（ADR 0009 §5 でライブラリ API 対象外）＝製品の実行時サーフェスは変わらない。
+
 ### Added
 - 準拠リンタ `tools/conformance.php` — フリート横断で再発するドリフトを既存の `tools/validate-*.php` 配管（`php vendor/hideyukimori/nene2/tools/conformance.php --root=.`）に1本足して機械検出する（ADR 0016・設計 `_work/reports/2026-07-06/upstream-design/04-conformance-linter.md`）。**偽陽性の低い error 適格の4ルールのみ**を token/manifest 解析で実装（生 grep ではなくトークン走査なので comment/docblock では発火しない）: **D1** ハードコード JWT/既定 secret リテラル禁止（`src/` の文字列リテラルを走査し `*-dev-secret`/`changeme`/`secret-key` 等の dev-secret 形のみ検出。空白入りの散文・upper snake の env 変数**名**〔`NENE2_ALLOW_DEV_SECRET`〕・配列キー位置は除外＝`GuardedJwtSecretResolver`〔ADR 0013〕を強制）／**D2** 依存の feature ブランチ固定禁止（`composer.json` require と `composer.lock` の version を解析し `dev-feat/...` 型の branch pin を検出。mainline `dev-main`/`@dev` は設計上 warn 層で対象外）／**D3** `composer check` への conformance 自己組込（`scripts.check` に `@conformance` 必須＝リンタが自己強制）／**D4** 生 `time()`/`microtime()`・単一引数 `date()`/`gmdate()`・`new DateTime[Immutable]('now')` 禁止（`ClockInterface` 実装クラスと明示タイムスタンプ付き `date()`〔表示整形〕は除外＝`Nene2\Http\ClockInterface` 注入を強制）。設計で warn/info とされた再発明系・dead 依存・「不在の証明」系は record #16 の教訓（transitive/runtime 使用の静的見落とし）を制度化して**ゲートに含めない**。段階採用装置として per-repo `conformance.baseline.json`（phpstan baseline 同型・`rule+file+message` 一致で行ズレ耐性・`--write-baseline` 生成の `ignore` スナップショット＋**理由必須の `allow` allowlist**〔理由欠落は設定エラーで実行拒否〕）とインライン `// conformance:ignore <rule> <reason>` を提供。NENE2 自身に `composer check` 経由で report-only 適用し緑（framework の3つの time プリミティブ〔`ThrottleMiddleware`/`InMemoryRateLimitStorage`/`TotpAuthenticator`〕は理由付き `allow`・D1 検出器自身のパターン literal はインライン ignore・他に検出なし）。他製品への fan-out・PHPStan 型 aware 版・warn 層ルールは別 Wave（#1511）
+
+### Fixed
+- `ConfigLoader` に部分的な `$defaults` を渡してローダーをプリシードする consumer が、`load()` 内の必須 string アクセスで cryptic な `TypeError` を起こしていた問題を修正。canonical な全キーを `self::DEFAULTS` 定数へ切り出し、独自 `$defaults` は `array_merge(self::DEFAULTS, $defaults)` で上書き適用する（`load()` 既存の override idiom と同型）。これにより部分指定でも全キーが常に存在し、未指定キーは canonical 既定へフォールバックする。`NENE2_ALLOW_DEV_SECRET` を欠いた defaults でも opt-out 既定（未設定＝dev secret 不許可）を保つ。`ConfigLoader` は ADR 0009 §5 で `@internal`・no-arg／既定 defaults 利用の全 consumer は挙動不変のため**後方互換**。回帰テストを追加（#1510）
 
 ---
 
