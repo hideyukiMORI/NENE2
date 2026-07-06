@@ -813,7 +813,26 @@ same gotchas.
 - IMP-03/21: SQLite `FOR UPDATE` 不可 + PHP regex `$` デリミタ干渉（#1316）
 - **Result**: 全 14 IMP 完了、ADR 0009 stable API 表に 3 surface 追加、新規 ADR 0012
 
-## Phase 75: v2.0 Design and Framework Evolution
+## Phase 75: Framework Hardening — Installer, Fail-Closed Auth, Audit (v1.6.0–v1.7.0) ✅
+
+Goal: harden the delivery path with opt-in, generic building blocks that stay dormant
+until wired, without baking product-specific assumptions into the core.
+
+- **v1.6.0** — opt-in installer toolkit `Nene2\Install` for shared-hosting setup: payload
+  security core, preflight & config, `TenantConfigurationValidator`, `DatabaseSchemaApplier`
+  (programmatic Phinx), release manifest / `ReleaseSource`, presentation contracts, and an
+  unbranded reference renderer (`src/Install/`). First consumer: NeNe Invoice.
+- **v1.7.0** — fail-closed JWT secret resolution `Nene2\Auth\GuardedJwtSecretResolver`
+  (ADR 0013): production never adopts a development signing key, an empty secret is treated
+  as unset, and installer fields gained input types (`InstallerInputType` / `InstallerField`)
+  so password inputs are never echoed back to the page.
+- **Unreleased** — audit logging base `Nene2\Audit` (ADR 0014): `AuditEvent` / `AuditQuery`
+  value objects, append-only `AuditEventRepositoryInterface`, and a default recorder that binds
+  audit rows into the same transaction as the business mutation they describe. Product-side
+  migration off hand-rolled audit logs is deferred to separate PRs.
+- **Result**: shipped v1.6.0 and v1.7.0; audit base landed on `main` (Unreleased).
+
+## Phase 76: v2.0 Design and Framework Evolution
 
 Goal: review the friction and gaps accumulated across FT96–FT352 and decide
 what moves into the framework core vs. remains as howto-only patterns.
