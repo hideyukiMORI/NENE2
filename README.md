@@ -33,9 +33,12 @@ The foundation currently includes:
 - PSR-11 dependency injection with explicit runtime service wiring.
 - PDO connection, query executor, transaction manager, SQLite tests, and opt-in MySQL verification through Docker Compose.
 - Bearer JWT middleware with allowlist, blocklist, and prefix path options; `CompositeAuthMiddleware` for three-tier access models (public / Bearer / API key).
+- Fail-closed JWT secret resolution (`GuardedJwtSecretResolver`): production never accepts a development signing key, and an empty secret is treated as unset rather than silently trusted.
 - API-key middleware with path and method filters for machine-client endpoints.
 - Server-rendered HTML via `NativePhpViewRenderer` and `HtmlResponseFactory` — thin HTML coexists with JSON API routes.
 - Local MCP server support for read/write tools aligned with OpenAPI, with an authentication guard on write operations.
+- Opt-in installer toolkit (`Nene2\Install`) for shared-hosting setup: preflight and config validation, release manifest handling, database schema application, and an unbranded reference renderer that stays dormant until wired.
+- Audit logging base (`Nene2\Audit`): append-only audit events recorded in the same transaction as the business mutation they describe.
 - React + TypeScript + Vite starter kept optional and decoupled from backend runtime behavior.
 
 ## Articles

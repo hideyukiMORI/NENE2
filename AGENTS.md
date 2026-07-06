@@ -28,6 +28,6 @@ This file is the entry point for AI agents and automation working on NENE2.
 NENE2 should stay small, modern, and AI-readable:
 
 - JSON APIs first, with OpenAPI as the contract.
-- Minimal server HTML, with React/Vue integration kept optional and replaceable.
+- Minimal server HTML, with an optional React starter and a replaceable frontend stack.
 - MCP and AI integrations go through documented API boundaries.
 - Test strategy is part of design, not an afterthought.

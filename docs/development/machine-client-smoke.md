@@ -24,7 +24,7 @@ The expected success response includes:
 {
   "status": "ok",
   "service": "NENE2",
-  "framework_version": "1.5.330",
+  "framework_version": "1.7.0",
   "credential_type": "api_key"
 }
 ```
