@@ -4,18 +4,28 @@ declare(strict_types=1);
 
 namespace Nene2\Auth;
 
+use Nene2\Http\ClockInterface;
+use Nene2\Http\UtcClock;
+
 /**
  * HMAC-HS256 JWT verifier and issuer for local development and testing.
  * Uses no external library — suitable only for controlled local environments.
  * Production deployments should inject library-backed implementations of
  * {@see TokenVerifierInterface} and {@see TokenIssuerInterface}.
  *
+ * The optional {@see ClockInterface} controls the time source used for `exp`/`nbf`
+ * verification. The default {@see UtcClock} returns the real UTC time, so existing
+ * callers behave exactly as before. Inject a fixed clock in tests to make time-based
+ * `exp`/`nbf` boundaries deterministic (and to share one time source with `issue()`).
+ *
  * Part of the public API stability guarantee (see ADR 0009).
  */
 final readonly class LocalBearerTokenVerifier implements TokenVerifierInterface, TokenIssuerInterface
 {
-    public function __construct(private string $secret)
-    {
+    public function __construct(
+        private string $secret,
+        private ClockInterface $clock = new UtcClock(),
+    ) {
     }
 
     /**
@@ -49,7 +59,12 @@ final readonly class LocalBearerTokenVerifier implements TokenVerifierInterface,
 
         $claims = $this->decodeJsonSegment($payloadB64);
 
-        if (isset($claims['nbf']) && is_int($claims['nbf']) && $claims['nbf'] > time()) {
+        // Read "now" once so nbf/exp are evaluated against a single instant
+        // (avoids a second-boundary race between two time reads) and can be
+        // pinned deterministically via an injected clock.
+        $now = $this->clock->now()->getTimestamp();
+
+        if (isset($claims['nbf']) && is_int($claims['nbf']) && $claims['nbf'] > $now) {
             throw new TokenVerificationException('Token is not yet valid.');
         }
 
@@ -57,7 +72,7 @@ final readonly class LocalBearerTokenVerifier implements TokenVerifierInterface,
             throw new TokenVerificationException('Token must contain a numeric exp claim.');
         }
 
-        if ($claims['exp'] < time()) {
+        if ($claims['exp'] < $now) {
             throw new TokenVerificationException('Token has expired.');
         }
 
