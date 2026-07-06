@@ -36,6 +36,7 @@
     "howto:index": "php tools/build-howto-index.php",
     "howto:frontmatter": "php tools/validate-howto-frontmatter.php",
     "mcp": "php tools/validate-mcp-tools.php",
+    "conformance": "php tools/conformance.php",
     "version:check": "php tools/validate-version.php",
     "migrations:status": "phinx status -c phinx.php",
     "migrations:migrate": "phinx migrate -c phinx.php",
@@ -47,6 +48,7 @@
       "@cs",
       "@openapi",
       "@mcp",
+      "@conformance",
       "@version:check"
     ]
   },
