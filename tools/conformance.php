@@ -53,7 +53,15 @@ if (!in_array($format, ['text', 'json'], true)) {
     exit(2);
 }
 
-require dirname(__DIR__) . '/vendor/autoload.php';
+// Load the *consumer's* autoloader (the resolved project root), matching the
+// sibling validators (`tools/validate-mcp-tools.php`). Consumers take NENE2 as a
+// dependency and have a flat `vendor/` that registers `Nene2\` (incl.
+// `Nene2\Conformance\*`) but not a nested `vendor/hideyukimori/nene2/vendor/`.
+// Requiring `dirname(__DIR__) . '/vendor/autoload.php'` (NENE2's own vendor) was a
+// fatal in consumer CI, which clones NENE2 without running `composer install`
+// inside it. When NENE2 runs the linter on itself (`--root=.`), $projectRoot is
+// the NENE2 root and this resolves to NENE2's own vendor.
+require $projectRoot . '/vendor/autoload.php';
 
 $root = rtrim(str_replace('\\', '/', $projectRoot), '/');
 $baselinePath = $root . '/' . ConformanceRunner::BASELINE_FILENAME;

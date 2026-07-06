@@ -63,6 +63,116 @@ final class ConformanceRulesTest extends TestCase
         self::assertSame([], (new JwtDefaultSecretRule())->check($this->root));
     }
 
+    public function testD1ExemptsDevSecretConstantFedToGuardedResolver(): void
+    {
+        // Canonical 2026-07-05 fail-close pattern (all 11 migrated products): the
+        // dev-secret literal only feeds GuardedJwtSecretResolver::fromConfig() via
+        // the constant it initialises, so the resolver (ADR 0013) guards it.
+        $this->writeSrc('Auth/AuthServiceProvider.php', <<<'PHP'
+            <?php
+            namespace App\Auth;
+            use Nene2\Auth\GuardedJwtSecretResolver;
+            final class AuthServiceProvider {
+                private const DEFAULT_DEV_SECRET = 'nene-invoice-dev-secret';
+                public function verifier(object $config): string {
+                    return GuardedJwtSecretResolver::fromConfig($config, self::DEFAULT_DEV_SECRET);
+                }
+            }
+            PHP);
+
+        self::assertSame([], (new JwtDefaultSecretRule())->check($this->root));
+    }
+
+    public function testD1ExemptsLiteralPassedDirectlyToGuardedResolver(): void
+    {
+        $this->writeSrc('Auth/Direct.php', <<<'PHP'
+            <?php
+            namespace App\Auth;
+            use Nene2\Auth\GuardedJwtSecretResolver;
+            final class Direct {
+                public function verifier(object $config): string {
+                    return GuardedJwtSecretResolver::fromConfig($config, 'acme-dev-secret');
+                }
+            }
+            PHP);
+
+        self::assertSame([], (new JwtDefaultSecretRule())->check($this->root));
+    }
+
+    public function testD1StillFlagsNakedSecretDespiteGuardedResolverInSameFile(): void
+    {
+        // Over-exemption guard: the guarded constant is exempt, but a truly naked
+        // fallback in the *same* file — never fed to the resolver — stays flagged.
+        $this->writeSrc('Auth/Mixed.php', <<<'PHP'
+            <?php
+            namespace App\Auth;
+            use Nene2\Auth\GuardedJwtSecretResolver;
+            final class Mixed {
+                private const DEFAULT_DEV_SECRET = 'guarded-dev-secret';
+                public function ok(object $config): string {
+                    return GuardedJwtSecretResolver::fromConfig($config, self::DEFAULT_DEV_SECRET);
+                }
+                public function leak(): string {
+                    return getenv('JWT_SECRET') ?: 'naked-dev-secret';
+                }
+            }
+            PHP);
+
+        $findings = (new JwtDefaultSecretRule())->check($this->root);
+        self::assertCount(1, $findings);
+        self::assertSame('D1', $findings[0]->ruleId);
+        self::assertStringContainsString('naked-dev-secret', $findings[0]->message);
+    }
+
+    public function testConformanceCliLoadsConsumerAutoloaderNotFrameworkVendor(): void
+    {
+        // Regression for the fan-out blocker: the CLI must require the *consumer's*
+        // vendor/autoload.php (resolved from --root), not `dirname(__DIR__)/vendor`
+        // (NENE2's own vendor). Simulate a flat consumer install where the script
+        // lives at vendor/hideyukimori/nene2/tools/ (so dirname(__DIR__) has NO
+        // vendor/) while the consumer root carries the flat autoloader.
+        $frameworkRoot = dirname(__DIR__, 2);
+        $frameworkAutoload = $frameworkRoot . '/vendor/autoload.php';
+
+        if (!is_file($frameworkAutoload)) {
+            self::markTestSkipped('framework vendor autoloader unavailable');
+        }
+
+        $nestedTools = $this->root . '/vendor/hideyukimori/nene2/tools';
+        mkdir($nestedTools, 0o777, true);
+        copy($frameworkRoot . '/tools/conformance.php', $nestedTools . '/conformance.php');
+
+        // Flat consumer autoloader shim standing in for Composer's, which registers
+        // the Nene2\ PSR-4 prefix (incl. Nene2\Conformance\*).
+        $this->write('vendor/autoload.php', sprintf(
+            "<?php require %s;\n",
+            var_export($frameworkAutoload, true),
+        ));
+        $this->write('composer.json', json_encode([
+            'scripts' => ['check' => ['@conformance']],
+        ], JSON_THROW_ON_ERROR));
+
+        $command = sprintf(
+            '%s %s --root=%s --format=json 2>&1',
+            escapeshellarg(PHP_BINARY),
+            escapeshellarg($nestedTools . '/conformance.php'),
+            escapeshellarg($this->root),
+        );
+
+        $output = [];
+        $code = 0;
+        exec($command, $output, $code);
+        $stdout = implode("\n", $output);
+
+        self::assertNotSame(255, $code, 'CLI fatally errored (autoload) on a flat consumer vendor: ' . $stdout);
+        self::assertJson($stdout);
+
+        $decoded = json_decode($stdout, true, 512, JSON_THROW_ON_ERROR);
+        self::assertIsArray($decoded);
+        self::assertArrayHasKey('ok', $decoded);
+        self::assertTrue($decoded['ok']);
+    }
+
     // --- D2 -----------------------------------------------------------------
 
     public function testD2FlagsFeatureBranchPinInComposerJson(): void

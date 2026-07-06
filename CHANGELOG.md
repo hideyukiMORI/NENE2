@@ -8,6 +8,10 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Fixed
+- 準拠リンタ `tools/conformance.php` の**消費側 CI を必ず赤にする autoload バグ**を修正（ADR 0016）。スクリプトは `require dirname(__DIR__) . '/vendor/autoload.php'`（＝ NENE2 自身の vendor）を読んでいたが、消費者は NENE2 を依存として取り込むため `vendor/hideyukimori/nene2/vendor/` を持たず、`../NENE2` を `git clone --depth=1` するだけで `composer install` しない実 CI で **fatal（exit 255）**になっていた（ローカルが緑だったのは symlink 先がフル dev チェックアウトだったため）。姉妹バリデータ `tools/validate-mcp-tools.php`（8製品で CI 実績あり）と同じく `--root`/`getcwd()` で解決した**消費側 `$projectRoot/vendor/autoload.php`** を require する方式へ揃えた。消費側フラット vendor には `Nene2\` PSR-4（`Nene2\Conformance\*` 含む）が登録済みで解決可能。NENE2 自己実行（`--root=.`）でも projectRoot が NENE2 root になり従来どおり動作する。フラット消費側 vendor を模した一時ツリーで nested スクリプトを走らせ fatal 解消を実証する回帰テストを追加（`ConformanceRulesTest::testConformanceCliLoadsConsumerAutoloaderNotFrameworkVendor`）。
+- D1（`JwtDefaultSecretRule`）の**フリート全体の誤検知**を修正（ADR 0016・設計 04 の「+ GuardedJwtSecretResolver 不使用」条件の欠落分）。2026-07-05 の JWT 移行で全11製品が採る正準 fail-close パターン — 製品注入の dev fallback リテラル（例 `const DEFAULT_DEV_SECRET = '<slug>-dev-secret'`）を `GuardedJwtSecretResolver::fromConfig($config, self::DEFAULT_DEV_SECRET)` の第2引数に渡す — を guard 文脈を見ずに裸の secret として検出していた。**同一ファイルで `GuardedJwtSecretResolver::fromConfig()` の第2引数として渡るリテラル**（直接、またはそれを初期化する定数経由）を D1 から免除する。免除は狭く、真の裸 secret（`getenv('X') ?: 'acme-dev-secret'`）は resolver に渡らないため同一ファイルに resolver 使用があっても検出のまま。回帰テスト（定数経由の免除・直接リテラルの免除・同一ファイル併存時に裸 secret を検出のまま）を追加。
+
 ---
 
 ## [1.8.1] — 2026-07-07
