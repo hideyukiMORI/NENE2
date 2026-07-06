@@ -1,0 +1,21 @@
+{
+    "version": 1,
+    "allow": [
+        {
+            "rule": "D4",
+            "file": "src/Middleware/ThrottleMiddleware.php",
+            "reason": "Framework Retry-After primitive computing a relative delay; the sanctioned ClockInterface migration for the rate-limit middleware is tracked separately."
+        },
+        {
+            "rule": "D4",
+            "file": "src/Middleware/InMemoryRateLimitStorage.php",
+            "reason": "Framework in-memory rate-limit window store; low-level clock read, ClockInterface injection tracked as a separate refactor."
+        },
+        {
+            "rule": "D4",
+            "file": "src/Auth/TotpAuthenticator.php",
+            "reason": "TOTP time-step derivation already accepts an optional injected timestamp ($now); the fallback time() is the documented default and is exercised deterministically in tests via $now."
+        }
+    ],
+    "ignore": []
+}
