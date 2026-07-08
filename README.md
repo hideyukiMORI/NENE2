@@ -13,6 +13,16 @@ NENE2 is a small, modern PHP framework foundation designed for projects that wan
 
 The `v1.x` foundation covers full Note/Tag CRUD, Bearer JWT auth, pagination helpers, and a six-language VitePress documentation site, with opt-in rate limiting and database health checks as production-ready opt-in features. A maintainer can clone the repository, run a local API, share an OpenAPI contract, expose safe MCP tools through the API boundary, and verify database behavior in Docker Compose.
 
+## Project Highlights
+
+NENE2 is built in the open, at high velocity, by a solo maintainer using an AI-assisted, Issue-driven workflow:
+
+- **30 releases** (current: `v1.8.2`) and **730+ merged pull requests** since the first commit in May 2026 — every change lands through an Issue → branch → PR → CI pipeline; nothing is committed directly to `main`.
+- **[262 how-to guides](docs/howto/README.md)** covering authentication, security, database patterns, API design, background jobs, and 100+ product feature recipes.
+- **[125 runnable example apps](https://github.com/hideyukiMORI/NENE2-examples)** — each a self-contained JSON API with tests, built as field trials of the framework itself.
+- **Powers the NeNe product family** — 12+ open-source, self-hosted business tools for small teams (invoicing, records, deal tracking, contact management, and more), all built on this framework and sharing its fail-closed security baseline.
+- **Documented decisions** — ADRs for every architectural choice, an OpenAPI 3.1 contract, six-language documentation, and an MCP server listed on Smithery.
+
 ## Theme
 
 - **API first**: define behavior through clear HTTP boundaries and OpenAPI contracts.
@@ -197,7 +207,7 @@ NENE2's quality baseline includes PHP-CS-Fixer for backend style checks and npm,
 
 ## How-to guides
 
-260 task-focused guides covering authentication, security, database patterns, API design, background jobs, and 100+ product feature recipes.
+262 task-focused guides covering authentication, security, database patterns, API design, background jobs, and 100+ product feature recipes.
 
 **[Full guide index →](docs/howto/README.md)**
 
