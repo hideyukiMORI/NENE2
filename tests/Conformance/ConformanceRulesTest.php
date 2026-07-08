@@ -124,6 +124,98 @@ final class ConformanceRulesTest extends TestCase
         self::assertStringContainsString('naked-dev-secret', $findings[0]->message);
     }
 
+    public function testD1ExemptsNamedDevSecretConstructorArgument(): void
+    {
+        // nene-serve's real shape (src/Http/RuntimeServiceProvider.php): a custom
+        // secret env key means the product drives the resolver's constructor
+        // directly with named arguments instead of the fromConfig() convenience
+        // path; the dev-secret constant still only feeds the fail-closed resolver.
+        $this->writeSrc('Http/RuntimeServiceProvider.php', <<<'PHP'
+            <?php
+            namespace App\Http;
+            use Nene2\Auth\GuardedJwtSecretResolver;
+            final class RuntimeServiceProvider {
+                private const string JWT_SECRET_ENV_KEY = 'NENE_SERVE_JWT_SECRET';
+                private const string DEFAULT_DEV_SECRET = 'nene-serve-dev-secret';
+                public function secret(object $config): string {
+                    $configuredSecret = $_SERVER[self::JWT_SECRET_ENV_KEY] ?? '';
+                    return (new GuardedJwtSecretResolver(
+                        configuredSecret: is_string($configuredSecret) ? $configuredSecret : '',
+                        environment: $config->environment,
+                        allowDevSecret: $config->allowDevSecret,
+                        devSecret: self::DEFAULT_DEV_SECRET,
+                        secretEnvName: self::JWT_SECRET_ENV_KEY,
+                    ))->resolve();
+                }
+            }
+            PHP);
+
+        self::assertSame([], (new JwtDefaultSecretRule())->check($this->root));
+    }
+
+    public function testD1ExemptsPositionalDevSecretConstructorArgument(): void
+    {
+        // Fourth positional constructor argument is the devSecret parameter; a
+        // literal passed there is guarded by the resolver just like fromConfig().
+        $this->writeSrc('Auth/PositionalCtor.php', <<<'PHP'
+            <?php
+            namespace App\Auth;
+            use Nene2\Auth\GuardedJwtSecretResolver;
+            final class PositionalCtor {
+                public function secret(object $config): string {
+                    return (new GuardedJwtSecretResolver(
+                        getenv('APP_JWT_SECRET') ?: '',
+                        $config->environment,
+                        $config->allowDevSecret,
+                        'acme-dev-secret',
+                    ))->resolve();
+                }
+            }
+            PHP);
+
+        self::assertSame([], (new JwtDefaultSecretRule())->check($this->root));
+    }
+
+    public function testD1StillFlagsNakedSecretDespiteGuardedConstructorInSameFile(): void
+    {
+        // Over-exemption guard for the constructor form: only the literal feeding
+        // the resolver's devSecret slot is exempt — a naked fallback in the same
+        // file, and a dev-secret-shaped literal in a *different* constructor
+        // argument, both stay flagged.
+        $this->writeSrc('Auth/CtorMixed.php', <<<'PHP'
+            <?php
+            namespace App\Auth;
+            use Nene2\Auth\GuardedJwtSecretResolver;
+            final class CtorMixed {
+                private const string DEFAULT_DEV_SECRET = 'guarded-dev-secret';
+                public function ok(object $config): string {
+                    return (new GuardedJwtSecretResolver(
+                        configuredSecret: '',
+                        environment: $config->environment,
+                        allowDevSecret: $config->allowDevSecret,
+                        devSecret: self::DEFAULT_DEV_SECRET,
+                    ))->resolve();
+                }
+                public function bad(object $config): string {
+                    return (new GuardedJwtSecretResolver(
+                        configuredSecret: 'hardcoded-dev-secret',
+                        environment: $config->environment,
+                        allowDevSecret: $config->allowDevSecret,
+                        devSecret: null,
+                    ))->resolve();
+                }
+                public function leak(): string {
+                    return getenv('JWT_SECRET') ?: 'naked-dev-secret';
+                }
+            }
+            PHP);
+
+        $findings = (new JwtDefaultSecretRule())->check($this->root);
+        self::assertCount(2, $findings);
+        self::assertStringContainsString('hardcoded-dev-secret', $findings[0]->message);
+        self::assertStringContainsString('naked-dev-secret', $findings[1]->message);
+    }
+
     public function testConformanceCliLoadsConsumerAutoloaderNotFrameworkVendor(): void
     {
         // Regression for the fan-out blocker: the CLI must require the *consumer's*
