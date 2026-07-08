@@ -27,15 +27,21 @@ use Nene2\Conformance\Severity;
  *
  * Guarded-literal exemption (design 04 "+ GuardedJwtSecretResolver 不使用"):
  * the canonical fail-close pattern injects a product development secret **into**
+ * {@see \Nene2\Auth\GuardedJwtSecretResolver}, either via
  * {@see \Nene2\Auth\GuardedJwtSecretResolver::fromConfig()} as its second
- * argument, e.g. `GuardedJwtSecretResolver::fromConfig($config,
- * self::DEFAULT_DEV_SECRET)` with `const DEFAULT_DEV_SECRET = '<slug>-dev-secret'`.
+ * argument — e.g. `GuardedJwtSecretResolver::fromConfig($config,
+ * self::DEFAULT_DEV_SECRET)` with `const DEFAULT_DEV_SECRET = '<slug>-dev-secret'`
+ * — or by driving the constructor directly when a product uses a custom secret
+ * env key (nene-serve), where the development secret is the `devSecret`
+ * parameter: `new GuardedJwtSecretResolver(..., devSecret:
+ * self::DEFAULT_DEV_SECRET, ...)` (named, or the fourth positional argument).
  * Such a literal is *not* a naked default secret — the resolver refuses it in
  * production (ADR 0013) — so a literal that is passed (directly, or via the
- * constant it initialises) as `fromConfig()`'s second argument in the same file
- * is exempt. The exemption is narrow on purpose: a truly naked secret
- * (`getenv('X') ?: 'acme-dev-secret'`) is never fed to the resolver, so it stays
- * flagged even in a file that also uses `GuardedJwtSecretResolver` elsewhere.
+ * constant it initialises) into the resolver's `devSecret` slot in the same file
+ * is exempt. The exemption is narrow on purpose: it only covers what actually
+ * flows into the resolver — a truly naked secret (`getenv('X') ?:
+ * 'acme-dev-secret'`) is never fed to it, so it stays flagged even in a file
+ * that also uses `GuardedJwtSecretResolver` elsewhere.
  */
 final class JwtDefaultSecretRule implements RuleInterface
 {
@@ -141,8 +147,9 @@ final class JwtDefaultSecretRule implements RuleInterface
 
             // Guarded-literal exemption: the literal is handed to the fail-closed
             // GuardedJwtSecretResolver (ADR 0013), so it is not a naked default.
-            // Either the literal is itself `fromConfig()`'s second argument, or it
-            // initialises the constant that is passed there in the same file.
+            // Either the literal itself fills the resolver's `devSecret` slot
+            // (`fromConfig()` second argument, or the constructor's `devSecret`
+            // parameter), or it initialises the constant passed there in this file.
             if (isset($guardedLiteralIndices[$i])) {
                 continue;
             }
@@ -161,12 +168,15 @@ final class JwtDefaultSecretRule implements RuleInterface
 
     /**
      * Collects the development-secret literals that feed
-     * `GuardedJwtSecretResolver::fromConfig(..., <literal|CONST>)` in this file.
+     * `GuardedJwtSecretResolver`'s `devSecret` slot in this file — either
+     * `GuardedJwtSecretResolver::fromConfig(..., <literal|CONST>)` (second
+     * argument) or `new GuardedJwtSecretResolver(...)` (fourth positional
+     * argument, or the named argument `devSecret:`).
      *
-     * The resolver's second parameter is the product-injected development secret,
-     * which the resolver refuses in production — so those literals are not naked
-     * defaults and must not trip D1. Returns two lookups: token indices of literals
-     * passed directly, and the names of constants passed there (whose initialiser
+     * That parameter is the product-injected development secret, which the
+     * resolver refuses in production — so those literals are not naked defaults
+     * and must not trip D1. Returns two lookups: token indices of literals passed
+     * directly, and the names of constants passed there (whose initialiser
      * literal is then exempt).
      *
      * @param list<array{0: int, 1: string, 2: int}|string> $tokens
@@ -178,34 +188,21 @@ final class JwtDefaultSecretRule implements RuleInterface
         $constNames = [];
 
         for ($i = 0; $i < $count; $i++) {
-            if (!$this->isGuardedResolverName($tokens[$i])) {
+            $call = $this->guardedResolverCallAt($tokens, $i);
+
+            if ($call === null) {
                 continue;
             }
 
-            $colon = $tokens[$i + 1] ?? null;
-            $method = $tokens[$i + 2] ?? null;
-            $paren = $tokens[$i + 3] ?? null;
+            [$openParen, $positionalIndex] = $call;
+            $arg = $this->devSecretArgumentTokens($tokens, $count, $openParen, $positionalIndex);
 
-            if (!is_array($colon) || $colon[0] !== T_DOUBLE_COLON) {
+            if ($arg === null || $arg === []) {
                 continue;
             }
 
-            if (!is_array($method) || $method[0] !== T_STRING || $method[1] !== 'fromConfig') {
-                continue;
-            }
-
-            if (!$this->isToken($paren, '(')) {
-                continue;
-            }
-
-            $secondArg = $this->secondArgumentTokens($tokens, $count, $i + 3);
-
-            if ($secondArg === null || $secondArg === []) {
-                continue;
-            }
-
-            if (count($secondArg) === 1) {
-                [$index, $only] = $secondArg[0];
+            if (count($arg) === 1) {
+                [$index, $only] = $arg[0];
 
                 if (is_array($only) && $only[0] === T_CONSTANT_ENCAPSED_STRING) {
                     $literalIndices[$index] = true;
@@ -215,7 +212,7 @@ final class JwtDefaultSecretRule implements RuleInterface
 
             // `self::DEFAULT_DEV_SECRET`, `Foo::DEFAULT_DEV_SECRET`, or a bare
             // `DEFAULT_DEV_SECRET`: the trailing identifier is the constant name.
-            $last = $secondArg[count($secondArg) - 1][1];
+            $last = $arg[count($arg) - 1][1];
 
             if (is_array($last) && $last[0] === T_STRING) {
                 $constNames[$last[1]] = true;
@@ -226,15 +223,62 @@ final class JwtDefaultSecretRule implements RuleInterface
     }
 
     /**
-     * Top-level tokens of the second argument of the call whose `(` is at
-     * `$openParenIndex`, or null when there is no second argument. Commas nested
-     * inside `()`/`[]`/`{}` do not separate arguments.
+     * Recognises a `GuardedJwtSecretResolver` call carrying a `devSecret` slot at
+     * token `$i`: `GuardedJwtSecretResolver::fromConfig(` (devSecret is the second
+     * argument) or `new GuardedJwtSecretResolver(` (devSecret is the fourth
+     * constructor argument). Returns the open-paren token index and the
+     * zero-based positional index of `devSecret`, or null when `$i` is neither.
+     *
+     * @param list<array{0: int, 1: string, 2: int}|string> $tokens
+     * @return array{0: int, 1: int}|null
+     */
+    private function guardedResolverCallAt(array $tokens, int $i): ?array
+    {
+        if (is_array($tokens[$i]) && $tokens[$i][0] === T_NEW
+            && $this->isGuardedResolverName($tokens[$i + 1] ?? null)
+            && $this->isToken($tokens[$i + 2] ?? null, '(')
+        ) {
+            return [$i + 2, 3];
+        }
+
+        if (!$this->isGuardedResolverName($tokens[$i])) {
+            return null;
+        }
+
+        $colon = $tokens[$i + 1] ?? null;
+        $method = $tokens[$i + 2] ?? null;
+
+        if (!is_array($colon) || $colon[0] !== T_DOUBLE_COLON) {
+            return null;
+        }
+
+        if (!is_array($method) || $method[0] !== T_STRING || $method[1] !== 'fromConfig') {
+            return null;
+        }
+
+        if (!$this->isToken($tokens[$i + 3] ?? null, '(')) {
+            return null;
+        }
+
+        return [$i + 3, 1];
+    }
+
+    /**
+     * Top-level tokens of the `devSecret` argument of the call whose `(` is at
+     * `$openParenIndex`: the named argument `devSecret:` when present, otherwise
+     * the unnamed argument at `$positionalIndex` (PHP only allows positional
+     * arguments before named ones). Returns null when the call passes neither.
+     * Commas nested inside `()`/`[]`/`{}` do not separate arguments.
      *
      * @param list<array{0: int, 1: string, 2: int}|string> $tokens
      * @return list<array{0: int, 1: array{0: int, 1: string, 2: int}|string}>|null
      */
-    private function secondArgumentTokens(array $tokens, int $count, int $openParenIndex): ?array
-    {
+    private function devSecretArgumentTokens(
+        array $tokens,
+        int $count,
+        int $openParenIndex,
+        int $positionalIndex,
+    ): ?array {
         $depth = 0;
         $argIndex = 0;
         $current = [];
@@ -251,7 +295,7 @@ final class JwtDefaultSecretRule implements RuleInterface
 
                 if ($token === ')' || $token === ']' || $token === '}') {
                     if ($depth === 0) {
-                        return $argIndex === 1 ? $current : null;
+                        return $this->devSecretFromArgument($current, $argIndex, $positionalIndex);
                     }
 
                     $depth--;
@@ -260,8 +304,10 @@ final class JwtDefaultSecretRule implements RuleInterface
                 }
 
                 if ($token === ',' && $depth === 0) {
-                    if ($argIndex === 1) {
-                        return $current;
+                    $match = $this->devSecretFromArgument($current, $argIndex, $positionalIndex);
+
+                    if ($match !== null) {
+                        return $match;
                     }
 
                     $argIndex++;
@@ -274,6 +320,35 @@ final class JwtDefaultSecretRule implements RuleInterface
         }
 
         return null;
+    }
+
+    /**
+     * The value tokens of one call argument when it fills the `devSecret` slot:
+     * either it is labelled `devSecret:` (label tokens stripped), or it is
+     * unlabelled and sits at `$positionalIndex`. Null otherwise.
+     *
+     * @param list<array{0: int, 1: array{0: int, 1: string, 2: int}|string}> $argument
+     * @return list<array{0: int, 1: array{0: int, 1: string, 2: int}|string}>|null
+     */
+    private function devSecretFromArgument(array $argument, int $argIndex, int $positionalIndex): ?array
+    {
+        $label = null;
+
+        // A named argument starts with `<identifier> :` (T_DOUBLE_COLON is a
+        // distinct token, so `self::CONST` cannot masquerade as a label).
+        if (count($argument) >= 2
+            && is_array($argument[0][1]) && $argument[0][1][0] === T_STRING
+            && $this->isToken($argument[1][1], ':')
+        ) {
+            $label = $argument[0][1][1];
+            $argument = array_slice($argument, 2);
+        }
+
+        if ($label !== null) {
+            return $label === 'devSecret' ? $argument : null;
+        }
+
+        return $argIndex === $positionalIndex ? $argument : null;
     }
 
     /**
