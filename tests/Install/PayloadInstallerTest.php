@@ -6,10 +6,13 @@ namespace Nene2\Tests\Install;
 
 use Nene2\Install\PayloadInstaller;
 use Nene2\Install\PayloadSignatureVerifier;
+use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 use ZipArchive;
 
+// Skip (instead of Error) on environments without ext-zip; the app image ships it (#1527).
+#[RequiresPhpExtension('zip')]
 final class PayloadInstallerTest extends TestCase
 {
     /** @var list<string> */

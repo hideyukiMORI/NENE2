@@ -5,8 +5,8 @@ ENV COMPOSER_ALLOW_SUPERUSER=1
 COPY --from=composer:2 /usr/bin/composer /usr/local/bin/composer
 
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends unzip \
-    && docker-php-ext-install pdo_mysql \
+    && apt-get install -y --no-install-recommends unzip libzip-dev \
+    && docker-php-ext-install pdo_mysql zip \
     && rm -rf /var/lib/apt/lists/* \
     && a2enmod rewrite headers \
     && printf '<Directory /var/www/html/public_html>\n    AllowOverride All\n    Require all granted\n</Directory>\n' > /etc/apache2/conf-available/nene2.conf \
