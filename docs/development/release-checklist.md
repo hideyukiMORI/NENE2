@@ -103,3 +103,4 @@ Release notes should include:
 - Confirm Packagist reflects the new version.
 - Confirm `docs/todo/current.md` does not list the release as incomplete if it is done.
 - Open follow-up Issues for deferred release work.
+- Sync the profile README ([github.com/hideyukiMORI/hideyukiMORI](https://github.com/hideyukiMORI/hideyukiMORI)) with the released version and status: update the relevant rows in At a glance / Runtimes / What shipped recently.
