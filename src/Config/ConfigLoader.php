@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Nene2\Config;
 
 use Dotenv\Dotenv;
+use Nene2\Demo\DemoConfig;
 
 /** @internal */
 final readonly class ConfigLoader
@@ -37,6 +38,11 @@ final readonly class ConfigLoader
         'DB_USER' => 'nene2',
         'DB_PASSWORD' => '',
         'DB_CHARSET' => 'utf8mb4',
+        'DEMO_MODE' => '',
+        'DEMO_SLUG_PREFIX' => 'demo-',
+        'DEMO_TTL_HOURS' => '3',
+        'DEMO_MAX_ORGS' => '200',
+        'DEMO_SLUG_ATTEMPTS' => '5',
     ];
 
     /** @var array<string, string> */
@@ -85,7 +91,16 @@ final readonly class ConfigLoader
             $this->optionalString($values['NENE2_MACHINE_API_KEY']),
             $this->optionalString($values['NENE2_LOCAL_JWT_SECRET']),
             trim($values['PROBLEM_DETAILS_BASE_URL']),
-            $this->parseDevSecretOptIn($values['NENE2_ALLOW_DEV_SECRET']),
+            $this->parseStrictOptIn($values['NENE2_ALLOW_DEV_SECRET']),
+            new DemoConfig(
+                // Strict opt-in parse, same rationale as the dev-secret flag: the demo
+                // route creates orgs unauthenticated, so a typo must leave it OFF.
+                $this->parseStrictOptIn($values['DEMO_MODE']),
+                trim($values['DEMO_SLUG_PREFIX']),
+                $this->parsePositiveInt('DEMO_TTL_HOURS', $values['DEMO_TTL_HOURS']),
+                $this->parsePositiveInt('DEMO_MAX_ORGS', $values['DEMO_MAX_ORGS']),
+                $this->parsePositiveInt('DEMO_SLUG_ATTEMPTS', $values['DEMO_SLUG_ATTEMPTS']),
+            ),
         );
     }
 
@@ -127,15 +142,17 @@ final readonly class ConfigLoader
     }
 
     /**
-     * Parse the development-secret opt-in strictly.
+     * Parse a security-sensitive opt-in flag strictly.
      *
      * Unlike {@see parseBoolean}, this never throws and accepts only `1`, `true`, or
      * `yes` (case-insensitive, trimmed) as truthy. Any other value — including empty,
-     * `0`, `false`, `off`, or an arbitrary string — is treated as opted out, so a
-     * typo never silently permits the development secret. Consumed by
-     * {@see \Nene2\Auth\GuardedJwtSecretResolver} via {@see AppConfig::$allowDevSecret}.
+     * `0`, `false`, `off`, or an arbitrary string — is treated as opted out, so a typo
+     * never silently enables the guarded behaviour. Used for `NENE2_ALLOW_DEV_SECRET`
+     * (consumed by {@see \Nene2\Auth\GuardedJwtSecretResolver} via
+     * {@see AppConfig::$allowDevSecret}) and `DEMO_MODE`
+     * ({@see \Nene2\Demo\DemoConfig::$demoMode}).
      */
-    private function parseDevSecretOptIn(string $value): bool
+    private function parseStrictOptIn(string $value): bool
     {
         return in_array(strtolower(trim($value)), ['1', 'true', 'yes'], true);
     }
@@ -145,6 +162,17 @@ final readonly class ConfigLoader
         $value = trim($value);
 
         return $value === '' ? null : $value;
+    }
+
+    private function parsePositiveInt(string $key, string $value): int
+    {
+        $value = trim($value);
+
+        if (preg_match('/\A\d+\z/', $value) !== 1) {
+            throw new ConfigException(sprintf('%s must be an integer.', $key));
+        }
+
+        return (int) $value;
     }
 
     private function parsePort(string $value): int

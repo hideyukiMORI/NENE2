@@ -16,6 +16,7 @@ Alle Anleitungen in diesem Verzeichnis, nach Dateiname sortiert. Mit `composer h
 | [activity-feed.md](activity-feed.md) | How-to: Activity-Feed / Timeline-API |
 | [add-custom-route.md](add-custom-route.md) | Eine Route hinzufügen |
 | [add-database-endpoint.md](add-database-endpoint.md) | Datenbankendpunkt hinzufügen |
+| [add-disposable-demo.md](add-disposable-demo.md) | How-to: Eine Einweg-Demo hinzufügen |
 | [add-domain-exception-handler.md](add-domain-exception-handler.md) | Einen Domain-Exception-Handler hinzufügen |
 | [add-health-check.md](add-health-check.md) | Health Check hinzufügen |
 | [add-html-view.md](add-html-view.md) | HTML-Ansichten hinzufügen |
