@@ -5,16 +5,18 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 ---
 
-## 🚧 現在のレーン — framework hardening（v1.7.0 + Unreleased Audit）
+## 🚧 現在のレーン — framework hardening（v1.9.0）
 
 | 項目 | 値 |
 |------|-----|
-| 現在の VERSION | **1.7.0**（`src/FrameworkInfo.php` が正） |
-| 主軸 | 共有ホスティング向け opt-in 部品の連続投入（installer → fail-closed auth → audit） |
+| 現在の VERSION | **1.9.0**（`src/FrameworkInfo.php` が正） |
+| 主軸 | 共有ホスティング向け opt-in 部品の連続投入（installer → fail-closed auth → audit → export → conformance → demo） |
 | v1.6.0 の成果 | opt-in インストーラ toolkit `Nene2\Install`（payload セキュリティ核 / preflight & config / TenantConfigurationValidator / DatabaseSchemaApplier / release manifest / ReleaseSource / 提示契約 / 無ブランド参照レンダラ・`src/Install/`） |
-| v1.7.0 の成果 | fail-closed な JWT secret 解決 `GuardedJwtSecretResolver`（ADR 0013・Production は dev 鍵を絶対採用しない）＋ Installer 入力型（`InstallerInputType`/`InstallerField`・password 非再表示）（#1490/#1482） |
-| Unreleased | 監査ログ基盤 `Nene2\Audit`（ADR 0014・append-only・業務ミューテーションと同一 TX）。製品側の自作撤去は別 PR（#1494） |
-| 第1 consumer | NeNe Invoice（#562） |
+| v1.7.0 の成果 | fail-closed な JWT secret 解決 `GuardedJwtSecretResolver`（ADR 0013）＋ Installer 入力型（#1490/#1482） |
+| v1.8.0 の成果 | 監査ログ基盤 `Nene2\Audit`（ADR 0014）＋ CSV 出力 `Nene2\Export\CsvWriter`（ADR 0015）＋ `LocalBearerTokenVerifier` の Clock 注入 |
+| v1.8.1/1.8.2 の成果 | 準拠リンタ `tools/conformance.php`（ADR 0016）＋消費側 autoload / D1 誤検知の修正 |
+| **v1.9.0 の成果** | **使い捨て org デモモジュール `Nene2\Demo`**（ADR 0017・2026-07-09 施主決定=デモ方式を invoice 型に全製品統一）。5 interface（provisioner/reaper/seater/seeder/template key）＋具象（`StartDisposableDemoHandler`/`DisposableDemoSweeper`/`CountingDemoCapacityGuard`=invoice #608 根治点/`DemoRouteRegistrar`）＋`DEMO_*` typed 化（`AppConfig::$demo`）＋howto `add-disposable-demo.md`（5ロケール訳）（#1522/#1523/#1524） |
+| 第1 consumer | NeNe Invoice（#562。demo モジュールの consumer 化も invoice が先頭 — 指揮リナの別指示書待ち） |
 | 進行中ブランチ | なし |
 
 ### 未処理 Issue
@@ -22,6 +24,11 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 | Issue | 内容 |
 |-------|------|
 | **#1421** | machine preflight verdict の fingerprint + 署名トークン（#1419 分割 3/3） |
+
+### 引き継ぎメモ（2026-07-09・Nene2\Demo リリース）
+
+- 次工程は **invoice/clear/vault の consumer 化**（NENE2 スコープ外・指揮リナが別指示書を発行）。invoice consumer 化では `TENANT_RESOLUTION=path` 前提と path 二重合成（workspace issues #38）を実機回帰で必ず踏むこと。
+- ローカル Docker のフル `composer test` には**既存の環境起因失敗が2種**ある（本体は健全・CI は緑）: ① `ConfigLoaderTest::testPartialConstructorDefaultsLayerOverCanonicalDefaults` が compose の `DB_NAME=nene2` env で赤（`docker compose run --rm -e DB_NAME= ...` で回避可） ② `PayloadInstallerTest` 8件が app イメージの ext-zip 欠如で Error。
 
 > 設計方針: すべて opt-in・generic。wire しなければ dormant、製品固有の前提（UI/ブランド/語彙/パス）を core に焼かない。詳細は CHANGELOG `[1.6.0]` / `[1.7.0]` / `[Unreleased]`。
 
