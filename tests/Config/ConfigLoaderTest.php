@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Nene2\Tests\Config;
 
+use Nene2\Config\AppConfig;
 use Nene2\Config\AppEnvironment;
 use Nene2\Config\ConfigException;
 use Nene2\Config\ConfigLoader;
@@ -246,10 +247,19 @@ final class ConfigLoaderTest extends TestCase
         // it does not care about, e.g. NENE2_ALLOW_DEV_SECRET) must not trigger a
         // TypeError: unspecified keys fall back to the canonical defaults, and the
         // dev-secret opt-in stays opted out.
-        $config = (new ConfigLoader($this->emptyProjectRoot(), [
-            'DB_ADAPTER' => 'sqlite',
-            'DB_NAME' => ':memory:',
-        ]))->load();
+        //
+        // load() lets real environment values override constructor defaults by design,
+        // and this repo's compose.yaml injects DB_NAME=nene2 into the app container —
+        // which would shadow the ':memory:' default under test (#1526). Clear the
+        // interfering keys for the duration of the load so this exercises the
+        // constructor-defaults path in every environment.
+        $config = $this->withoutEnvironmentKeys(
+            ['APP_ENV', 'DB_ADAPTER', 'DB_NAME', 'NENE2_ALLOW_DEV_SECRET'],
+            fn (): AppConfig => (new ConfigLoader($this->emptyProjectRoot(), [
+                'DB_ADAPTER' => 'sqlite',
+                'DB_NAME' => ':memory:',
+            ]))->load(),
+        );
 
         self::assertSame('sqlite', $config->database->adapter);
         self::assertSame(':memory:', $config->database->name);
@@ -328,5 +338,43 @@ final class ConfigLoaderTest extends TestCase
     private function emptyProjectRoot(): string
     {
         return sys_get_temp_dir();
+    }
+
+    /**
+     * Runs $callback with the given keys removed from $_SERVER / $_ENV, restoring
+     * the original values afterwards (even when the callback throws).
+     *
+     * @template T
+     *
+     * @param list<string> $keys
+     * @param callable(): T $callback
+     *
+     * @return T
+     */
+    private function withoutEnvironmentKeys(array $keys, callable $callback): mixed
+    {
+        $saved = [];
+
+        foreach ($keys as $key) {
+            $saved[$key] = [
+                array_key_exists($key, $_SERVER) ? $_SERVER[$key] : null,
+                array_key_exists($key, $_ENV) ? $_ENV[$key] : null,
+            ];
+            unset($_SERVER[$key], $_ENV[$key]);
+        }
+
+        try {
+            return $callback();
+        } finally {
+            foreach ($saved as $key => [$serverValue, $envValue]) {
+                if ($serverValue !== null) {
+                    $_SERVER[$key] = $serverValue;
+                }
+
+                if ($envValue !== null) {
+                    $_ENV[$key] = $envValue;
+                }
+            }
+        }
     }
 }
