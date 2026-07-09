@@ -519,8 +519,9 @@ Auto-generated from each guide's frontmatter `tags`. Regenerate with `composer h
 
 - [Distributed Locking](distributed-locking.md)
 
-## `cron` (1)
+## `cron` (2)
 
+- [Add a Disposable Demo](add-disposable-demo.md)
 - [Content Scheduling — Time-Based Publish with Lifecycle States](content-scheduling.md)
 
 ## `crud` (5)
@@ -622,6 +623,10 @@ Auto-generated from each guide's frontmatter `tags`. Regenerate with `composer h
 ## `delivery` (1)
 
 - [How-to: Webhook Delivery API](webhook-delivery-api.md)
+
+## `demo` (1)
+
+- [Add a Disposable Demo](add-disposable-demo.md)
 
 ## `dependency-injection` (1)
 
@@ -1425,8 +1430,9 @@ Auto-generated from each guide's frontmatter `tags`. Regenerate with `composer h
 - [How-to: Approval Workflow API](approval-workflow.md)
 - [How-to: Step-Based Workflow with Approval](step-workflow-approval.md)
 
-## `multi-tenant` (4)
+## `multi-tenant` (5)
 
+- [Add a Disposable Demo](add-disposable-demo.md)
 - [How-to: JWT Multi-Tenant Isolation](jwt-tenant-isolation.md)
 - [How-To: Multi-Tenant Isolation](multi-tenant-isolation.md)
 - [How-to: Tenant Isolation & Cross-Tenant IDOR Prevention](tenant-isolation.md)
@@ -1800,6 +1806,10 @@ Auto-generated from each guide's frontmatter `tags`. Regenerate with `composer h
 
 - [Add Rate Limiting](add-rate-limiting.md)
 
+## `provisioning` (1)
+
+- [Add a Disposable Demo](add-disposable-demo.md)
+
 ## `proximity-search` (2)
 
 - [How to Add Geolocation Search](geolocation.md)
@@ -1850,9 +1860,10 @@ Auto-generated from each guide's frontmatter `tags`. Regenerate with `composer h
 - [How-to: Leaderboard Ranking API](leaderboard-ranking-api.md)
 - [Use SQLite Window Functions](use-window-functions.md)
 
-## `rate-limiting` (7)
+## `rate-limiting` (8)
 
 - [Account Lockout (Brute-Force Protection)](account-lockout.md)
+- [Add a Disposable Demo](add-disposable-demo.md)
 - [Add Rate Limiting](add-rate-limiting.md)
 - [How-to: API Usage Metering & Quota Management](api-usage-metering.md)
 - [How-to: Fixed-window Rate Limiter](fixed-window-rate-limiter.md)
@@ -2120,6 +2131,10 @@ Auto-generated from each guide's frontmatter `tags`. Regenerate with `composer h
 ## `security-hardening` (1)
 
 - [Live Container Penetration Testing](live-penetration-testing.md)
+
+## `seeding` (1)
+
+- [Add a Disposable Demo](add-disposable-demo.md)
 
 ## `self-referential` (3)
 

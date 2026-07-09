@@ -257,6 +257,74 @@ final class ConfigLoaderTest extends TestCase
         self::assertSame(AppEnvironment::Local, $config->environment);
     }
 
+    public function testDemoConfigDefaultsAreOffAndInvoiceMeasured(): void
+    {
+        $config = (new ConfigLoader($this->emptyProjectRoot()))->load();
+
+        self::assertFalse($config->demo->demoMode);
+        self::assertSame('demo-', $config->demo->slugPrefix);
+        self::assertSame(3, $config->demo->ttlHours);
+        self::assertSame(200, $config->demo->maxOrgs);
+        self::assertSame(5, $config->demo->slugAttempts);
+    }
+
+    public function testDemoConfigOverrides(): void
+    {
+        $config = (new ConfigLoader($this->emptyProjectRoot()))->load([
+            'DEMO_MODE' => '1',
+            'DEMO_SLUG_PREFIX' => 'trial-',
+            'DEMO_TTL_HOURS' => '12',
+            'DEMO_MAX_ORGS' => '50',
+            'DEMO_SLUG_ATTEMPTS' => '8',
+        ]);
+
+        self::assertTrue($config->demo->demoMode);
+        self::assertSame('trial-', $config->demo->slugPrefix);
+        self::assertSame(12, $config->demo->ttlHours);
+        self::assertSame(50, $config->demo->maxOrgs);
+        self::assertSame(8, $config->demo->slugAttempts);
+    }
+
+    /**
+     * @return list<array{string}>
+     */
+    public static function nonTruthyDemoModeValues(): array
+    {
+        // Same strict opt-in parse as NENE2_ALLOW_DEV_SECRET: the demo route creates
+        // organizations unauthenticated, so a typo must leave demo mode OFF.
+        return [['0'], ['false'], ['on'], ['enabled'], ['2'], ['']];
+    }
+
+    #[DataProvider('nonTruthyDemoModeValues')]
+    public function testDemoModeStaysOffForNonStrictTruthyValues(string $value): void
+    {
+        $config = (new ConfigLoader($this->emptyProjectRoot()))->load([
+            'DEMO_MODE' => $value,
+        ]);
+
+        self::assertFalse($config->demo->demoMode);
+    }
+
+    public function testNonIntegerDemoTtlFailsFast(): void
+    {
+        $this->expectException(ConfigException::class);
+        $this->expectExceptionMessage('DEMO_TTL_HOURS must be an integer.');
+
+        (new ConfigLoader($this->emptyProjectRoot()))->load([
+            'DEMO_TTL_HOURS' => 'soon',
+        ]);
+    }
+
+    public function testZeroDemoMaxOrgsFailsFast(): void
+    {
+        $this->expectException(ConfigException::class);
+        $this->expectExceptionMessage('DEMO_MAX_ORGS must be a positive integer.');
+
+        (new ConfigLoader($this->emptyProjectRoot()))->load([
+            'DEMO_MAX_ORGS' => '0',
+        ]);
+    }
+
     private function emptyProjectRoot(): string
     {
         return sys_get_temp_dir();

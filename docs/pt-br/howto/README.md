@@ -16,6 +16,7 @@ Todos os guias deste diretório, ordenados por nome de arquivo. Regenere com `co
 | [activity-feed.md](activity-feed.md) | Como Fazer: API de Feed de Atividades / Timeline |
 | [add-custom-route.md](add-custom-route.md) | Adicionar uma rota personalizada |
 | [add-database-endpoint.md](add-database-endpoint.md) | Adicionar um endpoint com banco de dados |
+| [add-disposable-demo.md](add-disposable-demo.md) | Adicionar um demo descartável |
 | [add-domain-exception-handler.md](add-domain-exception-handler.md) | Como adicionar um handler de exceção de domínio |
 | [add-health-check.md](add-health-check.md) | Adicionar um health check |
 | [add-html-view.md](add-html-view.md) | Adicionar vistas HTML |

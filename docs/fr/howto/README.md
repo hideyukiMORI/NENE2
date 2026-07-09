@@ -16,6 +16,7 @@ Tous les guides de ce répertoire, triés par nom de fichier. Régénérer avec 
 | [activity-feed.md](activity-feed.md) | How-to : API de fil d'actualité / timeline |
 | [add-custom-route.md](add-custom-route.md) | Ajouter une route personnalisée |
 | [add-database-endpoint.md](add-database-endpoint.md) | Ajouter un endpoint avec base de données |
+| [add-disposable-demo.md](add-disposable-demo.md) | How-to : Ajouter une démo jetable |
 | [add-domain-exception-handler.md](add-domain-exception-handler.md) | How-to : Ajouter un gestionnaire d'exception de domaine |
 | [add-health-check.md](add-health-check.md) | Ajouter un health check |
 | [add-html-view.md](add-html-view.md) | Ajouter des vues HTML |

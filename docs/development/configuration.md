@@ -80,6 +80,17 @@ The initial application config includes:
 - `APP_NAME`: non-empty application name
 - database config values used by Phinx and future database adapters:
   `DATABASE_URL`, `DB_ENV`, `DB_ADAPTER`, `DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER`, `DB_PASSWORD`, and `DB_CHARSET`
+- disposable-demo module settings (`Nene2\Demo`, typed as `AppConfig::$demo` / `Nene2\Demo\DemoConfig`; dormant unless the module is wired):
+  - `DEMO_MODE`: master switch for the demo start endpoint. Parsed strictly like
+    `NENE2_ALLOW_DEV_SECRET` — only `1`/`true`/`yes` enable it; anything else
+    (including typos) leaves it off, because the endpoint creates organizations
+    without authentication. Default: off.
+  - `DEMO_SLUG_PREFIX`: slug namespace separating disposable demo orgs from real
+    ones (sweeper selection and capacity count key off it). Default: `demo-`.
+  - `DEMO_TTL_HOURS`: hours a demo org lives before the sweeper expires it. Default: `3`.
+  - `DEMO_MAX_ORGS`: instance-wide ceiling on concurrently existing demo orgs,
+    enforced both at creation time (capacity guard) and by the sweeper. Default: `200`.
+  - `DEMO_SLUG_ATTEMPTS`: random slug candidates tried before a conflict is fatal. Default: `5`.
 
 `.env.example` documents safe local defaults. Raw environment access stays inside `ConfigLoader`; application and infrastructure code should receive `AppConfig` and focused nested config objects such as `DatabaseConfig`.
 

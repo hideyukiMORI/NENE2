@@ -22,6 +22,7 @@ Architecture decisions are recorded here as lightweight ADRs. Each record captur
 | [0014](0014-audit-log-framework-module.md) | Audit log framework module (`Nene2\Audit`) |
 | [0015](0015-csv-export-framework-module.md) | CSV export framework module (`Nene2\Export`) |
 | [0016](0016-conformance-linter.md) | Conformance linter (`tools/conformance.php`) |
+| [0017](0017-disposable-demo-framework-module.md) | Disposable demo framework module (`Nene2\Demo`) |
 
 ## Template
 

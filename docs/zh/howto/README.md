@@ -16,6 +16,7 @@
 | [activity-feed.md](activity-feed.md) | 操作指南：活动动态/时间线 API |
 | [add-custom-route.md](add-custom-route.md) | 添加自定义路由 |
 | [add-database-endpoint.md](add-database-endpoint.md) | 添加数据库端点 |
+| [add-disposable-demo.md](add-disposable-demo.md) | 操作指南：添加一次性演示 |
 | [add-domain-exception-handler.md](add-domain-exception-handler.md) | 如何添加领域异常处理器 |
 | [add-health-check.md](add-health-check.md) | 添加健康检查 |
 | [add-html-view.md](add-html-view.md) | 添加 HTML 视图 |

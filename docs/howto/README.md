@@ -238,10 +238,11 @@ Auto-generated from each guide's frontmatter (`category` / `difficulty` / `tags`
 | [Payment Webhook 受信の実装ガイド](payment-webhook.md) | intermediate | `webhook` `payment` `signature-verification` `idempotency` |
 | [Rate Limiting](rate-limiting.md) | intermediate | `rate-limiting` `throttle` `fixed-window` `middleware` `http-429` |
 
-### Product Features (106)
+### Product Features (107)
 
 | Guide | Difficulty | Tags |
 |---|---|---|
+| [Add a Disposable Demo](add-disposable-demo.md) | advanced | `demo` `multi-tenant` `provisioning` `seeding` `rate-limiting` `cron` |
 | [Bookmark System](bookmark-system.md) | beginner | `bookmarks` `collections` `idempotent` `user-scoped` |
 | [Content Pinning](content-pinning.md) | intermediate | `pinning` `ordering` `idempotent` `position-management` |
 | [Content Relations — Typed M:N Self-Referential Links](content-relations.md) | intermediate | `relations` `self-referential` `many-to-many` `inverse` `typed-links` |
