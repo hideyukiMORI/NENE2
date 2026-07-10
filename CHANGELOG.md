@@ -8,6 +8,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+---
+
+## [1.10.0] — 2026-07-10
+
+後方互換なマイナーリリース。`GET /demo/{template}`（営業プロスペクトがブラウザで踏む唯一の公開動線）の 4xx/5xx を、`Accept: text/html` のとき差し替え可能なレンダラ経由の HTML ページへ置換する既定サポートを `Nene2\Demo` に追加する（ADR 0018・2026-07-10 invoice 本番で裸 JSON が施主ブラウザに露出した実発生の上流化）。あわせて `DemoRouteRegistrar` を PSR-15 `RequestHandlerInterface` 受けに拡大（デコレータの一般解）、per-IP throttle 既定を invoice 本番実証の 30回/h へ引き上げる。API クライアントと成功応答はバイト不変。
+
 ### Added
 - `Nene2\Demo` にブラウザ向けエラーの HTML negotiation を既定サポート（ADR 0018・#1536）。`GET /demo/{template}` は営業プロスペクトが**ブラウザで踏む**唯一の公開動線だが、429/503/404 が RFC 9457 Problem Details（JSON）で返り非技術者には「壊れた」と映っていた（2026-07-10 invoice 本番で実発生 → 製品側ラップ nene-invoice#613/#615 で対処済み・その上流化）。`StartDisposableDemoHandler` は `Accept` に `text/html` を含むリクエストへの 4xx/5xx を、注入された `DemoErrorPageRendererInterface`（新設・公開安定 API）の HTML ページへ置換する。framework は locale 非依存（英語・無ブランド・最小）の既定実装 `MinimalDemoErrorPageRenderer` を同梱（クラス名とコンストラクタのみ安定保証・マークアップと文言は presentation で契約外）— 製品はレンダラ差し替えで文言・言語・ブランドを上書きする。**transport 不変条件はレンダラによらず handler が強制**: 元のエラー status と `Retry-After`（429）をページへ強制コピーし `X-Robots-Tag: noindex` を付与。`Accept` に `text/html` を含まない API クライアントと成功応答は**バイト不変**（単体テストで固定）。レンダラ interface は意図的に status と retry 秒数しか受け取らず、リクエスト入力がページに混入し得ない構造（XSS 面）。既定実装は**ページ専用 CSP を自ら持つ**（`default-src 'none'; style-src 'unsafe-inline'` 他施錠 — 消費製品のアプリ全体 `default-src 'self'` がインライン CSS をブロックする罠の根治。`SecurityHeadersMiddleware` は不在ヘッダのみ付与するため生き残る）。カスタムレンダラ向けの CSP の罠と参照ヘッダは howto `add-disposable-demo.md`（＋5ロケール訳）に明記
 
