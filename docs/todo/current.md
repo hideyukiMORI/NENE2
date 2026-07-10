@@ -5,29 +5,31 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 ---
 
-## 🚧 現在のレーン — framework hardening（v1.9.0）
+## 🚧 現在のレーン — framework hardening（v1.10.0）
 
 | 項目 | 値 |
 |------|-----|
-| 現在の VERSION | **1.9.0**（`src/FrameworkInfo.php` が正） |
+| 現在の VERSION | **1.10.0**（`src/FrameworkInfo.php` が正） |
 | 主軸 | 共有ホスティング向け opt-in 部品の連続投入（installer → fail-closed auth → audit → export → conformance → demo） |
 | v1.6.0 の成果 | opt-in インストーラ toolkit `Nene2\Install`（payload セキュリティ核 / preflight & config / TenantConfigurationValidator / DatabaseSchemaApplier / release manifest / ReleaseSource / 提示契約 / 無ブランド参照レンダラ・`src/Install/`） |
 | v1.7.0 の成果 | fail-closed な JWT secret 解決 `GuardedJwtSecretResolver`（ADR 0013）＋ Installer 入力型（#1490/#1482） |
 | v1.8.0 の成果 | 監査ログ基盤 `Nene2\Audit`（ADR 0014）＋ CSV 出力 `Nene2\Export\CsvWriter`（ADR 0015）＋ `LocalBearerTokenVerifier` の Clock 注入 |
 | v1.8.1/1.8.2 の成果 | 準拠リンタ `tools/conformance.php`（ADR 0016）＋消費側 autoload / D1 誤検知の修正 |
 | **v1.9.0 の成果** | **使い捨て org デモモジュール `Nene2\Demo`**（ADR 0017・2026-07-09 施主決定=デモ方式を invoice 型に全製品統一）。5 interface（provisioner/reaper/seater/seeder/template key）＋具象（`StartDisposableDemoHandler`/`DisposableDemoSweeper`/`CountingDemoCapacityGuard`=invoice #608 根治点/`DemoRouteRegistrar`）＋`DEMO_*` typed 化（`AppConfig::$demo`）＋howto `add-disposable-demo.md`（5ロケール訳）（#1522/#1523/#1524） |
+| **v1.10.0 の成果** | **`Nene2\Demo` ブラウザ向けエラーの HTML negotiation**（ADR 0018・invoice 本番 2026-07-10 実発生の上流化）。`DemoErrorPageRendererInterface`＋既定 `MinimalDemoErrorPageRenderer`（ページ専用 CSP 持ち＝アプリ全体 `default-src 'self'` のインライン CSS ブロック罠を回避）。不変条件（API/成功のバイト不変・status/`Retry-After` 強制コピー・`X-Robots-Tag: noindex`）は handler が強制。`DemoRouteRegistrar` を PSR-15 `RequestHandlerInterface` 受けに拡大（デコレータの一般解）・throttle 既定 10→30回/h（invoice 本番実証）（#1536/#1537） |
 | 第1 consumer | NeNe Invoice（#562。demo モジュールの consumer 化も invoice が先頭 — 指揮リナの別指示書待ち） |
 | 進行中ブランチ | なし |
 
 ### 未処理 Issue
 
-なし（2026-07-09 時点で open Issue ゼロ）。
+なし（2026-07-10 時点で open Issue ゼロ。#1536 は PR #1537 で完了）。
 
 ※ #1421 は 2026-07-06 完了。#1514 は v1.8.2 修正で 07-09 クローズ。#1526/#1527（ローカル限定テスト失敗）は 07-09 修正済み（#1529/#1530）。
 
 ### 引き継ぎメモ（2026-07-09・Nene2\Demo リリース）
 
 - 次工程は **invoice/clear/vault の consumer 化**（NENE2 スコープ外・指揮リナが別指示書を発行）。invoice consumer 化では `TENANT_RESOLUTION=path` 前提と path 二重合成（workspace issues #38）を実機回帰で必ず踏むこと。
+- v1.10.0（ADR 0018）取り込み後、invoice は `DemoBrowserErrorPage` を `DemoErrorPageRendererInterface` 実装へ載せ替えて自前 registrar を廃止できる（NENE2 スコープ外・別発注）。clear/deal/vault は framework 既定でブラウザ向けエラーページが最初から効く。
 - ローカル Docker の `composer test` は**完全緑**（832 tests）。かつて存在した環境起因失敗2種は根治済み — ① compose の `DB_NAME` env 干渉 → テストを env 非依存化（#1526/#1530） ② ext-zip 欠如 → Dockerfile に追加（#1527/#1529・**要 `docker compose build app`**）。
 
 > 設計方針: すべて opt-in・generic。wire しなければ dormant、製品固有の前提（UI/ブランド/語彙/パス）を core に焼かない。詳細は CHANGELOG `[1.6.0]` / `[1.7.0]` / `[Unreleased]`。
