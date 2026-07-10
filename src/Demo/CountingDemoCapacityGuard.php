@@ -27,6 +27,11 @@ use Psr\Http\Message\ServerRequestInterface;
  * {@see \Nene2\Middleware\InMemoryRateLimitStorage} does not share state across
  * PHP-FPM worker processes.
  *
+ * The throttle default is 30 starts per hour per client (raised from 10 in
+ * ADR 0018): demos are one-shot by design — "reset" means re-clicking the link,
+ * each click consuming a slot — and office/carrier NAT puts many legitimate
+ * visitors behind one IP, so 10/h starved normal use in invoice production.
+ *
  * Part of the public API stability guarantee (see ADR 0009).
  */
 final class CountingDemoCapacityGuard implements DemoCapacityGuardInterface
@@ -46,7 +51,7 @@ final class CountingDemoCapacityGuard implements DemoCapacityGuardInterface
         \Closure $demoOrgCount,
         private readonly DemoConfig $config,
         private readonly RateLimitStorageInterface $throttleStorage,
-        private readonly int $throttleLimit = 10,
+        private readonly int $throttleLimit = 30,
         private readonly int $throttleWindowSeconds = 3600,
         ?\Closure $keyExtractor = null,
         private readonly ClockInterface $clock = new UtcClock(),

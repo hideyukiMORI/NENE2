@@ -28,6 +28,17 @@ use Psr\Http\Server\RequestHandlerInterface;
  * {@see DemoConfig::$slugAttempts} times; exhausting the attempts rethrows the
  * last conflict so the error-handling middleware reports it as a plain 500 (with
  * 4 random bytes per candidate this indicates a systemic problem, not bad luck).
+ * That escape path is app-wide error handling and is not HTML-negotiated here.
+ *
+ * Because the route is opened by real people in browsers, error responses are
+ * content-negotiated (ADR 0018): when the request's `Accept` header contains
+ * `text/html`, the Problem Details 4xx/5xx is replaced by the page from the
+ * injected {@see DemoErrorPageRendererInterface} (default:
+ * {@see MinimalDemoErrorPageRenderer}). The handler enforces the transport
+ * invariants regardless of the renderer — original status and `Retry-After`
+ * are copied onto the page and `X-Robots-Tag: noindex` is added. Clients whose
+ * `Accept` lacks `text/html` (API callers) and successful responses are
+ * byte-for-byte unchanged.
  *
  * Part of the public API stability guarantee (see ADR 0009).
  */
@@ -49,10 +60,22 @@ final readonly class StartDisposableDemoHandler implements RequestHandlerInterfa
         private DemoSessionSeaterInterface $seater,
         private ProblemDetailsResponseFactory $problemDetails,
         private string $templateKeyClass,
+        private DemoErrorPageRendererInterface $errorPageRenderer = new MinimalDemoErrorPageRenderer(),
     ) {
     }
 
     public function handle(ServerRequestInterface $request): ResponseInterface
+    {
+        $response = $this->startDemo($request);
+
+        if ($response->getStatusCode() < 400 || !str_contains($request->getHeaderLine('Accept'), 'text/html')) {
+            return $response;
+        }
+
+        return $this->browserErrorPage($response);
+    }
+
+    private function startDemo(ServerRequestInterface $request): ResponseInterface
     {
         if (!$this->config->demoMode) {
             return $this->problemDetails->create($request, 'not-found', 'Not Found', 404, 'Demo mode is not enabled on this instance.');
@@ -83,6 +106,30 @@ final readonly class StartDisposableDemoHandler implements RequestHandlerInterfa
         $this->seeder->seed($org->orgId, $template);
 
         return $this->seater->seatAndRedirect($request, $org);
+    }
+
+    /**
+     * Replaces a Problem Details error with the renderer's HTML page while
+     * enforcing the invariants the framework guarantees no matter which
+     * renderer is wired: the page carries the original error status, the
+     * original `Retry-After` header (429), and `X-Robots-Tag: noindex`.
+     */
+    private function browserErrorPage(ResponseInterface $problem): ResponseInterface
+    {
+        $retryAfter = $problem->hasHeader('Retry-After')
+            ? max(0, (int) $problem->getHeaderLine('Retry-After'))
+            : null;
+
+        $page = $this->errorPageRenderer
+            ->render($problem->getStatusCode(), $retryAfter)
+            ->withStatus($problem->getStatusCode())
+            ->withHeader('X-Robots-Tag', 'noindex');
+
+        if ($problem->hasHeader('Retry-After')) {
+            $page = $page->withHeader('Retry-After', $problem->getHeaderLine('Retry-After'));
+        }
+
+        return $page;
     }
 
     /**

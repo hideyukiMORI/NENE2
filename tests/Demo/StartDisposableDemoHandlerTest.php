@@ -9,10 +9,12 @@ use Nene2\Demo\DemoCapacityExceededException;
 use Nene2\Demo\DemoCapacityGuardInterface;
 use Nene2\Demo\DemoConfig;
 use Nene2\Demo\DemoDataSeederInterface;
+use Nene2\Demo\DemoErrorPageRendererInterface;
 use Nene2\Demo\DemoSessionSeaterInterface;
 use Nene2\Demo\DemoTemplateKeyInterface;
 use Nene2\Demo\DemoThrottledException;
 use Nene2\Demo\DisposableOrgProvisionerInterface;
+use Nene2\Demo\MinimalDemoErrorPageRenderer;
 use Nene2\Demo\ProvisionedDemoOrg;
 use Nene2\Demo\SlugConflictException;
 use Nene2\Demo\StartDisposableDemoHandler;
@@ -190,17 +192,129 @@ final class StartDisposableDemoHandlerTest extends TestCase
         }
     }
 
-    private function makeRequest(string $template): ServerRequestInterface
+    public function testBrowserGets429AsHtmlWithStatusRetryAfterAndNoindexPreserved(): void
     {
-        return (new Psr17Factory())
-            ->createServerRequest('GET', 'https://example.test/demo/' . $template)
+        $handler = $this->makeHandler(new DemoConfig(demoMode: true), guard: $this->throttledGuard(90));
+
+        $response = $handler->handle($this->makeRequest('kensetsu', accept: 'text/html,application/xhtml+xml'));
+
+        self::assertSame(429, $response->getStatusCode());
+        self::assertStringContainsString('text/html', $response->getHeaderLine('Content-Type'));
+        self::assertSame('90', $response->getHeaderLine('Retry-After'), 'Retry-After must survive negotiation');
+        self::assertSame('noindex', $response->getHeaderLine('X-Robots-Tag'));
+
+        $body = (string) $response->getBody();
+        self::assertStringContainsString('<html', $body);
+        self::assertStringContainsString('about 2 minutes', $body, 'the bundled renderer turns Retry-After into a human hint');
+        self::assertStringNotContainsString('Slow down.', $body, 'the Problem Details detail must not leak into the page');
+    }
+
+    public function testApiClientErrorStaysByteIdenticalProblemJson(): void
+    {
+        $handler = $this->makeHandler(new DemoConfig(demoMode: true), guard: $this->throttledGuard(42));
+
+        $jsonAccept = $handler->handle($this->makeRequest('kensetsu', accept: 'application/json'));
+        $noAccept = $handler->handle($this->makeRequest('kensetsu'));
+
+        foreach ([$jsonAccept, $noAccept] as $response) {
+            self::assertSame(429, $response->getStatusCode());
+            self::assertStringContainsString('application/problem+json', $response->getHeaderLine('Content-Type'));
+            self::assertSame('42', $response->getHeaderLine('Retry-After'));
+            self::assertFalse($response->hasHeader('X-Robots-Tag'));
+            self::assertStringContainsString('Slow down.', (string) $response->getBody());
+        }
+
+        self::assertSame((string) $jsonAccept->getBody(), (string) $noAccept->getBody());
+        self::assertSame($jsonAccept->getHeaders(), $noAccept->getHeaders());
+    }
+
+    public function testSuccessResponseIsNotNegotiatedForBrowsers(): void
+    {
+        $handler = $this->makeHandler(new DemoConfig(demoMode: true));
+
+        $response = $handler->handle($this->makeRequest('kensetsu', accept: 'text/html'));
+
+        self::assertSame(302, $response->getStatusCode());
+        self::assertSame('/demo-landing', $response->getHeaderLine('Location'));
+        self::assertFalse($response->hasHeader('X-Robots-Tag'));
+        self::assertSame('', (string) $response->getBody(), 'the seater response must pass through untouched');
+    }
+
+    public function testHtmlErrorPageNeverEchoesTheRequestedTemplate(): void
+    {
+        $handler = $this->makeHandler(new DemoConfig(demoMode: true));
+        $hostile = '<script>alert(1)</script>';
+
+        $response = $handler->handle($this->makeRequest($hostile, accept: 'text/html'));
+
+        self::assertSame(404, $response->getStatusCode());
+        self::assertStringContainsString('text/html', $response->getHeaderLine('Content-Type'));
+
+        $body = (string) $response->getBody();
+        self::assertStringNotContainsString($hostile, $body);
+        self::assertStringNotContainsString('alert(1)', $body);
+        self::assertStringNotContainsString(htmlspecialchars($hostile, ENT_QUOTES, 'UTF-8'), $body, 'not even escaped input may appear');
+    }
+
+    public function testCustomRendererIsUsedButTransportInvariantsAreEnforced(): void
+    {
+        $renderer = new class () implements DemoErrorPageRendererInterface {
+            public ?int $receivedRetryAfter = null;
+
+            public function render(int $statusCode, ?int $retryAfterSeconds): ResponseInterface
+            {
+                $this->receivedRetryAfter = $retryAfterSeconds;
+
+                // A deliberately misbehaving renderer: wrong status, no headers.
+                $response = (new Psr17Factory())->createResponse(200);
+                $response->getBody()->write('CUSTOM PAGE');
+
+                return $response;
+            }
+        };
+        $handler = $this->makeHandler(new DemoConfig(demoMode: true), guard: $this->throttledGuard(42), renderer: $renderer);
+
+        $response = $handler->handle($this->makeRequest('kensetsu', accept: 'text/html'));
+
+        self::assertSame('CUSTOM PAGE', (string) $response->getBody());
+        self::assertSame(42, $renderer->receivedRetryAfter);
+        self::assertSame(429, $response->getStatusCode(), 'the handler resets the original error status');
+        self::assertSame('42', $response->getHeaderLine('Retry-After'), 'the handler re-applies Retry-After');
+        self::assertSame('noindex', $response->getHeaderLine('X-Robots-Tag'), 'the handler forces noindex');
+    }
+
+    private function throttledGuard(int $retryAfterSeconds): DemoCapacityGuardInterface
+    {
+        return new class ($retryAfterSeconds) implements DemoCapacityGuardInterface {
+            public function __construct(private readonly int $retryAfterSeconds)
+            {
+            }
+
+            public function assertHasCapacity(): void
+            {
+            }
+
+            public function assertNotThrottled(ServerRequestInterface $request): void
+            {
+                throw new DemoThrottledException('Slow down.', $this->retryAfterSeconds);
+            }
+        };
+    }
+
+    private function makeRequest(string $template, ?string $accept = null): ServerRequestInterface
+    {
+        $request = (new Psr17Factory())
+            ->createServerRequest('GET', 'https://example.test/demo/' . rawurlencode($template))
             ->withAttribute(Router::PARAMETERS_ATTRIBUTE, ['template' => $template]);
+
+        return $accept === null ? $request : $request->withHeader('Accept', $accept);
     }
 
     private function makeHandler(
         DemoConfig $config,
         ?DemoCapacityGuardInterface $guard = null,
         ?DisposableOrgProvisionerInterface $provisioner = null,
+        ?DemoErrorPageRendererInterface $renderer = null,
     ): StartDisposableDemoHandler {
         $factory = new Psr17Factory();
         $events = $this->events;
@@ -270,6 +384,7 @@ final class StartDisposableDemoHandlerTest extends TestCase
             $seater,
             new ProblemDetailsResponseFactory($factory, $factory),
             FakeDemoTemplate::class,
+            $renderer ?? new MinimalDemoErrorPageRenderer(),
         );
     }
 }
