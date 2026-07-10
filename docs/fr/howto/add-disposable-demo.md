@@ -26,6 +26,7 @@ tout ce qui est spécifique au produit.
 | `CountingDemoCapacityGuard` — plafond à la création + throttle par IP | `DemoSessionSeaterInterface` — passation d'authentification + redirection |
 | `DemoConfig` — réglages `DEMO_*` typés sur `AppConfig::$demo` | `DemoDataSeederInterface` — données seed sectorielles |
 | `DemoRouteRegistrar` — enregistre `GET /demo/{template}` | `DemoTemplateKeyInterface` — votre enum de templates |
+| `MinimalDemoErrorPageRenderer` — page d'erreur navigateur sans marque | `DemoErrorPageRendererInterface` — page d'erreur à votre marque (optionnelle) |
 
 ---
 
@@ -220,7 +221,73 @@ produit a un middleware de résolution de tenant, exemptez `/demo/...` de la ré
 > un `keyExtractor` qui lit votre en-tête d'IP transmise de confiance — sinon tous les clients
 > partagent un seul compteur.
 
-## 8. Balayer via cron
+Le throttle du guard vaut par défaut **30 démarrages de démo par heure et par IP cliente**.
+Si vous ajustez `throttleLimit`, gardez à l'esprit que ce style de démo est à usage unique
+par conception — « réinitialiser la démo » signifie recliquer sur le lien, et chaque clic
+consomme un démarrage — et que le NAT des bureaux et des opérateurs mobiles place de
+nombreux visiteurs légitimes derrière une seule IP. Une limite de 10/h a asséché l'usage
+normal en production ; ne descendez pas plus bas.
+
+## 8. Optionnel : personnaliser la page d'erreur navigateur
+
+La route de démarrage de démo est la seule route que de vraies personnes ouvrent dans un
+**navigateur** (un prospect commercial cliquant sur un lien de recommandation). Le handler
+négocie donc le contenu de ses erreurs : lorsque l'en-tête `Accept` de la requête contient
+`text/html`, le JSON Problem Details 4xx/5xx est remplacé par une page HTML issue du
+`DemoErrorPageRendererInterface` que vous injectez. Par défaut il s'agit du
+`MinimalDemoErrorPageRenderer` fourni — une carte minimale, sans marque, en anglais —
+donc cela fonctionne d'emblée ; remplacez-le pour fournir les textes, la langue et la
+marque de votre produit :
+
+```php
+final readonly class BrandedDemoErrorPageRenderer implements DemoErrorPageRendererInterface
+{
+    public function render(int $statusCode, ?int $retryAfterSeconds): ResponseInterface
+    {
+        // Textes fixes par statut ; convertissez $retryAfterSeconds en « réessayez dans ~N minutes ».
+    }
+}
+
+$handler = new StartDisposableDemoHandler(
+    // ... comme à l'étape 7 ...
+    errorPageRenderer: new BrandedDemoErrorPageRenderer($responseFactory),
+);
+```
+
+Le framework impose les invariants de transport quel que soit le renderer câblé : la page
+conserve le statut d'erreur d'origine et l'en-tête `Retry-After` d'origine (429), et reçoit
+`X-Robots-Tag: noindex`. Les clients API (pas de `text/html` dans `Accept`) et la
+redirection de succès restent inchangés octet pour octet.
+
+Deux règles strictes pour les renderers personnalisés :
+
+- **Ne mettez jamais d'entrée de requête dans la page.** L'interface ne reçoit
+  délibérément que le code de statut et les secondes avant nouvel essai — tous les textes
+  doivent être du texte fixe plus des nombres calculés côté serveur, sinon la page
+  d'erreur devient un vecteur XSS. Incluez aussi `<meta name="robots" content="noindex">`
+  et ne référencez aucune ressource externe.
+- **Attention à la Content-Security-Policy.** Votre application exécute presque
+  certainement `SecurityHeadersMiddleware` avec un `default-src 'self'` global, qui
+  **bloque les `<style>`/`<script>` inline dont une page d'erreur autonome a besoin** —
+  la page s'affiche alors en texte brut sans style. Ce middleware n'ajoute que les
+  en-têtes absents, donc embarquez une CSP propre à la page sur la réponse du renderer :
+
+  ```
+  Content-Security-Policy: default-src 'none'; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'
+  ```
+
+  N'ajoutez `script-src 'unsafe-inline'` que si la page contient réellement un script
+  (p. ex. un compte à rebours de nouvel essai). Les autorisations inline sont sûres ici
+  précisément parce que la page ne contient aucune entrée de requête. Le renderer fourni
+  embarque déjà cette CSP.
+
+S'il vous faut plus qu'une page d'erreur différente — portes supplémentaires,
+journalisation, post-traitement des réponses — `DemoRouteRegistrar` accepte n'importe
+quel `RequestHandlerInterface` PSR-15 : vous pouvez donc envelopper
+`StartDisposableDemoHandler` dans un décorateur au lieu de réimplémenter
+l'enregistrement de la route.
+
+## 9. Balayer via cron
 
 ```php
 // tools/sweep-demo.php — exécuter toutes les heures
@@ -259,7 +326,9 @@ de votre requête est ce qui protège les organisations réelles, ne l'élargiss
 | Toutes les tentatives de slug en conflit | `SlugConflictException` s'échappe → 500 via le middleware d'erreur |
 | Succès | ce que retourne votre seater (typiquement 302 + `Cache-Control: no-store`) |
 
-Toutes les réponses d'erreur sont des Problem Details RFC 9457.
+Les clients API reçoivent des Problem Details RFC 9457 ; les clients navigateur
+(`Accept` contenant `text/html`) reçoivent la page d'erreur de l'étape 8, avec le même
+statut et le même `Retry-After`.
 
 ## Pourquoi garder à la création alors que le sweeper plafonne déjà le comptage ?
 

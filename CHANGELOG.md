@@ -8,6 +8,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Added
+- `Nene2\Demo` にブラウザ向けエラーの HTML negotiation を既定サポート（ADR 0018・#1536）。`GET /demo/{template}` は営業プロスペクトが**ブラウザで踏む**唯一の公開動線だが、429/503/404 が RFC 9457 Problem Details（JSON）で返り非技術者には「壊れた」と映っていた（2026-07-10 invoice 本番で実発生 → 製品側ラップ nene-invoice#613/#615 で対処済み・その上流化）。`StartDisposableDemoHandler` は `Accept` に `text/html` を含むリクエストへの 4xx/5xx を、注入された `DemoErrorPageRendererInterface`（新設・公開安定 API）の HTML ページへ置換する。framework は locale 非依存（英語・無ブランド・最小）の既定実装 `MinimalDemoErrorPageRenderer` を同梱（クラス名とコンストラクタのみ安定保証・マークアップと文言は presentation で契約外）— 製品はレンダラ差し替えで文言・言語・ブランドを上書きする。**transport 不変条件はレンダラによらず handler が強制**: 元のエラー status と `Retry-After`（429）をページへ強制コピーし `X-Robots-Tag: noindex` を付与。`Accept` に `text/html` を含まない API クライアントと成功応答は**バイト不変**（単体テストで固定）。レンダラ interface は意図的に status と retry 秒数しか受け取らず、リクエスト入力がページに混入し得ない構造（XSS 面）。既定実装は**ページ専用 CSP を自ら持つ**（`default-src 'none'; style-src 'unsafe-inline'` 他施錠 — 消費製品のアプリ全体 `default-src 'self'` がインライン CSS をブロックする罠の根治。`SecurityHeadersMiddleware` は不在ヘッダのみ付与するため生き残る）。カスタムレンダラ向けの CSP の罠と参照ヘッダは howto `add-disposable-demo.md`（＋5ロケール訳）に明記
+
+### Changed
+- `DemoRouteRegistrar` のコンストラクタが具象 `StartDisposableDemoHandler` でなく **PSR-15 `RequestHandlerInterface`** を受けるようになった（受け入れ拡大＝既存呼び出しはすべて有効・後方互換・ADR 0018・#1536）。製品は registrar を再実装せずにハンドラをデコレータ（ログ・追加ゲート・レスポンス後処理・独自エラーページ）で包める — invoice が自前 registrar 再導入を強いられた原因（nene-invoice#613）の根治
+- `CountingDemoCapacityGuard` の per-IP throttle 既定値を **10回/h → 30回/h** に引き上げ（ADR 0018・#1536）。このデモは one-shot 設計（「リセット」=リンク再クリック・クリックごとに1回消費）で、事務所/キャリア NAT により多数の正規訪問者が 1 IP に同居するため、10回/h は invoice 本番で正規利用を枯渇させた実証あり。`throttleLimit: 10` を明示指定している consumer は影響なし。なお `Accept: text/html` を送る API クライアント（通常存在しない）はデモ開始エラーで JSON でなく HTML を受け取るようになる — 挙動変更として明記
+
 ---
 
 ## [1.9.0] — 2026-07-09

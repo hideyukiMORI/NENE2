@@ -19,6 +19,7 @@ use Nyholm\Psr7\Factory\Psr17Factory;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
 final class DemoRouteRegistrarTest extends TestCase
 {
@@ -36,6 +37,31 @@ final class DemoRouteRegistrarTest extends TestCase
         self::assertSame(404, $response->getStatusCode());
         self::assertStringContainsString('application/problem+json', $response->getHeaderLine('Content-Type'));
         self::assertStringContainsString('Demo mode is not enabled', (string) $response->getBody());
+    }
+
+    public function testAcceptsAnyPsr15HandlerSoProductsCanDecorate(): void
+    {
+        $factory = new Psr17Factory();
+        $decorator = new class ($this->makeHandler()) implements RequestHandlerInterface {
+            public function __construct(private readonly StartDisposableDemoHandler $inner)
+            {
+            }
+
+            public function handle(ServerRequestInterface $request): ResponseInterface
+            {
+                $response = $this->inner->handle($request);
+
+                return $response->withHeader('X-Decorated', '1');
+            }
+        };
+
+        $router = new Router();
+        (new DemoRouteRegistrar($decorator))($router);
+
+        $response = $router->handle($factory->createServerRequest('GET', 'https://example.test/demo/kensetsu'));
+
+        self::assertSame(404, $response->getStatusCode());
+        self::assertSame('1', $response->getHeaderLine('X-Decorated'), 'the registrar must accept product decorators (ADR 0018)');
     }
 
     private function makeHandler(): StartDisposableDemoHandler

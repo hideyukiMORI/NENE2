@@ -23,6 +23,7 @@
 | `CountingDemoCapacityGuard` —— 创建时的上限 + 按 IP 节流 | `DemoSessionSeaterInterface` —— 认证交接 + 重定向 |
 | `DemoConfig` —— `AppConfig::$demo` 上的类型化 `DEMO_*` 设置 | `DemoDataSeederInterface` —— 行业种子数据 |
 | `DemoRouteRegistrar` —— 注册 `GET /demo/{template}` | `DemoTemplateKeyInterface` —— 您的模板枚举 |
+| `MinimalDemoErrorPageRenderer` —— 无品牌的浏览器错误页面 | `DemoErrorPageRendererInterface` —— 带品牌的错误页面（可选） |
 
 ---
 
@@ -214,7 +215,60 @@ $handler = new StartDisposableDemoHandler(
 > 读取您可信的转发 IP 响应头的 `keyExtractor`——否则所有客户端
 > 会共享同一个桶。
 
-## 8. 用 cron 清扫
+守卫节流的默认值是**每个客户端 IP 每小时 30 次演示启动**。调整 `throttleLimit` 时请记住：
+这种演示在设计上是一次性的——「重置演示」就是重新点击链接，每次点击都消耗一次启动——
+而且办公室和移动运营商的 NAT 会把许多合法访客聚合在同一个 IP 之后。
+10 次/小时的限制在生产环境中耗尽了正常使用；不要设得更低。
+
+## 8. 可选：为浏览器错误页面加上品牌
+
+演示启动路由是唯一一条真实的人会在**浏览器**中打开的路由（销售潜在客户点击推荐链接）。
+因此处理器会对其错误进行内容协商：当请求的 `Accept` 头包含 `text/html` 时，
+4xx/5xx 的 Problem Details JSON 会被替换为您注入的 `DemoErrorPageRendererInterface`
+生成的 HTML 页面。默认是随附的 `MinimalDemoErrorPageRenderer`——一张极简、无品牌的
+英文卡片——因此开箱即用；替换它即可提供您产品的文案、语言和品牌：
+
+```php
+final readonly class BrandedDemoErrorPageRenderer implements DemoErrorPageRendererInterface
+{
+    public function render(int $statusCode, ?int $retryAfterSeconds): ResponseInterface
+    {
+        // 每个状态使用固定文案；把 $retryAfterSeconds 转换为「约 N 分钟后重试」。
+    }
+}
+
+$handler = new StartDisposableDemoHandler(
+    // ... 与第 7 步相同 ...
+    errorPageRenderer: new BrandedDemoErrorPageRenderer($responseFactory),
+);
+```
+
+无论接线哪个渲染器，框架都会强制执行传输不变量：页面保留原始错误状态和原始
+`Retry-After` 头（429），并被加上 `X-Robots-Tag: noindex`。API 客户端（`Accept` 中
+不含 `text/html`）和成功重定向保持逐字节不变。
+
+自定义渲染器的两条硬性规则：
+
+- **绝不把请求输入放进页面。** 接口刻意只接收状态码和重试秒数——所有文案必须由固定文本
+  加服务器端计算的数字组成，否则错误页面会变成 XSS 载体。同时要包含
+  `<meta name="robots" content="noindex">`，并且不引用任何外部资源。
+- **注意 Content-Security-Policy。** 您的应用几乎肯定运行着带有全应用
+  `default-src 'self'` 的 `SecurityHeadersMiddleware`，它会**阻止自包含错误页面所需的
+  内联 `<style>`/`<script>`**——页面会显示为无样式的裸文本。该中间件只添加缺失的响应头，
+  因此请在渲染器的响应上携带页面专用的 CSP：
+
+  ```
+  Content-Security-Policy: default-src 'none'; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'
+  ```
+
+  只有当页面确实带有脚本（例如重试倒计时）时才添加 `script-src 'unsafe-inline'`。
+  内联许可在这里之所以安全，恰恰是因为页面不包含任何请求输入。随附的渲染器已经带有这个 CSP。
+
+如果您需要的不只是换一个错误页面——额外的关卡、日志、响应后处理——
+`DemoRouteRegistrar` 接受任何 PSR-15 `RequestHandlerInterface`，因此您可以用装饰器包装
+`StartDisposableDemoHandler`，而不必重新实现路由注册。
+
+## 9. 用 cron 清扫
 
 ```php
 // tools/sweep-demo.php —— 每小时运行
@@ -252,7 +306,8 @@ echo count($report->reapedOrgIds) . " demo orgs swept\n";
 | 所有 slug 尝试都冲突 | `SlugConflictException` 逃逸 → 经错误中间件返回 500 |
 | 成功 | 由您的 seater 决定（通常为 302 + `Cache-Control: no-store`） |
 
-所有错误响应均为 RFC 9457 Problem Details。
+API 客户端收到 RFC 9457 Problem Details；浏览器客户端（`Accept` 包含 `text/html`）
+收到第 8 步的错误页面，状态和 `Retry-After` 保持不变。
 
 ## 清扫器已经限制了数量，为什么还要在创建时设守卫？
 

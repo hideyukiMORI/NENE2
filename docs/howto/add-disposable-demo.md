@@ -33,6 +33,7 @@ everything product-specific.
 | `CountingDemoCapacityGuard` — creation-time ceiling + per-IP throttle | `DemoSessionSeaterInterface` — auth handoff + redirect |
 | `DemoConfig` — typed `DEMO_*` settings on `AppConfig::$demo` | `DemoDataSeederInterface` — industry seed data |
 | `DemoRouteRegistrar` — registers `GET /demo/{template}` | `DemoTemplateKeyInterface` — your template enum |
+| `MinimalDemoErrorPageRenderer` — unbranded browser error page | `DemoErrorPageRendererInterface` — branded error page (optional) |
 
 ---
 
@@ -225,7 +226,68 @@ tenant-resolution middleware, exempt `/demo/...` from org resolution.
 > `keyExtractor` that reads your trusted forwarded-IP header — otherwise every client
 > shares one bucket.
 
-## 8. Sweep on cron
+The guard's throttle defaults to **30 demo starts per hour per client IP**. If you tune
+`throttleLimit`, keep in mind that this style of demo is one-shot by design — "reset the
+demo" means re-clicking the link, and every click consumes a start — and that office and
+mobile-carrier NAT puts many legitimate visitors behind a single IP. A limit of 10/h
+starved normal use in production; do not go lower.
+
+## 8. Optional: brand the browser error page
+
+The demo start route is the one route real people open in a **browser** (a sales
+prospect clicking a referral link), so the handler content-negotiates its errors: when
+the request's `Accept` header contains `text/html`, the 4xx/5xx Problem Details JSON is
+replaced by an HTML page from the `DemoErrorPageRendererInterface` you inject. The
+default is the bundled `MinimalDemoErrorPageRenderer` — a minimal, unbranded English
+card — so this works out of the box; replace it to supply your product's copy, language,
+and brand:
+
+```php
+final readonly class BrandedDemoErrorPageRenderer implements DemoErrorPageRendererInterface
+{
+    public function render(int $statusCode, ?int $retryAfterSeconds): ResponseInterface
+    {
+        // Fixed copy per status; turn $retryAfterSeconds into "try again in ~N minutes".
+    }
+}
+
+$handler = new StartDisposableDemoHandler(
+    // ... as in step 7 ...
+    errorPageRenderer: new BrandedDemoErrorPageRenderer($responseFactory),
+);
+```
+
+The framework enforces the transport invariants no matter which renderer is wired: the
+page keeps the original error status, the original `Retry-After` header (429), and gets
+`X-Robots-Tag: noindex`. API clients (no `text/html` in `Accept`) and the success
+redirect stay byte-for-byte unchanged.
+
+Two hard rules for custom renderers:
+
+- **Never put request input in the page.** The interface deliberately receives only the
+  status code and the retry seconds — all copy must be fixed text plus server-computed
+  numbers, or the error page becomes an XSS vector. Also include
+  `<meta name="robots" content="noindex">` and reference no external assets.
+- **Mind the Content-Security-Policy.** Your app almost certainly runs
+  `SecurityHeadersMiddleware` with an app-wide `default-src 'self'`, which **blocks the
+  inline `<style>`/`<script>` a self-contained error page needs** — the page renders as
+  bare unstyled text. That middleware only adds headers that are absent, so ship a
+  per-page CSP on the renderer's response:
+
+  ```
+  Content-Security-Policy: default-src 'none'; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'
+  ```
+
+  Add `script-src 'unsafe-inline'` only if the page really carries a script (e.g. a
+  retry countdown). Inline allowances are safe here precisely because the page contains
+  no request input. The bundled renderer already ships this CSP.
+
+If you need more than a different error page — extra gates, logging, response
+post-processing — `DemoRouteRegistrar` accepts any PSR-15 `RequestHandlerInterface`, so
+you can wrap `StartDisposableDemoHandler` in a decorator instead of re-implementing the
+route registration.
+
+## 9. Sweep on cron
 
 ```php
 // tools/sweep-demo.php — run hourly
@@ -264,7 +326,8 @@ organizations, so never widen it.
 | All slug attempts collided | `SlugConflictException` escapes → 500 via error middleware |
 | Success | whatever your seater returns (typically 302 + `Cache-Control: no-store`) |
 
-All error responses are RFC 9457 Problem Details.
+API clients receive RFC 9457 Problem Details; browser clients (`Accept` containing
+`text/html`) receive the error page from step 8 with the same status and `Retry-After`.
 
 ## Why guard at creation time when the sweeper already caps the count?
 
