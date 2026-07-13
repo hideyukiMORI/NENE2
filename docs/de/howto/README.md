@@ -37,6 +37,7 @@ Alle Anleitungen in diesem Verzeichnis, nach Dateiname sortiert. Mit `composer h
 | [article-versioning-api.md](article-versioning-api.md) | How-to: Artikel-Versionierungs-API |
 | [asset-checkout.md](asset-checkout.md) | How-To: Asset-Ausleihe / -Rückgabe-Verwaltung |
 | [audit-trail.md](audit-trail.md) | HOWTO: Audit-Trail — Wer hat was geändert? |
+| [authorization-header-fallback.md](authorization-header-fallback.md) | Bearer-Auth hinter Proxys wiederherstellen, die `Authorization` entfernen |
 | [batch-api-partial-success.md](batch-api-partial-success.md) | How-to: Batch-API mit Teilerfolg |
 | [bearer-token-middleware.md](bearer-token-middleware.md) | How-to: Bearer-Token-Middleware (JWT-Auth-Randfälle) |
 | [bookmark-api.md](bookmark-api.md) | How-to: Bookmark-API |

@@ -8,6 +8,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+後方互換なマイナー変更。前段 proxy が標準 `Authorization` ヘッダを PHP に渡す前に剥がす共有ホスティング（HETEML 型 Tier A。`.htaccess` の `E=HTTP_AUTHORIZATION` トリックも `CGIPassAuth` も効かない）向けの受け口を、nene-clear #265 の実証実装から framework 標準へ上流化する（ADR 0019・#1557）。フリートの frontend は `@hideyukimori/nene2-client` v1.1.0 が全リクエストに `X-Authorization: Bearer <token>` ミラーを送信済み — BE 側受け口の per-product 手書きコピーを廃し、GuardedJwtSecretResolver（ADR 0013）と同じ `composer update` 配布経路に載せる。
+
+### Added
+- `Nene2\Middleware\AuthorizationHeaderFallbackMiddleware`（公開安定 API・ADR 0019・#1557）— `Authorization` が**不在または空のときのみ** `X-Authorization` ミラーの値を `Authorization` へ採用する PSR-15 middleware。標準ヘッダが届く環境ではバイト不変・method/path 非依存。ヘッダ名は `X-Authorization` **固定**（`FALLBACK_HEADER` 定数 — nene2-js クライアントとのフリート配線契約でありノブではない）。手組み front controller 向けに同一変換の静的 `apply()` も公開（nene-clear 原型互換）。ミラー値は verbatim 採用でトークン検証は従来どおり後段 auth middleware の仕事 — 不正ミラーは不正な標準ヘッダと同一の失敗経路
+- `RuntimeApplicationFactory` に **opt-in** フラグ `enableAuthorizationHeaderFallback`（既定 `false`・コンストラクタ末尾追加＝後方互換・#1557）。有効時は auth ステージ先頭（RequestSizeLimit の後・machine API key チェックと注入 `$authMiddleware` の前）に挿入され、資格情報を読む全 middleware が復元済みヘッダを見る。**自動組み込みにしない理由**（ADR 0019）: 挙動は「標準ヘッダ優先」で後方互換だが trust 境界が変わる — 前段 gateway が `Authorization` を**意図的に**剥がす構成（認証委譲・WAF フィルタ）では client 制御ヘッダが無言のバイパス面になるため、HSTS（#1447）・database preflight（#1419）・`Nene2\Demo`（ADR 0017）と同じ explicit opt-in に倒した。howto `authorization-header-fallback.md`（＋5ロケール訳）と `docs/development/middleware-security.md` に有効化条件と「有効化してはいけない構成」を明記
+
 ---
 
 ## [1.10.0] — 2026-07-10

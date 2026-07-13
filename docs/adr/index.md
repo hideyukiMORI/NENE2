@@ -24,6 +24,7 @@ Architecture decisions are recorded here as lightweight ADRs. Each record captur
 | [0016](0016-conformance-linter.md) | Conformance linter (`tools/conformance.php`) |
 | [0017](0017-disposable-demo-framework-module.md) | Disposable demo framework module (`Nene2\Demo`) |
 | [0018](0018-demo-browser-error-negotiation.md) | Browser-facing HTML error negotiation for the demo start route |
+| [0019](0019-authorization-header-fallback.md) | Authorization header fallback middleware (`X-Authorization` mirror) |
 
 ## Template
 

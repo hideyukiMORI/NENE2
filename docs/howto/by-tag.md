@@ -204,7 +204,7 @@ Auto-generated from each guide's frontmatter `tags`. Regenerate with `composer h
 - [How-to: Password Authentication with Argon2id](password-auth-argon2id.md)
 - [TOTP 二要素認証の実装ガイド](totp-authentication.md)
 
-## `authorization` (7)
+## `authorization` (8)
 
 - [How to enforce resource ownership (IDOR prevention)](enforce-resource-ownership.md)
 - [How-To: Multi-Tenant Isolation](multi-tenant-isolation.md)
@@ -213,6 +213,7 @@ Auto-generated from each guide's frontmatter `tags`. Regenerate with `composer h
 - [How-To: Role-Based Access Control (RBAC)](rbac.md)
 - [How-to: Tenant Isolation & Cross-Tenant IDOR Prevention](tenant-isolation.md)
 - [How-to: Tenant Isolation & IDOR Prevention](tenant-isolation-idor.md)
+- [Recover Bearer Auth Behind Proxies That Strip Authorization](authorization-header-fallback.md)
 
 ## `authorization-code-flow` (1)
 
@@ -258,12 +259,13 @@ Auto-generated from each guide's frontmatter `tags`. Regenerate with `composer h
 
 - [How-To: Password Hashing](password-hashing.md)
 
-## `bearer` (4)
+## `bearer` (5)
 
 - [Add JWT Authentication](add-jwt-authentication.md)
 - [How to use Bearer token authentication](use-bearer-auth.md)
 - [How-to: Bearer Token Middleware (JWT Auth Edge Cases)](bearer-token-middleware.md)
 - [How-To: JWT Authentication](jwt-authentication.md)
+- [Recover Bearer Auth Behind Proxies That Strip Authorization](authorization-header-fallback.md)
 
 ## `bearer-token` (3)
 
@@ -1382,7 +1384,7 @@ Auto-generated from each guide's frontmatter `tags`. Regenerate with `composer h
 
 - [How-to: API Usage Metering & Quota Management](api-usage-metering.md)
 
-## `middleware` (6)
+## `middleware` (7)
 
 - [Add Rate Limiting](add-rate-limiting.md)
 - [How to add a domain exception handler](add-domain-exception-handler.md)
@@ -1390,6 +1392,7 @@ Auto-generated from each guide's frontmatter `tags`. Regenerate with `composer h
 - [How to use Bearer token authentication](use-bearer-auth.md)
 - [How-to: Bearer Token Middleware (JWT Auth Edge Cases)](bearer-token-middleware.md)
 - [Rate Limiting](rate-limiting.md)
+- [Recover Bearer Auth Behind Proxies That Strip Authorization](authorization-header-fallback.md)
 
 ## `moderation` (4)
 
@@ -1815,6 +1818,10 @@ Auto-generated from each guide's frontmatter `tags`. Regenerate with `composer h
 - [How to Add Geolocation Search](geolocation.md)
 - [How-to: Geolocation API](geolocation-api.md)
 
+## `proxy` (1)
+
+- [Recover Bearer Auth Behind Proxies That Strip Authorization](authorization-header-fallback.md)
+
 ## `publish` (4)
 
 - [Content Scheduling — Time-Based Publish with Lifecycle States](content-scheduling.md)
@@ -2115,13 +2122,14 @@ Auto-generated from each guide's frontmatter `tags`. Regenerate with `composer h
 
 - [How-to: Webhook Delivery System](webhook-delivery-system.md)
 
-## `security` (5)
+## `security` (6)
 
 - [CSRF and JSON APIs](csrf-and-json-api.md)
 - [How to enforce resource ownership (IDOR prevention)](enforce-resource-ownership.md)
 - [How-to: Bearer Token Middleware (JWT Auth Edge Cases)](bearer-token-middleware.md)
 - [How-To: Password Hashing](password-hashing.md)
 - [Password Reset Flow](password-reset.md)
+- [Recover Bearer Auth Behind Proxies That Strip Authorization](authorization-header-fallback.md)
 
 ## `security-assessment` (2)
 
@@ -2166,6 +2174,10 @@ Auto-generated from each guide's frontmatter `tags`. Regenerate with `composer h
 - [API Key Management](api-key-management.md)
 - [How to Build Access Token Management with NENE2](access-token-management.md)
 - [How-to: API Token Lifecycle Management](token-lifecycle-api.md)
+
+## `shared-hosting` (1)
+
+- [Recover Bearer Auth Behind Proxies That Strip Authorization](authorization-header-fallback.md)
 
 ## `shift` (1)
 
