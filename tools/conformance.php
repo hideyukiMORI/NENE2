@@ -22,6 +22,7 @@ use Nene2\Conformance\Baseline;
 use Nene2\Conformance\ConformanceRunner;
 use Nene2\Conformance\Finding;
 use Nene2\Conformance\RunResult;
+use Nene2\Conformance\Severity;
 
 // When run via `composer conformance` or directly, getcwd() is the project root.
 // --root=<path> overrides this for explicit invocation from another directory.
@@ -101,30 +102,55 @@ exit($result->exitCode());
 
 function renderText(RunResult $result): string
 {
+    // Pass/fail is decided solely by error-tier findings (see RunResult::exitCode());
+    // Warn/Info are surfaced here for visibility but never affect the exit code.
     $errors = $result->errors();
+    $warnings = findingsOfSeverity($result, Severity::Warn);
+    $infos = findingsOfSeverity($result, Severity::Info);
 
-    if ($errors === []) {
+    if ($errors === [] && $warnings === [] && $infos === []) {
         return sprintf(
-            "Conformance OK — no error findings (%d suppressed by baseline/ignore).\n",
+            "Conformance OK — no findings (%d suppressed by baseline/ignore).\n",
             $result->suppressed,
         );
     }
 
     $lines = [sprintf(
-        "Conformance: %d error finding(s), %d suppressed by baseline/ignore.\n",
+        "Conformance: %d error(s), %d warning(s), %d info(s), %d suppressed by baseline/ignore.\n",
         count($errors),
+        count($warnings),
+        count($infos),
         $result->suppressed,
     )];
 
-    foreach ($errors as $finding) {
-        $location = $finding->line > 0 ? "{$finding->file}:{$finding->line}" : $finding->file;
-        $lines[] = sprintf("  [%s] %s\n        %s\n", $finding->ruleId, $location, $finding->message);
+    foreach ([
+        ['ERROR', $errors],
+        ['WARN', $warnings],
+        ['INFO', $infos],
+    ] as [$label, $findings]) {
+        foreach ($findings as $finding) {
+            $location = $finding->line > 0 ? "{$finding->file}:{$finding->line}" : $finding->file;
+            $lines[] = sprintf("  [%s][%s] %s\n        %s\n", $label, $finding->ruleId, $location, $finding->message);
+        }
     }
 
-    $lines[] = "\nBaseline existing drift with: php tools/conformance.php --write-baseline\n";
-    $lines[] = "Allowlist a false positive in conformance.baseline.json (\"allow\": with a required \"reason\").\n";
+    if ($errors !== []) {
+        $lines[] = "\nBaseline existing drift with: php tools/conformance.php --write-baseline\n";
+        $lines[] = "Allowlist a false positive in conformance.baseline.json (\"allow\": with a required \"reason\").\n";
+    }
 
     return implode('', $lines);
+}
+
+/**
+ * @return list<Finding>
+ */
+function findingsOfSeverity(RunResult $result, Severity $severity): array
+{
+    return array_values(array_filter(
+        $result->findings,
+        static fn (Finding $f): bool => $f->severity === $severity,
+    ));
 }
 
 function renderJson(RunResult $result): string
