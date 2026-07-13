@@ -81,6 +81,21 @@ Gradual adoption and false-positive relief use three mechanisms:
   configuration error) so exceptions stay auditable.
 - **Inline `// conformance:ignore <rule> <reason>`** for one-off local exceptions.
 
+**2026-07-14 addendum — R-series (README/docs conformance).** Design doc 04's
+D5–D12 range is reserved for backend-only drift (getenv, Installer/Pagination
+reinvention, ...), so README/docs drift — a distinct axis, first raised by
+workspace issue `_work/issues.md#44` ("README統一の後続") and the
+`nene-status-badges-unreliable` observation that static maturity badges drift
+from reality — gets its own **R1/R2** sequence instead of continuing D-numbering.
+Both scan `README.md` only (no findings when it is absent, matching the
+tolerant convention `ProjectFiles` already uses for source-scanning rules):
+**R1** (`error`) flags a static shields.io `status-`/`phase-`-prefixed badge
+(`.../badge/status-...`) — deliberately narrower than a generic badge scan so it
+never trips on CI/License/PHP-version/Packagist badges, which are dynamic or
+effectively invariant; maturity belongs in a `## Status` section instead.
+**R2** (`warn`) flags a missing `## License` section — a license badge alone is
+a thin, easy-to-leave-stale pointer, so a heading is recommended, not required.
+
 ## Consequences
 
 - D1 permanently locks in the ADR 0013 fix: a re-introduced default secret fails
@@ -95,6 +110,9 @@ Gradual adoption and false-positive relief use three mechanisms:
 - Fan-out to the other products (report-only baseline capture, then CI gating of
   new drift) is a separate wave, as is the deferred PHPStan type-aware pack and
   the `warn`-tier rules, which follow each upstream interface as it freezes.
+- R1/R2 apply to NENE2's own `README.md` too: no static status badge and a
+  `## License` section already present, so both are green with zero new
+  baseline entries.
 
 ## Related
 
@@ -104,5 +122,6 @@ Gradual adoption and false-positive relief use three mechanisms:
   (the CLI must require the resolved consumer `vendor/autoload.php`, matching
   `tools/validate-mcp-tools.php`, not NENE2's own nested vendor) and the D1
   `GuardedJwtSecretResolver` guarded-literal exemption above.
+- R-series addendum (README/docs conformance, 2026-07-14): Issue `#1551`, PR `#1552`.
 - Supersedes: none
 - Superseded by: none

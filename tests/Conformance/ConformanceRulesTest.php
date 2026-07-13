@@ -11,6 +11,8 @@ use Nene2\Conformance\Rule\CheckSelfRegistrationRule;
 use Nene2\Conformance\Rule\DependencyBranchPinRule;
 use Nene2\Conformance\Rule\JwtDefaultSecretRule;
 use Nene2\Conformance\Rule\RawClockRule;
+use Nene2\Conformance\Rule\ReadmeLicenseSectionRule;
+use Nene2\Conformance\Rule\ReadmeStaticStatusBadgeRule;
 use Nene2\Conformance\Severity;
 use PHPUnit\Framework\TestCase;
 
@@ -369,6 +371,84 @@ final class ConformanceRulesTest extends TestCase
             PHP);
 
         self::assertCount(1, (new RawClockRule())->check($this->root));
+    }
+
+    // --- R1 -----------------------------------------------------------------
+
+    public function testR1FlagsStaticStatusBadge(): void
+    {
+        $this->write('README.md', <<<'MD'
+            # Acme
+
+            [![status](https://img.shields.io/badge/status-Phase%200-orange)](#status)
+            MD);
+
+        $findings = (new ReadmeStaticStatusBadgeRule())->check($this->root);
+        self::assertCount(1, $findings);
+        self::assertSame('R1', $findings[0]->ruleId);
+        self::assertSame(Severity::Error, $findings[0]->severity);
+        self::assertSame('README.md', $findings[0]->file);
+        self::assertSame(3, $findings[0]->line);
+    }
+
+    public function testR1IgnoresDynamicBadgesAndOtherPrefixes(): void
+    {
+        $this->write('README.md', <<<'MD'
+            # Acme
+
+            [![CI](https://img.shields.io/github/actions/workflow/status/acme/acme/ci.yml)](#)
+            [![PHP](https://img.shields.io/badge/PHP-8.4%2B-8892BF)](https://www.php.net/)
+            [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
+            [![Packagist](https://img.shields.io/packagist/v/acme/acme)](https://packagist.org/packages/acme/acme)
+            MD);
+
+        self::assertSame([], (new ReadmeStaticStatusBadgeRule())->check($this->root));
+    }
+
+    public function testR1ProducesNoFindingsWithoutReadme(): void
+    {
+        self::assertSame([], (new ReadmeStaticStatusBadgeRule())->check($this->root));
+    }
+
+    // --- R2 -----------------------------------------------------------------
+
+    public function testR2FlagsMissingLicenseSection(): void
+    {
+        $this->write('README.md', <<<'MD'
+            # Acme
+
+            [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
+
+            ## Usage
+
+            ...
+            MD);
+
+        $findings = (new ReadmeLicenseSectionRule())->check($this->root);
+        self::assertCount(1, $findings);
+        self::assertSame('R2', $findings[0]->ruleId);
+        self::assertSame(Severity::Warn, $findings[0]->severity);
+        self::assertSame('README.md', $findings[0]->file);
+    }
+
+    public function testR2AcceptsLicenseSection(): void
+    {
+        $this->write('README.md', <<<'MD'
+            # Acme
+
+            [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
+
+            ## License
+
+            MIT, see [LICENSE](./LICENSE).
+            MD);
+
+        self::assertSame([], (new ReadmeLicenseSectionRule())->check($this->root));
+    }
+
+    public function testR2ProducesNoFindingsWithoutReadme(): void
+    {
+        self::assertSame([], (new ReadmeLicenseSectionRule())->check($this->root));
     }
 
     // --- Baseline / allowlist / inline ignore -------------------------------
