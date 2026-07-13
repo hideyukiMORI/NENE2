@@ -133,6 +133,6 @@ not a fix for an active violation — hence `warn`, not `error`.
   `tools/validate-mcp-tools.php`, not NENE2's own nested vendor) and the D1
   `GuardedJwtSecretResolver` guarded-literal exemption above.
 - R-series addendum (README/docs conformance, 2026-07-14): Issue `#1551`, PR `#1552`.
-- R3 addendum (private `nene-origin` link, warn, 2026-07-14): Issue `#1555`, PR TBD.
+- R3 addendum (private `nene-origin` link, warn, 2026-07-14): Issue `#1555`, PR `#1556`.
 - Supersedes: none
 - Superseded by: none
