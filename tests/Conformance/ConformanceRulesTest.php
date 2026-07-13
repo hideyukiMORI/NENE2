@@ -12,6 +12,7 @@ use Nene2\Conformance\Rule\DependencyBranchPinRule;
 use Nene2\Conformance\Rule\JwtDefaultSecretRule;
 use Nene2\Conformance\Rule\RawClockRule;
 use Nene2\Conformance\Rule\ReadmeLicenseSectionRule;
+use Nene2\Conformance\Rule\ReadmePrivateOriginLinkRule;
 use Nene2\Conformance\Rule\ReadmeStaticStatusBadgeRule;
 use Nene2\Conformance\Severity;
 use PHPUnit\Framework\TestCase;
@@ -449,6 +450,54 @@ final class ConformanceRulesTest extends TestCase
     public function testR2ProducesNoFindingsWithoutReadme(): void
     {
         self::assertSame([], (new ReadmeLicenseSectionRule())->check($this->root));
+    }
+
+    // --- R3 -----------------------------------------------------------------
+
+    public function testR3FlagsPrivateOriginPathReference(): void
+    {
+        $this->write('README.md', <<<'MD'
+            # Acme
+
+            Port registry: see `nene-origin/docs/development/local-ports.md`.
+            MD);
+
+        $findings = (new ReadmePrivateOriginLinkRule())->check($this->root);
+        self::assertCount(1, $findings);
+        self::assertSame('R3', $findings[0]->ruleId);
+        self::assertSame(Severity::Warn, $findings[0]->severity);
+        self::assertSame('README.md', $findings[0]->file);
+        self::assertSame(3, $findings[0]->line);
+    }
+
+    public function testR3FlagsPrivateOriginGithubUrl(): void
+    {
+        $this->write('README.md', <<<'MD'
+            # Acme
+
+            See [port registry](https://github.com/hideyukiMORI/nene-origin/blob/main/docs/development/local-ports.md).
+            MD);
+
+        $findings = (new ReadmePrivateOriginLinkRule())->check($this->root);
+        self::assertCount(1, $findings);
+        self::assertSame('R3', $findings[0]->ruleId);
+    }
+
+    public function testR3IgnoresUnrelatedReposAndOwnPortSection(): void
+    {
+        $this->write('README.md', <<<'MD'
+            # Acme
+
+            Ports: see this repo's own `AGENTS.md`/`CLAUDE.md` port section.
+            Acme's design originally traces back to an earlier internal prototype.
+            MD);
+
+        self::assertSame([], (new ReadmePrivateOriginLinkRule())->check($this->root));
+    }
+
+    public function testR3ProducesNoFindingsWithoutReadme(): void
+    {
+        self::assertSame([], (new ReadmePrivateOriginLinkRule())->check($this->root));
     }
 
     // --- Baseline / allowlist / inline ignore -------------------------------

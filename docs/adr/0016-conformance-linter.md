@@ -96,6 +96,16 @@ effectively invariant; maturity belongs in a `## Status` section instead.
 **R2** (`warn`) flags a missing `## License` section — a license badge alone is
 a thin, easy-to-leave-stale pointer, so a heading is recommended, not required.
 
+**2026-07-14 addendum — R3 (private `nene-origin` link, warn).** Workspace
+issue `_work/issues.md#44①` found that a public product README can link/path
+into the private `nene-origin` repo (e.g. its port registry
+`nene-origin/docs/development/local-ports.md`), which 404s for external readers
+who have no access to it; the correct home for that content is the product's
+own `AGENTS.md`/`CLAUDE.md` port section. **R3** (`warn`) word-bounded-scans
+`README.md` for the repo slug `nene-origin` (path, `github.com/...` URL, or
+markdown link target). The fleet is already clean, so R3 is a regression guard,
+not a fix for an active violation — hence `warn`, not `error`.
+
 ## Consequences
 
 - D1 permanently locks in the ADR 0013 fix: a re-introduced default secret fails
@@ -110,9 +120,9 @@ a thin, easy-to-leave-stale pointer, so a heading is recommended, not required.
 - Fan-out to the other products (report-only baseline capture, then CI gating of
   new drift) is a separate wave, as is the deferred PHPStan type-aware pack and
   the `warn`-tier rules, which follow each upstream interface as it freezes.
-- R1/R2 apply to NENE2's own `README.md` too: no static status badge and a
-  `## License` section already present, so both are green with zero new
-  baseline entries.
+- R1/R2/R3 apply to NENE2's own `README.md` too: no static status badge, a
+  `## License` section already present, and no `nene-origin` reference, so all
+  three are green with zero new baseline entries.
 
 ## Related
 
@@ -123,5 +133,6 @@ a thin, easy-to-leave-stale pointer, so a heading is recommended, not required.
   `tools/validate-mcp-tools.php`, not NENE2's own nested vendor) and the D1
   `GuardedJwtSecretResolver` guarded-literal exemption above.
 - R-series addendum (README/docs conformance, 2026-07-14): Issue `#1551`, PR `#1552`.
+- R3 addendum (private `nene-origin` link, warn, 2026-07-14): Issue `#1555`, PR `#1556`.
 - Supersedes: none
 - Superseded by: none
