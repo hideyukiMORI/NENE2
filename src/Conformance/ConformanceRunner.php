@@ -9,6 +9,7 @@ use Nene2\Conformance\Rule\DependencyBranchPinRule;
 use Nene2\Conformance\Rule\JwtDefaultSecretRule;
 use Nene2\Conformance\Rule\RawClockRule;
 use Nene2\Conformance\Rule\ReadmeLicenseSectionRule;
+use Nene2\Conformance\Rule\ReadmePrivateOriginLinkRule;
 use Nene2\Conformance\Rule\ReadmeStaticStatusBadgeRule;
 
 /**
@@ -37,11 +38,12 @@ final class ConformanceRunner
 
     /**
      * The current default rule set: the `error`-tier D1–D4 rules (design doc 04,
-     * layer error) plus the R1/R2 README/docs-conformance rules (R1 `error`, R2
-     * `warn` — see ADR 0016's R-series addendum). R-series ids are a separate
-     * sequence from D1–D4 because design doc 04 reserves D5–D12 for backend-only
-     * drift (getenv, Installer/Pagination reinvention, ...); README/docs drift is
-     * a distinct axis, not a continuation of that reserved range.
+     * layer error) plus the R1–R3 README/docs-conformance rules (R1 `error`,
+     * R2/R3 `warn` — see ADR 0016's R-series addendum). R-series ids are a
+     * separate sequence from D1–D4 because design doc 04 reserves D5–D12 for
+     * backend-only drift (getenv, Installer/Pagination reinvention, ...);
+     * README/docs drift is a distinct axis, not a continuation of that reserved
+     * range.
      */
     public static function withDefaultRules(): self
     {
@@ -52,6 +54,7 @@ final class ConformanceRunner
             new RawClockRule(),
             new ReadmeStaticStatusBadgeRule(),
             new ReadmeLicenseSectionRule(),
+            new ReadmePrivateOriginLinkRule(),
         ]);
     }
 
