@@ -17,7 +17,7 @@ The `v1.x` foundation covers full Note/Tag CRUD, Bearer JWT auth, pagination hel
 
 NENE2 is built in the open, at high velocity, by a solo maintainer using an AI-assisted, Issue-driven workflow:
 
-- **30 releases** (current: `v1.8.2`) and **730+ merged pull requests** since the first commit in May 2026 — every change lands through an Issue → branch → PR → CI pipeline; nothing is committed directly to `main`.
+- **30 releases** (current: `v1.10.0`) and **730+ merged pull requests** since the first commit in May 2026 — every change lands through an Issue → branch → PR → CI pipeline; nothing is committed directly to `main`.
 - **[262 how-to guides](docs/howto/README.md)** covering authentication, security, database patterns, API design, background jobs, and 100+ product feature recipes.
 - **[125 runnable example apps](https://github.com/hideyukiMORI/NENE2-examples)** — each a self-contained JSON API with tests, built as field trials of the framework itself.
 - **Powers the NeNe product family** — 12+ open-source, self-hosted business tools for small teams (invoicing, records, deal tracking, contact management, and more), all built on this framework and sharing its fail-closed security baseline.
