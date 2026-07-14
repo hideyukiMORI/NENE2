@@ -153,12 +153,19 @@ npm run check --prefix frontend
 
 ## API Client Direction
 
-Generated API clients should be considered after OpenAPI schemas are stable enough to be useful.
+HTTP lives in exactly one file: `frontend/src/shared/api/client.ts` builds the fleet-standard
+transport (`createNene2Transport` from `@hideyukimori/nene2-client`) and exposes the
+five-method `apiClient` surface (`get / post / patch / delete / upload`). Raw `fetch`,
+axios-style clients, and second transport instances are rejected by the shared lint config.
 
-The first starter uses a small typed fetch wrapper for the `/health` API under `frontend/src/api/`.
-Vite proxies `/api/*` to the local Docker backend during development, while applications can set `VITE_NENE2_API_BASE_URL` when they need a different API base URL.
+OpenAPI types are generated with `npm run gen:api-schema` (openapi-typescript, types-only)
+into `src/shared/api/schema.gen.ts`; entity `api-types.ts` files re-export the DTO types
+from there. Error responses (RFC 9457 Problem Details) are normalized by the transport and
+mapped to user-facing message keys only in `src/shared/api/errors.ts`.
 
-Client generation should be introduced only when it reduces maintenance and keeps API contracts clearer.
+Vite proxies `/api/*` to the local Docker backend during development, while applications
+can set `VITE_API_BASE_URL` when they need a different API base URL
+(`src/shared/config/env.ts` is the only file that reads `import.meta.env`).
 
 ## SPA Shell and Server HTML
 

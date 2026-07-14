@@ -22,7 +22,8 @@
     "check": "npm run type-check && npm run lint && npm run lint:css && npm run check:themes && npm run format && npm run test",
     "lint:css": "stylelint \"src/**/*.css\"",
     "check:themes": "nene2-tokens validate src/shared/ui/theme/themes/default.css",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "gen:api-schema": "openapi-typescript ../docs/openapi/openapi.yaml -o src/shared/api/schema.gen.ts"
   },
   "dependencies": {
     "@hideyukimori/nene2-client": "^1.1.0",
