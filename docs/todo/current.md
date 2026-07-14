@@ -25,6 +25,18 @@ Purpose: keep the current work visible across chats, agents, and local sessions.
 
 なし（2026-07-14 時点で open Issue ゼロ。#1557 は PR #1558 で完了）。
 
+## 🚧 並行レーン — W0.starter（フロント統一規約準拠スターター・2026-07-15）
+
+フロント統一規約 v1（正本: `_work/reports/2026-07-14-frontend-standards/`・配布物 `@hideyukimori/nene2-standards|nene2-tokens|nene2-client`）に沿って `frontend/` を全面書き換え。PR 5 本（#1559〜#1563 対応・依存順・base は main 固定）:
+
+1. #1559 FSD 5層スケルトン＋nene2-standards 合成 lint＋依存基準線
+2. #1560 theme 一式（tokens 参照テーマ・active.css 1行差し替え・data-theme・Tailwind v4）
+3. #1561 i18n カタログ（ja 権威）＋テスト基盤（invoice 形）＋Playwright smoke
+4. #1562 transport adapter（client.ts / errors.ts / env.ts・両ヘッダ UT）
+5. #1563 gen 3種（entity/feature/page・決定性テスト）＋note exemplar
+
+**既知の依存**: nene2-standards 1.0.0 の lint false positive 3件（fleet-tooling#19/#20 で修正済み・**1.0.1 publish 待ち**）。publish 後に各 PR の lockfile を bump すると CI 全緑。i18n ランタイムは nene2-i18n 未公開（W0b）につき経過措置実装（`shared/i18n/runtime.tsx`）— 公開後に置換 PR。
+
 ※ #1421 は 2026-07-06 完了。#1514 は v1.8.2 修正で 07-09 クローズ。#1526/#1527（ローカル限定テスト失敗）は 07-09 修正済み（#1529/#1530）。
 
 ### 引き継ぎメモ（2026-07-09・Nene2\Demo リリース）

@@ -1,0 +1,21 @@
+import { describe, expect, it } from 'vitest';
+
+import { {{camelCase noun}}DtoFixture, {{camelCase noun}}ListDtoFixture } from './handlers';
+import { map{{pascalCase noun}}DtoToModel, map{{pascalCase noun}}ListDtoToModel } from './mapper';
+
+describe('map{{pascalCase noun}}DtoToModel', () => {
+  it('maps dto to domain', () => {
+    expect(map{{pascalCase noun}}DtoToModel({{camelCase noun}}DtoFixture)).toMatchObject({
+      id: {{camelCase noun}}DtoFixture.id,
+    });
+  });
+});
+
+describe('map{{pascalCase noun}}ListDtoToModel', () => {
+  it('maps list dto to domain list', () => {
+    const list = map{{pascalCase noun}}ListDtoToModel({{camelCase noun}}ListDtoFixture);
+    expect(list.items).toHaveLength({{camelCase noun}}ListDtoFixture.items.length);
+    expect(list.limit).toBe({{camelCase noun}}ListDtoFixture.limit);
+    expect(list.offset).toBe({{camelCase noun}}ListDtoFixture.offset);
+  });
+});

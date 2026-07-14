@@ -1,0 +1,16 @@
+// container hook（02 UI-1: 判別ユニオン 3 値固定・error 腕に retry 同梱・所属は features）
+import { use{{pascalCase noun}}List, type {{pascalCase noun}} } from '@/entities/{{kebabCase noun}}';
+
+export type {{pascalCase verbNoun}}State =
+  | { status: 'loading' }
+  | { status: 'error'; retry: () => void }
+  | { status: 'success'; {{camelCase (plural noun)}}: {{pascalCase noun}}[] };
+
+export function use{{pascalCase verbNoun}}(): {{pascalCase verbNoun}}State {
+  const query = use{{pascalCase noun}}List({});
+  if (query.isPending) return { status: 'loading' };
+  if (query.isError) {
+    return { status: 'error', retry: () => void query.refetch() };
+  }
+  return { status: 'success', {{camelCase (plural noun)}}: query.data.items };
+}

@@ -1,0 +1,14 @@
+// openapi 生成型の import 面（これ以外を書かない — 02 TY-1。手書きは生成型の別名付けのみ）
+import type { components } from '@/shared/api/schema.gen';
+
+type Schemas = components['schemas'];
+type SchemaOf<Name, Fallback> = Name extends keyof Schemas ? Schemas[Name] : Fallback;
+
+// TODO: '{{pascalCase noun}}' を実スキーマ名に合わせる（生成直後は名前不一致でも
+// フォールバック形で型が通る — 実装時に必ず実スキーマへ張り替えること）
+export type {{pascalCase noun}}Dto = SchemaOf<'{{pascalCase noun}}', { id: string }>;
+
+export type {{pascalCase noun}}ListDto = SchemaOf<
+  '{{pascalCase noun}}List',
+  { items: {{pascalCase noun}}Dto[]; limit: number; offset: number }
+>;

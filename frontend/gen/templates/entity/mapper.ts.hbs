@@ -1,0 +1,21 @@
+// Dto → domain の純関数（境界の 1 点で全部変換する — 02 TY-3/TY-4）
+import type { {{pascalCase noun}}Dto, {{pascalCase noun}}ListDto } from './api-types';
+import type { {{pascalCase noun}}, {{pascalCase noun}}Id, {{pascalCase noun}}List } from './model';
+
+export function map{{pascalCase noun}}DtoToModel(dto: {{pascalCase noun}}Dto): {{pascalCase noun}} {
+  return {
+    id: dto.id as {{pascalCase noun}}Id,
+    // TODO: snake_case → camelCase の写像を足す
+  };
+}
+
+export function map{{pascalCase noun}}ListDtoToModel(
+  dto: {{pascalCase noun}}ListDto,
+): {{pascalCase noun}}List {
+  return {
+    items: dto.items.map(map{{pascalCase noun}}DtoToModel),
+    limit: dto.limit,
+    offset: dto.offset,
+    total: null, // API が total を返す場合はここで写像する
+  };
+}

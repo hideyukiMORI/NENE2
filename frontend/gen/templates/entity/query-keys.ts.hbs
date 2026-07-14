@@ -1,0 +1,11 @@
+// key ファクトリ（02 ST-4 — 裸配列 key の直書き MUST NOT）
+import type { {{pascalCase noun}}Id, {{pascalCase noun}}ListParams } from './model';
+
+export const {{camelCase noun}}Keys = {
+  all: ['{{camelCase noun}}'] as const,
+  lists: () => [...{{camelCase noun}}Keys.all, 'list'] as const,
+  list: (params: {{pascalCase noun}}ListParams) =>
+    [...{{camelCase noun}}Keys.lists(), params] as const,
+  details: () => [...{{camelCase noun}}Keys.all, 'detail'] as const,
+  detail: (id: {{pascalCase noun}}Id) => [...{{camelCase noun}}Keys.details(), id] as const,
+};

@@ -3,9 +3,10 @@
 // slice 外消費経路 — index.ts からは export しない）。
 import { setupServer } from 'msw/node';
 
+import { noteHandlers } from '@/entities/note/handlers';
 // [nene2-gen:handler-imports] — gen:entity がこの行の上に追記する
 
-export const server =
-  setupServer(
-    // [nene2-gen:handlers] — gen:entity がこの行の上に追記する
-  );
+export const server = setupServer(
+  ...noteHandlers,
+  // [nene2-gen:handlers] — gen:entity がこの行の上に追記する
+);

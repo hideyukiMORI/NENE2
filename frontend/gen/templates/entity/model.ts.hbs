@@ -1,0 +1,29 @@
+// ドメイン型・branded ID・zod schema（z.infer が型の単一ソース — R1③）
+import { z } from 'zod';
+
+import type { MessageKey } from '@/shared/i18n';
+
+export type {{pascalCase noun}}Id = string & { readonly __brand: '{{pascalCase noun}}Id' };
+
+export const {{camelCase noun}}Schema = z.object({
+  id: z
+    .string()
+    .min(1, { message: 'error.{{camelCase noun}}.idRequired' satisfies MessageKey })
+    .transform((value) => value as {{pascalCase noun}}Id),
+  // TODO: フィールドを足す（api-types.ts の Dto に対応する camelCase 名で）
+});
+export type {{pascalCase noun}} = z.infer<typeof {{camelCase noun}}Schema>;
+
+// 一覧 UI 型（02 TY-5 の固定形）
+export type {{pascalCase noun}}List = {
+  items: {{pascalCase noun}}[];
+  limit: number;
+  offset: number;
+  total: number | null;
+};
+
+// list クエリのパラメータ型（query-keys.ts / queries.ts / gen:feature の hook が参照）
+export type {{pascalCase noun}}ListParams = {
+  limit?: number;
+  offset?: number;
+};

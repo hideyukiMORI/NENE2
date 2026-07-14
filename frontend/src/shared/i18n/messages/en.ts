@@ -17,6 +17,9 @@ export const en = {
   'error.validation': 'Please review your input.',
   'home.description':
     'A starter template for API-first products, compliant with the NeNe frontend standards.',
+  'home.notesLinkLabel': 'Note list (live API example)',
   'home.title': 'NENE2 Frontend Starter',
+  'note.list.empty': 'No notes yet.',
+  'note.list.title': 'Notes',
   // [nene2-gen:messages] — generator がこの行の上にキーを追記する
 } satisfies Record<MessageKey, string>;

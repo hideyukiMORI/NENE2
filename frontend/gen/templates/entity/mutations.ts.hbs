@@ -1,0 +1,35 @@
+// mutation hooks（02 ST-5 — invalidation は key ファクトリ経由のみ）
+import {
+  useMutation,
+  useQueryClient,
+  type UseMutationResult,
+} from '@tanstack/react-query';
+
+import { apiClient, type AppError } from '@/shared/api/client';
+
+import type { {{pascalCase noun}}Dto } from './api-types';
+import { map{{pascalCase noun}}DtoToModel } from './mapper';
+import type { {{pascalCase noun}} } from './model';
+import { {{camelCase noun}}Keys } from './query-keys';
+
+// TODO: Create{{pascalCase noun}}Input 型（model.ts）と map<Verb><Noun>InputToDto（mapper.ts）を
+// 定義して unknown を置き換える（02 FM-5: submit は values → mapper → mutation）
+export function useCreate{{pascalCase noun}}(): UseMutationResult<
+  {{pascalCase noun}},
+  AppError,
+  unknown
+> {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (input: unknown) => {
+      const dto = await apiClient.post<{{pascalCase noun}}Dto>(
+        '/api/v1/{{plural (kebabCase noun)}}',
+        input,
+      );
+      return map{{pascalCase noun}}DtoToModel(dto);
+    },
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: {{camelCase noun}}Keys.lists() });
+    },
+  });
+}

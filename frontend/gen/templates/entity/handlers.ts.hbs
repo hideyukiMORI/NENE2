@@ -1,0 +1,31 @@
+// MSW handlers（R2⑧・05 D-c: スライス直下・名前固定。tests/msw の central server が合成する）
+// fixture は mapper.test と MSW handler の共有正本 — 二重定義 MUST NOT。
+import { http, HttpResponse } from 'msw';
+
+import type { {{pascalCase noun}}Dto, {{pascalCase noun}}ListDto } from './api-types';
+
+export const {{camelCase noun}}DtoFixture: {{pascalCase noun}}Dto = {
+  id: '{{kebabCase noun}}-1',
+  // TODO: api-types の必須フィールドを充足させる
+};
+
+export const {{camelCase noun}}ListDtoFixture: {{pascalCase noun}}ListDto = {
+  items: [{{camelCase noun}}DtoFixture],
+  limit: 20,
+  offset: 0,
+};
+
+// 初期エンドポイントは queries.ts の 2 hook（detail / list）に対応する GET 2 本
+export const {{camelCase noun}}Handlers = [
+  http.get('*/api/v1/{{plural (kebabCase noun)}}/:id', () =>
+    HttpResponse.json({{camelCase noun}}DtoFixture),
+  ),
+  http.get('*/api/v1/{{plural (kebabCase noun)}}', () =>
+    HttpResponse.json({{camelCase noun}}ListDtoFixture),
+  ),
+{{#if write}}
+  http.post('*/api/v1/{{plural (kebabCase noun)}}', () =>
+    HttpResponse.json({{camelCase noun}}DtoFixture, { status: 201 }),
+  ),
+{{/if}}
+];

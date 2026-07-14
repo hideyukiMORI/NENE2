@@ -19,7 +19,10 @@ export const ja = {
   'error.validation': '入力内容を確認してください。',
   'home.description':
     'NeNe フロント統一規約に準拠した、API ファースト製品のための雛形です。',
+  'home.notesLinkLabel': 'ノート一覧（API 連携の実例）',
   'home.title': 'NENE2 フロントエンドスターター',
+  'note.list.empty': 'ノートはまだありません。',
+  'note.list.title': 'ノート一覧',
   // [nene2-gen:messages] — generator がこの行の上にキーを追記する
 } as const;
 

@@ -1,0 +1,41 @@
+// query hooks（02 ST-3: AbortSignal 貫通 MUST・UseQueryResult 型注釈 MUST）
+import { useQuery, type UseQueryResult } from '@tanstack/react-query';
+
+import { apiClient, type AppError } from '@/shared/api/client';
+
+import type { {{pascalCase noun}}Dto, {{pascalCase noun}}ListDto } from './api-types';
+import { map{{pascalCase noun}}DtoToModel, map{{pascalCase noun}}ListDtoToModel } from './mapper';
+import type { {{pascalCase noun}}, {{pascalCase noun}}Id, {{pascalCase noun}}List, {{pascalCase noun}}ListParams } from './model';
+import { {{camelCase noun}}Keys } from './query-keys';
+
+export function use{{pascalCase noun}}(id: {{pascalCase noun}}Id): UseQueryResult<{{pascalCase noun}}, AppError> {
+  return useQuery({
+    queryKey: {{camelCase noun}}Keys.detail(id),
+    queryFn: async ({ signal }) => {
+      const dto = await apiClient.get<{{pascalCase noun}}Dto>(
+        `/api/v1/{{plural (kebabCase noun)}}/${String(id)}`,
+        signal,
+      );
+      return map{{pascalCase noun}}DtoToModel(dto);
+    },
+  });
+}
+
+export function use{{pascalCase noun}}List(
+  params: {{pascalCase noun}}ListParams,
+): UseQueryResult<{{pascalCase noun}}List, AppError> {
+  return useQuery({
+    queryKey: {{camelCase noun}}Keys.list(params),
+    queryFn: async ({ signal }) => {
+      const query = new URLSearchParams();
+      if (params.limit !== undefined) query.set('limit', String(params.limit));
+      if (params.offset !== undefined) query.set('offset', String(params.offset));
+      const suffix = query.size > 0 ? `?${query.toString()}` : '';
+      const dto = await apiClient.get<{{pascalCase noun}}ListDto>(
+        `/api/v1/{{plural (kebabCase noun)}}${suffix}`,
+        signal,
+      );
+      return map{{pascalCase noun}}ListDtoToModel(dto);
+    },
+  });
+}
