@@ -1,0 +1,7 @@
+/* ── canonical cascade header（フリート共通 — AM-8(a)。綴りの正本は本スターター同梱現物。
+      エントリ位置 src/index.css は配布物が正:
+      nene2-standards styling lint の entryPoint 既定・scan-coverage の正準 allowlist・
+      depcruise unknown-layer 例外の 3 点がこのパスを指す ── */
+@layer theme, base, vendor, legacy, components, utilities;
+@import 'tailwindcss' theme(static);
+@import './shared/ui/theme/active.css';

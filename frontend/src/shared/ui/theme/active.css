@@ -1,0 +1,2 @@
+/* Active theme pointer. To restyle the entire app, change ONLY this import. */
+@import './themes/default.css';

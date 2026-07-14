@@ -1,9 +1,19 @@
 <!doctype html>
-<html lang="en">
+<html lang="ja">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>NENE2 Frontend Starter</title>
+    <title>NENE2 Starter</title>
+    <script>
+      /* DM-03（FOUC 対策）: 属性の確定のみを行う。トークン値をここに書いてはならない（AM-8(d)） */
+      (function () {
+        var t = localStorage.getItem('nene2-theme');
+        if (!t && matchMedia('(prefers-color-scheme: dark)').matches)
+          t = 'dark';
+        if (t && t !== 'light')
+          document.documentElement.setAttribute('data-theme', t);
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>
