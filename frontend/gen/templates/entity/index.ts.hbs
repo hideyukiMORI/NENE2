@@ -1,0 +1,8 @@
+// スライス唯一の公開面（R1① — handlers.ts はテスト専用につき公開しない）
+export { {{camelCase noun}}Schema } from './model';
+export type { {{pascalCase noun}}, {{pascalCase noun}}Id, {{pascalCase noun}}List, {{pascalCase noun}}ListParams } from './model';
+export { use{{pascalCase noun}}, use{{pascalCase noun}}List } from './queries';
+export { {{camelCase noun}}Keys } from './query-keys';
+{{#if write}}
+export { useCreate{{pascalCase noun}} } from './mutations';
+{{/if}}

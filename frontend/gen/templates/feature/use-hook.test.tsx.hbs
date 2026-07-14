@@ -1,0 +1,46 @@
+// ユニオン遷移テスト（R2⑧ — 状態が型なら、テストは型の遷移表）
+import { waitFor } from '@testing-library/react';
+import { http, HttpResponse } from 'msw';
+import { expect, it } from 'vitest';
+
+import { server } from '@tests/msw/server';
+import { renderHookWithProviders } from '@tests/render';
+
+import { use{{pascalCase verbNoun}} } from './use-{{kebabCase verbNoun}}';
+
+it('loading → success へ遷移する', async () => {
+  const { result } = renderHookWithProviders(() => use{{pascalCase verbNoun}}(), {
+    locale: 'ja',
+  });
+
+  expect(result.current.status).toBe('loading');
+  await waitFor(() => {
+    expect(result.current.status).toBe('success');
+  });
+  if (result.current.status !== 'success') throw new Error('unreachable');
+  expect(result.current.{{camelCase (plural noun)}}).toHaveLength(1);
+});
+
+it('error 状態は retry を持つ', async () => {
+  server.use(
+    http.get('*/api/v1/{{plural (kebabCase noun)}}', () =>
+      HttpResponse.json(
+        {
+          type: 'https://nene2.dev/problems/server-error',
+          title: 'x',
+          status: 500,
+        },
+        { status: 500 },
+      ),
+    ),
+  );
+  const { result } = renderHookWithProviders(() => use{{pascalCase verbNoun}}(), {
+    locale: 'ja',
+  });
+
+  await waitFor(() => {
+    expect(result.current.status).toBe('error');
+  });
+  if (result.current.status !== 'error') throw new Error('unreachable');
+  expect(typeof result.current.retry).toBe('function');
+});

@@ -7,6 +7,9 @@ import { BrowserRouter, Route, Routes } from 'react-router';
 const HomePage = lazy(() =>
   import('@/pages/home').then((m) => ({ default: m.HomePage })),
 );
+const NotesPage = lazy(() =>
+  import('@/pages/notes').then((m) => ({ default: m.NotesPage })),
+);
 
 export function AppRouter() {
   return (
@@ -15,6 +18,7 @@ export function AppRouter() {
         <Routes>
           {/* [nene2-gen:routes] — gen:page がこの行の上に挿入する */}
           <Route path="/" element={<HomePage />} />
+          <Route path="/notes" element={<NotesPage />} />
         </Routes>
       </Suspense>
     </BrowserRouter>

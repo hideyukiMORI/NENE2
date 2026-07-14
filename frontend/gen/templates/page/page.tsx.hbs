@@ -1,0 +1,15 @@
+import { useTranslation } from '@/shared/i18n';
+
+export function {{pascalCase name}}Page() {
+  const { t } = useTranslation();
+  return (
+    <main className="min-h-screen bg-surface">
+      <div className="mx-auto max-w-2xl p-8">
+        <h1 className="text-2xl font-semibold text-text-primary">
+          {t('{{camelCase name}}.pageTitle')}
+        </h1>
+        {/* TODO: feature（gen:feature の出力）をここで合成する */}
+      </div>
+    </main>
+  );
+}

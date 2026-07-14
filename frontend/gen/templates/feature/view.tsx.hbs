@@ -1,0 +1,40 @@
+// 網羅 switch の View（02 UI-3: default 節 MUST NOT・空状態は success から導出 — UI-4）
+import { useTranslation } from '@/shared/i18n';
+import { EmptyState } from '@/shared/ui/empty-state';
+import { ErrorState } from '@/shared/ui/error-state';
+import { LoadingState } from '@/shared/ui/loading-state';
+
+import { use{{pascalCase verbNoun}} } from '../model/use-{{kebabCase verbNoun}}';
+
+export function {{pascalCase verbNoun}}() {
+  const { t } = useTranslation();
+  const state = use{{pascalCase verbNoun}}();
+  switch (state.status) {
+    case 'loading':
+      return <LoadingState label={t('common.state.loading')} />;
+    case 'error':
+      return (
+        <ErrorState
+          message={t('error.unknown')}
+          retryLabel={t('common.actions.retry')}
+          onRetry={state.retry}
+        />
+      );
+    case 'success':
+      return state.{{camelCase (plural noun)}}.length === 0 ? (
+        <EmptyState message={t('{{camelCase noun}}.list.empty')} />
+      ) : (
+        <ul className="flex flex-col gap-3">
+          {state.{{camelCase (plural noun)}}.map((item) => (
+            <li
+              key={item.id}
+              className="rounded-md border border-border bg-surface-raised p-4 shadow-sm"
+            >
+              {/* TODO: ドメインの表示項目に置き換える */}
+              <p className="text-sm text-text-primary">{item.id}</p>
+            </li>
+          ))}
+        </ul>
+      );
+  }
+}
