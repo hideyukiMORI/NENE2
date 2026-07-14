@@ -1,2 +1,6 @@
 dist/
 node_modules/
+src/shared/api/schema.gen.ts
+playwright-report/
+test-results/
+gen/templates/
