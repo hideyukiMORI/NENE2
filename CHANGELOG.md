@@ -8,7 +8,11 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
-後方互換なマイナー変更。前段 proxy が標準 `Authorization` ヘッダを PHP に渡す前に剥がす共有ホスティング（HETEML 型 Tier A。`.htaccess` の `E=HTTP_AUTHORIZATION` トリックも `CGIPassAuth` も効かない）向けの受け口を、nene-clear #265 の実証実装から framework 標準へ上流化する（ADR 0019・#1557）。フリートの frontend は `@hideyukimori/nene2-client` v1.1.0 が全リクエストに `X-Authorization: Bearer <token>` ミラーを送信済み — BE 側受け口の per-product 手書きコピーを廃し、GuardedJwtSecretResolver（ADR 0013）と同じ `composer update` 配布経路に載せる。
+---
+
+## [1.11.0] — 2026-07-15
+
+後方互換なマイナーリリース。前段 proxy が標準 `Authorization` ヘッダを PHP に渡す前に剥がす共有ホスティング（HETEML 型 Tier A。`.htaccess` の `E=HTTP_AUTHORIZATION` トリックも `CGIPassAuth` も効かない）向けの受け口を、nene-clear #265 の実証実装から framework 標準へ上流化する（ADR 0019・#1557/#1558）。フリートの frontend は `@hideyukimori/nene2-client` v1.1.0 が全リクエストに `X-Authorization: Bearer <token>` ミラーを送信済み — BE 側受け口の per-product 手書きコピーを廃し、GuardedJwtSecretResolver（ADR 0013）と同じ `composer update` 配布経路に載せる。
 
 ### Added
 - `Nene2\Middleware\AuthorizationHeaderFallbackMiddleware`（公開安定 API・ADR 0019・#1557）— `Authorization` が**不在または空のときのみ** `X-Authorization` ミラーの値を `Authorization` へ採用する PSR-15 middleware。標準ヘッダが届く環境ではバイト不変・method/path 非依存。ヘッダ名は `X-Authorization` **固定**（`FALLBACK_HEADER` 定数 — nene2-js クライアントとのフリート配線契約でありノブではない）。手組み front controller 向けに同一変換の静的 `apply()` も公開（nene-clear 原型互換）。ミラー値は verbatim 採用でトークン検証は従来どおり後段 auth middleware の仕事 — 不正ミラーは不正な標準ヘッダと同一の失敗経路
