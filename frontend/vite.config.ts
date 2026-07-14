@@ -1,8 +1,16 @@
+import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
-import { defineConfig } from 'vitest/config';
+import { fileURLToPath } from 'node:url';
+import { defineConfig } from 'vite';
 
+// @ / @tests エイリアスの配線正本（tsconfig.json の paths と対で保つ — 規約 05 §10.2）
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), tailwindcss()],
+  resolve: {
+    alias: {
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
+    },
+  },
   server: {
     proxy: {
       '/api': {
@@ -11,9 +19,5 @@ export default defineConfig({
         rewrite: (path) => path.replace(/^\/api/, ''),
       },
     },
-  },
-  test: {
-    environment: 'node',
-    setupFiles: ['./src/test/setup.ts'],
   },
 });
