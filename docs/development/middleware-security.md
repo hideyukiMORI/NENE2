@@ -122,6 +122,19 @@ The first implemented API-key path uses `X-NENE2-API-Key` and protects `/machine
 
 OpenAPI security schemes should be added when a scheme is implemented.
 
+### Authorization header fallback (`X-Authorization` mirror)
+
+Some shared-hosting front proxies strip the standard `Authorization` header before it reaches PHP (observed on HETEML; neither `.htaccess` `E=HTTP_AUTHORIZATION` rewrites nor `CGIPassAuth` can recover it). The NENE2 frontend client (`@hideyukimori/nene2-client` ≥ 1.1.0) mirrors the Bearer token into `X-Authorization` on every request; `Nene2\Middleware\AuthorizationHeaderFallbackMiddleware` adopts that mirror **only when `Authorization` is absent or empty**, so hosts that deliver the standard header are unaffected.
+
+Policy:
+
+- **Opt-in, never on by default.** Enable via `RuntimeApplicationFactory(enableAuthorizationHeaderFallback: true)` only on deployments whose proxy strips `Authorization` accidentally. Gateways that strip it *deliberately* (delegated auth, WAF credential filtering) must not enable it — the mirror would become a client-controlled bypass.
+- The header name is fixed (`X-Authorization`) — a fleet-wide wiring contract with the frontend client, not a tuning knob.
+- When enabled it runs at the start of the auth stage (before the API-key check and any injected auth middleware). The documented middleware order is unchanged.
+- Treat `X-Authorization` with the same confidentiality as `Authorization` in proxies and logs.
+
+See ADR 0019 for the full decision record.
+
 ## CSRF
 
 CSRF protection should not be globally forced for JSON APIs.

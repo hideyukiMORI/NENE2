@@ -37,6 +37,7 @@ Todos os guias deste diretório, ordenados por nome de arquivo. Regenere com `co
 | [article-versioning-api.md](article-versioning-api.md) | Como Fazer: API de Versionamento de Artigos |
 | [asset-checkout.md](asset-checkout.md) | Como Fazer: Gerenciamento de Check-out / Check-in de Ativos |
 | [audit-trail.md](audit-trail.md) | HOWTO: Trilha de Auditoria — Registrando Quem Alterou o Quê |
+| [authorization-header-fallback.md](authorization-header-fallback.md) | Recuperar a autenticação Bearer atrás de proxies que removem `Authorization` |
 | [batch-api-partial-success.md](batch-api-partial-success.md) | Como Fazer: API em Lote com Sucesso Parcial |
 | [bearer-token-middleware.md](bearer-token-middleware.md) | Como Fazer: Middleware de Bearer Token (Casos Extremos de Auth JWT) |
 | [bookmark-api.md](bookmark-api.md) | Como Fazer: API de Favoritos |

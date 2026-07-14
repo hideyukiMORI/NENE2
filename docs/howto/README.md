@@ -68,7 +68,7 @@ Auto-generated from each guide's frontmatter (`category` / `difficulty` / `tags`
 | [How to pass request-scoped state between middleware and handlers](request-scoped-state.md) | intermediate | `middleware` `request-context` `dependency-injection` `holder-pattern` |
 | [Quality Tools](quality-tools.md) | beginner | `phpstan` `php-cs-fixer` `static-analysis` `code-style` |
 
-### Authentication & Authorization (27)
+### Authentication & Authorization (28)
 
 | Guide | Difficulty | Tags |
 |---|---|---|
@@ -97,6 +97,7 @@ Auto-generated from each guide's frontmatter (`category` / `difficulty` / `tags`
 | [Password Reset Flow](password-reset.md) | beginner | `password-reset` `token` `email` `security` |
 | [Passwordless Auth (Magic Link)](passwordless-auth-magic-link.md) | intermediate | `passwordless` `magic-link` `one-time-token` `email-auth` |
 | [PIN 認証・ロックアウト](pin-verification-lockout.md) | intermediate | `pin` `lockout` `brute-force-protection` `verification` |
+| [Recover Bearer Auth Behind Proxies That Strip Authorization](authorization-header-fallback.md) | intermediate | `authorization` `bearer` `middleware` `shared-hosting` `proxy` `security` |
 | [TOTP 二要素認証の実装ガイド](totp-authentication.md) | advanced | `totp` `two-factor` `otp` `authentication` |
 | [User Invitation System](user-invitation.md) | intermediate | `invitation` `token` `expiry` `email` |
 

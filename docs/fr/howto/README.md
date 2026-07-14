@@ -37,6 +37,7 @@ Tous les guides de ce répertoire, triés par nom de fichier. Régénérer avec 
 | [article-versioning-api.md](article-versioning-api.md) | How-to : API de versionnage d'articles |
 | [asset-checkout.md](asset-checkout.md) | How-to : Gestion de check-out / check-in d'actifs |
 | [audit-trail.md](audit-trail.md) | HOWTO : Journal d'audit — Enregistrer qui a changé quoi |
+| [authorization-header-fallback.md](authorization-header-fallback.md) | Rétablir l'auth Bearer derrière les proxys qui suppriment `Authorization` |
 | [batch-api-partial-success.md](batch-api-partial-success.md) | How-to : API de lot avec succès partiel |
 | [bearer-token-middleware.md](bearer-token-middleware.md) | How-to : Middleware de token Bearer (Cas limites d'auth JWT) |
 | [bookmark-api.md](bookmark-api.md) | How-to : API de marque-pages |

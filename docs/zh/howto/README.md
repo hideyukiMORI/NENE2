@@ -37,6 +37,7 @@
 | [article-versioning-api.md](article-versioning-api.md) | 操作指南：文章版本控制 API |
 | [asset-checkout.md](asset-checkout.md) | 操作指南：资产借出/归还管理 |
 | [audit-trail.md](audit-trail.md) | 操作指南：审计追踪——记录谁更改了什么 |
+| [authorization-header-fallback.md](authorization-header-fallback.md) | 在剥离 `Authorization` 的代理后面恢复 Bearer 认证 |
 | [batch-api-partial-success.md](batch-api-partial-success.md) | 操作指南：带部分成功的批量 API |
 | [bearer-token-middleware.md](bearer-token-middleware.md) | 操作指南：Bearer Token 中间件（JWT 认证边界情况） |
 | [bookmark-api.md](bookmark-api.md) | 操作指南：书签 API |

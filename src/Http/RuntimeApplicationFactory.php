@@ -12,6 +12,7 @@ use Nene2\Error\ProblemDetailsResponseFactory;
 use Nene2\FrameworkInfo;
 use Nene2\Log\RequestIdHolder;
 use Nene2\Middleware\ApiKeyAuthenticationMiddleware;
+use Nene2\Middleware\AuthorizationHeaderFallbackMiddleware;
 use Nene2\Middleware\CorsMiddleware;
 use Nene2\Middleware\MiddlewareDispatcher;
 use Nene2\Middleware\RequestIdMiddleware;
@@ -110,6 +111,15 @@ final readonly class RuntimeApplicationFactory
      * @param bool $enableHsts Emit `Strict-Transport-Security` from the security-headers middleware.
      *                         Off by default; enable only when the app is served over HTTPS (directly or
      *                         behind a TLS-terminating proxy). See {@see SecurityHeadersMiddleware}.
+     * @param bool $enableAuthorizationHeaderFallback Adopt the `X-Authorization` mirror header as
+     *                         `Authorization` when the standard header is absent or empty. Off by
+     *                         default; enable only on deployments whose front proxy strips
+     *                         `Authorization` before it reaches PHP (HETEML-class shared hosting) —
+     *                         on gateways that strip the header *deliberately* (delegated auth, WAF
+     *                         filtering) enabling this would open a client-controlled bypass. Runs
+     *                         at the start of the auth stage, before the machine API key check and
+     *                         any injected `$authMiddleware`. See
+     *                         {@see AuthorizationHeaderFallbackMiddleware} and ADR 0019.
      */
     public function __construct(
         private ResponseFactoryInterface $responseFactory,
@@ -134,6 +144,7 @@ final readonly class RuntimeApplicationFactory
         private ?DatabaseCandidateInspector $databaseCandidateInspector = null,
         private array $databaseCandidateProfiles = [],
         private bool $enableHsts = false,
+        private bool $enableAuthorizationHeaderFallback = false,
     ) {
     }
 
@@ -302,15 +313,22 @@ final readonly class RuntimeApplicationFactory
             new CorsMiddleware($this->responseFactory, $this->allowedOrigins),
             new ErrorHandlerMiddleware($problemDetails, $this->domainExceptionHandlers, $this->debug, $logger),
             new RequestSizeLimitMiddleware($problemDetails, $this->requestMaxBodyBytes, $this->streamFactory),
-            new ApiKeyAuthenticationMiddleware(
-                $problemDetails,
-                $this->machineApiKey,
-                $machineProtectedPaths,
-                excludedPaths:          $this->machineApiKeyExcludedPaths,
-                protectedPathPrefixes:  $this->machineApiKeyProtectedPathPrefixes,
-                protectedMethods:       $this->machineApiKeyProtectedMethods,
-            ),
         ];
+
+        // Start of the auth stage: restore `Authorization` from the `X-Authorization` mirror
+        // (opt-in, for proxy-stripped hosting) before any credential-reading middleware runs.
+        if ($this->enableAuthorizationHeaderFallback) {
+            $middlewareStack[] = new AuthorizationHeaderFallbackMiddleware();
+        }
+
+        $middlewareStack[] = new ApiKeyAuthenticationMiddleware(
+            $problemDetails,
+            $this->machineApiKey,
+            $machineProtectedPaths,
+            excludedPaths:          $this->machineApiKeyExcludedPaths,
+            protectedPathPrefixes:  $this->machineApiKeyProtectedPathPrefixes,
+            protectedMethods:       $this->machineApiKeyProtectedMethods,
+        );
 
         foreach ($authMiddlewares as $authMiddleware) {
             $middlewareStack[] = $authMiddleware;
