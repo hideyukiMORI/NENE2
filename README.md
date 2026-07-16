@@ -274,3 +274,7 @@ NENE2 is designed to be AI-readable and usable as a tool by AI agents.
 ## License
 
 NENE2 is released under the MIT License.
+
+## Maintainer
+
+NENE2 is built and maintained by [彩音インターナショナル株式会社 (AYANE International Inc.)](https://ayane.co.jp), the company behind the NeNe product family.
