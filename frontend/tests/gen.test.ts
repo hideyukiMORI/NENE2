@@ -6,6 +6,7 @@
 import { execFileSync } from 'node:child_process';
 import {
   cpSync,
+  existsSync,
   mkdirSync,
   mkdtempSync,
   readdirSync,
@@ -188,4 +189,34 @@ it('gen:feature --mutation は決定的で mutation archetype（4値 union）を
   expect(snapA.get('src/shared/i18n/messages/ja.ts')).toContain(
     "'payment.create.success'",
   );
+}, 120_000);
+
+it('gen:feature --mutation は verbNoun が Create<Noun> と衝突するとき fail-fast する', () => {
+  const dir = seedDir();
+
+  let threw = false;
+  let output = '';
+  try {
+    // create-note × note → feature use{CreateNote} と entity useCreate{Note} が同名衝突
+    runGen(dir, 'feature', ['create-note', 'note', '--mutation']);
+  } catch (error) {
+    threw = true;
+    const e = error as { stdout?: Buffer; stderr?: Buffer };
+    output = `${e.stdout?.toString() ?? ''}${e.stderr?.toString() ?? ''}`;
+  }
+
+  expect(threw).toBe(true);
+  // 代替 verb を提案するメッセージ
+  expect(output).toContain('useCreateNote');
+  expect(output).toContain('submit-note');
+  // 衝突時はファイルを書かない（fail-fast）
+  expect(existsSync(path.join(dir, 'src/features/create-note'))).toBe(false);
+
+  // 対照: 非衝突 verb（submit-note）は従来どおり生成できる
+  runGen(dir, 'feature', ['submit-note', 'note', '--mutation']);
+  expect(
+    existsSync(
+      path.join(dir, 'src/features/submit-note/model/use-submit-note.ts'),
+    ),
+  ).toBe(true);
 }, 120_000);
