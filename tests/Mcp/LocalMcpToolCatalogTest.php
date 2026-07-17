@@ -67,6 +67,69 @@ final class LocalMcpToolCatalogTest extends TestCase
     }
 
     // -----------------------------------------------------------------------
+    // withFilter() — serve a subset without a temp catalog file
+    // -----------------------------------------------------------------------
+
+    public function testWithFilterNarrowsToolsToMatchingSubset(): void
+    {
+        $catalog = new LocalMcpToolCatalog(dirname(__DIR__, 2) . '/docs/mcp/tools.json');
+
+        $readOnly = $catalog->withFilter(static fn (array $tool): bool => $tool['safety'] === 'read');
+
+        $names = array_column($readOnly->tools(), 'name');
+
+        self::assertContains('getHealth', $names);
+        self::assertNotContains('createExampleNote', $names);
+        self::assertNotContains('deleteExampleNoteById', $names);
+        self::assertSame(['read'], array_values(array_unique(array_column($readOnly->tools(), 'safety'))));
+    }
+
+    public function testWithFilterAlsoAppliesToFind(): void
+    {
+        $catalog = new LocalMcpToolCatalog(dirname(__DIR__, 2) . '/docs/mcp/tools.json');
+
+        $readOnly = $catalog->withFilter(static fn (array $tool): bool => $tool['safety'] === 'read');
+
+        self::assertNotNull($readOnly->find('getHealth'));
+        self::assertNull($readOnly->find('createExampleNote'));
+    }
+
+    public function testWithFilterLeavesTheOriginalCatalogUnchanged(): void
+    {
+        $catalog = new LocalMcpToolCatalog(dirname(__DIR__, 2) . '/docs/mcp/tools.json');
+
+        $catalog->withFilter(static fn (array $tool): bool => $tool['safety'] === 'read');
+
+        // The original still exposes write tools — withFilter returns a copy.
+        self::assertNotNull($catalog->find('createExampleNote'));
+    }
+
+    public function testWithFilterComposesByNarrowingFurther(): void
+    {
+        $catalog = new LocalMcpToolCatalog(dirname(__DIR__, 2) . '/docs/mcp/tools.json');
+
+        $narrowed = $catalog
+            ->withFilter(static fn (array $tool): bool => $tool['safety'] === 'read')
+            ->withFilter(static fn (array $tool): bool => $tool['name'] === 'getHealth');
+
+        self::assertSame(['getHealth'], array_column($narrowed->tools(), 'name'));
+    }
+
+    public function testWithFilterCompositionCannotWidenBackAnEarlierFilter(): void
+    {
+        $catalog = new LocalMcpToolCatalog(dirname(__DIR__, 2) . '/docs/mcp/tools.json');
+
+        // First keep only getHealth (a read tool), then ask for write tools:
+        // composition ANDs the predicates, so the result is empty rather than
+        // re-exposing write tools the first filter removed.
+        $narrowed = $catalog
+            ->withFilter(static fn (array $tool): bool => $tool['name'] === 'getHealth')
+            ->withFilter(static fn (array $tool): bool => $tool['safety'] === 'write');
+
+        self::assertSame([], $narrowed->tools());
+    }
+
+    // -----------------------------------------------------------------------
     // File / parse errors
     // -----------------------------------------------------------------------
 

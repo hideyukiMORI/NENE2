@@ -20,9 +20,36 @@ final class LocalMcpToolCatalog
     /** @var list<McpTool>|null */
     private ?array $cachedTools = null;
 
+    /** @var list<\Closure(McpTool): bool> */
+    private array $filters = [];
+
     public function __construct(
         private readonly string $catalogPath,
     ) {
+    }
+
+    /**
+     * Returns a copy of this catalog that exposes only the tools matching $filter.
+     *
+     * The predicate receives each fully validated tool (see the McpTool shape) and
+     * returns true to keep it. Both {@see tools()} and {@see find()} on the returned
+     * catalog honour the filter, so a consumer can hand the narrowed catalog straight
+     * to {@see LocalMcpServer} to serve a subset (for example, read-only by default with
+     * admin tools behind an explicit opt-in) without writing a filtered catalog to a
+     * temporary file.
+     *
+     * Filters compose: chaining withFilter() narrows further — every predicate must pass.
+     * The original catalog is left unchanged.
+     *
+     * @param callable(McpTool): bool $filter
+     */
+    public function withFilter(callable $filter): self
+    {
+        $new = clone $this;
+        $new->filters = [...$this->filters, $filter(...)];
+        $new->cachedTools = null;
+
+        return $new;
     }
 
     /**
@@ -58,7 +85,13 @@ final class LocalMcpToolCatalog
 
         $validTools = array_values(array_filter($tools, static fn (mixed $t) => is_array($t)));
 
-        return $this->cachedTools = array_map($this->tool(...), $validTools);
+        $normalized = array_map($this->tool(...), $validTools);
+
+        foreach ($this->filters as $filter) {
+            $normalized = array_values(array_filter($normalized, $filter));
+        }
+
+        return $this->cachedTools = $normalized;
     }
 
     /**

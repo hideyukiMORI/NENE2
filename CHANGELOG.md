@@ -8,6 +8,9 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Added
+- `Nene2\Mcp\LocalMcpToolCatalog::withFilter(callable): self`（公開安定 API・後方互換・#1570）— カタログ（`docs/mcp/tools.json`）の一部だけを公開したい consumer のための immutable な絞り込みフック。述語は検証済みの各ツール（`McpTool` 形状）を受け取り `true` で残す。返り値は絞り込み済みの新カタログで、`tools()` と `find()` の**両方**が述語を尊重するため、フィルタ済みカタログをそのまま `LocalMcpServer` に渡すだけで subset を提供できる（例: 既定 read-only＋admin ツールは明示 opt-in）。フィルタ済みツールは list から隠れるだけでなく `tools/call` からも到達不能。フィルタは合成（chain で単調に絞り込み・全述語が pass）し、元カタログは不変。これにより consumer は「フィルタ済み一時カタログをディスクへ書いて指す」temp-file 回避策（NeNe Invoice ADR 0021）を再実装せずに済む。
+
 ---
 
 ## [1.11.0] — 2026-07-15
