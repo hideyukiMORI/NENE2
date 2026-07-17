@@ -2,4 +2,5 @@
 export { noteSchema } from './model';
 export type { Note, NoteId, NoteList, NoteListParams } from './model';
 export { useNote, useNoteList } from './queries';
+export { useCreateNote } from './mutations';
 export { noteKeys } from './query-keys';

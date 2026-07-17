@@ -24,5 +24,6 @@ export const en = {
   'home.title': 'NENE2 Frontend Starter',
   'note.list.empty': 'No notes yet.',
   'note.list.title': 'Notes',
+  'note.create.success': 'Created.',
   // [nene2-gen:messages] — generator がこの行の上にキーを追記する
 } satisfies Record<MessageKey, string>;

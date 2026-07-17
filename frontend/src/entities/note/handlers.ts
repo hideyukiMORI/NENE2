@@ -16,8 +16,11 @@ export const noteListDtoFixture: NoteListDto = {
   offset: 0,
 };
 
-// 初期エンドポイントは queries.ts の 2 hook（detail / list）に対応する GET 2 本
+// GET 2 本（detail / list）＋ create（useCreateNote に対応する POST 1 本）
 export const noteHandlers = [
   http.get('*/api/examples/notes/:id', () => HttpResponse.json(noteDtoFixture)),
   http.get('*/api/examples/notes', () => HttpResponse.json(noteListDtoFixture)),
+  http.post('*/api/examples/notes', () =>
+    HttpResponse.json(noteDtoFixture, { status: 201 }),
+  ),
 ];
