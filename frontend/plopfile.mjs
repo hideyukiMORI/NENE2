@@ -141,12 +141,28 @@ export default function (plop) {
       ),
       kebabInput('noun', '消費する entity 名（kebab-case 単数形。例: order）'),
     ],
-    actions: () => {
+    actions: (data) => {
       const dir = `${DEST}/src/features/{{kebabCase verbNoun}}`;
       // archetype は flag で選ぶ（決定性・LLM 自動化前提 — 対話プロンプトにしない）。
       // query（既定）= 3値 loading/error/success。mutation = 4値 idle/submitting/error/success。
       // mutation は消費 entity を --write 生成（useCreate<Noun> と POST handler）していることが前提。
       const isMutation = process.argv.includes('--mutation');
+
+      // fail-fast: mutation feature hook use{VerbNoun} が entity の useCreate{Noun}（ST-5 固定命名）と
+      // 衝突すると、生成 hook が自身を呼ぶ自己再帰になる。verb=create かつ noun 一致で発火する
+      // （create-note × note = 最も自然な命名）。決定性文化として黙って壊れるより喋って止まる。
+      if (isMutation && data) {
+        const pascalCase = plop.getHelper('pascalCase');
+        const verbPascal = pascalCase(data.verbNoun);
+        const nounPascal = pascalCase(data.noun);
+        if (verbPascal === `Create${nounPascal}`) {
+          throw new Error(
+            `feature hook "use${verbPascal}" が entity の "useCreate${nounPascal}"（ST-5 固定命名）と衝突します。` +
+              ` create 以外の verb を使ってください（例: submit-${data.noun} / register-${data.noun} / add-${data.noun}）。`,
+          );
+        }
+      }
+
       const suffix = isMutation ? '.mutation' : '';
       const actions = [
         {
