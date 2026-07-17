@@ -26,6 +26,7 @@ export const ja = {
   'home.title': 'NENE2 フロントエンドスターター',
   'note.list.empty': 'ノートはまだありません。',
   'note.list.title': 'ノート一覧',
+  'note.create.success': '作成しました。',
   // [nene2-gen:messages] — generator がこの行の上にキーを追記する
 } as const;
 
