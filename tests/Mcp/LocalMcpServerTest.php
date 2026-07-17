@@ -80,6 +80,34 @@ final class LocalMcpServerTest extends TestCase
         self::assertContains('deleteExampleNoteById', $names);
     }
 
+    public function testServerServesOnlyTheFilteredSubsetAndFilteredOutToolsAreUncallable(): void
+    {
+        $catalog = (new LocalMcpToolCatalog(dirname(__DIR__, 2) . '/docs/mcp/tools.json'))
+            ->withFilter(static fn (array $tool): bool => $tool['safety'] === 'read');
+
+        $server = new LocalMcpServer(
+            $catalog,
+            new RecordingLocalMcpHttpClient(new LocalMcpHttpResponse(200, [], '{}')),
+            'http://localhost:8200',
+            new NullLogger(),
+        );
+
+        $list = $server->handle(['jsonrpc' => '2.0', 'id' => 1, 'method' => 'tools/list']);
+        $names = array_column($list['result']['tools'] ?? [], 'name');
+        self::assertContains('getHealth', $names);
+        self::assertNotContains('createExampleNote', $names);
+
+        // A filtered-out tool is genuinely unreachable, not merely hidden from the list.
+        $call = $server->handle([
+            'jsonrpc' => '2.0',
+            'id' => 2,
+            'method' => 'tools/call',
+            'params' => ['name' => 'createExampleNote', 'arguments' => []],
+        ]);
+        self::assertSame(-32603, $call['error']['code'] ?? null);
+        self::assertStringContainsString('was not found', $call['error']['message'] ?? '');
+    }
+
     public function testToolsCallInvokesLocalHttpApiAndReturnsRequestId(): void
     {
         $client = new RecordingLocalMcpHttpClient(new LocalMcpHttpResponse(
