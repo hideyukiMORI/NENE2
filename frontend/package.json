@@ -29,7 +29,7 @@
     "check": "npm run type-check && npm run lint && npm run lint:css && npm run check:themes && npm run format && npm run test"
   },
   "dependencies": {
-    "@hideyukimori/nene2-client": "^1.1.0",
+    "@hideyukimori/nene2-client": "^1.2.0",
     "@hookform/resolvers": "^5.2.2",
     "@tanstack/react-query": "^5.90.5",
     "react": "^19.2.7",
@@ -39,8 +39,8 @@
     "zod": "^4.1.12"
   },
   "devDependencies": {
-    "@hideyukimori/nene2-standards": "^1.0.0",
-    "@hideyukimori/nene2-tokens": "^1.0.0",
+    "@hideyukimori/nene2-standards": "^1.1.0",
+    "@hideyukimori/nene2-tokens": "^1.0.1",
     "@playwright/test": "^1.57.0",
     "@tailwindcss/vite": "^4.1.16",
     "@testing-library/jest-dom": "^6.9.1",
