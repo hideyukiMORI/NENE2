@@ -1,0 +1,96 @@
+// ユニオン遷移テスト（R2⑧ — 状態が型なら、テストは型の遷移表・mutation 4 値）
+// 各フェーズの状態は const に捕捉してから絞り込む（result.current は getter で
+// act/waitFor を跨ぐと narrowing が持続/失効するため）。
+import { act, waitFor } from '@testing-library/react';
+import { http, HttpResponse } from 'msw';
+import { expect, it } from 'vitest';
+
+import { server } from '@tests/msw/server';
+import { renderHookWithProviders } from '@tests/render';
+
+import { use{{pascalCase verbNoun}} } from './use-{{kebabCase verbNoun}}';
+
+it('初期状態は idle で submit を持つ', () => {
+  const { result } = renderHookWithProviders(() => use{{pascalCase verbNoun}}(), {
+    locale: 'ja',
+  });
+
+  const initial = result.current;
+  expect(initial.status).toBe('idle');
+  if (initial.status !== 'idle') throw new Error('unreachable');
+  expect(typeof initial.submit).toBe('function');
+});
+
+it('idle → submitting → success へ遷移する', async () => {
+  const { result } = renderHookWithProviders(() => use{{pascalCase verbNoun}}(), {
+    locale: 'ja',
+  });
+
+  const initial = result.current;
+  if (initial.status !== 'idle') throw new Error('unreachable');
+  act(() => {
+    initial.submit(undefined);
+  });
+
+  await waitFor(() => {
+    expect(result.current.status).toBe('success');
+  });
+  const settled = result.current;
+  if (settled.status !== 'success') throw new Error('unreachable');
+  expect(settled.{{camelCase noun}}.id).toBeDefined();
+});
+
+it('error 状態は retry を持つ（同一 input 再送）', async () => {
+  server.use(
+    http.post('*/api/v1/{{plural (kebabCase noun)}}', () =>
+      HttpResponse.json(
+        {
+          type: 'https://nene2.dev/problems/server-error',
+          title: 'x',
+          status: 500,
+        },
+        { status: 500 },
+      ),
+    ),
+  );
+  const { result } = renderHookWithProviders(() => use{{pascalCase verbNoun}}(), {
+    locale: 'ja',
+  });
+
+  const initial = result.current;
+  if (initial.status !== 'idle') throw new Error('unreachable');
+  act(() => {
+    initial.submit(undefined);
+  });
+
+  await waitFor(() => {
+    expect(result.current.status).toBe('error');
+  });
+  const errored = result.current;
+  if (errored.status !== 'error') throw new Error('unreachable');
+  expect(typeof errored.retry).toBe('function');
+});
+
+it('success → reset → idle へ戻る', async () => {
+  const { result } = renderHookWithProviders(() => use{{pascalCase verbNoun}}(), {
+    locale: 'ja',
+  });
+
+  const initial = result.current;
+  if (initial.status !== 'idle') throw new Error('unreachable');
+  act(() => {
+    initial.submit(undefined);
+  });
+  await waitFor(() => {
+    expect(result.current.status).toBe('success');
+  });
+
+  const settled = result.current;
+  if (settled.status !== 'success') throw new Error('unreachable');
+  act(() => {
+    settled.reset();
+  });
+  await waitFor(() => {
+    expect(result.current.status).toBe('idle');
+  });
+});

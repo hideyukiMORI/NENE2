@@ -1,0 +1,60 @@
+// 網羅 switch の View（02 UI-3: default 節 MUST NOT・mutation archetype —
+// idle=フォーム / submitting=進捗 / error=retry / success=結果+reset）
+import { useTranslation } from '@/shared/i18n';
+import { ErrorState } from '@/shared/ui/error-state';
+import { LoadingState } from '@/shared/ui/loading-state';
+
+import { use{{pascalCase verbNoun}} } from '../model/use-{{kebabCase verbNoun}}';
+
+export function {{pascalCase verbNoun}}() {
+  const { t } = useTranslation();
+  const state = use{{pascalCase verbNoun}}();
+  switch (state.status) {
+    case 'idle':
+      return (
+        <form
+          className="flex flex-col gap-3"
+          onSubmit={(event) => {
+            event.preventDefault();
+            // TODO: values → mapper → submit（02 FM-5: submit は values → mapper → mutation）
+            state.submit(undefined);
+          }}
+        >
+          {/* TODO: フォーム項目に置き換える */}
+          <button
+            type="submit"
+            className="rounded-md border border-border bg-surface-raised px-4 py-2 text-sm text-text-primary"
+          >
+            {t('common.actions.submit')}
+          </button>
+        </form>
+      );
+    case 'submitting':
+      return <LoadingState label={t('common.state.submitting')} />;
+    case 'error':
+      return (
+        <ErrorState
+          message={t('error.unknown')}
+          retryLabel={t('common.actions.retry')}
+          onRetry={state.retry}
+        />
+      );
+    case 'success':
+      return (
+        <div className="flex flex-col gap-3">
+          <p className="text-sm text-text-primary">
+            {t('{{camelCase noun}}.create.success')}
+          </p>
+          {/* TODO: 作成結果の表示に置き換える */}
+          <p className="text-sm text-text-primary">{state.{{camelCase noun}}.id}</p>
+          <button
+            type="button"
+            className="rounded-md border border-border px-4 py-2 text-sm text-text-primary"
+            onClick={state.reset}
+          >
+            {t('common.actions.reset')}
+          </button>
+        </div>
+      );
+  }
+}

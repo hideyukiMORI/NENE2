@@ -5,8 +5,11 @@ import type { MessageKey } from './ja';
 
 export const en = {
   'app.name': 'NENE2 Starter',
+  'common.actions.reset': 'Reset',
   'common.actions.retry': 'Retry',
+  'common.actions.submit': 'Submit',
   'common.state.loading': 'Loading…',
+  'common.state.submitting': 'Submitting…',
   'error.conflict': 'A conflict occurred. Please check the latest state.',
   'error.forbidden': 'You do not have permission to perform this action.',
   'error.notFound': 'The requested resource was not found.',
