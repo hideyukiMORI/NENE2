@@ -16,8 +16,7 @@ import { {{camelCase noun}}Keys } from './query-keys';
 // 定義して unknown を置き換える（02 FM-5: submit は values → mapper → mutation）
 export function useCreate{{pascalCase noun}}(): UseMutationResult<
   {{pascalCase noun}},
-  AppError,
-  unknown
+  AppError
 > {
   const queryClient = useQueryClient();
   return useMutation({

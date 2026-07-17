@@ -5,8 +5,11 @@
  */
 export const ja = {
   'app.name': 'NENE2 Starter',
+  'common.actions.reset': 'リセット',
   'common.actions.retry': '再試行',
+  'common.actions.submit': '送信',
   'common.state.loading': '読み込み中…',
+  'common.state.submitting': '送信中…',
   'error.conflict': '競合が発生しました。最新の状態を確認してください。',
   'error.forbidden': 'この操作を行う権限がありません。',
   'error.notFound': '対象が見つかりません。',

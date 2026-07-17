@@ -10,6 +10,7 @@
  *   npm run gen:entity  <noun>            例: npm run gen:entity order
  *   npm run gen:entity  <noun> y          （--write 相当: mutations.ts を追加生成）
  *   npm run gen:feature <verb-noun> <noun> 例: npm run gen:feature view-orders order
+ *   npm run gen:feature <verb-noun> <noun> --mutation  （mutation archetype = 4値 union）
  *   npm run gen:page    <name>            例: npm run gen:page dashboard
  */
 import { readFileSync } from 'node:fs';
@@ -132,7 +133,7 @@ export default function (plop) {
 
   plop.setGenerator('feature', {
     description:
-      'feature 4ファイル（ui＋container hook＋遷移テスト＋barrel — 05 §6.2）',
+      'feature 4ファイル（ui＋container hook＋遷移テスト＋barrel — 05 §6.2）。--mutation で mutation archetype（4値 union）',
     prompts: [
       kebabInput(
         'verbNoun',
@@ -142,23 +143,28 @@ export default function (plop) {
     ],
     actions: () => {
       const dir = `${DEST}/src/features/{{kebabCase verbNoun}}`;
-      return [
+      // archetype は flag で選ぶ（決定性・LLM 自動化前提 — 対話プロンプトにしない）。
+      // query（既定）= 3値 loading/error/success。mutation = 4値 idle/submitting/error/success。
+      // mutation は消費 entity を --write 生成（useCreate<Noun> と POST handler）していることが前提。
+      const isMutation = process.argv.includes('--mutation');
+      const suffix = isMutation ? '.mutation' : '';
+      const actions = [
         {
           type: 'add',
           path: `${dir}/model/use-{{kebabCase verbNoun}}.ts`,
-          templateFile: 'gen/templates/feature/use-hook.ts.hbs',
+          templateFile: `gen/templates/feature/use-hook${suffix}.ts.hbs`,
           transform: formatTs,
         },
         {
           type: 'add',
           path: `${dir}/model/use-{{kebabCase verbNoun}}.test.tsx`,
-          templateFile: 'gen/templates/feature/use-hook.test.tsx.hbs',
+          templateFile: `gen/templates/feature/use-hook${suffix}.test.tsx.hbs`,
           transform: formatTs,
         },
         {
           type: 'add',
           path: `${dir}/ui/{{pascalCase verbNoun}}.tsx`,
-          templateFile: 'gen/templates/feature/view.tsx.hbs',
+          templateFile: `gen/templates/feature/view${suffix}.tsx.hbs`,
           transform: formatTs,
         },
         {
@@ -167,13 +173,27 @@ export default function (plop) {
           templateFile: 'gen/templates/feature/index.ts.hbs',
           transform: formatTs,
         },
-        addMessage(
-          'ja.ts',
-          '{{camelCase noun}}.list.empty',
-          'まだデータがありません。',
-        ),
-        addMessage('en.ts', '{{camelCase noun}}.list.empty', 'No items yet.'),
       ];
+      if (isMutation) {
+        actions.push(
+          addMessage(
+            'ja.ts',
+            '{{camelCase noun}}.create.success',
+            '作成しました。',
+          ),
+          addMessage('en.ts', '{{camelCase noun}}.create.success', 'Created.'),
+        );
+      } else {
+        actions.push(
+          addMessage(
+            'ja.ts',
+            '{{camelCase noun}}.list.empty',
+            'まだデータがありません。',
+          ),
+          addMessage('en.ts', '{{camelCase noun}}.list.empty', 'No items yet.'),
+        );
+      }
+      return actions;
     },
   });
 

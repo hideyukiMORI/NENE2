@@ -139,3 +139,53 @@ it('gen 3種は決定的（同入力 → 同出力）で、期待ファイル集
   );
   expect(snapA.get('tests/msw/server.ts')).toContain('...orderHandlers,');
 }, 120_000);
+
+it('gen:feature --mutation は決定的で mutation archetype（4値 union）を生成する', () => {
+  const gen = (dest: string): void => {
+    // mutation feature は消費 entity を --write 生成（useCreate<Noun> と POST handler）している前提。
+    runGen(dest, 'entity', ['payment', 'y']);
+    runGen(dest, 'feature', ['submit-payment', 'payment', '--mutation']);
+  };
+  const a = seedDir();
+  const b = seedDir();
+  gen(a);
+  gen(b);
+
+  const snapA = snapshot(a);
+  const snapB = snapshot(b);
+
+  // 決定性: ファイル集合＋内容の完全一致
+  expect([...snapA.keys()].sort()).toEqual([...snapB.keys()].sort());
+  for (const [file, content] of snapA) {
+    expect(snapB.get(file), file).toBe(content);
+  }
+
+  // 期待出力: feature 4 ファイル
+  for (const file of [
+    'model/use-submit-payment.ts',
+    'model/use-submit-payment.test.tsx',
+    'ui/SubmitPayment.tsx',
+    'index.ts',
+  ]) {
+    expect(snapA.has(`src/features/submit-payment/${file}`), file).toBe(true);
+  }
+
+  // mutation archetype の核: 4値 union・error(retry)・success(reset)
+  const hook =
+    snapA.get('src/features/submit-payment/model/use-submit-payment.ts') ?? '';
+  expect(hook).toContain("status: 'idle'");
+  expect(hook).toContain("status: 'submitting'");
+  expect(hook).toContain("status: 'error'");
+  expect(hook).toContain("status: 'success'");
+  expect(hook).toContain('retry:');
+  expect(hook).toContain('reset:');
+
+  // --write 前提: entity mutation hook と POST handler が揃っていること
+  expect(snapA.has('src/entities/payment/mutations.ts')).toBe(true);
+  expect(snapA.get('src/entities/payment/handlers.ts')).toContain('http.post(');
+
+  // per-feature 成功メッセージが追記される（list.empty ではない）
+  expect(snapA.get('src/shared/i18n/messages/ja.ts')).toContain(
+    "'payment.create.success'",
+  );
+}, 120_000);
