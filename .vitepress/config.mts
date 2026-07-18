@@ -112,6 +112,13 @@ export default defineConfig({
   cleanUrls: true,
   ignoreDeadLinks: true,
 
+  // Keep internal operational logs out of the published site.
+  // These directories are AI-/maintainer-facing handoff notes, not framework
+  // documentation, and must not be reachable at public URLs. Patterns are
+  // relative to srcDir (./docs). Note: this only affects the built site — the
+  // files remain tracked in git (relocating them is a separate, later change).
+  srcExclude: ['todo/**', 'daily/**', 'field-trials/**'],
+
   head: [['meta', { name: 'theme-color', content: '#3b82f6' }]],
 
   locales: {
