@@ -37,25 +37,65 @@ final class ConformanceRunner
     }
 
     /**
-     * The current default rule set: the `error`-tier D1–D4 rules (design doc 04,
-     * layer error) plus the R1–R3 README/docs-conformance rules (R1 `error`,
-     * R2/R3 `warn` — see ADR 0016's R-series addendum). R-series ids are a
-     * separate sequence from D1–D4 because design doc 04 reserves D5–D12 for
-     * backend-only drift (getenv, Installer/Pagination reinvention, ...);
+     * The default, framework-generic rule set: the `error`-tier D1–D4 rules
+     * (design doc 04, layer error) plus the R1/R2 README/docs-conformance rules
+     * (R1 `error`, R2 `warn` — see ADR 0016's R-series addendum). R-series ids
+     * are a separate sequence from D1–D4 because design doc 04 reserves D5–D12
+     * for backend-only drift (getenv, Installer/Pagination reinvention, ...);
      * README/docs drift is a distinct axis, not a continuation of that reserved
      * range.
+     *
+     * Every rule here is framework-generic — it makes sense for any external
+     * consumer of NENE2, with no assumption about the NeNe product fleet. Fleet-
+     * specific governance (currently R3) lives in {@see withFleetRules()} so a
+     * generic consumer never inherits NeNe-internal rules (audit M-1).
      */
     public static function withDefaultRules(): self
     {
-        return new self([
+        return new self(self::genericRules());
+    }
+
+    /**
+     * The generic rules plus the NeNe-fleet-specific governance layer (currently
+     * R3 — the private `nene-origin` link guard). Repositories that belong to the
+     * NeNe fleet opt into this set — via this factory, or the `--fleet` flag on
+     * `tools/conformance.php` — while the default set stays framework-generic.
+     *
+     * Future fleet-only rules join {@see fleetRules()} rather than the generic
+     * default, keeping the "default = generic, fleet governance = opt-in" split
+     * (ADR 0016 opt-in addendum).
+     */
+    public static function withFleetRules(): self
+    {
+        return new self([...self::genericRules(), ...self::fleetRules()]);
+    }
+
+    /**
+     * @return list<RuleInterface>
+     */
+    private static function genericRules(): array
+    {
+        return [
             new JwtDefaultSecretRule(),
             new DependencyBranchPinRule(),
             new CheckSelfRegistrationRule(),
             new RawClockRule(),
             new ReadmeStaticStatusBadgeRule(),
             new ReadmeLicenseSectionRule(),
+        ];
+    }
+
+    /**
+     * The NeNe-fleet-specific governance rules (opt-in — not shipped in the
+     * generic default set).
+     *
+     * @return list<RuleInterface>
+     */
+    private static function fleetRules(): array
+    {
+        return [
             new ReadmePrivateOriginLinkRule(),
-        ]);
+        ];
     }
 
     /**

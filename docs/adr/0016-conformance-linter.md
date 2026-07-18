@@ -106,6 +106,31 @@ own `AGENTS.md`/`CLAUDE.md` port section. **R3** (`warn`) word-bounded-scans
 markdown link target). The fleet is already clean, so R3 is a regression guard,
 not a fix for an active violation — hence `warn`, not `error`.
 
+**2026-07-18 addendum — default (generic) vs opt-in fleet rules.** NENE2 is a
+general-purpose framework that external projects adopt, but R3 encodes a
+NeNe-fleet-internal assumption (the private `nene-origin` governance repo). A
+consumer with no relation to the fleet should not inherit it. So the rule set is
+split: `ConformanceRunner::withDefaultRules()` now ships only the framework-
+generic rules (D1–D4, R1, R2), and a new `withFleetRules()` factory adds the
+NeNe-fleet governance layer (currently just R3) on top. Future fleet-only rules
+join the fleet layer, not the generic default. `tools/conformance.php` selects
+the set with a `--fleet` flag (absent = generic default). NENE2 checks itself
+with the fleet layer (`composer conformance` runs `--fleet`), so its own R3
+coverage and CI exercise of the flag are unchanged.
+
+**How a NeNe product opts into the fleet rules.** Point the vendored linter at
+the fleet set by adding `--fleet` to the `conformance` script in `composer.json`:
+
+```jsonc
+"scripts": {
+  "conformance": "php vendor/hideyukimori/nene2/tools/conformance.php --root=. --fleet"
+}
+```
+
+Products outside the fleet leave the flag off and keep the generic default.
+Rolling `--fleet` out to each fleet product's `composer.json` is a separate wave;
+this ADR change delivers the mechanism on the NENE2 side only.
+
 ## Consequences
 
 - D1 permanently locks in the ADR 0013 fix: a re-introduced default secret fails
@@ -120,9 +145,12 @@ not a fix for an active violation — hence `warn`, not `error`.
 - Fan-out to the other products (report-only baseline capture, then CI gating of
   new drift) is a separate wave, as is the deferred PHPStan type-aware pack and
   the `warn`-tier rules, which follow each upstream interface as it freezes.
-- R1/R2/R3 apply to NENE2's own `README.md` too: no static status badge, a
+- R1/R2 (generic default) and R3 (fleet layer, via `composer conformance`'s
+  `--fleet`) all apply to NENE2's own `README.md`: no static status badge, a
   `## License` section already present, and no `nene-origin` reference, so all
-  three are green with zero new baseline entries.
+  three are green with zero new baseline entries. R3 is `warn` and the baseline
+  carries no R3 ignore entry, so moving it out of the generic default set changes
+  no existing pass/fail outcome for any repo.
 
 ## Related
 
@@ -134,5 +162,6 @@ not a fix for an active violation — hence `warn`, not `error`.
   `GuardedJwtSecretResolver` guarded-literal exemption above.
 - R-series addendum (README/docs conformance, 2026-07-14): Issue `#1551`, PR `#1552`.
 - R3 addendum (private `nene-origin` link, warn, 2026-07-14): Issue `#1555`, PR `#1556`.
+- Default/fleet rule split (R3 → opt-in `--fleet`, audit M-1, 2026-07-18): Issue `#1593`.
 - Supersedes: none
 - Superseded by: none
