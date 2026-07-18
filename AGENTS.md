@@ -10,14 +10,14 @@ This file is the entry point for AI agents and automation working on NENE2.
 - Commit messages: `docs/development/commit-conventions.md`
 - AI tool policy: `docs/integrations/ai-tools.md`
 - Roadmap: `docs/roadmap.md`
-- Current work: `docs/todo/current.md`
-- Field trial registry: `docs/ft-registry.md`
+- Current work / handoff: private `nene-origin/internal-docs/nene2/todo/current.md` (operational logs — `docs/todo`, `docs/daily`, field-trials, ft-registry — moved to the private mirror in P3, 2026-07-18; the public repo keeps only Diátaxis docs + ADR/CHANGELOG)
+- Field trial registry: private `nene-origin/internal-docs/nene2/field-trials/ft-registry.md`
 
 ## Operating Rules
 
 - Work from GitHub Issues. If an implementation or documentation change has no Issue, create one before editing.
 - Do not commit directly to `main`. Use branches named like `type/issue-number-summary`.
-- Keep local milestones and `docs/todo/current.md` aligned with Issues and PRs.
+- Keep local milestones and the private handoff (`nene-origin/internal-docs/nene2/todo/current.md`) aligned with Issues and PRs.
 - Keep changes focused. Do not mix architecture migration, feature work, tool setup, and cosmetic cleanup in one PR.
 - Do not commit secrets, credentials, local `.env` files, or generated build outputs.
 - Prefer explicit, typed, testable code over hidden framework behavior.
