@@ -75,7 +75,7 @@ Other documents explain how the project currently works:
 
 - `docs/development/`: current policies and implementation guidance
 - `docs/roadmap.md`: phase direction
-- `docs/todo/current.md`: current task board
+- `nene-origin/internal-docs/nene2/todo/current.md`: current task board
 - GitHub Issues: work units and discussion
 - PRs: concrete changes and verification
 

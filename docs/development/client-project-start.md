@@ -290,7 +290,7 @@ Before handing off a client-style project, confirm:
 - MCP tools, if any, call documented API boundaries only.
 - `docker compose run --rm app composer check` passes.
 - Frontend checks pass when the React starter is part of the handoff.
-- Deferred work is visible in `docs/todo/current.md` or a project-specific tracker.
+- Deferred work is visible in `nene-origin/internal-docs/nene2/todo/current.md` or a project-specific tracker.
 
 ## Useful Next Documents
 

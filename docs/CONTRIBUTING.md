@@ -11,13 +11,13 @@ NENE2 is built through small, Issue-driven changes. This document is the shared 
 | Commit messages | `docs/development/commit-conventions.md` |
 | AI tools | `docs/integrations/ai-tools.md` |
 | Roadmap | `docs/roadmap.md` |
-| Current work | `docs/todo/current.md` |
+| Current work | `nene-origin/internal-docs/nene2/todo/current.md` |
 
 ## Collaboration Policy
 
 - Start work from a GitHub Issue.
 - Use one branch and one PR per focused work unit.
-- Keep `docs/milestones/`, `docs/roadmap.md`, and `docs/todo/current.md` updated when the direction changes.
+- Keep `docs/milestones/`, `docs/roadmap.md`, and `nene-origin/internal-docs/nene2/todo/current.md` updated when the direction changes.
 - Explain intent, impact, verification, and remaining risk in PRs.
 - Prefer documentation that helps the next developer or AI agent decide what to do without rereading chat history.
 

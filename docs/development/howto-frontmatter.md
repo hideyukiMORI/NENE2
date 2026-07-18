@@ -4,7 +4,7 @@ Every guide in `docs/howto/` carries a small YAML frontmatter block so that
 category and tag indexes can be regenerated from data instead of hand-curated
 lists. The schema is intentionally minimal — rich schemas do not get filled in.
 
-See `docs/todo/howto-curation-strategy.md` for the rollout plan (Phase B).
+See `nene-origin/internal-docs/nene2/todo/howto-curation-strategy.md` for the rollout plan (Phase B).
 
 ## Fields
 
@@ -26,7 +26,7 @@ ft: FT102
 | `tags` | yes | list of strings | 1–6 lowercase kebab-case tags (`[a-z0-9-]+`). |
 | `difficulty` | yes | enum | `beginner` \| `intermediate` \| `advanced`. |
 | `related` | no | list of slugs | Other howto file names without `.md`; each must exist. |
-| `ft` | no | string | Field-trial id, `FT` followed by digits (cross-references `docs/ft-registry.md`). |
+| `ft` | no | string | Field-trial id, `FT` followed by digits (cross-references `nene-origin/internal-docs/nene2/field-trials/ft-registry.md`). |
 
 Unknown keys are rejected to keep the schema tight.
 
