@@ -24,7 +24,7 @@ An endpoint is complete only when its behavior is visible in all relevant places
 5. **When a new entity introduces a new database table**: add a Phinx migration in `database/migrations/` and a schema snapshot in `database/schema/`. Run `composer migrations:migrate` before HTTP smoke tests.
 6. Run the focused tests first, then `docker compose run --rm app composer check`.
 7. Run a local HTTP smoke check when the endpoint is reachable through Docker.
-8. Update `docs/todo/current.md`, milestone docs, or MCP catalog only when the endpoint affects current work.
+8. Update `nene-origin/internal-docs/nene2/todo/current.md`, milestone docs, or MCP catalog only when the endpoint affects current work.
 
 ## Runtime Route
 

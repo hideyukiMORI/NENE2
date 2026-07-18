@@ -4,7 +4,7 @@
 > step at the `v0.1.1` delivery-starter checkpoint. The first field trial has since been
 > run and the loop grew to FT352; on 2026-07-04 the field-trial loop was demoted (no fixed
 > deadline) in favour of the installer toolkit and business lanes. For current work see
-> `docs/todo/current.md`; for the loop mechanics see `docs/todo/ft-loop-workflow.md`.
+> `nene-origin/internal-docs/nene2/todo/current.md`; for the loop mechanics see `nene-origin/internal-docs/nene2/todo/ft-loop-workflow.md`.
 
 This document records the next practical step after the `v0.1.1` delivery-starter checkpoint.
 

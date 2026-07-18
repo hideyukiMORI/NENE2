@@ -61,4 +61,4 @@ Before a command becomes part of AI or MCP automation:
 - define whether it is read-only, write, admin, or destructive
 - verify it locally
 - add it to CI only after its configuration is committed
-- update `docs/todo/current.md` or the related Issue when it changes current workflow
+- update `nene-origin/internal-docs/nene2/todo/current.md` or the related Issue when it changes current workflow

@@ -5,7 +5,7 @@ NENE2 uses GitHub Issues for work tracking and local Markdown files for project 
 ## Standard Flow
 
 1. Create or reuse a focused GitHub Issue.
-2. Confirm related local context in `docs/roadmap.md`, `docs/milestones/`, and `docs/todo/current.md`.
+2. Confirm related local context in `docs/roadmap.md`, `docs/milestones/`, and `nene-origin/internal-docs/nene2/todo/current.md`.
 3. Create a branch from `main` named like `type/issue-number-summary`.
 4. Implement the smallest useful change.
 5. Update docs, roadmap, milestone, or TODO files when the decision or state changes.
@@ -45,7 +45,7 @@ Public release work should happen from `main` tags after required checks pass. D
 
 - `docs/roadmap.md`: long-lived direction and phases
 - `docs/milestones/`: medium-sized goals and acceptance criteria
-- `docs/todo/current.md`: current task board and handoff notes
+- `nene-origin/internal-docs/nene2/todo/current.md`: current task board and handoff notes
 - `docs/adr/`: major architecture decisions that should remain traceable
 
 Do not leave important decisions only in chat. If it changes how the project should be built, record it in `docs/`.

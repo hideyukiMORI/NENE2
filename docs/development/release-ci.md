@@ -177,7 +177,7 @@ Before tagging a release, use `docs/development/release-checklist.md`. At minimu
 - Required CI checks are passing.
 - Local `composer check` passes when practical.
 - Documentation for changed public behavior is updated.
-- `docs/todo/current.md` does not claim an incomplete release task is done.
+- `nene-origin/internal-docs/nene2/todo/current.md` does not claim an incomplete release task is done.
 - Release notes are prepared.
 - The tag follows `vX.Y.Z`.
 

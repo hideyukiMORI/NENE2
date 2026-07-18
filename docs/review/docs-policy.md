@@ -10,13 +10,13 @@ Source policies:
 - `docs/development/language-policy.md`
 - `docs/development/package-selection.md`
 - `docs/development/self-review.md`
-- `docs/todo/current.md`
+- `nene-origin/internal-docs/nene2/todo/current.md`
 - `docs/roadmap.md`
 
 ## Checklist
 
 - [ ] The source-of-truth policy doc was updated instead of only adding a summary elsewhere.
-- [ ] Related `docs/roadmap.md` or `docs/todo/current.md` state was updated when project state changed.
+- [ ] Related `docs/roadmap.md` or `nene-origin/internal-docs/nene2/todo/current.md` state was updated when project state changed.
 - [ ] New major architecture, dependency, public contract, or release decisions considered whether an ADR is needed.
 - [ ] Concrete package selections were recorded in an ADR when applicable.
 - [ ] Public source-of-truth docs, API contracts, and OpenAPI text are in English unless policy allows otherwise.

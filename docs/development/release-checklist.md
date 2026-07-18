@@ -12,7 +12,7 @@ Preparation notes for the `v0.1.1` checkpoint candidate live in `docs/developmen
 - `main` is up to date with `origin/main`.
 - The working tree is clean.
 - Relevant Issues and PRs are merged or explicitly deferred.
-- `docs/todo/current.md` reflects the actual project state.
+- `nene-origin/internal-docs/nene2/todo/current.md` reflects the actual project state.
 - Public behavior changes are documented in source-of-truth docs and OpenAPI when applicable.
 
 ## Verification
@@ -101,6 +101,6 @@ Release notes should include:
 
 - Confirm the GitHub Release points to the expected tag.
 - Confirm Packagist reflects the new version.
-- Confirm `docs/todo/current.md` does not list the release as incomplete if it is done.
+- Confirm `nene-origin/internal-docs/nene2/todo/current.md` does not list the release as incomplete if it is done.
 - Open follow-up Issues for deferred release work.
 - Sync the profile README ([github.com/hideyukiMORI/hideyukiMORI](https://github.com/hideyukiMORI/hideyukiMORI)) with the released version and status: update the relevant rows in At a glance / Runtimes / What shipped recently.

@@ -8,7 +8,7 @@ NENE2 is designed to be easy for AI agents to inspect, change, and verify withou
 - LLM-assisted delivery direction: `docs/integrations/llm-delivery-starter.md`
 - Workflow: `docs/workflow.md`
 - Coding rules: `docs/development/coding-standards.md`
-- Current state: `docs/todo/current.md`
+- Current state: `nene-origin/internal-docs/nene2/todo/current.md`
 - Local milestones: `docs/milestones/`
 - Agent entry point: `AGENTS.md`
 - Cursor summaries: `.cursor/rules/`
