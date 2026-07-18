@@ -217,7 +217,7 @@ Avant de transférer un projet style client, confirmez :
 - Les routes protégées documentent les credentials requis sans exposer les valeurs secrètes.
 - Les outils MCP, s'il y en a, appellent uniquement les frontières API documentées.
 - `docker compose run --rm app composer check` passe.
-- Le travail différé est visible dans `docs/todo/current.md`.
+- Le travail différé est visible dans `nene-origin/internal-docs/nene2/todo/current.md`.
 
 ## Prochains documents utiles
 

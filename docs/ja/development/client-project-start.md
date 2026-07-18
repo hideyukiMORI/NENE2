@@ -284,7 +284,7 @@ docker compose run --rm app composer test:database:mysql
 - MCP ツールがある場合、文書化された API 境界のみを呼び出している。
 - `docker compose run --rm app composer check` が通る。
 - React スターターが引き継ぎの一部の場合、フロントエンドチェックが通る。
-- 延期された作業が `docs/todo/current.md` またはプロジェクト固有のトラッカーに表示されている。
+- 延期された作業が `nene-origin/internal-docs/nene2/todo/current.md` またはプロジェクト固有のトラッカーに表示されている。
 
 ## 次のドキュメント
 
