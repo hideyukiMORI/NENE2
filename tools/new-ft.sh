@@ -9,7 +9,11 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 NENE2_DIR="$(cd "${SCRIPT_DIR}/.." && pwd)"
 FT_BASE="$(cd "${NENE2_DIR}/../NENE2-FT" && pwd)"
-REGISTRY="${NENE2_DIR}/docs/ft-registry.md"
+# FT registry moved to the private mirror (P3 migration): the FT ledger and
+# field-trials reports live in nene-origin/internal-docs/nene2/, not this public
+# repo. Requires the sibling nene-origin checkout. (The FT loop is paused; this
+# keeps the scaffolder pointed at the ledger's real home when it resumes.)
+REGISTRY="${NENE2_DIR}/../nene-origin/internal-docs/nene2/field-trials/ft-registry.md"
 
 # ── argument check ────────────────────────────────────────────────────────────
 if [[ $# -lt 2 ]]; then
@@ -24,7 +28,7 @@ TARGET="${FT_BASE}/${DIRNAME}"
 
 # ── registry collision check ──────────────────────────────────────────────────
 if grep -q "\b${DIRNAME}\b" "${REGISTRY}" 2>/dev/null; then
-    echo "ERROR: '${DIRNAME}' is already registered in docs/ft-registry.md"
+    echo "ERROR: '${DIRNAME}' is already registered in the FT registry (nene-origin/internal-docs/nene2/field-trials/ft-registry.md)"
     echo "  Check the registry and pick a different name."
     grep "${DIRNAME}" "${REGISTRY}"
     exit 1
@@ -170,6 +174,6 @@ echo ""
 echo "Next steps:"
 echo "  1. Edit ${TARGET}/composer.json  (description)"
 echo "  2. Edit ${TARGET}/database/schema.sql"
-echo "  3. Edit docs/ft-registry.md line for FT${FT_NUM} — テーマを記入"
+echo "  3. Edit the FT registry (nene-origin/internal-docs/nene2/field-trials/ft-registry.md) line for FT${FT_NUM} — テーマを記入"
 echo "  4. Add source files under ${TARGET}/src/"
 echo "  5. Add tests under ${TARGET}/tests/"

@@ -112,11 +112,11 @@ export default defineConfig({
   cleanUrls: true,
   ignoreDeadLinks: true,
 
-  // Keep internal operational logs out of the published site.
-  // These directories are AI-/maintainer-facing handoff notes, not framework
-  // documentation, and must not be reachable at public URLs. Patterns are
-  // relative to srcDir (./docs). Note: this only affects the built site — the
-  // files remain tracked in git (relocating them is a separate, later change).
+  // These directories held internal operational logs (todo/daily/field-trials),
+  // now migrated out of this public repo to the private mirror
+  // nene-origin/internal-docs/nene2/ (P3, 2026-07-18). The exclude is kept as
+  // insurance so that if any same-named directory ever reappears under ./docs it
+  // can never be published. Patterns are relative to srcDir (./docs).
   srcExclude: ['todo/**', 'daily/**', 'field-trials/**'],
 
   head: [['meta', { name: 'theme-color', content: '#3b82f6' }]],
