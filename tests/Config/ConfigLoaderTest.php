@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Nene2\Tests\Config;
 
+use Nene2\Auth\GuardedJwtSecretResolver;
+use Nene2\Auth\JwtSecretException;
 use Nene2\Config\AppConfig;
 use Nene2\Config\AppEnvironment;
 use Nene2\Config\ConfigException;
@@ -15,9 +17,15 @@ final class ConfigLoaderTest extends TestCase
 {
     public function testLoadsDefaultAppConfig(): void
     {
-        $config = (new ConfigLoader($this->emptyProjectRoot()))->load();
+        // APP_ENV is cleared so the environment assertion exercises the canonical
+        // default deterministically in every environment (#1526). With nothing set,
+        // that default is production — secure by default (M-2).
+        $config = $this->withoutEnvironmentKeys(
+            ['APP_ENV'],
+            fn (): AppConfig => (new ConfigLoader($this->emptyProjectRoot()))->load(),
+        );
 
-        self::assertSame(AppEnvironment::Local, $config->environment);
+        self::assertSame(AppEnvironment::Production, $config->environment);
         self::assertFalse($config->debug);
         self::assertSame('NENE2', $config->name);
         self::assertNull($config->machineApiKey);
@@ -72,6 +80,56 @@ final class ConfigLoaderTest extends TestCase
         (new ConfigLoader($this->emptyProjectRoot()))->load([
             'APP_ENV' => 'staging',
         ]);
+    }
+
+    // --- APP_ENV secure by default (audit M-2) ------------------------------
+
+    public function testUnsetAppEnvResolvesToProductionAndBlocksDevSecret(): void
+    {
+        // 未設定 → 防御作動: with APP_ENV unset the config resolves to production, so even
+        // an explicit dev-secret opt-in plus an injected secret fails closed — the
+        // forgotten-APP_ENV footgun can no longer silently unlock the dev path.
+        $config = $this->withoutEnvironmentKeys(
+            ['APP_ENV'],
+            fn (): AppConfig => (new ConfigLoader($this->emptyProjectRoot()))->load([
+                'NENE2_ALLOW_DEV_SECRET' => '1',
+            ]),
+        );
+
+        self::assertSame(AppEnvironment::Production, $config->environment);
+
+        $this->expectException(JwtSecretException::class);
+        GuardedJwtSecretResolver::fromConfig($config, 'injected-dev-secret');
+    }
+
+    public function testExplicitLocalAppEnvKeepsDevSecretPath(): void
+    {
+        // 明示 local → 従来どおり: an explicit APP_ENV=local preserves the development
+        // opt-in, so the injected dev secret is still returned.
+        $config = (new ConfigLoader($this->emptyProjectRoot()))->load([
+            'APP_ENV' => 'local',
+            'NENE2_ALLOW_DEV_SECRET' => '1',
+        ]);
+
+        self::assertSame(AppEnvironment::Local, $config->environment);
+        self::assertSame(
+            'injected-dev-secret',
+            GuardedJwtSecretResolver::fromConfig($config, 'injected-dev-secret'),
+        );
+    }
+
+    public function testExplicitProductionAppEnvStaysFailClosed(): void
+    {
+        // production → fail-closed 維持: unchanged behaviour for an explicit production env.
+        $config = (new ConfigLoader($this->emptyProjectRoot()))->load([
+            'APP_ENV' => 'production',
+            'NENE2_ALLOW_DEV_SECRET' => '1',
+        ]);
+
+        self::assertSame(AppEnvironment::Production, $config->environment);
+
+        $this->expectException(JwtSecretException::class);
+        GuardedJwtSecretResolver::fromConfig($config, 'injected-dev-secret');
     }
 
     public function testInvalidBooleanFailsFast(): void
@@ -264,7 +322,8 @@ final class ConfigLoaderTest extends TestCase
         self::assertSame('sqlite', $config->database->adapter);
         self::assertSame(':memory:', $config->database->name);
         self::assertFalse($config->allowDevSecret);
-        self::assertSame(AppEnvironment::Local, $config->environment);
+        // APP_ENV is cleared above, so this exercises the secure-by-default fallback (M-2).
+        self::assertSame(AppEnvironment::Production, $config->environment);
     }
 
     public function testDemoConfigDefaultsAreOffAndInvoiceMeasured(): void

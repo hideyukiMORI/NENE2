@@ -75,7 +75,10 @@ The first implementation uses `vlucas/phpdotenv` for optional local `.env` loadi
 
 The initial application config includes:
 
-- `APP_ENV`: `local`, `test`, or `production`
+- `APP_ENV`: `local`, `test`, or `production`. **Secure by default**: when unset or
+  empty it resolves to `production` (the most restrictive environment), so a forgotten
+  `APP_ENV` in a deployment never silently enables `local`-tier behaviour such as the
+  development-secret path. Development must set `APP_ENV=local` explicitly.
 - `APP_DEBUG`: boolean value
 - `APP_NAME`: non-empty application name
 - database config values used by Phinx and future database adapters:
