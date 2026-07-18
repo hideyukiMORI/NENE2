@@ -23,7 +23,7 @@
 4. 動作に近いテストを追加または更新する。
 5. フォーカスされたテストを最初に実行し、次に `docker compose run --rm app composer check` を実行する。
 6. エンドポイントが Docker 経由で到達可能な場合は、ローカル HTTP スモークチェックを実行する。
-7. エンドポイントが現在の作業に影響する場合にのみ、`docs/todo/current.md`・マイルストーンドキュメント・MCP カタログを更新する。
+7. エンドポイントが現在の作業に影響する場合にのみ、`nene-origin/internal-docs/nene2/todo/current.md`・マイルストーンドキュメント・MCP カタログを更新する。
 
 ## ランタイムルート
 

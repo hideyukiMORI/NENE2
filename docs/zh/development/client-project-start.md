@@ -215,7 +215,7 @@ docker compose run --rm app composer test:database:mysql
 - 受保护路由文档化了所需凭证而不暴露密钥值。
 - MCP 工具（如有）仅调用文档化的 API 边界。
 - `docker compose run --rm app composer check` 通过。
-- 延迟的工作在 `docs/todo/current.md` 中可见。
+- 延迟的工作在 `nene-origin/internal-docs/nene2/todo/current.md` 中可见。
 
 ## 有用的后续文档
 

@@ -23,7 +23,7 @@
 4. 添加或更新接近行为的测试。
 5. 首先运行专注测试，然后运行 `docker compose run --rm app composer check`。
 6. 如果端点可通过 Docker 访问，运行本地 HTTP 冒烟检查。
-7. 仅在当前工作受影响时更新 `docs/todo/current.md`、里程碑文档和 MCP 目录。
+7. 仅在当前工作受影响时更新 `nene-origin/internal-docs/nene2/todo/current.md`、里程碑文档和 MCP 目录。
 
 ## 运行时路由
 

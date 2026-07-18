@@ -23,7 +23,7 @@ Ein Endpunkt ist erst vollständig, wenn sein Verhalten an allen relevanten Stel
 4. Tests nahe am Verhalten hinzufügen oder aktualisieren.
 5. Zuerst fokussierte Tests ausführen, dann `docker compose run --rm app composer check`.
 6. Wenn der Endpunkt über Docker erreichbar ist, einen lokalen HTTP-Smoke-Check ausführen.
-7. `docs/todo/current.md`, Milestone-Dokumente und MCP-Katalog nur aktualisieren, wenn die aktuelle Arbeit betroffen ist.
+7. `nene-origin/internal-docs/nene2/todo/current.md`, Milestone-Dokumente und MCP-Katalog nur aktualisieren, wenn die aktuelle Arbeit betroffen ist.
 
 ## Laufzeitroute
 

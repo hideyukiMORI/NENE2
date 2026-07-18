@@ -217,7 +217,7 @@ Antes de entregar um projeto estilo cliente, confirme:
 - Rotas protegidas documentam credenciais necessárias sem expor valores secretos.
 - Ferramentas MCP, se houver, chamam apenas fronteiras de API documentadas.
 - `docker compose run --rm app composer check` passa.
-- Trabalho adiado é visível em `docs/todo/current.md`.
+- Trabalho adiado é visível em `nene-origin/internal-docs/nene2/todo/current.md`.
 
 ## Próximos Documentos Úteis
 

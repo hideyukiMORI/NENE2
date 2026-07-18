@@ -217,7 +217,7 @@ Vor der Übergabe eines Client-artigen Projekts bestätigen:
 - Geschützte Routen dokumentieren erforderliche Anmeldedaten ohne Secret-Werte preiszugeben.
 - MCP-Tools, falls vorhanden, rufen nur dokumentierte API-Grenzen auf.
 - `docker compose run --rm app composer check` besteht.
-- Zurückgestellte Arbeit ist in `docs/todo/current.md` sichtbar.
+- Zurückgestellte Arbeit ist in `nene-origin/internal-docs/nene2/todo/current.md` sichtbar.
 
 ## Nützliche Folgedokumente
 

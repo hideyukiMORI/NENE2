@@ -23,7 +23,7 @@ Um endpoint só está completo quando seu comportamento é visível em todos os 
 4. Adicionar ou atualizar testes próximos ao comportamento.
 5. Executar primeiro testes focados, depois `docker compose run --rm app composer check`.
 6. Se o endpoint for acessível via Docker, executar um smoke check HTTP local.
-7. Atualizar `docs/todo/current.md`, documentos de milestone e catálogo MCP apenas se o trabalho atual for impactado.
+7. Atualizar `nene-origin/internal-docs/nene2/todo/current.md`, documentos de milestone e catálogo MCP apenas se o trabalho atual for impactado.
 
 ## Rota Runtime
 
