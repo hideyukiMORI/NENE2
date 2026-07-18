@@ -13,7 +13,12 @@ declare(strict_types=1);
  * to composer.json and "@conformance" to scripts.check.
  *
  * Usage:
- *   php tools/conformance.php [--root=PATH] [--format=text|json] [--write-baseline]
+ *   php tools/conformance.php [--root=PATH] [--format=text|json] [--write-baseline] [--fleet]
+ *
+ * `--fleet` opts into the NeNe-fleet-specific governance rules (currently R3, the
+ * private `nene-origin` link guard) on top of the framework-generic default set.
+ * External consumers omit it; NeNe fleet repos add it to their `@conformance`
+ * script. See ADR 0016 (opt-in addendum).
  *
  * Exit codes: 0 = no active errors, 1 = active error findings, 2 = usage/config error.
  */
@@ -30,6 +35,7 @@ $cwd = getcwd();
 $projectRoot = $cwd !== false ? $cwd : dirname(__DIR__);
 $format = 'text';
 $writeBaseline = false;
+$useFleetRules = false;
 
 foreach ($argv as $index => $arg) {
     if ($index === 0) {
@@ -43,6 +49,8 @@ foreach ($argv as $index => $arg) {
         $format = substr($arg, 9);
     } elseif ($arg === '--write-baseline') {
         $writeBaseline = true;
+    } elseif ($arg === '--fleet') {
+        $useFleetRules = true;
     } else {
         fwrite(STDERR, "Unknown argument: {$arg}\n");
         exit(2);
@@ -66,7 +74,9 @@ require $projectRoot . '/vendor/autoload.php';
 
 $root = rtrim(str_replace('\\', '/', $projectRoot), '/');
 $baselinePath = $root . '/' . ConformanceRunner::BASELINE_FILENAME;
-$runner = ConformanceRunner::withDefaultRules();
+$runner = $useFleetRules
+    ? ConformanceRunner::withFleetRules()
+    : ConformanceRunner::withDefaultRules();
 $baseline = Baseline::load($baselinePath);
 
 if ($baseline->validationErrors() !== []) {

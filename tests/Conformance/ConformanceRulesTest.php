@@ -500,6 +500,31 @@ final class ConformanceRulesTest extends TestCase
         self::assertSame([], (new ReadmePrivateOriginLinkRule())->check($this->root));
     }
 
+    // --- Rule set composition (default generic vs opt-in fleet) --------------
+
+    public function testDefaultRuleSetIsGenericAndExcludesFleetR3(): void
+    {
+        $ids = array_map(
+            static fn ($rule): string => $rule->id(),
+            ConformanceRunner::withDefaultRules()->rules(),
+        );
+
+        // The framework-generic rules ship by default...
+        self::assertSame(['D1', 'D2', 'D3', 'D4', 'R1', 'R2'], $ids);
+        // ...but the NeNe-fleet-specific R3 is opt-in, not default (audit M-1).
+        self::assertNotContains('R3', $ids);
+    }
+
+    public function testFleetRuleSetAddsR3OnTopOfTheGenericDefault(): void
+    {
+        $ids = array_map(
+            static fn ($rule): string => $rule->id(),
+            ConformanceRunner::withFleetRules()->rules(),
+        );
+
+        self::assertSame(['D1', 'D2', 'D3', 'D4', 'R1', 'R2', 'R3'], $ids);
+    }
+
     // --- Baseline / allowlist / inline ignore -------------------------------
 
     public function testAllowlistRequiresReason(): void
