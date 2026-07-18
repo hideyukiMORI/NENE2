@@ -22,7 +22,13 @@ final readonly class ConfigLoader
      * @var array<string, string>
      */
     private const DEFAULTS = [
-        'APP_ENV' => 'local',
+        // Secure by default (audit M-2): an unset/empty APP_ENV resolves to the most
+        // restrictive environment, `production`, not `local`. A forgotten APP_ENV in a
+        // real deployment must not silently unlock the `local`-tier development-secret
+        // path — in production {@see \Nene2\Auth\GuardedJwtSecretResolver} always fails
+        // closed. Development opts in explicitly with `APP_ENV=local` (see .env.example),
+        // so only the implicit-`local` footgun is removed, not the explicit dev workflow.
+        'APP_ENV' => 'production',
         'APP_DEBUG' => 'false',
         'APP_NAME' => 'NENE2',
         'NENE2_MACHINE_API_KEY' => '',
