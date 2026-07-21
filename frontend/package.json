@@ -40,7 +40,7 @@
   },
   "devDependencies": {
     "@hideyukimori/nene2-standards": "^1.2.0",
-    "@hideyukimori/nene2-tokens": "^1.0.1",
+    "@hideyukimori/nene2-tokens": "^1.1.0",
     "@playwright/test": "^1.57.0",
     "@tailwindcss/vite": "^4.1.16",
     "@testing-library/jest-dom": "^6.9.1",
