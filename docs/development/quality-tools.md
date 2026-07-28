@@ -98,6 +98,18 @@ The first validation should verify:
 
 Runtime response validation belongs to later contract test work.
 
+## Version Consistency
+
+`composer version:check` (`tools/validate-version.php`, part of `composer check`) treats `FrameworkInfo::VERSION` as the single source of truth and fails the build when another artifact disagrees with it:
+
+- `docs/openapi/openapi.yaml` — `info.version`
+- `CHANGELOG.md` — the most recent released version heading
+- `README.md` — a version claimed as the current one
+
+The README check looks only at `X.Y.Z` literals on a line that also says "current" or "latest", so historical references ("forked from `v0.1.1`", "available since v1.6.0") are left alone. It exists because that one line is edited by hand and had drifted twice by the time it was machine-checked; a release-checklist step would have been a second thing to remember.
+
+This script is NENE2-internal tooling and is not distributed to consumer projects (see ADR 0009 §5), unlike `tools/conformance.php` and `tools/validate-mcp-tools.php`.
+
 ## Command Shape
 
 The intended split is:

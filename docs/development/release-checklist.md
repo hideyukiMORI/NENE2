@@ -27,6 +27,8 @@ git diff --check
 
 If Docker is unavailable, run the equivalent Composer commands in a PHP `8.4` environment and record the limitation in the release notes.
 
+`composer check` includes `composer version:check`, which fails when `docs/openapi/openapi.yaml`, `CHANGELOG.md`, or `README.md` disagrees with `FrameworkInfo::VERSION`. There is deliberately no manual "remember to update the README" step here — see `docs/development/quality-tools.md`.
+
 ## Version Selection
 
 - Use `vX.Y.Z` tags.
