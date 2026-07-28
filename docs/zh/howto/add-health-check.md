@@ -25,14 +25,21 @@
 
 ```php
 use Nene2\Http\HealthCheckInterface;
+use Nene2\Http\HealthStatus;
 use Nene2\Http\RuntimeApplicationFactory;
 use Nyholm\Psr7\Factory\Psr17Factory;
 
 final class CacheHealthCheck implements HealthCheckInterface
 {
+    // name() 的返回值将成为 "checks" 映射中的键。
     public function name(): string { return 'cache'; }
-    public function check(): bool { return $this->ping(); }
-    private function ping(): bool { return true; }
+
+    public function check(): HealthStatus
+    {
+        return $this->ping() ? HealthStatus::Ok : HealthStatus::Error;
+    }
+
+    private function ping(): bool { /* ... */ return true; }
 }
 
 $psr17 = new Psr17Factory();

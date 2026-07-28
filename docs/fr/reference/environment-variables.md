@@ -17,7 +17,8 @@ Définissez-les dans `.env` (chargé par phpdotenv) ou exportez-les avant de dé
 | Variable | Type | Défaut | Description |
 |---|---|---|---|
 | `NENE2_MACHINE_API_KEY` | string | *(vide — désactivé)* | Clé API attendue dans l'en-tête `X-NENE2-API-Key` pour les endpoints machine. Laissez vide pour désactiver. |
-| `NENE2_LOCAL_JWT_SECRET` | string | *(vide — désactivé)* | Secret HMAC-HS256 pour protéger les outils d'écriture du serveur MCP local. Laissez vide pour un accès en lecture seule sans authentification. |
+| `NENE2_LOCAL_JWT_SECRET` | string | *(vide — désactivé)* | Secret HMAC-HS256 utilisé par `LocalBearerTokenVerifier`. Active la validation du JWT Bearer pour `GET /examples/protected` et protège les outils d'écriture du serveur MCP local. Laissez vide pour désactiver l'authentification JWT et n'autoriser que l'accès MCP en lecture seule. Lorsqu'il est résolu via `Nene2\Auth\GuardedJwtSecretResolver`, une valeur vide échoue en fail-closed sauf si l'opt-in de secret de développement ci-dessous est défini (jamais en production). |
+| `NENE2_ALLOW_DEV_SECRET` | boolean (strict) | `false` | Opt-in de secret de développement lu par `Nene2\Auth\GuardedJwtSecretResolver` (exposé via `AppConfig::$allowDevSecret`). Accepte **uniquement** `1`, `true` ou `yes` (insensible à la casse, espaces retirés) ; toute autre valeur — y compris une faute de frappe — vaut opt-out. Lorsque `NENE2_LOCAL_JWT_SECRET` n'est pas défini dans un environnement `local`/`test`, ceci autorise le secret de développement injecté par le produit. **Ignoré en production** — la production échoue toujours en fail-closed. Voir [ADR 0013](../adr/0013-guarded-jwt-secret-resolution.md). |
 
 ## Serveur MCP local
 
@@ -30,13 +31,14 @@ Définissez-les dans `.env` (chargé par phpdotenv) ou exportez-les avant de dé
 | Variable | Type | Défaut | Description |
 |---|---|---|---|
 | `DATABASE_URL` | string | *(vide — utilise `DB_*`)* | URL de connexion complète. Si non vide, remplace toutes les variables `DB_*` individuelles. |
-| `DB_ADAPTER` | string | `mysql` | Pilote de base de données. Accepté : `sqlite`, `mysql`. |
-| `DB_HOST` | string | `127.0.0.1` | Hôte de la base de données. **Non utilisé par SQLite.** |
+| `DB_ADAPTER` | string | `mysql` | Pilote de base de données. Accepté : `sqlite`, `mysql`, `pgsql` (expérimental — voir [Utiliser PostgreSQL](../howto/use-postgresql.md)). |
+| `DB_HOST` | string | `127.0.0.1` | Hôte de la base de données. **Non utilisé par SQLite.** Dans Docker Compose, `compose.yaml` remplace cette valeur par `mysql` pour le service `app`. |
 | `DB_PORT` | integer | `3306` | Port de la base de données (1–65535). **Non validé pour SQLite.** |
 | `DB_NAME` | string | `nene2` | Nom de la base de données. Pour SQLite : chemin du fichier (ex. `/tmp/myapp.sqlite`). |
 | `DB_USER` | string | `nene2` | Nom d'utilisateur de la base de données. **Non utilisé par SQLite.** |
 | `DB_PASSWORD` | string | *(vide)* | Mot de passe de la base de données. |
 | `DB_CHARSET` | string | `utf8mb4` | Jeu de caractères de la base de données. **Non utilisé par SQLite.** |
+| `DB_ENV` | string | `local` | Nom de l'environnement de migration Phinx (voir `phinx.php`). |
 
 
 ### Adaptateur SQLite

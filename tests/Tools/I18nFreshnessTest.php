@@ -203,6 +203,38 @@ final class I18nFreshnessTest extends TestCase
         self::assertStringContainsString('needs a working git', $out);
     }
 
+    public function testOnlyRestrictsTheRewriteToTheNamedDocument(): void
+    {
+        // A staged burn-down updates one document at a time. Without --only the
+        // rewrite would bless the documents that PR never touched.
+        $this->writeGuide('howto/add-tag.md', "# Add a tag\n\n```php\nold();\n```\n");
+        $this->writeGuide('howto/add-note.md', "# Add a note\n\n```php\nold();\n```\n");
+        $this->writeTranslations('howto/add-tag.md', "# タグを追加する\n");
+        $this->writeTranslations('howto/add-note.md', "# ノートを追加する\n");
+        $this->seedBaseline();
+
+        $this->write('docs/howto/add-tag.md', "# Add a tag\n\n```php\nfixed();\n```\n");
+        $this->write('docs/howto/add-note.md', "# Add a note\n\n```php\nalsoChanged();\n```\n");
+
+        [$code, $out] = $this->runScript('--write-baseline', '--only=howto/add-tag.md');
+        self::assertSame(0, $code, $out);
+        self::assertStringContainsString('updated for 1 document(s)', $out);
+
+        [$code, $out] = $this->check();
+
+        self::assertSame(1, $code, $out);
+        self::assertStringNotContainsString('add-tag.md', $out);
+        self::assertStringContainsString('add-note.md', $out);
+    }
+
+    public function testOnlyWithoutWriteBaselineIsAUsageError(): void
+    {
+        [$code, $out] = $this->runScript('--only=howto/add-tag.md');
+
+        self::assertSame(2, $code, $out);
+        self::assertStringContainsString('--only only applies', $out);
+    }
+
     public function testRejectsUnknownArguments(): void
     {
         [$code, $out] = $this->runScript('--unknown');

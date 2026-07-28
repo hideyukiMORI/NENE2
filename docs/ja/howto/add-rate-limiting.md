@@ -6,9 +6,21 @@
 
 ---
 
+## 本番環境の要件 — 共有ストレージ
+
+> **警告**: 以下のクイックスタートで使う `InMemoryRateLimitStorage` は**本番環境には適していません**。
+> PHP-FPM は複数のワーカープロセスを起動し、各プロセスが独自のインメモリストアを持ちます。
+> 10 個のワーカーに同時に到達したクライアントはワーカーごとに1回ずつしか数えられず、
+> 実質的に制限を回避できてしまいます。マルチプロセス／マルチサーバー構成では
+> 共有ストレージバックエンド（Redis・Memcached・データベース）を使ってください。
+>
+> Redis 実装は [ストレージバックエンドを交換する](#ストレージバックエンドを交換する) を参照してください。
+
+---
+
 ## クイックスタート
 
-`RuntimeApplicationFactory` に `ThrottleMiddleware` を追加します。組み込みの `InMemoryRateLimitStorage` はローカル開発とシングルプロセス環境に適しています。
+`RuntimeApplicationFactory` に `ThrottleMiddleware` を追加します。組み込みの `InMemoryRateLimitStorage` はローカル開発とシングルプロセスでの検証にのみ適しています。
 
 ```php
 use Nene2\Error\ProblemDetailsResponseFactory;

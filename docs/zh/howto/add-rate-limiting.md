@@ -6,10 +6,21 @@
 
 ---
 
+## 生产环境要求 — 共享存储
+
+> **警告**：下面快速开始中使用的 `InMemoryRateLimitStorage` **不适用于生产环境**。
+> PHP-FPM 会启动多个 worker 进程，每个进程都有自己独立的内存存储。
+> 同时命中 10 个 worker 的客户端在每个 worker 中只会被计数一次——实际上绕过了限制。
+> 在任何多进程或多服务器部署中，请使用共享存储后端（Redis、Memcached 或数据库）。
+>
+> Redis 实现请参见[更换存储后端](#更换存储后端)。
+
+---
+
 ## 快速开始
 
 将 `ThrottleMiddleware` 添加到 `RuntimeApplicationFactory`。内置的 `InMemoryRateLimitStorage`
-适用于本地开发和单进程部署。
+仅适用于本地开发和单进程测试。
 
 ```php
 use Nene2\Error\ProblemDetailsResponseFactory;

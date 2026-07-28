@@ -26,14 +26,21 @@ Wenn Sie `HealthCheckInterface`-Implementierungen registrieren, fügt der Endpun
 
 ```php
 use Nene2\Http\HealthCheckInterface;
+use Nene2\Http\HealthStatus;
 use Nene2\Http\RuntimeApplicationFactory;
 use Nyholm\Psr7\Factory\Psr17Factory;
 
 final class CacheHealthCheck implements HealthCheckInterface
 {
+    // Der Rückgabewert von name() wird zum Schlüssel in der "checks"-Map.
     public function name(): string { return 'cache'; }
-    public function check(): bool { return $this->ping(); }
-    private function ping(): bool { return true; }
+
+    public function check(): HealthStatus
+    {
+        return $this->ping() ? HealthStatus::Ok : HealthStatus::Error;
+    }
+
+    private function ping(): bool { /* ... */ return true; }
 }
 
 $psr17 = new Psr17Factory();
@@ -96,7 +103,7 @@ $app = (new RuntimeApplicationFactory(
 
 ## Ausnahmen in Checks behandeln
 
-Wenn `check()` eine Ausnahme wirft, behandelt das Framework sie als `false` — der Status wird zu `"degraded"`,
+Wenn `check()` eine Ausnahme wirft, behandelt das Framework sie wie die Rückgabe von `HealthStatus::Error` — der Status wird zu `"degraded"`,
 der Check zeigt `"error"`. Sie müssen keine Ausnahmen innerhalb von `check()` abfangen.
 
 ---

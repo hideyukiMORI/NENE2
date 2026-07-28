@@ -285,24 +285,24 @@
         },
         "howto/add-health-check.md": {
             "ja": {
-                "content": "0d3de332a83a0286",
-                "structure": "b7d80b65df412cf9"
+                "content": "dbbda1250cdf019e",
+                "structure": "81a1109d37995517"
             },
             "de": {
-                "content": "0d3de332a83a0286",
-                "structure": "b7d80b65df412cf9"
+                "content": "dbbda1250cdf019e",
+                "structure": "81a1109d37995517"
             },
             "fr": {
-                "content": "0d3de332a83a0286",
-                "structure": "b7d80b65df412cf9"
+                "content": "dbbda1250cdf019e",
+                "structure": "81a1109d37995517"
             },
             "zh": {
-                "content": "0d3de332a83a0286",
-                "structure": "b7d80b65df412cf9"
+                "content": "dbbda1250cdf019e",
+                "structure": "81a1109d37995517"
             },
             "pt-br": {
-                "content": "0d3de332a83a0286",
-                "structure": "b7d80b65df412cf9"
+                "content": "dbbda1250cdf019e",
+                "structure": "81a1109d37995517"
             }
         },
         "howto/add-html-view.md": {
@@ -417,24 +417,24 @@
         },
         "howto/add-rate-limiting.md": {
             "ja": {
-                "content": "04bd12fc785df4e3",
-                "structure": "673397be26a019d6"
+                "content": "f466ee1b5261cc77",
+                "structure": "2d2f43a22dd95e02"
             },
             "de": {
-                "content": "04bd12fc785df4e3",
-                "structure": "673397be26a019d6"
+                "content": "f466ee1b5261cc77",
+                "structure": "2d2f43a22dd95e02"
             },
             "fr": {
-                "content": "04bd12fc785df4e3",
-                "structure": "673397be26a019d6"
+                "content": "f466ee1b5261cc77",
+                "structure": "2d2f43a22dd95e02"
             },
             "zh": {
-                "content": "04bd12fc785df4e3",
-                "structure": "673397be26a019d6"
+                "content": "f466ee1b5261cc77",
+                "structure": "2d2f43a22dd95e02"
             },
             "pt-br": {
-                "content": "04bd12fc785df4e3",
-                "structure": "673397be26a019d6"
+                "content": "f466ee1b5261cc77",
+                "structure": "2d2f43a22dd95e02"
             }
         },
         "howto/add-second-entity.md": {
@@ -5873,24 +5873,24 @@
         },
         "reference/environment-variables.md": {
             "ja": {
-                "content": "85ff65630eab9777",
-                "structure": "39666264d1e94a2b"
+                "content": "c66efb5eca0f965b",
+                "structure": "777dd62b0ac5657f"
             },
             "de": {
-                "content": "85ff65630eab9777",
-                "structure": "39666264d1e94a2b"
+                "content": "c66efb5eca0f965b",
+                "structure": "777dd62b0ac5657f"
             },
             "fr": {
-                "content": "85ff65630eab9777",
-                "structure": "39666264d1e94a2b"
+                "content": "c66efb5eca0f965b",
+                "structure": "777dd62b0ac5657f"
             },
             "zh": {
-                "content": "85ff65630eab9777",
-                "structure": "39666264d1e94a2b"
+                "content": "c66efb5eca0f965b",
+                "structure": "777dd62b0ac5657f"
             },
             "pt-br": {
-                "content": "85ff65630eab9777",
-                "structure": "39666264d1e94a2b"
+                "content": "c66efb5eca0f965b",
+                "structure": "777dd62b0ac5657f"
             }
         },
         "reference/http-endpoints.md": {
