@@ -27,17 +27,18 @@
 
 ```php
 use Nene2\Http\HealthCheckInterface;
+use Nene2\Http\HealthStatus;
 use Nene2\Http\RuntimeApplicationFactory;
 use Nyholm\Psr7\Factory\Psr17Factory;
 
 final class CacheHealthCheck implements HealthCheckInterface
 {
+    // name() の戻り値が "checks" マップのキーになります。
     public function name(): string { return 'cache'; }
 
-    public function check(): bool
+    public function check(): HealthStatus
     {
-        // true = 正常、false = 異常
-        return $this->ping();
+        return $this->ping() ? HealthStatus::Ok : HealthStatus::Error;
     }
 
     private function ping(): bool { /* ... */ return true; }
@@ -90,7 +91,7 @@ $app = (new RuntimeApplicationFactory(
 ))->create();
 ```
 
-このチェックは `SELECT 1` を実行し、成功すれば `true`、例外があれば `false` を返します。
+このチェックは `SELECT 1` を実行し、成功すれば `HealthStatus::Ok`、例外があれば `HealthStatus::Error` を返します。
 
 > **注意**: `DatabaseHealthCheck` は `src/Example/` にあり、参照実装です（安定 API 保証外）。
 > アプリケーションにコピーして用途に合わせて適応させてください。
@@ -132,7 +133,7 @@ $app = (new RuntimeApplicationFactory(
 
 ## チェック内の例外処理
 
-`check()` メソッドが例外をスローした場合、`RuntimeApplicationFactory` は `false` を返した場合と同様に扱います。ステータスは `"degraded"` になり、チェックは `"error"` を表示します。`check()` 内で例外をキャッチする必要はありません。
+`check()` メソッドが例外をスローした場合、`RuntimeApplicationFactory` は `HealthStatus::Error` を返した場合と同様に扱います。ステータスは `"degraded"` になり、チェックは `"error"` を表示します。`check()` 内で例外をキャッチする必要はありません。
 
 ---
 

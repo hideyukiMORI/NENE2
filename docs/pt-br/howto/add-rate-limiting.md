@@ -7,10 +7,23 @@ Este guia mostra como proteger sua aplicação NENE2 com limitação de taxa de 
 
 ---
 
+## Requisito de produção — armazenamento compartilhado
+
+> **Aviso**: `InMemoryRateLimitStorage` (usado no início rápido abaixo) **não é adequado para
+> produção**. O PHP-FPM inicia vários processos worker, e cada processo tem seu próprio
+> armazenamento em memória. Um cliente que atinge 10 workers simultaneamente será contado
+> apenas uma vez por worker — contornando o limite na prática. Use um backend de
+> armazenamento compartilhado (Redis, Memcached ou um banco de dados) em qualquer
+> implantação multiprocesso ou multiservidor.
+>
+> Veja [Trocar o backend de armazenamento](#trocar-o-backend-de-armazenamento) para uma implementação com Redis.
+
+---
+
 ## Início rápido
 
 Adicione `ThrottleMiddleware` ao `RuntimeApplicationFactory`. O `InMemoryRateLimitStorage` embutido
-é adequado para desenvolvimento local e implantações de processo único.
+é adequado apenas para desenvolvimento local e testes de processo único.
 
 ```php
 use Nene2\Error\ProblemDetailsResponseFactory;

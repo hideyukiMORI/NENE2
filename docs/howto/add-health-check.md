@@ -144,8 +144,8 @@ Response when database is healthy but cache is degraded:
 ## Handle exceptions in checks
 
 If your `check()` method throws an exception, `RuntimeApplicationFactory` treats it the same
-as returning `false` — the status becomes `"degraded"` and the check shows `"error"`. You do
-not need to catch exceptions inside `check()`.
+as returning `HealthStatus::Error` — the status becomes `"degraded"` and the check shows
+`"error"`. You do not need to catch exceptions inside `check()`.
 
 ---
 

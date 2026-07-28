@@ -49,7 +49,12 @@ declare(strict_types=1);
  *
  * Usage:
  *   php tools/i18n-freshness.php [--root=PATH] [--format=text|json]
- *                                [--write-baseline] [--bootstrap]
+ *                                [--write-baseline] [--only=PATH]... [--bootstrap]
+ *
+ * `--only=howto/add-tag.md` (repeatable) narrows `--write-baseline` to the
+ * documents a burn-down PR actually updated. Without it the rewrite covers every
+ * pair, which during a staged burn-down would bless the documents that PR did not
+ * touch — the silent pass this checker exists to prevent.
  *
  * `--bootstrap` seeds the baseline from git history — for each translation it
  * records the English hashes as they were at that translation's last commit, so
@@ -99,6 +104,8 @@ $root = dirname(__DIR__);
 $format = 'text';
 $writeBaseline = false;
 $bootstrap = false;
+/** @var list<string> */
+$only = [];
 
 foreach ($argv as $index => $arg) {
     if ($index === 0) {
@@ -110,6 +117,8 @@ foreach ($argv as $index => $arg) {
         $root = realpath($explicit) ?: $explicit;
     } elseif (str_starts_with($arg, '--format=')) {
         $format = substr($arg, 9);
+    } elseif (str_starts_with($arg, '--only=')) {
+        $only[] = substr($arg, 7);
     } elseif ($arg === '--write-baseline') {
         $writeBaseline = true;
     } elseif ($arg === '--bootstrap') {
@@ -127,6 +136,11 @@ if (!in_array($format, ['text', 'json'], true)) {
 
 if ($writeBaseline && $bootstrap) {
     fwrite(STDERR, "--write-baseline and --bootstrap are mutually exclusive.\n");
+    exit(2);
+}
+
+if ($only !== [] && !$writeBaseline) {
+    fwrite(STDERR, "--only only applies to --write-baseline.\n");
     exit(2);
 }
 
@@ -463,6 +477,16 @@ foreach ($english as $relative) {
         }
 
         if ($writeBaseline) {
+            // With --only, everything outside the named documents keeps whatever
+            // was recorded before, so a burn-down PR cannot bless its neighbours.
+            $selected = $only === [] || in_array($relative, $only, true);
+            $previous = $baseline['entries'][$relative][$locale] ?? null;
+
+            if (!$selected && is_array($previous) && isset($previous['content'], $previous['structure'])) {
+                $entries[$relative][$locale] = ['content' => (string) $previous['content'], 'structure' => (string) $previous['structure']];
+                continue;
+            }
+
             $entries[$relative][$locale] = $current;
             continue;
         }
@@ -521,7 +545,11 @@ if ($writeBaseline || $bootstrap) {
     $baseline['entries'] = $entries;
     writeBaselineFile($root, $baseline);
 
-    $mode = $bootstrap ? 'bootstrapped from git history' : 'written from current sources';
+    $mode = $bootstrap
+        ? 'bootstrapped from git history'
+        : ($only === []
+            ? 'written from current sources'
+            : sprintf('updated for %d document(s), the rest untouched', count($only)));
     echo sprintf("%s %s: %d pairs across %d locales.\n", BASELINE_FILENAME, $mode, $pairs, count($baseline['locales']));
 
     if ($assumed > 0) {

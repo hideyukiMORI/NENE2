@@ -135,9 +135,16 @@ Prose-only edits are a warning on purpose: making one typo fix in English block 
 
 After updating a translation, run `composer i18n:baseline` to re-record it. That rewrite is an explicit, reviewable diff — it cannot quietly erase a finding.
 
+A plain rewrite covers every pair, which is wrong while a burn-down is in progress: it would also bless the documents that PR never touched. Narrow it to what you actually updated:
+
+```bash
+php tools/i18n-freshness.php --write-baseline \
+  --only=howto/add-health-check.md --only=reference/environment-variables.md
+```
+
 Comparing commit dates instead of hashes does not work here. Measured on this repository it flagged 248 of 273 `ja` pairs, and 245 of those came from two bulk commits that added frontmatter to every guide without touching any prose.
 
-> **Current state: 52 of 1,355 pairs are `stale-structure`** across 12 documents (all five locales for ten of them). These are known and are being updated document by document; see issue #1628. `composer i18n:check` is therefore **not yet part of `composer check`** — it is wired into the standard check path only once that backlog is clear, so the gate starts from a green baseline rather than a permanently red one.
+> **Current state: 37 of 1,355 pairs are `stale-structure`** across 9 documents (started at 52 across 12). These are known and are being updated batch by batch; see issue #1628. `composer i18n:check` is therefore **not yet part of `composer check`** — it is wired into the standard check path only once that backlog is clear, so the gate starts from a green baseline rather than a permanently red one.
 
 `docs/development/` and `docs/integrations/` are English-only by policy (see `language-policy.md`) and are not in scope; walking every English file blindly would report 43 phantom omissions per locale. Scope, locales, and exclusions live in the baseline file as data so that changing them is a reviewable diff.
 

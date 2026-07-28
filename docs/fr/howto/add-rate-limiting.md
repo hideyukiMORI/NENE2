@@ -7,10 +7,23 @@ en utilisant `ThrottleMiddleware` et `RateLimitStorageInterface`.
 
 ---
 
+## Exigence de production — stockage partagé
+
+> **Avertissement** : `InMemoryRateLimitStorage` (utilisé dans le démarrage rapide ci-dessous)
+> **ne convient pas à la production**. PHP-FPM lance plusieurs processus worker, et chaque
+> processus possède son propre stockage en mémoire. Un client qui atteint 10 workers
+> simultanément ne sera compté qu'une fois par worker — contournant de fait la limite.
+> Utilisez un backend de stockage partagé (Redis, Memcached ou une base de données) dans
+> tout déploiement multi-processus ou multi-serveur.
+>
+> Voir [Remplacer le backend de stockage](#remplacer-le-backend-de-stockage) pour une implémentation Redis.
+
+---
+
 ## Démarrage rapide
 
 Ajoutez `ThrottleMiddleware` à `RuntimeApplicationFactory`. Le `InMemoryRateLimitStorage` intégré
-convient au développement local et aux déploiements mono-processus.
+convient uniquement au développement local et aux tests mono-processus.
 
 ```php
 use Nene2\Error\ProblemDetailsResponseFactory;
