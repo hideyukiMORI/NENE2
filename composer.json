@@ -38,6 +38,8 @@
     "mcp": "php tools/validate-mcp-tools.php",
     "conformance": "php tools/conformance.php --fleet",
     "version:check": "php tools/validate-version.php",
+    "i18n:check": "php tools/i18n-freshness.php",
+    "i18n:baseline": "php tools/i18n-freshness.php --write-baseline",
     "migrations:status": "phinx status -c phinx.php",
     "migrations:migrate": "phinx migrate -c phinx.php",
     "migrations:rollback": "phinx rollback -c phinx.php",

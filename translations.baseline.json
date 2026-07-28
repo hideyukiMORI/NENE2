@@ -1,0 +1,5985 @@
+{
+    "version": 1,
+    "locales": [
+        "ja",
+        "de",
+        "fr",
+        "zh",
+        "pt-br"
+    ],
+    "scope": [
+        "howto",
+        "tutorial",
+        "reference",
+        "explanation"
+    ],
+    "exclude": [
+        "howto/README.md",
+        "howto/by-tag.md",
+        "explanation/index.md"
+    ],
+    "entries": {
+        "explanation/why-explicit-wiring.md": {
+            "ja": {
+                "content": "bd83ebe83a21bb90",
+                "structure": "4893bf72a964ff25"
+            },
+            "de": {
+                "content": "bd83ebe83a21bb90",
+                "structure": "4893bf72a964ff25"
+            },
+            "fr": {
+                "content": "bd83ebe83a21bb90",
+                "structure": "4893bf72a964ff25"
+            },
+            "zh": {
+                "content": "bd83ebe83a21bb90",
+                "structure": "4893bf72a964ff25"
+            },
+            "pt-br": {
+                "content": "bd83ebe83a21bb90",
+                "structure": "4893bf72a964ff25"
+            }
+        },
+        "explanation/why-mcp.md": {
+            "ja": {
+                "content": "80142c8428b8a7b2",
+                "structure": "352109ad78a927c0"
+            },
+            "de": {
+                "content": "80142c8428b8a7b2",
+                "structure": "352109ad78a927c0"
+            },
+            "fr": {
+                "content": "80142c8428b8a7b2",
+                "structure": "352109ad78a927c0"
+            },
+            "zh": {
+                "content": "80142c8428b8a7b2",
+                "structure": "352109ad78a927c0"
+            },
+            "pt-br": {
+                "content": "80142c8428b8a7b2",
+                "structure": "352109ad78a927c0"
+            }
+        },
+        "explanation/why-problem-details.md": {
+            "ja": {
+                "content": "545229b2d381171c",
+                "structure": "8ff22769cf00ebb6"
+            },
+            "de": {
+                "content": "545229b2d381171c",
+                "structure": "8ff22769cf00ebb6"
+            },
+            "fr": {
+                "content": "545229b2d381171c",
+                "structure": "8ff22769cf00ebb6"
+            },
+            "zh": {
+                "content": "545229b2d381171c",
+                "structure": "8ff22769cf00ebb6"
+            },
+            "pt-br": {
+                "content": "545229b2d381171c",
+                "structure": "8ff22769cf00ebb6"
+            }
+        },
+        "explanation/why-psr.md": {
+            "ja": {
+                "content": "835c730cb4de0141",
+                "structure": "f6f3780730ed45a4"
+            },
+            "de": {
+                "content": "835c730cb4de0141",
+                "structure": "f6f3780730ed45a4"
+            },
+            "fr": {
+                "content": "835c730cb4de0141",
+                "structure": "f6f3780730ed45a4"
+            },
+            "zh": {
+                "content": "835c730cb4de0141",
+                "structure": "f6f3780730ed45a4"
+            },
+            "pt-br": {
+                "content": "835c730cb4de0141",
+                "structure": "f6f3780730ed45a4"
+            }
+        },
+        "howto/ab-testing.md": {
+            "ja": {
+                "content": "6230d2ae4d9f7833",
+                "structure": "1fea07bd3fb0484d"
+            },
+            "de": {
+                "content": "6230d2ae4d9f7833",
+                "structure": "1fea07bd3fb0484d"
+            },
+            "fr": {
+                "content": "6230d2ae4d9f7833",
+                "structure": "1fea07bd3fb0484d"
+            },
+            "zh": {
+                "content": "6230d2ae4d9f7833",
+                "structure": "1fea07bd3fb0484d"
+            },
+            "pt-br": {
+                "content": "6230d2ae4d9f7833",
+                "structure": "1fea07bd3fb0484d"
+            }
+        },
+        "howto/access-token-management.md": {
+            "ja": {
+                "content": "ea77920c5c6abbbf",
+                "structure": "e0ad691283e4f2d2"
+            },
+            "de": {
+                "content": "ea77920c5c6abbbf",
+                "structure": "e0ad691283e4f2d2"
+            },
+            "fr": {
+                "content": "ea77920c5c6abbbf",
+                "structure": "e0ad691283e4f2d2"
+            },
+            "zh": {
+                "content": "ea77920c5c6abbbf",
+                "structure": "e0ad691283e4f2d2"
+            },
+            "pt-br": {
+                "content": "ea77920c5c6abbbf",
+                "structure": "e0ad691283e4f2d2"
+            }
+        },
+        "howto/account-lockout.md": {
+            "ja": {
+                "content": "ff72956aa564a0e3",
+                "structure": "0050756e42207176"
+            },
+            "de": {
+                "content": "ff72956aa564a0e3",
+                "structure": "0050756e42207176"
+            },
+            "fr": {
+                "content": "ff72956aa564a0e3",
+                "structure": "0050756e42207176"
+            },
+            "zh": {
+                "content": "ff72956aa564a0e3",
+                "structure": "0050756e42207176"
+            },
+            "pt-br": {
+                "content": "ff72956aa564a0e3",
+                "structure": "0050756e42207176"
+            }
+        },
+        "howto/activity-feed.md": {
+            "ja": {
+                "content": "0d3faf9c0dafec97",
+                "structure": "0bff0d0b2c0f30c4"
+            },
+            "de": {
+                "content": "0d3faf9c0dafec97",
+                "structure": "0bff0d0b2c0f30c4"
+            },
+            "fr": {
+                "content": "0d3faf9c0dafec97",
+                "structure": "0bff0d0b2c0f30c4"
+            },
+            "zh": {
+                "content": "0d3faf9c0dafec97",
+                "structure": "0bff0d0b2c0f30c4"
+            },
+            "pt-br": {
+                "content": "0d3faf9c0dafec97",
+                "structure": "0bff0d0b2c0f30c4"
+            }
+        },
+        "howto/add-custom-route.md": {
+            "ja": {
+                "content": "b10f3ab19ff0a7fe",
+                "structure": "a2d2242ef42e0897"
+            },
+            "de": {
+                "content": "b10f3ab19ff0a7fe",
+                "structure": "a2d2242ef42e0897"
+            },
+            "fr": {
+                "content": "b10f3ab19ff0a7fe",
+                "structure": "a2d2242ef42e0897"
+            },
+            "zh": {
+                "content": "b10f3ab19ff0a7fe",
+                "structure": "a2d2242ef42e0897"
+            },
+            "pt-br": {
+                "content": "b10f3ab19ff0a7fe",
+                "structure": "a2d2242ef42e0897"
+            }
+        },
+        "howto/add-database-endpoint.md": {
+            "ja": {
+                "content": "799b34d46b48020b",
+                "structure": "d2e300c1b89bd27f"
+            },
+            "de": {
+                "content": "799b34d46b48020b",
+                "structure": "d2e300c1b89bd27f"
+            },
+            "fr": {
+                "content": "799b34d46b48020b",
+                "structure": "d2e300c1b89bd27f"
+            },
+            "zh": {
+                "content": "799b34d46b48020b",
+                "structure": "d2e300c1b89bd27f"
+            },
+            "pt-br": {
+                "content": "799b34d46b48020b",
+                "structure": "d2e300c1b89bd27f"
+            }
+        },
+        "howto/add-disposable-demo.md": {
+            "ja": {
+                "content": "bd32fd37f1990c02",
+                "structure": "adbd0a6c9e8e2be6"
+            },
+            "de": {
+                "content": "bd32fd37f1990c02",
+                "structure": "adbd0a6c9e8e2be6"
+            },
+            "fr": {
+                "content": "bd32fd37f1990c02",
+                "structure": "adbd0a6c9e8e2be6"
+            },
+            "zh": {
+                "content": "bd32fd37f1990c02",
+                "structure": "adbd0a6c9e8e2be6"
+            },
+            "pt-br": {
+                "content": "bd32fd37f1990c02",
+                "structure": "adbd0a6c9e8e2be6"
+            }
+        },
+        "howto/add-domain-exception-handler.md": {
+            "ja": {
+                "content": "ac4f3d66e85aeae4",
+                "structure": "d6e7fd4f53b72e8d"
+            },
+            "de": {
+                "content": "ac4f3d66e85aeae4",
+                "structure": "d6e7fd4f53b72e8d"
+            },
+            "fr": {
+                "content": "ac4f3d66e85aeae4",
+                "structure": "d6e7fd4f53b72e8d"
+            },
+            "zh": {
+                "content": "ac4f3d66e85aeae4",
+                "structure": "d6e7fd4f53b72e8d"
+            },
+            "pt-br": {
+                "content": "ac4f3d66e85aeae4",
+                "structure": "d6e7fd4f53b72e8d"
+            }
+        },
+        "howto/add-health-check.md": {
+            "ja": {
+                "content": "0d3de332a83a0286",
+                "structure": "b7d80b65df412cf9"
+            },
+            "de": {
+                "content": "0d3de332a83a0286",
+                "structure": "b7d80b65df412cf9"
+            },
+            "fr": {
+                "content": "0d3de332a83a0286",
+                "structure": "b7d80b65df412cf9"
+            },
+            "zh": {
+                "content": "0d3de332a83a0286",
+                "structure": "b7d80b65df412cf9"
+            },
+            "pt-br": {
+                "content": "0d3de332a83a0286",
+                "structure": "b7d80b65df412cf9"
+            }
+        },
+        "howto/add-html-view.md": {
+            "ja": {
+                "content": "e66897454b50e8a7",
+                "structure": "b9e7b89ad7b2796b"
+            },
+            "de": {
+                "content": "e66897454b50e8a7",
+                "structure": "b9e7b89ad7b2796b"
+            },
+            "fr": {
+                "content": "e66897454b50e8a7",
+                "structure": "b9e7b89ad7b2796b"
+            },
+            "zh": {
+                "content": "e66897454b50e8a7",
+                "structure": "b9e7b89ad7b2796b"
+            },
+            "pt-br": {
+                "content": "e66897454b50e8a7",
+                "structure": "b9e7b89ad7b2796b"
+            }
+        },
+        "howto/add-jwt-authentication.md": {
+            "ja": {
+                "content": "2ee22ce8dd752077",
+                "structure": "c1b17bda925d4867"
+            },
+            "de": {
+                "content": "45819fadbb7a5a78",
+                "structure": "ad7d8bbbc0a28832"
+            },
+            "fr": {
+                "content": "45819fadbb7a5a78",
+                "structure": "ad7d8bbbc0a28832"
+            },
+            "zh": {
+                "content": "45819fadbb7a5a78",
+                "structure": "ad7d8bbbc0a28832"
+            },
+            "pt-br": {
+                "content": "45819fadbb7a5a78",
+                "structure": "ad7d8bbbc0a28832"
+            }
+        },
+        "howto/add-mcp-tools.md": {
+            "ja": {
+                "content": "7910180cfcaba183",
+                "structure": "eb58dc9b358d75de"
+            },
+            "de": {
+                "content": "7910180cfcaba183",
+                "structure": "eb58dc9b358d75de"
+            },
+            "fr": {
+                "content": "7910180cfcaba183",
+                "structure": "eb58dc9b358d75de"
+            },
+            "zh": {
+                "content": "7910180cfcaba183",
+                "structure": "eb58dc9b358d75de"
+            },
+            "pt-br": {
+                "content": "7910180cfcaba183",
+                "structure": "eb58dc9b358d75de"
+            }
+        },
+        "howto/add-optimistic-locking.md": {
+            "ja": {
+                "content": "e63baa75dcbe667a",
+                "structure": "ffe0ef6e9b80cb65"
+            },
+            "de": {
+                "content": "e63baa75dcbe667a",
+                "structure": "ffe0ef6e9b80cb65"
+            },
+            "fr": {
+                "content": "e63baa75dcbe667a",
+                "structure": "ffe0ef6e9b80cb65"
+            },
+            "zh": {
+                "content": "e63baa75dcbe667a",
+                "structure": "ffe0ef6e9b80cb65"
+            },
+            "pt-br": {
+                "content": "e63baa75dcbe667a",
+                "structure": "ffe0ef6e9b80cb65"
+            }
+        },
+        "howto/add-pagination.md": {
+            "ja": {
+                "content": "bb3bf69da6c6f78e",
+                "structure": "9de97340f0a92402"
+            },
+            "de": {
+                "content": "bb3bf69da6c6f78e",
+                "structure": "9de97340f0a92402"
+            },
+            "fr": {
+                "content": "bb3bf69da6c6f78e",
+                "structure": "9de97340f0a92402"
+            },
+            "zh": {
+                "content": "bb3bf69da6c6f78e",
+                "structure": "9de97340f0a92402"
+            },
+            "pt-br": {
+                "content": "bb3bf69da6c6f78e",
+                "structure": "9de97340f0a92402"
+            }
+        },
+        "howto/add-rate-limiting.md": {
+            "ja": {
+                "content": "04bd12fc785df4e3",
+                "structure": "673397be26a019d6"
+            },
+            "de": {
+                "content": "04bd12fc785df4e3",
+                "structure": "673397be26a019d6"
+            },
+            "fr": {
+                "content": "04bd12fc785df4e3",
+                "structure": "673397be26a019d6"
+            },
+            "zh": {
+                "content": "04bd12fc785df4e3",
+                "structure": "673397be26a019d6"
+            },
+            "pt-br": {
+                "content": "04bd12fc785df4e3",
+                "structure": "673397be26a019d6"
+            }
+        },
+        "howto/add-second-entity.md": {
+            "ja": {
+                "content": "47f615972647e439",
+                "structure": "1d24e800aa7770e0"
+            },
+            "de": {
+                "content": "47f615972647e439",
+                "structure": "1d24e800aa7770e0"
+            },
+            "fr": {
+                "content": "47f615972647e439",
+                "structure": "1d24e800aa7770e0"
+            },
+            "zh": {
+                "content": "47f615972647e439",
+                "structure": "1d24e800aa7770e0"
+            },
+            "pt-br": {
+                "content": "47f615972647e439",
+                "structure": "1d24e800aa7770e0"
+            }
+        },
+        "howto/admin-report-aggregation.md": {
+            "ja": {
+                "content": "c1fb416487986494",
+                "structure": "a2573ae4ea8713c0"
+            },
+            "de": {
+                "content": "c1fb416487986494",
+                "structure": "a2573ae4ea8713c0"
+            },
+            "fr": {
+                "content": "c1fb416487986494",
+                "structure": "a2573ae4ea8713c0"
+            },
+            "zh": {
+                "content": "c1fb416487986494",
+                "structure": "a2573ae4ea8713c0"
+            },
+            "pt-br": {
+                "content": "c1fb416487986494",
+                "structure": "a2573ae4ea8713c0"
+            }
+        },
+        "howto/aggregate-reporting.md": {
+            "ja": {
+                "content": "7905d890e260b92a",
+                "structure": "a4104039583da156"
+            },
+            "de": {
+                "content": "7905d890e260b92a",
+                "structure": "a4104039583da156"
+            },
+            "fr": {
+                "content": "7905d890e260b92a",
+                "structure": "a4104039583da156"
+            },
+            "zh": {
+                "content": "7905d890e260b92a",
+                "structure": "a4104039583da156"
+            },
+            "pt-br": {
+                "content": "7905d890e260b92a",
+                "structure": "a4104039583da156"
+            }
+        },
+        "howto/api-key-management.md": {
+            "ja": {
+                "content": "6d4b2daead5bcc7e",
+                "structure": "e12c0ae7641010a5"
+            },
+            "de": {
+                "content": "6d4b2daead5bcc7e",
+                "structure": "e12c0ae7641010a5"
+            },
+            "fr": {
+                "content": "6d4b2daead5bcc7e",
+                "structure": "e12c0ae7641010a5"
+            },
+            "zh": {
+                "content": "6d4b2daead5bcc7e",
+                "structure": "e12c0ae7641010a5"
+            },
+            "pt-br": {
+                "content": "6d4b2daead5bcc7e",
+                "structure": "e12c0ae7641010a5"
+            }
+        },
+        "howto/api-usage-metering.md": {
+            "ja": {
+                "content": "314e1920f703f7d8",
+                "structure": "94e7625aad8ae5be"
+            },
+            "de": {
+                "content": "314e1920f703f7d8",
+                "structure": "94e7625aad8ae5be"
+            },
+            "fr": {
+                "content": "314e1920f703f7d8",
+                "structure": "94e7625aad8ae5be"
+            },
+            "zh": {
+                "content": "314e1920f703f7d8",
+                "structure": "94e7625aad8ae5be"
+            },
+            "pt-br": {
+                "content": "314e1920f703f7d8",
+                "structure": "94e7625aad8ae5be"
+            }
+        },
+        "howto/api-versioning.md": {
+            "ja": {
+                "content": "f47464e5c963cace",
+                "structure": "f6587764a7ea9609"
+            },
+            "de": {
+                "content": "f47464e5c963cace",
+                "structure": "f6587764a7ea9609"
+            },
+            "fr": {
+                "content": "f47464e5c963cace",
+                "structure": "f6587764a7ea9609"
+            },
+            "zh": {
+                "content": "f47464e5c963cace",
+                "structure": "f6587764a7ea9609"
+            },
+            "pt-br": {
+                "content": "f47464e5c963cace",
+                "structure": "f6587764a7ea9609"
+            }
+        },
+        "howto/application-caching.md": {
+            "ja": {
+                "content": "2b4a7f177d4b294b",
+                "structure": "34d483247a09af25"
+            },
+            "de": {
+                "content": "2b4a7f177d4b294b",
+                "structure": "34d483247a09af25"
+            },
+            "fr": {
+                "content": "2b4a7f177d4b294b",
+                "structure": "34d483247a09af25"
+            },
+            "zh": {
+                "content": "2b4a7f177d4b294b",
+                "structure": "34d483247a09af25"
+            },
+            "pt-br": {
+                "content": "2b4a7f177d4b294b",
+                "structure": "34d483247a09af25"
+            }
+        },
+        "howto/approval-workflow.md": {
+            "ja": {
+                "content": "8e6f4b7a6b019275",
+                "structure": "abbefc2815ef518d"
+            },
+            "de": {
+                "content": "8e6f4b7a6b019275",
+                "structure": "abbefc2815ef518d"
+            },
+            "fr": {
+                "content": "8e6f4b7a6b019275",
+                "structure": "abbefc2815ef518d"
+            },
+            "zh": {
+                "content": "8e6f4b7a6b019275",
+                "structure": "abbefc2815ef518d"
+            },
+            "pt-br": {
+                "content": "8e6f4b7a6b019275",
+                "structure": "abbefc2815ef518d"
+            }
+        },
+        "howto/article-relations-api.md": {
+            "ja": {
+                "content": "015df75c097f9a5e",
+                "structure": "965dec0b659ab6bc"
+            },
+            "de": {
+                "content": "015df75c097f9a5e",
+                "structure": "965dec0b659ab6bc"
+            },
+            "fr": {
+                "content": "015df75c097f9a5e",
+                "structure": "965dec0b659ab6bc"
+            },
+            "zh": {
+                "content": "015df75c097f9a5e",
+                "structure": "965dec0b659ab6bc"
+            },
+            "pt-br": {
+                "content": "015df75c097f9a5e",
+                "structure": "965dec0b659ab6bc"
+            }
+        },
+        "howto/article-versioning-api.md": {
+            "ja": {
+                "content": "c32f57d1a335bd29",
+                "structure": "cfdd5aae1be0e5e5"
+            },
+            "de": {
+                "content": "c32f57d1a335bd29",
+                "structure": "cfdd5aae1be0e5e5"
+            },
+            "fr": {
+                "content": "c32f57d1a335bd29",
+                "structure": "cfdd5aae1be0e5e5"
+            },
+            "zh": {
+                "content": "c32f57d1a335bd29",
+                "structure": "cfdd5aae1be0e5e5"
+            },
+            "pt-br": {
+                "content": "c32f57d1a335bd29",
+                "structure": "cfdd5aae1be0e5e5"
+            }
+        },
+        "howto/asset-checkout.md": {
+            "ja": {
+                "content": "195d60b023b75210",
+                "structure": "f9eac4628b22d79a"
+            },
+            "de": {
+                "content": "195d60b023b75210",
+                "structure": "f9eac4628b22d79a"
+            },
+            "fr": {
+                "content": "195d60b023b75210",
+                "structure": "f9eac4628b22d79a"
+            },
+            "zh": {
+                "content": "195d60b023b75210",
+                "structure": "f9eac4628b22d79a"
+            },
+            "pt-br": {
+                "content": "195d60b023b75210",
+                "structure": "f9eac4628b22d79a"
+            }
+        },
+        "howto/audit-trail.md": {
+            "ja": {
+                "content": "e861e715123882c5",
+                "structure": "91569110c488b3b1"
+            },
+            "de": {
+                "content": "e861e715123882c5",
+                "structure": "91569110c488b3b1"
+            },
+            "fr": {
+                "content": "e861e715123882c5",
+                "structure": "91569110c488b3b1"
+            },
+            "zh": {
+                "content": "e861e715123882c5",
+                "structure": "91569110c488b3b1"
+            },
+            "pt-br": {
+                "content": "e861e715123882c5",
+                "structure": "91569110c488b3b1"
+            }
+        },
+        "howto/authorization-header-fallback.md": {
+            "ja": {
+                "content": "5f60bbad11a4e7a7",
+                "structure": "5d00d07cfeb2a03f"
+            },
+            "de": {
+                "content": "5f60bbad11a4e7a7",
+                "structure": "5d00d07cfeb2a03f"
+            },
+            "fr": {
+                "content": "5f60bbad11a4e7a7",
+                "structure": "5d00d07cfeb2a03f"
+            },
+            "zh": {
+                "content": "5f60bbad11a4e7a7",
+                "structure": "5d00d07cfeb2a03f"
+            },
+            "pt-br": {
+                "content": "5f60bbad11a4e7a7",
+                "structure": "5d00d07cfeb2a03f"
+            }
+        },
+        "howto/batch-api-partial-success.md": {
+            "ja": {
+                "content": "64892c9d8b8e9e14",
+                "structure": "d2cdfbd0f458e4d3"
+            },
+            "de": {
+                "content": "64892c9d8b8e9e14",
+                "structure": "d2cdfbd0f458e4d3"
+            },
+            "fr": {
+                "content": "64892c9d8b8e9e14",
+                "structure": "d2cdfbd0f458e4d3"
+            },
+            "zh": {
+                "content": "64892c9d8b8e9e14",
+                "structure": "d2cdfbd0f458e4d3"
+            },
+            "pt-br": {
+                "content": "64892c9d8b8e9e14",
+                "structure": "d2cdfbd0f458e4d3"
+            }
+        },
+        "howto/bearer-token-middleware.md": {
+            "ja": {
+                "content": "b5cb1e65deb95053",
+                "structure": "54986d9b9be0f41f"
+            },
+            "de": {
+                "content": "b5cb1e65deb95053",
+                "structure": "54986d9b9be0f41f"
+            },
+            "fr": {
+                "content": "b5cb1e65deb95053",
+                "structure": "54986d9b9be0f41f"
+            },
+            "zh": {
+                "content": "b5cb1e65deb95053",
+                "structure": "54986d9b9be0f41f"
+            },
+            "pt-br": {
+                "content": "b5cb1e65deb95053",
+                "structure": "54986d9b9be0f41f"
+            }
+        },
+        "howto/bookmark-api.md": {
+            "ja": {
+                "content": "3c23a16d446b41f5",
+                "structure": "8c964c356de4e9c9"
+            },
+            "de": {
+                "content": "3c23a16d446b41f5",
+                "structure": "8c964c356de4e9c9"
+            },
+            "fr": {
+                "content": "3c23a16d446b41f5",
+                "structure": "8c964c356de4e9c9"
+            },
+            "zh": {
+                "content": "3c23a16d446b41f5",
+                "structure": "8c964c356de4e9c9"
+            },
+            "pt-br": {
+                "content": "3c23a16d446b41f5",
+                "structure": "8c964c356de4e9c9"
+            }
+        },
+        "howto/bookmark-system.md": {
+            "ja": {
+                "content": "16ca979c2fc66afa",
+                "structure": "58972073cd1d4973"
+            },
+            "de": {
+                "content": "16ca979c2fc66afa",
+                "structure": "58972073cd1d4973"
+            },
+            "fr": {
+                "content": "16ca979c2fc66afa",
+                "structure": "58972073cd1d4973"
+            },
+            "zh": {
+                "content": "16ca979c2fc66afa",
+                "structure": "58972073cd1d4973"
+            },
+            "pt-br": {
+                "content": "16ca979c2fc66afa",
+                "structure": "58972073cd1d4973"
+            }
+        },
+        "howto/budget-tracking.md": {
+            "ja": {
+                "content": "90f693f8d850754f",
+                "structure": "e281821d777a9cde"
+            },
+            "de": {
+                "content": "90f693f8d850754f",
+                "structure": "e281821d777a9cde"
+            },
+            "fr": {
+                "content": "90f693f8d850754f",
+                "structure": "e281821d777a9cde"
+            },
+            "zh": {
+                "content": "90f693f8d850754f",
+                "structure": "e281821d777a9cde"
+            },
+            "pt-br": {
+                "content": "90f693f8d850754f",
+                "structure": "e281821d777a9cde"
+            }
+        },
+        "howto/bulk-operations-partial-success.md": {
+            "ja": {
+                "content": "8f1c56def4c4a8e4",
+                "structure": "01c041984f547fbc"
+            },
+            "de": {
+                "content": "8f1c56def4c4a8e4",
+                "structure": "01c041984f547fbc"
+            },
+            "fr": {
+                "content": "8f1c56def4c4a8e4",
+                "structure": "01c041984f547fbc"
+            },
+            "zh": {
+                "content": "8f1c56def4c4a8e4",
+                "structure": "01c041984f547fbc"
+            },
+            "pt-br": {
+                "content": "8f1c56def4c4a8e4",
+                "structure": "01c041984f547fbc"
+            }
+        },
+        "howto/bulk-reorder-api.md": {
+            "ja": {
+                "content": "cfa773e894a8ccc7",
+                "structure": "fb8190e2e587d496"
+            },
+            "de": {
+                "content": "cfa773e894a8ccc7",
+                "structure": "fb8190e2e587d496"
+            },
+            "fr": {
+                "content": "cfa773e894a8ccc7",
+                "structure": "fb8190e2e587d496"
+            },
+            "zh": {
+                "content": "cfa773e894a8ccc7",
+                "structure": "fb8190e2e587d496"
+            },
+            "pt-br": {
+                "content": "cfa773e894a8ccc7",
+                "structure": "fb8190e2e587d496"
+            }
+        },
+        "howto/bulk-status-update.md": {
+            "ja": {
+                "content": "d4ccd5b9a8f366a2",
+                "structure": "1a3139da6fbfacf0"
+            },
+            "de": {
+                "content": "d4ccd5b9a8f366a2",
+                "structure": "1a3139da6fbfacf0"
+            },
+            "fr": {
+                "content": "d4ccd5b9a8f366a2",
+                "structure": "1a3139da6fbfacf0"
+            },
+            "zh": {
+                "content": "d4ccd5b9a8f366a2",
+                "structure": "1a3139da6fbfacf0"
+            },
+            "pt-br": {
+                "content": "d4ccd5b9a8f366a2",
+                "structure": "1a3139da6fbfacf0"
+            }
+        },
+        "howto/category-hierarchy-api.md": {
+            "ja": {
+                "content": "876305c29edce4a6",
+                "structure": "471d4cba4dd19ede"
+            },
+            "de": {
+                "content": "876305c29edce4a6",
+                "structure": "471d4cba4dd19ede"
+            },
+            "fr": {
+                "content": "876305c29edce4a6",
+                "structure": "471d4cba4dd19ede"
+            },
+            "zh": {
+                "content": "876305c29edce4a6",
+                "structure": "471d4cba4dd19ede"
+            },
+            "pt-br": {
+                "content": "876305c29edce4a6",
+                "structure": "471d4cba4dd19ede"
+            }
+        },
+        "howto/circuit-breaker.md": {
+            "ja": {
+                "content": "098d7bd1c6666dbc",
+                "structure": "07a56633127f7981"
+            },
+            "de": {
+                "content": "098d7bd1c6666dbc",
+                "structure": "07a56633127f7981"
+            },
+            "fr": {
+                "content": "098d7bd1c6666dbc",
+                "structure": "07a56633127f7981"
+            },
+            "zh": {
+                "content": "098d7bd1c6666dbc",
+                "structure": "07a56633127f7981"
+            },
+            "pt-br": {
+                "content": "098d7bd1c6666dbc",
+                "structure": "07a56633127f7981"
+            }
+        },
+        "howto/collection-api.md": {
+            "ja": {
+                "content": "8cc664e312ac80d5",
+                "structure": "daf4bac529c2e8e4"
+            },
+            "de": {
+                "content": "8cc664e312ac80d5",
+                "structure": "daf4bac529c2e8e4"
+            },
+            "fr": {
+                "content": "8cc664e312ac80d5",
+                "structure": "daf4bac529c2e8e4"
+            },
+            "zh": {
+                "content": "8cc664e312ac80d5",
+                "structure": "daf4bac529c2e8e4"
+            },
+            "pt-br": {
+                "content": "8cc664e312ac80d5",
+                "structure": "daf4bac529c2e8e4"
+            }
+        },
+        "howto/comment-thread.md": {
+            "ja": {
+                "content": "b4e1d753408ebdbd",
+                "structure": "8d6873cc925b8f44"
+            },
+            "de": {
+                "content": "b4e1d753408ebdbd",
+                "structure": "8d6873cc925b8f44"
+            },
+            "fr": {
+                "content": "b4e1d753408ebdbd",
+                "structure": "8d6873cc925b8f44"
+            },
+            "zh": {
+                "content": "b4e1d753408ebdbd",
+                "structure": "8d6873cc925b8f44"
+            },
+            "pt-br": {
+                "content": "b4e1d753408ebdbd",
+                "structure": "8d6873cc925b8f44"
+            }
+        },
+        "howto/contact-management.md": {
+            "ja": {
+                "content": "10a88e57056dcc58",
+                "structure": "c1fdaca923cd582f"
+            },
+            "de": {
+                "content": "10a88e57056dcc58",
+                "structure": "c1fdaca923cd582f"
+            },
+            "fr": {
+                "content": "10a88e57056dcc58",
+                "structure": "c1fdaca923cd582f"
+            },
+            "zh": {
+                "content": "10a88e57056dcc58",
+                "structure": "c1fdaca923cd582f"
+            },
+            "pt-br": {
+                "content": "10a88e57056dcc58",
+                "structure": "c1fdaca923cd582f"
+            }
+        },
+        "howto/content-approval-workflow.md": {
+            "ja": {
+                "content": "2ef2a40e8d832a2d",
+                "structure": "7a7792aa7f6b4467"
+            },
+            "de": {
+                "content": "2ef2a40e8d832a2d",
+                "structure": "7a7792aa7f6b4467"
+            },
+            "fr": {
+                "content": "2ef2a40e8d832a2d",
+                "structure": "7a7792aa7f6b4467"
+            },
+            "zh": {
+                "content": "2ef2a40e8d832a2d",
+                "structure": "7a7792aa7f6b4467"
+            },
+            "pt-br": {
+                "content": "2ef2a40e8d832a2d",
+                "structure": "7a7792aa7f6b4467"
+            }
+        },
+        "howto/content-collection.md": {
+            "ja": {
+                "content": "68341b26aa72feea",
+                "structure": "6c0fbd7b1b798743"
+            },
+            "de": {
+                "content": "68341b26aa72feea",
+                "structure": "6c0fbd7b1b798743"
+            },
+            "fr": {
+                "content": "68341b26aa72feea",
+                "structure": "6c0fbd7b1b798743"
+            },
+            "zh": {
+                "content": "68341b26aa72feea",
+                "structure": "6c0fbd7b1b798743"
+            },
+            "pt-br": {
+                "content": "68341b26aa72feea",
+                "structure": "6c0fbd7b1b798743"
+            }
+        },
+        "howto/content-draft-lifecycle.md": {
+            "ja": {
+                "content": "e8eb684123c421f5",
+                "structure": "97321db2a11b6a4d"
+            },
+            "de": {
+                "content": "e8eb684123c421f5",
+                "structure": "97321db2a11b6a4d"
+            },
+            "fr": {
+                "content": "e8eb684123c421f5",
+                "structure": "97321db2a11b6a4d"
+            },
+            "zh": {
+                "content": "e8eb684123c421f5",
+                "structure": "97321db2a11b6a4d"
+            },
+            "pt-br": {
+                "content": "e8eb684123c421f5",
+                "structure": "97321db2a11b6a4d"
+            }
+        },
+        "howto/content-negotiation-api.md": {
+            "ja": {
+                "content": "52e5c12fb8544f30",
+                "structure": "2ea0e446a151c03f"
+            },
+            "de": {
+                "content": "52e5c12fb8544f30",
+                "structure": "2ea0e446a151c03f"
+            },
+            "fr": {
+                "content": "52e5c12fb8544f30",
+                "structure": "2ea0e446a151c03f"
+            },
+            "zh": {
+                "content": "52e5c12fb8544f30",
+                "structure": "2ea0e446a151c03f"
+            },
+            "pt-br": {
+                "content": "52e5c12fb8544f30",
+                "structure": "2ea0e446a151c03f"
+            }
+        },
+        "howto/content-negotiation.md": {
+            "ja": {
+                "content": "179e51e7871eb69f",
+                "structure": "d45e7f07acea79dc"
+            },
+            "de": {
+                "content": "179e51e7871eb69f",
+                "structure": "d45e7f07acea79dc"
+            },
+            "fr": {
+                "content": "179e51e7871eb69f",
+                "structure": "d45e7f07acea79dc"
+            },
+            "zh": {
+                "content": "179e51e7871eb69f",
+                "structure": "d45e7f07acea79dc"
+            },
+            "pt-br": {
+                "content": "179e51e7871eb69f",
+                "structure": "d45e7f07acea79dc"
+            }
+        },
+        "howto/content-pinning.md": {
+            "ja": {
+                "content": "a2918a3c526a07ac",
+                "structure": "4f48379319233a94"
+            },
+            "de": {
+                "content": "a2918a3c526a07ac",
+                "structure": "4f48379319233a94"
+            },
+            "fr": {
+                "content": "a2918a3c526a07ac",
+                "structure": "4f48379319233a94"
+            },
+            "zh": {
+                "content": "a2918a3c526a07ac",
+                "structure": "4f48379319233a94"
+            },
+            "pt-br": {
+                "content": "a2918a3c526a07ac",
+                "structure": "4f48379319233a94"
+            }
+        },
+        "howto/content-relations.md": {
+            "ja": {
+                "content": "250c25d8bd9b81db",
+                "structure": "ee69bc800264cc3a"
+            },
+            "de": {
+                "content": "250c25d8bd9b81db",
+                "structure": "ee69bc800264cc3a"
+            },
+            "fr": {
+                "content": "250c25d8bd9b81db",
+                "structure": "ee69bc800264cc3a"
+            },
+            "zh": {
+                "content": "250c25d8bd9b81db",
+                "structure": "ee69bc800264cc3a"
+            },
+            "pt-br": {
+                "content": "250c25d8bd9b81db",
+                "structure": "ee69bc800264cc3a"
+            }
+        },
+        "howto/content-report-moderation.md": {
+            "ja": {
+                "content": "12c7be9674caaf2d",
+                "structure": "45186444fa4d1733"
+            },
+            "de": {
+                "content": "12c7be9674caaf2d",
+                "structure": "45186444fa4d1733"
+            },
+            "fr": {
+                "content": "12c7be9674caaf2d",
+                "structure": "45186444fa4d1733"
+            },
+            "zh": {
+                "content": "12c7be9674caaf2d",
+                "structure": "45186444fa4d1733"
+            },
+            "pt-br": {
+                "content": "12c7be9674caaf2d",
+                "structure": "45186444fa4d1733"
+            }
+        },
+        "howto/content-reporting.md": {
+            "ja": {
+                "content": "45202507eb89426b",
+                "structure": "6f72da6ac46ca549"
+            },
+            "de": {
+                "content": "45202507eb89426b",
+                "structure": "6f72da6ac46ca549"
+            },
+            "fr": {
+                "content": "45202507eb89426b",
+                "structure": "6f72da6ac46ca549"
+            },
+            "zh": {
+                "content": "45202507eb89426b",
+                "structure": "6f72da6ac46ca549"
+            },
+            "pt-br": {
+                "content": "45202507eb89426b",
+                "structure": "6f72da6ac46ca549"
+            }
+        },
+        "howto/content-scheduling.md": {
+            "ja": {
+                "content": "a22cea136309ded6",
+                "structure": "814815865408c619"
+            },
+            "de": {
+                "content": "a22cea136309ded6",
+                "structure": "814815865408c619"
+            },
+            "fr": {
+                "content": "a22cea136309ded6",
+                "structure": "814815865408c619"
+            },
+            "zh": {
+                "content": "a22cea136309ded6",
+                "structure": "814815865408c619"
+            },
+            "pt-br": {
+                "content": "a22cea136309ded6",
+                "structure": "814815865408c619"
+            }
+        },
+        "howto/content-versioning.md": {
+            "ja": {
+                "content": "aa6cfb98a5b20697",
+                "structure": "04e9059ee05df292"
+            },
+            "de": {
+                "content": "aa6cfb98a5b20697",
+                "structure": "04e9059ee05df292"
+            },
+            "fr": {
+                "content": "aa6cfb98a5b20697",
+                "structure": "04e9059ee05df292"
+            },
+            "zh": {
+                "content": "aa6cfb98a5b20697",
+                "structure": "04e9059ee05df292"
+            },
+            "pt-br": {
+                "content": "aa6cfb98a5b20697",
+                "structure": "04e9059ee05df292"
+            }
+        },
+        "howto/coupon-discount-api.md": {
+            "ja": {
+                "content": "500b40cf20f66c33",
+                "structure": "8c1202a734a5da1e"
+            },
+            "de": {
+                "content": "500b40cf20f66c33",
+                "structure": "8c1202a734a5da1e"
+            },
+            "fr": {
+                "content": "500b40cf20f66c33",
+                "structure": "8c1202a734a5da1e"
+            },
+            "zh": {
+                "content": "500b40cf20f66c33",
+                "structure": "8c1202a734a5da1e"
+            },
+            "pt-br": {
+                "content": "500b40cf20f66c33",
+                "structure": "8c1202a734a5da1e"
+            }
+        },
+        "howto/coupon-promo-code.md": {
+            "ja": {
+                "content": "1bc8c84b177344bf",
+                "structure": "9616571e47b29f84"
+            },
+            "de": {
+                "content": "1bc8c84b177344bf",
+                "structure": "9616571e47b29f84"
+            },
+            "fr": {
+                "content": "1bc8c84b177344bf",
+                "structure": "9616571e47b29f84"
+            },
+            "zh": {
+                "content": "1bc8c84b177344bf",
+                "structure": "9616571e47b29f84"
+            },
+            "pt-br": {
+                "content": "1bc8c84b177344bf",
+                "structure": "9616571e47b29f84"
+            }
+        },
+        "howto/coupon-redemption.md": {
+            "ja": {
+                "content": "6b620cb42c8f6a69",
+                "structure": "89f35e26f3b288cd"
+            },
+            "de": {
+                "content": "6b620cb42c8f6a69",
+                "structure": "89f35e26f3b288cd"
+            },
+            "fr": {
+                "content": "6b620cb42c8f6a69",
+                "structure": "89f35e26f3b288cd"
+            },
+            "zh": {
+                "content": "6b620cb42c8f6a69",
+                "structure": "89f35e26f3b288cd"
+            },
+            "pt-br": {
+                "content": "6b620cb42c8f6a69",
+                "structure": "89f35e26f3b288cd"
+            }
+        },
+        "howto/cqrs-pattern.md": {
+            "ja": {
+                "content": "0e5aface52901c93",
+                "structure": "b122646b28a8798c"
+            },
+            "de": {
+                "content": "0e5aface52901c93",
+                "structure": "b122646b28a8798c"
+            },
+            "fr": {
+                "content": "0e5aface52901c93",
+                "structure": "b122646b28a8798c"
+            },
+            "zh": {
+                "content": "0e5aface52901c93",
+                "structure": "b122646b28a8798c"
+            },
+            "pt-br": {
+                "content": "0e5aface52901c93",
+                "structure": "b122646b28a8798c"
+            }
+        },
+        "howto/credit-ledger.md": {
+            "ja": {
+                "content": "937651841a45efdd",
+                "structure": "e517cf81c50d13a9"
+            },
+            "de": {
+                "content": "937651841a45efdd",
+                "structure": "e517cf81c50d13a9"
+            },
+            "fr": {
+                "content": "937651841a45efdd",
+                "structure": "e517cf81c50d13a9"
+            },
+            "zh": {
+                "content": "937651841a45efdd",
+                "structure": "e517cf81c50d13a9"
+            },
+            "pt-br": {
+                "content": "937651841a45efdd",
+                "structure": "e517cf81c50d13a9"
+            }
+        },
+        "howto/csrf-and-json-api.md": {
+            "ja": {
+                "content": "cfca4a7441cc626d",
+                "structure": "d757d908ea22c114"
+            },
+            "de": {
+                "content": "cfca4a7441cc626d",
+                "structure": "d757d908ea22c114"
+            },
+            "fr": {
+                "content": "cfca4a7441cc626d",
+                "structure": "d757d908ea22c114"
+            },
+            "zh": {
+                "content": "cfca4a7441cc626d",
+                "structure": "d757d908ea22c114"
+            },
+            "pt-br": {
+                "content": "cfca4a7441cc626d",
+                "structure": "d757d908ea22c114"
+            }
+        },
+        "howto/csv-bulk-import.md": {
+            "ja": {
+                "content": "60450938d885259b",
+                "structure": "bbdf7c415457aedb"
+            },
+            "de": {
+                "content": "60450938d885259b",
+                "structure": "bbdf7c415457aedb"
+            },
+            "fr": {
+                "content": "60450938d885259b",
+                "structure": "bbdf7c415457aedb"
+            },
+            "zh": {
+                "content": "60450938d885259b",
+                "structure": "bbdf7c415457aedb"
+            },
+            "pt-br": {
+                "content": "60450938d885259b",
+                "structure": "bbdf7c415457aedb"
+            }
+        },
+        "howto/csv-export-formula-injection.md": {
+            "ja": {
+                "content": "f5e660f8aa51e72e",
+                "structure": "ee4ce9e28d1334a4"
+            },
+            "de": {
+                "content": "f5e660f8aa51e72e",
+                "structure": "ee4ce9e28d1334a4"
+            },
+            "fr": {
+                "content": "f5e660f8aa51e72e",
+                "structure": "ee4ce9e28d1334a4"
+            },
+            "zh": {
+                "content": "f5e660f8aa51e72e",
+                "structure": "ee4ce9e28d1334a4"
+            },
+            "pt-br": {
+                "content": "f5e660f8aa51e72e",
+                "structure": "ee4ce9e28d1334a4"
+            }
+        },
+        "howto/cursor-pagination.md": {
+            "ja": {
+                "content": "64afb311f233e6e8",
+                "structure": "221404381860431c"
+            },
+            "de": {
+                "content": "64afb311f233e6e8",
+                "structure": "221404381860431c"
+            },
+            "fr": {
+                "content": "64afb311f233e6e8",
+                "structure": "221404381860431c"
+            },
+            "zh": {
+                "content": "64afb311f233e6e8",
+                "structure": "221404381860431c"
+            },
+            "pt-br": {
+                "content": "64afb311f233e6e8",
+                "structure": "221404381860431c"
+            }
+        },
+        "howto/data-export-api.md": {
+            "ja": {
+                "content": "2f5f5f1033dc34f9",
+                "structure": "aca75e762833f20b"
+            },
+            "de": {
+                "content": "2f5f5f1033dc34f9",
+                "structure": "aca75e762833f20b"
+            },
+            "fr": {
+                "content": "2f5f5f1033dc34f9",
+                "structure": "aca75e762833f20b"
+            },
+            "zh": {
+                "content": "2f5f5f1033dc34f9",
+                "structure": "aca75e762833f20b"
+            },
+            "pt-br": {
+                "content": "2f5f5f1033dc34f9",
+                "structure": "aca75e762833f20b"
+            }
+        },
+        "howto/data-masking.md": {
+            "ja": {
+                "content": "71b5ea99e2cf8bbc",
+                "structure": "53bf05e8108e0f3e"
+            },
+            "de": {
+                "content": "71b5ea99e2cf8bbc",
+                "structure": "53bf05e8108e0f3e"
+            },
+            "fr": {
+                "content": "71b5ea99e2cf8bbc",
+                "structure": "53bf05e8108e0f3e"
+            },
+            "zh": {
+                "content": "71b5ea99e2cf8bbc",
+                "structure": "53bf05e8108e0f3e"
+            },
+            "pt-br": {
+                "content": "71b5ea99e2cf8bbc",
+                "structure": "53bf05e8108e0f3e"
+            }
+        },
+        "howto/dead-letter-queue.md": {
+            "ja": {
+                "content": "ecae2dfe2023e0a0",
+                "structure": "e621522f402388aa"
+            },
+            "de": {
+                "content": "ecae2dfe2023e0a0",
+                "structure": "e621522f402388aa"
+            },
+            "fr": {
+                "content": "ecae2dfe2023e0a0",
+                "structure": "e621522f402388aa"
+            },
+            "zh": {
+                "content": "ecae2dfe2023e0a0",
+                "structure": "e621522f402388aa"
+            },
+            "pt-br": {
+                "content": "ecae2dfe2023e0a0",
+                "structure": "e621522f402388aa"
+            }
+        },
+        "howto/delegated-access-grants.md": {
+            "ja": {
+                "content": "6b75a725b5496997",
+                "structure": "4c6963ff0f47fd66"
+            },
+            "de": {
+                "content": "6b75a725b5496997",
+                "structure": "4c6963ff0f47fd66"
+            },
+            "fr": {
+                "content": "6b75a725b5496997",
+                "structure": "4c6963ff0f47fd66"
+            },
+            "zh": {
+                "content": "6b75a725b5496997",
+                "structure": "4c6963ff0f47fd66"
+            },
+            "pt-br": {
+                "content": "6b75a725b5496997",
+                "structure": "4c6963ff0f47fd66"
+            }
+        },
+        "howto/deploy-production.md": {
+            "ja": {
+                "content": "4e3db7cfd867813f",
+                "structure": "55b1cf9795aafd7d"
+            },
+            "de": {
+                "content": "4e3db7cfd867813f",
+                "structure": "55b1cf9795aafd7d"
+            },
+            "fr": {
+                "content": "4e3db7cfd867813f",
+                "structure": "55b1cf9795aafd7d"
+            },
+            "zh": {
+                "content": "4e3db7cfd867813f",
+                "structure": "55b1cf9795aafd7d"
+            },
+            "pt-br": {
+                "content": "4e3db7cfd867813f",
+                "structure": "55b1cf9795aafd7d"
+            }
+        },
+        "howto/direct-messaging-system.md": {
+            "ja": {
+                "content": "3231a51056d9cf95",
+                "structure": "5ad84ec3b5dc41f3"
+            },
+            "de": {
+                "content": "3231a51056d9cf95",
+                "structure": "5ad84ec3b5dc41f3"
+            },
+            "fr": {
+                "content": "3231a51056d9cf95",
+                "structure": "5ad84ec3b5dc41f3"
+            },
+            "zh": {
+                "content": "3231a51056d9cf95",
+                "structure": "5ad84ec3b5dc41f3"
+            },
+            "pt-br": {
+                "content": "3231a51056d9cf95",
+                "structure": "5ad84ec3b5dc41f3"
+            }
+        },
+        "howto/distributed-lock.md": {
+            "ja": {
+                "content": "8081e06a67498ed6",
+                "structure": "51a7ae86c8661588"
+            },
+            "de": {
+                "content": "8081e06a67498ed6",
+                "structure": "51a7ae86c8661588"
+            },
+            "fr": {
+                "content": "8081e06a67498ed6",
+                "structure": "51a7ae86c8661588"
+            },
+            "zh": {
+                "content": "8081e06a67498ed6",
+                "structure": "51a7ae86c8661588"
+            },
+            "pt-br": {
+                "content": "8081e06a67498ed6",
+                "structure": "51a7ae86c8661588"
+            }
+        },
+        "howto/distributed-locking.md": {
+            "ja": {
+                "content": "1eea9989825725e8",
+                "structure": "e7fcc5d79d0488ab"
+            },
+            "de": {
+                "content": "1eea9989825725e8",
+                "structure": "e7fcc5d79d0488ab"
+            },
+            "fr": {
+                "content": "1eea9989825725e8",
+                "structure": "e7fcc5d79d0488ab"
+            },
+            "zh": {
+                "content": "1eea9989825725e8",
+                "structure": "e7fcc5d79d0488ab"
+            },
+            "pt-br": {
+                "content": "1eea9989825725e8",
+                "structure": "e7fcc5d79d0488ab"
+            }
+        },
+        "howto/document-template-engine.md": {
+            "ja": {
+                "content": "b72da962bc001b82",
+                "structure": "295d80ee2c3786ac"
+            },
+            "de": {
+                "content": "b72da962bc001b82",
+                "structure": "295d80ee2c3786ac"
+            },
+            "fr": {
+                "content": "b72da962bc001b82",
+                "structure": "295d80ee2c3786ac"
+            },
+            "zh": {
+                "content": "b72da962bc001b82",
+                "structure": "295d80ee2c3786ac"
+            },
+            "pt-br": {
+                "content": "b72da962bc001b82",
+                "structure": "295d80ee2c3786ac"
+            }
+        },
+        "howto/document-versioning.md": {
+            "ja": {
+                "content": "54a3f9e8c7427d47",
+                "structure": "4015fc1b92535715"
+            },
+            "de": {
+                "content": "54a3f9e8c7427d47",
+                "structure": "4015fc1b92535715"
+            },
+            "fr": {
+                "content": "54a3f9e8c7427d47",
+                "structure": "4015fc1b92535715"
+            },
+            "zh": {
+                "content": "54a3f9e8c7427d47",
+                "structure": "4015fc1b92535715"
+            },
+            "pt-br": {
+                "content": "54a3f9e8c7427d47",
+                "structure": "4015fc1b92535715"
+            }
+        },
+        "howto/draft-publish-workflow.md": {
+            "ja": {
+                "content": "9b8ba790ee80e8a6",
+                "structure": "faf6788e16984ef0"
+            },
+            "de": {
+                "content": "9b8ba790ee80e8a6",
+                "structure": "faf6788e16984ef0"
+            },
+            "fr": {
+                "content": "9b8ba790ee80e8a6",
+                "structure": "faf6788e16984ef0"
+            },
+            "zh": {
+                "content": "9b8ba790ee80e8a6",
+                "structure": "faf6788e16984ef0"
+            },
+            "pt-br": {
+                "content": "9b8ba790ee80e8a6",
+                "structure": "faf6788e16984ef0"
+            }
+        },
+        "howto/dynamic-filter-query.md": {
+            "ja": {
+                "content": "8e7ef72ecea6b3d8",
+                "structure": "3715e934263f21dd"
+            },
+            "de": {
+                "content": "8e7ef72ecea6b3d8",
+                "structure": "3715e934263f21dd"
+            },
+            "fr": {
+                "content": "8e7ef72ecea6b3d8",
+                "structure": "3715e934263f21dd"
+            },
+            "zh": {
+                "content": "8e7ef72ecea6b3d8",
+                "structure": "3715e934263f21dd"
+            },
+            "pt-br": {
+                "content": "8e7ef72ecea6b3d8",
+                "structure": "3715e934263f21dd"
+            }
+        },
+        "howto/dynamic-sort-order-injection.md": {
+            "ja": {
+                "content": "5dde78b26264c748",
+                "structure": "625ef8b54de51a20"
+            },
+            "de": {
+                "content": "5dde78b26264c748",
+                "structure": "625ef8b54de51a20"
+            },
+            "fr": {
+                "content": "5dde78b26264c748",
+                "structure": "625ef8b54de51a20"
+            },
+            "zh": {
+                "content": "5dde78b26264c748",
+                "structure": "625ef8b54de51a20"
+            },
+            "pt-br": {
+                "content": "5dde78b26264c748",
+                "structure": "625ef8b54de51a20"
+            }
+        },
+        "howto/emoji-reaction-system.md": {
+            "ja": {
+                "content": "6596560ba91bbfef",
+                "structure": "424aacff0c6dbaa4"
+            },
+            "de": {
+                "content": "6596560ba91bbfef",
+                "structure": "424aacff0c6dbaa4"
+            },
+            "fr": {
+                "content": "6596560ba91bbfef",
+                "structure": "424aacff0c6dbaa4"
+            },
+            "zh": {
+                "content": "6596560ba91bbfef",
+                "structure": "424aacff0c6dbaa4"
+            },
+            "pt-br": {
+                "content": "6596560ba91bbfef",
+                "structure": "424aacff0c6dbaa4"
+            }
+        },
+        "howto/emoji-reactions-api.md": {
+            "ja": {
+                "content": "e5b3c09b9f588375",
+                "structure": "b3cdb6b56e673ba9"
+            },
+            "de": {
+                "content": "e5b3c09b9f588375",
+                "structure": "b3cdb6b56e673ba9"
+            },
+            "fr": {
+                "content": "e5b3c09b9f588375",
+                "structure": "b3cdb6b56e673ba9"
+            },
+            "zh": {
+                "content": "e5b3c09b9f588375",
+                "structure": "b3cdb6b56e673ba9"
+            },
+            "pt-br": {
+                "content": "e5b3c09b9f588375",
+                "structure": "b3cdb6b56e673ba9"
+            }
+        },
+        "howto/emoji-reactions-toggle.md": {
+            "ja": {
+                "content": "f4aa1077b2fa312d",
+                "structure": "2b2a4aa166177ee4"
+            },
+            "de": {
+                "content": "f4aa1077b2fa312d",
+                "structure": "2b2a4aa166177ee4"
+            },
+            "fr": {
+                "content": "f4aa1077b2fa312d",
+                "structure": "2b2a4aa166177ee4"
+            },
+            "zh": {
+                "content": "f4aa1077b2fa312d",
+                "structure": "2b2a4aa166177ee4"
+            },
+            "pt-br": {
+                "content": "f4aa1077b2fa312d",
+                "structure": "2b2a4aa166177ee4"
+            }
+        },
+        "howto/encrypted-field-storage.md": {
+            "ja": {
+                "content": "b6cdc30a36bfcb91",
+                "structure": "2ab1dec5a0ce6ea4"
+            },
+            "de": {
+                "content": "b6cdc30a36bfcb91",
+                "structure": "2ab1dec5a0ce6ea4"
+            },
+            "fr": {
+                "content": "b6cdc30a36bfcb91",
+                "structure": "2ab1dec5a0ce6ea4"
+            },
+            "zh": {
+                "content": "b6cdc30a36bfcb91",
+                "structure": "2ab1dec5a0ce6ea4"
+            },
+            "pt-br": {
+                "content": "b6cdc30a36bfcb91",
+                "structure": "2ab1dec5a0ce6ea4"
+            }
+        },
+        "howto/enforce-resource-ownership.md": {
+            "ja": {
+                "content": "46ba02756e5c086b",
+                "structure": "3614dfc373f8e643"
+            },
+            "de": {
+                "content": "46ba02756e5c086b",
+                "structure": "3614dfc373f8e643"
+            },
+            "fr": {
+                "content": "46ba02756e5c086b",
+                "structure": "3614dfc373f8e643"
+            },
+            "zh": {
+                "content": "46ba02756e5c086b",
+                "structure": "3614dfc373f8e643"
+            },
+            "pt-br": {
+                "content": "46ba02756e5c086b",
+                "structure": "3614dfc373f8e643"
+            }
+        },
+        "howto/etag-conditional-requests.md": {
+            "ja": {
+                "content": "ed76c81d915afecd",
+                "structure": "a45c3e87a3a9ce87"
+            },
+            "de": {
+                "content": "ed76c81d915afecd",
+                "structure": "a45c3e87a3a9ce87"
+            },
+            "fr": {
+                "content": "ed76c81d915afecd",
+                "structure": "a45c3e87a3a9ce87"
+            },
+            "zh": {
+                "content": "ed76c81d915afecd",
+                "structure": "a45c3e87a3a9ce87"
+            },
+            "pt-br": {
+                "content": "ed76c81d915afecd",
+                "structure": "a45c3e87a3a9ce87"
+            }
+        },
+        "howto/event-analytics-api.md": {
+            "ja": {
+                "content": "6772072d1e2ba8f5",
+                "structure": "dbcab5e4f8dbb00e"
+            },
+            "de": {
+                "content": "6772072d1e2ba8f5",
+                "structure": "dbcab5e4f8dbb00e"
+            },
+            "fr": {
+                "content": "6772072d1e2ba8f5",
+                "structure": "dbcab5e4f8dbb00e"
+            },
+            "zh": {
+                "content": "6772072d1e2ba8f5",
+                "structure": "dbcab5e4f8dbb00e"
+            },
+            "pt-br": {
+                "content": "6772072d1e2ba8f5",
+                "structure": "dbcab5e4f8dbb00e"
+            }
+        },
+        "howto/event-analytics.md": {
+            "ja": {
+                "content": "8900a68370dfa287",
+                "structure": "bf1409fc43c058b0"
+            },
+            "de": {
+                "content": "8900a68370dfa287",
+                "structure": "bf1409fc43c058b0"
+            },
+            "fr": {
+                "content": "8900a68370dfa287",
+                "structure": "bf1409fc43c058b0"
+            },
+            "zh": {
+                "content": "8900a68370dfa287",
+                "structure": "bf1409fc43c058b0"
+            },
+            "pt-br": {
+                "content": "8900a68370dfa287",
+                "structure": "bf1409fc43c058b0"
+            }
+        },
+        "howto/event-sourcing-cqrs-api.md": {
+            "ja": {
+                "content": "1ddaf58e4169cf30",
+                "structure": "60467f272ad5c6d0"
+            },
+            "de": {
+                "content": "1ddaf58e4169cf30",
+                "structure": "60467f272ad5c6d0"
+            },
+            "fr": {
+                "content": "1ddaf58e4169cf30",
+                "structure": "60467f272ad5c6d0"
+            },
+            "zh": {
+                "content": "1ddaf58e4169cf30",
+                "structure": "60467f272ad5c6d0"
+            },
+            "pt-br": {
+                "content": "1ddaf58e4169cf30",
+                "structure": "60467f272ad5c6d0"
+            }
+        },
+        "howto/event-sourcing-ledger.md": {
+            "ja": {
+                "content": "eaeb150ba0fc8c92",
+                "structure": "8793af077c298c5b"
+            },
+            "de": {
+                "content": "eaeb150ba0fc8c92",
+                "structure": "8793af077c298c5b"
+            },
+            "fr": {
+                "content": "eaeb150ba0fc8c92",
+                "structure": "8793af077c298c5b"
+            },
+            "zh": {
+                "content": "eaeb150ba0fc8c92",
+                "structure": "8793af077c298c5b"
+            },
+            "pt-br": {
+                "content": "eaeb150ba0fc8c92",
+                "structure": "8793af077c298c5b"
+            }
+        },
+        "howto/event-sourcing.md": {
+            "ja": {
+                "content": "056fc1d9258af701",
+                "structure": "bf7e7b7474ad1f12"
+            },
+            "de": {
+                "content": "056fc1d9258af701",
+                "structure": "bf7e7b7474ad1f12"
+            },
+            "fr": {
+                "content": "056fc1d9258af701",
+                "structure": "bf7e7b7474ad1f12"
+            },
+            "zh": {
+                "content": "056fc1d9258af701",
+                "structure": "bf7e7b7474ad1f12"
+            },
+            "pt-br": {
+                "content": "056fc1d9258af701",
+                "structure": "bf7e7b7474ad1f12"
+            }
+        },
+        "howto/event-ticket-booking.md": {
+            "ja": {
+                "content": "9548cdf8fad93ffe",
+                "structure": "d37940db1207e7f6"
+            },
+            "de": {
+                "content": "9548cdf8fad93ffe",
+                "structure": "d37940db1207e7f6"
+            },
+            "fr": {
+                "content": "9548cdf8fad93ffe",
+                "structure": "d37940db1207e7f6"
+            },
+            "zh": {
+                "content": "9548cdf8fad93ffe",
+                "structure": "d37940db1207e7f6"
+            },
+            "pt-br": {
+                "content": "9548cdf8fad93ffe",
+                "structure": "d37940db1207e7f6"
+            }
+        },
+        "howto/expense-tracker.md": {
+            "ja": {
+                "content": "b26f89334d4b5a67",
+                "structure": "99bffe22f749cb89"
+            },
+            "de": {
+                "content": "b26f89334d4b5a67",
+                "structure": "99bffe22f749cb89"
+            },
+            "fr": {
+                "content": "b26f89334d4b5a67",
+                "structure": "99bffe22f749cb89"
+            },
+            "zh": {
+                "content": "b26f89334d4b5a67",
+                "structure": "99bffe22f749cb89"
+            },
+            "pt-br": {
+                "content": "b26f89334d4b5a67",
+                "structure": "99bffe22f749cb89"
+            }
+        },
+        "howto/expense-tracking-api.md": {
+            "ja": {
+                "content": "8e8ecc87bed8d5b8",
+                "structure": "e2921d3b10e64997"
+            },
+            "de": {
+                "content": "8e8ecc87bed8d5b8",
+                "structure": "e2921d3b10e64997"
+            },
+            "fr": {
+                "content": "8e8ecc87bed8d5b8",
+                "structure": "e2921d3b10e64997"
+            },
+            "zh": {
+                "content": "8e8ecc87bed8d5b8",
+                "structure": "e2921d3b10e64997"
+            },
+            "pt-br": {
+                "content": "8e8ecc87bed8d5b8",
+                "structure": "e2921d3b10e64997"
+            }
+        },
+        "howto/feature-flag-api.md": {
+            "ja": {
+                "content": "96f7ef5691d68a0c",
+                "structure": "7cfb2a82e117e668"
+            },
+            "de": {
+                "content": "96f7ef5691d68a0c",
+                "structure": "7cfb2a82e117e668"
+            },
+            "fr": {
+                "content": "96f7ef5691d68a0c",
+                "structure": "7cfb2a82e117e668"
+            },
+            "zh": {
+                "content": "96f7ef5691d68a0c",
+                "structure": "7cfb2a82e117e668"
+            },
+            "pt-br": {
+                "content": "96f7ef5691d68a0c",
+                "structure": "7cfb2a82e117e668"
+            }
+        },
+        "howto/feature-flags.md": {
+            "ja": {
+                "content": "51924d10ef6084cd",
+                "structure": "35b4c01ce9c3b4c8"
+            },
+            "de": {
+                "content": "51924d10ef6084cd",
+                "structure": "35b4c01ce9c3b4c8"
+            },
+            "fr": {
+                "content": "51924d10ef6084cd",
+                "structure": "35b4c01ce9c3b4c8"
+            },
+            "zh": {
+                "content": "51924d10ef6084cd",
+                "structure": "35b4c01ce9c3b4c8"
+            },
+            "pt-br": {
+                "content": "51924d10ef6084cd",
+                "structure": "35b4c01ce9c3b4c8"
+            }
+        },
+        "howto/feedback-collection.md": {
+            "ja": {
+                "content": "ecfcdd9fde67b862",
+                "structure": "f28212d7b43e365b"
+            },
+            "de": {
+                "content": "ecfcdd9fde67b862",
+                "structure": "f28212d7b43e365b"
+            },
+            "fr": {
+                "content": "ecfcdd9fde67b862",
+                "structure": "f28212d7b43e365b"
+            },
+            "zh": {
+                "content": "ecfcdd9fde67b862",
+                "structure": "f28212d7b43e365b"
+            },
+            "pt-br": {
+                "content": "ecfcdd9fde67b862",
+                "structure": "f28212d7b43e365b"
+            }
+        },
+        "howto/file-metadata-sharing.md": {
+            "ja": {
+                "content": "3b35e481740d0510",
+                "structure": "fd016eb5a5e2a169"
+            },
+            "de": {
+                "content": "3b35e481740d0510",
+                "structure": "fd016eb5a5e2a169"
+            },
+            "fr": {
+                "content": "3b35e481740d0510",
+                "structure": "fd016eb5a5e2a169"
+            },
+            "zh": {
+                "content": "3b35e481740d0510",
+                "structure": "fd016eb5a5e2a169"
+            },
+            "pt-br": {
+                "content": "3b35e481740d0510",
+                "structure": "fd016eb5a5e2a169"
+            }
+        },
+        "howto/file-sharing-api.md": {
+            "ja": {
+                "content": "c6acb83eb819b54d",
+                "structure": "8cb0c9a4d6ae2d80"
+            },
+            "de": {
+                "content": "c6acb83eb819b54d",
+                "structure": "8cb0c9a4d6ae2d80"
+            },
+            "fr": {
+                "content": "c6acb83eb819b54d",
+                "structure": "8cb0c9a4d6ae2d80"
+            },
+            "zh": {
+                "content": "c6acb83eb819b54d",
+                "structure": "8cb0c9a4d6ae2d80"
+            },
+            "pt-br": {
+                "content": "c6acb83eb819b54d",
+                "structure": "8cb0c9a4d6ae2d80"
+            }
+        },
+        "howto/file-upload-metadata.md": {
+            "ja": {
+                "content": "a7a8eb234dce2808",
+                "structure": "29e29ed7711930c3"
+            },
+            "de": {
+                "content": "a7a8eb234dce2808",
+                "structure": "29e29ed7711930c3"
+            },
+            "fr": {
+                "content": "a7a8eb234dce2808",
+                "structure": "29e29ed7711930c3"
+            },
+            "zh": {
+                "content": "a7a8eb234dce2808",
+                "structure": "29e29ed7711930c3"
+            },
+            "pt-br": {
+                "content": "a7a8eb234dce2808",
+                "structure": "29e29ed7711930c3"
+            }
+        },
+        "howto/file-upload.md": {
+            "ja": {
+                "content": "cafa34d03c80fc71",
+                "structure": "d59369844569a60a"
+            },
+            "de": {
+                "content": "cafa34d03c80fc71",
+                "structure": "d59369844569a60a"
+            },
+            "fr": {
+                "content": "cafa34d03c80fc71",
+                "structure": "d59369844569a60a"
+            },
+            "zh": {
+                "content": "cafa34d03c80fc71",
+                "structure": "d59369844569a60a"
+            },
+            "pt-br": {
+                "content": "cafa34d03c80fc71",
+                "structure": "d59369844569a60a"
+            }
+        },
+        "howto/fixed-window-rate-limiter.md": {
+            "ja": {
+                "content": "762d9f416445b474",
+                "structure": "fa1d60f88d4da949"
+            },
+            "de": {
+                "content": "762d9f416445b474",
+                "structure": "fa1d60f88d4da949"
+            },
+            "fr": {
+                "content": "762d9f416445b474",
+                "structure": "fa1d60f88d4da949"
+            },
+            "zh": {
+                "content": "762d9f416445b474",
+                "structure": "fa1d60f88d4da949"
+            },
+            "pt-br": {
+                "content": "762d9f416445b474",
+                "structure": "fa1d60f88d4da949"
+            }
+        },
+        "howto/flash-sale-api.md": {
+            "ja": {
+                "content": "4e7f2bcdc22b156b",
+                "structure": "469252771743ca5f"
+            },
+            "de": {
+                "content": "4e7f2bcdc22b156b",
+                "structure": "469252771743ca5f"
+            },
+            "fr": {
+                "content": "4e7f2bcdc22b156b",
+                "structure": "469252771743ca5f"
+            },
+            "zh": {
+                "content": "4e7f2bcdc22b156b",
+                "structure": "469252771743ca5f"
+            },
+            "pt-br": {
+                "content": "4e7f2bcdc22b156b",
+                "structure": "469252771743ca5f"
+            }
+        },
+        "howto/flash-sale-system.md": {
+            "ja": {
+                "content": "7aafd891d1226668",
+                "structure": "03f63c5d55bee584"
+            },
+            "de": {
+                "content": "7aafd891d1226668",
+                "structure": "03f63c5d55bee584"
+            },
+            "fr": {
+                "content": "7aafd891d1226668",
+                "structure": "03f63c5d55bee584"
+            },
+            "zh": {
+                "content": "7aafd891d1226668",
+                "structure": "03f63c5d55bee584"
+            },
+            "pt-br": {
+                "content": "7aafd891d1226668",
+                "structure": "03f63c5d55bee584"
+            }
+        },
+        "howto/follow-api.md": {
+            "ja": {
+                "content": "3c36242c3530ac05",
+                "structure": "3a369390e9709ad7"
+            },
+            "de": {
+                "content": "3c36242c3530ac05",
+                "structure": "3a369390e9709ad7"
+            },
+            "fr": {
+                "content": "3c36242c3530ac05",
+                "structure": "3a369390e9709ad7"
+            },
+            "zh": {
+                "content": "3c36242c3530ac05",
+                "structure": "3a369390e9709ad7"
+            },
+            "pt-br": {
+                "content": "3c36242c3530ac05",
+                "structure": "3a369390e9709ad7"
+            }
+        },
+        "howto/ft-registry.md": {
+            "ja": {
+                "content": "ca19689e8b6b2648",
+                "structure": "cb1abb060dcb1a71"
+            },
+            "de": {
+                "content": "ca19689e8b6b2648",
+                "structure": "cb1abb060dcb1a71"
+            },
+            "fr": {
+                "content": "ca19689e8b6b2648",
+                "structure": "cb1abb060dcb1a71"
+            },
+            "zh": {
+                "content": "ca19689e8b6b2648",
+                "structure": "cb1abb060dcb1a71"
+            },
+            "pt-br": {
+                "content": "ca19689e8b6b2648",
+                "structure": "cb1abb060dcb1a71"
+            }
+        },
+        "howto/game-score-leaderboard-api.md": {
+            "ja": {
+                "content": "62eb37e3de926a04",
+                "structure": "50a127960498da8c"
+            },
+            "de": {
+                "content": "62eb37e3de926a04",
+                "structure": "50a127960498da8c"
+            },
+            "fr": {
+                "content": "62eb37e3de926a04",
+                "structure": "50a127960498da8c"
+            },
+            "zh": {
+                "content": "62eb37e3de926a04",
+                "structure": "50a127960498da8c"
+            },
+            "pt-br": {
+                "content": "62eb37e3de926a04",
+                "structure": "50a127960498da8c"
+            }
+        },
+        "howto/geolocation-api.md": {
+            "ja": {
+                "content": "901997728f32c699",
+                "structure": "685774fafcd95bb0"
+            },
+            "de": {
+                "content": "901997728f32c699",
+                "structure": "685774fafcd95bb0"
+            },
+            "fr": {
+                "content": "901997728f32c699",
+                "structure": "685774fafcd95bb0"
+            },
+            "zh": {
+                "content": "901997728f32c699",
+                "structure": "685774fafcd95bb0"
+            },
+            "pt-br": {
+                "content": "901997728f32c699",
+                "structure": "685774fafcd95bb0"
+            }
+        },
+        "howto/geolocation.md": {
+            "ja": {
+                "content": "0c3b27372b68bd18",
+                "structure": "018ec169b56e0f7e"
+            },
+            "de": {
+                "content": "0c3b27372b68bd18",
+                "structure": "018ec169b56e0f7e"
+            },
+            "fr": {
+                "content": "0c3b27372b68bd18",
+                "structure": "018ec169b56e0f7e"
+            },
+            "zh": {
+                "content": "0c3b27372b68bd18",
+                "structure": "018ec169b56e0f7e"
+            },
+            "pt-br": {
+                "content": "0c3b27372b68bd18",
+                "structure": "018ec169b56e0f7e"
+            }
+        },
+        "howto/group-member-management.md": {
+            "ja": {
+                "content": "953d659a2709b08b",
+                "structure": "bed95b91b2bb07a1"
+            },
+            "de": {
+                "content": "953d659a2709b08b",
+                "structure": "bed95b91b2bb07a1"
+            },
+            "fr": {
+                "content": "953d659a2709b08b",
+                "structure": "bed95b91b2bb07a1"
+            },
+            "zh": {
+                "content": "953d659a2709b08b",
+                "structure": "bed95b91b2bb07a1"
+            },
+            "pt-br": {
+                "content": "953d659a2709b08b",
+                "structure": "bed95b91b2bb07a1"
+            }
+        },
+        "howto/group-membership-management.md": {
+            "ja": {
+                "content": "723b93119f044087",
+                "structure": "6d0a0cd63b9f7fbd"
+            },
+            "de": {
+                "content": "723b93119f044087",
+                "structure": "6d0a0cd63b9f7fbd"
+            },
+            "fr": {
+                "content": "723b93119f044087",
+                "structure": "6d0a0cd63b9f7fbd"
+            },
+            "zh": {
+                "content": "723b93119f044087",
+                "structure": "6d0a0cd63b9f7fbd"
+            },
+            "pt-br": {
+                "content": "723b93119f044087",
+                "structure": "6d0a0cd63b9f7fbd"
+            }
+        },
+        "howto/guest-order-system.md": {
+            "ja": {
+                "content": "16f8e1bb1a73a29a",
+                "structure": "764c5e5a55aac6cb"
+            },
+            "de": {
+                "content": "16f8e1bb1a73a29a",
+                "structure": "764c5e5a55aac6cb"
+            },
+            "fr": {
+                "content": "16f8e1bb1a73a29a",
+                "structure": "764c5e5a55aac6cb"
+            },
+            "zh": {
+                "content": "16f8e1bb1a73a29a",
+                "structure": "764c5e5a55aac6cb"
+            },
+            "pt-br": {
+                "content": "16f8e1bb1a73a29a",
+                "structure": "764c5e5a55aac6cb"
+            }
+        },
+        "howto/habit-tracker.md": {
+            "ja": {
+                "content": "8fa9413a1222b22b",
+                "structure": "31db807882d7f0bb"
+            },
+            "de": {
+                "content": "8fa9413a1222b22b",
+                "structure": "31db807882d7f0bb"
+            },
+            "fr": {
+                "content": "8fa9413a1222b22b",
+                "structure": "31db807882d7f0bb"
+            },
+            "zh": {
+                "content": "8fa9413a1222b22b",
+                "structure": "31db807882d7f0bb"
+            },
+            "pt-br": {
+                "content": "8fa9413a1222b22b",
+                "structure": "31db807882d7f0bb"
+            }
+        },
+        "howto/handle-timezones.md": {
+            "ja": {
+                "content": "b8b42d89d548ea42",
+                "structure": "8c084bbc8171bad5"
+            },
+            "de": {
+                "content": "b8b42d89d548ea42",
+                "structure": "8c084bbc8171bad5"
+            },
+            "fr": {
+                "content": "b8b42d89d548ea42",
+                "structure": "8c084bbc8171bad5"
+            },
+            "zh": {
+                "content": "b8b42d89d548ea42",
+                "structure": "8c084bbc8171bad5"
+            },
+            "pt-br": {
+                "content": "b8b42d89d548ea42",
+                "structure": "8c084bbc8171bad5"
+            }
+        },
+        "howto/hierarchical-data.md": {
+            "ja": {
+                "content": "0b6ef9806135da11",
+                "structure": "a69619de7ed7c9ed"
+            },
+            "de": {
+                "content": "0b6ef9806135da11",
+                "structure": "a69619de7ed7c9ed"
+            },
+            "fr": {
+                "content": "0b6ef9806135da11",
+                "structure": "a69619de7ed7c9ed"
+            },
+            "zh": {
+                "content": "0b6ef9806135da11",
+                "structure": "a69619de7ed7c9ed"
+            },
+            "pt-br": {
+                "content": "0b6ef9806135da11",
+                "structure": "a69619de7ed7c9ed"
+            }
+        },
+        "howto/idempotency-key-api.md": {
+            "ja": {
+                "content": "39e45f941abb0024",
+                "structure": "14d4e38666d0d1e2"
+            },
+            "de": {
+                "content": "39e45f941abb0024",
+                "structure": "14d4e38666d0d1e2"
+            },
+            "fr": {
+                "content": "39e45f941abb0024",
+                "structure": "14d4e38666d0d1e2"
+            },
+            "zh": {
+                "content": "39e45f941abb0024",
+                "structure": "14d4e38666d0d1e2"
+            },
+            "pt-br": {
+                "content": "39e45f941abb0024",
+                "structure": "14d4e38666d0d1e2"
+            }
+        },
+        "howto/idempotency-key.md": {
+            "ja": {
+                "content": "62a4744be1418c9e",
+                "structure": "6330c842876906e9"
+            },
+            "de": {
+                "content": "62a4744be1418c9e",
+                "structure": "6330c842876906e9"
+            },
+            "fr": {
+                "content": "62a4744be1418c9e",
+                "structure": "6330c842876906e9"
+            },
+            "zh": {
+                "content": "62a4744be1418c9e",
+                "structure": "6330c842876906e9"
+            },
+            "pt-br": {
+                "content": "62a4744be1418c9e",
+                "structure": "6330c842876906e9"
+            }
+        },
+        "howto/idempotency.md": {
+            "ja": {
+                "content": "8ade84f9c730811d",
+                "structure": "43fcf57f46737398"
+            },
+            "de": {
+                "content": "8ade84f9c730811d",
+                "structure": "43fcf57f46737398"
+            },
+            "fr": {
+                "content": "8ade84f9c730811d",
+                "structure": "43fcf57f46737398"
+            },
+            "zh": {
+                "content": "8ade84f9c730811d",
+                "structure": "43fcf57f46737398"
+            },
+            "pt-br": {
+                "content": "8ade84f9c730811d",
+                "structure": "43fcf57f46737398"
+            }
+        },
+        "howto/implement-bulk-endpoint.md": {
+            "ja": {
+                "content": "85d8dae6997f58b7",
+                "structure": "1b3d359d2282d7ef"
+            },
+            "de": {
+                "content": "85d8dae6997f58b7",
+                "structure": "1b3d359d2282d7ef"
+            },
+            "fr": {
+                "content": "85d8dae6997f58b7",
+                "structure": "1b3d359d2282d7ef"
+            },
+            "zh": {
+                "content": "85d8dae6997f58b7",
+                "structure": "1b3d359d2282d7ef"
+            },
+            "pt-br": {
+                "content": "85d8dae6997f58b7",
+                "structure": "1b3d359d2282d7ef"
+            }
+        },
+        "howto/implement-patch-endpoint.md": {
+            "ja": {
+                "content": "243de6cbc99b0614",
+                "structure": "9d17e812fb530886"
+            },
+            "de": {
+                "content": "243de6cbc99b0614",
+                "structure": "9d17e812fb530886"
+            },
+            "fr": {
+                "content": "243de6cbc99b0614",
+                "structure": "9d17e812fb530886"
+            },
+            "zh": {
+                "content": "243de6cbc99b0614",
+                "structure": "9d17e812fb530886"
+            },
+            "pt-br": {
+                "content": "243de6cbc99b0614",
+                "structure": "9d17e812fb530886"
+            }
+        },
+        "howto/inbound-webhook-gateway.md": {
+            "ja": {
+                "content": "91275023109af27e",
+                "structure": "f6500f1635406029"
+            },
+            "de": {
+                "content": "91275023109af27e",
+                "structure": "f6500f1635406029"
+            },
+            "fr": {
+                "content": "91275023109af27e",
+                "structure": "f6500f1635406029"
+            },
+            "zh": {
+                "content": "91275023109af27e",
+                "structure": "f6500f1635406029"
+            },
+            "pt-br": {
+                "content": "91275023109af27e",
+                "structure": "f6500f1635406029"
+            }
+        },
+        "howto/inbound-webhook-receiver.md": {
+            "ja": {
+                "content": "7a28b7e1a71bb483",
+                "structure": "ad5c219f38e8ea3f"
+            },
+            "de": {
+                "content": "7a28b7e1a71bb483",
+                "structure": "ad5c219f38e8ea3f"
+            },
+            "fr": {
+                "content": "7a28b7e1a71bb483",
+                "structure": "ad5c219f38e8ea3f"
+            },
+            "zh": {
+                "content": "7a28b7e1a71bb483",
+                "structure": "ad5c219f38e8ea3f"
+            },
+            "pt-br": {
+                "content": "7a28b7e1a71bb483",
+                "structure": "ad5c219f38e8ea3f"
+            }
+        },
+        "howto/inventory-management.md": {
+            "ja": {
+                "content": "be745b08196b2a6f",
+                "structure": "d68987bb6fb9f20a"
+            },
+            "de": {
+                "content": "be745b08196b2a6f",
+                "structure": "d68987bb6fb9f20a"
+            },
+            "fr": {
+                "content": "be745b08196b2a6f",
+                "structure": "d68987bb6fb9f20a"
+            },
+            "zh": {
+                "content": "be745b08196b2a6f",
+                "structure": "d68987bb6fb9f20a"
+            },
+            "pt-br": {
+                "content": "be745b08196b2a6f",
+                "structure": "d68987bb6fb9f20a"
+            }
+        },
+        "howto/inventory-stock-management.md": {
+            "ja": {
+                "content": "c03f381894e05ba2",
+                "structure": "7428364b7ce152e1"
+            },
+            "de": {
+                "content": "c03f381894e05ba2",
+                "structure": "7428364b7ce152e1"
+            },
+            "fr": {
+                "content": "c03f381894e05ba2",
+                "structure": "7428364b7ce152e1"
+            },
+            "zh": {
+                "content": "c03f381894e05ba2",
+                "structure": "7428364b7ce152e1"
+            },
+            "pt-br": {
+                "content": "c03f381894e05ba2",
+                "structure": "7428364b7ce152e1"
+            }
+        },
+        "howto/invitation-referral.md": {
+            "ja": {
+                "content": "04e0e7737a325d0d",
+                "structure": "8e0cf8d4d957755d"
+            },
+            "de": {
+                "content": "04e0e7737a325d0d",
+                "structure": "8e0cf8d4d957755d"
+            },
+            "fr": {
+                "content": "04e0e7737a325d0d",
+                "structure": "8e0cf8d4d957755d"
+            },
+            "zh": {
+                "content": "04e0e7737a325d0d",
+                "structure": "8e0cf8d4d957755d"
+            },
+            "pt-br": {
+                "content": "04e0e7737a325d0d",
+                "structure": "8e0cf8d4d957755d"
+            }
+        },
+        "howto/invitation-system.md": {
+            "ja": {
+                "content": "53484898f06b0af8",
+                "structure": "5a42826191ab7446"
+            },
+            "de": {
+                "content": "53484898f06b0af8",
+                "structure": "5a42826191ab7446"
+            },
+            "fr": {
+                "content": "53484898f06b0af8",
+                "structure": "5a42826191ab7446"
+            },
+            "zh": {
+                "content": "53484898f06b0af8",
+                "structure": "5a42826191ab7446"
+            },
+            "pt-br": {
+                "content": "53484898f06b0af8",
+                "structure": "5a42826191ab7446"
+            }
+        },
+        "howto/iso-datetime-validation.md": {
+            "ja": {
+                "content": "d6682cffe9f658b3",
+                "structure": "0ce3a647aca8ff3a"
+            },
+            "de": {
+                "content": "d6682cffe9f658b3",
+                "structure": "0ce3a647aca8ff3a"
+            },
+            "fr": {
+                "content": "d6682cffe9f658b3",
+                "structure": "0ce3a647aca8ff3a"
+            },
+            "zh": {
+                "content": "d6682cffe9f658b3",
+                "structure": "0ce3a647aca8ff3a"
+            },
+            "pt-br": {
+                "content": "d6682cffe9f658b3",
+                "structure": "0ce3a647aca8ff3a"
+            }
+        },
+        "howto/job-queue-with-retry.md": {
+            "ja": {
+                "content": "3d5f164caa570155",
+                "structure": "8e70c2288cf541ba"
+            },
+            "de": {
+                "content": "3d5f164caa570155",
+                "structure": "8e70c2288cf541ba"
+            },
+            "fr": {
+                "content": "3d5f164caa570155",
+                "structure": "8e70c2288cf541ba"
+            },
+            "zh": {
+                "content": "3d5f164caa570155",
+                "structure": "8e70c2288cf541ba"
+            },
+            "pt-br": {
+                "content": "3d5f164caa570155",
+                "structure": "8e70c2288cf541ba"
+            }
+        },
+        "howto/job-queue.md": {
+            "ja": {
+                "content": "ce93009fd7754f1f",
+                "structure": "7fb056cccbc9133e"
+            },
+            "de": {
+                "content": "ce93009fd7754f1f",
+                "structure": "7fb056cccbc9133e"
+            },
+            "fr": {
+                "content": "ce93009fd7754f1f",
+                "structure": "7fb056cccbc9133e"
+            },
+            "zh": {
+                "content": "ce93009fd7754f1f",
+                "structure": "7fb056cccbc9133e"
+            },
+            "pt-br": {
+                "content": "ce93009fd7754f1f",
+                "structure": "7fb056cccbc9133e"
+            }
+        },
+        "howto/json-merge-patch.md": {
+            "ja": {
+                "content": "eda3f4a045268138",
+                "structure": "df92c7148d766fb7"
+            },
+            "de": {
+                "content": "eda3f4a045268138",
+                "structure": "df92c7148d766fb7"
+            },
+            "fr": {
+                "content": "eda3f4a045268138",
+                "structure": "df92c7148d766fb7"
+            },
+            "zh": {
+                "content": "eda3f4a045268138",
+                "structure": "df92c7148d766fb7"
+            },
+            "pt-br": {
+                "content": "eda3f4a045268138",
+                "structure": "df92c7148d766fb7"
+            }
+        },
+        "howto/jwt-authentication.md": {
+            "ja": {
+                "content": "145e981d0fd94a31",
+                "structure": "08f6d460ad2bd1e4"
+            },
+            "de": {
+                "content": "145e981d0fd94a31",
+                "structure": "08f6d460ad2bd1e4"
+            },
+            "fr": {
+                "content": "145e981d0fd94a31",
+                "structure": "08f6d460ad2bd1e4"
+            },
+            "zh": {
+                "content": "145e981d0fd94a31",
+                "structure": "08f6d460ad2bd1e4"
+            },
+            "pt-br": {
+                "content": "145e981d0fd94a31",
+                "structure": "08f6d460ad2bd1e4"
+            }
+        },
+        "howto/jwt-tenant-isolation.md": {
+            "ja": {
+                "content": "fa0958d267015345",
+                "structure": "ab01c6a7b9e03b55"
+            },
+            "de": {
+                "content": "fa0958d267015345",
+                "structure": "ab01c6a7b9e03b55"
+            },
+            "fr": {
+                "content": "fa0958d267015345",
+                "structure": "ab01c6a7b9e03b55"
+            },
+            "zh": {
+                "content": "fa0958d267015345",
+                "structure": "ab01c6a7b9e03b55"
+            },
+            "pt-br": {
+                "content": "fa0958d267015345",
+                "structure": "ab01c6a7b9e03b55"
+            }
+        },
+        "howto/leaderboard-ranking-api.md": {
+            "ja": {
+                "content": "971d1de1455acad0",
+                "structure": "0b0d36fab153cc6f"
+            },
+            "de": {
+                "content": "971d1de1455acad0",
+                "structure": "0b0d36fab153cc6f"
+            },
+            "fr": {
+                "content": "971d1de1455acad0",
+                "structure": "0b0d36fab153cc6f"
+            },
+            "zh": {
+                "content": "971d1de1455acad0",
+                "structure": "0b0d36fab153cc6f"
+            },
+            "pt-br": {
+                "content": "971d1de1455acad0",
+                "structure": "0b0d36fab153cc6f"
+            }
+        },
+        "howto/leaderboard-ranking-system.md": {
+            "ja": {
+                "content": "bf20c1daa3236129",
+                "structure": "2202bcf87b36debd"
+            },
+            "de": {
+                "content": "bf20c1daa3236129",
+                "structure": "2202bcf87b36debd"
+            },
+            "fr": {
+                "content": "bf20c1daa3236129",
+                "structure": "2202bcf87b36debd"
+            },
+            "zh": {
+                "content": "bf20c1daa3236129",
+                "structure": "2202bcf87b36debd"
+            },
+            "pt-br": {
+                "content": "bf20c1daa3236129",
+                "structure": "2202bcf87b36debd"
+            }
+        },
+        "howto/leaderboard-ranking.md": {
+            "ja": {
+                "content": "fb3c946600c7b7b8",
+                "structure": "2f1f5dc809566aac"
+            },
+            "de": {
+                "content": "fb3c946600c7b7b8",
+                "structure": "2f1f5dc809566aac"
+            },
+            "fr": {
+                "content": "fb3c946600c7b7b8",
+                "structure": "2f1f5dc809566aac"
+            },
+            "zh": {
+                "content": "fb3c946600c7b7b8",
+                "structure": "2f1f5dc809566aac"
+            },
+            "pt-br": {
+                "content": "fb3c946600c7b7b8",
+                "structure": "2f1f5dc809566aac"
+            }
+        },
+        "howto/leaderboard-scores.md": {
+            "ja": {
+                "content": "1282f2168c135bf8",
+                "structure": "e602bb1c81d2e548"
+            },
+            "de": {
+                "content": "1282f2168c135bf8",
+                "structure": "e602bb1c81d2e548"
+            },
+            "fr": {
+                "content": "1282f2168c135bf8",
+                "structure": "e602bb1c81d2e548"
+            },
+            "zh": {
+                "content": "1282f2168c135bf8",
+                "structure": "e602bb1c81d2e548"
+            },
+            "pt-br": {
+                "content": "1282f2168c135bf8",
+                "structure": "e602bb1c81d2e548"
+            }
+        },
+        "howto/live-penetration-testing.md": {
+            "ja": {
+                "content": "85748b6efa3a533a",
+                "structure": "a56ce838c2f0584b"
+            },
+            "de": {
+                "content": "85748b6efa3a533a",
+                "structure": "a56ce838c2f0584b"
+            },
+            "fr": {
+                "content": "85748b6efa3a533a",
+                "structure": "a56ce838c2f0584b"
+            },
+            "zh": {
+                "content": "85748b6efa3a533a",
+                "structure": "a56ce838c2f0584b"
+            },
+            "pt-br": {
+                "content": "85748b6efa3a533a",
+                "structure": "a56ce838c2f0584b"
+            }
+        },
+        "howto/live-poll-system.md": {
+            "ja": {
+                "content": "862a6165ab2013bc",
+                "structure": "1fe381ccad7b21f3"
+            },
+            "de": {
+                "content": "862a6165ab2013bc",
+                "structure": "1fe381ccad7b21f3"
+            },
+            "fr": {
+                "content": "862a6165ab2013bc",
+                "structure": "1fe381ccad7b21f3"
+            },
+            "zh": {
+                "content": "862a6165ab2013bc",
+                "structure": "1fe381ccad7b21f3"
+            },
+            "pt-br": {
+                "content": "862a6165ab2013bc",
+                "structure": "1fe381ccad7b21f3"
+            }
+        },
+        "howto/magic-link-authentication.md": {
+            "ja": {
+                "content": "bf5f1d8ad3298f9c",
+                "structure": "3e443d1e7f866265"
+            },
+            "de": {
+                "content": "bf5f1d8ad3298f9c",
+                "structure": "3e443d1e7f866265"
+            },
+            "fr": {
+                "content": "bf5f1d8ad3298f9c",
+                "structure": "3e443d1e7f866265"
+            },
+            "zh": {
+                "content": "bf5f1d8ad3298f9c",
+                "structure": "3e443d1e7f866265"
+            },
+            "pt-br": {
+                "content": "bf5f1d8ad3298f9c",
+                "structure": "3e443d1e7f866265"
+            }
+        },
+        "howto/mass-assignment-defence.md": {
+            "ja": {
+                "content": "d16ac361caf1b068",
+                "structure": "0584af020e233156"
+            },
+            "de": {
+                "content": "d16ac361caf1b068",
+                "structure": "0584af020e233156"
+            },
+            "fr": {
+                "content": "d16ac361caf1b068",
+                "structure": "0584af020e233156"
+            },
+            "zh": {
+                "content": "d16ac361caf1b068",
+                "structure": "0584af020e233156"
+            },
+            "pt-br": {
+                "content": "d16ac361caf1b068",
+                "structure": "0584af020e233156"
+            }
+        },
+        "howto/mass-assignment.md": {
+            "ja": {
+                "content": "b7fa54cb4cbe3c77",
+                "structure": "25c5cdd8653a842c"
+            },
+            "de": {
+                "content": "b7fa54cb4cbe3c77",
+                "structure": "25c5cdd8653a842c"
+            },
+            "fr": {
+                "content": "b7fa54cb4cbe3c77",
+                "structure": "25c5cdd8653a842c"
+            },
+            "zh": {
+                "content": "b7fa54cb4cbe3c77",
+                "structure": "25c5cdd8653a842c"
+            },
+            "pt-br": {
+                "content": "b7fa54cb4cbe3c77",
+                "structure": "25c5cdd8653a842c"
+            }
+        },
+        "howto/media-watchlist.md": {
+            "ja": {
+                "content": "1311e75486b92013",
+                "structure": "2dcfd93157e2d19e"
+            },
+            "de": {
+                "content": "1311e75486b92013",
+                "structure": "2dcfd93157e2d19e"
+            },
+            "fr": {
+                "content": "1311e75486b92013",
+                "structure": "2dcfd93157e2d19e"
+            },
+            "zh": {
+                "content": "1311e75486b92013",
+                "structure": "2dcfd93157e2d19e"
+            },
+            "pt-br": {
+                "content": "1311e75486b92013",
+                "structure": "2dcfd93157e2d19e"
+            }
+        },
+        "howto/money-integer-arithmetic.md": {
+            "ja": {
+                "content": "faf9d137c0c28f87",
+                "structure": "945a7392d4863138"
+            },
+            "de": {
+                "content": "faf9d137c0c28f87",
+                "structure": "945a7392d4863138"
+            },
+            "fr": {
+                "content": "faf9d137c0c28f87",
+                "structure": "945a7392d4863138"
+            },
+            "zh": {
+                "content": "faf9d137c0c28f87",
+                "structure": "945a7392d4863138"
+            },
+            "pt-br": {
+                "content": "faf9d137c0c28f87",
+                "structure": "945a7392d4863138"
+            }
+        },
+        "howto/multi-currency-money-ledger.md": {
+            "ja": {
+                "content": "f3532ddf5990d0a1",
+                "structure": "022a8604ae2deb92"
+            },
+            "de": {
+                "content": "f3532ddf5990d0a1",
+                "structure": "022a8604ae2deb92"
+            },
+            "fr": {
+                "content": "f3532ddf5990d0a1",
+                "structure": "022a8604ae2deb92"
+            },
+            "zh": {
+                "content": "f3532ddf5990d0a1",
+                "structure": "022a8604ae2deb92"
+            },
+            "pt-br": {
+                "content": "f3532ddf5990d0a1",
+                "structure": "022a8604ae2deb92"
+            }
+        },
+        "howto/multi-currency-wallet.md": {
+            "ja": {
+                "content": "7f3fdd981be454b7",
+                "structure": "9d92f828a0a0b4ae"
+            },
+            "de": {
+                "content": "7f3fdd981be454b7",
+                "structure": "9d92f828a0a0b4ae"
+            },
+            "fr": {
+                "content": "7f3fdd981be454b7",
+                "structure": "9d92f828a0a0b4ae"
+            },
+            "zh": {
+                "content": "7f3fdd981be454b7",
+                "structure": "9d92f828a0a0b4ae"
+            },
+            "pt-br": {
+                "content": "7f3fdd981be454b7",
+                "structure": "9d92f828a0a0b4ae"
+            }
+        },
+        "howto/multi-step-workflow.md": {
+            "ja": {
+                "content": "2589d0d5c8790198",
+                "structure": "9bd094fe5f162d4f"
+            },
+            "de": {
+                "content": "2589d0d5c8790198",
+                "structure": "9bd094fe5f162d4f"
+            },
+            "fr": {
+                "content": "2589d0d5c8790198",
+                "structure": "9bd094fe5f162d4f"
+            },
+            "zh": {
+                "content": "2589d0d5c8790198",
+                "structure": "9bd094fe5f162d4f"
+            },
+            "pt-br": {
+                "content": "2589d0d5c8790198",
+                "structure": "9bd094fe5f162d4f"
+            }
+        },
+        "howto/multi-tenant-isolation.md": {
+            "ja": {
+                "content": "6bf9d3d44acb410c",
+                "structure": "560234800b773947"
+            },
+            "de": {
+                "content": "6bf9d3d44acb410c",
+                "structure": "560234800b773947"
+            },
+            "fr": {
+                "content": "6bf9d3d44acb410c",
+                "structure": "560234800b773947"
+            },
+            "zh": {
+                "content": "6bf9d3d44acb410c",
+                "structure": "560234800b773947"
+            },
+            "pt-br": {
+                "content": "6bf9d3d44acb410c",
+                "structure": "560234800b773947"
+            }
+        },
+        "howto/multi-value-tag-filter.md": {
+            "ja": {
+                "content": "d455e8dadd111a5b",
+                "structure": "22d8c30729589757"
+            },
+            "de": {
+                "content": "d455e8dadd111a5b",
+                "structure": "22d8c30729589757"
+            },
+            "fr": {
+                "content": "d455e8dadd111a5b",
+                "structure": "22d8c30729589757"
+            },
+            "zh": {
+                "content": "d455e8dadd111a5b",
+                "structure": "22d8c30729589757"
+            },
+            "pt-br": {
+                "content": "d455e8dadd111a5b",
+                "structure": "22d8c30729589757"
+            }
+        },
+        "howto/multilingual-content.md": {
+            "ja": {
+                "content": "30400381a84f6ae2",
+                "structure": "cafd0fb5141e8b8e"
+            },
+            "de": {
+                "content": "30400381a84f6ae2",
+                "structure": "cafd0fb5141e8b8e"
+            },
+            "fr": {
+                "content": "30400381a84f6ae2",
+                "structure": "cafd0fb5141e8b8e"
+            },
+            "zh": {
+                "content": "30400381a84f6ae2",
+                "structure": "cafd0fb5141e8b8e"
+            },
+            "pt-br": {
+                "content": "30400381a84f6ae2",
+                "structure": "cafd0fb5141e8b8e"
+            }
+        },
+        "howto/nested-json-validation.md": {
+            "ja": {
+                "content": "1a0115b09698d3f4",
+                "structure": "fc630fe5712e9e9a"
+            },
+            "de": {
+                "content": "1a0115b09698d3f4",
+                "structure": "fc630fe5712e9e9a"
+            },
+            "fr": {
+                "content": "1a0115b09698d3f4",
+                "structure": "fc630fe5712e9e9a"
+            },
+            "zh": {
+                "content": "1a0115b09698d3f4",
+                "structure": "fc630fe5712e9e9a"
+            },
+            "pt-br": {
+                "content": "1a0115b09698d3f4",
+                "structure": "fc630fe5712e9e9a"
+            }
+        },
+        "howto/note-management-ownership.md": {
+            "ja": {
+                "content": "93840bda5f87ade4",
+                "structure": "fdde4cca3f42d7a6"
+            },
+            "de": {
+                "content": "4673f3817ac61af3",
+                "structure": "2f7b06f27ebb1af0"
+            },
+            "fr": {
+                "content": "4673f3817ac61af3",
+                "structure": "2f7b06f27ebb1af0"
+            },
+            "zh": {
+                "content": "4673f3817ac61af3",
+                "structure": "2f7b06f27ebb1af0"
+            },
+            "pt-br": {
+                "content": "4673f3817ac61af3",
+                "structure": "2f7b06f27ebb1af0"
+            }
+        },
+        "howto/note-management-with-tags.md": {
+            "ja": {
+                "content": "a86069a2ca0fff05",
+                "structure": "d2801b81cb375490"
+            },
+            "de": {
+                "content": "a86069a2ca0fff05",
+                "structure": "d2801b81cb375490"
+            },
+            "fr": {
+                "content": "a86069a2ca0fff05",
+                "structure": "d2801b81cb375490"
+            },
+            "zh": {
+                "content": "a86069a2ca0fff05",
+                "structure": "d2801b81cb375490"
+            },
+            "pt-br": {
+                "content": "a86069a2ca0fff05",
+                "structure": "d2801b81cb375490"
+            }
+        },
+        "howto/notification-inbox.md": {
+            "ja": {
+                "content": "bfad7add8f36ec01",
+                "structure": "68e996b4909c27d7"
+            },
+            "de": {
+                "content": "bfad7add8f36ec01",
+                "structure": "68e996b4909c27d7"
+            },
+            "fr": {
+                "content": "bfad7add8f36ec01",
+                "structure": "68e996b4909c27d7"
+            },
+            "zh": {
+                "content": "bfad7add8f36ec01",
+                "structure": "68e996b4909c27d7"
+            },
+            "pt-br": {
+                "content": "bfad7add8f36ec01",
+                "structure": "68e996b4909c27d7"
+            }
+        },
+        "howto/notification-queue.md": {
+            "ja": {
+                "content": "4af27a430fcbff41",
+                "structure": "f847a472a9c2893c"
+            },
+            "de": {
+                "content": "4af27a430fcbff41",
+                "structure": "f847a472a9c2893c"
+            },
+            "fr": {
+                "content": "4af27a430fcbff41",
+                "structure": "f847a472a9c2893c"
+            },
+            "zh": {
+                "content": "4af27a430fcbff41",
+                "structure": "f847a472a9c2893c"
+            },
+            "pt-br": {
+                "content": "4af27a430fcbff41",
+                "structure": "f847a472a9c2893c"
+            }
+        },
+        "howto/numeric-verification-code.md": {
+            "ja": {
+                "content": "3d747319606303bc",
+                "structure": "e4c2ffe5bf2d269a"
+            },
+            "de": {
+                "content": "3d747319606303bc",
+                "structure": "e4c2ffe5bf2d269a"
+            },
+            "fr": {
+                "content": "3d747319606303bc",
+                "structure": "e4c2ffe5bf2d269a"
+            },
+            "zh": {
+                "content": "3d747319606303bc",
+                "structure": "e4c2ffe5bf2d269a"
+            },
+            "pt-br": {
+                "content": "3d747319606303bc",
+                "structure": "e4c2ffe5bf2d269a"
+            }
+        },
+        "howto/oauth2-social-login.md": {
+            "ja": {
+                "content": "2a82691137b7b767",
+                "structure": "492203e53c6be1fd"
+            },
+            "de": {
+                "content": "2a82691137b7b767",
+                "structure": "492203e53c6be1fd"
+            },
+            "fr": {
+                "content": "2a82691137b7b767",
+                "structure": "492203e53c6be1fd"
+            },
+            "zh": {
+                "content": "2a82691137b7b767",
+                "structure": "492203e53c6be1fd"
+            },
+            "pt-br": {
+                "content": "2a82691137b7b767",
+                "structure": "492203e53c6be1fd"
+            }
+        },
+        "howto/offset-cursor-pagination.md": {
+            "ja": {
+                "content": "380f48dea1ceb7a1",
+                "structure": "b706ebf78fd303b5"
+            },
+            "de": {
+                "content": "380f48dea1ceb7a1",
+                "structure": "b706ebf78fd303b5"
+            },
+            "fr": {
+                "content": "380f48dea1ceb7a1",
+                "structure": "b706ebf78fd303b5"
+            },
+            "zh": {
+                "content": "380f48dea1ceb7a1",
+                "structure": "b706ebf78fd303b5"
+            },
+            "pt-br": {
+                "content": "380f48dea1ceb7a1",
+                "structure": "b706ebf78fd303b5"
+            }
+        },
+        "howto/one-time-secrets.md": {
+            "ja": {
+                "content": "0220d83df7bd6b01",
+                "structure": "62e80f9db8a65761"
+            },
+            "de": {
+                "content": "0220d83df7bd6b01",
+                "structure": "62e80f9db8a65761"
+            },
+            "fr": {
+                "content": "0220d83df7bd6b01",
+                "structure": "62e80f9db8a65761"
+            },
+            "zh": {
+                "content": "0220d83df7bd6b01",
+                "structure": "62e80f9db8a65761"
+            },
+            "pt-br": {
+                "content": "0220d83df7bd6b01",
+                "structure": "62e80f9db8a65761"
+            }
+        },
+        "howto/optimistic-concurrency-version.md": {
+            "ja": {
+                "content": "2f09904af46e496c",
+                "structure": "b2c78343f30dbd90"
+            },
+            "de": {
+                "content": "2f09904af46e496c",
+                "structure": "b2c78343f30dbd90"
+            },
+            "fr": {
+                "content": "2f09904af46e496c",
+                "structure": "b2c78343f30dbd90"
+            },
+            "zh": {
+                "content": "2f09904af46e496c",
+                "structure": "b2c78343f30dbd90"
+            },
+            "pt-br": {
+                "content": "2f09904af46e496c",
+                "structure": "b2c78343f30dbd90"
+            }
+        },
+        "howto/optimistic-lock-patch-version.md": {
+            "ja": {
+                "content": "0e48551d34efd157",
+                "structure": "78d80fa845752b2e"
+            },
+            "de": {
+                "content": "0e48551d34efd157",
+                "structure": "78d80fa845752b2e"
+            },
+            "fr": {
+                "content": "0e48551d34efd157",
+                "structure": "78d80fa845752b2e"
+            },
+            "zh": {
+                "content": "0e48551d34efd157",
+                "structure": "78d80fa845752b2e"
+            },
+            "pt-br": {
+                "content": "0e48551d34efd157",
+                "structure": "78d80fa845752b2e"
+            }
+        },
+        "howto/optimistic-locking-etag.md": {
+            "ja": {
+                "content": "f307dcfb7f49e8fa",
+                "structure": "b62a66f69e5410b6"
+            },
+            "de": {
+                "content": "f307dcfb7f49e8fa",
+                "structure": "b62a66f69e5410b6"
+            },
+            "fr": {
+                "content": "f307dcfb7f49e8fa",
+                "structure": "b62a66f69e5410b6"
+            },
+            "zh": {
+                "content": "f307dcfb7f49e8fa",
+                "structure": "b62a66f69e5410b6"
+            },
+            "pt-br": {
+                "content": "f307dcfb7f49e8fa",
+                "structure": "b62a66f69e5410b6"
+            }
+        },
+        "howto/optimistic-locking.md": {
+            "ja": {
+                "content": "2d3eb8a50f62b2a4",
+                "structure": "d94269335f922819"
+            },
+            "de": {
+                "content": "2d3eb8a50f62b2a4",
+                "structure": "d94269335f922819"
+            },
+            "fr": {
+                "content": "2d3eb8a50f62b2a4",
+                "structure": "d94269335f922819"
+            },
+            "zh": {
+                "content": "2d3eb8a50f62b2a4",
+                "structure": "d94269335f922819"
+            },
+            "pt-br": {
+                "content": "2d3eb8a50f62b2a4",
+                "structure": "d94269335f922819"
+            }
+        },
+        "howto/order-management.md": {
+            "ja": {
+                "content": "5cd14ed7e514dc51",
+                "structure": "96ea126128a71cea"
+            },
+            "de": {
+                "content": "5cd14ed7e514dc51",
+                "structure": "96ea126128a71cea"
+            },
+            "fr": {
+                "content": "5cd14ed7e514dc51",
+                "structure": "96ea126128a71cea"
+            },
+            "zh": {
+                "content": "5cd14ed7e514dc51",
+                "structure": "96ea126128a71cea"
+            },
+            "pt-br": {
+                "content": "5cd14ed7e514dc51",
+                "structure": "96ea126128a71cea"
+            }
+        },
+        "howto/otp-authentication.md": {
+            "ja": {
+                "content": "2f354e0e6b730615",
+                "structure": "442dc79f166cb854"
+            },
+            "de": {
+                "content": "2f354e0e6b730615",
+                "structure": "442dc79f166cb854"
+            },
+            "fr": {
+                "content": "2f354e0e6b730615",
+                "structure": "442dc79f166cb854"
+            },
+            "zh": {
+                "content": "2f354e0e6b730615",
+                "structure": "442dc79f166cb854"
+            },
+            "pt-br": {
+                "content": "2f354e0e6b730615",
+                "structure": "442dc79f166cb854"
+            }
+        },
+        "howto/pagination-boundary-attack.md": {
+            "ja": {
+                "content": "d9b6e8c93789b070",
+                "structure": "ba4d50fce037fbf7"
+            },
+            "de": {
+                "content": "d9b6e8c93789b070",
+                "structure": "ba4d50fce037fbf7"
+            },
+            "fr": {
+                "content": "d9b6e8c93789b070",
+                "structure": "ba4d50fce037fbf7"
+            },
+            "zh": {
+                "content": "d9b6e8c93789b070",
+                "structure": "ba4d50fce037fbf7"
+            },
+            "pt-br": {
+                "content": "d9b6e8c93789b070",
+                "structure": "ba4d50fce037fbf7"
+            }
+        },
+        "howto/pagination-limit-injection.md": {
+            "ja": {
+                "content": "0afd7bc4c79b6f37",
+                "structure": "182105988917e779"
+            },
+            "de": {
+                "content": "0afd7bc4c79b6f37",
+                "structure": "182105988917e779"
+            },
+            "fr": {
+                "content": "0afd7bc4c79b6f37",
+                "structure": "182105988917e779"
+            },
+            "zh": {
+                "content": "0afd7bc4c79b6f37",
+                "structure": "182105988917e779"
+            },
+            "pt-br": {
+                "content": "0afd7bc4c79b6f37",
+                "structure": "182105988917e779"
+            }
+        },
+        "howto/pagination.md": {
+            "ja": {
+                "content": "3144274d194995a5",
+                "structure": "2060424d3534ed68"
+            },
+            "de": {
+                "content": "3144274d194995a5",
+                "structure": "2060424d3534ed68"
+            },
+            "fr": {
+                "content": "3144274d194995a5",
+                "structure": "2060424d3534ed68"
+            },
+            "zh": {
+                "content": "3144274d194995a5",
+                "structure": "2060424d3534ed68"
+            },
+            "pt-br": {
+                "content": "3144274d194995a5",
+                "structure": "2060424d3534ed68"
+            }
+        },
+        "howto/password-auth-argon2id.md": {
+            "ja": {
+                "content": "626e65bb7edbbd65",
+                "structure": "8904192d122e1f4b"
+            },
+            "de": {
+                "content": "626e65bb7edbbd65",
+                "structure": "8904192d122e1f4b"
+            },
+            "fr": {
+                "content": "626e65bb7edbbd65",
+                "structure": "8904192d122e1f4b"
+            },
+            "zh": {
+                "content": "626e65bb7edbbd65",
+                "structure": "8904192d122e1f4b"
+            },
+            "pt-br": {
+                "content": "626e65bb7edbbd65",
+                "structure": "8904192d122e1f4b"
+            }
+        },
+        "howto/password-hashing.md": {
+            "ja": {
+                "content": "7ad87dd7d91e052d",
+                "structure": "a544f46864bb907c"
+            },
+            "de": {
+                "content": "7ad87dd7d91e052d",
+                "structure": "a544f46864bb907c"
+            },
+            "fr": {
+                "content": "7ad87dd7d91e052d",
+                "structure": "a544f46864bb907c"
+            },
+            "zh": {
+                "content": "7ad87dd7d91e052d",
+                "structure": "a544f46864bb907c"
+            },
+            "pt-br": {
+                "content": "7ad87dd7d91e052d",
+                "structure": "a544f46864bb907c"
+            }
+        },
+        "howto/password-reset-flow.md": {
+            "ja": {
+                "content": "08afda0866f3aba0",
+                "structure": "4009f127d6c1ccb7"
+            },
+            "de": {
+                "content": "08afda0866f3aba0",
+                "structure": "4009f127d6c1ccb7"
+            },
+            "fr": {
+                "content": "08afda0866f3aba0",
+                "structure": "4009f127d6c1ccb7"
+            },
+            "zh": {
+                "content": "08afda0866f3aba0",
+                "structure": "4009f127d6c1ccb7"
+            },
+            "pt-br": {
+                "content": "08afda0866f3aba0",
+                "structure": "4009f127d6c1ccb7"
+            }
+        },
+        "howto/password-reset.md": {
+            "ja": {
+                "content": "f981965f38940216",
+                "structure": "bbdaa7400df6e9cd"
+            },
+            "de": {
+                "content": "f981965f38940216",
+                "structure": "bbdaa7400df6e9cd"
+            },
+            "fr": {
+                "content": "f981965f38940216",
+                "structure": "bbdaa7400df6e9cd"
+            },
+            "zh": {
+                "content": "f981965f38940216",
+                "structure": "bbdaa7400df6e9cd"
+            },
+            "pt-br": {
+                "content": "f981965f38940216",
+                "structure": "bbdaa7400df6e9cd"
+            }
+        },
+        "howto/passwordless-auth-magic-link.md": {
+            "ja": {
+                "content": "44ce4c3f4ec85ffc",
+                "structure": "b17c1eb7e6f928eb"
+            },
+            "de": {
+                "content": "44ce4c3f4ec85ffc",
+                "structure": "b17c1eb7e6f928eb"
+            },
+            "fr": {
+                "content": "44ce4c3f4ec85ffc",
+                "structure": "b17c1eb7e6f928eb"
+            },
+            "zh": {
+                "content": "44ce4c3f4ec85ffc",
+                "structure": "b17c1eb7e6f928eb"
+            },
+            "pt-br": {
+                "content": "44ce4c3f4ec85ffc",
+                "structure": "b17c1eb7e6f928eb"
+            }
+        },
+        "howto/patch-partial-update.md": {
+            "ja": {
+                "content": "9cd5f9054ea1755b",
+                "structure": "f8ef32003421c988"
+            },
+            "de": {
+                "content": "9cd5f9054ea1755b",
+                "structure": "f8ef32003421c988"
+            },
+            "fr": {
+                "content": "9cd5f9054ea1755b",
+                "structure": "f8ef32003421c988"
+            },
+            "zh": {
+                "content": "9cd5f9054ea1755b",
+                "structure": "f8ef32003421c988"
+            },
+            "pt-br": {
+                "content": "9cd5f9054ea1755b",
+                "structure": "f8ef32003421c988"
+            }
+        },
+        "howto/payment-webhook.md": {
+            "ja": {
+                "content": "e019ff87971fe768",
+                "structure": "1eb0eb951b6de8ba"
+            },
+            "de": {
+                "content": "e019ff87971fe768",
+                "structure": "1eb0eb951b6de8ba"
+            },
+            "fr": {
+                "content": "e019ff87971fe768",
+                "structure": "1eb0eb951b6de8ba"
+            },
+            "zh": {
+                "content": "e019ff87971fe768",
+                "structure": "1eb0eb951b6de8ba"
+            },
+            "pt-br": {
+                "content": "e019ff87971fe768",
+                "structure": "1eb0eb951b6de8ba"
+            }
+        },
+        "howto/personal-data-export.md": {
+            "ja": {
+                "content": "6541e471b44c4b1d",
+                "structure": "06be1970923e6e32"
+            },
+            "de": {
+                "content": "6541e471b44c4b1d",
+                "structure": "06be1970923e6e32"
+            },
+            "fr": {
+                "content": "6541e471b44c4b1d",
+                "structure": "06be1970923e6e32"
+            },
+            "zh": {
+                "content": "6541e471b44c4b1d",
+                "structure": "06be1970923e6e32"
+            },
+            "pt-br": {
+                "content": "6541e471b44c4b1d",
+                "structure": "06be1970923e6e32"
+            }
+        },
+        "howto/pii-masking.md": {
+            "ja": {
+                "content": "12599212aecc3618",
+                "structure": "c1b8735347f0e5ef"
+            },
+            "de": {
+                "content": "12599212aecc3618",
+                "structure": "c1b8735347f0e5ef"
+            },
+            "fr": {
+                "content": "12599212aecc3618",
+                "structure": "c1b8735347f0e5ef"
+            },
+            "zh": {
+                "content": "12599212aecc3618",
+                "structure": "c1b8735347f0e5ef"
+            },
+            "pt-br": {
+                "content": "12599212aecc3618",
+                "structure": "c1b8735347f0e5ef"
+            }
+        },
+        "howto/pin-bookmark-ordering.md": {
+            "ja": {
+                "content": "42de94e5271ff17e",
+                "structure": "fc142bb348381a83"
+            },
+            "de": {
+                "content": "42de94e5271ff17e",
+                "structure": "fc142bb348381a83"
+            },
+            "fr": {
+                "content": "42de94e5271ff17e",
+                "structure": "fc142bb348381a83"
+            },
+            "zh": {
+                "content": "42de94e5271ff17e",
+                "structure": "fc142bb348381a83"
+            },
+            "pt-br": {
+                "content": "42de94e5271ff17e",
+                "structure": "fc142bb348381a83"
+            }
+        },
+        "howto/pin-verification-lockout.md": {
+            "ja": {
+                "content": "347911cadee81486",
+                "structure": "16227ffb72abc275"
+            },
+            "de": {
+                "content": "347911cadee81486",
+                "structure": "16227ffb72abc275"
+            },
+            "fr": {
+                "content": "347911cadee81486",
+                "structure": "16227ffb72abc275"
+            },
+            "zh": {
+                "content": "347911cadee81486",
+                "structure": "16227ffb72abc275"
+            },
+            "pt-br": {
+                "content": "347911cadee81486",
+                "structure": "16227ffb72abc275"
+            }
+        },
+        "howto/point-ledger-api.md": {
+            "ja": {
+                "content": "eff633142cf7e354",
+                "structure": "6af5e4329c08c518"
+            },
+            "de": {
+                "content": "eff633142cf7e354",
+                "structure": "6af5e4329c08c518"
+            },
+            "fr": {
+                "content": "eff633142cf7e354",
+                "structure": "6af5e4329c08c518"
+            },
+            "zh": {
+                "content": "eff633142cf7e354",
+                "structure": "6af5e4329c08c518"
+            },
+            "pt-br": {
+                "content": "eff633142cf7e354",
+                "structure": "6af5e4329c08c518"
+            }
+        },
+        "howto/point-loyalty-system.md": {
+            "ja": {
+                "content": "e06df0b2b728eb8a",
+                "structure": "d0a45d2067fe585d"
+            },
+            "de": {
+                "content": "e06df0b2b728eb8a",
+                "structure": "d0a45d2067fe585d"
+            },
+            "fr": {
+                "content": "e06df0b2b728eb8a",
+                "structure": "d0a45d2067fe585d"
+            },
+            "zh": {
+                "content": "e06df0b2b728eb8a",
+                "structure": "d0a45d2067fe585d"
+            },
+            "pt-br": {
+                "content": "e06df0b2b728eb8a",
+                "structure": "d0a45d2067fe585d"
+            }
+        },
+        "howto/poll-survey.md": {
+            "ja": {
+                "content": "c0ae87467065de55",
+                "structure": "273e5832b752b42e"
+            },
+            "de": {
+                "content": "c0ae87467065de55",
+                "structure": "273e5832b752b42e"
+            },
+            "fr": {
+                "content": "c0ae87467065de55",
+                "structure": "273e5832b752b42e"
+            },
+            "zh": {
+                "content": "c0ae87467065de55",
+                "structure": "273e5832b752b42e"
+            },
+            "pt-br": {
+                "content": "c0ae87467065de55",
+                "structure": "273e5832b752b42e"
+            }
+        },
+        "howto/prevent-double-booking.md": {
+            "ja": {
+                "content": "5606e13a67b95001",
+                "structure": "698d5d76b4d4219d"
+            },
+            "de": {
+                "content": "5606e13a67b95001",
+                "structure": "698d5d76b4d4219d"
+            },
+            "fr": {
+                "content": "5606e13a67b95001",
+                "structure": "698d5d76b4d4219d"
+            },
+            "zh": {
+                "content": "5606e13a67b95001",
+                "structure": "698d5d76b4d4219d"
+            },
+            "pt-br": {
+                "content": "5606e13a67b95001",
+                "structure": "698d5d76b4d4219d"
+            }
+        },
+        "howto/price-history.md": {
+            "ja": {
+                "content": "3bc83c1c9a0cda9c",
+                "structure": "7de3b373f236438d"
+            },
+            "de": {
+                "content": "3bc83c1c9a0cda9c",
+                "structure": "7de3b373f236438d"
+            },
+            "fr": {
+                "content": "3bc83c1c9a0cda9c",
+                "structure": "7de3b373f236438d"
+            },
+            "zh": {
+                "content": "3bc83c1c9a0cda9c",
+                "structure": "7de3b373f236438d"
+            },
+            "pt-br": {
+                "content": "3bc83c1c9a0cda9c",
+                "structure": "7de3b373f236438d"
+            }
+        },
+        "howto/privacy-consent-management.md": {
+            "ja": {
+                "content": "a0bef2a690c205e4",
+                "structure": "dd37e4215a669b0e"
+            },
+            "de": {
+                "content": "a0bef2a690c205e4",
+                "structure": "dd37e4215a669b0e"
+            },
+            "fr": {
+                "content": "a0bef2a690c205e4",
+                "structure": "dd37e4215a669b0e"
+            },
+            "zh": {
+                "content": "a0bef2a690c205e4",
+                "structure": "dd37e4215a669b0e"
+            },
+            "pt-br": {
+                "content": "a0bef2a690c205e4",
+                "structure": "dd37e4215a669b0e"
+            }
+        },
+        "howto/product-catalog.md": {
+            "ja": {
+                "content": "19e015ed71927d5c",
+                "structure": "98c3116bea81fcee"
+            },
+            "de": {
+                "content": "19e015ed71927d5c",
+                "structure": "98c3116bea81fcee"
+            },
+            "fr": {
+                "content": "19e015ed71927d5c",
+                "structure": "98c3116bea81fcee"
+            },
+            "zh": {
+                "content": "19e015ed71927d5c",
+                "structure": "98c3116bea81fcee"
+            },
+            "pt-br": {
+                "content": "19e015ed71927d5c",
+                "structure": "98c3116bea81fcee"
+            }
+        },
+        "howto/product-review-system.md": {
+            "ja": {
+                "content": "bf9be9fe8eff3052",
+                "structure": "02d89d8e28b18e12"
+            },
+            "de": {
+                "content": "bf9be9fe8eff3052",
+                "structure": "02d89d8e28b18e12"
+            },
+            "fr": {
+                "content": "bf9be9fe8eff3052",
+                "structure": "02d89d8e28b18e12"
+            },
+            "zh": {
+                "content": "bf9be9fe8eff3052",
+                "structure": "02d89d8e28b18e12"
+            },
+            "pt-br": {
+                "content": "bf9be9fe8eff3052",
+                "structure": "02d89d8e28b18e12"
+            }
+        },
+        "howto/project-task-management.md": {
+            "ja": {
+                "content": "958a68da85aefb29",
+                "structure": "a6fe2286aade6ebd"
+            },
+            "de": {
+                "content": "958a68da85aefb29",
+                "structure": "a6fe2286aade6ebd"
+            },
+            "fr": {
+                "content": "958a68da85aefb29",
+                "structure": "a6fe2286aade6ebd"
+            },
+            "zh": {
+                "content": "958a68da85aefb29",
+                "structure": "a6fe2286aade6ebd"
+            },
+            "pt-br": {
+                "content": "958a68da85aefb29",
+                "structure": "a6fe2286aade6ebd"
+            }
+        },
+        "howto/quality-tools.md": {
+            "ja": {
+                "content": "6c053237d76bfffe",
+                "structure": "f209b17027d26fbb"
+            },
+            "de": {
+                "content": "6c053237d76bfffe",
+                "structure": "f209b17027d26fbb"
+            },
+            "fr": {
+                "content": "6c053237d76bfffe",
+                "structure": "f209b17027d26fbb"
+            },
+            "zh": {
+                "content": "6c053237d76bfffe",
+                "structure": "f209b17027d26fbb"
+            },
+            "pt-br": {
+                "content": "6c053237d76bfffe",
+                "structure": "f209b17027d26fbb"
+            }
+        },
+        "howto/quota-management.md": {
+            "ja": {
+                "content": "a28db0c7c6e57a09",
+                "structure": "ec280cdb2680c590"
+            },
+            "de": {
+                "content": "0a2bb11c73f7e278",
+                "structure": "23cc2a2e140634d1"
+            },
+            "fr": {
+                "content": "a28db0c7c6e57a09",
+                "structure": "ec280cdb2680c590"
+            },
+            "zh": {
+                "content": "a28db0c7c6e57a09",
+                "structure": "ec280cdb2680c590"
+            },
+            "pt-br": {
+                "content": "a28db0c7c6e57a09",
+                "structure": "ec280cdb2680c590"
+            }
+        },
+        "howto/rate-limiting.md": {
+            "ja": {
+                "content": "5b72a25eb915cd27",
+                "structure": "7ecae5a5b02ca6a6"
+            },
+            "de": {
+                "content": "5b72a25eb915cd27",
+                "structure": "7ecae5a5b02ca6a6"
+            },
+            "fr": {
+                "content": "5b72a25eb915cd27",
+                "structure": "7ecae5a5b02ca6a6"
+            },
+            "zh": {
+                "content": "5b72a25eb915cd27",
+                "structure": "7ecae5a5b02ca6a6"
+            },
+            "pt-br": {
+                "content": "5b72a25eb915cd27",
+                "structure": "7ecae5a5b02ca6a6"
+            }
+        },
+        "howto/rating-review-api.md": {
+            "ja": {
+                "content": "bc65a661fcd923cc",
+                "structure": "096b9da27deda93a"
+            },
+            "de": {
+                "content": "bc65a661fcd923cc",
+                "structure": "096b9da27deda93a"
+            },
+            "fr": {
+                "content": "bc65a661fcd923cc",
+                "structure": "096b9da27deda93a"
+            },
+            "zh": {
+                "content": "bc65a661fcd923cc",
+                "structure": "096b9da27deda93a"
+            },
+            "pt-br": {
+                "content": "bc65a661fcd923cc",
+                "structure": "096b9da27deda93a"
+            }
+        },
+        "howto/rbac-jwt-auth.md": {
+            "ja": {
+                "content": "9bf79f2b5bc6254c",
+                "structure": "0ffbf51f6cc376e3"
+            },
+            "de": {
+                "content": "9bf79f2b5bc6254c",
+                "structure": "0ffbf51f6cc376e3"
+            },
+            "fr": {
+                "content": "9bf79f2b5bc6254c",
+                "structure": "0ffbf51f6cc376e3"
+            },
+            "zh": {
+                "content": "9bf79f2b5bc6254c",
+                "structure": "0ffbf51f6cc376e3"
+            },
+            "pt-br": {
+                "content": "9bf79f2b5bc6254c",
+                "structure": "0ffbf51f6cc376e3"
+            }
+        },
+        "howto/rbac.md": {
+            "ja": {
+                "content": "83bf18bac854819b",
+                "structure": "508a2b0f1e59786f"
+            },
+            "de": {
+                "content": "83bf18bac854819b",
+                "structure": "508a2b0f1e59786f"
+            },
+            "fr": {
+                "content": "83bf18bac854819b",
+                "structure": "508a2b0f1e59786f"
+            },
+            "zh": {
+                "content": "83bf18bac854819b",
+                "structure": "508a2b0f1e59786f"
+            },
+            "pt-br": {
+                "content": "83bf18bac854819b",
+                "structure": "508a2b0f1e59786f"
+            }
+        },
+        "howto/refresh-token-pattern.md": {
+            "ja": {
+                "content": "dfa026cfaeb51f2d",
+                "structure": "68d2ebf8f67d46b2"
+            },
+            "de": {
+                "content": "dfa026cfaeb51f2d",
+                "structure": "68d2ebf8f67d46b2"
+            },
+            "fr": {
+                "content": "dfa026cfaeb51f2d",
+                "structure": "68d2ebf8f67d46b2"
+            },
+            "zh": {
+                "content": "dfa026cfaeb51f2d",
+                "structure": "68d2ebf8f67d46b2"
+            },
+            "pt-br": {
+                "content": "dfa026cfaeb51f2d",
+                "structure": "68d2ebf8f67d46b2"
+            }
+        },
+        "howto/refresh-token-rotation.md": {
+            "ja": {
+                "content": "0a60aefd0c95944c",
+                "structure": "3cbbfe4bfcee97dc"
+            },
+            "de": {
+                "content": "0a60aefd0c95944c",
+                "structure": "3cbbfe4bfcee97dc"
+            },
+            "fr": {
+                "content": "0a60aefd0c95944c",
+                "structure": "3cbbfe4bfcee97dc"
+            },
+            "zh": {
+                "content": "0a60aefd0c95944c",
+                "structure": "3cbbfe4bfcee97dc"
+            },
+            "pt-br": {
+                "content": "0a60aefd0c95944c",
+                "structure": "3cbbfe4bfcee97dc"
+            }
+        },
+        "howto/request-deduplication.md": {
+            "ja": {
+                "content": "6f0ea600be1686bb",
+                "structure": "dce18d61bb792b8f"
+            },
+            "de": {
+                "content": "6f0ea600be1686bb",
+                "structure": "dce18d61bb792b8f"
+            },
+            "fr": {
+                "content": "6f0ea600be1686bb",
+                "structure": "dce18d61bb792b8f"
+            },
+            "zh": {
+                "content": "6f0ea600be1686bb",
+                "structure": "dce18d61bb792b8f"
+            },
+            "pt-br": {
+                "content": "6f0ea600be1686bb",
+                "structure": "dce18d61bb792b8f"
+            }
+        },
+        "howto/request-scoped-state.md": {
+            "ja": {
+                "content": "00c9d0256bdd14dd",
+                "structure": "38fd6bff7857193a"
+            },
+            "de": {
+                "content": "00c9d0256bdd14dd",
+                "structure": "38fd6bff7857193a"
+            },
+            "fr": {
+                "content": "00c9d0256bdd14dd",
+                "structure": "38fd6bff7857193a"
+            },
+            "zh": {
+                "content": "00c9d0256bdd14dd",
+                "structure": "38fd6bff7857193a"
+            },
+            "pt-br": {
+                "content": "00c9d0256bdd14dd",
+                "structure": "38fd6bff7857193a"
+            }
+        },
+        "howto/reservation-availability-api.md": {
+            "ja": {
+                "content": "56e38aee06be7adc",
+                "structure": "87b71afe183d6bbc"
+            },
+            "de": {
+                "content": "56e38aee06be7adc",
+                "structure": "87b71afe183d6bbc"
+            },
+            "fr": {
+                "content": "56e38aee06be7adc",
+                "structure": "87b71afe183d6bbc"
+            },
+            "zh": {
+                "content": "56e38aee06be7adc",
+                "structure": "87b71afe183d6bbc"
+            },
+            "pt-br": {
+                "content": "56e38aee06be7adc",
+                "structure": "87b71afe183d6bbc"
+            }
+        },
+        "howto/resource-booking.md": {
+            "ja": {
+                "content": "b1eac58ba766c626",
+                "structure": "76099cdbb8455716"
+            },
+            "de": {
+                "content": "b1eac58ba766c626",
+                "structure": "76099cdbb8455716"
+            },
+            "fr": {
+                "content": "b1eac58ba766c626",
+                "structure": "76099cdbb8455716"
+            },
+            "zh": {
+                "content": "b1eac58ba766c626",
+                "structure": "76099cdbb8455716"
+            },
+            "pt-br": {
+                "content": "b1eac58ba766c626",
+                "structure": "76099cdbb8455716"
+            }
+        },
+        "howto/resource-reservation-booking.md": {
+            "ja": {
+                "content": "ab1fbeac0445ccb3",
+                "structure": "83eef66cbedfc5dd"
+            },
+            "de": {
+                "content": "ab1fbeac0445ccb3",
+                "structure": "83eef66cbedfc5dd"
+            },
+            "fr": {
+                "content": "ab1fbeac0445ccb3",
+                "structure": "83eef66cbedfc5dd"
+            },
+            "zh": {
+                "content": "ab1fbeac0445ccb3",
+                "structure": "83eef66cbedfc5dd"
+            },
+            "pt-br": {
+                "content": "ab1fbeac0445ccb3",
+                "structure": "83eef66cbedfc5dd"
+            }
+        },
+        "howto/resource-reservation.md": {
+            "ja": {
+                "content": "1b5d6d67fdeaa0ed",
+                "structure": "6fa19300650eefdf"
+            },
+            "de": {
+                "content": "1b5d6d67fdeaa0ed",
+                "structure": "6fa19300650eefdf"
+            },
+            "fr": {
+                "content": "1b5d6d67fdeaa0ed",
+                "structure": "6fa19300650eefdf"
+            },
+            "zh": {
+                "content": "1b5d6d67fdeaa0ed",
+                "structure": "6fa19300650eefdf"
+            },
+            "pt-br": {
+                "content": "1b5d6d67fdeaa0ed",
+                "structure": "6fa19300650eefdf"
+            }
+        },
+        "howto/scheduled-publish-article.md": {
+            "ja": {
+                "content": "a88bbd1ee1bbe519",
+                "structure": "5f36640a6f8a7334"
+            },
+            "de": {
+                "content": "a88bbd1ee1bbe519",
+                "structure": "5f36640a6f8a7334"
+            },
+            "fr": {
+                "content": "a88bbd1ee1bbe519",
+                "structure": "5f36640a6f8a7334"
+            },
+            "zh": {
+                "content": "a88bbd1ee1bbe519",
+                "structure": "5f36640a6f8a7334"
+            },
+            "pt-br": {
+                "content": "a88bbd1ee1bbe519",
+                "structure": "5f36640a6f8a7334"
+            }
+        },
+        "howto/scheduled-reminders.md": {
+            "ja": {
+                "content": "5f7efd1d97fab180",
+                "structure": "075310b2aa519d5d"
+            },
+            "de": {
+                "content": "5f7efd1d97fab180",
+                "structure": "075310b2aa519d5d"
+            },
+            "fr": {
+                "content": "5f7efd1d97fab180",
+                "structure": "075310b2aa519d5d"
+            },
+            "zh": {
+                "content": "5f7efd1d97fab180",
+                "structure": "075310b2aa519d5d"
+            },
+            "pt-br": {
+                "content": "5f7efd1d97fab180",
+                "structure": "075310b2aa519d5d"
+            }
+        },
+        "howto/search-autocomplete.md": {
+            "ja": {
+                "content": "e9289aeebbcd0e5a",
+                "structure": "902e87c663b7a070"
+            },
+            "de": {
+                "content": "e9289aeebbcd0e5a",
+                "structure": "902e87c663b7a070"
+            },
+            "fr": {
+                "content": "e9289aeebbcd0e5a",
+                "structure": "902e87c663b7a070"
+            },
+            "zh": {
+                "content": "e9289aeebbcd0e5a",
+                "structure": "902e87c663b7a070"
+            },
+            "pt-br": {
+                "content": "e9289aeebbcd0e5a",
+                "structure": "902e87c663b7a070"
+            }
+        },
+        "howto/secret-vault.md": {
+            "ja": {
+                "content": "e87b82ffbba758e6",
+                "structure": "7a460f2a16cf2087"
+            },
+            "de": {
+                "content": "e87b82ffbba758e6",
+                "structure": "7a460f2a16cf2087"
+            },
+            "fr": {
+                "content": "e87b82ffbba758e6",
+                "structure": "7a460f2a16cf2087"
+            },
+            "zh": {
+                "content": "e87b82ffbba758e6",
+                "structure": "7a460f2a16cf2087"
+            },
+            "pt-br": {
+                "content": "e87b82ffbba758e6",
+                "structure": "7a460f2a16cf2087"
+            }
+        },
+        "howto/service-status-page.md": {
+            "ja": {
+                "content": "669aa7e12c08e8ae",
+                "structure": "e1fd598c67ae4403"
+            },
+            "de": {
+                "content": "669aa7e12c08e8ae",
+                "structure": "e1fd598c67ae4403"
+            },
+            "fr": {
+                "content": "669aa7e12c08e8ae",
+                "structure": "e1fd598c67ae4403"
+            },
+            "zh": {
+                "content": "669aa7e12c08e8ae",
+                "structure": "e1fd598c67ae4403"
+            },
+            "pt-br": {
+                "content": "669aa7e12c08e8ae",
+                "structure": "e1fd598c67ae4403"
+            }
+        },
+        "howto/session-management.md": {
+            "ja": {
+                "content": "a82b9de793eb124e",
+                "structure": "5f98ec5b53ffe512"
+            },
+            "de": {
+                "content": "a82b9de793eb124e",
+                "structure": "5f98ec5b53ffe512"
+            },
+            "fr": {
+                "content": "a82b9de793eb124e",
+                "structure": "5f98ec5b53ffe512"
+            },
+            "zh": {
+                "content": "a82b9de793eb124e",
+                "structure": "5f98ec5b53ffe512"
+            },
+            "pt-br": {
+                "content": "a82b9de793eb124e",
+                "structure": "5f98ec5b53ffe512"
+            }
+        },
+        "howto/session-token-management.md": {
+            "ja": {
+                "content": "0734817d3ed6d11d",
+                "structure": "caa030251b26bf7a"
+            },
+            "de": {
+                "content": "0734817d3ed6d11d",
+                "structure": "caa030251b26bf7a"
+            },
+            "fr": {
+                "content": "0734817d3ed6d11d",
+                "structure": "caa030251b26bf7a"
+            },
+            "zh": {
+                "content": "0734817d3ed6d11d",
+                "structure": "caa030251b26bf7a"
+            },
+            "pt-br": {
+                "content": "0734817d3ed6d11d",
+                "structure": "caa030251b26bf7a"
+            }
+        },
+        "howto/shift-management.md": {
+            "ja": {
+                "content": "f4e3f3f86f19e843",
+                "structure": "64a3ce75109f10dc"
+            },
+            "de": {
+                "content": "f4e3f3f86f19e843",
+                "structure": "64a3ce75109f10dc"
+            },
+            "fr": {
+                "content": "f4e3f3f86f19e843",
+                "structure": "64a3ce75109f10dc"
+            },
+            "zh": {
+                "content": "f4e3f3f86f19e843",
+                "structure": "64a3ce75109f10dc"
+            },
+            "pt-br": {
+                "content": "f4e3f3f86f19e843",
+                "structure": "64a3ce75109f10dc"
+            }
+        },
+        "howto/shopping-cart-api.md": {
+            "ja": {
+                "content": "bb9977a46e543d8c",
+                "structure": "f6a8fa21f12ebf27"
+            },
+            "de": {
+                "content": "bb9977a46e543d8c",
+                "structure": "f6a8fa21f12ebf27"
+            },
+            "fr": {
+                "content": "bb9977a46e543d8c",
+                "structure": "f6a8fa21f12ebf27"
+            },
+            "zh": {
+                "content": "bb9977a46e543d8c",
+                "structure": "f6a8fa21f12ebf27"
+            },
+            "pt-br": {
+                "content": "bb9977a46e543d8c",
+                "structure": "f6a8fa21f12ebf27"
+            }
+        },
+        "howto/signed-url-download.md": {
+            "ja": {
+                "content": "42a950de160d0cd6",
+                "structure": "6eb95a779f962ed0"
+            },
+            "de": {
+                "content": "42a950de160d0cd6",
+                "structure": "6eb95a779f962ed0"
+            },
+            "fr": {
+                "content": "42a950de160d0cd6",
+                "structure": "6eb95a779f962ed0"
+            },
+            "zh": {
+                "content": "42a950de160d0cd6",
+                "structure": "6eb95a779f962ed0"
+            },
+            "pt-br": {
+                "content": "42a950de160d0cd6",
+                "structure": "6eb95a779f962ed0"
+            }
+        },
+        "howto/signed-urls.md": {
+            "ja": {
+                "content": "b7be0152e9679ae7",
+                "structure": "a596a883817ce1b5"
+            },
+            "de": {
+                "content": "b7be0152e9679ae7",
+                "structure": "a596a883817ce1b5"
+            },
+            "fr": {
+                "content": "b7be0152e9679ae7",
+                "structure": "a596a883817ce1b5"
+            },
+            "zh": {
+                "content": "b7be0152e9679ae7",
+                "structure": "a596a883817ce1b5"
+            },
+            "pt-br": {
+                "content": "b7be0152e9679ae7",
+                "structure": "a596a883817ce1b5"
+            }
+        },
+        "howto/sliding-window-rate-limiter.md": {
+            "ja": {
+                "content": "1657339c19a417fa",
+                "structure": "4521432035c38887"
+            },
+            "de": {
+                "content": "1657339c19a417fa",
+                "structure": "4521432035c38887"
+            },
+            "fr": {
+                "content": "1657339c19a417fa",
+                "structure": "4521432035c38887"
+            },
+            "zh": {
+                "content": "1657339c19a417fa",
+                "structure": "4521432035c38887"
+            },
+            "pt-br": {
+                "content": "1657339c19a417fa",
+                "structure": "4521432035c38887"
+            }
+        },
+        "howto/slug-management.md": {
+            "ja": {
+                "content": "ea2405bc144c2d84",
+                "structure": "540c2aec1ac62b37"
+            },
+            "de": {
+                "content": "ea2405bc144c2d84",
+                "structure": "540c2aec1ac62b37"
+            },
+            "fr": {
+                "content": "ea2405bc144c2d84",
+                "structure": "540c2aec1ac62b37"
+            },
+            "zh": {
+                "content": "ea2405bc144c2d84",
+                "structure": "540c2aec1ac62b37"
+            },
+            "pt-br": {
+                "content": "ea2405bc144c2d84",
+                "structure": "540c2aec1ac62b37"
+            }
+        },
+        "howto/slug-url-history.md": {
+            "ja": {
+                "content": "3bd99b9bc313119f",
+                "structure": "4e5db93c79c92352"
+            },
+            "de": {
+                "content": "3bd99b9bc313119f",
+                "structure": "4e5db93c79c92352"
+            },
+            "fr": {
+                "content": "3bd99b9bc313119f",
+                "structure": "4e5db93c79c92352"
+            },
+            "zh": {
+                "content": "3bd99b9bc313119f",
+                "structure": "4e5db93c79c92352"
+            },
+            "pt-br": {
+                "content": "3bd99b9bc313119f",
+                "structure": "4e5db93c79c92352"
+            }
+        },
+        "howto/soft-delete-restore-permanent.md": {
+            "ja": {
+                "content": "8cb4f565c63be02e",
+                "structure": "1e7db3877c895de4"
+            },
+            "de": {
+                "content": "8cb4f565c63be02e",
+                "structure": "1e7db3877c895de4"
+            },
+            "fr": {
+                "content": "8cb4f565c63be02e",
+                "structure": "1e7db3877c895de4"
+            },
+            "zh": {
+                "content": "8cb4f565c63be02e",
+                "structure": "1e7db3877c895de4"
+            },
+            "pt-br": {
+                "content": "8cb4f565c63be02e",
+                "structure": "1e7db3877c895de4"
+            }
+        },
+        "howto/soft-delete-trash-purge.md": {
+            "ja": {
+                "content": "56fa029ffe4da729",
+                "structure": "2664ca918b3927b3"
+            },
+            "de": {
+                "content": "56fa029ffe4da729",
+                "structure": "2664ca918b3927b3"
+            },
+            "fr": {
+                "content": "56fa029ffe4da729",
+                "structure": "2664ca918b3927b3"
+            },
+            "zh": {
+                "content": "56fa029ffe4da729",
+                "structure": "2664ca918b3927b3"
+            },
+            "pt-br": {
+                "content": "56fa029ffe4da729",
+                "structure": "2664ca918b3927b3"
+            }
+        },
+        "howto/soft-delete-trash-restore.md": {
+            "ja": {
+                "content": "99c3862967abcb82",
+                "structure": "2f98959bde9957bf"
+            },
+            "de": {
+                "content": "99c3862967abcb82",
+                "structure": "2f98959bde9957bf"
+            },
+            "fr": {
+                "content": "99c3862967abcb82",
+                "structure": "2f98959bde9957bf"
+            },
+            "zh": {
+                "content": "99c3862967abcb82",
+                "structure": "2f98959bde9957bf"
+            },
+            "pt-br": {
+                "content": "99c3862967abcb82",
+                "structure": "2f98959bde9957bf"
+            }
+        },
+        "howto/soft-delete.md": {
+            "ja": {
+                "content": "a566b9558e65fbbd",
+                "structure": "cb6c5bf7e63eca8f"
+            },
+            "de": {
+                "content": "a566b9558e65fbbd",
+                "structure": "cb6c5bf7e63eca8f"
+            },
+            "fr": {
+                "content": "a566b9558e65fbbd",
+                "structure": "cb6c5bf7e63eca8f"
+            },
+            "zh": {
+                "content": "a566b9558e65fbbd",
+                "structure": "cb6c5bf7e63eca8f"
+            },
+            "pt-br": {
+                "content": "a566b9558e65fbbd",
+                "structure": "cb6c5bf7e63eca8f"
+            }
+        },
+        "howto/sql-injection-defence.md": {
+            "ja": {
+                "content": "df59a5a086b11498",
+                "structure": "274307eef84812de"
+            },
+            "de": {
+                "content": "df59a5a086b11498",
+                "structure": "274307eef84812de"
+            },
+            "fr": {
+                "content": "df59a5a086b11498",
+                "structure": "274307eef84812de"
+            },
+            "zh": {
+                "content": "df59a5a086b11498",
+                "structure": "274307eef84812de"
+            },
+            "pt-br": {
+                "content": "df59a5a086b11498",
+                "structure": "274307eef84812de"
+            }
+        },
+        "howto/sql-injection.md": {
+            "ja": {
+                "content": "1e722240eb75c683",
+                "structure": "0aa9f556a37c10da"
+            },
+            "de": {
+                "content": "1e722240eb75c683",
+                "structure": "0aa9f556a37c10da"
+            },
+            "fr": {
+                "content": "1e722240eb75c683",
+                "structure": "0aa9f556a37c10da"
+            },
+            "zh": {
+                "content": "1e722240eb75c683",
+                "structure": "0aa9f556a37c10da"
+            },
+            "pt-br": {
+                "content": "1e722240eb75c683",
+                "structure": "0aa9f556a37c10da"
+            }
+        },
+        "howto/sql-orderby-injection.md": {
+            "ja": {
+                "content": "857e7e1f5742e657",
+                "structure": "46c15df2f587462c"
+            },
+            "de": {
+                "content": "857e7e1f5742e657",
+                "structure": "46c15df2f587462c"
+            },
+            "fr": {
+                "content": "857e7e1f5742e657",
+                "structure": "46c15df2f587462c"
+            },
+            "zh": {
+                "content": "857e7e1f5742e657",
+                "structure": "46c15df2f587462c"
+            },
+            "pt-br": {
+                "content": "857e7e1f5742e657",
+                "structure": "46c15df2f587462c"
+            }
+        },
+        "howto/sqlite-fts5-search.md": {
+            "ja": {
+                "content": "586260a49aa45c13",
+                "structure": "ba43df1cae058eb1"
+            },
+            "de": {
+                "content": "586260a49aa45c13",
+                "structure": "ba43df1cae058eb1"
+            },
+            "fr": {
+                "content": "586260a49aa45c13",
+                "structure": "ba43df1cae058eb1"
+            },
+            "zh": {
+                "content": "586260a49aa45c13",
+                "structure": "ba43df1cae058eb1"
+            },
+            "pt-br": {
+                "content": "586260a49aa45c13",
+                "structure": "ba43df1cae058eb1"
+            }
+        },
+        "howto/state-machine-audit-log.md": {
+            "ja": {
+                "content": "7a8a3c03c5c30ef4",
+                "structure": "97f3843f7525c5d4"
+            },
+            "de": {
+                "content": "7a8a3c03c5c30ef4",
+                "structure": "97f3843f7525c5d4"
+            },
+            "fr": {
+                "content": "7a8a3c03c5c30ef4",
+                "structure": "97f3843f7525c5d4"
+            },
+            "zh": {
+                "content": "7a8a3c03c5c30ef4",
+                "structure": "97f3843f7525c5d4"
+            },
+            "pt-br": {
+                "content": "7a8a3c03c5c30ef4",
+                "structure": "97f3843f7525c5d4"
+            }
+        },
+        "howto/state-machine-workflow-api.md": {
+            "ja": {
+                "content": "e5b1ea7537c5af89",
+                "structure": "fa1497fce22ca633"
+            },
+            "de": {
+                "content": "e5b1ea7537c5af89",
+                "structure": "fa1497fce22ca633"
+            },
+            "fr": {
+                "content": "e5b1ea7537c5af89",
+                "structure": "fa1497fce22ca633"
+            },
+            "zh": {
+                "content": "e5b1ea7537c5af89",
+                "structure": "fa1497fce22ca633"
+            },
+            "pt-br": {
+                "content": "e5b1ea7537c5af89",
+                "structure": "fa1497fce22ca633"
+            }
+        },
+        "howto/step-workflow-approval.md": {
+            "ja": {
+                "content": "f44a2cad690bd71f",
+                "structure": "66a606a4ecf7aef0"
+            },
+            "de": {
+                "content": "f44a2cad690bd71f",
+                "structure": "66a606a4ecf7aef0"
+            },
+            "fr": {
+                "content": "f44a2cad690bd71f",
+                "structure": "66a606a4ecf7aef0"
+            },
+            "zh": {
+                "content": "f44a2cad690bd71f",
+                "structure": "66a606a4ecf7aef0"
+            },
+            "pt-br": {
+                "content": "f44a2cad690bd71f",
+                "structure": "66a606a4ecf7aef0"
+            }
+        },
+        "howto/subscription-plan-management.md": {
+            "ja": {
+                "content": "e442ac7ff2d8a886",
+                "structure": "2a26582a866024d9"
+            },
+            "de": {
+                "content": "e442ac7ff2d8a886",
+                "structure": "2a26582a866024d9"
+            },
+            "fr": {
+                "content": "e442ac7ff2d8a886",
+                "structure": "2a26582a866024d9"
+            },
+            "zh": {
+                "content": "e442ac7ff2d8a886",
+                "structure": "2a26582a866024d9"
+            },
+            "pt-br": {
+                "content": "e442ac7ff2d8a886",
+                "structure": "2a26582a866024d9"
+            }
+        },
+        "howto/subscription-plan.md": {
+            "ja": {
+                "content": "eae42963db3a8ce6",
+                "structure": "d9479e8385c2f015"
+            },
+            "de": {
+                "content": "eae42963db3a8ce6",
+                "structure": "d9479e8385c2f015"
+            },
+            "fr": {
+                "content": "eae42963db3a8ce6",
+                "structure": "d9479e8385c2f015"
+            },
+            "zh": {
+                "content": "eae42963db3a8ce6",
+                "structure": "d9479e8385c2f015"
+            },
+            "pt-br": {
+                "content": "eae42963db3a8ce6",
+                "structure": "d9479e8385c2f015"
+            }
+        },
+        "howto/system-announcement-management.md": {
+            "ja": {
+                "content": "24d5a7f37cf8502c",
+                "structure": "c820fd8e3bc398e6"
+            },
+            "de": {
+                "content": "24d5a7f37cf8502c",
+                "structure": "c820fd8e3bc398e6"
+            },
+            "fr": {
+                "content": "24d5a7f37cf8502c",
+                "structure": "c820fd8e3bc398e6"
+            },
+            "zh": {
+                "content": "24d5a7f37cf8502c",
+                "structure": "c820fd8e3bc398e6"
+            },
+            "pt-br": {
+                "content": "24d5a7f37cf8502c",
+                "structure": "c820fd8e3bc398e6"
+            }
+        },
+        "howto/tag-label-api.md": {
+            "ja": {
+                "content": "20f0f921344b8732",
+                "structure": "f02c5d0ee3f02a6c"
+            },
+            "de": {
+                "content": "20f0f921344b8732",
+                "structure": "f02c5d0ee3f02a6c"
+            },
+            "fr": {
+                "content": "20f0f921344b8732",
+                "structure": "f02c5d0ee3f02a6c"
+            },
+            "zh": {
+                "content": "20f0f921344b8732",
+                "structure": "f02c5d0ee3f02a6c"
+            },
+            "pt-br": {
+                "content": "20f0f921344b8732",
+                "structure": "f02c5d0ee3f02a6c"
+            }
+        },
+        "howto/tagging-system.md": {
+            "ja": {
+                "content": "7d2d603d22ca5c4f",
+                "structure": "077929da81e8f7cf"
+            },
+            "de": {
+                "content": "7d2d603d22ca5c4f",
+                "structure": "077929da81e8f7cf"
+            },
+            "fr": {
+                "content": "7d2d603d22ca5c4f",
+                "structure": "077929da81e8f7cf"
+            },
+            "zh": {
+                "content": "7d2d603d22ca5c4f",
+                "structure": "077929da81e8f7cf"
+            },
+            "pt-br": {
+                "content": "7d2d603d22ca5c4f",
+                "structure": "077929da81e8f7cf"
+            }
+        },
+        "howto/tenant-isolation-idor.md": {
+            "ja": {
+                "content": "3b95f96878f6a145",
+                "structure": "64a50a858ebde550"
+            },
+            "de": {
+                "content": "3b95f96878f6a145",
+                "structure": "64a50a858ebde550"
+            },
+            "fr": {
+                "content": "3b95f96878f6a145",
+                "structure": "64a50a858ebde550"
+            },
+            "zh": {
+                "content": "3b95f96878f6a145",
+                "structure": "64a50a858ebde550"
+            },
+            "pt-br": {
+                "content": "3b95f96878f6a145",
+                "structure": "64a50a858ebde550"
+            }
+        },
+        "howto/tenant-isolation.md": {
+            "ja": {
+                "content": "b7ae02211c816fa8",
+                "structure": "dc8c20b7404d0570"
+            },
+            "de": {
+                "content": "b7ae02211c816fa8",
+                "structure": "dc8c20b7404d0570"
+            },
+            "fr": {
+                "content": "b7ae02211c816fa8",
+                "structure": "dc8c20b7404d0570"
+            },
+            "zh": {
+                "content": "b7ae02211c816fa8",
+                "structure": "dc8c20b7404d0570"
+            },
+            "pt-br": {
+                "content": "b7ae02211c816fa8",
+                "structure": "dc8c20b7404d0570"
+            }
+        },
+        "howto/threaded-comments-api.md": {
+            "ja": {
+                "content": "5e71d7ae589d87e9",
+                "structure": "ef1dd4717e1ad15c"
+            },
+            "de": {
+                "content": "5e71d7ae589d87e9",
+                "structure": "ef1dd4717e1ad15c"
+            },
+            "fr": {
+                "content": "5e71d7ae589d87e9",
+                "structure": "ef1dd4717e1ad15c"
+            },
+            "zh": {
+                "content": "5e71d7ae589d87e9",
+                "structure": "ef1dd4717e1ad15c"
+            },
+            "pt-br": {
+                "content": "5e71d7ae589d87e9",
+                "structure": "ef1dd4717e1ad15c"
+            }
+        },
+        "howto/threaded-comments.md": {
+            "ja": {
+                "content": "f48c269d3b27835a",
+                "structure": "07f32b15eca100b7"
+            },
+            "de": {
+                "content": "f48c269d3b27835a",
+                "structure": "07f32b15eca100b7"
+            },
+            "fr": {
+                "content": "f48c269d3b27835a",
+                "structure": "07f32b15eca100b7"
+            },
+            "zh": {
+                "content": "f48c269d3b27835a",
+                "structure": "07f32b15eca100b7"
+            },
+            "pt-br": {
+                "content": "f48c269d3b27835a",
+                "structure": "07f32b15eca100b7"
+            }
+        },
+        "howto/time-tracking.md": {
+            "ja": {
+                "content": "7b2fd2e8c3461614",
+                "structure": "697a17dd1b6607e7"
+            },
+            "de": {
+                "content": "7b2fd2e8c3461614",
+                "structure": "697a17dd1b6607e7"
+            },
+            "fr": {
+                "content": "7b2fd2e8c3461614",
+                "structure": "697a17dd1b6607e7"
+            },
+            "zh": {
+                "content": "7b2fd2e8c3461614",
+                "structure": "697a17dd1b6607e7"
+            },
+            "pt-br": {
+                "content": "7b2fd2e8c3461614",
+                "structure": "697a17dd1b6607e7"
+            }
+        },
+        "howto/timezone-aware-scheduling.md": {
+            "ja": {
+                "content": "da7cedd20a7dbc32",
+                "structure": "26da2eabb5381163"
+            },
+            "de": {
+                "content": "da7cedd20a7dbc32",
+                "structure": "26da2eabb5381163"
+            },
+            "fr": {
+                "content": "da7cedd20a7dbc32",
+                "structure": "26da2eabb5381163"
+            },
+            "zh": {
+                "content": "da7cedd20a7dbc32",
+                "structure": "26da2eabb5381163"
+            },
+            "pt-br": {
+                "content": "da7cedd20a7dbc32",
+                "structure": "26da2eabb5381163"
+            }
+        },
+        "howto/token-lifecycle-api.md": {
+            "ja": {
+                "content": "3c47d473b91ea9f3",
+                "structure": "0c762148d82bffec"
+            },
+            "de": {
+                "content": "3c47d473b91ea9f3",
+                "structure": "0c762148d82bffec"
+            },
+            "fr": {
+                "content": "3c47d473b91ea9f3",
+                "structure": "0c762148d82bffec"
+            },
+            "zh": {
+                "content": "3c47d473b91ea9f3",
+                "structure": "0c762148d82bffec"
+            },
+            "pt-br": {
+                "content": "3c47d473b91ea9f3",
+                "structure": "0c762148d82bffec"
+            }
+        },
+        "howto/totp-authentication.md": {
+            "ja": {
+                "content": "043ddaad1a71fe92",
+                "structure": "5bde47433211cabf"
+            },
+            "de": {
+                "content": "043ddaad1a71fe92",
+                "structure": "5bde47433211cabf"
+            },
+            "fr": {
+                "content": "043ddaad1a71fe92",
+                "structure": "5bde47433211cabf"
+            },
+            "zh": {
+                "content": "043ddaad1a71fe92",
+                "structure": "5bde47433211cabf"
+            },
+            "pt-br": {
+                "content": "043ddaad1a71fe92",
+                "structure": "5bde47433211cabf"
+            }
+        },
+        "howto/transaction-scope-pattern.md": {
+            "ja": {
+                "content": "a54bc4c0ec2585cc",
+                "structure": "0654cbb2a4a94adc"
+            },
+            "de": {
+                "content": "a54bc4c0ec2585cc",
+                "structure": "0654cbb2a4a94adc"
+            },
+            "fr": {
+                "content": "a54bc4c0ec2585cc",
+                "structure": "0654cbb2a4a94adc"
+            },
+            "zh": {
+                "content": "a54bc4c0ec2585cc",
+                "structure": "0654cbb2a4a94adc"
+            },
+            "pt-br": {
+                "content": "a54bc4c0ec2585cc",
+                "structure": "0654cbb2a4a94adc"
+            }
+        },
+        "howto/transactions.md": {
+            "ja": {
+                "content": "0bee69025bf37b13",
+                "structure": "9c74f59f6cf53857"
+            },
+            "de": {
+                "content": "0bee69025bf37b13",
+                "structure": "9c74f59f6cf53857"
+            },
+            "fr": {
+                "content": "0bee69025bf37b13",
+                "structure": "9c74f59f6cf53857"
+            },
+            "zh": {
+                "content": "0bee69025bf37b13",
+                "structure": "9c74f59f6cf53857"
+            },
+            "pt-br": {
+                "content": "0bee69025bf37b13",
+                "structure": "9c74f59f6cf53857"
+            }
+        },
+        "howto/unicode-aware-text-api.md": {
+            "ja": {
+                "content": "cbc9c4fdf319ac76",
+                "structure": "7ddeac54518500bb"
+            },
+            "de": {
+                "content": "cbc9c4fdf319ac76",
+                "structure": "7ddeac54518500bb"
+            },
+            "fr": {
+                "content": "cbc9c4fdf319ac76",
+                "structure": "7ddeac54518500bb"
+            },
+            "zh": {
+                "content": "cbc9c4fdf319ac76",
+                "structure": "7ddeac54518500bb"
+            },
+            "pt-br": {
+                "content": "cbc9c4fdf319ac76",
+                "structure": "7ddeac54518500bb"
+            }
+        },
+        "howto/upvote-downvote-api.md": {
+            "ja": {
+                "content": "67173b94942e93fd",
+                "structure": "55170d59a7e008dc"
+            },
+            "de": {
+                "content": "67173b94942e93fd",
+                "structure": "55170d59a7e008dc"
+            },
+            "fr": {
+                "content": "67173b94942e93fd",
+                "structure": "55170d59a7e008dc"
+            },
+            "zh": {
+                "content": "67173b94942e93fd",
+                "structure": "55170d59a7e008dc"
+            },
+            "pt-br": {
+                "content": "67173b94942e93fd",
+                "structure": "55170d59a7e008dc"
+            }
+        },
+        "howto/url-bookmark-api.md": {
+            "ja": {
+                "content": "a55e6dc0139b1491",
+                "structure": "ba3c3489453af78d"
+            },
+            "de": {
+                "content": "a55e6dc0139b1491",
+                "structure": "ba3c3489453af78d"
+            },
+            "fr": {
+                "content": "a55e6dc0139b1491",
+                "structure": "ba3c3489453af78d"
+            },
+            "zh": {
+                "content": "a55e6dc0139b1491",
+                "structure": "ba3c3489453af78d"
+            },
+            "pt-br": {
+                "content": "a55e6dc0139b1491",
+                "structure": "ba3c3489453af78d"
+            }
+        },
+        "howto/url-shortener-ssrf-prevention.md": {
+            "ja": {
+                "content": "836812a2a2aee719",
+                "structure": "159d005265460415"
+            },
+            "de": {
+                "content": "836812a2a2aee719",
+                "structure": "159d005265460415"
+            },
+            "fr": {
+                "content": "836812a2a2aee719",
+                "structure": "159d005265460415"
+            },
+            "zh": {
+                "content": "836812a2a2aee719",
+                "structure": "159d005265460415"
+            },
+            "pt-br": {
+                "content": "836812a2a2aee719",
+                "structure": "159d005265460415"
+            }
+        },
+        "howto/url-shortener-ssrf.md": {
+            "ja": {
+                "content": "47ae81bdf90379d8",
+                "structure": "044eed7a1efcb190"
+            },
+            "de": {
+                "content": "47ae81bdf90379d8",
+                "structure": "044eed7a1efcb190"
+            },
+            "fr": {
+                "content": "47ae81bdf90379d8",
+                "structure": "044eed7a1efcb190"
+            },
+            "zh": {
+                "content": "47ae81bdf90379d8",
+                "structure": "044eed7a1efcb190"
+            },
+            "pt-br": {
+                "content": "47ae81bdf90379d8",
+                "structure": "044eed7a1efcb190"
+            }
+        },
+        "howto/use-bearer-auth.md": {
+            "ja": {
+                "content": "d3b408a92c6d8ec5",
+                "structure": "356f629cf2718119"
+            },
+            "de": {
+                "content": "d3b408a92c6d8ec5",
+                "structure": "356f629cf2718119"
+            },
+            "fr": {
+                "content": "d3b408a92c6d8ec5",
+                "structure": "356f629cf2718119"
+            },
+            "zh": {
+                "content": "d3b408a92c6d8ec5",
+                "structure": "356f629cf2718119"
+            },
+            "pt-br": {
+                "content": "d3b408a92c6d8ec5",
+                "structure": "356f629cf2718119"
+            }
+        },
+        "howto/use-fts5-search.md": {
+            "ja": {
+                "content": "ec07b9794d9d4fd5",
+                "structure": "787b90d45c14447a"
+            },
+            "de": {
+                "content": "ec07b9794d9d4fd5",
+                "structure": "787b90d45c14447a"
+            },
+            "fr": {
+                "content": "ec07b9794d9d4fd5",
+                "structure": "787b90d45c14447a"
+            },
+            "zh": {
+                "content": "ec07b9794d9d4fd5",
+                "structure": "787b90d45c14447a"
+            },
+            "pt-br": {
+                "content": "ec07b9794d9d4fd5",
+                "structure": "787b90d45c14447a"
+            }
+        },
+        "howto/use-postgresql.md": {
+            "ja": {
+                "content": "d9503a82e1878f73",
+                "structure": "6f2b95347b28961f"
+            },
+            "de": {
+                "content": "d9503a82e1878f73",
+                "structure": "6f2b95347b28961f"
+            },
+            "fr": {
+                "content": "d9503a82e1878f73",
+                "structure": "6f2b95347b28961f"
+            },
+            "zh": {
+                "content": "d9503a82e1878f73",
+                "structure": "6f2b95347b28961f"
+            },
+            "pt-br": {
+                "content": "d9503a82e1878f73",
+                "structure": "6f2b95347b28961f"
+            }
+        },
+        "howto/use-transactions.md": {
+            "ja": {
+                "content": "b8b1f80f810b25c4",
+                "structure": "feb230c20d62f738"
+            },
+            "de": {
+                "content": "b8b1f80f810b25c4",
+                "structure": "feb230c20d62f738"
+            },
+            "fr": {
+                "content": "b8b1f80f810b25c4",
+                "structure": "feb230c20d62f738"
+            },
+            "zh": {
+                "content": "b8b1f80f810b25c4",
+                "structure": "feb230c20d62f738"
+            },
+            "pt-br": {
+                "content": "b8b1f80f810b25c4",
+                "structure": "feb230c20d62f738"
+            }
+        },
+        "howto/use-window-functions.md": {
+            "ja": {
+                "content": "ec833b72f58f8e06",
+                "structure": "6b7ad374dcf98894"
+            },
+            "de": {
+                "content": "ec833b72f58f8e06",
+                "structure": "6b7ad374dcf98894"
+            },
+            "fr": {
+                "content": "ec833b72f58f8e06",
+                "structure": "6b7ad374dcf98894"
+            },
+            "zh": {
+                "content": "ec833b72f58f8e06",
+                "structure": "6b7ad374dcf98894"
+            },
+            "pt-br": {
+                "content": "ec833b72f58f8e06",
+                "structure": "6b7ad374dcf98894"
+            }
+        },
+        "howto/user-follow-system.md": {
+            "ja": {
+                "content": "db410b878c525f7a",
+                "structure": "3e3bf6069892cfc2"
+            },
+            "de": {
+                "content": "db410b878c525f7a",
+                "structure": "3e3bf6069892cfc2"
+            },
+            "fr": {
+                "content": "db410b878c525f7a",
+                "structure": "3e3bf6069892cfc2"
+            },
+            "zh": {
+                "content": "db410b878c525f7a",
+                "structure": "3e3bf6069892cfc2"
+            },
+            "pt-br": {
+                "content": "db410b878c525f7a",
+                "structure": "3e3bf6069892cfc2"
+            }
+        },
+        "howto/user-invitation.md": {
+            "ja": {
+                "content": "bd9eefdd89765cde",
+                "structure": "be90ffcc05e73c84"
+            },
+            "de": {
+                "content": "bd9eefdd89765cde",
+                "structure": "be90ffcc05e73c84"
+            },
+            "fr": {
+                "content": "bd9eefdd89765cde",
+                "structure": "be90ffcc05e73c84"
+            },
+            "zh": {
+                "content": "bd9eefdd89765cde",
+                "structure": "be90ffcc05e73c84"
+            },
+            "pt-br": {
+                "content": "bd9eefdd89765cde",
+                "structure": "be90ffcc05e73c84"
+            }
+        },
+        "howto/user-preferences-api.md": {
+            "ja": {
+                "content": "343b4247f5a00313",
+                "structure": "4caa5de1d88ac67f"
+            },
+            "de": {
+                "content": "343b4247f5a00313",
+                "structure": "4caa5de1d88ac67f"
+            },
+            "fr": {
+                "content": "343b4247f5a00313",
+                "structure": "4caa5de1d88ac67f"
+            },
+            "zh": {
+                "content": "343b4247f5a00313",
+                "structure": "4caa5de1d88ac67f"
+            },
+            "pt-br": {
+                "content": "343b4247f5a00313",
+                "structure": "4caa5de1d88ac67f"
+            }
+        },
+        "howto/user-preferences-management.md": {
+            "ja": {
+                "content": "65dedb231c12f48c",
+                "structure": "2a2102833300a4ec"
+            },
+            "de": {
+                "content": "65dedb231c12f48c",
+                "structure": "2a2102833300a4ec"
+            },
+            "fr": {
+                "content": "65dedb231c12f48c",
+                "structure": "2a2102833300a4ec"
+            },
+            "zh": {
+                "content": "65dedb231c12f48c",
+                "structure": "2a2102833300a4ec"
+            },
+            "pt-br": {
+                "content": "65dedb231c12f48c",
+                "structure": "2a2102833300a4ec"
+            }
+        },
+        "howto/user-profile-api.md": {
+            "ja": {
+                "content": "97e855f3eb3b1c67",
+                "structure": "aaf012e86921ef65"
+            },
+            "de": {
+                "content": "97e855f3eb3b1c67",
+                "structure": "aaf012e86921ef65"
+            },
+            "fr": {
+                "content": "97e855f3eb3b1c67",
+                "structure": "aaf012e86921ef65"
+            },
+            "zh": {
+                "content": "97e855f3eb3b1c67",
+                "structure": "aaf012e86921ef65"
+            },
+            "pt-br": {
+                "content": "97e855f3eb3b1c67",
+                "structure": "aaf012e86921ef65"
+            }
+        },
+        "howto/user-profile-management.md": {
+            "ja": {
+                "content": "8d0b568ec3891ad9",
+                "structure": "9be9a7122c31a939"
+            },
+            "de": {
+                "content": "8d0b568ec3891ad9",
+                "structure": "9be9a7122c31a939"
+            },
+            "fr": {
+                "content": "8d0b568ec3891ad9",
+                "structure": "9be9a7122c31a939"
+            },
+            "zh": {
+                "content": "8d0b568ec3891ad9",
+                "structure": "9be9a7122c31a939"
+            },
+            "pt-br": {
+                "content": "8d0b568ec3891ad9",
+                "structure": "9be9a7122c31a939"
+            }
+        },
+        "howto/validate-unicode-input.md": {
+            "ja": {
+                "content": "238d20676e1f6300",
+                "structure": "48dc9136f071fbd3"
+            },
+            "de": {
+                "content": "238d20676e1f6300",
+                "structure": "48dc9136f071fbd3"
+            },
+            "fr": {
+                "content": "238d20676e1f6300",
+                "structure": "48dc9136f071fbd3"
+            },
+            "zh": {
+                "content": "238d20676e1f6300",
+                "structure": "48dc9136f071fbd3"
+            },
+            "pt-br": {
+                "content": "238d20676e1f6300",
+                "structure": "48dc9136f071fbd3"
+            }
+        },
+        "howto/voting-system.md": {
+            "ja": {
+                "content": "035410d9556aa622",
+                "structure": "cb1209342de3fcd9"
+            },
+            "de": {
+                "content": "035410d9556aa622",
+                "structure": "cb1209342de3fcd9"
+            },
+            "fr": {
+                "content": "035410d9556aa622",
+                "structure": "cb1209342de3fcd9"
+            },
+            "zh": {
+                "content": "035410d9556aa622",
+                "structure": "cb1209342de3fcd9"
+            },
+            "pt-br": {
+                "content": "035410d9556aa622",
+                "structure": "cb1209342de3fcd9"
+            }
+        },
+        "howto/waitlist-management.md": {
+            "ja": {
+                "content": "fb158c4ec68bdb72",
+                "structure": "e901f512d81cef01"
+            },
+            "de": {
+                "content": "fb158c4ec68bdb72",
+                "structure": "e901f512d81cef01"
+            },
+            "fr": {
+                "content": "fb158c4ec68bdb72",
+                "structure": "e901f512d81cef01"
+            },
+            "zh": {
+                "content": "fb158c4ec68bdb72",
+                "structure": "e901f512d81cef01"
+            },
+            "pt-br": {
+                "content": "fb158c4ec68bdb72",
+                "structure": "e901f512d81cef01"
+            }
+        },
+        "howto/waitlist-system.md": {
+            "ja": {
+                "content": "6c7c0a2730f16ce8",
+                "structure": "a3b0beaf35e7ec38"
+            },
+            "de": {
+                "content": "6c7c0a2730f16ce8",
+                "structure": "a3b0beaf35e7ec38"
+            },
+            "fr": {
+                "content": "6c7c0a2730f16ce8",
+                "structure": "a3b0beaf35e7ec38"
+            },
+            "zh": {
+                "content": "6c7c0a2730f16ce8",
+                "structure": "a3b0beaf35e7ec38"
+            },
+            "pt-br": {
+                "content": "6c7c0a2730f16ce8",
+                "structure": "a3b0beaf35e7ec38"
+            }
+        },
+        "howto/webhook-delivery-api.md": {
+            "ja": {
+                "content": "bb7edf51090e9737",
+                "structure": "a24b167616ef5816"
+            },
+            "de": {
+                "content": "bb7edf51090e9737",
+                "structure": "a24b167616ef5816"
+            },
+            "fr": {
+                "content": "bb7edf51090e9737",
+                "structure": "a24b167616ef5816"
+            },
+            "zh": {
+                "content": "bb7edf51090e9737",
+                "structure": "a24b167616ef5816"
+            },
+            "pt-br": {
+                "content": "bb7edf51090e9737",
+                "structure": "a24b167616ef5816"
+            }
+        },
+        "howto/webhook-delivery-system.md": {
+            "ja": {
+                "content": "0fd11ea2169ec06d",
+                "structure": "f56f0d3139a41f09"
+            },
+            "de": {
+                "content": "0fd11ea2169ec06d",
+                "structure": "f56f0d3139a41f09"
+            },
+            "fr": {
+                "content": "0fd11ea2169ec06d",
+                "structure": "f56f0d3139a41f09"
+            },
+            "zh": {
+                "content": "0fd11ea2169ec06d",
+                "structure": "f56f0d3139a41f09"
+            },
+            "pt-br": {
+                "content": "0fd11ea2169ec06d",
+                "structure": "f56f0d3139a41f09"
+            }
+        },
+        "howto/webhook-delivery.md": {
+            "ja": {
+                "content": "1b18446e9ee50c57",
+                "structure": "f6a27f3783718bab"
+            },
+            "de": {
+                "content": "1b18446e9ee50c57",
+                "structure": "f6a27f3783718bab"
+            },
+            "fr": {
+                "content": "1b18446e9ee50c57",
+                "structure": "f6a27f3783718bab"
+            },
+            "zh": {
+                "content": "1b18446e9ee50c57",
+                "structure": "f6a27f3783718bab"
+            },
+            "pt-br": {
+                "content": "1b18446e9ee50c57",
+                "structure": "f6a27f3783718bab"
+            }
+        },
+        "howto/webhook-signature-verification.md": {
+            "ja": {
+                "content": "051273833119ebd8",
+                "structure": "6f020dec0bb96d8e"
+            },
+            "de": {
+                "content": "051273833119ebd8",
+                "structure": "6f020dec0bb96d8e"
+            },
+            "fr": {
+                "content": "051273833119ebd8",
+                "structure": "6f020dec0bb96d8e"
+            },
+            "zh": {
+                "content": "051273833119ebd8",
+                "structure": "6f020dec0bb96d8e"
+            },
+            "pt-br": {
+                "content": "051273833119ebd8",
+                "structure": "6f020dec0bb96d8e"
+            }
+        },
+        "howto/webhook-signature.md": {
+            "ja": {
+                "content": "c96650e52c72e0ab",
+                "structure": "bba531b3b4d27536"
+            },
+            "de": {
+                "content": "c96650e52c72e0ab",
+                "structure": "bba531b3b4d27536"
+            },
+            "fr": {
+                "content": "c96650e52c72e0ab",
+                "structure": "bba531b3b4d27536"
+            },
+            "zh": {
+                "content": "c96650e52c72e0ab",
+                "structure": "bba531b3b4d27536"
+            },
+            "pt-br": {
+                "content": "c96650e52c72e0ab",
+                "structure": "bba531b3b4d27536"
+            }
+        },
+        "howto/wish-list-api.md": {
+            "ja": {
+                "content": "53e9e19a711fff44",
+                "structure": "0a7bf141cdc6a9e1"
+            },
+            "de": {
+                "content": "53e9e19a711fff44",
+                "structure": "0a7bf141cdc6a9e1"
+            },
+            "fr": {
+                "content": "53e9e19a711fff44",
+                "structure": "0a7bf141cdc6a9e1"
+            },
+            "zh": {
+                "content": "53e9e19a711fff44",
+                "structure": "0a7bf141cdc6a9e1"
+            },
+            "pt-br": {
+                "content": "53e9e19a711fff44",
+                "structure": "0a7bf141cdc6a9e1"
+            }
+        },
+        "howto/wishlist-management.md": {
+            "ja": {
+                "content": "0156de86377e07b4",
+                "structure": "9ca92a75f8da4f55"
+            },
+            "de": {
+                "content": "0156de86377e07b4",
+                "structure": "9ca92a75f8da4f55"
+            },
+            "fr": {
+                "content": "0156de86377e07b4",
+                "structure": "9ca92a75f8da4f55"
+            },
+            "zh": {
+                "content": "0156de86377e07b4",
+                "structure": "9ca92a75f8da4f55"
+            },
+            "pt-br": {
+                "content": "0156de86377e07b4",
+                "structure": "9ca92a75f8da4f55"
+            }
+        },
+        "reference/environment-variables.md": {
+            "ja": {
+                "content": "85ff65630eab9777",
+                "structure": "39666264d1e94a2b"
+            },
+            "de": {
+                "content": "85ff65630eab9777",
+                "structure": "39666264d1e94a2b"
+            },
+            "fr": {
+                "content": "85ff65630eab9777",
+                "structure": "39666264d1e94a2b"
+            },
+            "zh": {
+                "content": "85ff65630eab9777",
+                "structure": "39666264d1e94a2b"
+            },
+            "pt-br": {
+                "content": "85ff65630eab9777",
+                "structure": "39666264d1e94a2b"
+            }
+        },
+        "reference/http-endpoints.md": {
+            "ja": {
+                "content": "addc843d5d8d3bad",
+                "structure": "ea0bb253fe7b134d"
+            },
+            "de": {
+                "content": "addc843d5d8d3bad",
+                "structure": "ea0bb253fe7b134d"
+            },
+            "fr": {
+                "content": "addc843d5d8d3bad",
+                "structure": "ea0bb253fe7b134d"
+            },
+            "zh": {
+                "content": "addc843d5d8d3bad",
+                "structure": "ea0bb253fe7b134d"
+            },
+            "pt-br": {
+                "content": "addc843d5d8d3bad",
+                "structure": "ea0bb253fe7b134d"
+            }
+        },
+        "reference/index.md": {
+            "ja": {
+                "content": "0fc129c3a1ea4d59",
+                "structure": "5cf163827968bdec"
+            },
+            "de": {
+                "content": "0fc129c3a1ea4d59",
+                "structure": "5cf163827968bdec"
+            },
+            "fr": {
+                "content": "0fc129c3a1ea4d59",
+                "structure": "5cf163827968bdec"
+            },
+            "zh": {
+                "content": "0fc129c3a1ea4d59",
+                "structure": "5cf163827968bdec"
+            },
+            "pt-br": {
+                "content": "0fc129c3a1ea4d59",
+                "structure": "5cf163827968bdec"
+            }
+        },
+        "reference/problem-details-types.md": {
+            "ja": {
+                "content": "31fcbf43d25716b1",
+                "structure": "fd499096318d8bcf"
+            },
+            "de": {
+                "content": "31fcbf43d25716b1",
+                "structure": "fd499096318d8bcf"
+            },
+            "fr": {
+                "content": "31fcbf43d25716b1",
+                "structure": "fd499096318d8bcf"
+            },
+            "zh": {
+                "content": "31fcbf43d25716b1",
+                "structure": "fd499096318d8bcf"
+            },
+            "pt-br": {
+                "content": "31fcbf43d25716b1",
+                "structure": "fd499096318d8bcf"
+            }
+        },
+        "tutorial/first-api.md": {
+            "ja": {
+                "content": "b49c05f89cf65d9d",
+                "structure": "157ec387c8f31fea"
+            },
+            "de": {
+                "content": "b49c05f89cf65d9d",
+                "structure": "157ec387c8f31fea"
+            },
+            "fr": {
+                "content": "b49c05f89cf65d9d",
+                "structure": "157ec387c8f31fea"
+            },
+            "zh": {
+                "content": "b49c05f89cf65d9d",
+                "structure": "157ec387c8f31fea"
+            },
+            "pt-br": {
+                "content": "b49c05f89cf65d9d",
+                "structure": "157ec387c8f31fea"
+            }
+        }
+    }
+}
