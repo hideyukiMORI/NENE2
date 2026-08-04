@@ -105,6 +105,29 @@ return $this->response->create(
 > **权衡**：`COUNT(*)` 每次请求增加一个查询。若开销不可接受，可省略 `total`，
 > 让客户端通过 `items.length < limit` 判断是否为最后一页。
 
+## 步骤 6 — 使用 `QueryStringParser` 解析其他查询参数
+
+对于 `limit`/`offset` 之外的过滤参数，请使用 `QueryStringParser`。
+
+```php
+use Nene2\Http\QueryStringParser;
+
+$search = QueryStringParser::string($request, 'search');   // ?string
+$page   = QueryStringParser::int($request, 'page');        // ?int
+$active = QueryStringParser::bool($request, 'is_active');  // ?bool
+
+// 逗号分隔的多值：?tags=php,lang → ['php', 'lang']
+$tags = QueryStringParser::commaSeparated($request, 'tags'); // list<string>|null
+
+// PHP 风格的重复键：?tags[]=php&tags[]=api → ['php', 'api']
+$tags = QueryStringParser::array($request, 'tags'); // list<string>|null
+```
+
+`commaSeparated()` 按逗号拆分、去除空白并移除空值；当参数不存在或过滤后为空列表时返回 `null`。
+
+`array()` 处理 PHP 风格的重复键（`?key[]=v1&key[]=v2`）。PSR-7 实现会在 `getQueryParams()` 中
+将其解析为 `['key' => ['v1', 'v2']]`。当键不存在或值不是数组时返回 `null`。
+
 ## 另请参阅
 
 - `src/Example/Note/ListNotesHandler.php` — 使用 `PaginationResponse` 的参考实现
@@ -112,3 +135,4 @@ return $this->response->create(
 - `Nene2\Http\PaginationQuery` — 解析后参数的 readonly DTO
 - `Nene2\Http\PaginationQueryParser` — 解析器类
 - `Nene2\Http\PaginationResponse` — 列表结构 DTO
+- `Nene2\Http\QueryStringParser` — 其他查询参数的类型化辅助方法

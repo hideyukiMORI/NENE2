@@ -105,18 +105,42 @@ api.example.com {
 
 ---
 
-## 4. Liste de contrôle de sécurité production
+## 4. Authentification JWT en production
+
+> **Avertissement** : `LocalBearerTokenVerifier` (l'implémentation HMAC-HS256 intégrée) est destiné
+> **au développement local et aux tests uniquement**. Il n'utilise aucune bibliothèque externe et
+> ne dispose pas du durcissement de sécurité requis pour la validation JWT en production (rotation
+> des clés, clés asymétriques RS256, révocation, tolérance au décalage d'horloge au-delà des
+> simples vérifications `exp`/`nbf`, etc.).
+>
+> Avant de déployer une application utilisant l'authentification Bearer JWT :
+>
+> 1. Implémentez `TokenVerifierInterface` et `TokenIssuerInterface` avec une bibliothèque de
+>    qualité production telle que [`firebase/php-jwt`](https://github.com/firebase/php-jwt) ou
+>    [`lcobuzi/jwt`](https://github.com/lcobuzi/jwt).
+> 2. Utilisez des clés asymétriques (RS256 ou ES256) pour que l'API puisse vérifier les jetons sans
+>    détenir la clé de signature.
+> 3. Gardez `NENE2_LOCAL_JWT_SECRET` hors de votre environnement de production — il ne doit
+>    apparaître que dans les fichiers `.env` de développement.
+>
+> Voir [ADR 0008](../adr/0008-jwt-authentication.md) pour la justification complète.
+
+---
+
+## 5. Liste de contrôle de sécurité production
 
 - [ ] `APP_ENV=production` — désactive les détails d'erreur de développement
 - [ ] `APP_DEBUG=false` — supprime les traces de pile dans les réponses HTTP
 - [ ] Identifiants de base de données depuis un gestionnaire de secrets
 - [ ] `NENE2_MACHINE_API_KEY` valeur aléatoire forte (≥ 32 caractères)
+- [ ] JWT : `LocalBearerTokenVerifier` remplacé par une bibliothèque de production (voir §4 ci-dessus)
+- [ ] `NENE2_LOCAL_JWT_SECRET` n'est **pas** défini en production
 - [ ] Port du conteneur lié à l'adresse de bouclage uniquement
 - [ ] TLS terminé au niveau du proxy inverse
 
 ---
 
-## 5. Vérifier après déploiement
+## 6. Vérifier après déploiement
 
 ```bash
 curl -fsS https://api.example.com/health
@@ -125,7 +149,7 @@ curl -fsS -H 'X-NENE2-API-Key: <key>' https://api.example.com/machine/health
 
 ---
 
-## 6. URIs de type Problem Details
+## 7. URIs de type Problem Details
 
 NENE2 utilise `https://nene2.dev/problems/...` comme domaine officiel du framework. Les pages des types d'erreurs intégrés se résolvent automatiquement sur ce domaine — aucune configuration requise pour l'ensemble d'erreurs standard.
 

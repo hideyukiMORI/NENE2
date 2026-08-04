@@ -147,7 +147,26 @@ Caddy は Let's Encrypt 経由で TLS 証明書を自動発行します。
 
 ---
 
-## 4. 本番セキュリティチェックリスト
+## 4. 本番環境での JWT 認証
+
+> **警告**: `LocalBearerTokenVerifier`（組み込みの HMAC-HS256 実装）は
+> **ローカル開発とテスト専用**です。外部ライブラリを使用しておらず、本番の JWT 検証に必要な
+> セキュリティ強化（鍵のローテーション、RS256 非対称鍵、失効、基本的な `exp`/`nbf` チェックを
+> 超えるクロックスキュー許容など）を備えていません。
+>
+> Bearer JWT 認証を使うアプリケーションをデプロイする前に:
+>
+> 1. [`firebase/php-jwt`](https://github.com/firebase/php-jwt) や
+>    [`lcobuzi/jwt`](https://github.com/lcobuzi/jwt) などの本番品質のライブラリを使って
+>    `TokenVerifierInterface` と `TokenIssuerInterface` を実装する。
+> 2. 非対称鍵（RS256 または ES256）を使い、API が署名鍵を保持せずにトークンを検証できるようにする。
+> 3. `NENE2_LOCAL_JWT_SECRET` を本番環境に置かない — 開発用の `.env` にのみ存在させる。
+>
+> 根拠の全文は [ADR 0008](../adr/0008-jwt-authentication.md) を参照してください。
+
+---
+
+## 5. 本番セキュリティチェックリスト
 
 トラフィックを受け入れる前に確認します。
 
@@ -155,6 +174,8 @@ Caddy は Let's Encrypt 経由で TLS 証明書を自動発行します。
 - [ ] `APP_DEBUG=false` — HTTP レスポンスのスタックトレースを抑制
 - [ ] データベース認証情報はシークレットストアから取得（イメージに含めない）
 - [ ] `NENE2_MACHINE_API_KEY` は強力なランダム値（32 文字以上）
+- [ ] JWT: `LocalBearerTokenVerifier` を本番用ライブラリに置き換え済み（上記 §4 参照）
+- [ ] `NENE2_LOCAL_JWT_SECRET` が本番環境に設定されて**いない**
 - [ ] コンテナポートはループバック（`127.0.0.1:8080`）または内部ネットワークにバインド（`0.0.0.0` ではない）
 - [ ] TLS はリバースプロキシで終端
 - [ ] `X-Forwarded-For` / `X-Real-IP` ヘッダーはプロキシのみが設定
@@ -162,7 +183,7 @@ Caddy は Let's Encrypt 経由で TLS 証明書を自動発行します。
 
 ---
 
-## 5. デプロイ後の確認
+## 6. デプロイ後の確認
 
 ```bash
 # ヘルスチェック
@@ -180,7 +201,7 @@ curl -fsS -H 'X-NENE2-API-Key: <key>' https://api.example.com/machine/health
 
 ---
 
-## 6. Problem Details の type URI について
+## 7. Problem Details の type URI について
 
 NENE2 のエラーレスポンスは次のような `type` URI を含みます。
 

@@ -47,6 +47,47 @@ La table `used_totp_steps` est le cœur de la **prévention des attaques par rej
 
 ---
 
+## Primitives intégrées au framework (recommandé)
+
+Depuis la v1.5, les parties cryptographiques sensibles peuvent être utilisées directement via
+`Nene2\Auth\TotpAuthenticator` et `Nene2\Auth\RecoveryCodes` fournis par le framework (API publique
+stable au sens de l'ADR 0009). Il n'est pas nécessaire de réimplémenter le calcul RFC 6238, le
+Base32 et la comparaison à temps constant dans chaque application.
+Comme pour `SecureTokenHelper`, la répartition est la suivante : le framework fournit une
+implémentation unique de la cryptographie risquée, tandis que le flux HTTP d'enrôlement/challenge,
+la politique d'application, le chiffrement au repos du secret et la persistance de la prévention du
+rejeu relèvent de la responsabilité de l'application.
+
+```php
+use Nene2\Auth\TotpAuthenticator;
+use Nene2\Auth\RecoveryCodes;
+
+$totp = new TotpAuthenticator();          // digits=6 / period=30 / sha1 / window=1
+
+// Enrôlement : génération du secret → URI otpauth pour le QR code
+$secret = $totp->generateSecret();
+$uri    = $totp->provisioningUri($secret, 'alice@example.com', 'NENE2');
+
+// Vérification : renvoie le time_step correspondant (null si invalide).
+// Pour la prévention du rejeu, persistez le step et vérifiez-le.
+$step = $totp->verify($secret, $submittedCode);
+if ($step === null || $repo->isStepUsed($userId, $step)) {
+    // invalide ou rejeu
+} else {
+    $repo->markStepUsed($userId, $step);  // enregistre le step consommé (usage unique)
+}
+
+// Codes de récupération : générer, afficher une seule fois, ne stocker que le hash,
+// vérifier puis consommer lors de l'utilisation
+$codes = RecoveryCodes::generate();       // ex. ["3f9ac-1b0e7-8d2f4-0a6c1", ...] (80 bits par défaut)
+$repo->storeRecoveryHash($userId, RecoveryCodes::hash($codes[0]));
+```
+
+Les sections suivantes expliquent le calcul et la conception de sécurité que ces primitives
+réalisent en interne — à titre de référence pour une implémentation maison ou pour comprendre.
+
+---
+
 ## Implémentation de TOTP RFC 6238
 
 ```php
