@@ -129,6 +129,33 @@ $app = (new RuntimeApplicationFactory(
 
 ---
 
+### Options de portée par chemin
+
+`BearerTokenMiddleware` prend en charge trois stratégies de portée par chemin mutuellement
+exclusives. Choisissez celle qui correspond à votre modèle d'accès :
+
+| Stratégie | Paramètre | À utiliser quand |
+|---|---|---|
+| Liste de blocage (la plus courante) | `$excludedPaths` | Toutes les routes exigent l'auth **sauf** une courte liste de routes publiques |
+| Liste d'autorisation | `$protectedPaths` | Seul un ensemble fixe et connu de routes exige l'auth |
+| Liste d'autorisation par préfixe | `$protectedPathPrefixes` | Tout un sous-arbre de chemins exige l'auth (p. ex. `/me/`, `/admin/`) |
+
+**Exemple de liste d'autorisation par préfixe** — protéger tous les chemins sous `/me/` sans les
+énumérer un par un :
+
+```php
+$authMiddleware = new BearerTokenMiddleware(
+    problemDetails:         $problems,
+    verifier:               $verifier,
+    protectedPathPrefixes:  ['/me/'],
+);
+```
+
+Une requête vers `/me/favorites/42` correspond au préfixe et exige un jeton Bearer valide.
+Une requête vers `/products/1` ne correspond pas et passe sans authentification.
+
+---
+
 ## Étape 4 — Lire les claims dans un handler
 
 ```php

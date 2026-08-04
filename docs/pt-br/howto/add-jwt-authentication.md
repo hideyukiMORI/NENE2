@@ -129,6 +129,33 @@ $app = (new RuntimeApplicationFactory(
 
 ---
 
+### Opções de escopo por caminho
+
+`BearerTokenMiddleware` suporta três estratégias mutuamente exclusivas de escopo por caminho.
+Escolha a que corresponde ao seu modelo de acesso:
+
+| Estratégia | Parâmetro | Use quando |
+|---|---|---|
+| Lista de bloqueio (mais comum) | `$excludedPaths` | Todas as rotas exigem auth **exceto** uma curta lista de rotas públicas |
+| Lista de permissão | `$protectedPaths` | Apenas um conjunto fixo e conhecido de rotas exige auth |
+| Lista de permissão por prefixo | `$protectedPathPrefixes` | Toda uma subárvore de caminhos exige auth (ex.: `/me/`, `/admin/`) |
+
+**Exemplo de lista de permissão por prefixo** — proteger todos os caminhos sob `/me/` sem listar
+cada um:
+
+```php
+$authMiddleware = new BearerTokenMiddleware(
+    problemDetails:         $problems,
+    verifier:               $verifier,
+    protectedPathPrefixes:  ['/me/'],
+);
+```
+
+Uma requisição para `/me/favorites/42` corresponde ao prefixo e exige um token Bearer válido.
+Uma requisição para `/products/1` não corresponde e passa sem autenticação.
+
+---
+
 ## Passo 4 — Ler as claims no handler
 
 ```php

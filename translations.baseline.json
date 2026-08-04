@@ -197,24 +197,24 @@
         },
         "howto/add-custom-route.md": {
             "ja": {
-                "content": "b10f3ab19ff0a7fe",
-                "structure": "a2d2242ef42e0897"
+                "content": "62f9c2a1e2b06363",
+                "structure": "b5998ba60c01b4d0"
             },
             "de": {
-                "content": "b10f3ab19ff0a7fe",
-                "structure": "a2d2242ef42e0897"
+                "content": "62f9c2a1e2b06363",
+                "structure": "b5998ba60c01b4d0"
             },
             "fr": {
-                "content": "b10f3ab19ff0a7fe",
-                "structure": "a2d2242ef42e0897"
+                "content": "62f9c2a1e2b06363",
+                "structure": "b5998ba60c01b4d0"
             },
             "zh": {
-                "content": "b10f3ab19ff0a7fe",
-                "structure": "a2d2242ef42e0897"
+                "content": "62f9c2a1e2b06363",
+                "structure": "b5998ba60c01b4d0"
             },
             "pt-br": {
-                "content": "b10f3ab19ff0a7fe",
-                "structure": "a2d2242ef42e0897"
+                "content": "62f9c2a1e2b06363",
+                "structure": "b5998ba60c01b4d0"
             }
         },
         "howto/add-database-endpoint.md": {
@@ -329,24 +329,24 @@
         },
         "howto/add-jwt-authentication.md": {
             "ja": {
-                "content": "2ee22ce8dd752077",
-                "structure": "c1b17bda925d4867"
+                "content": "a28a7c84bc05bff2",
+                "structure": "b5df6a46bb82544e"
             },
             "de": {
-                "content": "45819fadbb7a5a78",
-                "structure": "ad7d8bbbc0a28832"
+                "content": "a28a7c84bc05bff2",
+                "structure": "b5df6a46bb82544e"
             },
             "fr": {
-                "content": "45819fadbb7a5a78",
-                "structure": "ad7d8bbbc0a28832"
+                "content": "a28a7c84bc05bff2",
+                "structure": "b5df6a46bb82544e"
             },
             "zh": {
-                "content": "45819fadbb7a5a78",
-                "structure": "ad7d8bbbc0a28832"
+                "content": "a28a7c84bc05bff2",
+                "structure": "b5df6a46bb82544e"
             },
             "pt-br": {
-                "content": "45819fadbb7a5a78",
-                "structure": "ad7d8bbbc0a28832"
+                "content": "a28a7c84bc05bff2",
+                "structure": "b5df6a46bb82544e"
             }
         },
         "howto/add-mcp-tools.md": {
@@ -5455,24 +5455,24 @@
         },
         "howto/use-transactions.md": {
             "ja": {
-                "content": "b8b1f80f810b25c4",
-                "structure": "feb230c20d62f738"
+                "content": "be4481cd46a254a9",
+                "structure": "025bb147d4a5aad5"
             },
             "de": {
-                "content": "b8b1f80f810b25c4",
-                "structure": "feb230c20d62f738"
+                "content": "be4481cd46a254a9",
+                "structure": "025bb147d4a5aad5"
             },
             "fr": {
-                "content": "b8b1f80f810b25c4",
-                "structure": "feb230c20d62f738"
+                "content": "be4481cd46a254a9",
+                "structure": "025bb147d4a5aad5"
             },
             "zh": {
-                "content": "b8b1f80f810b25c4",
-                "structure": "feb230c20d62f738"
+                "content": "be4481cd46a254a9",
+                "structure": "025bb147d4a5aad5"
             },
             "pt-br": {
-                "content": "b8b1f80f810b25c4",
-                "structure": "feb230c20d62f738"
+                "content": "be4481cd46a254a9",
+                "structure": "025bb147d4a5aad5"
             }
         },
         "howto/use-window-functions.md": {

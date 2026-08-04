@@ -127,6 +127,31 @@ $app = (new RuntimeApplicationFactory(
 
 ---
 
+### 路径作用域选项
+
+`BearerTokenMiddleware` 支持三种互斥的路径作用域策略。请选择与您的访问模型相符的一种：
+
+| 策略 | 参数 | 适用场景 |
+|---|---|---|
+| 黑名单（最常用） | `$excludedPaths` | **除**少量公开路由外，所有路由都需要认证 |
+| 白名单 | `$protectedPaths` | 只有固定且已知的一组路由需要认证 |
+| 前缀白名单 | `$protectedPathPrefixes` | 整个路径子树都需要认证（例如 `/me/`、`/admin/`） |
+
+**前缀白名单示例** —— 保护 `/me/` 下的所有路径，无需逐一列举：
+
+```php
+$authMiddleware = new BearerTokenMiddleware(
+    problemDetails:         $problems,
+    verifier:               $verifier,
+    protectedPathPrefixes:  ['/me/'],
+);
+```
+
+对 `/me/favorites/42` 的请求匹配该前缀，需要有效的 Bearer 令牌。
+对 `/products/1` 的请求不匹配，将不经认证直接通过。
+
+---
+
 ## 第 4 步 — 在处理器中读取 Claims
 
 ```php

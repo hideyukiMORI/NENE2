@@ -5,6 +5,19 @@
 **前提条件**: `DatabaseQueryExecutorInterface` にバックされたリポジトリがあること。
 ない場合は [データベースバックエンドエンドポイントの追加](./add-database-endpoint.md) から始めてください。
 
+> **🚫 SQLite の `:memory:` は `transactional()` と併用できません。**
+>
+> `PdoDatabaseTransactionManager` は呼び出しごとに**新しい**接続を開きます。`:memory:` の接続は
+> それぞれ**別の空のインメモリデータベース**を指すため、エグゼキューターとトランザクションが
+> 別々のデータを見ることになり、ロールバックがエグゼキューター側の見え方に何の影響も与えません。
+> 症状は静かです — コールバックの途中でクエリが `null` を返す、あるいは別のエグゼキューター経由で
+> テストが書き込んだ内容をロールバックが取り消せない、といった形で現れます。
+>
+> テストでは**ファイルベースの SQLite** を使ってください（下の
+> 「[ファイルベースの SQLite データベースでのテスト](#ファイルベースの-sqlite-データベースでのテスト)」参照）。
+> `Nene2\Testing\DatabaseTestKit::sqlite(':memory:')` は `:memory:` を
+> `InvalidArgumentException` で弾き、この問題を fail-fast にします。
+
 ---
 
 ## NENE2 でトランザクションを使う理由
@@ -107,32 +120,25 @@ $createOrder = new CreateOrderUseCase($txManager);   // 内部で $tx を使用
 
 インメモリ SQLite（`sqlite::memory:`）は**接続ごとに別のデータベース**を作成するため、`PdoDatabaseTransactionManager`（`transactional()` 呼び出しごとに新しい接続を開く）は `PdoDatabaseQueryExecutor` が書き込んだ行を見えず、その逆も同様です。
 
-代わりに**テンポラリファイル**を使用してください:
+代わりに**テンポラリファイル**を使用してください。`Nene2\Testing\DatabaseTestKit` は
+エグゼキューターとトランザクションマネージャーを同じファイルに 1 行で配線します:
 
 ```php
+use Nene2\Testing\DatabaseTestKit;
+
 protected function setUp(): void
 {
-    $this->dbFile = sys_get_temp_dir() . '/test-' . bin2hex(random_bytes(8)) . '.sqlite';
+    $this->dbFile = sys_get_temp_dir() . '/' . uniqid('test-', true) . '.sqlite';
+
+    // 使い捨て接続でスキーマを投入し、kit が独自の接続を開く前に閉じる。
     $pdo = new \PDO('sqlite:' . $this->dbFile, options: [\PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION]);
     $pdo->exec(file_get_contents(dirname(__DIR__) . '/database/schema.sql'));
-    unset($pdo); // ファクトリーが独自の接続を開く前に初期化接続を閉じる
+    unset($pdo);
 
-    $dbConfig = new DatabaseConfig(
-        url:         null,
-        environment: 'test',
-        adapter:     'sqlite',
-        host:        '',      // SQLite では未使用
-        port:        1,       // SQLite では未使用
-        name:        $this->dbFile,
-        user:        '',      // SQLite では未使用
-        password:    '',      // SQLite では未使用
-        charset:     '',      // SQLite では未使用
-    );
-
-    $factory   = new PdoConnectionFactory($dbConfig);
-    $executor  = new PdoDatabaseQueryExecutor($factory);
-    $txManager = new PdoDatabaseTransactionManager($factory);
-    // ... リポジトリとユースケースを配線する
+    $this->kit = DatabaseTestKit::sqlite($this->dbFile);
+    // $this->kit->queryExecutor       — 読み取りリポジトリ用
+    // $this->kit->transactionManager  — ユースケース用
+    // $this->kit->connectionFactory   — 追加のエグゼキューターを組む必要がある場合
 }
 
 protected function tearDown(): void
@@ -143,17 +149,59 @@ protected function tearDown(): void
 }
 ```
 
-各テストは新鮮なファイルを取得し、`PdoDatabaseQueryExecutor` と `PdoDatabaseTransactionManager` の両方が同じファイルに接続し、`tearDown` がそれを削除します。
+この kit は `Nene2\Testing\DatabaseTestKit`（ADR 0012・公開 API）にあります。内部で
+`PdoConnectionFactory` + `PdoDatabaseQueryExecutor` + `PdoDatabaseTransactionManager` を
+同じファイルを共有する形で配線するため、テストが `@internal` なクラスを名指しする必要がありません。
+`DatabaseTestKit::sqlite(':memory:')` と、その裏にある設定の組み合わせは、いずれもファクトリーの
+段階で弾かれます。
 
-> **SQLite `DatabaseConfig` フィールドに関する注意**: SQLite の場合、`adapter` と `name` のみが必要です。`host`、`user`、`password`、`charset` には空文字列を渡してください — `adapter` が `'sqlite'` の場合、これらは検証されません。
-
-> **注意**: `PdoDatabaseQueryExecutor` はコンストラクター引数として生の `PDO` を受け入れません — `DatabaseConnectionFactoryInterface` が必要です。生の `PDO` セットアップをエグゼキューターにブリッジするには `PdoConnectionFactory`（上記参照）を使用してください。
+> **`DatabaseConfig::sqlite(string $path)`** は、配線を明示的に保ちたい場合（例えば
+> `PdoConnectionFactory` の独自サブクラスを注入したい場合）の同等のショートカットです。
+> 古いガイドに出てくる 9 引数の `new DatabaseConfig(...)` 形式を置き換えます。
 
 ---
 
 ## ロールバック動作の検証
 
-トランザクション中に失敗が発生すると、それ以前のすべての変更が元に戻ることをテストしてください:
+複数の書き込みをまとめるユースケースは、ロールバック経路が**実際に**それ以前の書き込みを
+取り消して初めて正しいと言えます。成功パスしか通らないテストは、ユースケースが `$tx` を
+使い忘れていても通ってしまいます — `$this->products` はトランザクションの外で実行され、
+黙ってコミットされるからです。バグを捕まえるのはロールバックのテストです。
+
+### ユニットレベルのロールバック
+
+`DatabaseTestKit` でユースケースを直接駆動し、例外の後にデータベースの状態を検証します:
+
+```php
+public function testRollbackUndoesStockDecrementWhenOrderInsertFails(): void
+{
+    $kit = DatabaseTestKit::sqlite($this->dbFile);
+    $kit->queryExecutor->execute(/* シード: 在庫 10 の製品 1 */);
+
+    $useCase = new CreateOrderUseCase($kit->transactionManager);
+
+    try {
+        // decrementStock は成功するが orders.save で一意制約違反になる数量を渡す
+        // （例: 冪等性キーの重複）。
+        $useCase->execute(productId: 1, qty: 3, idempotencyKey: $existingKey);
+        self::fail('Expected order creation to fail.');
+    } catch (DatabaseConstraintException) {
+        // 想定どおり
+    }
+
+    // ステップ 1 の decrementStock はロールバックされていなければならない。
+    $row = $kit->queryExecutor->fetchOne('SELECT stock FROM products WHERE id = ?', [1]);
+    self::assertSame(10, $row['stock']);
+}
+```
+
+ユースケースが `$tx` からリポジトリを組み立てず `$this->products->decrementStock()` を
+呼んでいると、このテストは即座に落ちます — 在庫の減算がロールバックをすり抜け、
+アサーションがそれを捕まえます。
+
+### HTTP レベルのロールバック
+
+同じ性質を統合レベルで確認します:
 
 ```php
 public function testTransactionRollsBackOnDomainException(): void

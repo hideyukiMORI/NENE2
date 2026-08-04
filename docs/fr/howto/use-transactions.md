@@ -6,6 +6,19 @@ Ce guide explique comment effectuer des opérations atomiques multi-étapes en u
 **Prérequis** : Vous avez un repository soutenu par `DatabaseQueryExecutorInterface`.
 Si ce n'est pas le cas, commencez par [Ajouter un endpoint soutenu par une base de données](./add-database-endpoint.md).
 
+> **🚫 SQLite `:memory:` est incompatible avec `transactional()`.**
+>
+> `PdoDatabaseTransactionManager` ouvre une *nouvelle* connexion à chaque appel. Chaque connexion
+> `:memory:` pointe vers une base en mémoire vide *différente*, de sorte que l'exécuteur et la
+> transaction voient des données différentes et que les annulations n'ont aucun effet sur la vue de
+> l'exécuteur. Le symptôme est silencieux : les requêtes renvoient `null` au milieu du callback, ou
+> les annulations ne défont pas les écritures effectuées par le test via un exécuteur distinct.
+>
+> Utilisez une base SQLite **basée sur un fichier** dans les tests (voir « [Tester avec une base de
+> données SQLite basée sur des fichiers](#tester-avec-une-base-de-données-sqlite-basée-sur-des-fichiers) »
+> ci-dessous). `Nene2\Testing\DatabaseTestKit::sqlite(':memory:')` rejette `:memory:` avec une
+> `InvalidArgumentException` pour que l'échec soit immédiat.
+
 ---
 
 ## Pourquoi utiliser les transactions dans NENE2
@@ -124,32 +137,25 @@ Le SQLite en mémoire (`sqlite::memory:`) crée une **base de données séparée
 `PdoDatabaseTransactionManager` (qui ouvre une nouvelle connexion par appel `transactional()`)
 ne verrait pas les lignes écrites par `PdoDatabaseQueryExecutor` et vice-versa.
 
-Utiliser un **fichier temporaire** à la place :
+Utiliser un **fichier temporaire** à la place. `Nene2\Testing\DatabaseTestKit` câble l'exécuteur et
+le gestionnaire de transactions sur le même fichier en une ligne :
 
 ```php
+use Nene2\Testing\DatabaseTestKit;
+
 protected function setUp(): void
 {
-    $this->dbFile = sys_get_temp_dir() . '/test-' . bin2hex(random_bytes(8)) . '.sqlite';
+    $this->dbFile = sys_get_temp_dir() . '/' . uniqid('test-', true) . '.sqlite';
+
+    // Injecter le schéma via une connexion jetable, puis la fermer avant que le kit ouvre la sienne.
     $pdo = new \PDO('sqlite:' . $this->dbFile, options: [\PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION]);
     $pdo->exec(file_get_contents(dirname(__DIR__) . '/database/schema.sql'));
-    unset($pdo); // fermer la connexion d'initialisation avant que la factory ouvre la sienne
+    unset($pdo);
 
-    $dbConfig = new DatabaseConfig(
-        url:         null,
-        environment: 'test',
-        adapter:     'sqlite',
-        host:        '',      // inutilisé pour SQLite
-        port:        1,       // inutilisé pour SQLite
-        name:        $this->dbFile,
-        user:        '',      // inutilisé pour SQLite
-        password:    '',      // inutilisé pour SQLite
-        charset:     '',      // inutilisé pour SQLite
-    );
-
-    $factory   = new PdoConnectionFactory($dbConfig);
-    $executor  = new PdoDatabaseQueryExecutor($factory);
-    $txManager = new PdoDatabaseTransactionManager($factory);
-    // ... câbler les repositories et les use cases
+    $this->kit = DatabaseTestKit::sqlite($this->dbFile);
+    // $this->kit->queryExecutor       — pour les repositories en lecture
+    // $this->kit->transactionManager  — pour les use cases
+    // $this->kit->connectionFactory   — si vous devez construire d'autres exécuteurs
 }
 
 protected function tearDown(): void
@@ -160,22 +166,61 @@ protected function tearDown(): void
 }
 ```
 
-Chaque test obtient un fichier fraîchement créé, `PdoDatabaseQueryExecutor` et
-`PdoDatabaseTransactionManager` se connectent au même fichier, et `tearDown` le supprime.
+Le kit se trouve dans `Nene2\Testing\DatabaseTestKit` (ADR 0012, API publique). Il câble en interne
+`PdoConnectionFactory` + `PdoDatabaseQueryExecutor` + `PdoDatabaseTransactionManager`, tous
+partageant le même fichier, de sorte que les tests n'ont besoin de référencer aucune classe
+`@internal` par son nom. `DatabaseTestKit::sqlite(':memory:')` ainsi que les combinaisons de
+configuration sous-jacentes sont bloqués au niveau de la factory.
 
-> **Note sur les champs SQLite `DatabaseConfig`** : Pour SQLite, seuls `adapter` et `name`
-> sont requis. Passer des chaînes vides pour `host`, `user`, `password`, et `charset` — ils
-> ne sont pas validés quand `adapter` est `'sqlite'`.
-
-> **Note** : `PdoDatabaseQueryExecutor` n'accepte pas un `PDO` brut comme argument de constructeur
-> — il nécessite un `DatabaseConnectionFactoryInterface`. Utiliser `PdoConnectionFactory`
-> (montré ci-dessus) pour relier une configuration `PDO` brute à l'exécuteur.
+> **`DatabaseConfig::sqlite(string $path)`** est le raccourci équivalent lorsque vous voulez
+> garder un câblage explicite (par exemple pour injecter votre propre sous-classe de
+> `PdoConnectionFactory`). Il remplace la forme à 9 arguments `new DatabaseConfig(...)` montrée
+> dans les guides plus anciens.
 
 ---
 
 ## Vérifier le comportement d'annulation
 
-Tester qu'un échec au milieu d'une transaction défait toutes les modifications précédentes :
+Un use case qui englobe plusieurs écritures n'est correct que si le chemin d'annulation **défait
+réellement** les écritures précédentes. Un test qui ne couvre que le cas nominal passera même si le
+use case oublie d'utiliser `$tx` — `$this->products` s'exécutera alors hors de la transaction et
+sera validé silencieusement. C'est le test d'annulation qui attrape le bug.
+
+### Annulation au niveau unitaire
+
+Pilotez le use case directement avec `DatabaseTestKit` et vérifiez l'état de la base après
+l'exception :
+
+```php
+public function testRollbackUndoesStockDecrementWhenOrderInsertFails(): void
+{
+    $kit = DatabaseTestKit::sqlite($this->dbFile);
+    $kit->queryExecutor->execute(/* seed : produit 1 avec stock=10 */);
+
+    $useCase = new CreateOrderUseCase($kit->transactionManager);
+
+    try {
+        // Passer une quantité qui réussit à decrementStock mais déclenche une violation de
+        // contrainte d'unicité dans orders.save (p. ex. clé d'idempotence dupliquée).
+        $useCase->execute(productId: 1, qty: 3, idempotencyKey: $existingKey);
+        self::fail('Expected order creation to fail.');
+    } catch (DatabaseConstraintException) {
+        // attendu
+    }
+
+    // Le decrementStock de l'étape 1 doit avoir été annulé.
+    $row = $kit->queryExecutor->fetchOne('SELECT stock FROM products WHERE id = ?', [1]);
+    self::assertSame(10, $row['stock']);
+}
+```
+
+Ce test échoue immédiatement si le use case appelle `$this->products->decrementStock()` au lieu de
+construire un repository à partir de `$tx` — la décrémentation du stock survit à l'annulation et
+l'assertion la détecte.
+
+### Annulation au niveau HTTP
+
+La même propriété au niveau de l'intégration :
 
 ```php
 public function testTransactionRollsBackOnDomainException(): void
