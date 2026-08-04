@@ -131,6 +131,72 @@ routeRegistrars: [
 
 当路由列表变长时，也可以拆分到多个 registrar 函数中以提高可读性。
 
+> **路由注册顺序**：路由器按**注册顺序**匹配。当静态路由与带参数的路由共享同一前缀时，
+> **务必先注册静态路由**。如果先注册 `GET /items/{id}` 再注册 `GET /items/summary`，
+> 那么对 `/items/summary` 的请求会以 `id = "summary"` 匹配到 `{id}` 路由 —
+> 返回的是令人困惑的领域相关 404，而不是路由错误。
+>
+> ```php
+> // 错误 —— /items/summary 会以 id="summary" 匹配 {id}
+> $router->get('/items/{id}',    $this->show(...));
+> $router->get('/items/summary', $this->summary(...)); // 永远不会到达
+>
+> // 正确 —— 先匹配静态段
+> $router->get('/items/summary', $this->summary(...));
+> $router->get('/items/{id}',    $this->show(...));
+> ```
+
+---
+
+## 动作端点（非 CRUD 操作）
+
+有些操作不符合标准 CRUD 形态 —— 归档、发布、审批、恢复。
+这类操作请使用 `POST /resource/{id}/action`，响应为 `200 OK`，正文是更新后的资源。
+
+```php
+$router->post('/items/{id}/archive', static function (ServerRequestInterface $req) use ($repo, $json): ResponseInterface {
+    $params = $req->getAttribute(Router::PARAMETERS_ATTRIBUTE, []);
+    $id     = (int) ($params['id'] ?? 0);
+    $item   = $repo->archive($id, (new \DateTimeImmutable())->format('Y-m-d\TH:i:s\Z'));
+
+    return $json->create(self::serialize($item)); // 200 OK
+});
+
+$router->post('/items/{id}/restore', static function (ServerRequestInterface $req) use ($repo, $json): ResponseInterface {
+    $params = $req->getAttribute(Router::PARAMETERS_ATTRIBUTE, []);
+    $id     = (int) ($params['id'] ?? 0);
+    $item   = $repo->restore($id, (new \DateTimeImmutable())->format('Y-m-d\TH:i:s\Z'));
+
+    return $json->create(self::serialize($item)); // 200 OK
+});
+```
+
+> **关于注册顺序**：动作路由（`/items/{id}/archive`）与 show/update 路由共享 `{id}` 段，
+> 但因为动作路径在 `{id}` 之后还有一个额外的静态段，所以无论注册顺序如何都不会产生歧义。
+
+### 带可选正文的动作端点
+
+有些动作接受可选的 JSON 正文（例如带可选 `reason` 的 `reject` 动作）。
+`JsonRequestBodyParser::parse()` 在正文为空时会抛出 400，因此调用解析器之前请先检查正文是否为空：
+
+```php
+$router->post('/items/{id}/reject', static function (ServerRequestInterface $req) use ($repo, $json): ResponseInterface {
+    $params = $req->getAttribute(Router::PARAMETERS_ATTRIBUTE, []);
+    $id     = (int) ($params['id'] ?? 0);
+    $raw    = (string) $req->getBody();
+    $reason = null;
+
+    if ($raw !== '') {
+        $body   = JsonRequestBodyParser::parse($req);
+        $reason = isset($body['reason']) && is_string($body['reason']) ? trim($body['reason']) : null;
+    }
+
+    $item = $repo->reject($id, $reason, (new \DateTimeImmutable())->format('Y-m-d\TH:i:s\Z'));
+
+    return $json->create(self::serialize($item));
+});
+```
+
 ---
 
 ## 可用的 HTTP 方法
@@ -138,9 +204,47 @@ routeRegistrars: [
 | 方法 | Router 方法 | 典型用途 |
 |---|---|---|
 | GET | `$router->get()` | 读取资源 |
-| POST | `$router->post()` | 创建资源 |
+| POST | `$router->post()` | 创建资源或触发动作 |
 | PUT | `$router->put()` | 替换资源（完整更新） |
+| PATCH | `$router->patch()` | 部分更新 |
 | DELETE | `$router->delete()` | 删除资源 |
+
+---
+
+## 框架保留路径
+
+以下路径由 `RuntimeApplicationFactory` 在您的路由 registrar 运行**之前**注册。
+由于框架的路由会先被检查，用户为这些路径注册的路由永远不会匹配。
+
+| 路径 | 方法 | 说明 |
+|---|---|---|
+| `/` | GET | 框架冒烟端点（名称、描述、状态） |
+| `/health` | GET | 健康检查 |
+| `/machine/health` | GET | 机器客户端健康检查（需要 API 密钥） |
+| `/examples/ping` | GET | 示例 ping |
+| `/examples/protected` | GET | 示例受保护端点（配置 JWT 时） |
+
+如果您的应用需要首页，请使用其他路径（例如 `/welcome`、`/home`），
+或注册健康检查并通过框架的冒烟响应返回 HTML。
+
+---
+
+## 返回 204 No Content（DELETE 端点）
+
+使用 `JsonResponseFactory::createEmpty()` 返回无正文的 204 响应：
+
+```php
+private function delete(ServerRequestInterface $request): ResponseInterface
+{
+    $params = (array) $request->getAttribute(Router::PARAMETERS_ATTRIBUTE);
+    $id     = (int) ($params['id'] ?? 0);
+    $this->repository->delete($id); // 未找到时抛出 NotFoundException
+    return $this->json->createEmpty(204);
+}
+```
+
+> **为什么不用 `create([], 204)`？** 传入空数组会生成 `{}` 这样的 JSON 正文。
+> `createEmpty()` 返回真正没有正文的响应，这才符合 204 No Content 的语义。
 
 ---
 

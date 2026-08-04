@@ -131,6 +131,75 @@ routeRegistrars: [
 
 Ou divida em múltiplas funções registrar para clareza quando a lista de rotas crescer.
 
+> **Ordem de registro das rotas**: o roteador faz a correspondência na **ordem de registro**.
+> Registre **sempre as rotas estáticas antes das parametrizadas** quando ambas compartilham o mesmo
+> prefixo. Se você registrar `GET /items/{id}` primeiro e depois `GET /items/summary`, uma requisição
+> para `/items/summary` corresponderá à rota `{id}` com `id = "summary"` — produzindo um 404
+> específico do domínio confuso, em vez de um erro de roteamento.
+>
+> ```php
+> // ERRADO — /items/summary corresponde a {id} com id="summary"
+> $router->get('/items/{id}',    $this->show(...));
+> $router->get('/items/summary', $this->summary(...)); // nunca alcançado
+>
+> // CORRETO — o segmento estático é correspondido primeiro
+> $router->get('/items/summary', $this->summary(...));
+> $router->get('/items/{id}',    $this->show(...));
+> ```
+
+---
+
+## Endpoints de ação (operações não-CRUD)
+
+Algumas operações não se encaixam no formato CRUD padrão — arquivar, publicar, aprovar, restaurar.
+Use `POST /resource/{id}/action` para elas. A resposta é `200 OK` com o corpo do recurso atualizado.
+
+```php
+$router->post('/items/{id}/archive', static function (ServerRequestInterface $req) use ($repo, $json): ResponseInterface {
+    $params = $req->getAttribute(Router::PARAMETERS_ATTRIBUTE, []);
+    $id     = (int) ($params['id'] ?? 0);
+    $item   = $repo->archive($id, (new \DateTimeImmutable())->format('Y-m-d\TH:i:s\Z'));
+
+    return $json->create(self::serialize($item)); // 200 OK
+});
+
+$router->post('/items/{id}/restore', static function (ServerRequestInterface $req) use ($repo, $json): ResponseInterface {
+    $params = $req->getAttribute(Router::PARAMETERS_ATTRIBUTE, []);
+    $id     = (int) ($params['id'] ?? 0);
+    $item   = $repo->restore($id, (new \DateTimeImmutable())->format('Y-m-d\TH:i:s\Z'));
+
+    return $json->create(self::serialize($item)); // 200 OK
+});
+```
+
+> **Ordem de registro**: rotas de ação (`/items/{id}/archive`) compartilham o segmento `{id}` com as
+> rotas de show/update — elas funcionam corretamente porque o caminho da ação tem um segmento
+> estático adicional após `{id}`, tornando-as inequívocas independentemente da ordem de registro.
+
+### Endpoints de ação com corpo opcional
+
+Algumas ações aceitam um corpo JSON opcional (por exemplo, uma ação `reject` com um `reason`
+opcional). `JsonRequestBodyParser::parse()` lança um 400 se o corpo estiver vazio — verifique se o
+corpo está vazio antes de chamar o parser:
+
+```php
+$router->post('/items/{id}/reject', static function (ServerRequestInterface $req) use ($repo, $json): ResponseInterface {
+    $params = $req->getAttribute(Router::PARAMETERS_ATTRIBUTE, []);
+    $id     = (int) ($params['id'] ?? 0);
+    $raw    = (string) $req->getBody();
+    $reason = null;
+
+    if ($raw !== '') {
+        $body   = JsonRequestBodyParser::parse($req);
+        $reason = isset($body['reason']) && is_string($body['reason']) ? trim($body['reason']) : null;
+    }
+
+    $item = $repo->reject($id, $reason, (new \DateTimeImmutable())->format('Y-m-d\TH:i:s\Z'));
+
+    return $json->create(self::serialize($item));
+});
+```
+
 ---
 
 ## Métodos HTTP disponíveis
@@ -138,9 +207,48 @@ Ou divida em múltiplas funções registrar para clareza quando a lista de rotas
 | Método | Método do Router | Uso típico |
 |---|---|---|
 | GET | `$router->get()` | Ler um recurso |
-| POST | `$router->post()` | Criar um recurso |
+| POST | `$router->post()` | Criar um recurso ou disparar uma ação |
 | PUT | `$router->put()` | Substituir um recurso (atualização completa) |
+| PATCH | `$router->patch()` | Atualização parcial |
 | DELETE | `$router->delete()` | Remover um recurso |
+
+---
+
+## Caminhos reservados pelo framework
+
+Os caminhos a seguir são registrados por `RuntimeApplicationFactory` **antes** que seus registrars de
+rota sejam executados. Rotas registradas pelo usuário para esses caminhos nunca corresponderão,
+porque as rotas do framework são verificadas primeiro.
+
+| Caminho | Método | Descrição |
+|---|---|---|
+| `/` | GET | Endpoint de smoke do framework (nome, descrição, status) |
+| `/health` | GET | Verificação de saúde |
+| `/machine/health` | GET | Verificação de saúde para clientes de máquina (requer chave de API) |
+| `/examples/ping` | GET | Exemplo de ping |
+| `/examples/protected` | GET | Exemplo de endpoint protegido (quando JWT está configurado) |
+
+Se sua aplicação precisar de uma página inicial, use um caminho diferente (por exemplo, `/welcome`,
+`/home`) ou sirva o HTML pela resposta de smoke do framework registrando uma verificação de saúde.
+
+---
+
+## Retornando 204 No Content (endpoints DELETE)
+
+Use `JsonResponseFactory::createEmpty()` para retornar uma resposta 204 sem corpo:
+
+```php
+private function delete(ServerRequestInterface $request): ResponseInterface
+{
+    $params = (array) $request->getAttribute(Router::PARAMETERS_ATTRIBUTE);
+    $id     = (int) ($params['id'] ?? 0);
+    $this->repository->delete($id); // lança NotFoundException se não encontrado
+    return $this->json->createEmpty(204);
+}
+```
+
+> **Por que não `create([], 204)`?** Passar um array vazio produz um corpo JSON `{}`.
+> `createEmpty()` retorna uma resposta realmente sem corpo, o que é correto para 204 No Content.
 
 ---
 

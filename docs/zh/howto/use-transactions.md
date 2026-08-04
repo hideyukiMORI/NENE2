@@ -5,6 +5,17 @@
 **前置条件**：你已有一个基于 `DatabaseQueryExecutorInterface` 的 repository。
 如果没有，请先阅读[添加数据库端点](./add-database-endpoint.md)。
 
+> **🚫 SQLite 的 `:memory:` 与 `transactional()` 不兼容。**
+>
+> `PdoDatabaseTransactionManager` 每次调用都会打开一个*新*连接。每个 `:memory:` 连接指向的是
+> *不同的*空内存数据库，因此 executor 与事务看到的是不同的数据，回滚对 executor 的视图没有任何影响。
+> 症状是静默的：回调执行到一半时查询返回 `null`，或者回滚无法撤销测试通过另一个 executor 写入的数据。
+>
+> 测试中请使用**基于文件的 SQLite** 数据库（参见下文
+> “[使用基于文件的 SQLite 数据库进行测试](#使用基于文件的-sqlite-数据库进行测试)”）。
+> `Nene2\Testing\DatabaseTestKit::sqlite(':memory:')` 会以 `InvalidArgumentException` 拒绝
+> `:memory:`，使该问题快速失败。
+
 ---
 
 ## 为什么在 NENE2 中使用事务
@@ -107,32 +118,25 @@ $createOrder = new CreateOrderUseCase($txManager);   // 内部使用 $tx
 
 内存 SQLite（`sqlite::memory:`）每个连接创建一个**独立的数据库**，因此 `PdoDatabaseTransactionManager`（每次 `transactional()` 调用都打开新连接）看不到 `PdoDatabaseQueryExecutor` 写入的行，反之亦然。
 
-应使用**临时文件**代替：
+应使用**临时文件**代替。`Nene2\Testing\DatabaseTestKit` 只需一行即可将 executor 与
+事务管理器接到同一个文件上：
 
 ```php
+use Nene2\Testing\DatabaseTestKit;
+
 protected function setUp(): void
 {
-    $this->dbFile = sys_get_temp_dir() . '/test-' . bin2hex(random_bytes(8)) . '.sqlite';
+    $this->dbFile = sys_get_temp_dir() . '/' . uniqid('test-', true) . '.sqlite';
+
+    // 用一次性连接写入 schema，并在 kit 打开自己的连接之前关闭它。
     $pdo = new \PDO('sqlite:' . $this->dbFile, options: [\PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION]);
     $pdo->exec(file_get_contents(dirname(__DIR__) . '/database/schema.sql'));
-    unset($pdo); // 在工厂打开自己的连接之前关闭初始化连接
+    unset($pdo);
 
-    $dbConfig = new DatabaseConfig(
-        url:         null,
-        environment: 'test',
-        adapter:     'sqlite',
-        host:        '',      // SQLite 不使用
-        port:        1,       // SQLite 不使用
-        name:        $this->dbFile,
-        user:        '',      // SQLite 不使用
-        password:    '',      // SQLite 不使用
-        charset:     '',      // SQLite 不使用
-    );
-
-    $factory   = new PdoConnectionFactory($dbConfig);
-    $executor  = new PdoDatabaseQueryExecutor($factory);
-    $txManager = new PdoDatabaseTransactionManager($factory);
-    // ... 连接 repository 和 use case
+    $this->kit = DatabaseTestKit::sqlite($this->dbFile);
+    // $this->kit->queryExecutor       — 用于读取 repository
+    // $this->kit->transactionManager  — 用于 use case
+    // $this->kit->connectionFactory   — 需要构建额外 executor 时使用
 }
 
 protected function tearDown(): void
@@ -143,17 +147,56 @@ protected function tearDown(): void
 }
 ```
 
-每个测试都获得一个全新的文件，`PdoDatabaseQueryExecutor` 和 `PdoDatabaseTransactionManager` 都连接到同一个文件，`tearDown` 删除该文件。
+该 kit 位于 `Nene2\Testing\DatabaseTestKit`（ADR 0012，公开 API）。它在内部把
+`PdoConnectionFactory` + `PdoDatabaseQueryExecutor` + `PdoDatabaseTransactionManager` 接在
+同一个文件上，因此测试无需按名称引用任何 `@internal` 类。
+`DatabaseTestKit::sqlite(':memory:')` 及其底层的配置组合都会在工厂层被拦截。
 
-> **关于 SQLite `DatabaseConfig` 字段的说明**：对于 SQLite，只有 `adapter` 和 `name` 是必需的。`host`、`user`、`password`、`charset` 传空字符串——当 `adapter` 为 `'sqlite'` 时它们不会被验证。
-
-> **说明**：`PdoDatabaseQueryExecutor` 不接受原始 `PDO` 作为构造参数——它需要 `DatabaseConnectionFactoryInterface`。使用 `PdoConnectionFactory`（如上所示）将原始 `PDO` 设置桥接到 executor。
+> **`DatabaseConfig::sqlite(string $path)`** 是希望保持显式接线时（例如注入自定义的
+> `PdoConnectionFactory` 子类）的等价快捷方式。它取代了旧版指南中 9 个参数的
+> `new DatabaseConfig(...)` 写法。
 
 ---
 
 ## 验证回滚行为
 
-测试事务中途失败会撤销所有之前的变更：
+一个包裹多次写入的 use case，只有当回滚路径**确实撤销**了之前的写入时才是正确的。
+只覆盖成功路径的测试，即使 use case 忘记使用 `$tx` 也会通过——此时 `$this->products`
+会在事务之外执行并静默提交。真正能抓到这个 bug 的是回滚测试。
+
+### 单元级回滚
+
+用 `DatabaseTestKit` 直接驱动 use case，并在异常之后断言数据库状态：
+
+```php
+public function testRollbackUndoesStockDecrementWhenOrderInsertFails(): void
+{
+    $kit = DatabaseTestKit::sqlite($this->dbFile);
+    $kit->queryExecutor->execute(/* 种子数据：stock=10 的产品 1 */);
+
+    $useCase = new CreateOrderUseCase($kit->transactionManager);
+
+    try {
+        // 传入一个能通过 decrementStock、但会在 orders.save 触发唯一约束冲突的数量
+        //（例如重复的幂等键）。
+        $useCase->execute(productId: 1, qty: 3, idempotencyKey: $existingKey);
+        self::fail('Expected order creation to fail.');
+    } catch (DatabaseConstraintException) {
+        // 符合预期
+    }
+
+    // 第 1 步的 decrementStock 必须已被回滚。
+    $row = $kit->queryExecutor->fetchOne('SELECT stock FROM products WHERE id = ?', [1]);
+    self::assertSame(10, $row['stock']);
+}
+```
+
+如果 use case 调用的是 `$this->products->decrementStock()` 而不是从 `$tx` 构建 repository，
+这个测试会立刻失败——库存扣减会越过回滚，被断言抓住。
+
+### HTTP 级回滚
+
+在集成层面验证同一性质：
 
 ```php
 public function testTransactionRollsBackOnDomainException(): void

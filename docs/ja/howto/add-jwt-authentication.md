@@ -264,6 +264,32 @@ $app = (new RuntimeApplicationFactory(
 
 ---
 
+### パススコープの指定方法
+
+`BearerTokenMiddleware` は互いに排他的な 3 つのパススコープ戦略をサポートします。
+アクセスモデルに合うものを選んでください:
+
+| 戦略 | パラメーター | 使いどころ |
+|---|---|---|
+| ブロックリスト（最も一般的） | `$excludedPaths` | 少数の公開ルート**以外**の全ルートに認証が必要 |
+| 許可リスト | `$protectedPaths` | 認証が必要なルートが固定・既知の集合である |
+| プレフィックス許可リスト | `$protectedPathPrefixes` | パスのサブツリー全体に認証が必要（例: `/me/`・`/admin/`） |
+
+**プレフィックス許可リストの例** — `/me/` 配下の全パスを、個別に列挙せずに保護する:
+
+```php
+$authMiddleware = new BearerTokenMiddleware(
+    problemDetails:         $problems,
+    verifier:               $verifier,
+    protectedPathPrefixes:  ['/me/'],
+);
+```
+
+`/me/favorites/42` へのリクエストはプレフィックスにマッチするため有効な Bearer トークンが必要です。
+`/products/1` へのリクエストはマッチしないため、認証なしで通過します。
+
+---
+
 ## ステップ 5 — 保護されたハンドラーでクレームを読む
 
 `BearerTokenMiddleware` がトークンを検証すると、デコードされたクレームをリクエスト属性として保存します。

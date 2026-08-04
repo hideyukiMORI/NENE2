@@ -129,6 +129,33 @@ $app = (new RuntimeApplicationFactory(
 
 ---
 
+### Optionen für den Pfad-Geltungsbereich
+
+`BearerTokenMiddleware` unterstützt drei sich gegenseitig ausschließende Strategien für den
+Pfad-Geltungsbereich. Wählen Sie die, die zu Ihrem Zugriffsmodell passt:
+
+| Strategie | Parameter | Einsatz, wenn |
+|---|---|---|
+| Blockliste (am häufigsten) | `$excludedPaths` | Alle Routen erfordern Auth **außer** einer kurzen Liste öffentlicher Routen |
+| Erlaubnisliste | `$protectedPaths` | Nur eine feste, bekannte Menge an Routen erfordert Auth |
+| Präfix-Erlaubnisliste | `$protectedPathPrefixes` | Ein ganzer Pfad-Teilbaum erfordert Auth (z. B. `/me/`, `/admin/`) |
+
+**Beispiel für die Präfix-Erlaubnisliste** — jeden Pfad unter `/me/` schützen, ohne ihn einzeln
+aufzuführen:
+
+```php
+$authMiddleware = new BearerTokenMiddleware(
+    problemDetails:         $problems,
+    verifier:               $verifier,
+    protectedPathPrefixes:  ['/me/'],
+);
+```
+
+Eine Anfrage an `/me/favorites/42` trifft auf das Präfix zu und erfordert ein gültiges Bearer-Token.
+Eine Anfrage an `/products/1` trifft nicht zu und passiert ohne Authentifizierung.
+
+---
+
 ## Schritt 4 — Claims im Handler lesen
 
 ```php

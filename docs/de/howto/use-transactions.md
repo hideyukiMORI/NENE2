@@ -5,6 +5,20 @@ Diese Anleitung erklärt, wie atomare mehrstufige Operationen mit `DatabaseTrans
 **Voraussetzung**: Ein Repository, das auf `DatabaseQueryExecutorInterface` basiert.
 Falls nicht, mit [Datenbankgestützten Endpunkt hinzufügen](./add-database-endpoint.md) beginnen.
 
+> **🚫 SQLite `:memory:` ist mit `transactional()` nicht kompatibel.**
+>
+> `PdoDatabaseTransactionManager` öffnet pro Aufruf eine *neue* Verbindung. Jede
+> `:memory:`-Verbindung zeigt auf eine *andere* leere In-Memory-Datenbank, sodass Executor und
+> Transaktion unterschiedliche Daten sehen und Rollbacks keinerlei Wirkung auf die Sicht des
+> Executors haben. Das Symptom ist still: Abfragen liefern mitten im Callback `null`, oder
+> Rollbacks machen Schreibvorgänge nicht rückgängig, die der Test über einen separaten Executor
+> ausgeführt hat.
+>
+> Verwenden Sie in Tests eine **dateibasierte SQLite**-Datenbank (siehe „[Mit dateibasierter
+> SQLite-Datenbank testen](#mit-dateibasierter-sqlite-datenbank-testen)" unten).
+> `Nene2\Testing\DatabaseTestKit::sqlite(':memory:')` weist `:memory:` mit einer
+> `InvalidArgumentException` ab, damit dies fail-fast auffällt.
+
 ---
 
 ## Warum Transaktionen in NENE2
@@ -107,32 +121,25 @@ $createOrder = new CreateOrderUseCase($txManager);   // verwendet $tx intern
 
 In-Memory-SQLite (`sqlite::memory:`) erstellt eine **separate Datenbank pro Verbindung**, sodass `PdoDatabaseTransactionManager` (der pro `transactional()`-Aufruf eine neue Verbindung öffnet) keine vom `PdoDatabaseQueryExecutor` geschriebenen Zeilen sehen würde und umgekehrt.
 
-Stattdessen eine **temporäre Datei** verwenden:
+Stattdessen eine **temporäre Datei** verwenden. `Nene2\Testing\DatabaseTestKit` verdrahtet den
+Executor und den Transaction Manager in einer Zeile auf dieselbe Datei:
 
 ```php
+use Nene2\Testing\DatabaseTestKit;
+
 protected function setUp(): void
 {
-    $this->dbFile = sys_get_temp_dir() . '/test-' . bin2hex(random_bytes(8)) . '.sqlite';
+    $this->dbFile = sys_get_temp_dir() . '/' . uniqid('test-', true) . '.sqlite';
+
+    // Schema über eine Wegwerf-Verbindung einspielen und diese schließen, bevor das Kit seine eigene öffnet.
     $pdo = new \PDO('sqlite:' . $this->dbFile, options: [\PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION]);
     $pdo->exec(file_get_contents(dirname(__DIR__) . '/database/schema.sql'));
-    unset($pdo); // Init-Verbindung schließen, bevor die Factory ihre eigene öffnet
+    unset($pdo);
 
-    $dbConfig = new DatabaseConfig(
-        url:         null,
-        environment: 'test',
-        adapter:     'sqlite',
-        host:        '',      // für SQLite nicht verwendet
-        port:        1,       // für SQLite nicht verwendet
-        name:        $this->dbFile,
-        user:        '',      // für SQLite nicht verwendet
-        password:    '',      // für SQLite nicht verwendet
-        charset:     '',      // für SQLite nicht verwendet
-    );
-
-    $factory   = new PdoConnectionFactory($dbConfig);
-    $executor  = new PdoDatabaseQueryExecutor($factory);
-    $txManager = new PdoDatabaseTransactionManager($factory);
-    // ... Repositories und Use Cases verdrahten
+    $this->kit = DatabaseTestKit::sqlite($this->dbFile);
+    // $this->kit->queryExecutor       — für lesende Repositories
+    // $this->kit->transactionManager  — für Use Cases
+    // $this->kit->connectionFactory   — falls Sie weitere Executors bauen müssen
 }
 
 protected function tearDown(): void
@@ -143,17 +150,62 @@ protected function tearDown(): void
 }
 ```
 
-Jeder Test erhält eine frische Datei, sowohl `PdoDatabaseQueryExecutor` als auch `PdoDatabaseTransactionManager` verbinden sich mit derselben Datei, und `tearDown` löscht sie.
+Das Kit liegt unter `Nene2\Testing\DatabaseTestKit` (ADR 0012, öffentliche API). Es verdrahtet
+intern `PdoConnectionFactory` + `PdoDatabaseQueryExecutor` + `PdoDatabaseTransactionManager`,
+die sich alle dieselbe Datei teilen, sodass Tests keine `@internal`-Klasse namentlich referenzieren
+müssen. Sowohl `DatabaseTestKit::sqlite(':memory:')` als auch die zugrunde liegenden
+Konfigurationskombinationen werden bereits in der Factory blockiert.
 
-> **Hinweis zu SQLite `DatabaseConfig`-Feldern**: Für SQLite sind nur `adapter` und `name` erforderlich. Leere Strings für `host`, `user`, `password` und `charset` übergeben — sie werden nicht validiert, wenn `adapter` `'sqlite'` ist.
-
-> **Hinweis**: `PdoDatabaseQueryExecutor` akzeptiert kein rohes `PDO` als Konstruktorargument — es erfordert eine `DatabaseConnectionFactoryInterface`. `PdoConnectionFactory` (oben gezeigt) verwenden, um ein rohes `PDO`-Setup mit dem Executor zu verbinden.
+> **`DatabaseConfig::sqlite(string $path)`** ist die entsprechende Abkürzung, wenn Sie die
+> Verdrahtung explizit halten möchten (z. B. um eine eigene Unterklasse von
+> `PdoConnectionFactory` zu injizieren). Sie ersetzt die 9-Argument-Form
+> `new DatabaseConfig(...)` aus älteren Anleitungen.
 
 ---
 
 ## Rollback-Verhalten verifizieren
 
-Testen, dass ein Fehler mitten in einer Transaktion alle vorherigen Änderungen rückgängig macht:
+Ein Use Case, der mehrere Schreibvorgänge umschließt, ist nur dann korrekt, wenn der Rollback-Pfad
+vorherige Schreibvorgänge **tatsächlich rückgängig macht**. Ein Test, der nur den Erfolgsfall
+abdeckt, besteht auch dann, wenn der Use Case vergisst, `$tx` zu verwenden — `$this->products`
+läuft dann außerhalb der Transaktion und committet stillschweigend. Der Rollback-Test ist der,
+der den Fehler findet.
+
+### Rollback auf Unit-Ebene
+
+Den Use Case direkt mit `DatabaseTestKit` ansteuern und den Datenbankzustand nach der Exception
+prüfen:
+
+```php
+public function testRollbackUndoesStockDecrementWhenOrderInsertFails(): void
+{
+    $kit = DatabaseTestKit::sqlite($this->dbFile);
+    $kit->queryExecutor->execute(/* Seed: Produkt 1 mit stock=10 */);
+
+    $useCase = new CreateOrderUseCase($kit->transactionManager);
+
+    try {
+        // Eine Menge übergeben, die bei decrementStock erfolgreich ist, aber in orders.save
+        // eine Unique-Constraint-Verletzung auslöst (z. B. doppelter Idempotenzschlüssel).
+        $useCase->execute(productId: 1, qty: 3, idempotencyKey: $existingKey);
+        self::fail('Expected order creation to fail.');
+    } catch (DatabaseConstraintException) {
+        // erwartet
+    }
+
+    // Das decrementStock aus Schritt 1 muss zurückgerollt worden sein.
+    $row = $kit->queryExecutor->fetchOne('SELECT stock FROM products WHERE id = ?', [1]);
+    self::assertSame(10, $row['stock']);
+}
+```
+
+Dieser Test schlägt sofort fehl, wenn der Use Case `$this->products->decrementStock()` aufruft,
+statt ein Repository aus `$tx` zu bauen — die Bestandsminderung überlebt dann den Rollback und
+die Assertion fängt sie ab.
+
+### Rollback auf HTTP-Ebene
+
+Dieselbe Eigenschaft auf Integrationsebene:
 
 ```php
 public function testTransactionRollsBackOnDomainException(): void
