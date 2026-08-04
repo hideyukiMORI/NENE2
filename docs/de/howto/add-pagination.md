@@ -73,8 +73,6 @@ Im Handler ist keine zusätzliche Fehlerbehandlung erforderlich.
 
 `PaginationQueryParser::parse()` liest `getQueryParams()` aus der PSR-7-Anfrage, castet Werte zu `int`, validiert sie und gibt ein `PaginationQuery`-DTO zurück. Nicht-numerische Werte werden zu `0` gecastet (PHP-`(int)`-Cast-Verhalten) und dann durch die `limit < 1`-Prüfung abgefangen.
 
-## Siehe auch
-
 ## Schritt 4 — `PaginationResponse` zur Standardisierung des Envelopes verwenden
 
 `PaginationResponse` ist ein readonly DTO, das den Standard-Listenantwort-Envelope aufbaut:
@@ -108,8 +106,36 @@ Wenn `total` `null` ist, wird der Schlüssel weggelassen.
 > **Abwägung**: `COUNT(*)` kostet eine zusätzliche Abfrage pro Request. Lassen Sie `total` weg,
 > wenn der Overhead nicht akzeptabel ist.
 
+## Schritt 6 — Weitere Query-Parameter mit `QueryStringParser` parsen
+
+Verwenden Sie `QueryStringParser` für zusätzliche Filterparameter über `limit`/`offset` hinaus.
+
+```php
+use Nene2\Http\QueryStringParser;
+
+$search = QueryStringParser::string($request, 'search');   // ?string
+$page   = QueryStringParser::int($request, 'page');        // ?int
+$active = QueryStringParser::bool($request, 'is_active');  // ?bool
+
+// Kommagetrennte Mehrfachwerte: ?tags=php,lang → ['php', 'lang']
+$tags = QueryStringParser::commaSeparated($request, 'tags'); // list<string>|null
+
+// PHP-Stil wiederholter Schlüssel: ?tags[]=php&tags[]=api → ['php', 'api']
+$tags = QueryStringParser::array($request, 'tags'); // list<string>|null
+```
+
+`commaSeparated()` trennt an Kommas, entfernt Leerzeichen und leere Werte und gibt `null` zurück,
+wenn der Parameter fehlt oder nach dem Filtern eine leere Liste ergibt.
+
+`array()` verarbeitet wiederholte Schlüssel im PHP-Stil (`?key[]=v1&key[]=v2`). PSR-7-Implementierungen
+parsen diese in `getQueryParams()` zu `['key' => ['v1', 'v2']]`. Gibt `null` zurück, wenn der
+Schlüssel fehlt oder der Wert kein Array ist.
+
+## Siehe auch
+
 - `src/Example/Note/ListNotesHandler.php` — Referenzimplementierung mit `PaginationResponse`
 - `src/Example/Tag/ListTagsHandler.php` — zweites Beispiel
 - `Nene2\Http\PaginationQuery` — readonly DTO
 - `Nene2\Http\PaginationQueryParser` — die Parser-Klasse
 - `Nene2\Http\PaginationResponse` — das Listen-Envelope-DTO
+- `Nene2\Http\QueryStringParser` — typisierte Helfer für weitere Query-Parameter

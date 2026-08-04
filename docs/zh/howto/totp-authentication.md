@@ -47,6 +47,41 @@ CREATE TABLE used_totp_steps (
 
 ---
 
+## 框架内置原语（推荐）
+
+自 v1.5 起，风险较高的加密部分可直接使用框架提供的 `Nene2\Auth\TotpAuthenticator` 和
+`Nene2\Auth\RecoveryCodes`（ADR 0009 的稳定公开 API）。无需在每个应用中重新实现
+RFC 6238 计算、Base32 和常量时间比较。
+与 `SecureTokenHelper` 相同的分工：风险较高的加密由框架提供唯一实现，而注册/挑战的 HTTP 流程、
+强制策略、密钥的静态加密以及重放防护的持久化则由应用负责。
+
+```php
+use Nene2\Auth\TotpAuthenticator;
+use Nene2\Auth\RecoveryCodes;
+
+$totp = new TotpAuthenticator();          // digits=6 / period=30 / sha1 / window=1
+
+// 注册：生成密钥 → 用于二维码的 otpauth URI
+$secret = $totp->generateSecret();
+$uri    = $totp->provisioningUri($secret, 'alice@example.com', 'NENE2');
+
+// 验证：返回匹配的 time_step（null 表示无效）。重放防护通过持久化 step 来判定。
+$step = $totp->verify($secret, $submittedCode);
+if ($step === null || $repo->isStepUsed($userId, $step)) {
+    // 无效或重放
+} else {
+    $repo->markStepUsed($userId, $step);  // 记录已使用的 step（仅一次有效）
+}
+
+// 恢复码：生成后仅显示一次，只保存 hash，兑换时先 verify 再 consume
+$codes = RecoveryCodes::generate();       // 例如 ["3f9ac-1b0e7-8d2f4-0a6c1", ...]（默认 80 位）
+$repo->storeRecoveryHash($userId, RecoveryCodes::hash($codes[0]));
+```
+
+以下各节讲解这些原语在内部执行的计算与安全设计，供自行实现或加深理解时参考。
+
+---
+
 ## RFC 6238 TOTP 实现
 
 ```php

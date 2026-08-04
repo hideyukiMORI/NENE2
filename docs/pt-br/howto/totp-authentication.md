@@ -47,6 +47,47 @@ A tabela `used_totp_steps` é o núcleo da **prevenção de ataques de replay**.
 
 ---
 
+## Primitivas embutidas no framework (recomendado)
+
+A partir da v1.5, as partes criptográficas sensíveis podem ser usadas diretamente por meio de
+`Nene2\Auth\TotpAuthenticator` e `Nene2\Auth\RecoveryCodes`, fornecidos pelo framework (API pública
+estável conforme o ADR 0009). Não é necessário reimplementar o cálculo RFC 6238, o Base32 e a
+comparação em tempo constante em cada aplicação.
+Assim como em `SecureTokenHelper`, a divisão é: o framework fornece uma única implementação da
+criptografia arriscada, enquanto o fluxo HTTP de registro/desafio, a política de aplicação, a
+criptografia em repouso do segredo e a persistência da prevenção de replay são responsabilidade da
+aplicação.
+
+```php
+use Nene2\Auth\TotpAuthenticator;
+use Nene2\Auth\RecoveryCodes;
+
+$totp = new TotpAuthenticator();          // digits=6 / period=30 / sha1 / window=1
+
+// Registro: gerar o segredo → URI otpauth para o QR code
+$secret = $totp->generateSecret();
+$uri    = $totp->provisioningUri($secret, 'alice@example.com', 'NENE2');
+
+// Verificação: retorna o time_step correspondente (null se inválido).
+// Para prevenção de replay, persista o step e verifique-o.
+$step = $totp->verify($secret, $submittedCode);
+if ($step === null || $repo->isStepUsed($userId, $step)) {
+    // inválido ou replay
+} else {
+    $repo->markStepUsed($userId, $step);  // registra o step consumido (uso único)
+}
+
+// Códigos de recuperação: gerar, exibir uma única vez, armazenar apenas o hash,
+// verificar e consumir no resgate
+$codes = RecoveryCodes::generate();       // ex.: ["3f9ac-1b0e7-8d2f4-0a6c1", ...] (80 bits por padrão)
+$repo->storeRecoveryHash($userId, RecoveryCodes::hash($codes[0]));
+```
+
+As seções seguintes explicam o cálculo e o design de segurança que essas primitivas executam
+internamente — como referência para uma implementação própria ou para entendimento.
+
+---
+
 ## Implementação RFC 6238 TOTP
 
 ```php

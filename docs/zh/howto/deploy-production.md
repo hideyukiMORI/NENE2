@@ -105,18 +105,38 @@ api.example.com {
 
 ---
 
-## 4. 生产安全检查清单
+## 4. 生产环境中的 JWT 认证
+
+> **警告**：`LocalBearerTokenVerifier`（内置的 HMAC-HS256 实现）**仅供本地开发和测试使用**。
+> 它不使用任何外部库，也不具备生产环境 JWT 校验所需的安全加固（密钥轮换、RS256 非对称密钥、
+> 吊销、超出基本 `exp`/`nbf` 检查的时钟偏移容忍等）。
+>
+> 在部署使用 Bearer JWT 认证的应用之前：
+>
+> 1. 使用生产级库（如 [`firebase/php-jwt`](https://github.com/firebase/php-jwt) 或
+>    [`lcobuzi/jwt`](https://github.com/lcobuzi/jwt)）实现 `TokenVerifierInterface` 和
+>    `TokenIssuerInterface`。
+> 2. 使用非对称密钥（RS256 或 ES256），使 API 无需持有签名密钥即可验证令牌。
+> 3. 不要在生产环境中设置 `NENE2_LOCAL_JWT_SECRET` — 它只应出现在开发用的 `.env` 文件中。
+>
+> 完整理由参见 [ADR 0008](../adr/0008-jwt-authentication.md)。
+
+---
+
+## 5. 生产安全检查清单
 
 - [ ] `APP_ENV=production` — 禁用开发错误详情
 - [ ] `APP_DEBUG=false` — 抑制 HTTP 响应中的堆栈跟踪
 - [ ] 数据库凭据来自密钥存储
 - [ ] `NENE2_MACHINE_API_KEY` 为强随机值（≥ 32 字符）
+- [ ] JWT：`LocalBearerTokenVerifier` 已替换为生产级库（参见上文 §4）
+- [ ] 生产环境**未**设置 `NENE2_LOCAL_JWT_SECRET`
 - [ ] 容器端口仅绑定到回环地址
 - [ ] TLS 在反向代理处终止
 
 ---
 
-## 5. 部署后验证
+## 6. 部署后验证
 
 ```bash
 curl -fsS https://api.example.com/health
@@ -125,7 +145,7 @@ curl -fsS -H 'X-NENE2-API-Key: <key>' https://api.example.com/machine/health
 
 ---
 
-## 6. Problem Details 类型 URI
+## 7. Problem Details 类型 URI
 
 NENE2 使用 `https://nene2.dev/problems/...` 作为框架官方域名。内置错误类型页面会自动解析到该域名，标准错误集无需任何配置。
 

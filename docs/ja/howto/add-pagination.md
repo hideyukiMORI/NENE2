@@ -105,6 +105,31 @@ return $this->response->create(
 > **トレードオフ**: `COUNT(*)` はリクエストごとにクエリが 1 件追加されます。オーバーヘッドが
 > 許容できない場合は `total` を省略し、クライアントに `items.length < limit` で最終ページを検出させてください。
 
+## ステップ 6 — `QueryStringParser` でその他のクエリパラメーターをパースする
+
+`limit`/`offset` 以外のフィルターパラメーターには `QueryStringParser` を使います。
+
+```php
+use Nene2\Http\QueryStringParser;
+
+$search = QueryStringParser::string($request, 'search');   // ?string
+$page   = QueryStringParser::int($request, 'page');        // ?int
+$active = QueryStringParser::bool($request, 'is_active');  // ?bool
+
+// カンマ区切りの複数値: ?tags=php,lang → ['php', 'lang']
+$tags = QueryStringParser::commaSeparated($request, 'tags'); // list<string>|null
+
+// PHP 形式の繰り返しキー: ?tags[]=php&tags[]=api → ['php', 'api']
+$tags = QueryStringParser::array($request, 'tags'); // list<string>|null
+```
+
+`commaSeparated()` はカンマで分割し、空白をトリムし、空の値を除去します。パラメーターが
+存在しない場合、またはフィルター後に空リストになった場合は `null` を返します。
+
+`array()` は PHP 形式の繰り返しキー（`?key[]=v1&key[]=v2`）を処理します。PSR-7 実装は
+これを `getQueryParams()` で `['key' => ['v1', 'v2']]` としてパースします。キーが存在しない
+場合、または値が配列でない場合は `null` を返します。
+
 ## 参考
 
 - `src/Example/Note/ListNotesHandler.php` — `PaginationResponse` を使ったリファレンス実装
@@ -112,3 +137,4 @@ return $this->response->create(
 - `Nene2\Http\PaginationQuery` — パース済みパラメーターの readonly DTO
 - `Nene2\Http\PaginationQueryParser` — パーサークラス
 - `Nene2\Http\PaginationResponse` — リストエンベロープ DTO
+- `Nene2\Http\QueryStringParser` — その他のクエリパラメーター用の型付きヘルパー

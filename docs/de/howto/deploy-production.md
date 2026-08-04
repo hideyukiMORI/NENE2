@@ -105,18 +105,42 @@ api.example.com {
 
 ---
 
-## 4. Produktions-Sicherheits-Checkliste
+## 4. JWT-Authentifizierung in Produktion
+
+> **Warnung**: `LocalBearerTokenVerifier` (die eingebaute HMAC-HS256-Implementierung) ist
+> **ausschließlich für lokale Entwicklung und Tests** gedacht. Sie verwendet keine externe
+> Bibliothek und besitzt nicht die für die produktive JWT-Validierung erforderliche
+> Sicherheitshärtung (Schlüsselrotation, asymmetrische RS256-Schlüssel, Widerruf, Toleranz
+> gegenüber Uhrenabweichungen über die einfachen `exp`/`nbf`-Prüfungen hinaus usw.).
+>
+> Bevor Sie eine Anwendung mit Bearer-JWT-Authentifizierung deployen:
+>
+> 1. Implementieren Sie `TokenVerifierInterface` und `TokenIssuerInterface` mit einer
+>    produktionstauglichen Bibliothek wie [`firebase/php-jwt`](https://github.com/firebase/php-jwt)
+>    oder [`lcobuzi/jwt`](https://github.com/lcobuzi/jwt).
+> 2. Verwenden Sie asymmetrische Schlüssel (RS256 oder ES256), damit die API Token verifizieren
+>    kann, ohne den Signaturschlüssel zu besitzen.
+> 3. Halten Sie `NENE2_LOCAL_JWT_SECRET` aus Ihrer Produktionsumgebung heraus — er gehört nur in
+>    `.env`-Dateien für die Entwicklung.
+>
+> Die vollständige Begründung finden Sie in [ADR 0008](../adr/0008-jwt-authentication.md).
+
+---
+
+## 5. Produktions-Sicherheits-Checkliste
 
 - [ ] `APP_ENV=production` — deaktiviert Entwicklungs-Fehlerdetails
 - [ ] `APP_DEBUG=false` — unterdrückt Stack-Traces in HTTP-Antworten
 - [ ] Datenbank-Zugangsdaten aus einem Secret Store
 - [ ] `NENE2_MACHINE_API_KEY` ist ein starker Zufallswert (≥ 32 Zeichen)
+- [ ] JWT: `LocalBearerTokenVerifier` durch eine Produktionsbibliothek ersetzt (siehe §4 oben)
+- [ ] `NENE2_LOCAL_JWT_SECRET` ist in Produktion **nicht** gesetzt
 - [ ] Container-Port nur an Loopback-Adresse gebunden
 - [ ] TLS am Reverse-Proxy terminiert
 
 ---
 
-## 5. Nach dem Deployment verifizieren
+## 6. Nach dem Deployment verifizieren
 
 ```bash
 curl -fsS https://api.example.com/health
@@ -125,7 +149,7 @@ curl -fsS -H 'X-NENE2-API-Key: <key>' https://api.example.com/machine/health
 
 ---
 
-## 6. Problem Details Typ-URIs
+## 7. Problem Details Typ-URIs
 
 NENE2 verwendet `https://nene2.dev/problems/...` als offizielle Framework-Domain. Die eingebauten Fehlertyp-Seiten werden dort automatisch aufgelöst — für den Standardfehlerumfang ist keine Konfiguration erforderlich.
 

@@ -106,6 +106,31 @@ Quand `total` est `null` (défaut), la clé est omise de la réponse.
 > **Compromis** : `COUNT(*)` ajoute une requête par appel. Omettez `total` si l'overhead est
 > inacceptable et laissez les clients détecter la dernière page avec `items.length < limit`.
 
+## Étape 6 — Analyser d'autres paramètres de requête avec `QueryStringParser`
+
+Utilisez `QueryStringParser` pour les paramètres de filtrage autres que `limit`/`offset`.
+
+```php
+use Nene2\Http\QueryStringParser;
+
+$search = QueryStringParser::string($request, 'search');   // ?string
+$page   = QueryStringParser::int($request, 'page');        // ?int
+$active = QueryStringParser::bool($request, 'is_active');  // ?bool
+
+// Valeurs multiples séparées par des virgules : ?tags=php,lang → ['php', 'lang']
+$tags = QueryStringParser::commaSeparated($request, 'tags'); // list<string>|null
+
+// Clé répétée à la manière de PHP : ?tags[]=php&tags[]=api → ['php', 'api']
+$tags = QueryStringParser::array($request, 'tags'); // list<string>|null
+```
+
+`commaSeparated()` découpe sur les virgules, supprime les espaces et les valeurs vides, et renvoie
+`null` si le paramètre est absent ou si la liste est vide après filtrage.
+
+`array()` gère les clés répétées à la manière de PHP (`?key[]=v1&key[]=v2`). Les implémentations
+PSR-7 les analysent en `['key' => ['v1', 'v2']]` dans `getQueryParams()`. Renvoie `null` si la clé
+est absente ou si la valeur n'est pas un tableau.
+
 ## Voir aussi
 
 - `src/Example/Note/ListNotesHandler.php` — implémentation de référence avec `PaginationResponse`
@@ -113,3 +138,4 @@ Quand `total` est `null` (défaut), la clé est omise de la réponse.
 - `Nene2\Http\PaginationQuery` — DTO readonly
 - `Nene2\Http\PaginationQueryParser` — la classe parseur
 - `Nene2\Http\PaginationResponse` — le DTO envelope de liste
+- `Nene2\Http\QueryStringParser` — helpers typés pour les autres paramètres de requête

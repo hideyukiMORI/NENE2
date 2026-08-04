@@ -106,6 +106,31 @@ Quando `total` é `null` (padrão), a chave é omitida da resposta.
 > **Compromisso**: `COUNT(*)` adiciona uma consulta por chamada. Omita `total` se o overhead
 > for inaceitável e deixe os clientes detectar a última página com `items.length < limit`.
 
+## Passo 6 — Analisar outros parâmetros de query com `QueryStringParser`
+
+Use `QueryStringParser` para parâmetros de filtro além de `limit`/`offset`.
+
+```php
+use Nene2\Http\QueryStringParser;
+
+$search = QueryStringParser::string($request, 'search');   // ?string
+$page   = QueryStringParser::int($request, 'page');        // ?int
+$active = QueryStringParser::bool($request, 'is_active');  // ?bool
+
+// Múltiplos valores separados por vírgula: ?tags=php,lang → ['php', 'lang']
+$tags = QueryStringParser::commaSeparated($request, 'tags'); // list<string>|null
+
+// Chave repetida no estilo PHP: ?tags[]=php&tags[]=api → ['php', 'api']
+$tags = QueryStringParser::array($request, 'tags'); // list<string>|null
+```
+
+`commaSeparated()` divide nas vírgulas, remove espaços em branco e valores vazios, e retorna `null`
+quando o parâmetro está ausente ou resulta em uma lista vazia após a filtragem.
+
+`array()` trata chaves repetidas no estilo PHP (`?key[]=v1&key[]=v2`). Implementações PSR-7 as
+analisam como `['key' => ['v1', 'v2']]` em `getQueryParams()`. Retorna `null` quando a chave está
+ausente ou o valor não é um array.
+
 ## Veja também
 
 - `src/Example/Note/ListNotesHandler.php` — implementação de referência com `PaginationResponse`
@@ -113,3 +138,4 @@ Quando `total` é `null` (padrão), a chave é omitida da resposta.
 - `Nene2\Http\PaginationQuery` — DTO readonly para parâmetros analisados
 - `Nene2\Http\PaginationQueryParser` — a classe parser
 - `Nene2\Http\PaginationResponse` — o DTO de envelope de lista
+- `Nene2\Http\QueryStringParser` — helpers tipados para outros parâmetros de query
