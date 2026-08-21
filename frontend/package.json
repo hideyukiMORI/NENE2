@@ -26,6 +26,7 @@
     "gen:page": "plop --plopfile plopfile.mjs page",
     "gen:api-schema": "openapi-typescript ../docs/openapi/openapi.yaml -o src/shared/api/schema.gen.ts",
     "conformance": "nene2-check conformance",
+    "audit": "audit-ci --config audit-ci.jsonc",
     "check": "npm run type-check && npm run lint && npm run lint:css && npm run check:themes && npm run format && npm run test"
   },
   "dependencies": {
@@ -49,6 +50,7 @@
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.4",
+    "audit-ci": "^7.1.0",
     "eslint": "^10.6.0",
     "jsdom": "^29.1.1",
     "msw": "^2.12.4",

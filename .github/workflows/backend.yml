@@ -2,10 +2,39 @@ name: Backend
 
 on:
   pull_request:
+
+  # Weekly re-run, so the `composer audit` step below is re-evaluated against
+  # newly published advisories even when nothing is pushed. This workflow does
+  # not run on `push: main` either, so before this schedule existed nothing
+  # re-checked the backend dependencies after a merge.
+  #
+  # Same cron as `frontend.yml` on purpose: the fleet allocation is one slot per
+  # repository (offset from the other repositories to avoid a same-minute
+  # stampede across them), and the two workflows in THIS repository are meant to
+  # report on the same weekly snapshot.
+  #
+  # KNOWN LIMITATION: GitHub auto-disables scheduled workflows after 60 days of
+  # repository inactivity -- silently, and precisely in the dormant repositories
+  # that need the check most. There is no in-repo fix; it needs an external
+  # poller at the fleet level. Do not delete this note as if it were resolved.
+  schedule:
+    - cron: '30 1 * * 1' # Monday 01:30 UTC = 10:30 JST
+
+  # See `frontend.yml` for the rationale: `notify-failure` only fires on a
+  # schedule run or on this input, so this switch is the only way to prove the
+  # notification path actually works rather than merely being configured.
   workflow_dispatch:
+    inputs:
+      simulate_failure:
+        description: 'Intentionally fail the job to verify the failure-notification path'
+        type: boolean
+        default: false
 
 concurrency:
-  group: backend-${{ github.head_ref || github.ref }}
+  # github.event_name is part of the group so a schedule/workflow_dispatch run is
+  # not cancelled by a push/PR run racing it on the same ref -- a cancelled run
+  # is indistinguishable from a check that never ran.
+  group: backend-${{ github.head_ref || github.ref }}-${{ github.event_name }}
   cancel-in-progress: true
 
 permissions:
@@ -20,6 +49,13 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v7
+
+      # Placed after Checkout, not first: a step before checkout fails on a
+      # missing working tree, which rehearses a different failure than the one
+      # being tested. Still fails before any real work.
+      - name: Simulate failure (rehearsal only)
+        if: inputs.simulate_failure
+        run: exit 1
 
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
@@ -68,3 +104,33 @@ jobs:
 
       - name: Validate howto frontmatter
         run: composer howto:frontmatter -- --require-all
+
+  notify-failure:
+    name: Open an issue when the scheduled run fails
+    # Not `failure()` alone: a red check on a pull request already has someone
+    # looking at it. This job is for the runs nobody watches -- the weekly
+    # schedule -- plus the manual rehearsal that proves the path works.
+    if: failure() && (github.event_name == 'schedule' || inputs.simulate_failure)
+    needs: [composer-check]
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    env:
+      ISSUE_TITLE: '🔴 NENE2: 週次 Backend CI（schedule）が失敗しています'
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GH_REPO: ${{ github.repository }}
+      RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+    steps:
+      # Comment on the existing issue instead of opening a new one every week:
+      # duplicates are what make people stop reading the notifications.
+      - name: Create or update the failure issue
+        run: |
+          set -euo pipefail
+          existing="$(gh issue list --state open --limit 100 --json number,title \
+            | jq -r --arg t "$ISSUE_TITLE" 'map(select(.title == $t)) | .[0].number // empty')"
+          body="週次の schedule 実行が失敗しました。 実行: ${RUN_URL}"
+          if [ -n "$existing" ]; then
+            gh issue comment "$existing" --body "$body"
+          else
+            gh issue create --title "$ISSUE_TITLE" --body "$body"
+          fi
