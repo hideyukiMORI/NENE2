@@ -1,0 +1,81 @@
+{
+  // Dependency-vulnerability gate for the ROOT npm tree (docs toolchain).
+  //
+  // NENE2 has two independent npm trees and this file governs only the first:
+  //
+  //   root/       vitepress -> vite 5.x. Builds the documentation site. NOT part of the
+  //               distributed artifact (see below). Every open advisory lives here.
+  //   frontend/   the SPA starter. Its own audit-ci.jsonc, with an empty allowlist.
+  //
+  // Keeping the two gates as separate CI steps is deliberate: the job log has to show which
+  // tree was audited. A check that leaves no trace cannot be distinguished from a check that
+  // is missing.
+  //
+  // What is actually shipped: NENE2 is distributed as the Composer package
+  // `hideyukimori/nene2` (composer.json: type=library, autoload psr-4 `Nene2\` -> src/).
+  // Consumers install PHP sources; no npm dependency from this tree reaches them. That does
+  // not make an advisory here harmless — it bounds who is exposed to the maintainers of this
+  // repository — but it is why an unfixable advisory here is allowlisted rather than treated
+  // as a release blocker.
+  //
+  // The gate stays sharp: anything high/critical NOT listed below fails the build.
+  // `allowlist` is per-advisory (GHSA id), never per-severity — we do not lower the level.
+  //
+  // Adding an entry requires, in this file: (1) the advisory id, (2) why it does not apply to
+  // THIS tree, measured — not assumed, (3) an expiry date, (4) what removes the need for it.
+  // An expired entry is a task, not a renewal: re-check it, do not extend it by reflex.
+  //
+  // Prefer the fix. postcss was taken rather than excepted (#1651, lockfile-only,
+  // 8.5.14 -> 8.5.26, closing GHSA-r28c-9q8g-f849 high and GHSA-fxqj-rqcc-2cmp moderate).
+  // What remains below could not be taken; the measurement of why is written out.
+  //
+  // 🔴 Re-read the advisories when you touch this file, not at expiry. An expiry date catches
+  // an entry that runs out; it does not catch an entry that stops being true. Measured in this
+  // fleet on 2026-08-22: the vite advisory's own numbers had moved since they were last
+  // recorded (first_patched 6.4.2 -> 6.4.3, range widened to <= 6.4.2) while the conclusion
+  // was unchanged — so a version number written as a removal condition would have gone stale
+  // silently. Removal conditions here are therefore written as *dependency facts*, not
+  // version numbers.
+  //
+  // Policy: docs/development/dependency-audit.md
+  "$schema": "https://github.com/IBM/audit-ci/raw/main/docs/schema.json",
+  "moderate": false,
+  "high": true,
+  "critical": true,
+  "allowlist": [
+    // GHSA-fx2h-pf6j-xcff — vite "`server.fs.deny` bypass on Windows alternate paths" (high).
+    // Read from the primary source on 2026-08-22 (`gh api /advisories/GHSA-fx2h-pf6j-xcff`,
+    // advisory updated 2026-07-15):
+    //     vite  <= 6.4.2            first_patched 6.4.3
+    //     vite  >= 7.0.0, <= 7.3.4  first_patched 7.3.5
+    //     vite  >= 8.0.0, <= 8.0.15 first_patched 8.0.16
+    // This tree locks vite 5.4.21, which the `<= 6.4.2` range covers.
+    //
+    // Why it cannot be fixed here (measured 2026-08-22): vite is not a direct dependency of
+    // this tree. The only direct devDependency is `vitepress: ^1.5.0`, and the installed
+    // vitepress 1.6.4 declares `dependencies.vite: ^5.4.14` (node_modules/vitepress/package.json).
+    // 1.6.4 is also the latest published release (`npm view vitepress version`) — there is no
+    // 2.x line — so no vitepress upgrade reaches vite 6.4.3. Overriding vite past its caret
+    // would be forcing a major on a package that pins it.
+    //
+    // Why the exposure is bounded (measured, not assumed): the vulnerable surface is the vite
+    // **dev server**'s `server.fs.deny`, and the bypass is via Windows alternate path forms.
+    //   - CI never starts it: .github/workflows/docs.yml runs `npm run docs:build` only.
+    //   - Nothing here is served in production: the build output is static HTML for Pages.
+    //   - The dev server is reachable only through `npm run docs:dev` (port 5174), which binds
+    //     localhost and is a maintainer-local action.
+    // 🟡 Stated honestly, because this is the part that would rot quietly: a maintainer running
+    // `npm run docs:dev` **on a Windows host** is inside the advisory's scope for as long as
+    // that server is up. The repository's own development runtime is Docker/Linux, so this is
+    // an environment the project does not use, not an environment it forbids. If Windows-native
+    // docs work starts happening, this entry stops being adequate and must be re-argued.
+    //
+    // Expiry: 2026-11-22 (3 months).
+    // Removed by: vitepress publishing a release whose `dependencies.vite` resolves to a
+    // patched line (>= 6.4.3 / >= 7.3.5 / >= 8.0.16). Stated as a dependency fact on purpose —
+    // check `npm view vitepress dependencies.vite`, not a remembered version number.
+    // Scope: the root docs tree only. The `frontend/` tree is on vite 8.1.5, which is already
+    // past 8.0.16 and is NOT covered by this entry.
+    "GHSA-fx2h-pf6j-xcff",
+  ],
+}

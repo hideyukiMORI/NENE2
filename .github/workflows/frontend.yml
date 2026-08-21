@@ -2,10 +2,39 @@ name: Frontend
 
 on:
   pull_request:
+
+  # Weekly re-run of this same workflow (including the dependency audits in the
+  # `npm-audit` job). A newly published advisory lands against versions that are
+  # already locked, with no push to trigger anything -- and neither `backend.yml`
+  # nor this workflow runs on `push: main`, so without a schedule nothing is
+  # re-checked after a merge at all. The cron minute is offset from the other
+  # fleet repositories so the runs do not stampede on the same minute.
+  #
+  # KNOWN LIMITATION: GitHub auto-disables scheduled workflows after 60 days of
+  # repository inactivity. A dormant repository -- the one most in need of this
+  # check -- is exactly where it silently stops firing. There is no in-repo fix;
+  # detecting a stale last-run date needs an external poller at the fleet level.
+  # This comment is not a solved problem, and must not be deleted as if it were.
+  schedule:
+    - cron: '30 1 * * 1' # Monday 01:30 UTC = 10:30 JST
+
+  # Manual trigger, with an optional switch to rehearse the failure path (see the
+  # "Simulate failure" step below and the `notify-failure` job) without waiting
+  # for the next scheduled run. `notify-failure` only fires on `schedule` or this
+  # input, so this switch is the only way to prove the notification path works.
   workflow_dispatch:
+    inputs:
+      simulate_failure:
+        description: 'Intentionally fail the audit job to verify the failure-notification path'
+        type: boolean
+        default: false
 
 concurrency:
-  group: frontend-${{ github.head_ref || github.ref }}
+  # github.event_name is part of the group so a schedule/workflow_dispatch run is
+  # not cancelled by a push/PR run racing it on the same ref (observed during the
+  # fleet rollout of this harness: without it, dispatch and schedule runs get
+  # silently cancelled, which looks identical to "the check never ran").
+  group: frontend-${{ github.head_ref || github.ref }}-${{ github.event_name }}
   cancel-in-progress: true
 
 permissions:
@@ -37,6 +66,61 @@ jobs:
       - name: Build frontend
         run: npm run build --prefix frontend
 
+  npm-audit:
+    name: npm Audit
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      # Placed right after Checkout rather than literally first: a step before
+      # checkout would fail on a missing working tree instead of the intended
+      # `exit 1`, which rehearses the wrong failure. Still fails before any real
+      # work, so the rehearsal costs nothing.
+      - name: Simulate failure (rehearsal only)
+        if: inputs.simulate_failure
+        run: exit 1
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: '22'
+          cache: npm
+          # Both lockfiles: this job installs both trees, so keying the cache on
+          # only one of them would reuse a cache that a change to the other had
+          # already invalidated.
+          cache-dependency-path: |
+            package-lock.json
+            frontend/package-lock.json
+
+      # NENE2 has two independent npm trees and they are audited as two separate
+      # steps on purpose:
+      #
+      #   root/      vitepress -> vite 5.x, builds the documentation site. Every
+      #              open advisory on this repository lives here. This step makes
+      #              the existing hole visible.
+      #   frontend/  the SPA starter, already on vite 8.x. Reports nothing today;
+      #              this step is what stops that from regressing unnoticed.
+      #
+      # Folding them into one step (or into `npm run check`) would make the job
+      # log unable to show which tree was actually audited -- and a check that
+      # leaves no trace cannot be distinguished from a check that is missing.
+      # Each tree carries its own audit-ci.jsonc; the allowlist and the reasoning
+      # for an exception live next to the tree the exception applies to.
+      - name: Install root npm dependencies (docs toolchain)
+        run: npm ci
+
+      - name: Audit root tree (fail on high/critical)
+        run: npm run audit
+
+      - name: Install frontend npm dependencies
+        run: npm ci --prefix frontend
+
+      - name: Audit frontend tree (fail on high/critical)
+        run: npm run audit --prefix frontend
+
   e2e-smoke:
     name: Playwright Smoke
     runs-on: ubuntu-latest
@@ -64,3 +148,35 @@ jobs:
 
       - name: Run Playwright smoke
         run: npm run test:e2e --prefix frontend
+
+  notify-failure:
+    name: Open an issue when the scheduled run fails
+    # Deliberately not `failure()` alone: on a pull request the author is already
+    # looking at the red check, and filing an issue for it would be noise. This
+    # job exists for the runs nobody is watching -- the weekly schedule -- plus
+    # the manual rehearsal that proves the path works.
+    if: failure() && (github.event_name == 'schedule' || inputs.simulate_failure)
+    needs: [npm-check, npm-audit, e2e-smoke]
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    env:
+      ISSUE_TITLE: '🔴 NENE2: 週次 Frontend CI（schedule）が失敗しています'
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GH_REPO: ${{ github.repository }}
+      RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+    steps:
+      # Comment on the existing issue rather than opening a new one each week:
+      # a recurring failure otherwise buries the repository in duplicates, and
+      # the duplicates are what make people stop reading the notifications.
+      - name: Create or update the failure issue
+        run: |
+          set -euo pipefail
+          existing="$(gh issue list --state open --limit 100 --json number,title \
+            | jq -r --arg t "$ISSUE_TITLE" 'map(select(.title == $t)) | .[0].number // empty')"
+          body="週次の schedule 実行が失敗しました。 実行: ${RUN_URL}"
+          if [ -n "$existing" ]; then
+            gh issue comment "$existing" --body "$body"
+          else
+            gh issue create --title "$ISSUE_TITLE" --body "$body"
+          fi

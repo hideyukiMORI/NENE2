@@ -1,0 +1,35 @@
+{
+  // Dependency-vulnerability gate for the FRONTEND npm tree (the SPA starter).
+  //
+  // This is the second of NENE2's two independent npm trees; the root tree (documentation
+  // toolchain) has its own audit-ci.jsonc. They are audited as separate CI steps so the job
+  // log shows which tree ran — a check that leaves no trace cannot be distinguished from a
+  // check that is missing.
+  //
+  // 🔑 This gate currently reports nothing, and that is the intended state, not a reason to
+  // drop it. Measured 2026-08-22: all six open Dependabot alerts on this repository resolve to
+  // the ROOT lockfile; this tree has none, because it already runs vite 8.1.5 — past the
+  // 8.0.16 that patches the advisory the root tree is stuck below. A gate that is silent today
+  // is what stops that from regressing tomorrow. Deleting it because "it finds nothing" would
+  // mean nobody notices when this tree does fall behind.
+  //
+  // The gate stays sharp: anything high/critical that is not listed below fails the build.
+  // `allowlist` is per-advisory (GHSA id), never per-severity — we do not lower the level.
+  //
+  // The allowlist is deliberately EMPTY. It is not a template to fill in: an exception is
+  // written when one is actually needed, and it then requires, in this file: (1) the advisory
+  // id, (2) why it does not apply to THIS tree, measured — not assumed, (3) an expiry date,
+  // (4) what removes the need for it, written as a dependency fact rather than a version
+  // number (advisory ranges move; see the root tree's entry for a case measured in this fleet).
+  // An expired entry is a task, not a renewal.
+  //
+  // Prefer the fix. Reach for an exception only when the fix is genuinely unreachable, and say
+  // so with a measurement.
+  //
+  // Policy: docs/development/dependency-audit.md
+  "$schema": "https://github.com/IBM/audit-ci/raw/main/docs/schema.json",
+  "moderate": false,
+  "high": true,
+  "critical": true,
+  "allowlist": [],
+}
