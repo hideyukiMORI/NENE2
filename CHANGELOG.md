@@ -9,7 +9,11 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ## [Unreleased]
 
 ### Added
+- `RuntimeApplicationFactory` に `corsAllowedHeaders` 引数を追加（既定 `CorsMiddleware::DEFAULT_ALLOWED_HEADERS` ＝ `Content-Type` / `Authorization` / `X-Request-Id`・コンストラクタ末尾追加＝後方互換・#1668）。組み込み CORS の `Access-Control-Allow-Headers` に載せるリクエストヘッダを factory から指定できる。`CorsMiddleware::DEFAULT_ALLOWED_HEADERS` 定数を公開し、middleware と factory の既定値が乖離しない構造にした。
 - `Nene2\Mcp\LocalMcpToolCatalog::withFilter(callable): self`（公開安定 API・後方互換・#1570）— カタログ（`docs/mcp/tools.json`）の一部だけを公開したい consumer のための immutable な絞り込みフック。述語は検証済みの各ツール（`McpTool` 形状）を受け取り `true` で残す。返り値は絞り込み済みの新カタログで、`tools()` と `find()` の**両方**が述語を尊重するため、フィルタ済みカタログをそのまま `LocalMcpServer` に渡すだけで subset を提供できる（例: 既定 read-only＋admin ツールは明示 opt-in）。フィルタ済みツールは list から隠れるだけでなく `tools/call` からも到達不能。フィルタは合成（chain で単調に絞り込み・全述語が pass）し、元カタログは不変。これにより consumer は「フィルタ済み一時カタログをディスクへ書いて指す」temp-file 回避策（NeNe Invoice ADR 0021）を再実装せずに済む。
+
+### Fixed
+- `enableAuthorizationHeaderFallback: true` のとき、`X-Authorization` を組み込み CORS の `Access-Control-Allow-Headers` へ自動追加するようにした（#1668）。フロントエンドと API が別オリジンの構成では、`@hideyukimori/nene2-client`（≥ 1.1.0）が全リクエストに送るミラーヘッダをブラウザのプリフライトが拒否し、ログイン後の認証付きリクエストがすべて CORS エラーになっていた。同一オリジン配置は影響なし。`corsAllowedHeaders` に大文字小文字違いで既に含まれていれば重複追加しない。
 
 ### Changed
 - 準拠リンタ `Nene2\Conformance\ConformanceRunner::withDefaultRules()` を**汎用ルールのみ**（D1–D4 / R1 / R2）に変更し、NeNe フリート固有の R3（`ReadmePrivateOriginLinkRule`＝非公開 `nene-origin` 参照ガード）を **opt-in の fleet 層**（`withFleetRules()` ／ `tools/conformance.php --fleet`）へ分離（#1593）。外部 consumer は既定で NeNe 内部前提のルールを継承しない。NeNe 製品は `@conformance` スクリプトに `--fleet` を足すと従来どおり R3 を得る（ADR 0016）。R3 は `warn` で baseline に ignore エントリが無いため、既定集から外しても既存の pass/fail は不変。

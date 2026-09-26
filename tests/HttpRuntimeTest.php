@@ -504,6 +504,92 @@ final class HttpRuntimeTest extends TestCase
         self::assertSame(404, $postOrders->getStatusCode()); // route not registered, but not 401
     }
 
+    public function testCorsPreflightAllowsDefaultHeadersOnly(): void
+    {
+        $factory = new Psr17Factory();
+        $application = (new RuntimeApplicationFactory(
+            $factory,
+            $factory,
+            allowedOrigins: ['https://app.example'],
+        ))->create();
+
+        $response = $application->handle($this->corsPreflight($factory));
+
+        self::assertSame(204, $response->getStatusCode());
+        self::assertSame('https://app.example', $response->getHeaderLine('Access-Control-Allow-Origin'));
+        self::assertSame(
+            'Content-Type, Authorization, X-Request-Id',
+            $response->getHeaderLine('Access-Control-Allow-Headers'),
+        );
+    }
+
+    public function testCorsPreflightAllowsXAuthorizationWhenFallbackEnabled(): void
+    {
+        // #1668: nene2-client mirrors the token into X-Authorization on every request. With the
+        // fallback enabled, a cross-origin deployment must also clear the browser preflight.
+        $factory = new Psr17Factory();
+        $application = (new RuntimeApplicationFactory(
+            $factory,
+            $factory,
+            allowedOrigins: ['https://app.example'],
+            enableAuthorizationHeaderFallback: true,
+        ))->create();
+
+        $response = $application->handle($this->corsPreflight($factory));
+
+        self::assertSame(204, $response->getStatusCode());
+        self::assertSame(
+            'Content-Type, Authorization, X-Request-Id, X-Authorization',
+            $response->getHeaderLine('Access-Control-Allow-Headers'),
+        );
+    }
+
+    public function testCorsAllowedHeadersOverrideIsForwarded(): void
+    {
+        $factory = new Psr17Factory();
+        $application = (new RuntimeApplicationFactory(
+            $factory,
+            $factory,
+            allowedOrigins: ['https://app.example'],
+            corsAllowedHeaders: ['Content-Type', 'Authorization', 'X-Tenant-Id'],
+        ))->create();
+
+        $response = $application->handle($this->corsPreflight($factory));
+
+        self::assertSame(
+            'Content-Type, Authorization, X-Tenant-Id',
+            $response->getHeaderLine('Access-Control-Allow-Headers'),
+        );
+    }
+
+    public function testCorsAllowedHeadersDoesNotDuplicateXAuthorizationCaseInsensitively(): void
+    {
+        $factory = new Psr17Factory();
+        $application = (new RuntimeApplicationFactory(
+            $factory,
+            $factory,
+            allowedOrigins: ['https://app.example'],
+            enableAuthorizationHeaderFallback: true,
+            corsAllowedHeaders: ['Content-Type', 'authorization', 'x-authorization'],
+        ))->create();
+
+        $response = $application->handle($this->corsPreflight($factory));
+
+        self::assertSame(
+            'Content-Type, authorization, x-authorization',
+            $response->getHeaderLine('Access-Control-Allow-Headers'),
+        );
+    }
+
+    private function corsPreflight(Psr17Factory $factory): ServerRequestInterface
+    {
+        return $factory
+            ->createServerRequest('OPTIONS', 'https://api.example/health')
+            ->withHeader('Origin', 'https://app.example')
+            ->withHeader('Access-Control-Request-Method', 'GET')
+            ->withHeader('Access-Control-Request-Headers', 'authorization, x-authorization');
+    }
+
     /**
      * @return array<string, mixed>
      */

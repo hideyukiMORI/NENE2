@@ -40,6 +40,13 @@ vérification de la clé API machine et avant tout middleware d'authentification
 de sorte que chaque middleware lisant des identifiants voit l'en-tête restauré. Il est
 indépendant de la méthode et du chemin.
 
+Lorsque le frontend et l'API sont sur des **origines différentes**, le preflight du
+navigateur doit lui aussi accepter l'en-tête miroir. Activer le drapeau s'en charge :
+`X-Authorization` est ajouté automatiquement à la liste `Access-Control-Allow-Headers` du
+middleware CORS intégré, de sorte que les `allowedOrigins` déjà passés à la factory
+suffisent à la configuration CORS. Pour autoriser d'autres en-têtes personnalisés, passez
+la liste complète via `corsAllowedHeaders`.
+
 ## Ou le câbler manuellement
 
 Dans un pipeline assemblé à la main, placez-le n'importe où avant votre middleware
