@@ -8,6 +8,12 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+---
+
+## [1.12.0] — 2026-09-26
+
+後方互換なマイナーリリース。フロントエンドと API を別オリジンに置く構成で `@hideyukimori/nene2-client` の `X-Authorization` ミラーがブラウザのプリフライトで拒否される問題を修正し（#1668）、`RuntimeApplicationFactory` から CORS 許可ヘッダを設定できるようにする。あわせて `LocalMcpToolCatalog::withFilter()`（#1570）、conformance R3 の fleet 層分離（#1593）、`APP_ENV` 未設定時の既定環境の `production` 化（#1599・**移行注記あり**）を含む。
+
 ### Added
 - `RuntimeApplicationFactory` に `corsAllowedHeaders` 引数を追加（既定 `CorsMiddleware::DEFAULT_ALLOWED_HEADERS` ＝ `Content-Type` / `Authorization` / `X-Request-Id`・コンストラクタ末尾追加＝後方互換・#1668）。組み込み CORS の `Access-Control-Allow-Headers` に載せるリクエストヘッダを factory から指定できる。`CorsMiddleware::DEFAULT_ALLOWED_HEADERS` 定数を公開し、middleware と factory の既定値が乖離しない構造にした。
 - `Nene2\Mcp\LocalMcpToolCatalog::withFilter(callable): self`（公開安定 API・後方互換・#1570）— カタログ（`docs/mcp/tools.json`）の一部だけを公開したい consumer のための immutable な絞り込みフック。述語は検証済みの各ツール（`McpTool` 形状）を受け取り `true` で残す。返り値は絞り込み済みの新カタログで、`tools()` と `find()` の**両方**が述語を尊重するため、フィルタ済みカタログをそのまま `LocalMcpServer` に渡すだけで subset を提供できる（例: 既定 read-only＋admin ツールは明示 opt-in）。フィルタ済みツールは list から隠れるだけでなく `tools/call` からも到達不能。フィルタは合成（chain で単調に絞り込み・全述語が pass）し、元カタログは不変。これにより consumer は「フィルタ済み一時カタログをディスクへ書いて指す」temp-file 回避策（NeNe Invoice ADR 0021）を再実装せずに済む。
