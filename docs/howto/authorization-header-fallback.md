@@ -46,6 +46,12 @@ When enabled, the fallback runs at the start of the auth stage — before the ma
 API-key check and before any injected auth middleware — so every credential-reading
 middleware sees the restored header. It is method- and path-independent.
 
+When the frontend and the API live on **different origins**, the browser preflight must
+also accept the mirror header. Enabling the flag takes care of that: `X-Authorization` is
+appended to the built-in CORS `Access-Control-Allow-Headers` allowlist automatically, so
+the `allowedOrigins` you already pass to the factory is all the CORS setup you need. To
+allow further custom request headers, pass the full list via `corsAllowedHeaders`.
+
 ## Or wire it manually
 
 In a hand-assembled pipeline, place it anywhere before your auth middleware:

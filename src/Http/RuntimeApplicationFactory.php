@@ -120,6 +120,15 @@ final readonly class RuntimeApplicationFactory
      *                         at the start of the auth stage, before the machine API key check and
      *                         any injected `$authMiddleware`. See
      *                         {@see AuthorizationHeaderFallbackMiddleware} and ADR 0019.
+     *                         When enabled, `X-Authorization` is also appended to the CORS
+     *                         `Access-Control-Allow-Headers` allowlist so that cross-origin
+     *                         clients sending the mirror pass the browser preflight (#1668).
+     * @param list<string> $corsAllowedHeaders Request headers advertised in
+     *                         `Access-Control-Allow-Headers` when `$allowedOrigins` is non-empty.
+     *                         Defaults to {@see CorsMiddleware::DEFAULT_ALLOWED_HEADERS}
+     *                         (`Content-Type`, `Authorization`, `X-Request-Id`). Extend it for
+     *                         custom request headers your cross-origin clients send. Only
+     *                         consulted when the built-in CORS middleware is active.
      */
     public function __construct(
         private ResponseFactoryInterface $responseFactory,
@@ -145,6 +154,7 @@ final readonly class RuntimeApplicationFactory
         private array $databaseCandidateProfiles = [],
         private bool $enableHsts = false,
         private bool $enableAuthorizationHeaderFallback = false,
+        private array $corsAllowedHeaders = CorsMiddleware::DEFAULT_ALLOWED_HEADERS,
     ) {
     }
 
@@ -306,11 +316,23 @@ final readonly class RuntimeApplicationFactory
             $machineProtectedPaths[] = '/machine/database/preflight';
         }
 
+        // The `X-Authorization` mirror is only meaningful when the fallback is enabled; in that case
+        // cross-origin clients (nene2-client sends the mirror on every request) must also clear the
+        // browser preflight, so the header joins the CORS allowlist together with the fallback (#1668).
+        $corsAllowedHeaders = $this->corsAllowedHeaders;
+
+        if (
+            $this->enableAuthorizationHeaderFallback
+            && !self::containsHeader($corsAllowedHeaders, AuthorizationHeaderFallbackMiddleware::FALLBACK_HEADER)
+        ) {
+            $corsAllowedHeaders[] = AuthorizationHeaderFallbackMiddleware::FALLBACK_HEADER;
+        }
+
         $middlewareStack = [
             new RequestIdMiddleware('X-Request-Id', $this->requestIdHolder),
             new RequestLoggingMiddleware($logger),
             new SecurityHeadersMiddleware(enableHsts: $this->enableHsts),
-            new CorsMiddleware($this->responseFactory, $this->allowedOrigins),
+            new CorsMiddleware($this->responseFactory, $this->allowedOrigins, allowedHeaders: $corsAllowedHeaders),
             new ErrorHandlerMiddleware($problemDetails, $this->domainExceptionHandlers, $this->debug, $logger),
             new RequestSizeLimitMiddleware($problemDetails, $this->requestMaxBodyBytes, $this->streamFactory),
         ];
@@ -339,5 +361,22 @@ final readonly class RuntimeApplicationFactory
         }
 
         return new MiddlewareDispatcher($middlewareStack, $router);
+    }
+
+    /**
+     * Case-insensitive membership test — HTTP header names are case-insensitive (RFC 9110 §5.1),
+     * so a consumer listing `x-authorization` must not end up with a duplicate entry.
+     *
+     * @param list<string> $headers
+     */
+    private static function containsHeader(array $headers, string $needle): bool
+    {
+        foreach ($headers as $header) {
+            if (strcasecmp($header, $needle) === 0) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

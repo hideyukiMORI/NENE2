@@ -39,6 +39,12 @@ Aktiviert läuft der Fallback am Anfang der Auth-Stufe — vor der Maschinen-API
 und vor jeder injizierten Auth-Middleware —, sodass jede Middleware, die Anmeldedaten
 liest, den wiederhergestellten Header sieht. Er ist methoden- und pfadunabhängig.
 
+Liegen Frontend und API auf **verschiedenen Origins**, muss auch der Browser-Preflight den
+Spiegel-Header akzeptieren. Das Flag erledigt das mit: `X-Authorization` wird automatisch
+an die `Access-Control-Allow-Headers`-Allowlist des eingebauten CORS-Middlewares angehängt,
+sodass die bereits übergebenen `allowedOrigins` die gesamte CORS-Konfiguration sind. Für
+weitere eigene Request-Header übergeben Sie die vollständige Liste über `corsAllowedHeaders`.
+
 ## Oder manuell verdrahten
 
 In einer selbst zusammengesetzten Pipeline an beliebiger Stelle vor der Auth-Middleware

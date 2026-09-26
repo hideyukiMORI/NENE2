@@ -40,6 +40,13 @@ verificação da chave de API de máquina e antes de qualquer middleware de aute
 injetado — de modo que todo middleware que lê credenciais vê o cabeçalho restaurado. Ele
 independe de método e de caminho.
 
+Quando o frontend e a API estão em **origens diferentes**, o preflight do navegador também
+precisa aceitar o cabeçalho espelho. Habilitar a flag cuida disso: `X-Authorization` é
+acrescentado automaticamente à allowlist `Access-Control-Allow-Headers` do middleware CORS
+embutido, de modo que os `allowedOrigins` já passados à factory são toda a configuração CORS
+necessária. Para permitir outros cabeçalhos de requisição personalizados, passe a lista
+completa via `corsAllowedHeaders`.
+
 ## Ou conectar manualmente
 
 Em um pipeline montado à mão, coloque-o em qualquer ponto antes do seu middleware de

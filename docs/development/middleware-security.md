@@ -94,6 +94,12 @@ Policy:
 
 CORS should be config-driven, not hard-coded in middleware.
 
+`RuntimeApplicationFactory` exposes the allowlist as `allowedOrigins` and the request
+headers advertised in `Access-Control-Allow-Headers` as `corsAllowedHeaders` (default:
+`Content-Type`, `Authorization`, `X-Request-Id` — `CorsMiddleware::DEFAULT_ALLOWED_HEADERS`).
+Cross-origin clients that send additional custom request headers fail the browser preflight
+unless those headers are listed here.
+
 ## Request Size
 
 Request size limits should be configurable and enforced before body parsing when practical.
@@ -130,6 +136,7 @@ Policy:
 
 - **Opt-in, never on by default.** Enable via `RuntimeApplicationFactory(enableAuthorizationHeaderFallback: true)` only on deployments whose proxy strips `Authorization` accidentally. Gateways that strip it *deliberately* (delegated auth, WAF credential filtering) must not enable it — the mirror would become a client-controlled bypass.
 - The header name is fixed (`X-Authorization`) — a fleet-wide wiring contract with the frontend client, not a tuning knob.
+- Enabling the fallback also appends `X-Authorization` to the CORS `Access-Control-Allow-Headers` allowlist (case-insensitive, no duplicate when already listed in `corsAllowedHeaders`). Without it, a frontend on a different origin fails the preflight on every authenticated request because the client sends the mirror unconditionally.
 - When enabled it runs at the start of the auth stage (before the API-key check and any injected auth middleware). The documented middleware order is unchanged.
 - Treat `X-Authorization` with the same confidentiality as `Authorization` in proxies and logs.
 

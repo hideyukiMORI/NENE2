@@ -38,6 +38,11 @@ $app = (new RuntimeApplicationFactory(
 认证中间件之前 —— 因此所有读取凭据的中间件都能看到已恢复的头。它与 HTTP
 方法和路径无关。
 
+当前端与 API 位于**不同源**时，浏览器的预检请求也必须接受镜像头。启用该标志即可自动
+处理：`X-Authorization` 会被自动追加到内置 CORS 中间件的 `Access-Control-Allow-Headers`
+允许列表，因此传给 factory 的 `allowedOrigins` 就是全部所需的 CORS 配置。若还要允许其他
+自定义请求头，请通过 `corsAllowedHeaders` 传入完整列表。
+
 ## 或者手动接线
 
 在手工组装的管道中，将它放在认证中间件之前的任意位置：

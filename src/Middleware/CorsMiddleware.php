@@ -23,6 +23,14 @@ use Psr\Http\Server\RequestHandlerInterface;
 final readonly class CorsMiddleware implements MiddlewareInterface
 {
     /**
+     * Request headers allowed by default in `Access-Control-Allow-Headers`.
+     * Shared with {@see \Nene2\Http\RuntimeApplicationFactory} so the two defaults cannot drift.
+     *
+     * @var list<string>
+     */
+    public const array DEFAULT_ALLOWED_HEADERS = ['Content-Type', 'Authorization', 'X-Request-Id'];
+
+    /**
      * @param list<string> $allowedOrigins Exact origins to allow (e.g. `['https://app.example.com']`).
      *                                     An empty list disables CORS headers entirely.
      *                                     Do NOT pass `['*']` — that matches only the literal string `*`
@@ -38,7 +46,7 @@ final readonly class CorsMiddleware implements MiddlewareInterface
         private ResponseFactoryInterface $responseFactory,
         private array $allowedOrigins = [],
         private array $allowedMethods = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-        private array $allowedHeaders = ['Content-Type', 'Authorization', 'X-Request-Id'],
+        private array $allowedHeaders = self::DEFAULT_ALLOWED_HEADERS,
         private bool $allowCredentials = false,
         private int $maxAge = 3600,
     ) {
