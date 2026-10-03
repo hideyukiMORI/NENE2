@@ -31,5 +31,29 @@
   "moderate": false,
   "high": true,
   "critical": true,
-  "allowlist": [],
+  "allowlist": [
+    // GHSA-vfj7-8cjw-p6xm — braces <= 3.0.3, stack-exhaustion DoS through deeply nested brace
+    // patterns. Added 2026-10-03 (#1672). **Expires 2026-11-03.**
+    //
+    // No fix exists to take: the advisory lists first_patched_version = none and 3.0.3 is the
+    // latest braces on npm (`gh api /advisories/GHSA-vfj7-8cjw-p6xm`, `npm view braces version`,
+    // both read 2026-10-03). An override cannot help for the same reason.
+    //
+    // Why it does not apply here, measured on this tree 2026-10-03:
+    //   - audit paths:
+    //       @hideyukimori/nene2-standards>stylelint>globby>fast-glob>micromatch>braces
+    //       fast-glob>micromatch>braces
+    //       micromatch>braces
+    //       plop>liftoff>findup-sync>micromatch>braces
+    //     — all dev tooling; braces@3.0.3 is marked dev in the lockfile.
+    //   - `npm ls braces --omit=dev --all` → (empty). It ships in nothing and is on no
+    //     request path.
+    //   - The only patterns it expands are globs committed in this repo (tool configs and
+    //     npm script arguments). No user- or network-supplied string reaches it, so there is
+    //     no attacker-controlled pattern to nest. Worst case: a developer's own lint run dies.
+    //
+    // Removed by: a patched braces release (> 3.0.3), or micromatch dropping braces.
+    // Re-read the advisory before touching this entry, not only at expiry.
+    "GHSA-vfj7-8cjw-p6xm",
+  ],
 }
