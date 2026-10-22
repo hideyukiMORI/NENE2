@@ -77,5 +77,34 @@
     // Scope: the root docs tree only. The `frontend/` tree is on vite 8.1.5, which is already
     // past 8.0.16 and is NOT covered by this entry.
     "GHSA-fx2h-pf6j-xcff",
+
+    // GHSA-587h-7wmj-h5pm — launch-editor "`fs.existsSync()` existence check can be bypassed
+    // on Windows" (high). Read from the primary source on 2026-10-22
+    // (`gh api /advisories/GHSA-587h-7wmj-h5pm`):
+    //     launch-editor <= 2.14.1   first_patched 2.14.2
+    //     vite          <= 6.4.3    first_patched 6.4.4   (vite bundles launch-editor)
+    // This tree locks vite 5.4.21, which the `<= 6.4.3` range covers. The advisory's own
+    // Impact line: "Only apps that runs on Windows is affected."
+    //
+    // Why it cannot be fixed here: the same dependency fact as the entry above — vitepress
+    // 1.6.4 (latest, no 2.x line) declares `dependencies.vite: ^5.4.14`, so no 5.x vite carries
+    // the fix and no vitepress upgrade reaches 6.4.4. There is no separate `launch-editor`
+    // package to update: `node_modules/launch-editor` does not exist; the code is inlined in
+    // `node_modules/vite/dist/node/chunks/` (grep `__open-in-editor`, measured 2026-10-22).
+    //
+    // Why the exposure is bounded (measured): the vulnerable code is the dev server's
+    // open-in-editor middleware, and the bypass needs a Windows host.
+    //   - CI never starts the dev server: .github/workflows/docs.yml runs `npm run docs:build`
+    //     only, on ubuntu-latest.
+    //   - Production serves the static build output; no vite process exists there.
+    //   - `npm run docs:dev` is the only way to reach it. The same 🟡 as the entry above applies
+    //     verbatim: running it on a Windows-native Node puts the maintainer inside the scope.
+    //     The project's development runtime is Docker/WSL (Linux).
+    //
+    // Expiry: 2026-11-22 (aligned with the entry above — same cause, same re-check).
+    // Removed by: vitepress publishing a release whose `dependencies.vite` resolves to a
+    // patched line (>= 6.4.4 / >= 7.3.7 / >= 8.1.6 / >= 8.2.4 / >= 8.3.3). Scope: root docs
+    // tree only; `frontend/` is on vite 8.3.5 (#1679) and is NOT covered by this entry.
+    "GHSA-587h-7wmj-h5pm",
   ],
 }
